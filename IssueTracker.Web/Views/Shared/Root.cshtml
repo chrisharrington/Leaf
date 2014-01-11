@@ -9,11 +9,12 @@
 	<title>Unnamed Issue Tracker</title>
 	
 	@Styles.Render("~/style")
+	@Html.Partial("~/Views/Shared/Scripts.cshtml")
 </head>
 	<body>
-		<header></header>
-		<section class="content"></section>
-		
-		@Html.Partial("~/Views/Shared/Scripts.cshtml")
+		<header>
+			<span data-bind="text: title"></span>
+		</header>
+		<section class="content" data-bind="remoteTemplate: view"></section>
 	</body>
 </html>

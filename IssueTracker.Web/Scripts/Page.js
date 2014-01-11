@@ -51,7 +51,7 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 	
 	IssueTracker.view({ url: url, style: params.style, data: params.root, load: function() {
 		if (me.load)
-			me.load($("div.content-container"), routeArguments);
+			me.load($(".content-container"), routeArguments);
 	} });
 	IssueTracker.title(params.title);
 };

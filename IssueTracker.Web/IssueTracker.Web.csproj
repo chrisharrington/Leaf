@@ -131,6 +131,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\IssuesController.cs" />
     <Compile Include="Controllers\RootController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -138,7 +139,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CSS\font-awesome.css" />
+    <Content Include="CSS\Fonts.css" />
+    <Content Include="Fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\background.png" />
     <Content Include="Scripts\Binders\RemoteTemplateBinder.js" />
     <Content Include="Scripts\Binders\SlideDownBinder.js" />
     <Content Include="Scripts\Bindings.js" />
@@ -154,8 +159,9 @@
     <Content Include="Scripts\ThirdParty\highcharts.js" />
     <Content Include="Scripts\ThirdParty\jquery.animate-enhanced.js" />
     <Content Include="Scripts\ThirdParty\jquery.js" />
-    <Content Include="Scripts\ThirdParty\knockout-min.js" />
+    <Content Include="Scripts\ThirdParty\knockout.js" />
     <Content Include="Scripts\ThirdParty\path.js" />
+    <Content Include="Scripts\Views\Issues.js" />
     <Content Include="Scripts\Views\Dashboard.js" />
     <Content Include="Scripts\Views\Users.js" />
     <Content Include="Scripts\Views\Welcome.js" />
@@ -185,6 +191,31 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CSS\Header.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Issues\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IssueTracker.Common\IssueTracker.Common.csproj">
+      <Project>{C126373C-2DA2-4F2A-9541-D5487E0E6ABB}</Project>
+      <Name>IssueTracker.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSS\Issues.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Fonts\fontawesome-webfont.eot" />
+    <Content Include="Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Fonts\fontawesome-webfont.woff" />
+    <Content Include="Fonts\FontAwesome.otf" />
+    <Content Include="Fonts\Roboto-400.woff" />
+    <Content Include="Fonts\Roboto-700.woff" />
+    <Content Include="Fonts\Roboto-Condensed-400.woff" />
+    <Content Include="Fonts\Roboto-Condensed-700.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSS\Filter.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

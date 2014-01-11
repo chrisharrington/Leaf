@@ -1,0 +1,34 @@
+﻿@import "Global.less";
+
+.issues-container {
+	div.table-tools, div.issues-container { float:left; width:100%; margin-top:@spacing; }
+
+	div.table-tools { margin-top:0; height:61px;
+		>div.filter-tags { float:left; height:100%;
+			>div { float:left; .gradient(#777777, #000000); display:table; padding:5px 8px; .shadow; .condensed-font; cursor:pointer; margin-right:@small-spacing; .border-radius; .box-sizing; height:100%;
+				>span { display:table-cell; height:100%; vertical-align:middle; }
+				>span.type { padding-right:@small-spacing; color:#CCC; }
+				>span.value { text-align:right; color:white; }
+			}
+		}
+
+		>div.filter { float:right; }
+
+		>div.tools { float:right; display:table; height:100%; margin-right:@small-spacing; color:@light-text-colour;
+			>i { display:table-cell; vertical-align:middle; font-size:1.25em; padding:@small-spacing; cursor:pointer; }
+			>i:hover { color:@text-colour; }
+		}
+	}
+
+	div.issues-container.table { font-family:"Roboto Condensed";
+		table { float:left; width:100%; }
+		tr>td { border-top:solid 1px @border-colour; }
+		tr:first-child>td { border-top:none; }
+		td { padding:@small-spacing; text-align:left; white-space:nowrap; overflow:hidden; }
+		td.priority { padding:4px; }
+		td.priority.low { background-color:blue; }
+		td.priority.medium { background-color:green; }
+		td.priority.high { background-color:yellow; }
+		td.priority.critical { background-color:red; }
+	}
+}

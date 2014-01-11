@@ -4,10 +4,9 @@ namespace("IssueTracker");
 (function(root) {
 
 	root.init = function () {
-		IssueTracker.Loader.init();
 		$("div.render-container").css("left", $(window).outerWidth() + "px");
 
-		Path.root("#/dashboard");
+		Path.root("#/issues");
 		Path.listen();
 
 		Highcharts.setOptions({
@@ -18,7 +17,3 @@ namespace("IssueTracker");
 	};
 
 })(root("IssueTracker.Init"));
-
-$(function () {
-	IssueTracker.Init.init();
-})

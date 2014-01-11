@@ -27,7 +27,7 @@ namespace IssueTracker.Web
 
 		private void RegisterBundles(BundleCollection bundles)
 		{
-			var script = new ScriptBundle("~/scripts").Include("~/Scripts/Global.js").IncludeDirectory("~/Scripts", "*.js", true);
+			var script = new ScriptBundle("~/scripts").Include("~/Scripts/Global.js").IncludeDirectory("~/Scripts/ThirdParty", "*.js").IncludeDirectory("~/Scripts", "*.js", true);
             if (!HttpContext.Current.IsDebuggingEnabled)
                 script.Transforms.Add(new JsMinify());
 			bundles.Add(script);

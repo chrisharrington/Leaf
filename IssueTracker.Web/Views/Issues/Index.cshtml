@@ -1,0 +1,39 @@
+﻿@model object
+
+<script type="text/javascript">
+	$(function() {
+		IssueTracker.Issues.list.pushAll(@Html.Raw(Json.Encode(Model)));
+	});
+</script>
+
+<div class="tile table-tools">
+	<div class="filter-tags" data-bind="foreach: IssueTracker.Issues.tags">
+		<div>
+			<span class="type" data-bind="text: type + ':'"></span>
+			<span class="value" data-bind="text: value"></span>
+		</div>
+	</div>
+	<div class="filter">
+		<input type="text" data-bind="value: IssueTracker.Issues.filter"/>
+		<i class="fa fa-search"></i>
+	</div>
+	<div class="tools">
+		<i class="fa fa-align-justify"></i>
+		<i class="fa fa-gear"></i>
+	</div>
+</div>
+
+<div class="tile issues-container table">
+	<table>
+		<tbody data-bind="foreach: IssueTracker.Issues.list">
+			<tr data-bind="attr: { class: priorityStyle }">
+				<td class="priority" data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
+				<td data-bind="text: number"></td>
+				<td data-bind="text: name"></td>
+				<td data-bind="text: description" style="width:400px;"></td>
+				<td data-bind="text: status"></td>
+				<td data-bind="text: owner"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
