@@ -7,10 +7,18 @@
 </script>
 
 <div class="tile table-tools">
-	<div class="filter-tags" data-bind="foreach: IssueTracker.Issues.tags">
+	<div class="filter-tags">
 		<div>
-			<span class="type" data-bind="text: type + ':'"></span>
-			<span class="value" data-bind="text: value"></span>
+			<span>Priority</span>
+			<i class="fa fa-angle-down"></i>
+		</div>
+		<div>
+			<span>Status</span>
+			<i class="fa fa-angle-down"></i>
+		</div>
+		<div>
+			<span>Assignee</span>
+			<i class="fa fa-angle-down"></i>
 		</div>
 	</div>
 	<div class="filter">
@@ -18,7 +26,7 @@
 		<i class="fa fa-search"></i>
 	</div>
 	<div class="tools">
-		<i class="fa fa-align-justify"></i>
+		<i class="fa fa-sort-alpha-asc"></i>
 		<i class="fa fa-gear"></i>
 	</div>
 </div>
@@ -27,12 +35,11 @@
 	<table>
 		<tbody data-bind="foreach: IssueTracker.Issues.list">
 			<tr data-bind="attr: { class: priorityStyle }">
-				<td class="priority" data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
-				<td data-bind="text: number"></td>
-				<td data-bind="text: name"></td>
-				<td data-bind="text: description" style="width:400px;"></td>
-				<td data-bind="text: status"></td>
-				<td data-bind="text: owner"></td>
+				<td class="priority" data-bind="attr: { class: 'priority ' + priorityStyle }" style="width:6px;"></td>
+				<td class="ellipsis name" data-bind="text: name" style="width:100px;"></td>
+				<td data-bind="text: status" style="width:100px;"></td>
+				<td data-bind="text: owner" style="width:100px;"></td>
+				<td class="ellipsis description" data-bind="text: description"></td>
 			</tr>
 		</tbody>
 	</table>

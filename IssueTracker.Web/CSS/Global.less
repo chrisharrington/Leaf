@@ -10,9 +10,15 @@
 @sub-header-colour:#444444;
 @text-colour:#777777;
 @light-text-colour:#BBBBBB;
-@border-colour:#AAAAAA;
+@border-colour:#C0C0C0;
 @highlight-colour:#23AC23;
+@hover-colour:#F0F0F0;
 
+@low-priority:#0F7AD1;
+@medium-priority:#03AD1D;
+@high-priority:#E8E34F;
+@critical-priority:#BF0000;
+	
 .gradient (@top, @bottom) { background: linear-gradient(@top, @bottom); }
 .shadow { box-shadow:0 2px 8px rgba(0, 0, 0, 0.3); }
 .dark-shadow { box-shadow:0 2px 8px rgba(0, 0, 0, 0.5); }
@@ -21,6 +27,8 @@
 .dark-background { background:url(../Images/body-background.png); }
 .border-radius { border-radius:2px; }
 .border-box { box-sizing:border-box; -moz-box-sizing:border-box; }
+.ellipsis { overflow:hidden; text-overflow:ellipsis; }
+.table-cell-vertically-aligned { display:table-cell; height:100%; vertical-align:middle; }
 
 .condensed-font { font-family:"Roboto Condensed"; }
 .regular-font { font-family:"Roboto"; }
