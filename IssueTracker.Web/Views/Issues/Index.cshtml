@@ -1,12 +1,4 @@
-﻿@model object
-
-<script type="text/javascript">
-	$(function() {
-		IssueTracker.Issues.list.pushAll(@Html.Raw(Json.Encode(Model)));
-	});
-</script>
-
-<div class="tile table-tools">
+﻿<div class="tile table-tools">
 	<div class="filter-tags">
 		<div>
 			<span>Priority</span>
@@ -39,7 +31,7 @@
 	<table>
 		<thead>
 			<tr>
-				<th style="width:8px;" class="priority"></th>
+				<th style="width:10px;" class="priority"></th>
 				<th></th>
 				<th style="width:100px;">Status</th>
 				<th style="width:100px;">Owner</th>
@@ -49,10 +41,10 @@
 			</tr>
 		</thead>
 		<tbody data-bind="foreach: IssueTracker.Issues.list">
-			<tr data-bind="attr: { class: priorityStyle }">
-				<td class="priority" data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
+			<tr>
+				<td data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
 				<td class="ellipsis name">
-					<span class="name" data-bind="text: name"></span>
+					<span class="name" data-bind="text: name, attr: { class: 'name ' + priorityStyle }"></span>
 					<span class="description" data-bind="text: description"></span>
 				</td>
 				<td data-bind="text: status"></td>
@@ -62,5 +54,12 @@
 				<td data-bind="text: closed"></td>
 			</tr>
 		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="7">
+					<img src="@Url.Content("~/Images/ajax-loader.gif")" alt=""/>
+				</td>
+			</tr>
+		</tfoot>
 	</table>
 </div>

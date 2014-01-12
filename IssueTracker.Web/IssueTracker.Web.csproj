@@ -143,6 +143,7 @@
     <Content Include="CSS\Fonts.css" />
     <Content Include="Fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\background.png" />
     <Content Include="Scripts\Binders\RemoteTemplateBinder.js" />
     <Content Include="Scripts\Binders\SlideDownBinder.js" />

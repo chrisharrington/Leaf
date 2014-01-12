@@ -16,20 +16,20 @@ namespace IssueTracker.Web.Controllers
 
 		public ActionResult Index()
 		{
-			return View(GetIssues(0, 25));
+			return View();
 		}
 
-	    public ActionResult Next(int start, int count)
+	    public ActionResult Next(int start, int end)
 	    {
-		    return Json(GetIssues(start, count), JsonRequestBehavior.AllowGet);
+		    return Json(GetIssues(start, end), JsonRequestBehavior.AllowGet);
 	    }
 
-		private IEnumerable<object> GetIssues(int start, int count)
+		private IEnumerable<object> GetIssues(int start, int end)
 		{
 			var priorities = PriorityRepository.All().ToDictionary(x => x.Id);
 			var statuses = StatusRepository.All().ToDictionary(x => x.Id);
 			var users = UserRepository.All().ToDictionary(x => x.Id);
-			var issues = IssueRepository.Search(start, count);
+			var issues = IssueRepository.Search(start, end);
 
 			return issues.Select(x => new {
 				number = x.Number,

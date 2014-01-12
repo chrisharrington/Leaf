@@ -20,8 +20,19 @@
 @medium-priority:#03AD1D;
 @high-priority:#E8E34F;
 @critical-priority:#BF0000;
+
+@low-priority-font-colour:#0F7AD1;
+@medium-priority-font-colour:#03AD1D;
+@high-priority-font-colour:#B5AF09;
+@critical-priority-font-colour:#BF0000;
+
+@low-priority-background:rgb(204, 255, 255);
+@medium-priority-background:#CCFFCC;
+@high-priority-background:rgb(255, 255, 204);
+@critical-priority-background:#FFDCDC;
 	
 .gradient (@top, @bottom) { background: linear-gradient(@top, @bottom); }
+.horizontal-gradient (@left, @right) { background: linear-gradient(to right, @left, @right); }
 .shadow { box-shadow:0 2px 8px rgba(0, 0, 0, 0.3); }
 .dark-shadow { box-shadow:0 2px 8px rgba(0, 0, 0, 0.5); }
 .box-sizing { box-sizing:border-box; -moz-box-sizing:border-box; }

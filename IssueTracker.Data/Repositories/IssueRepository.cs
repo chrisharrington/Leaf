@@ -9,14 +9,14 @@ namespace IssueTracker.Data.Repositories
 {
 	public class IssueRepository : BaseRepository<Issue>, IIssueRepository
 	{
-		public IEnumerable<Issue> Search(int start, int count)
+		public IEnumerable<Issue> Search(int start, int end)
 		{
-			if (count < 1)
-				throw new ArgumentOutOfRangeException("count");
+			if (end < 1)
+				throw new ArgumentOutOfRangeException("end");
 
 			using (var connection = OpenConnection())
 			{
-				return connection.Query<Issue>("select * from (select Id, Name, Number, Description, OwnerId, AssigneeId, PriorityId, StatusId, Opened, Closed, ROW_NUMBER() over (order by Number) as RowNumber from Issues) as SubISsues where SubIssues.RowNumber between " + start + " and " + (start+count));
+				return connection.Query<Issue>("select * from (select Id, Name, Number, Description, OwnerId, AssigneeId, PriorityId, StatusId, Opened, Closed, ROW_NUMBER() over (order by Number) as RowNumber from Issues) as SubISsues where SubIssues.RowNumber between " + start + " and " + end);
 			}
 		}
 	}
