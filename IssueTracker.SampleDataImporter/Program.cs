@@ -10,6 +10,8 @@ namespace IssueTracker.SampleDataImporter
 {
 	public class Program
 	{
+		const int NUM_ISSUES = 150;
+
 		private static Random _random;
 		private static IContainer _container;
 
@@ -52,9 +54,8 @@ namespace IssueTracker.SampleDataImporter
 			var owner = new User { EmailAddress = "chrisharrington99@gmail.com", Name = "Chris Harrington" };
 			owner.Id = _container.Resolve<IUserRepository>().Insert(owner);
 
-			const int numIssues = 15;
 			var repository = _container.Resolve<IIssueRepository>();
-			for (var i = 1; i <= numIssues; i++)
+			for (var i = 1; i <= NUM_ISSUES; i++)
 				repository.Insert(new Issue {
 					Number = i,
 					Name = "name " + i,

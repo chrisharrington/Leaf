@@ -5,6 +5,6 @@ namespace IssueTracker.Common.Data.Repositories
 {
 	public interface IIssueRepository : IRepository<Issue>
 	{
-		IEnumerable<Issue> Search();
+		IEnumerable<Issue> Search(int start, int count);
 	}
 }

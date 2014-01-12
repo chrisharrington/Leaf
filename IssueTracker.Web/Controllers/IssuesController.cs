@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Extensions;
@@ -15,12 +16,22 @@ namespace IssueTracker.Web.Controllers
 
 		public ActionResult Index()
 		{
+			return View(GetIssues(0, 25));
+		}
+
+	    public ActionResult Next(int start, int count)
+	    {
+		    return Json(GetIssues(start, count), JsonRequestBehavior.AllowGet);
+	    }
+
+		private IEnumerable<object> GetIssues(int start, int count)
+		{
 			var priorities = PriorityRepository.All().ToDictionary(x => x.Id);
 			var statuses = StatusRepository.All().ToDictionary(x => x.Id);
 			var users = UserRepository.All().ToDictionary(x => x.Id);
-			var issues = IssueRepository.All(x => x.Number);
+			var issues = IssueRepository.Search(start, count);
 
-			return View(issues.Select(x => new {
+			return issues.Select(x => new {
 				number = x.Number,
 				name = x.Name,
 				description = x.Description,
@@ -31,7 +42,7 @@ namespace IssueTracker.Web.Controllers
 				priorityStyle = ToPriorityStyleString(priorities[x.PriorityId]),
 				opened = x.Opened.ToApplicationString(),
 				closed = x.Closed.ToApplicationString()
-			}));
+			});
 		}
 
 	    private static string ToPriorityStyleString(Base priority)
