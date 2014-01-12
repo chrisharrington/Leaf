@@ -1,0 +1,1 @@
+﻿alter table Issues add constraint IssuesPriority foreign key (PriorityId) references [Priorities] (Id)

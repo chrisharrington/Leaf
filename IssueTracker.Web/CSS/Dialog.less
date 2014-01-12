@@ -1,0 +1,31 @@
+﻿@import 'Global.less';
+
+.dialog-gradient { background: linear-gradient(@dialog-gradient-light-colour, @dialog-gradient-dark-colour); }
+.dialog { position:absolute; z-index:2; width:300px; top:200px; left:100px; .dialog-gradient; .dark-shadow; color:white; padding:@spacing; display:none;
+	h1 { float:left; color:white !important; }
+	>i { float:right; color:@text-colour; font-size:1.3em; cursor:pointer; }
+	>div.loading { float:left; width:100%; display:table; height:150px; text-align:center;
+		>div { margin:auto; display:table-cell; vertical-align:middle; height:100%; }
+	}
+
+	div.arrow { float:left; position:relative; display:none;
+		>div { position:absolute; z-index:3; border:solid 15px transparent; }
+	}
+
+	div.arrow.top>div { top:-68px; border-bottom-color:#444444; }
+	div.arrow.bottom>div { border-top-color:#111111; }
+	div.arrow.bottom.right>div { top:62px; }
+	div.arrow.bottom.left>div { top:15px; }
+	div.arrow.top.right>div { top:-44px; }
+
+	div.arrow.right { float:right;
+		>div { right:0px; }
+	}
+
+	div.arrow.left { width:100%;
+		
+	}
+}
+
+div.dialog.beneath div.arrow.top { display:block; }
+div.dialog.above div.arrow.bottom { display:block; }

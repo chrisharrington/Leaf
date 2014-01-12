@@ -1,6 +1,8 @@
 
 (function (root) {
 
+	var _filter;
+
 	root.list = ko.observableArray();
 	root.tags = ko.observableArray();
 	
@@ -14,11 +16,19 @@
 	};
 	
 	function _setupFilter(container) {
-		var filter = container.find("div.filter");
-		filter.on("focus", "input[type='text']", function() { filter.addClass("focus"); });
-		filter.on("blur", "input[type='text']", function () { filter.removeClass("focus"); });
-		filter.on("click", "i", function () { filter.find("input[type='text']").val("").keyup(); });
-		filter.click(function() { $(this).find("input").focus(); });
+		if (_filter)
+			return;
+
+		_filter = container.find("div.filter");
+		_filter.on("focus", "input[type='text']", function() { _filter.addClass("focus"); });
+		_filter.on("blur", "input[type='text']", function () { _filter.removeClass("focus"); });
+		_filter.on("click", "i", function () { _filter.find("input[type='text']").val("").keyup(); });
+		_filter.click(function () { $(this).find("input").focus(); });
+		_filter.find("input").on("focus", function() { _slideFilter(true); }).on("blur", function() { _slideFilter(false); });
+	}
+	
+	function _slideFilter(isOpen) {
+		_filter.find("input").animate({ width: isOpen ? "600px" : "300px" }, 200);
 	}
 
 	IssueTracker.Page.build({

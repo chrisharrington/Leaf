@@ -20,26 +20,46 @@
 			<span>Assignee</span>
 			<i class="fa fa-angle-down"></i>
 		</div>
-	</div>
-	<div class="filter">
-		<input type="text" data-bind="value: IssueTracker.Issues.filter"/>
-		<i class="fa fa-search"></i>
+		<div>
+			<span>Owner</span>
+			<i class="fa fa-angle-down"></i>
+		</div>
 	</div>
 	<div class="tools">
 		<i class="fa fa-sort-alpha-asc"></i>
 		<i class="fa fa-gear"></i>
 	</div>
+	<div class="filter">
+		<input type="text" placeholder="Filter..." data-bind="value: IssueTracker.Issues.filter"/>
+		<i class="fa fa-times"></i>
+	</div>
 </div>
 
 <div class="tile issues-container table">
 	<table>
+		<thead>
+			<tr>
+				<th style="width:8px;" class="priority"></th>
+				<th></th>
+				<th style="width:100px;">Status</th>
+				<th style="width:100px;">Owner</th>
+				<th style="width:100px;">Assignee</th>
+				<th style="width:70px;">Opened</th>
+				<th style="width:70px;">Closed</th>
+			</tr>
+		</thead>
 		<tbody data-bind="foreach: IssueTracker.Issues.list">
 			<tr data-bind="attr: { class: priorityStyle }">
-				<td class="priority" data-bind="attr: { class: 'priority ' + priorityStyle }" style="width:6px;"></td>
-				<td class="ellipsis name" data-bind="text: name" style="width:100px;"></td>
-				<td data-bind="text: status" style="width:100px;"></td>
-				<td data-bind="text: owner" style="width:100px;"></td>
-				<td class="ellipsis description" data-bind="text: description"></td>
+				<td class="priority" data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
+				<td class="ellipsis name">
+					<span class="name" data-bind="text: name"></span>
+					<span class="description" data-bind="text: description"></span>
+				</td>
+				<td data-bind="text: status"></td>
+				<td data-bind="text: owner"></td>
+				<td data-bind="text: assignee"></td>
+				<td data-bind="text: opened"></td>
+				<td data-bind="text: closed"></td>
 			</tr>
 		</tbody>
 	</table>

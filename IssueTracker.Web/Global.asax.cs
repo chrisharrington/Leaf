@@ -40,9 +40,7 @@ namespace IssueTracker.Web
 
 		private void RegisterDependencies()
 		{
-			var builder = new ContainerBuilder();
-			builder.RegisterAssemblyTypes(GetType().Assembly).AsImplementedInterfaces().AsSelf().PropertiesAutowired();
-			DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
+			DependencyResolver.SetResolver(new AutofacDependencyResolver(Dependencies.Dependencies.Register()));
 		}
 
 		private class LessMinify : CssMinify

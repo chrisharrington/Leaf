@@ -1,0 +1,1 @@
+﻿alter table Issues add constraint IssuesAssignee foreign key (AssigneeId) references [ApplicationUsers] (Id)

@@ -1,0 +1,1 @@
+﻿alter table Issues add constraint IssuesOwner foreign key (OwnerId) references [ApplicationUsers] (Id)

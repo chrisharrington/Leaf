@@ -12,7 +12,9 @@
 @light-text-colour:#BBBBBB;
 @border-colour:#C0C0C0;
 @highlight-colour:#23AC23;
-@hover-colour:#F0F0F0;
+@hover-colour:#F8F8F8;
+@off-colour-dark:#0C4FAD;
+@off-colour-light:#2770D6;
 
 @low-priority:#0F7AD1;
 @medium-priority:#03AD1D;
@@ -37,10 +39,10 @@ h1, h2, h3, h4 { .condensed-font; margin:0; padding:0; }
 h1 { color:@header-colour; font-size:1.875em; }
 h2 { color:@sub-header-colour; font-size:1.5em; }
 
-input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:3px 5px; font-size:1em; font-family:"Roboto"; }
+input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:3px 5px; font-size:1em; .regular-font; }
 input:focus, textarea:focus, select:focus { outline:none; border-color:#F2BC6F; box-shadow:0 0 10px #F2BC6F; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
 
-body { margin:0; padding:0; background:url(../Images/background.png); font-size:16px; font-family:"Roboto"; }
+body { margin:0; padding:0; background:url(../Images/background.png); font-size:16px; .condensed-font; }
 .content-container { float:left; width:100%; .border-box; padding:@spacing; }
 
 div.tile { padding:@spacing; .border-radius; .gradient(@tile-gradient-light-colour, @tile-gradient-dark-colour); .box-sizing; .shadow; color:@text-colour; }

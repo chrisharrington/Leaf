@@ -14,26 +14,29 @@
 			>div:hover>span { text-decoration:underline; }
 		}
 
-		>div.filter { float:right; }
+		>div.filter { float:right; margin-right:@spacing; }
 
-		>div.tools { float:right; display:table; height:100%; margin-right:@small-spacing; color:@light-text-colour;
+		>div.tools { float:right; display:table; height:100%; color:@light-text-colour;
 			>i { display:table-cell; vertical-align:middle; font-size:1.25em; padding:@small-spacing; cursor:pointer; }
 			>i:hover { color:@text-colour; }
 		}
 	}
 
-	div.issues-container.table {
+	div.issues-container.table { font-family:"Roboto Condensed"; padding:0;
 		table { float:left; width:100%; border-collapse:collapse; table-layout:fixed; }
 		tr { border-top:solid 1px #DDD; cursor:pointer; }
 		tr:hover>td { background-color:@hover-colour; }
 		tr:first-child { border-top:none; }
-		td { padding:@small-spacing; text-align:left; white-space:nowrap; overflow:hidden; }
-		td.name { color:black; font-weight:bold; }
-		td.description { color:#B5B5B5; }
-		td.priority { padding:0; }
+		td, th { padding:@spacing; text-align:left; white-space:nowrap; overflow:hidden; }
+		th { font-weight:bold; padding-top:6px; padding-bottom:6px; color:black; border-bottom:solid 1px @border-colour; color:black; }
+		td.priority, th.priority { padding:0; }
 		td.priority.low { background-color:@low-priority; }
 		td.priority.medium { background-color:@medium-priority; }
 		td.priority.high { background-color:@high-priority; }
 		td.priority.critical { background-color:@critical-priority; }
+		td.name {
+			>span.name { font-weight:bold; color:black; }
+			>span.description { color:#B5B5B5; padding-left:@spacing; white-space:nowrap; overflow:hidden; }
+		}
 	}
 }
