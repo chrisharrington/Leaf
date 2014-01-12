@@ -7,12 +7,12 @@ namespace IssueTracker.Dependencies
 {
 	public static class Dependencies
 	{
-		public static IContainer Register()
+		public static ContainerBuilder Register()
 		{
 			var builder = new ContainerBuilder();
 			RegisterAssemblyTypes(builder, typeof (UserRepository).Assembly);
 			RegisterAssemblyTypes(builder, typeof (User).Assembly);
-			return builder.Build();
+			return builder;
 		}
 
 		public static void RegisterAssemblyTypes(ContainerBuilder builder, Assembly assembly)

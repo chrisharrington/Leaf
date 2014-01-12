@@ -16,7 +16,7 @@ namespace IssueTracker.SampleDataImporter
 		public static void Main(string[] args)
 		{
 			_random = new Random();
-			_container = Dependencies.Dependencies.Register();
+			_container = Dependencies.Dependencies.Register().Build();
 
 			RemoveData();
 			BuildIssues();
