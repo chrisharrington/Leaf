@@ -1,7 +1,7 @@
 
 (function (root) {
 
-	var _startCount = 25;
+	var _startCount = 50;
 	var _issueCountToLoad = 15;
 	var _start = 0;
 	var _nextIssuesRunning = false;
