@@ -20,6 +20,7 @@
 			root.virtualDirectory = ko.observable("@Url.Content("/")");
 			root.priorities = ko.observableArray(@Html.Raw(Json.Encode(Model.Priorities)));
 			root.statuses = ko.observableArray(@Html.Raw(Json.Encode(Model.Statuses)));
+			root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));
 
 			IssueTracker.Init.init();
 		});

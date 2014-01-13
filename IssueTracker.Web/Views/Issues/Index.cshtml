@@ -9,7 +9,7 @@
 			<i class="fa fa-angle-down"></i>
 		</div>
 		<div id="assignee-filter">
-			<span>Assignee</span>
+			<span data-bind="css: { selected: IssueTracker.Issues.assigneeFilterModel.selectedAssignee() != undefined }, text: IssueTracker.Issues.assigneeFilterModel.selectedAssignee() ? IssueTracker.Issues.assigneeFilterModel.selectedAssignee().Name : 'Assignee'"></span>
 			<i class="fa fa-angle-down"></i>
 		</div>
 		<div id="owner-filter">
@@ -73,5 +73,11 @@
 <script id="status-filter-dialog" type="text/html">
 	<div class="filter-dialog status-filter-dialog" data-bind="foreach: statuses">
 		<div data-bind="text: Name, attr: { class: Name.toLowerCase() + ($root.selectedStatus() == Name ? ' selected' : '') }"></div>
+	</div>
+</script>
+
+<script id="assignee-filter-dialog" type="text/html">
+	<div class="filter-dialog assignee-filter-dialog" data-bind="foreach: assignees">
+		<div data-bind="text: Name, attr: { 'data-assignee': JSON.stringify($data), class: Name.toLowerCase() + ($root.selectedAssignee() && $root.selectedAssignee().Name == Name ? ' selected' : '') }"></div>
 	</div>
 </script>

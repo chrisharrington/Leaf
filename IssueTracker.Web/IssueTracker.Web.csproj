@@ -170,6 +170,7 @@
     <Content Include="Scripts\ThirdParty\jquery.js" />
     <Content Include="Scripts\ThirdParty\knockout.js" />
     <Content Include="Scripts\ThirdParty\path.js" />
+    <Content Include="Scripts\ThirdParty\ToDictionary.js" />
     <Content Include="Scripts\Views\Issues.js" />
     <Content Include="Scripts\Views\Dashboard.js" />
     <Content Include="Scripts\Views\Users.js" />

@@ -8,7 +8,7 @@ namespace IssueTracker.Data.Repositories
 {
 	public class IssueRepository : BaseRepository<Issue>, IIssueRepository
 	{
-		public IEnumerable<Issue> Search(int start, int end, Priority priority, Status status)
+		public IEnumerable<Issue> Search(int start, int end, Priority priority, Status status, ApplicationUser assignee)
 		{
 			if (end < 1)
 				throw new ArgumentOutOfRangeException("end");
@@ -18,6 +18,8 @@ namespace IssueTracker.Data.Repositories
 				issues = issues.Where(x => x.Priority.Id == priority.Id);
 			if (status != null)
 				issues = issues.Where(x => x.Status.Id == status.Id);
+			if (assignee != null)
+				issues = issues.Where(x => x.Assignee.Id == assignee.Id);
 			return issues.OrderBy(x => x.Number).Skip(start-1).Take(end-start+1);
 		}
 	}
