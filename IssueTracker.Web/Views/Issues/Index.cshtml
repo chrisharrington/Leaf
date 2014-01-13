@@ -13,7 +13,7 @@
 			<i class="fa fa-angle-down"></i>
 		</div>
 		<div id="owner-filter">
-			<span>Owner</span>
+			<span data-bind="css: { selected: IssueTracker.Issues.ownerFilterModel.selectedOwner() != undefined }, text: IssueTracker.Issues.ownerFilterModel.selectedOwner() ? IssueTracker.Issues.ownerFilterModel.selectedOwner().Name : 'Owner'"></span>
 			<i class="fa fa-angle-down"></i>
 		</div>
 	</div>
@@ -79,5 +79,11 @@
 <script id="assignee-filter-dialog" type="text/html">
 	<div class="filter-dialog assignee-filter-dialog" data-bind="foreach: assignees">
 		<div data-bind="text: Name, attr: { 'data-assignee': JSON.stringify($data), class: Name.toLowerCase() + ($root.selectedAssignee() && $root.selectedAssignee().Name == Name ? ' selected' : '') }"></div>
+	</div>
+</script>
+
+<script id="owner-filter-dialog" type="text/html">
+	<div class="filter-dialog owner-filter-dialog" data-bind="foreach: owners">
+		<div data-bind="text: Name, attr: { 'data-owner': JSON.stringify($data), class: Name.toLowerCase() + ($root.selectedOwner() && $root.selectedOwner().Name == Name ? ' selected' : '') }"></div>
 	</div>
 </script>

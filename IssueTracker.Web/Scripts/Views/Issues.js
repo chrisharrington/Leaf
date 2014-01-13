@@ -28,10 +28,16 @@
 		selectedAssignee: ko.observable()
 	};
 
+	root.ownerFilterModel = {
+		owners: ko.observableArray(),
+		selectedOwner: ko.observable()
+	};
+
 	root.load = function (container) {
 		root.priorityFilterModel.priorities(IssueTracker.priorities());
 		root.statusFilterModel.statuses(IssueTracker.statuses());
 		root.assigneeFilterModel.assignees(IssueTracker.users());
+		root.ownerFilterModel.owners(IssueTracker.users());
 
 		_loader = container.find("table tfoot");
 		_setupFilter(container);
@@ -65,6 +71,16 @@
 			var popupContainer = IssueTracker.Popup.load({ view: "#assignee-filter-dialog", model: root.assigneeFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
 				root.assigneeFilterModel.selectedAssignee($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-assignee")));
+				$(this).toggleClass("selected");
+				IssueTracker.Popup.hide();
+				_resetIssueList();
+			});
+		});
+
+		container.find("#owner-filter").click(function () {
+			var popupContainer = IssueTracker.Popup.load({ view: "#owner-filter-dialog", model: root.ownerFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
+			popupContainer.find(">div").click(function () {
+				root.ownerFilterModel.selectedOwner($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-owner")));
 				$(this).toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
