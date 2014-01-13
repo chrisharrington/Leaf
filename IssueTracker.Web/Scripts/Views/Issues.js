@@ -44,7 +44,7 @@
 		container.find("#priority-filter").click(function() {
 			var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", model: root.priorityFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.priorityFilterModel.selectedPriority($(this).hasClass("selected") ? undefined : $(this).text());
+				root.priorityFilterModel.selectedPriority($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-priority")));
 				$(this).toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
@@ -54,7 +54,7 @@
 		container.find("#status-filter").click(function () {
 			var popupContainer = IssueTracker.Popup.load({ view: "#status-filter-dialog", model: root.statusFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.statusFilterModel.selectedStatus($(this).hasClass("selected") ? undefined : $(this).text());
+				root.statusFilterModel.selectedStatus($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-status")));
 				$(this).toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();

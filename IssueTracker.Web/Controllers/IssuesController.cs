@@ -21,17 +21,12 @@ namespace IssueTracker.Web.Controllers
 
 	    public ActionResult Next(Search search)
 	    {
-			return Json(GetIssues(search.start, search.end, GetPriority(search.priority), GetStatus(search.status), search.assignee), JsonRequestBehavior.AllowGet);
+			return Json(GetIssues(search.start, search.end, search.priority, search.status, search.assignee), JsonRequestBehavior.AllowGet);
 	    }
 
 	    private Status GetStatus(string status)
 	    {
 		    return string.IsNullOrEmpty(status) ? null : StatusRepository.Name(status);
-	    }
-
-	    private Priority GetPriority(string priority)
-	    {
-		    return string.IsNullOrEmpty(priority) ? null : PriorityRepository.Name(priority);
 	    }
 
 	    private IEnumerable<object> GetIssues(int start, int end, Priority priority, Status status, ApplicationUser assignee)
@@ -60,8 +55,8 @@ namespace IssueTracker.Web.Controllers
 	{
 		public int start { get; set; }
 		public int end { get; set; }
-		public string priority { get; set; }
-		public string status { get; set; }
+		public Priority priority { get; set; }
+		public Status status { get; set; }
 		public ApplicationUser assignee { get; set; }
 	}
 }

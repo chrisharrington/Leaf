@@ -1,11 +1,11 @@
 ﻿<div class="tile table-tools">
 	<div class="filter-tags">
 		<div id="priority-filter">
-			<span data-bind="css: { selected: IssueTracker.Issues.priorityFilterModel.selectedPriority() != undefined }, text: IssueTracker.Issues.priorityFilterModel.selectedPriority() || 'Priority'"></span>
+			<span data-bind="css: { selected: IssueTracker.Issues.priorityFilterModel.selectedPriority() != undefined }, text: IssueTracker.Issues.priorityFilterModel.selectedPriority() ? IssueTracker.Issues.priorityFilterModel.selectedPriority().Name : 'Priority'"></span>
 			<i class="fa fa-angle-down"></i>
 		</div>
 		<div id="status-filter">
-			<span data-bind="css: { selected: IssueTracker.Issues.statusFilterModel.selectedStatus() != undefined }, text: IssueTracker.Issues.statusFilterModel.selectedStatus() || 'Status'"></span>
+			<span data-bind="css: { selected: IssueTracker.Issues.statusFilterModel.selectedStatus() != undefined }, text: IssueTracker.Issues.statusFilterModel.selectedStatus() ? IssueTracker.Issues.statusFilterModel.selectedStatus().Name : 'Status'"></span>
 			<i class="fa fa-angle-down"></i>
 		</div>
 		<div id="assignee-filter">
@@ -66,13 +66,13 @@
 
 <script id="priority-filter-dialog" type="text/html">
 	<div class="filter-dialog priority-filter-dialog" data-bind="foreach: priorities">
-		<div data-bind="text: Name, attr: { class: Name.toLowerCase() + ($root.selectedPriority() == Name ? ' selected' : '') }"></div>
+		<div data-bind="text: Name, attr: { 'data-priority': JSON.stringify($data), class: Name.toLowerCase() + ($root.selectedPriority() && $root.selectedPriority().Name == Name ? ' selected' : '') }"></div>
 	</div>
 </script>
 
 <script id="status-filter-dialog" type="text/html">
 	<div class="filter-dialog status-filter-dialog" data-bind="foreach: statuses">
-		<div data-bind="text: Name, attr: { class: Name.toLowerCase() + ($root.selectedStatus() == Name ? ' selected' : '') }"></div>
+		<div data-bind="text: Name, attr: { 'data-status': JSON.stringify($data), class: Name.toLowerCase() + ($root.selectedStatus() && $root.selectedStatus().Name == Name ? ' selected' : '') }"></div>
 	</div>
 </script>
 
