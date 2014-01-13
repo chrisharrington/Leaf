@@ -18,7 +18,7 @@
 		</div>
 	</div>
 	<div class="tools">
-		<i class="fa fa-sort-alpha-asc"></i>
+		<i id="sort" class="fa fa-sort-alpha-asc"></i>
 		<i class="fa fa-gear"></i>
 	</div>
 	<div class="filter">
@@ -65,25 +65,65 @@
 </div>
 
 <script id="priority-filter-dialog" type="text/html">
-	<div class="filter-dialog priority-filter-dialog" data-bind="foreach: priorities">
+	<div class="select-dialog priority-filter-dialog" data-bind="foreach: priorities">
 		<div data-bind="text: Name, attr: { 'data-priority': JSON.stringify($data), class: Name.toLowerCase() + ($root.selectedPriority() && $root.selectedPriority().Name == Name ? ' selected' : '') }"></div>
 	</div>
 </script>
 
 <script id="status-filter-dialog" type="text/html">
-	<div class="filter-dialog status-filter-dialog" data-bind="foreach: statuses">
+	<div class="select-dialog status-filter-dialog" data-bind="foreach: statuses">
 		<div data-bind="text: Name, attr: { 'data-status': JSON.stringify($data), class: Name.toLowerCase() + ($root.selectedStatus() && $root.selectedStatus().Name == Name ? ' selected' : '') }"></div>
 	</div>
 </script>
 
 <script id="assignee-filter-dialog" type="text/html">
-	<div class="filter-dialog assignee-filter-dialog" data-bind="foreach: assignees">
+	<div class="select-dialog assignee-filter-dialog" data-bind="foreach: assignees">
 		<div data-bind="text: Name, attr: { 'data-assignee': JSON.stringify($data), class: Name.toLowerCase() + ($root.selectedAssignee() && $root.selectedAssignee().Name == Name ? ' selected' : '') }"></div>
 	</div>
 </script>
 
 <script id="owner-filter-dialog" type="text/html">
-	<div class="filter-dialog owner-filter-dialog" data-bind="foreach: owners">
+	<div class="select-dialog owner-filter-dialog" data-bind="foreach: owners">
 		<div data-bind="text: Name, attr: { 'data-owner': JSON.stringify($data), class: Name.toLowerCase() + ($root.selectedOwner() && $root.selectedOwner().Name == Name ? ' selected' : '') }"></div>
+	</div>
+</script>
+
+<script id="sort-dialog" type="text/html">
+	<div class="select-dialog sort-dialog">
+		<div data-comparer="name">
+			<span>Description</span>
+			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'name' }"></i>
+			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'name' }"></i>
+		</div>
+		<div data-comparer="priority">
+			<span>Priority</span>
+			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'priority' }"></i>
+			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'priority' }"></i>
+		</div>
+		<div data-comparer="status">
+			<span>Status</span>
+			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'status' }"></i>
+			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'status' }"></i>
+		</div>
+		<div data-comparer="owner">
+			<span>Owner</span>
+			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'owner' }"></i>
+			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'owner' }"></i>
+		</div>
+		<div data-comparer="assignee">
+			<span>Assignee</span>
+			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'assignee' }"></i>
+			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'assignee' }"></i>
+		</div>
+		<div data-comparer="opened">
+			<span>Date Opened</span>
+			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'opened' }"></i>
+			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'opened' }"></i>
+		</div>
+		<div data-comparer="closed">
+			<span>Date Closed</span>
+			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'closed' }"></i>
+			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'closed' }"></i>
+		</div>
 	</div>
 </script>

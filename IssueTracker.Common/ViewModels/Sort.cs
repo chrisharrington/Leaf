@@ -15,6 +15,8 @@ namespace IssueTracker.Common.ViewModels
 
 			switch (comparer.ToLower())
 			{
+				case "name":
+					return x => x.Name;
 				case "priority":
 					return x => x.Priority.Order;
 				case "status":

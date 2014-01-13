@@ -91,6 +91,16 @@
 				_resetIssueList();
 			});
 		});
+
+		container.find("#sort").click(function() {
+			var popupContainer = IssueTracker.Popup.load({ view: "#sort-dialog", model: root.sortModel, anchor: $(this), trigger: $(this) });
+			popupContainer.find("i:not(.selected)").click(function() {
+				root.sortModel.direction($(this).attr("data-direction"));
+				root.sortModel.comparer($(this).parent().attr("data-comparer"));
+				IssueTracker.Popup.hide();
+				_resetIssueList();
+			});
+		});
 	}
 
 	function _setupFilter(container) {
@@ -133,7 +143,9 @@
 			end: _start + count,
 			priority: root.priorityFilterModel.selectedPriority(),
 			status: root.statusFilterModel.selectedStatus(),
-			assignee: root.assigneeFilterModel.selectedAssignee()
+			assignee: root.assigneeFilterModel.selectedAssignee(),
+			direction: root.sortModel.direction(),
+			comparer: root.sortModel.comparer()
 		});
 	}
 	

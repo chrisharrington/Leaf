@@ -48,11 +48,12 @@
 	}
 }
 
-div.filter-dialog {
+div.dialog .selected { color:black; background-color:white; }
+
+div.select-dialog {
 	>div { float:left; width:100%; padding:@small-spacing; border-top:solid 1px @border-colour; cursor:pointer; .box-sizing; }
 	>div:first-child { border-top:none; }
-	>div.selected { color:black; background-color:white; }
-	>div:hover { background-color:#888888; }
+	>div:hover { background-color:@dark-hover-colour; }
 }
 
 div.priority-filter-dialog {
@@ -68,4 +69,13 @@ div.priority-filter-dialog {
 	>div.medium.selected { .horizontal-gradient(@hover-colour, @medium-priority-background); }
 	>div.high.selected { .horizontal-gradient(@hover-colour, @high-priority-background); }
 	>div.critical.selected { .horizontal-gradient(@hover-colour, @critical-priority-background); }
+}
+
+div.sort-dialog {
+	>div { padding:0; width:100%; cursor:default;
+		>span { float:left; padding:@spacing; }
+		>i { float:right; padding:((@spacing)+4) @spacing ((@spacing)-4) @spacing; cursor:pointer; height:21px; }
+		>i:hover { background-color:@dark-hover-colour; }
+	}
+	>div:hover { background-color:transparent !important; }
 }

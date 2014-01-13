@@ -19,12 +19,13 @@ namespace IssueTracker.Web.Controllers
 			return View();
 		}
 
-	    public ActionResult Next(Search search, Sort sort)
+	    public ActionResult Next(IssueParams parameters)
 	    {
-		    if (sort == null || sort.comparer == null)
+		    var sort = parameters.BuildSort();
+		    if (sort.comparer == null)
 			    sort = new Sort {direction = SortDirection.Descending, comparer = "priority"};
 
-			return Json(IssueRepository.Search(search, sort).Select(x => new {
+			return Json(IssueRepository.Search(parameters.BuildSearch(), sort).Select(x => new {
 				number = x.Number,
 				name = x.Name,
 				description = x.Description,
@@ -43,4 +44,37 @@ namespace IssueTracker.Web.Controllers
 		    return priority.Name.Replace(" ", "-").ToLower();
 	    }
     }
+
+	public class IssueParams
+	{
+		public int start { get; set; }
+		public int end { get; set; }
+		public Priority priority { get; set; }
+		public Status status { get; set; }
+		public ApplicationUser assignee { get; set; }
+		public ApplicationUser owner { get; set; }
+
+		public SortDirection direction { get; set; }
+		public string comparer { get; set; }
+
+		public Search BuildSearch()
+		{
+			return new Search {
+				assignee = assignee,
+				start = start,
+				end = end,
+				priority = priority,
+				status = status,
+				owner = owner
+			};
+		}
+
+		public Sort BuildSort()
+		{
+			return new Sort {
+				direction = direction,
+				comparer = comparer
+			};
+		}
+	}
 }
