@@ -17,9 +17,15 @@
 		priorities: ko.observableArray(),
 		selectedPriority: ko.observable()
 	};
+	
+	root.statusFilterModel = {
+		statuses: ko.observableArray(),
+		selectedStatus: ko.observable()
+	};
 
 	root.load = function (container) {
 		root.priorityFilterModel.priorities(IssueTracker.priorities());
+		root.statusFilterModel.statuses(IssueTracker.statuses());
 
 		_loader = container.find("table tfoot");
 		_setupFilter(container);
@@ -33,6 +39,16 @@
 			var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", model: root.priorityFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
 				root.priorityFilterModel.selectedPriority($(this).hasClass("selected") ? undefined : $(this).text());
+				$(this).toggleClass("selected");
+				IssueTracker.Popup.hide();
+				_resetIssueList();
+			});
+		});
+		
+		container.find("#status-filter").click(function () {
+			var popupContainer = IssueTracker.Popup.load({ view: "#status-filter-dialog", model: root.statusFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
+			popupContainer.find(">div").click(function () {
+				root.statusFilterModel.selectedStatus($(this).hasClass("selected") ? undefined : $(this).text());
 				$(this).toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
@@ -78,7 +94,8 @@
 		return {
 			start: _start + 1,
 			end: _start + count,
-			priority: root.priorityFilterModel.selectedPriority()
+			priority: root.priorityFilterModel.selectedPriority(),
+			status: root.statusFilterModel.selectedStatus()
 		};
 	}
 	

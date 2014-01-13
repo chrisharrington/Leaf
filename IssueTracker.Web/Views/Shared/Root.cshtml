@@ -19,6 +19,7 @@
 			var root = window.IssueTracker || (window.IssueTracker = {});
 			root.virtualDirectory = ko.observable("@Url.Content("/")");
 			root.priorities = ko.observableArray(@Html.Raw(Json.Encode(Model.Priorities)));
+			root.statuses = ko.observableArray(@Html.Raw(Json.Encode(Model.Statuses)));
 
 			IssueTracker.Init.init();
 		});

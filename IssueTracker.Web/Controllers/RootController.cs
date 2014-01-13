@@ -8,11 +8,13 @@ namespace IssueTracker.Web.Controllers
     public class RootController : Controller
     {
 		public IPriorityRepository PriorityRepository { get; set; }
+		public IStatusRepository StatusRepository { get; set; }
 
 		public ActionResult Index()
         {
             return View("~/Views/Shared/Root.cshtml", new RootModel {
-	            Priorities = PriorityRepository.All(x => x.Order)
+	            Priorities = PriorityRepository.All(x => x.Order),
+				Statuses = StatusRepository.All(x => x.Order)
             });
         }
     }
@@ -20,5 +22,6 @@ namespace IssueTracker.Web.Controllers
 	public class RootModel
 	{
 		public IEnumerable<Priority> Priorities { get; set; }
+		public IEnumerable<Status> Statuses { get; set; }
 	}
 }

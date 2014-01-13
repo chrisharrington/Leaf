@@ -19,7 +19,7 @@
 			ko.applyBindings(params.model ? params.model : IssueTracker, _container.find("div.content>div")[0]);
 		});
 
-		$(document).click(function (e) {
+		$(document).off("click").on("click", function (e) {
 			if ($(e.target).closest("#" + params.trigger.attr("id")).length == 0 && $(e.target).closest("div.dialog.popup").length == 0)
 				_container.hide();
 		});

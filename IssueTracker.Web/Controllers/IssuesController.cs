@@ -19,9 +19,14 @@ namespace IssueTracker.Web.Controllers
 			return View();
 		}
 
-	    public ActionResult Next(int start, int end, string priority)
+	    public ActionResult Next(int start, int end, string priority, string status)
 	    {
-		    return Json(GetIssues(start, end, GetPriority(priority)), JsonRequestBehavior.AllowGet);
+		    return Json(GetIssues(start, end, GetPriority(priority), GetStatus(status)), JsonRequestBehavior.AllowGet);
+	    }
+
+	    private Status GetStatus(string status)
+	    {
+		    return string.IsNullOrEmpty(status) ? null : StatusRepository.Name(status);
 	    }
 
 	    private Priority GetPriority(string priority)
@@ -29,10 +34,9 @@ namespace IssueTracker.Web.Controllers
 		    return string.IsNullOrEmpty(priority) ? null : PriorityRepository.Name(priority);
 	    }
 
-	    private IEnumerable<object> GetIssues(int start, int end, Priority priority)
+	    private IEnumerable<object> GetIssues(int start, int end, Priority priority, Status status)
 	    {
-		    var enumerable = IssueRepository.Search(start, end, priority);
-		    return enumerable.Select(x => new {
+		    return IssueRepository.Search(start, end, priority, status).Select(x => new {
 				number = x.Number,
 				name = x.Name,
 				description = x.Description,

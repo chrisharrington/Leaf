@@ -48,11 +48,14 @@
 	}
 }
 
-div.priority-filter-dialog {
+div.filter-dialog {
 	>div { float:left; width:100%; padding:@small-spacing; border-top:solid 1px @border-colour; cursor:pointer; .box-sizing; }
 	>div:first-child { border-top:none; }
 	>div.selected { color:black; background-color:white; }
 	>div:hover { background-color:#888888; }
+}
+
+div.priority-filter-dialog {
 	>div.low { .horizontal-gradient(transparent, @low-priority-background); }
 	>div.medium { .horizontal-gradient(transparent, @medium-priority-background); }
 	>div.high { .horizontal-gradient(transparent, @high-priority-background); }
