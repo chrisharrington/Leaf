@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Extensions;
 using IssueTracker.Common.Models;
+using IssueTracker.Common.ViewModels;
 
 namespace IssueTracker.Web.Controllers
 {
@@ -19,14 +19,12 @@ namespace IssueTracker.Web.Controllers
 			return View();
 		}
 
-	    public ActionResult Next(Search search)
+	    public ActionResult Next(Search search, Sort sort)
 	    {
-			return Json(GetIssues(search.start, search.end, search.priority, search.status, search.assignee, search.owner), JsonRequestBehavior.AllowGet);
-	    }
+		    if (sort == null || sort.Comparer == null)
+			    sort = new Sort {Direction = SortDirection.Descending, Comparer = x => x.Priority.Order};
 
-	    private IEnumerable<object> GetIssues(int start, int end, Priority priority, Status status, ApplicationUser assignee, ApplicationUser owner)
-	    {
-		    return IssueRepository.Search(start, end, priority, status, assignee, owner).Select(x => new {
+			return Json(IssueRepository.Search(search, sort).Select(x => new {
 				number = x.Number,
 				name = x.Name,
 				description = x.Description,
@@ -37,7 +35,7 @@ namespace IssueTracker.Web.Controllers
 				priorityStyle = ToPriorityStyleString(x.Priority),
 				opened = x.Opened.ToApplicationString(),
 				closed = x.Closed.ToApplicationString()
-			});
+			}), JsonRequestBehavior.AllowGet);
 	    }
 
 	    private static string ToPriorityStyleString(Base priority)
@@ -45,14 +43,4 @@ namespace IssueTracker.Web.Controllers
 		    return priority.Name.Replace(" ", "-").ToLower();
 	    }
     }
-
-	public class Search
-	{
-		public int start { get; set; }
-		public int end { get; set; }
-		public Priority priority { get; set; }
-		public Status status { get; set; }
-		public ApplicationUser assignee { get; set; }
-		public ApplicationUser owner { get; set; }
-	}
 }
