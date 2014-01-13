@@ -18,10 +18,10 @@ namespace IssueTracker.Data.Repositories
 
 		private void ApplySort(ref IEnumerable<Issue> issues, Sort sort)
 		{
-			if (sort.Direction == SortDirection.Ascending)
-				issues = issues.OrderBy(sort.Comparer);
-			else if (sort.Direction == SortDirection.Descending)
-				issues = issues.OrderByDescending(sort.Comparer);
+			if (sort.direction == SortDirection.Ascending)
+				issues = issues.OrderBy(sort.GetComparerFunction());
+			else if (sort.direction == SortDirection.Descending)
+				issues = issues.OrderByDescending(sort.GetComparerFunction());
 		}
 
 		private void ApplyFilter(ref IEnumerable<Issue> issues, Search search)

@@ -21,8 +21,8 @@ namespace IssueTracker.Web.Controllers
 
 	    public ActionResult Next(Search search, Sort sort)
 	    {
-		    if (sort == null || sort.Comparer == null)
-			    sort = new Sort {Direction = SortDirection.Descending, Comparer = x => x.Priority.Order};
+		    if (sort == null || sort.comparer == null)
+			    sort = new Sort {direction = SortDirection.Descending, comparer = "priority"};
 
 			return Json(IssueRepository.Search(search, sort).Select(x => new {
 				number = x.Number,

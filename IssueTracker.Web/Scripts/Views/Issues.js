@@ -33,6 +33,11 @@
 		selectedOwner: ko.observable()
 	};
 
+	root.sortModel = {
+		direction: ko.observable("descending"),
+		comparer: ko.observable("priority")
+	};
+
 	root.load = function (container) {
 		root.priorityFilterModel.priorities(IssueTracker.priorities());
 		root.statusFilterModel.statuses(IssueTracker.statuses());
