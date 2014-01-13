@@ -38,7 +38,15 @@
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc4.3.1.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,16 +59,13 @@
     <Compile Include="Dependencies.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IssueTracker.Common\IssueTracker.Common.csproj">
       <Project>{c126373c-2da2-4f2a-9541-d5487e0e6abb}</Project>
       <Name>IssueTracker.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IssueTracker.Database\IssueTracker.Database.sqlproj">
-      <Project>{16089c0d-12da-4a55-9d78-cd0d7f19f47d}</Project>
-      <Name>IssueTracker.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\IssueTracker.Data\IssueTracker.Data.csproj">
       <Project>{23fa2323-2ec0-4cdf-bf5e-9b951d12531d}</Project>

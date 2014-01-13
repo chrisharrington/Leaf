@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Attributes\TableNameAttribute.cs" />
     <Compile Include="Data\Repositories\IIssueRepository.cs" />
     <Compile Include="Data\Repositories\IPriorityRepository.cs" />
     <Compile Include="Data\Repositories\IRepository.cs" />
@@ -50,7 +49,7 @@
     <Compile Include="Models\Issue.cs" />
     <Compile Include="Models\Priority.cs" />
     <Compile Include="Models\Status.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

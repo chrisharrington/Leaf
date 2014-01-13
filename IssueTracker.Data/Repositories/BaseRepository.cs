@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.Common;
+using System.Data.Entity;
 using System.Linq;
-using Dapper;
-using DapperExtensions;
-using IssueTracker.Common.Data.Attributes;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
 
@@ -14,20 +9,7 @@ namespace IssueTracker.Data.Repositories
 {
 	public class BaseRepository<TModel> : IRepository<TModel> where TModel : Base
 	{
-		private readonly ConnectionStringSettings _connectionString;
-
-		public BaseRepository(string connectionStringName = "DefaultDataConnection")
-		{
-			_connectionString = ConfigurationManager.ConnectionStrings[connectionStringName];
-		}
-
-		public IDbConnection OpenConnection()
-		{
-			var connection = DbProviderFactories.GetFactory(_connectionString.ProviderName).CreateConnection();
-			connection.ConnectionString = _connectionString.ConnectionString;
-			connection.Open();
-			return connection;
-		}
+		public IDataContext Context { get; set; }
 
 		public Guid Insert(TModel model)
 		{
@@ -38,10 +20,9 @@ namespace IssueTracker.Data.Repositories
 			if (string.IsNullOrEmpty(model.Name))
 				throw new ArgumentException("model.Name");
 
-			using (var connection = OpenConnection())
-			{
-				return connection.Insert(model, GetTableName());
-			}
+			GetCollectionFromContext().Add(model);
+			Context.SaveChanges();
+			return model.Id;
 		}
 
 		public void Update(TModel model)
@@ -49,10 +30,10 @@ namespace IssueTracker.Data.Repositories
 			if (model == null)
 				throw new ArgumentNullException("model");
 
-			using (var connection = OpenConnection())
-			{
-				connection.Update(model);
-			}
+			var collection = GetCollectionFromContext();
+			collection.Attach(model);
+			Context.Entry(model).State = EntityState.Modified;
+			Context.SaveChanges();
 		}
 
 		public void Delete(TModel model)
@@ -62,28 +43,24 @@ namespace IssueTracker.Data.Repositories
 			if (model.Id == Guid.Empty)
 				throw new ArgumentNullException("model.Id");
 
-			using (var connection = OpenConnection())
-			{
-				connection.Delete(model, tableName: GetTableName());
-			}
+			GetCollectionFromContext().Remove(model);
+			Context.SaveChanges();
 		}
 
 		public IEnumerable<TModel> All(Func<TModel, object> orderBy = null)
 		{
-			using (var connection = OpenConnection())
-			{
-				var results = connection.Query<TModel>("select * from " + GetTableName());
-				if (orderBy != null)
-					results = results.OrderBy(orderBy);
-				return results;
-			}
+			var collection = GetCollectionFromContext();
+			if (orderBy != null)
+				return collection.OrderBy(orderBy);
+			return collection;
 		}
 
-		private string GetTableName()
+		private DbSet<TModel> GetCollectionFromContext()
 		{
-			var type = typeof (TModel);
-			var tableNameAttribute = Attribute.GetCustomAttribute(type, typeof(TableNameAttribute)) as TableNameAttribute;
-			return tableNameAttribute == null ? type.Name : tableNameAttribute.Name;
+			var property = Context.GetType().GetProperties().FirstOrDefault(x => x.PropertyType.GenericTypeArguments.Any(y => y == typeof(TModel)));//
+			if (property == null)
+				throw new InvalidOperationException("No collection for model \"" + typeof (TModel).Name + "\" was found on the data context.");
+			return (DbSet<TModel>) property.GetValue(Context);
 		}
 	}
 }

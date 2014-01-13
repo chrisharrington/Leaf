@@ -31,20 +31,15 @@ namespace IssueTracker.Web.Controllers
 
 	    private IEnumerable<object> GetIssues(int start, int end, Priority priority)
 		{
-			var priorities = PriorityRepository.All().ToDictionary(x => x.Id);
-			var statuses = StatusRepository.All().ToDictionary(x => x.Id);
-			var users = UserRepository.All().ToDictionary(x => x.Id);
-			var issues = IssueRepository.Search(start, end, priority);
-
-			return issues.Select(x => new {
+			return IssueRepository.Search(start, end, priority).Select(x => new {
 				number = x.Number,
 				name = x.Name,
 				description = x.Description,
-				priority = priorities[x.PriorityId].ToString(),
-				owner = users[x.OwnerId].ToString(),
-				assignee = users[x.AssigneeId].ToString(),
-				status = statuses[x.StatusId].ToString(),
-				priorityStyle = ToPriorityStyleString(priorities[x.PriorityId]),
+				priority = x.Priority.ToString(),
+				owner = x.Owner.ToString(),
+				assignee = x.Assignee.ToString(),
+				status = x.Status.ToString(),
+				priorityStyle = ToPriorityStyleString(x.Priority),
 				opened = x.Opened.ToApplicationString(),
 				closed = x.Closed.ToApplicationString()
 			});

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dapper;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
 
@@ -14,10 +13,10 @@ namespace IssueTracker.Data.Repositories
 			if (end < 1)
 				throw new ArgumentOutOfRangeException("end");
 
-			using (var connection = OpenConnection())
-			{
-				return connection.Query<Issue>("select * from (select Id, Name, Number, Description, OwnerId, AssigneeId, PriorityId, StatusId, Opened, Closed, ROW_NUMBER() over (order by Number) as RowNumber from Issues) as SubIssues where SubIssues.RowNumber between " + start + " and " + end);
-			}
+			var issues = (IEnumerable<Issue>)Context.Issues;
+			if (priority != null)
+				issues = issues.Where(x => x.Priority.Id == priority.Id); //.OrderBy(x => x.Number);
+			return issues.OrderBy(x => x.Number);
 		}
 	}
 }
