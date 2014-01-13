@@ -35,7 +35,6 @@
 				root.priorityFilterModel.selectedPriority($(this).hasClass("selected") ? undefined : $(this).text());
 				$(this).toggleClass("selected");
 				IssueTracker.Popup.hide();
-				debugger;
 				_resetIssueList();
 			});
 		});
@@ -76,7 +75,6 @@
 	}
 	
 	function _buildParameters(count) {
-		//"?start=" + (_start+1) + "&end=" + (count+_start)
 		return {
 			start: _start + 1,
 			end: _start + count,
@@ -87,6 +85,7 @@
 	function _resetIssueList() {
 		_start = 0;
 		_allLoaded = false;
+		root.list([]);
 		_getNextIssues(_startCount);
 	}
 
