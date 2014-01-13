@@ -30,8 +30,9 @@ namespace IssueTracker.Web.Controllers
 	    }
 
 	    private IEnumerable<object> GetIssues(int start, int end, Priority priority)
-		{
-			return IssueRepository.Search(start, end, priority).Select(x => new {
+	    {
+		    var enumerable = IssueRepository.Search(start, end, priority);
+		    return enumerable.Select(x => new {
 				number = x.Number,
 				name = x.Name,
 				description = x.Description,
@@ -43,7 +44,7 @@ namespace IssueTracker.Web.Controllers
 				opened = x.Opened.ToApplicationString(),
 				closed = x.Closed.ToApplicationString()
 			});
-		}
+	    }
 
 	    private static string ToPriorityStyleString(Base priority)
 	    {

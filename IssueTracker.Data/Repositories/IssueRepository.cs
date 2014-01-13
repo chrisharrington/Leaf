@@ -13,10 +13,10 @@ namespace IssueTracker.Data.Repositories
 			if (end < 1)
 				throw new ArgumentOutOfRangeException("end");
 
-			var issues = (IEnumerable<Issue>)Context.Issues;
+			var issues = (IEnumerable<Issue>) Context.Issues.Include("Assignee").Include("Owner").Include("Priority").Include("Status");
 			if (priority != null)
 				issues = issues.Where(x => x.Priority.Id == priority.Id); //.OrderBy(x => x.Number);
-			return issues.OrderBy(x => x.Number);
+			return issues.OrderBy(x => x.Number).Skip(start-1).Take(end-start+1);
 		}
 	}
 }

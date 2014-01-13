@@ -30,19 +30,19 @@ namespace IssueTracker.SampleDataImporter
 				throw new Exception("Production database!");
 
 			var issueRepository = _container.Resolve<IIssueRepository>();
-			foreach (var issue in issueRepository.All())
+			foreach (var issue in issueRepository.All().ToArray())
 				issueRepository.Delete(issue);
 
 			var userRepository = _container.Resolve<IUserRepository>();
-			foreach (var user in userRepository.All())
+			foreach (var user in userRepository.All().ToArray())
 				userRepository.Delete(user);
 
 			var priorityRepository = _container.Resolve<IPriorityRepository>();
-			foreach (var priority in priorityRepository.All())
+			foreach (var priority in priorityRepository.All().ToArray())
 				priorityRepository.Delete(priority);
 
 			var statusRepository = _container.Resolve<IStatusRepository>();
-			foreach (var status in statusRepository.All())
+			foreach (var status in statusRepository.All().ToArray())
 				statusRepository.Delete(status);
 		}
 
