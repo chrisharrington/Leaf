@@ -1,4 +1,6 @@
-﻿@using System.Web.Optimization
+﻿@model IssueTracker.Web.Controllers.RootModel
+
+@using System.Web.Optimization
 @{ Layout = null; }
 
 <!DOCTYPE html>
@@ -9,12 +11,50 @@
 	<title>Unnamed Issue Tracker</title>
 	
 	@Styles.Render("~/style")
+
 	@Html.Partial("~/Views/Shared/Scripts.cshtml")
+	
+	<script type="text/javascript">
+		$(function() {
+			var root = window.IssueTracker || (window.IssueTracker = {});
+			root.virtualDirectory = ko.observable("@Url.Content("/")");
+			root.priorities = ko.observableArray(@Html.Raw(Json.Encode(Model.Priorities)));
+
+			IssueTracker.Init.init();
+		});
+	</script>
 </head>
 	<body>
 		<header>
 			<span data-bind="text: title"></span>
 		</header>
 		<section class="content" data-bind="remoteTemplate: view"></section>
+		
+		<div class="popup dialog">
+			<div class="arrow top left">
+				<div></div>
+			</div>
+			<div class="content" data-bind="html: popup"></div>
+			<div class="arrow bottom left">
+				<div></div>
+			</div>
+		</div>
+
+		<div class="serious dialog">
+			<h1 class="default"></h1>
+			<i class="fa fa-times"></i>
+			<div class="arrow top left">
+				<div></div>
+			</div>
+			<div class="loading">
+				<div>
+					<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
+				</div>
+			</div>
+			<div class="content" data-bind="html: dialog"></div>
+			<div class="arrow bottom left">
+				<div></div>
+			</div>
+		</div>
 	</body>
 </html>

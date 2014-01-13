@@ -11,12 +11,3 @@
 @*<script type="text/javascript" src="@Url.Content("~/Scripts/ThirdParty/highcharts.js")"></script>*@
 
 @Scripts.Render("~/scripts")
-
-<script type="text/javascript">
-	$(function() {
-		var root = window.IssueTracker || (window.IssueTracker = {});
-		root.virtualDirectory = ko.observable("@Url.Content("/")");
-
-		IssueTracker.Init.init();
-	});
-</script>

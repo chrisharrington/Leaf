@@ -149,6 +149,7 @@
     <Content Include="Scripts\Binders\SlideDownBinder.js" />
     <Content Include="Scripts\Bindings.js" />
     <Content Include="Scripts\Controls\ChartDrawer.js" />
+    <Content Include="Scripts\Controls\Popup.js" />
     <Content Include="Scripts\Controls\Dialog.js" />
     <Content Include="Scripts\Extensions\DateExtensions.js" />
     <Content Include="Scripts\Extensions\DeferredAnimation.js" />

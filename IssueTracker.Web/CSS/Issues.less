@@ -47,3 +47,22 @@
 		tfoot img { margin:auto; width:30px; height:30px; }
 	}
 }
+
+div.priority-filter-dialog {
+	>div { float:left; width:100%; padding:@small-spacing; border-top:solid 1px @border-colour; cursor:pointer; .box-sizing; }
+	>div:first-child { border-top:none; }
+	>div.selected { color:black; background-color:white; }
+	>div:hover { background-color:#888888; }
+	>div.low { .horizontal-gradient(transparent, @low-priority-background); }
+	>div.medium { .horizontal-gradient(transparent, @medium-priority-background); }
+	>div.high { .horizontal-gradient(transparent, @high-priority-background); }
+	>div.critical { .horizontal-gradient(transparent, @critical-priority-background); }
+	>div.low:hover { .horizontal-gradient(#666, @low-priority-background); }
+	>div.medium:hover { .horizontal-gradient(#666, @medium-priority-background); }
+	>div.high:hover { .horizontal-gradient(#666, @high-priority-background); }
+	>div.critical:hover { .horizontal-gradient(#666, @critical-priority-background); }
+	>div.low.selected { .horizontal-gradient(@hover-colour, @low-priority-background); }
+	>div.medium.selected { .horizontal-gradient(@hover-colour, @medium-priority-background); }
+	>div.high.selected { .horizontal-gradient(@hover-colour, @high-priority-background); }
+	>div.critical.selected { .horizontal-gradient(@hover-colour, @critical-priority-background); }
+}

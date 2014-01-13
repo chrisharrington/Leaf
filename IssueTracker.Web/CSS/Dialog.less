@@ -1,7 +1,7 @@
-﻿@import 'Global.less';
+﻿@import "Global.less";
 
 .dialog-gradient { background: linear-gradient(@dialog-gradient-light-colour, @dialog-gradient-dark-colour); }
-.dialog { position:absolute; z-index:2; width:300px; top:200px; left:100px; .dialog-gradient; .dark-shadow; color:white; padding:@spacing; display:none;
+.dialog { position:absolute; z-index:2; width:300px; top:200px; left:100px; .dialog-gradient; .dark-shadow; color:white; display:none;
 	h1 { float:left; color:white !important; }
 	>i { float:right; color:@text-colour; font-size:1.3em; cursor:pointer; }
 	>div.loading { float:left; width:100%; display:table; height:150px; text-align:center;
@@ -12,8 +12,8 @@
 		>div { position:absolute; z-index:3; border:solid 15px transparent; }
 	}
 
-	div.arrow.top>div { top:-68px; border-bottom-color:#444444; }
-	div.arrow.bottom>div { border-top-color:#111111; }
+	div.arrow.top>div { top:-29px; left:15px; border-bottom-color:@dialog-gradient-light-colour; }
+	div.arrow.bottom>div { border-top-color:@dialog-gradient-dark-colour; }
 	div.arrow.bottom.right>div { top:62px; }
 	div.arrow.bottom.left>div { top:15px; }
 	div.arrow.top.right>div { top:-44px; }

@@ -1,18 +1,18 @@
 ﻿<div class="tile table-tools">
 	<div class="filter-tags">
-		<div>
-			<span>Priority</span>
+		<div id="priority-filter">
+			<span data-bind="css: { selected: IssueTracker.Issues.priorityFilterModel.selectedPriority() != undefined }, text: IssueTracker.Issues.priorityFilterModel.selectedPriority() || 'Priority'">Priority</span>
 			<i class="fa fa-angle-down"></i>
 		</div>
-		<div>
+		<div id="status-filter">
 			<span>Status</span>
 			<i class="fa fa-angle-down"></i>
 		</div>
-		<div>
+		<div id="assignee-filter">
 			<span>Assignee</span>
 			<i class="fa fa-angle-down"></i>
 		</div>
-		<div>
+		<div id="owner-filter">
 			<span>Owner</span>
 			<i class="fa fa-angle-down"></i>
 		</div>
@@ -63,3 +63,9 @@
 		</tfoot>
 	</table>
 </div>
+
+<script id="priority-filter-dialog" type="text/html">
+	<div class="priority-filter-dialog" data-bind="foreach: priorities">
+		<div data-bind="text: Name, attr: { class: Name.toLowerCase() + ($root.selectedPriority() == Name ? ' selected' : '') }"></div>
+	</div>
+</script>

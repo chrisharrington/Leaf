@@ -1,6 +1,7 @@
 
 (function (root) {
 
+	var _startCount = 25;
 	var _issueCountToLoad = 15;
 	var _start = 0;
 	var _nextIssuesRunning = false;
@@ -9,20 +10,37 @@
 	var _loader;
 
 	root.list = ko.observableArray();
-	root.tags = ko.observableArray();
 	
 	root.filter = ko.observable("");
 
+	root.priorityFilterModel = {
+		priorities: ko.observableArray(),
+		selectedPriority: ko.observable()
+	};
+
 	root.load = function (container) {
+		root.priorityFilterModel.priorities(IssueTracker.priorities());
+
 		_loader = container.find("table tfoot");
 		_setupFilter(container);
 		_setupLoadingMoreIssues();
-		_getNextIssues(25);
-
-		root.tags.push({ type: "Owner", value: "Chris Harrington" });
-		root.tags.push({ type: "Priority", value: "Critical" });
+		_getNextIssues(_startCount);
+		_hookupEvents(container);
 	};
-	
+
+	function _hookupEvents(container) {
+		container.find("#priority-filter").click(function() {
+			var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", model: root.priorityFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
+			popupContainer.find(">div").click(function () {
+				root.priorityFilterModel.selectedPriority($(this).hasClass("selected") ? undefined : $(this).text());
+				$(this).toggleClass("selected");
+				IssueTracker.Popup.hide();
+				debugger;
+				_resetIssueList();
+			});
+		});
+	}
+
 	function _setupFilter(container) {
 		_filter = container.find("div.filter");
 		_filter.on("focus", "input[type='text']", function() { _filter.addClass("focus"); });
@@ -44,7 +62,7 @@
 
 		_loader.show();
 		_nextIssuesRunning = true;
-		$.get(IssueTracker.virtualDirectory() + "Issues/Next?start=" + (_start+1) + "&end=" + (count+_start)).success(function(issues) {
+		$.get(IssueTracker.virtualDirectory() + "Issues/Next", _buildParameters(count)).success(function(issues) {
 			root.list.pushAll(issues);
 			if (issues.length < count)
 				_allLoaded = true;
@@ -55,6 +73,21 @@
 			_loader.hide();
 		});
 		_start += count;
+	}
+	
+	function _buildParameters(count) {
+		//"?start=" + (_start+1) + "&end=" + (count+_start)
+		return {
+			start: _start + 1,
+			end: _start + count,
+			priority: root.priorityFilterModel.selectedPriority()
+		};
+	}
+	
+	function _resetIssueList() {
+		_start = 0;
+		_allLoaded = false;
+		_getNextIssues(_startCount);
 	}
 
 	IssueTracker.Page.build({

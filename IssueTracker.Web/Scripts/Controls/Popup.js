@@ -6,23 +6,25 @@
 
 	root.load = function (params) {
 		if (!_container) {
-			_container = $("div.dialog.serious");
+			_container = $("div.dialog.popup");
 			_container.find("i").click(function() { _container.hide(); });
 		}
 		
-		IssueTracker.dialog("");
+		IssueTracker.popup("");
 		_setTitle(params.title);
 		_container.show();
-		_setLoading(true);
 		$.when(_getHtml(params.view)).then(function (html) {
-			_setLoading(false);
-			IssueTracker.dialog(html);
+			IssueTracker.popup(html);
 			_setPosition(params.anchor);
-			if (params.model)
-				ko.applyBindings(params.model, _container.find("div.content>div")[0]);
+			ko.applyBindings(params.model ? params.model : IssueTracker, _container.find("div.content>div")[0]);
 		});
 
-		return _container;
+		$(document).click(function (e) {
+			if ($(e.target).closest("#" + params.trigger.attr("id")).length == 0 && $(e.target).closest("div.dialog.popup").length == 0)
+				_container.hide();
+		});
+
+		return _container.find("div.content>div");
 	};
 
 	root.hide = function() {
@@ -57,29 +59,11 @@
 		_container.addClass(isBeneath / 2 ? "beneath" : "above");
 		_container.css("top", isBeneath ? (offset.top + 47) : (offset.top - _container.height() - 49));
 	}
-
-	function _setLoading(isLoading) {
-		var loadingPanel = _container.find("div.loading");
-		if (isLoading)
-			loadingPanel.show();
-		else
-			loadingPanel.hide();
-	}
 	
 	function _getHtml(location) {
 		if (_cache[location])
 			return new ResolvedDeferred(_cache[location]);
-		if (location.substring(0, 1) == "#")
-			return new ResolvedDeferred($(location).html());
-		return _getRemoteHtml(location);
+		return new ResolvedDeferred($(location).html());
 	}
 
-	function _getRemoteHtml(url) {
-		return $.get(IssueTracker.virtualDirectory() + url).success(function (html) {
-			_cache[url] = html;
-		}).error(function() {
-			alert("An error has occurred while retrieving the dialog html.");
-		});
-	}
-
-})(root("IssueTracker.Dialog"));
+})(root("IssueTracker.Popup"));

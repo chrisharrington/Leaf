@@ -19,17 +19,22 @@ namespace IssueTracker.Web.Controllers
 			return View();
 		}
 
-	    public ActionResult Next(int start, int end)
+	    public ActionResult Next(int start, int end, string priority)
 	    {
-		    return Json(GetIssues(start, end), JsonRequestBehavior.AllowGet);
+		    return Json(GetIssues(start, end, GetPriority(priority)), JsonRequestBehavior.AllowGet);
 	    }
 
-		private IEnumerable<object> GetIssues(int start, int end)
+	    private Priority GetPriority(string priority)
+	    {
+		    return string.IsNullOrEmpty(priority) ? null : PriorityRepository.Name(priority);
+	    }
+
+	    private IEnumerable<object> GetIssues(int start, int end, Priority priority)
 		{
 			var priorities = PriorityRepository.All().ToDictionary(x => x.Id);
 			var statuses = StatusRepository.All().ToDictionary(x => x.Id);
 			var users = UserRepository.All().ToDictionary(x => x.Id);
-			var issues = IssueRepository.Search(start, end);
+			var issues = IssueRepository.Search(start, end, priority);
 
 			return issues.Select(x => new {
 				number = x.Number,
