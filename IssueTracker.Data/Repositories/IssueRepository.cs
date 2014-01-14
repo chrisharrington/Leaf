@@ -10,7 +10,7 @@ namespace IssueTracker.Data.Repositories
 	{
 		public IEnumerable<Issue> Search(Search search, Sort sort)
 		{
-			var issues = (IEnumerable<Issue>) Context.Issues.Include("Assignee").Include("Owner").Include("Priority").Include("Status");
+			var issues = (IEnumerable<Issue>) Context.Issues.Include("Assignee").Include("Owner").Include("Priority").Include("Status").Include("Project");
 			ApplyFilter(ref issues, search);
 			ApplySort(ref issues, sort);
 			return issues.Skip(search.start - 1).Take(search.end - search.start + 1);
