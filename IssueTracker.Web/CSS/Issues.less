@@ -22,12 +22,12 @@
 		}
 	}
 
-	div.issues-container.table { font-family:"Roboto Condensed"; font-size:0.875em; padding:0;
+	div.issues-container.table { font-family:"Roboto Condensed"; font-size:1em; padding:0;
 		table { float:left; width:100%; border-collapse:collapse; table-layout:fixed; }
 		tr { border-top:solid 1px #DDD; cursor:pointer; }
 		tr:first-child { border-top:none; }
 		tr:hover>td { background-color:@hover-colour; }
-		td, th { padding:@small-spacing; text-align:left; white-space:nowrap; overflow:hidden; }
+		td, th { padding:@spacing; text-align:left; white-space:nowrap; overflow:hidden; }
 		th { font-weight:bold; padding-top:6px; padding-bottom:6px; color:@secondary-font-colour; border-bottom:solid 1px @border-colour; }
 		td.priority, th.priority { padding:0; }
 		td.priority.low { background-color:@low-priority; }
@@ -35,12 +35,12 @@
 		td.priority.high { background-color:@high-priority; }
 		td.priority.critical { background-color:@critical-priority; }
 		td.name { padding:0;
-			>span.name { font-weight:bold; color:black; padding:@small-spacing; }
+			>span.name { font-weight:bold; color:black; padding:@spacing; }
 			>span.name.low { .horizontal-gradient(@low-priority-background, transparent); }
 			>span.name.medium { .horizontal-gradient(@medium-priority-background, transparent); }
 			>span.name.high { .horizontal-gradient(@high-priority-background, transparent); }
 			>span.name.critical { .horizontal-gradient(@critical-priority-background, transparent); }
-			>span.description { color:#999999; padding-left:@small-spacing; white-space:nowrap; overflow:hidden; }
+			>span.description { color:#999999; padding-left:@spacing; white-space:nowrap; overflow:hidden; }
 		}
 		tfoot { display:none; }
 		tfoot td { text-align:center; }
