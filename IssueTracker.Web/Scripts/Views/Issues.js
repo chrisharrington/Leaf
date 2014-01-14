@@ -1,6 +1,7 @@
 
 (function (root) {
 
+	var _container;
 	var _startCount = 50;
 	var _issueCountToLoad = 15;
 	var _start = 0;
@@ -12,26 +13,10 @@
 	root.list = ko.observableArray();
 	
 	root.filter = ko.observable("");
-
-	root.priorityFilterModel = {
-		priorities: ko.observableArray(),
-		selectedPriority: ko.observable()
-	};
-	
-	root.statusFilterModel = {
-		statuses: ko.observableArray(),
-		selectedStatus: ko.observable()
-	};
-
-	root.assigneeFilterModel = {
-		assignees: ko.observableArray(),
-		selectedAssignee: ko.observable()
-	};
-
-	root.ownerFilterModel = {
-		owners: ko.observableArray(),
-		selectedOwner: ko.observable()
-	};
+	root.selectedPriority = ko.observable();
+	root.selectedStatus = ko.observable();
+	root.selectedAssignee = ko.observable();
+	root.selectedOwner = ko.observable();
 
 	root.sortModel = {
 		direction: ko.observable("descending"),
@@ -39,10 +24,7 @@
 	};
 
 	root.load = function (container) {
-		root.priorityFilterModel.priorities(IssueTracker.priorities());
-		root.statusFilterModel.statuses(IssueTracker.statuses());
-		root.assigneeFilterModel.assignees(IssueTracker.users());
-		root.ownerFilterModel.owners(IssueTracker.users());
+		_container = container;
 
 		_loader = container.find("table tfoot");
 		_setupFilter(container);
@@ -51,11 +33,42 @@
 		_hookupEvents(container);
 	};
 
+	root.reset = function () {
+		_resetFilters();
+		_resetIssueList();
+	};
+
+	function _resetFilters() {
+		root.selectedPriority(undefined);
+		root.selectedStatus(undefined);
+		root.selectedAssignee(undefined);
+		root.selectedOwner(undefined);
+		root.filter("");
+
+		_loadFilters();
+	}
+
+	function _loadFilters() {
+		var loading = _container.find("div.filter-tags div.loading").removeClass("hidden");
+		var filters = _container.find("div.filter-tags div.filters").addClass("hidden");
+
+		$.get(IssueTracker.virtualDirectory() + "Root/Filters", $.toDictionary({ project: IssueTracker.selectedProject() })).success(function(data) {
+			IssueTracker.priorities(data.priorities);
+			IssueTracker.statuses(data.statuses);
+			IssueTracker.users(data.users);
+		}).error(function() {
+			alert("An error has occurred while retrieving your project's filter data. Please try again later.");
+		}).complete(function() {
+			loading.addClass("hidden");
+			filters.removeClass("hidden");
+		});
+	}
+
 	function _hookupEvents(container) {
 		container.find("#priority-filter").click(function() {
-			var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", model: root.priorityFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
+			var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.priorityFilterModel.selectedPriority($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-priority")));
+				root.selectedPriority($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-priority")));
 				$(this).toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
@@ -63,9 +76,9 @@
 		});
 		
 		container.find("#status-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#status-filter-dialog", model: root.statusFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
+			var popupContainer = IssueTracker.Popup.load({ view: "#status-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.statusFilterModel.selectedStatus($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-status")));
+				root.selectedStatus($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-status")));
 				$(this).toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
@@ -73,9 +86,9 @@
 		});
 
 		container.find("#assignee-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#assignee-filter-dialog", model: root.assigneeFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
+			var popupContainer = IssueTracker.Popup.load({ view: "#assignee-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.assigneeFilterModel.selectedAssignee($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-assignee")));
+				root.selectedAssignee($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-assignee")));
 				$(this).toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
@@ -83,9 +96,9 @@
 		});
 
 		container.find("#owner-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#owner-filter-dialog", model: root.ownerFilterModel, anchor: $(this).find(">span"), trigger: $(this) });
+			var popupContainer = IssueTracker.Popup.load({ view: "#owner-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.ownerFilterModel.selectedOwner($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-owner")));
+				root.selectedOwner($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-owner")));
 				$(this).toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
@@ -157,9 +170,9 @@
 			start: _start + 1,
 			end: _start + count,
 			project: IssueTracker.selectedProject(),
-			priority: root.priorityFilterModel.selectedPriority(),
-			status: root.statusFilterModel.selectedStatus(),
-			assignee: root.assigneeFilterModel.selectedAssignee(),
+			priority: root.selectedPriority(),
+			status: root.selectedStatus(),
+			assignee: root.selectedAssignee(),
 			direction: root.sortModel.direction(),
 			comparer: root.sortModel.comparer(),
 			filter: root.filter()

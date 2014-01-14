@@ -15,7 +15,7 @@
 		_container.show();
 		$.when(_getHtml(params.view)).then(function (html) {
 			IssueTracker.popup(html);
-			_setPosition(params.anchor);
+			_setPosition(params.anchor, params.verticalOffset);
 			ko.applyBindings(params.model ? params.model : IssueTracker, _container.find("div.content>div")[0]);
 		});
 
@@ -39,9 +39,9 @@
 			h1.text("").hide();
 	}
 	
-	function _setPosition(trigger) {
+	function _setPosition(trigger, verticalOffset) {
 		_setLeftOrRight(trigger);
-		_setAboveOrBeneath(trigger);
+		_setAboveOrBeneath(trigger, verticalOffset);
 	}
 	
 	function _setLeftOrRight(trigger) {
@@ -52,12 +52,15 @@
 		_container.css("left", isLeft ? (offset.left + trigger.outerWidth()/2 - 30) : (offset.left - _container.outerWidth() + trigger.outerWidth()/2 + 30));
 	}
 	
-	function _setAboveOrBeneath(trigger) {
+	function _setAboveOrBeneath(trigger, verticalOffset) {
 		var offset = trigger.offset();
 		var isBeneath = offset.top <= $(window).height() / 2;
 		_container.removeClass("above beneath");
 		_container.addClass(isBeneath / 2 ? "beneath" : "above");
-		_container.css("top", isBeneath ? (offset.top + 47) : (offset.top - _container.height() - 49));
+		var top = isBeneath ? (offset.top + 47) : (offset.top - _container.height() - 49);
+		if (verticalOffset)
+			top += verticalOffset;
+		_container.css("top", top);
 	}
 	
 	function _getHtml(location) {

@@ -163,6 +163,7 @@
     <Content Include="Scripts\Extensions\ObservableArrayExtensions.js" />
     <Content Include="Scripts\Extensions\StringExtensions.js" />
     <Content Include="Scripts\Global.js" />
+    <Content Include="Scripts\Header.js" />
     <Content Include="Scripts\Init.js" />
     <Content Include="Scripts\Page.js" />
     <Content Include="Scripts\ThirdParty\highcharts.js" />
@@ -229,10 +230,10 @@
     <Content Include="Fonts\Roboto-Condensed-700.woff" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CSS\Filter.less" />
+    <Content Include="CSS\Dialog.less" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CSS\Dialog.less" />
+    <Content Include="Views\Shared\Header.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

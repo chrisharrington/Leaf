@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
+using Autofac.Integration.Mvc;
 using IssueTracker.Common.Models;
 using IssueTracker.Data;
 using IssueTracker.Data.Repositories;
@@ -13,7 +14,7 @@ namespace IssueTracker.Dependencies
 			var builder = new ContainerBuilder();
 			RegisterAssemblyTypes(builder, typeof (UserRepository).Assembly);
 			RegisterAssemblyTypes(builder, typeof (User).Assembly);
-			builder.RegisterType<DataContext>().AsImplementedInterfaces().AsSelf().SingleInstance();
+			builder.RegisterType<DataContext>().InstancePerHttpRequest().AsImplementedInterfaces().AsSelf().SingleInstance();
 			return builder;
 		}
 

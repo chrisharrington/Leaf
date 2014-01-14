@@ -23,15 +23,12 @@
 			root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));
 			root.projects = ko.observableArray(@Html.Raw(Json.Encode(Model.Projects)));
 			root.selectedProject = ko.observable(@Html.Raw(Json.Encode(Model.SelectedProject)));
-
 			IssueTracker.Init.init();
 		});
 	</script>
 </head>
 	<body>
-		<header>
-			<span data-bind="text: title"></span>
-		</header>
+		@Html.Partial("~/Views/Shared/Header.cshtml")
 		<section class="content" data-bind="remoteTemplate: view"></section>
 		
 		<div class="popup dialog">

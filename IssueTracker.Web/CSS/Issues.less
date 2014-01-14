@@ -1,30 +1,30 @@
 ﻿@import "Global.less";
 
 .issues-container {
-	div.issues-header { float:left; width:100%; }
-	div.project { float:left; width:300px; cursor:pointer; display:table;
-		h2 { .table-cell-vertically-aligned; }
-		i { font-size:1.375em; font-weight:bold; .table-cell-vertically-aligned; text-align:right; padding-top:4px; }
-	}
-	div.table-tools { position:relative; margin-left:@spacing+300; }
+	div.table-tools { float:left; width:100%; }
 	div.issues-container { float:left; width:100%; margin-top:@spacing; }
 
 	div.table-tools { margin-top:0; height:61px;
-		>div.filter-tags { float:left; height:100%; display:table;
-			>div { .table-cell-vertically-aligned; margin-left:@spacing; padding-left:@spacing; padding-right:@spacing; border-left:solid 1px @border-colour; cursor:pointer;
-				>* { .table-cell-vertically-aligned; }
-				>span.selected { color:black; }
-				>i { padding-left:@small-spacing; padding-top:3px; font-size:1.125em; }
+		>div.filter-tags { float:left; height:100%;
+			>div.filters { float:left; height:100%; display:table;
+				>div { .table-cell-vertically-aligned; margin-left:@spacing; padding-left:@spacing; padding-right:@spacing; border-left:solid 1px @border-colour; cursor:pointer;
+					>* { .table-cell-vertically-aligned; }
+					>span.selected { color:black; }
+					>i { padding-left:@small-spacing; padding-top:3px; font-size:1.125em; }
+				}
+				>div:first-child { padding-left:0; border-left:none; }
+				>div:hover>* { color:@secondary-font-colour !important; }
 			}
-			>div:first-child { padding-left:0; border-left:none; }
-			>div:hover>* { color:@secondary-font-colour !important; }
+			>div.loading { float:left; display:table; height:100%;
+				>img { .table-cell-vertically-aligned; }
+			}
 		}
 
 		>div.filter { float:right; margin-right:@spacing; }
 
-		>div.tools { float:right; display:table; height:100%; color:@light-text-colour;
-			>i { display:table-cell; vertical-align:middle; font-size:1.25em; padding:@small-spacing; cursor:pointer; }
-			>i:hover { color:@text-colour; }
+		>div.tools { float:right; display:table; height:100%;
+			>i { display:table-cell; vertical-align:middle; font-size:1.25em; padding:@small-spacing; cursor:pointer; color:@primary-font-colour-light; }
+			>i:hover { color:@secondary-font-colour; }
 		}
 	}
 
@@ -52,15 +52,6 @@
 		tfoot td { text-align:center; }
 		tfoot img { margin:auto; width:30px; height:30px; }
 	}
-}
-
-div.dialog .selected { .secondary-gradient; color:white; }
-
-div.select-dialog {
-	>div { float:left; width:100%; padding:@small-spacing; border-top:solid 1px @border-colour-dark; cursor:pointer; .box-sizing; }
-	>div:first-child { border-top:none; }
-	>div:hover { color:@secondary-font-colour-light; }
-	>div.selected:hover { color:white; }
 }
 
 div.sort-dialog {

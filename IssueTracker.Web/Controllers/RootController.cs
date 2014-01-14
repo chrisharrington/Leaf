@@ -25,6 +25,15 @@ namespace IssueTracker.Web.Controllers
 				SelectedProject = selectedProject
             });
 		}
+
+	    public ActionResult Filters(Project project)
+	    {
+		    return Json(new {
+			    priorities = PriorityRepository.Project(project, x => x.Order),
+			    statuses = StatusRepository.Project(project, x => x.Order),
+			    users = UserRepository.All(x => x.Name),
+		    }, JsonRequestBehavior.AllowGet);
+	    }
     }
 
 	public class RootModel

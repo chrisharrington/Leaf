@@ -13,6 +13,8 @@ namespace("IssueTracker");
 			colors: ["#D42C2C", "#2F7ED8", "#FA9141", "#1AADCE", "#8BBC21", "#0D233A"]
 		});
 
+		IssueTracker.Header.init();
+
 		ko.applyBindings(IssueTracker);
 	};
 
