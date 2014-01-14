@@ -65,6 +65,12 @@
 	}
 
 	function _hookupEvents(container) {
+		container.on("click", "table tbody tr", function() {
+			var issue = $.parseJSON($(this).attr("data-issue"));
+			IssueTracker.selectedIssue(issue);
+			IssueTracker.IssueDetails.navigate({ name: issue.name.formatForUrl() });
+		});
+
 		container.find("#priority-filter").click(function() {
 			var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {

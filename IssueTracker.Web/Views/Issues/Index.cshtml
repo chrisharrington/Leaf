@@ -35,7 +35,7 @@
 <div class="tile issues-container table">
 	<table>
 		<tbody data-bind="foreach: list">
-			<tr>
+			<tr data-bind="attr: { 'data-issue': JSON.stringify($data) }">
 				<td style="width:6px;" data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
 				<td class="ellipsis name">
 					<span class="name" data-bind="text: name, attr: { class: 'name ' + priorityStyle }"></span>

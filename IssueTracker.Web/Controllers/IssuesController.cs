@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Extensions;
@@ -19,6 +20,11 @@ namespace IssueTracker.Web.Controllers
 			return View();
 		}
 
+	    public ActionResult Details(Guid issueId)
+	    {
+		    return View();
+	    }
+
 	    public ActionResult Next(IssueParams parameters)
 	    {
 		    var sort = parameters.BuildSort();
@@ -26,6 +32,7 @@ namespace IssueTracker.Web.Controllers
 			    sort = new Sort {direction = SortDirection.Descending, comparer = "priority"};
 
 			return Json(IssueRepository.Search(parameters.BuildSearch(), sort).Select(x => new {
+				id = x.Id,
 				number = x.Number,
 				name = x.Name,
 				description = x.Description,

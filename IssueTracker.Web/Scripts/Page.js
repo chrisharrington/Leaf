@@ -6,7 +6,7 @@ IssueTracker.Page = function(params) {
 
 	var me = this;
 	params.root.route = params.route;
-	params.root.navigate = function() { me.navigate(params.route[0]); };
+	params.root.navigate = function(routeParameters) { me.navigate(params.route[0], routeParameters || {}); };
 	this.load = params.root.load;
 
 	if (!(params.route instanceof Array))
@@ -28,8 +28,11 @@ IssueTracker.Page.build = function(params) {
 	return new IssueTracker.Page(params);
 };
 
-IssueTracker.Page.prototype.navigate = function (route) {
-	window.location.hash = route ? route : this.route;
+IssueTracker.Page.prototype.navigate = function (route, params) {
+	route = route ? route : this.route;
+	for (var name in params)
+		route = route.replace(":" + name, params[name]);
+	window.location.hash = route;
 };
 
 IssueTracker.Page.prototype._isAuthorized = function (params) {

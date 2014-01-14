@@ -23,6 +23,7 @@
 			root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));
 			root.projects = ko.observableArray(@Html.Raw(Json.Encode(Model.Projects)));
 			root.selectedProject = ko.observable(@Html.Raw(Json.Encode(Model.SelectedProject)));
+			root.selectedIssue = ko.observable();
 			IssueTracker.Init.init();
 		});
 	</script>

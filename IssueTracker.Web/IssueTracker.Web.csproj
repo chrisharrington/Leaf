@@ -172,6 +172,7 @@
     <Content Include="Scripts\ThirdParty\knockout.js" />
     <Content Include="Scripts\ThirdParty\path.js" />
     <Content Include="Scripts\ThirdParty\ToDictionary.js" />
+    <Content Include="Scripts\Views\IssueDetails.js" />
     <Content Include="Scripts\Views\Issues.js" />
     <Content Include="Scripts\Views\Dashboard.js" />
     <Content Include="Scripts\Views\Users.js" />
@@ -234,6 +235,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\Header.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Issues\Details.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
