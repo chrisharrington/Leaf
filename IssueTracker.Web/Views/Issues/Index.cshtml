@@ -34,29 +34,16 @@
 
 <div class="tile issues-container table">
 	<table>
-		<thead>
-			<tr>
-				<th style="width:6px;" class="priority"></th>
-				<th>Description</th>
-				<th style="width:100px;">Status</th>
-				<th style="width:100px;">Owner</th>
-				<th style="width:100px;">Assignee</th>
-				<th style="width:70px;">Opened</th>
-				<th style="width:70px;">Closed</th>
-			</tr>
-		</thead>
 		<tbody data-bind="foreach: list">
 			<tr>
-				<td data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
+				<td style="width:6px;" data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
 				<td class="ellipsis name">
 					<span class="name" data-bind="text: name, attr: { class: 'name ' + priorityStyle }"></span>
 					<span class="description" data-bind="text: description"></span>
 				</td>
-				<td data-bind="text: status"></td>
-				<td data-bind="text: owner"></td>
-				<td data-bind="text: assignee"></td>
-				<td data-bind="text: opened"></td>
-				<td data-bind="text: closed"></td>
+				<td style="width:100px;" data-bind="text: status"></td>
+				<td style="width:100px;" data-bind="text: assignee"></td>
+				<td style="width:70px;" data-bind="text: opened"></td>
 			</tr>
 		</tbody>
 		<tfoot>
