@@ -22,6 +22,7 @@
 			root.statuses = ko.observableArray(@Html.Raw(Json.Encode(Model.Statuses)));
 			root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));
 			root.projects = ko.observableArray(@Html.Raw(Json.Encode(Model.Projects)));
+			root.selectedProject = ko.observable(@Html.Raw(Json.Encode(Model.SelectedProject)));
 
 			IssueTracker.Init.init();
 		});

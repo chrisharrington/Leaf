@@ -15,10 +15,10 @@ namespace IssueTracker.Web.Controllers
 
 		public ActionResult Index()
 		{
-			var projects = ProjectRepository.All(x => x.Name);
+			var projects = ProjectRepository.All(x => x.Name).ToArray();
 			var selectedProject = projects.First();
 			return View("~/Views/Shared/Root.cshtml", new RootModel {
-	            Priorities = PriorityRepository.All(x => x.Order),
+	            Priorities = PriorityRepository.Project(selectedProject, x => x.Order),
 				Statuses = StatusRepository.Project(selectedProject, x => x.Order),
 				Users = UserRepository.All(x => x.Name),
 				Projects = projects,

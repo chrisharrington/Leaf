@@ -5,7 +5,7 @@ using IssueTracker.Common.Models;
 
 namespace IssueTracker.Data.Repositories
 {
-	public class PriorityRepository : BaseRepository<Priority>, IPriorityRepository
+	public class PriorityRepository : BaseProjectRepository<Priority>, IPriorityRepository
 	{
 		public Priority Name(string priority)
 		{

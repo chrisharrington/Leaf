@@ -38,18 +38,11 @@
 		comparer: ko.observable("priority")
 	};
 
-	root.projectModel = {
-		projects: ko.observableArray(),
-		selectedProject: ko.observable({ Name: "" })
-	};
-
 	root.load = function (container) {
 		root.priorityFilterModel.priorities(IssueTracker.priorities());
 		root.statusFilterModel.statuses(IssueTracker.statuses());
 		root.assigneeFilterModel.assignees(IssueTracker.users());
 		root.ownerFilterModel.owners(IssueTracker.users());
-		root.projectModel.projects(IssueTracker.projects());
-		root.projectModel.selectedProject(IssueTracker.projects()[0]);
 
 		_loader = container.find("table tfoot");
 		_setupFilter(container);
@@ -163,7 +156,7 @@
 		return $.toDictionary({
 			start: _start + 1,
 			end: _start + count,
-			project: root.projectModel.selectedProject(),
+			project: IssueTracker.selectedProject(),
 			priority: root.priorityFilterModel.selectedPriority(),
 			status: root.statusFilterModel.selectedStatus(),
 			assignee: root.assigneeFilterModel.selectedAssignee(),

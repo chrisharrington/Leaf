@@ -2,7 +2,7 @@
 
 namespace IssueTracker.Common.Data.Repositories
 {
-	public interface IPriorityRepository : IRepository<Priority>
+	public interface IPriorityRepository : IBaseProjectRepository<Priority>
 	{
 		Priority Name(string priority);
 	}
