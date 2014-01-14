@@ -6,6 +6,7 @@ namespace IssueTracker.Common.Data.Repositories
 {
 	public interface IRepository<TModel> where TModel : BaseModel
 	{
+		TModel Details(Guid id);
 		Guid Insert(TModel model);
 		void Update(TModel model);
 		void Delete(TModel model);

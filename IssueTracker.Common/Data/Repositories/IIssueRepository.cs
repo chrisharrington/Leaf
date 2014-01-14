@@ -4,7 +4,7 @@ using IssueTracker.Common.ViewModels;
 
 namespace IssueTracker.Common.Data.Repositories
 {
-	public interface IIssueRepository : IRepository<Issue>
+	public interface IIssueRepository : IBaseProjectRepository<Issue>
 	{
 		IEnumerable<Issue> Search(Search search, Sort sort);
 	}

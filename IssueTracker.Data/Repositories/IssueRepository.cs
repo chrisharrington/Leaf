@@ -6,7 +6,7 @@ using IssueTracker.Common.ViewModels;
 
 namespace IssueTracker.Data.Repositories
 {
-	public class IssueRepository : BaseRepository<Issue>, IIssueRepository
+	public class IssueRepository : BaseProjectRepository<Issue>, IIssueRepository
 	{
 		public IEnumerable<Issue> Search(Search search, Sort sort)
 		{

@@ -20,9 +20,9 @@ namespace IssueTracker.Web.Controllers
 			return View();
 		}
 
-	    public ActionResult Details(Guid issueId)
+	    public ActionResult Details(string issueName, Guid projectId)
 	    {
-		    return View();
+		    return View(IssueRepository.ProjectAndName(projectId, issueName));
 	    }
 
 	    public ActionResult Next(IssueParams parameters)

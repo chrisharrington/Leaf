@@ -18,5 +18,15 @@ namespace IssueTracker.Data.Repositories
 				results = results.OrderBy(sort);
 			return results;
 		}
+
+		public TModel ProjectAndName(Guid projectId, string name)
+		{
+			if (projectId == Guid.Empty)
+				throw new ArgumentNullException("projectId");
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException("name");
+
+			return GetCollectionFromContext().FirstOrDefault(x => x.Project.Id == projectId && x.Name.ToLower().Trim() == name.ToLower().Trim());
+		}
 	}
 }

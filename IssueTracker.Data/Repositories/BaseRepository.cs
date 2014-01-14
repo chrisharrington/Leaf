@@ -11,6 +11,14 @@ namespace IssueTracker.Data.Repositories
 	{
 		public IDataContext Context { get; set; }
 
+		public TModel Details(Guid id)
+		{
+			if (id == Guid.Empty)
+				throw new ArgumentNullException("id");
+
+			return GetCollectionFromContext().FirstOrDefault(x => x.Id == id);
+		}
+
 		public Guid Insert(TModel model)
 		{
 			if (model == null)

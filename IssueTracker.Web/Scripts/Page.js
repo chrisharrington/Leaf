@@ -51,6 +51,8 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 	var url = params.view;
 	if (url instanceof Function)
 		url = url();
+	for (var name in routeArguments)
+		url = url.replace(":" + name, routeArguments[name].replace(/-/g, " "));
 	
 	IssueTracker.view({ url: url, style: params.style, data: params.root, load: function() {
 		if (me.load)
