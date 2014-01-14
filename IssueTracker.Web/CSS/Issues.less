@@ -1,7 +1,13 @@
 ﻿@import "Global.less";
 
 .issues-container {
-	div.table-tools, div.issues-container { float:left; width:100%; margin-top:@spacing; }
+	div.issues-header { float:left; width:100%; }
+	div.project { float:left; width:300px; cursor:pointer; display:table;
+		h2 { .table-cell-vertically-aligned; }
+		i { font-size:1.375em; font-weight:bold; .table-cell-vertically-aligned; text-align:right; padding-top:4px; }
+	}
+	div.table-tools { position:relative; margin-left:@spacing+300; }
+	div.issues-container { float:left; width:100%; margin-top:@spacing; }
 
 	div.table-tools { margin-top:0; height:61px;
 		>div.filter-tags { float:left; height:100%; display:table;

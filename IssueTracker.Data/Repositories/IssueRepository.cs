@@ -26,6 +26,7 @@ namespace IssueTracker.Data.Repositories
 
 		private void ApplyFilter(ref IEnumerable<Issue> issues, Search search)
 		{
+			issues = issues.Where(x => x.Project.Id == search.project.Id);
 			if (search.priority != null)
 				issues = issues.Where(x => x.Priority.Id == search.priority.Id);
 			if (search.status != null)

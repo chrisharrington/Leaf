@@ -39,7 +39,7 @@ namespace IssueTracker.Web.Controllers
 			}), JsonRequestBehavior.AllowGet);
 	    }
 
-	    private static string ToPriorityStyleString(Base priority)
+	    private static string ToPriorityStyleString(BaseModel priority)
 	    {
 		    return priority.Name.Replace(" ", "-").ToLower();
 	    }
@@ -49,10 +49,11 @@ namespace IssueTracker.Web.Controllers
 	{
 		public int start { get; set; }
 		public int end { get; set; }
+		public Project project { get; set; }
 		public Priority priority { get; set; }
 		public Status status { get; set; }
-		public ApplicationUser assignee { get; set; }
-		public ApplicationUser owner { get; set; }
+		public User assignee { get; set; }
+		public User owner { get; set; }
 		public string filter { get; set; }
 
 		public SortDirection direction { get; set; }
@@ -61,6 +62,7 @@ namespace IssueTracker.Web.Controllers
 		public Search BuildSearch()
 		{
 			return new Search {
+				project = project,
 				assignee = assignee,
 				start = start,
 				end = end,

@@ -1,29 +1,36 @@
-﻿<div class="tile table-tools">
-	<div class="filter-tags">
-		<div id="priority-filter">
-			<span data-bind="css: { selected: IssueTracker.Issues.priorityFilterModel.selectedPriority() != undefined }, text: IssueTracker.Issues.priorityFilterModel.selectedPriority() ? IssueTracker.Issues.priorityFilterModel.selectedPriority().Name : 'Priority'"></span>
-			<i class="fa fa-angle-down"></i>
-		</div>
-		<div id="status-filter">
-			<span data-bind="css: { selected: IssueTracker.Issues.statusFilterModel.selectedStatus() != undefined }, text: IssueTracker.Issues.statusFilterModel.selectedStatus() ? IssueTracker.Issues.statusFilterModel.selectedStatus().Name : 'Status'"></span>
-			<i class="fa fa-angle-down"></i>
-		</div>
-		<div id="assignee-filter">
-			<span data-bind="css: { selected: IssueTracker.Issues.assigneeFilterModel.selectedAssignee() != undefined }, text: IssueTracker.Issues.assigneeFilterModel.selectedAssignee() ? IssueTracker.Issues.assigneeFilterModel.selectedAssignee().Name : 'Assignee'"></span>
-			<i class="fa fa-angle-down"></i>
-		</div>
-		<div id="owner-filter">
-			<span data-bind="css: { selected: IssueTracker.Issues.ownerFilterModel.selectedOwner() != undefined }, text: IssueTracker.Issues.ownerFilterModel.selectedOwner() ? IssueTracker.Issues.ownerFilterModel.selectedOwner().Name : 'Owner'"></span>
-			<i class="fa fa-angle-down"></i>
-		</div>
-		<div id="text-filter">
-			<span data-bind="css: { selected: IssueTracker.Issues.filter() != '' }, text: IssueTracker.Issues.filter() != '' ? IssueTracker.Issues.filter() : 'Text Filter'"></span>
-			<i class="fa fa-angle-down"></i>
-		</div>
+﻿<div class="issues-header">
+	<div class="tile project">
+		<h2 data-bind="text: IssueTracker.Issues.projectModel.selectedProject().Name"></h2>
+		<i class="fa fa-angle-down"></i>
 	</div>
-	<div class="tools">
-		<i id="sort" class="fa fa-sort-alpha-asc"></i>
-		<i class="fa fa-gear"></i>
+
+	<div class="tile table-tools">
+		<div class="filter-tags">
+			<div id="priority-filter">
+				<span data-bind="css: { selected: IssueTracker.Issues.priorityFilterModel.selectedPriority() != undefined }, text: IssueTracker.Issues.priorityFilterModel.selectedPriority() ? IssueTracker.Issues.priorityFilterModel.selectedPriority().Name : 'Priority'"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
+			<div id="status-filter">
+				<span data-bind="css: { selected: IssueTracker.Issues.statusFilterModel.selectedStatus() != undefined }, text: IssueTracker.Issues.statusFilterModel.selectedStatus() ? IssueTracker.Issues.statusFilterModel.selectedStatus().Name : 'Status'"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
+			<div id="assignee-filter">
+				<span data-bind="css: { selected: IssueTracker.Issues.assigneeFilterModel.selectedAssignee() != undefined }, text: IssueTracker.Issues.assigneeFilterModel.selectedAssignee() ? IssueTracker.Issues.assigneeFilterModel.selectedAssignee().Name : 'Assignee'"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
+			<div id="owner-filter">
+				<span data-bind="css: { selected: IssueTracker.Issues.ownerFilterModel.selectedOwner() != undefined }, text: IssueTracker.Issues.ownerFilterModel.selectedOwner() ? IssueTracker.Issues.ownerFilterModel.selectedOwner().Name : 'Owner'"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
+			<div id="text-filter">
+				<span data-bind="css: { selected: IssueTracker.Issues.filter() != '' }, text: IssueTracker.Issues.filter() != '' ? IssueTracker.Issues.filter() : 'Text Filter'"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
+		</div>
+		<div class="tools">
+			<i id="sort" class="fa fa-sort-alpha-asc"></i>
+			<i class="fa fa-gear"></i>
+		</div>
 	</div>
 </div>
 

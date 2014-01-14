@@ -4,7 +4,7 @@ using IssueTracker.Common.Models;
 
 namespace IssueTracker.Common.Data.Repositories
 {
-	public interface IRepository<TModel> where TModel : Base
+	public interface IRepository<TModel> where TModel : BaseModel
 	{
 		Guid Insert(TModel model);
 		void Update(TModel model);

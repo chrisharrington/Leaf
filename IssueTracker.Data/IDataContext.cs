@@ -9,7 +9,8 @@ namespace IssueTracker.Data
 		DbSet<Issue> Issues { get; set; }
 		DbSet<Priority> Priorities { get; set; }
 		DbSet<Status> Statuses { get; set; }
-		DbSet<ApplicationUser> Users { get; set; }
+		DbSet<User> Users { get; set; }
+		DbSet<Project> Projects { get; set; }
 		int SaveChanges();
 		DbEntityEntry Entry(object model);
 	}

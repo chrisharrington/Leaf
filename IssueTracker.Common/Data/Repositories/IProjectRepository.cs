@@ -2,7 +2,7 @@
 
 namespace IssueTracker.Common.Data.Repositories
 {
-	public interface IUserRepository : IRepository<User>
+	public interface IProjectRepository : IRepository<Project>
 	{
 		 
 	}

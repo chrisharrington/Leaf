@@ -7,7 +7,7 @@ using IssueTracker.Common.Models;
 
 namespace IssueTracker.Data.Repositories
 {
-	public class BaseRepository<TModel> : IRepository<TModel> where TModel : Base
+	public class BaseRepository<TModel> : IRepository<TModel> where TModel : BaseModel
 	{
 		public IDataContext Context { get; set; }
 

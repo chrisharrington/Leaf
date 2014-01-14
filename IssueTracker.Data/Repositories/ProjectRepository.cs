@@ -3,8 +3,8 @@ using IssueTracker.Common.Models;
 
 namespace IssueTracker.Data.Repositories
 {
-	public class UserRepository : BaseRepository<User>, IUserRepository
+	public class ProjectRepository : BaseRepository<Project>, IProjectRepository
 	{
-		
+		 
 	}
 }

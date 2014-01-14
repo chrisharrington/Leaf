@@ -2,7 +2,7 @@
 
 namespace IssueTracker.Common.Models
 {
-    public class Base
+    public class BaseModel
     {
 		public Guid Id { get; set; }
 		public string Name { get; set; }

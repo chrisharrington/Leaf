@@ -12,8 +12,8 @@ namespace IssueTracker.Dependencies
 		{
 			var builder = new ContainerBuilder();
 			RegisterAssemblyTypes(builder, typeof (UserRepository).Assembly);
-			RegisterAssemblyTypes(builder, typeof (ApplicationUser).Assembly);
-			builder.RegisterType<Context>().AsImplementedInterfaces().AsSelf().SingleInstance();
+			RegisterAssemblyTypes(builder, typeof (User).Assembly);
+			builder.RegisterType<DataContext>().AsImplementedInterfaces().AsSelf().SingleInstance();
 			return builder;
 		}
 
