@@ -2,7 +2,7 @@
 
 namespace IssueTracker.Common.Data.Repositories
 {
-	public interface IStatusRepository : IRepository<Status>
+	public interface IStatusRepository : IBaseProjectRepository<Status>
 	{
 		Status Name(string status);
 	}

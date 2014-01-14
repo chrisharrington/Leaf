@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Repositories\IBaseProjectRepository.cs" />
     <Compile Include="Data\Repositories\IIssueRepository.cs" />
     <Compile Include="Data\Repositories\IPriorityRepository.cs" />
     <Compile Include="Data\Repositories\IProjectRepository.cs" />

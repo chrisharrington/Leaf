@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
@@ -13,14 +14,17 @@ namespace IssueTracker.Web.Controllers
 		public IProjectRepository ProjectRepository { get; set; }
 
 		public ActionResult Index()
-        {
-            return View("~/Views/Shared/Root.cshtml", new RootModel {
+		{
+			var projects = ProjectRepository.All(x => x.Name);
+			var selectedProject = projects.First();
+			return View("~/Views/Shared/Root.cshtml", new RootModel {
 	            Priorities = PriorityRepository.All(x => x.Order),
-				Statuses = StatusRepository.All(x => x.Order),
+				Statuses = StatusRepository.Project(selectedProject, x => x.Order),
 				Users = UserRepository.All(x => x.Name),
-				Projects = ProjectRepository.All(x => x.Name)
+				Projects = projects,
+				SelectedProject = selectedProject
             });
-        }
+		}
     }
 
 	public class RootModel
@@ -28,6 +32,7 @@ namespace IssueTracker.Web.Controllers
 		public IEnumerable<Priority> Priorities { get; set; }
 		public IEnumerable<Status> Statuses { get; set; }
 		public IEnumerable<User> Users { get; set; }
-		public IEnumerable<Project> Projects { get; set; } 
+		public IEnumerable<Project> Projects { get; set; }
+		public Project SelectedProject { get; set; }
 	}
 }

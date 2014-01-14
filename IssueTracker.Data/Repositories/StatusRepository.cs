@@ -5,7 +5,7 @@ using IssueTracker.Common.Models;
 
 namespace IssueTracker.Data.Repositories
 {
-	public class StatusRepository : BaseRepository<Status>, IStatusRepository
+	public class StatusRepository : BaseProjectRepository<Status>, IStatusRepository
 	{
 		public Status Name(string status)
 		{

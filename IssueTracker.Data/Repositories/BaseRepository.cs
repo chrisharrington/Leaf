@@ -55,7 +55,7 @@ namespace IssueTracker.Data.Repositories
 			return collection;
 		}
 
-		private DbSet<TModel> GetCollectionFromContext()
+		protected DbSet<TModel> GetCollectionFromContext()
 		{
 			var property = Context.GetType().GetProperties().FirstOrDefault(x => x.PropertyType.GenericTypeArguments.Any(y => y == typeof(TModel)));//
 			if (property == null)
