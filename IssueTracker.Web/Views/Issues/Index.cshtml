@@ -16,14 +16,14 @@
 			<span data-bind="css: { selected: IssueTracker.Issues.ownerFilterModel.selectedOwner() != undefined }, text: IssueTracker.Issues.ownerFilterModel.selectedOwner() ? IssueTracker.Issues.ownerFilterModel.selectedOwner().Name : 'Owner'"></span>
 			<i class="fa fa-angle-down"></i>
 		</div>
+		<div id="text-filter">
+			<span data-bind="css: { selected: IssueTracker.Issues.filter() != '' }, text: IssueTracker.Issues.filter() != '' ? IssueTracker.Issues.filter() : 'Text Filter'"></span>
+			<i class="fa fa-angle-down"></i>
+		</div>
 	</div>
 	<div class="tools">
 		<i id="sort" class="fa fa-sort-alpha-asc"></i>
 		<i class="fa fa-gear"></i>
-	</div>
-	<div class="filter">
-		<input type="text" placeholder="Filter..." data-bind="value: IssueTracker.Issues.filter"/>
-		<i class="fa fa-times"></i>
 	</div>
 </div>
 
@@ -85,6 +85,16 @@
 <script id="owner-filter-dialog" type="text/html">
 	<div class="select-dialog owner-filter-dialog" data-bind="foreach: owners">
 		<div data-bind="text: Name, attr: { 'data-owner': JSON.stringify($data), class: Name.toLowerCase() + ($root.selectedOwner() && $root.selectedOwner().Name == Name ? ' selected' : '') }"></div>
+	</div>
+</script>
+
+<script id="text-filter-dialog" type="text/html">
+	<div class="text-filter-dialog">
+		<input type="text" data-bind="value: $root" />
+		<div class="buttons">
+			<button class="set-filter">Filter</button>
+			<button class="clear-filter">Clear</button>
+		</div>
 	</div>
 </script>
 

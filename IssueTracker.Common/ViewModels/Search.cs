@@ -10,5 +10,6 @@ namespace IssueTracker.Common.ViewModels
 		public Status status { get; set; }
 		public ApplicationUser assignee { get; set; }
 		public ApplicationUser owner { get; set; }
+		public string filter { get; set; }
 	}
 }

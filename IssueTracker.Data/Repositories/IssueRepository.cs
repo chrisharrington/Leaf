@@ -34,6 +34,15 @@ namespace IssueTracker.Data.Repositories
 				issues = issues.Where(x => x.Assignee.Id == search.assignee.Id);
 			if (search.owner != null)
 				issues = issues.Where(x => x.Owner.Id == search.owner.Id);
+			if (!string.IsNullOrEmpty(search.filter))
+			{
+				search.filter = search.filter.Trim().ToLower();
+				issues = issues.Where(x =>
+					x.Name.ToLower().Trim().Contains(search.filter) || x.Description.Trim().ToLower().Contains(search.filter) ||
+					x.Status.ToString().Trim().ToLower().Contains(search.filter) || x.Priority.ToString().Contains(search.filter) ||
+					x.Assignee.ToString().Trim().ToLower().Contains(search.filter) ||
+					x.Owner.ToString().Trim().ToLower().Contains(search.filter));
+			}
 		}
 	}
 }

@@ -53,6 +53,7 @@ namespace IssueTracker.Web.Controllers
 		public Status status { get; set; }
 		public ApplicationUser assignee { get; set; }
 		public ApplicationUser owner { get; set; }
+		public string filter { get; set; }
 
 		public SortDirection direction { get; set; }
 		public string comparer { get; set; }
@@ -65,7 +66,8 @@ namespace IssueTracker.Web.Controllers
 				end = end,
 				priority = priority,
 				status = status,
-				owner = owner
+				owner = owner,
+				filter = filter
 			};
 		}
 
