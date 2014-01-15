@@ -13,5 +13,10 @@ namespace IssueTracker.Common.Extensions
 		{
 			return date.HasValue ? ((DateTime) date).ToApplicationString() : "";
 		}
+
+		public static string ToLongApplicationString(this DateTime date)
+		{
+			return date.ToString("yyyy-MM-dd hh:mm:ss");
+		}
 	}
 }

@@ -35,17 +35,18 @@
 		tr:hover>td { background-color:@hover-colour; }
 		td, th { padding:@spacing; text-align:left; white-space:nowrap; overflow:hidden; }
 		th { font-weight:bold; padding-top:6px; padding-bottom:6px; color:@secondary-font-colour; border-bottom:solid 1px @border-colour; }
-		td.priority, th.priority { padding:0; }
-		td.priority.low { background-color:@low-priority; }
-		td.priority.medium { background-color:@medium-priority; }
-		td.priority.high { background-color:@high-priority; }
-		td.priority.critical { background-color:@critical-priority; }
+		td.priority { padding:0; }
+		td.priority.low { background-color:@low-priority-background; }
+		td.priority.medium { background-color:@medium-priority-background; }
+		td.priority.high { background-color:@high-priority-background; }
+		td.priority.critical { background-color:@critical-priority-background; }
 		td.name { padding:0;
-			>span.name { font-weight:bold; color:black; padding:@spacing; }
-			>span.name.low { .horizontal-gradient(@low-priority-background, transparent); }
-			>span.name.medium { .horizontal-gradient(@medium-priority-background, transparent); }
-			>span.name.high { .horizontal-gradient(@high-priority-background, transparent); }
-			>span.name.critical { .horizontal-gradient(@critical-priority-background, transparent); }
+			>span.number { font-weight:bold; color:black; padding:@spacing; font-size:1.125em; padding-right:0; }
+			>span.name { font-weight:bold; padding:@spacing; font-size:1.125em; padding-left:@small-spacing; }
+			>span.name.low { color:@low-priority-font-colour; }
+			>span.name.medium { color:@medium-priority-font-colour; }
+			>span.name.high { color:@high-priority-font-colour; }
+			>span.name.critical { color:@critical-priority-font-colour; }
 			>span.description { color:#999999; padding-left:@spacing; white-space:nowrap; overflow:hidden; }
 		}
 		tfoot { display:none; }

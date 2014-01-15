@@ -42,7 +42,8 @@ namespace IssueTracker.Web.Controllers
 				status = x.Status.ToString(),
 				priorityStyle = ToPriorityStyleString(x.Priority),
 				opened = x.Opened.ToApplicationString(),
-				closed = x.Closed.ToApplicationString()
+				closed = x.Closed.ToApplicationString(),
+				lastUpdated = x.Updated.ToLongApplicationString()
 			}), JsonRequestBehavior.AllowGet);
 	    }
 

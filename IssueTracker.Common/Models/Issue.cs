@@ -12,5 +12,7 @@ namespace IssueTracker.Common.Models
 		public Status Status { get; set; }
 		public DateTime Opened { get; set; }
 		public DateTime? Closed { get; set; }
+		public DateTime Updated { get; set; }
+		public User UpdatedBy { get; set; }
     }
 }

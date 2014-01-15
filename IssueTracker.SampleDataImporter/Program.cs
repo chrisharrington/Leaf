@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using Autofac;
 using Dapper;
@@ -18,7 +19,7 @@ namespace IssueTracker.SampleDataImporter
 	public class Program
 	{
 		private const int NUM_ISSUES = 150;
-		private const int NUM_PROJECTS = 5;
+		private const int NUM_PROJECTS = 1;
 		private const string WORDS = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 		private static Random _random;
@@ -110,15 +111,15 @@ namespace IssueTracker.SampleDataImporter
 
 		private static void BuildIssues(User user, Project project)
 		{
-			var statuses = BuildStatuses(project);
-			var priorities = BuildPriorities(project);
+			var statuses = BuildStatuses(project).ToArray();
+			var priorities = BuildPriorities(project).ToArray();
 
 			var repository = _container.Resolve<IIssueRepository>();
 			for (var i = 1; i <= NUM_ISSUES; i++)
 				repository.Insert(new Issue
 				{
 					Number = i,
-					Name = "name " + i,
+					Name = RandomWords(WORDS, 8),
 					Description = RandomWords(WORDS),
 					Owner = user,
 					Assignee = user,
@@ -126,7 +127,9 @@ namespace IssueTracker.SampleDataImporter
 					Priority = priorities.ElementAt(_random.Next(0, priorities.Count())),
 					Status = statuses.ElementAt(_random.Next(0, priorities.Count())),
 					Opened = GetRandomDate().Value,
-					Closed = GetRandomDate(true)
+					Closed = GetRandomDate(true),
+					Updated = GetRandomDate().Value,
+					UpdatedBy = user
 				});
 		}
 
@@ -138,12 +141,17 @@ namespace IssueTracker.SampleDataImporter
 			return new DateTime(2013, _random.Next(1, 12), _random.Next(1, 28));
 		}
 
-		private static string RandomWords(string text)
+		private static string RandomWords(string text, int max = int.MaxValue)
 		{
 			var words = text.Split(' ');
-			var result = words.Aggregate("", (current, t) => current + (" " + words[_random.Next(0, words.Length - 1)]));
+			string result = "";
+			if (max == int.MaxValue)
+				result = words.Aggregate("", (current, t) => current + (" " + words[_random.Next(0, words.Length - 1)]));
+			else
+				for (var i = 0; i < max; i++)
+					result += " " + words[_random.Next(0, words.Length - 1)];
 			result = result.Substring(1).ToLower();
-			return result[1].ToString().ToUpper() + result.Substring(2);
+			return result[1].ToString(CultureInfo.InvariantCulture).ToUpper() + result.Substring(2);
 		}
 
 		private static IEnumerable<Status> BuildStatuses(Project project)

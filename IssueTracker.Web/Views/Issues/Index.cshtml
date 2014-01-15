@@ -36,10 +36,10 @@
 	<table>
 		<tbody data-bind="foreach: list">
 			<tr data-bind="attr: { 'data-issue': JSON.stringify($data) }">
-				<td style="width:6px;" data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
+				<td style="width:8px;" data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
 				<td class="ellipsis name">
-					<span class="name" data-bind="text: name, attr: { class: 'name ' + priorityStyle }"></span>
-					<span class="description" data-bind="text: description"></span>
+					<span class="name" data-bind="text: '#' + number + ': ' + name, attr: { class: 'name ' + priorityStyle }"></span>
+					<span class="description" data-bind="text: lastUpdated"></span>
 				</td>
 				<td style="width:100px;" data-bind="text: status"></td>
 				<td style="width:100px;" data-bind="text: assignee"></td>
