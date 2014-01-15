@@ -26,6 +26,13 @@ function inspect(o) {
 	alert(string);
 }
 
+function createNestedObservables(obj) {
+	var result = {};
+	for (var name in obj)
+		result[name] = ko.observable(obj[name]);
+	return result;
+}
+
 function ResolvedDeferred(data) {
 	var deferred = new $.Deferred();
 	deferred.resolve(data);

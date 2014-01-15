@@ -8,8 +8,4 @@ $(function() {
 	IssueTracker.popup = ko.observable();
 
 	IssueTracker.isUnauthorized = ko.observable(false);
-
-	IssueTracker.selectedProjectName = ko.computed(function() {
-
-	}, IssueTracker);
 })

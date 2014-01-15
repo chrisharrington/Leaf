@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext.cs" />
-    <Compile Include="IDataContext.cs" />
     <Compile Include="Migrations\201401150006305_InitialCreate.cs" />
     <Compile Include="Migrations\201401150006305_InitialCreate.Designer.cs">
       <DependentUpon>201401150006305_InitialCreate.cs</DependentUpon>

@@ -9,14 +9,14 @@ namespace IssueTracker.Data.Repositories
 {
 	public class BaseRepository<TModel> : IRepository<TModel> where TModel : BaseModel
 	{
-		public IDataContext Context { get; set; }
+		public DataContext Context { get; set; }
 
 		public TModel Details(Guid id)
 		{
 			if (id == Guid.Empty)
 				throw new ArgumentNullException("id");
 
-			return GetCollectionFromContext().FirstOrDefault(x => x.Id == id);
+			return Context.Set<TModel>().FirstOrDefault(x => x.Id == id);
 		}
 
 		public Guid Insert(TModel model)
@@ -28,7 +28,7 @@ namespace IssueTracker.Data.Repositories
 			if (string.IsNullOrEmpty(model.Name))
 				throw new ArgumentException("model.Name");
 
-			GetCollectionFromContext().Add(model);
+			Context.Set<TModel>().Add(model);
 			Context.SaveChanges();
 			return model.Id;
 		}
@@ -38,10 +38,30 @@ namespace IssueTracker.Data.Repositories
 			if (model == null)
 				throw new ArgumentNullException("model");
 
-			var collection = GetCollectionFromContext();
-			collection.Attach(model);
-			Context.Entry(model).State = EntityState.Modified;
-			Context.SaveChanges();
+			var entry = Context.Entry(model);
+
+			if (entry.State == EntityState.Detached)
+			{
+				var set = Context.Set<TModel>();
+				var attachedEntity = set.Local.SingleOrDefault(e => e.Id == model.Id);  // You need to have access to key
+
+				if (attachedEntity != null)
+				{
+					var attachedEntry = Context.Entry(attachedEntity);
+					attachedEntry.CurrentValues.SetValues(model);
+				}
+				else
+				{
+					entry.State = EntityState.Modified;
+				}
+			}
+
+//			var collection = Context.Set<TModel>();
+//			var entry = Context.Entry(model);
+//			if (entry.State == EntityState.Detached)
+//				collection.Attach(model);
+//			Context.Entry(model).State = EntityState.Modified;
+//			Context.SaveChanges();
 		}
 
 		public void Delete(TModel model)
@@ -51,24 +71,16 @@ namespace IssueTracker.Data.Repositories
 			if (model.Id == Guid.Empty)
 				throw new ArgumentNullException("model.Id");
 
-			GetCollectionFromContext().Remove(model);
+			Context.Set<TModel>().Remove(model);
 			Context.SaveChanges();
 		}
 
 		public IEnumerable<TModel> All(Func<TModel, object> orderBy = null)
 		{
-			var collection = GetCollectionFromContext();
+			var collection = Context.Set<TModel>();
 			if (orderBy != null)
 				return collection.OrderBy(orderBy);
 			return collection;
-		}
-
-		protected DbSet<TModel> GetCollectionFromContext()
-		{
-			var property = Context.GetType().GetProperties().FirstOrDefault(x => x.PropertyType.GenericTypeArguments.Any(y => y == typeof(TModel)));//
-			if (property == null)
-				throw new InvalidOperationException("No collection for model \"" + typeof (TModel).Name + "\" was found on the data context.");
-			return (DbSet<TModel>) property.GetValue(Context);
 		}
 	}
 }

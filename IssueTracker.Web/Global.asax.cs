@@ -4,7 +4,10 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using AutoMapper;
 using dotless.Core;
+using IssueTracker.Dependencies;
+using IssueTracker.Dependencies.MappingResolvers;
 
 namespace IssueTracker.Web
 {
@@ -17,6 +20,7 @@ namespace IssueTracker.Web
 			RegisterRoutes(RouteTable.Routes);
 			RegisterBundles(BundleTable.Bundles);
 			RegisterDependencies();
+			Mappings.Register();
 		}
 
 		private void RegisterRoutes(RouteCollection routes)
@@ -40,9 +44,17 @@ namespace IssueTracker.Web
 
 		private void RegisterDependencies()
 		{
+			IContainer container = null;
 			var builder = Dependencies.Dependencies.Register();
 			builder.RegisterControllers(typeof(MvcApplication).Assembly).PropertiesAutowired();
-			DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
+
+			Mapper.Initialize(x => x.ConstructServicesUsing(y => container.Resolve(y)));
+
+			builder.RegisterGeneric(typeof(DatabaseDetailsResolver<>)).AsSelf().PropertiesAutowired();
+
+			container = builder.Build();
+
+			DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 		}
 
 		private class LessMinify : CssMinify

@@ -3,28 +3,81 @@
 <script type="text/javascript">
 	$(function () {
 		var root = window.IssueTracker || (window.IssueTracker = {});
-		root.selectedIssue(@Html.Raw(Json.Encode(Model)));
+		root.selectedIssue = createNestedObservables(@Html.Raw(Json.Encode(Model)));
 	});
 </script>
 
-<div class="tile number">
-	<h1 data-bind="text: '#' + IssueTracker.selectedIssue().number"></h1>
-</div>
-
-<div class="tile title">
-	<h1 data-bind="text: IssueTracker.selectedIssue().name"></h1>
-	<i class="fa fa-angle-down"></i>
-</div>
-
-<div class="tile details">
-	<div>
-		<span class="title">Priority</span>
-		<i class="fa fa-angle-down"></i>
-		<span class="info" data-bind="text: IssueTracker.selectedIssue().priority"></span>
+<div class="container notop table">
+	<div class="breadcrumbs">
+		<a class="clickable" href="#/issues">
+			<i class="fa fa-home"></i>
+			<span data-bind="text: IssueTracker.selectedProject().name"></span>
+		</a>
+		<i class="fa fa-angle-right"></i>
+		<a>
+			<span data-bind="text: 'Issue #' + IssueTracker.selectedIssue.number()"></span>
+		</a>
 	</div>
-	<div>
-		<span class="title">Status</span>
+	
+	<div class="buttons">
+		<button>Save Changes</button>
+		<button>Duplicate Issue</button>
+		<button>Delete Issue</button>
+	</div>
+</div>
+
+<div class="container">
+	<div class="tile number">
+		<h1 data-bind="text: IssueTracker.selectedIssue.number"></h1>
+	</div>
+
+	<div class="tile title">
+		<h1 data-bind="text: IssueTracker.selectedIssue.name"></h1>
 		<i class="fa fa-angle-down"></i>
-		<span class="info" data-bind="text: IssueTracker.selectedIssue().status"></span>
+	</div>
+</div>
+
+<div class="container">
+	<div class="description">
+		<div class="flipper-container">
+			<div class="flipper transition">
+				<div class="tile flip-tile front">
+					<h3>What's the problem?</h3>
+					<div data-bind="text: IssueTracker.selectedIssue.description"></div>
+				</div>
+
+				<div class="tile flip-tile back">
+					<textarea data-bind="value: IssueTracker.selectedIssue.description"></textarea>
+					<div class="buttons">
+						<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
+						<button id="save-description">Save</button>
+						<button id="cancel-description">Discard</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="tile details">
+		<div>
+			<span class="title">Priority</span>
+			<i class="fa fa-angle-down"></i>
+			<span class="info" data-bind="text: IssueTracker.selectedIssue.priority"></span>
+		</div>
+		<div>
+			<span class="title">Status</span>
+			<i class="fa fa-angle-down"></i>
+			<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
+		</div>
+		<div>
+			<span class="title">Assignee</span>
+			<i class="fa fa-angle-down"></i>
+			<span class="info" data-bind="text: IssueTracker.selectedIssue.assignee"></span>
+		</div>
+		<div>
+			<span class="title">Owner</span>
+			<i class="fa fa-angle-down"></i>
+			<span class="info" data-bind="text: IssueTracker.selectedIssue.owner"></span>
+		</div>
 	</div>
 </div>

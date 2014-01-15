@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Dynamic;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Extensions;
 using IssueTracker.Common.Models;
@@ -24,11 +24,19 @@ namespace IssueTracker.Web.Controllers
 	    public ActionResult Details(string issueName, Guid projectId)
 	    {
 		    var issue = IssueRepository.ProjectAndName(projectId, issueName);
-		    return View(new {
+		    return View(new IssueViewModel {
+				id = issue.Id,
 			    number = issue.Number,
 				name = issue.Name,
 				priority = issue.Priority.ToString(),
-				status = issue.Status.ToString()
+				priorityId = issue.Priority.Id,
+				status = issue.Status.ToString(),
+				statusId = issue.Status.Id,
+				assignee = issue.Assignee.ToString(),
+				assigneeId = issue.Assignee.Id,
+				owner = issue.Owner.ToString(),
+				ownerId = issue.Owner.Id,
+				description = issue.Description
 		    });
 	    }
 
@@ -53,6 +61,15 @@ namespace IssueTracker.Web.Controllers
 				lastUpdated = x.Updated.ToLongApplicationString(),
 				updatedBy = x.UpdatedBy.ToString()
 			}), JsonRequestBehavior.AllowGet);
+	    }
+
+		[HttpPost]
+	    public void Update(IssueViewModel issue)
+	    {
+		    if (issue == null || issue.id == Guid.Empty)
+			    throw new ArgumentNullException("issue");
+
+			IssueRepository.Update(Mapper.Map<IssueViewModel, Issue>(issue));
 	    }
 
 	    private static string ToPriorityStyleString(BaseModel priority)

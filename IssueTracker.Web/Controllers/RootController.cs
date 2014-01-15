@@ -22,7 +22,7 @@ namespace IssueTracker.Web.Controllers
 				Statuses = StatusRepository.Project(selectedProject, x => x.Order),
 				Users = UserRepository.All(x => x.Name),
 				Projects = projects,
-				SelectedProject = selectedProject
+				SelectedProject = new { name = selectedProject.Name, id = selectedProject.Id }
             });
 		}
 
@@ -42,6 +42,6 @@ namespace IssueTracker.Web.Controllers
 		public IEnumerable<Status> Statuses { get; set; }
 		public IEnumerable<User> Users { get; set; }
 		public IEnumerable<Project> Projects { get; set; }
-		public Project SelectedProject { get; set; }
+		public object SelectedProject { get; set; }
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Autofac;
-using Autofac.Integration.Mvc;
 using IssueTracker.Common.Models;
 using IssueTracker.Data;
 using IssueTracker.Data.Repositories;

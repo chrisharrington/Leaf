@@ -3,7 +3,7 @@ using IssueTracker.Common.Models;
 
 namespace IssueTracker.Data
 {
-	public class DataContext : DbContext, IDataContext
+	public class DataContext : DbContext
 	{
 		public DbSet<Issue> Issues { get; set; }
 		public DbSet<Priority> Priorities { get; set; }

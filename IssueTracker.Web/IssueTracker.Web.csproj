@@ -50,6 +50,14 @@
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc4.3.1.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="dotless.Core">
       <HintPath>..\packages\dotless.1.4.0.0\lib\dotless.Core.dll</HintPath>
     </Reference>
@@ -146,6 +154,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="CSS\font-awesome.css" />
     <Content Include="CSS\Fonts.css" />
     <Content Include="Fonts\fontawesome-webfont.svg" />
@@ -165,6 +177,7 @@
     <Content Include="Scripts\Global.js" />
     <Content Include="Scripts\Header.js" />
     <Content Include="Scripts\Init.js" />
+    <Content Include="Scripts\Controls\Flipper.js" />
     <Content Include="Scripts\Page.js" />
     <Content Include="Scripts\ThirdParty\highcharts.js" />
     <Content Include="Scripts\ThirdParty\jquery.animate-enhanced.js" />
@@ -241,6 +254,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CSS\IssueDetails.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSS\Flipper.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\Plugins\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

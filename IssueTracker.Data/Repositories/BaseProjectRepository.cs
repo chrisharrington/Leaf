@@ -13,7 +13,7 @@ namespace IssueTracker.Data.Repositories
 			if (project == null)
 				throw new ArgumentNullException("project");
 
-			var results = (IEnumerable<TModel>) GetCollectionFromContext().Where(x => x.Project.Id == project.Id);
+			var results = (IEnumerable<TModel>) Context.Set<TModel>().Where(x => x.Project.Id == project.Id);
 			if (sort != null)
 				results = results.OrderBy(sort);
 			return results;
@@ -26,7 +26,7 @@ namespace IssueTracker.Data.Repositories
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException("name");
 
-			return GetCollectionFromContext().FirstOrDefault(x => x.Project.Id == projectId && x.Name.ToLower().Trim() == name.ToLower().Trim());
+			return Context.Set<TModel>().FirstOrDefault(x => x.Project.Id == projectId && x.Name.ToLower().Trim() == name.ToLower().Trim());
 		}
 	}
 }

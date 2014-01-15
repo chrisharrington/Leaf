@@ -1,17 +1,57 @@
 ﻿@import "Global.less";
 
 .issue-details-container {
-	div.number { float:left; width:120px; text-align:center; padding:0;
-		>h1 { float:left; width:100%; padding:@spacing; .box-sizing; }
+	div.breadcrumbs { .table-cell-vertically-aligned; font-size:1.125em;
+		>a { float:left; display:block; color:black;
+			>i { float:left; margin-right:@small-spacing; margin-top:4px; }
+			>span { float:left; }
+		}
+		>a.clickable { cursor:pointer; }
+		>a.clickable:hover>span { text-decoration:underline; }
+		>i { float:left; margin-left:@spacing; margin-right:@spacing; margin-top:4px; }
 	}
-	div.title { position:relative; margin-left:@spacing+120; height:69px; cursor:pointer;
+
+	div.buttons { float:right;
+		>button { float:left; margin-left:@small-spacing; }
+		>button:first-child { margin-left:0; }
+	}
+
+	div.container { float:left; width:100%; margin-top:@spacing; }
+	div.container.notop { margin-top:0; }
+	div.container.table { display:table; }
+
+	div.number { float:left; width:85px; text-align:center; padding:@spacing 0;
+		>h1 { float:left; width:100%; }
+	}
+	div.title { position:relative; margin-left:@spacing+85; height:69px; cursor:pointer;
 		>h1 { float:left; }
 		>i { float:right; font-size:1.5em; font-weight:bold; margin-top:9px; }
 	}
 	div.title:hover { .hover; }
 	div.title:hover>h1 { .hover; }
 
-	div.details { float:left; width:400px; padding:0; margin-top:@spacing;
+	div.description { float:left; width:100%; height:207px;
+		>div { margin-right:300px+@spacing; height:100%;
+			>div { float:left; width:100%; height:100%;
+				>div { float:left; width:100%;
+					>h3 { float:left; width:100%; margin-bottom:@small-spacing; }
+				}
+				div.front { cursor:pointer; }
+				div.front:hover { .hover;
+					>textarea { .hover; }
+				}
+				div.back {
+					>textarea { float:left; width:100%; height:138px; }
+					>div.buttons { float:right; margin-top:@small-spacing;
+						>img { float:left; height:100%; height:26px; width:26px; margin-right:@small-spacing; margin-top:4px; display:none; }
+						>button { float:left; margin-left:@small-spacing; }
+					}
+				}
+			}
+		}
+	}
+
+	div.details { float:left; margin-left:-300px; width:300px; padding:0;
 		>div { float:left; width:100%; padding:@spacing; .box-sizing; border-top:solid 1px @border-colour; cursor:pointer;
 			>span.title { float:left; }
 			>span.info { float:right; color:black; }

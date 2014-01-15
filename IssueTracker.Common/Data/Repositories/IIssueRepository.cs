@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using IssueTracker.Common.Models;
 using IssueTracker.Common.ViewModels;
+using Issue = IssueTracker.Common.Models.Issue;
 
 namespace IssueTracker.Common.Data.Repositories
 {
