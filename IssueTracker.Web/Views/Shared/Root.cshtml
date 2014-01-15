@@ -15,7 +15,7 @@
 	@Html.Partial("~/Views/Shared/Scripts.cshtml")
 	
 	<script type="text/javascript">
-		$(function() {
+		$(function () {
 			var root = window.IssueTracker || (window.IssueTracker = {});
 			root.virtualDirectory = ko.observable("@Url.Content("/")");
 			root.priorities = ko.observableArray(@Html.Raw(Json.Encode(Model.Priorities)));

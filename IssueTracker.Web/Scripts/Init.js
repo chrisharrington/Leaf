@@ -1,6 +1,4 @@
 ﻿
-namespace("IssueTracker");
-
 (function(root) {
 
 	root.init = function () {

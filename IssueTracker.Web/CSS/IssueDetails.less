@@ -1,5 +1,24 @@
 ﻿@import "Global.less";
 
 .issue-details-container {
-	>h1 { float:left; width:100%; }	
+	div.number { float:left; width:120px; text-align:center; padding:0;
+		>h1 { float:left; width:100%; padding:@spacing; .box-sizing; }
+	}
+	div.title { position:relative; margin-left:@spacing+120; height:69px; cursor:pointer;
+		>h1 { float:left; }
+		>i { float:right; font-size:1.5em; font-weight:bold; margin-top:9px; }
+	}
+	div.title:hover { .hover; }
+	div.title:hover>h1 { .hover; }
+
+	div.details { float:left; width:400px; padding:0; margin-top:@spacing;
+		>div { float:left; width:100%; padding:@spacing; .box-sizing; border-top:solid 1px @border-colour; cursor:pointer;
+			>span.title { float:left; }
+			>span.info { float:right; color:black; }
+			>i { float:right; margin-left:@small-spacing; margin-top:3px; font-size:1.125em; font-weight:bold; }
+		}
+		>div:first-child { border-top:none; }
+		>div:hover { .hover; }
+		>div:hover>span { .hover; }
+	}
 }

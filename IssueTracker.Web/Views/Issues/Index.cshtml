@@ -38,17 +38,17 @@
 			<tr data-bind="attr: { 'data-issue': JSON.stringify($data) }">
 				<td style="width:8px;" data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
 				<td class="ellipsis name">
-					<span class="name" data-bind="text: '#' + number + ': ' + name, attr: { class: 'name ' + priorityStyle }"></span>
-					<span class="description" data-bind="text: lastUpdated"></span>
+					<div>
+						<span class="name" data-bind="text: name, attr: { class: 'name ' + priorityStyle }"></span>
+						<span class="info">Last updated by <b data-bind="text: updatedBy"></b> at <b data-bind="text: lastUpdated"></b>.</span>
+					</div>
 				</td>
-				<td style="width:100px;" data-bind="text: status"></td>
-				<td style="width:100px;" data-bind="text: assignee"></td>
-				<td style="width:70px;" data-bind="text: opened"></td>
+				<td style="width:100px; text-align:right;" data-bind="text: status"></td>
 			</tr>
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan="7">
+				<td colspan="3">
 					<img src="@Url.Content("~/Images/ajax-loader.gif")" alt=""/>
 				</td>
 			</tr>

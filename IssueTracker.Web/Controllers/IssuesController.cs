@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.Linq;
 using System.Web.Mvc;
 using IssueTracker.Common.Data.Repositories;
@@ -22,7 +23,13 @@ namespace IssueTracker.Web.Controllers
 
 	    public ActionResult Details(string issueName, Guid projectId)
 	    {
-		    return View(IssueRepository.ProjectAndName(projectId, issueName));
+		    var issue = IssueRepository.ProjectAndName(projectId, issueName);
+		    return View(new {
+			    number = issue.Number,
+				name = issue.Name,
+				priority = issue.Priority.ToString(),
+				status = issue.Status.ToString()
+		    });
 	    }
 
 	    public ActionResult Next(IssueParams parameters)
@@ -43,7 +50,8 @@ namespace IssueTracker.Web.Controllers
 				priorityStyle = ToPriorityStyleString(x.Priority),
 				opened = x.Opened.ToApplicationString(),
 				closed = x.Closed.ToApplicationString(),
-				lastUpdated = x.Updated.ToLongApplicationString()
+				lastUpdated = x.Updated.ToLongApplicationString(),
+				updatedBy = x.UpdatedBy.ToString()
 			}), JsonRequestBehavior.AllowGet);
 	    }
 

@@ -1,3 +1,30 @@
-﻿@model IssueTracker.Common.Models.Issue
+﻿@model object
 
-<h1>@Model.Name</h1>
+<script type="text/javascript">
+	$(function () {
+		var root = window.IssueTracker || (window.IssueTracker = {});
+		root.selectedIssue(@Html.Raw(Json.Encode(Model)));
+	});
+</script>
+
+<div class="tile number">
+	<h1 data-bind="text: '#' + IssueTracker.selectedIssue().number"></h1>
+</div>
+
+<div class="tile title">
+	<h1 data-bind="text: IssueTracker.selectedIssue().name"></h1>
+	<i class="fa fa-angle-down"></i>
+</div>
+
+<div class="tile details">
+	<div>
+		<span class="title">Priority</span>
+		<i class="fa fa-angle-down"></i>
+		<span class="info" data-bind="text: IssueTracker.selectedIssue().priority"></span>
+	</div>
+	<div>
+		<span class="title">Status</span>
+		<i class="fa fa-angle-down"></i>
+		<span class="info" data-bind="text: IssueTracker.selectedIssue().status"></span>
+	</div>
+</div>

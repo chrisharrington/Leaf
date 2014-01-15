@@ -1,6 +1,4 @@
 
-namespace("IssueTracker");
-
 $(function() {
 
 	IssueTracker.view = ko.observable();
