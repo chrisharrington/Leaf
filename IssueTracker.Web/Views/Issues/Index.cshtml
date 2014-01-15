@@ -4,6 +4,10 @@
 			<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
 		</div>
 		<div class="filters">
+			<div id="view">
+				<span>View</span>
+				<i class="fa fa-angle-down"></i>
+			</div>
 			<div id="priority-filter">
 				<span data-bind="css: { selected: selectedPriority() != undefined }, text: selectedPriority() ? selectedPriority().Name : 'Priority'"></span>
 				<i class="fa fa-angle-down"></i>
@@ -58,25 +62,33 @@
 
 <script id="priority-filter-dialog" type="text/html">
 	<div class="select-dialog priority-filter-dialog" data-bind="foreach: priorities">
-		<div data-bind="text: Name, attr: { 'data-priority': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedPriority() && IssueTracker.Issues.selectedPriority().Name == Name ? ' selected' : '') }"></div>
+		<div>
+			<div data-bind="text: Name, attr: { 'data-priority': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedPriority() && IssueTracker.Issues.selectedPriority().Name == Name ? ' selected' : '') }"></div>
+		</div>
 	</div>
 </script>
 
 <script id="status-filter-dialog" type="text/html">
 	<div class="select-dialog status-filter-dialog" data-bind="foreach: statuses">
-		<div data-bind="text: Name, attr: { 'data-status': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().Name == Name ? ' selected' : '') }"></div>
+		<div>
+			<div data-bind="text: Name, attr: { 'data-status': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().Name == Name ? ' selected' : '') }"></div>
+		</div>
 	</div>
 </script>
 
 <script id="assignee-filter-dialog" type="text/html">
 	<div class="select-dialog assignee-filter-dialog" data-bind="foreach: users">
-		<div data-bind="text: Name, attr: { 'data-assignee': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedAssignee() && IssueTracker.Issues.selectedAssignee().Name == Name ? ' selected' : '') }"></div>
+		<div>
+			<div data-bind="text: Name, attr: { 'data-assignee': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedAssignee() && IssueTracker.Issues.selectedAssignee().Name == Name ? ' selected' : '') }"></div>
+		</div>
 	</div>
 </script>
 
 <script id="owner-filter-dialog" type="text/html">
 	<div class="select-dialog owner-filter-dialog" data-bind="foreach: users">
-		<div data-bind="text: Name, attr: { 'data-owner': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedOwner() && IssueTracker.Issues.selectedOwner().Name == Name ? ' selected' : '') }"></div>
+		<div>
+			<div data-bind="text: Name, attr: { 'data-owner': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedOwner() && IssueTracker.Issues.selectedOwner().Name == Name ? ' selected' : '') }"></div>
+		</div>
 	</div>
 </script>
 
@@ -127,5 +139,11 @@
 			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'closed' }"></i>
 			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'closed' }"></i>
 		</div>
+	</div>
+</script>
+
+<script id="view-dialog" type="text/html">
+	<div class="view-dialog">
+
 	</div>
 </script>

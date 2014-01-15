@@ -68,14 +68,14 @@
 		container.on("click", "table tbody tr", function() {
 			var issue = $.parseJSON($(this).attr("data-issue"));
 			IssueTracker.selectedIssue(issue);
-			IssueTracker.IssueDetails.navigate({ name: issue.name.formatForUrl() });
+			IssueTracker.IssueDetails.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl(), name: issue.name.formatForUrl() });
 		});
 
 		container.find("#priority-filter").click(function() {
 			var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.selectedPriority($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-priority")));
-				$(this).toggleClass("selected");
+				root.selectedPriority($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-priority")));
+				$(this).find(">div").toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
 			});
@@ -84,8 +84,8 @@
 		container.find("#status-filter").click(function () {
 			var popupContainer = IssueTracker.Popup.load({ view: "#status-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.selectedStatus($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-status")));
-				$(this).toggleClass("selected");
+				root.selectedStatus($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-status")));
+				$(this).find(">div").toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
 			});
@@ -94,8 +94,8 @@
 		container.find("#assignee-filter").click(function () {
 			var popupContainer = IssueTracker.Popup.load({ view: "#assignee-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.selectedAssignee($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-assignee")));
-				$(this).toggleClass("selected");
+				root.selectedAssignee($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-assignee")));
+				$(this).find(">div").toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
 			});
@@ -104,8 +104,8 @@
 		container.find("#owner-filter").click(function () {
 			var popupContainer = IssueTracker.Popup.load({ view: "#owner-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.selectedOwner($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-owner")));
-				$(this).toggleClass("selected");
+				root.selectedOwner($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-owner")));
+				$(this).find(">div").toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
 			});
@@ -196,7 +196,7 @@
 		root: root,
 		view: "Issues",
 		title: "Issues",
-		route: "#/issues",
+		route: "#/:project-name/issues",
 		style: "issues-container"
 	});
 

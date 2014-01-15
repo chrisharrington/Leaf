@@ -62,7 +62,7 @@
 		root: root,
 		view: function () { return "Issues/Details?issueName=:name&projectId=" + IssueTracker.selectedProject().id; },
 		title: "Issue Details",
-		route: "#/issues/:name",
+		route: "#/:project-name/issues/:name",
 		style: "issue-details-container"
 	});
 

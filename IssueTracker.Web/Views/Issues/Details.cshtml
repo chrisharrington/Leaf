@@ -9,7 +9,7 @@
 
 <div class="container notop table">
 	<div class="breadcrumbs">
-		<a class="clickable" href="#/issues">
+		<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
 			<i class="fa fa-home"></i>
 			<span data-bind="text: IssueTracker.selectedProject().name"></span>
 		</a>

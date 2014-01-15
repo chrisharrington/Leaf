@@ -25,10 +25,12 @@ div.dialog.beneath div.arrow.top { display:block; }
 div.dialog.above div.arrow.bottom { display:block; }
 
 div.dialog .selected { .secondary-gradient; color:white; }
+div.dialog .selected:hover { color:white; }
 
 div.select-dialog {
-	>div { float:left; width:100%; padding:@small-spacing; border-top:solid 1px @border-colour-dark; cursor:pointer; .box-sizing; }
+	>div { float:left; width:100%; padding:@small-spacing; border-top:solid 1px @border-colour-dark; cursor:pointer; .box-sizing;
+		>div { .border-radius; padding:@small-spacing; }
+	}
 	>div:first-child { border-top:none; }
 	>div:hover { color:@secondary-font-colour-light; }
-	>div.selected:hover { color:white; }
 }

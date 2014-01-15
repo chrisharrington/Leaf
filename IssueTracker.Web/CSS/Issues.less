@@ -23,7 +23,7 @@
 		>div.filter { float:right; margin-right:@spacing; }
 
 		>div.tools { float:right; display:table; height:100%;
-			>i { display:table-cell; vertical-align:middle; font-size:1.25em; padding:@small-spacing; cursor:pointer; color:@primary-font-colour-light; }
+			>i { display:table-cell; vertical-align:middle; font-size:1.25em; padding:@small-spacing; cursor:pointer; color:@primary-font-colour-icon; }
 			>i:hover { color:@secondary-font-colour; }
 		}
 	}
@@ -48,8 +48,8 @@
 				>span.name.medium { color:@medium-priority-font-colour; }
 				>span.name.high { color:@high-priority-font-colour; }
 				>span.name.critical { color:@critical-priority-font-colour; }
-				>span.info { color:#999999; padding-left:@small-spacing; white-space:nowrap; overflow:hidden; }
-				>span.info b { color:black; }
+				>span.info { color:@primary-font-colour-light; padding-left:@small-spacing; white-space:nowrap; overflow:hidden; font-size:0.875em; }
+				>span.info b { color:@primary-font-colour; }
 			}
 		}
 		tfoot { display:none; }

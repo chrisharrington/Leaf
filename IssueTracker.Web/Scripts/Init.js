@@ -4,7 +4,7 @@
 	root.init = function () {
 		$("div.render-container").css("left", $(window).outerWidth() + "px");
 
-		Path.root("#/issues");
+		Path.root("#/" + IssueTracker.selectedProject().name.formatForUrl() + "/issues");
 		Path.listen();
 
 		Highcharts.setOptions({
