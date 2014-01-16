@@ -19,9 +19,9 @@ namespace IssueTracker.Data.Tests.Repositories
 		[Fact]
 		public void ShouldGetAllIssues()
 		{
-			var first = CreateIssues();
+			var first = CreateIssue();
 			first.Name = "the first name";
-			var second = CreateIssues();
+			var second = CreateIssue();
 			second.Name = "the second name";
 
 			_sut.Insert(first);
@@ -37,7 +37,7 @@ namespace IssueTracker.Data.Tests.Repositories
 		[Fact]
 		public void ShouldInsertIssue()
 		{
-			var issue = CreateIssues();
+			var issue = CreateIssue();
 
 			_sut.Insert(issue);
 
@@ -55,7 +55,7 @@ namespace IssueTracker.Data.Tests.Repositories
 		public void ShouldUpdateIssue()
 		{
 			const string newName = "the new name";
-			var issue = CreateIssues();
+			var issue = CreateIssue();
 
 			_sut.Insert(issue);
 
@@ -73,7 +73,103 @@ namespace IssueTracker.Data.Tests.Repositories
 			}
 		}
 
-		private static Issue CreateIssues()
+		[Fact]
+		public void ShouldInsertAttachedProject()
+		{
+			var issue = CreateIssue();
+
+			_sut.Insert(issue);
+
+			using (var connection = OpenConnection())
+			{
+				Assert.Equal(connection.Query<Guid>("select Project_Id from Issues").First(), issue.Project.Id);
+
+				var retrieved = connection.Query<Project>("select * from Projects where Id = @id", new {id = issue.Project.Id}).First();
+				AssertPropertiesAreEqual(retrieved, issue.Project, x => x.Id, x => x.Name);
+			}
+		}
+
+		[Fact]
+		public void ShouldInsertAttachedPriority()
+		{
+			var issue = CreateIssue();
+
+			_sut.Insert(issue);
+
+			using (var connection = OpenConnection())
+			{
+				Assert.Equal(connection.Query<Guid>("select Priority_Id from Issues").First(), issue.Priority.Id);
+
+				var retrieved = connection.Query<Priority>("select * from Priorities where Id = @id", new { id = issue.Priority.Id }).First();
+				AssertPropertiesAreEqual(retrieved, issue.Priority, x => x.Id, x => x.Name, x => x.Order);
+			}
+		}
+
+		[Fact]
+		public void ShouldInsertAttachedStatus()
+		{
+			var issue = CreateIssue();
+
+			_sut.Insert(issue);
+
+			using (var connection = OpenConnection())
+			{
+				Assert.Equal(connection.Query<Guid>("select Status_Id from Issues").First(), issue.Status.Id);
+
+				var retrieved = connection.Query<Status>("select * from Status where Id = @id", new { id = issue.Status.Id }).First();
+				AssertPropertiesAreEqual(retrieved, issue.Status, x => x.Id, x => x.Name, x => x.Order);
+			}
+		}
+
+		[Fact]
+		public void ShouldInsertAttachedAssignee()
+		{
+			var issue = CreateIssue();
+
+			_sut.Insert(issue);
+
+			using (var connection = OpenConnection())
+			{
+				Assert.Equal(connection.Query<Guid>("select Assignee_Id from Issues").First(), issue.Assignee.Id);
+
+				var retrieved = connection.Query<User>("select * from Users where Id = @id", new { id = issue.Assignee.Id }).First();
+				AssertPropertiesAreEqual(retrieved, issue.Assignee, x => x.Id, x => x.Name, x => x.EmailAddress);
+			}
+		}
+
+		[Fact]
+		public void ShouldInsertAttachedOwner()
+		{
+			var issue = CreateIssue();
+
+			_sut.Insert(issue);
+
+			using (var connection = OpenConnection())
+			{
+				Assert.Equal(connection.Query<Guid>("select Owner_Id from Issues").First(), issue.Owner.Id);
+
+				var retrieved = connection.Query<User>("select * from Users where Id = @id", new { id = issue.Owner.Id }).First();
+				AssertPropertiesAreEqual(retrieved, issue.Owner, x => x.Id, x => x.Name, x => x.EmailAddress);
+			}
+		}
+
+		[Fact]
+		public void ShouldInsertAttachedUpdater()
+		{
+			var issue = CreateIssue();
+
+			_sut.Insert(issue);
+
+			using (var connection = OpenConnection())
+			{
+				Assert.Equal(connection.Query<Guid>("select UpdatedBy_Id from Issues").First(), issue.UpdatedBy.Id);
+
+				var retrieved = connection.Query<User>("select * from Users where Id = @id", new { id = issue.UpdatedBy.Id }).First();
+				AssertPropertiesAreEqual(retrieved, issue.UpdatedBy, x => x.Id, x => x.Name, x => x.EmailAddress);
+			}
+		}
+
+		private static Issue CreateIssue()
 		{
 			return new Issue { Id = Guid.NewGuid(), Name = "the issue name", Assignee = CreateUser("the assignee"), Owner = CreateUser("the owner"), Description = "the description", Number = 10, Opened = DateTime.Now, Priority = CreatePriority(), Project = CreateProject(), Status = CreateStatus(), Updated = DateTime.Now, UpdatedBy = CreateUser("the updating user") };
 		}
@@ -90,7 +186,7 @@ namespace IssueTracker.Data.Tests.Repositories
 
 		private static Status CreateStatus()
 		{
-			throw new NotImplementedException();
+			return new Status {Id = Guid.NewGuid(), Name = "the status", Order = 5};
 		}
 
 		private static User CreateUser(string name)
