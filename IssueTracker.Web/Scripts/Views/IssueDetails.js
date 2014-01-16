@@ -44,7 +44,7 @@
 		$.post(IssueTracker.virtualDirectory() + "Issues/Update", _buildIssueParameters()).success(function() {
 			_descriptionFlipper.toggle();
 		}).error(function() {
-			//alert("An error has occurred while updating the issue's description. Please try again later.");
+			alert("An error has occurred while updating the issue's description. Please try again later.");
 		}).complete(function() {
 			loader.hide();
 			buttons.attr("disabled", false);

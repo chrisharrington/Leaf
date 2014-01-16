@@ -13,7 +13,7 @@
 				<i class="fa fa-angle-down"></i>
 			</div>
 			<div id="status-filter">
-				<span data-bind="css: { selected: selectedStatus() != undefined }, text: selectedStatus() ? selectedStatus().Name : 'Status'"></span>
+				<span data-bind="css: { selected: selectedStatus() != undefined }, text: selectedStatus() ? selectedStatus().name : 'Status'"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
 			<div id="assignee-filter">
@@ -87,7 +87,7 @@
 <script id="status-filter-dialog" type="text/html">
 	<div class="select-dialog status-filter-dialog" data-bind="foreach: statuses">
 		<div>
-			<div data-bind="text: Name, attr: { 'data-status': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().Name == Name ? ' selected' : '') }"></div>
+			<div data-bind="text: name, attr: { 'data-status': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().name == name ? ' selected' : '') }"></div>
 		</div>
 	</div>
 </script>
