@@ -5,6 +5,8 @@
 	var _container;
 
 	root.load = function (params) {
+		if (params && params.container)
+			_container = params.container;
 		if (!_container) {
 			_container = $("div.dialog.serious");
 			_container.find("i").click(function() { _container.hide(); });
