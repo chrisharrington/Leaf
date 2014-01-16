@@ -10,7 +10,6 @@ using Autofac;
 using Dapper;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
-using IssueTracker.Data;
 using IssueTracker.SampleDataImporter.Authorization;
 using WebMatrix.WebData;
 
@@ -34,19 +33,10 @@ namespace IssueTracker.SampleDataImporter
 			_container = Dependencies.Dependencies.Register().Build();
 
 			RemoveData();
-			InitializeDatabase();
 
 			var user = InsertAuthorizedUser();
 			foreach (var project in BuildProjects(user))
 				BuildIssues(user, project);
-		}
-
-		private static void InitializeDatabase()
-		{
-			using (var context = new DataContext())
-			{
-				context.Database.Initialize(true);
-			}
 		}
 
 		private static IEnumerable<Project> BuildProjects(User user)
@@ -98,14 +88,30 @@ namespace IssueTracker.SampleDataImporter
                                     exec (@sql)
                                     PRINT @sql
                                 end
-                                while(exists(select 1 from INFORMATION_SCHEMA.TABLES ))
-                                begin
-                                    declare @sql2 nvarchar(2000)
-                                    SELECT TOP 1 @sql2=('DROP TABLE ' + TABLE_SCHEMA + '.[' + TABLE_NAME + ']')
-                                    FROM INFORMATION_SCHEMA.TABLES
-                                exec (@sql2)
-                                    PRINT @sql2
-                                end");
+                                declare @tableSchema nvarchar(max)
+								declare @tableName nvarchar(max)
+
+								declare tableCursor cursor for select TABLE_SCHEMA, TABLE_NAME from INFORMATION_SCHEMA.TABLES
+								open tableCursor
+
+								fetch next from tableCursor into @tableSchema, @tableName
+
+								while @@fetch_status = 0
+								begin
+
+									if (@tableName <> '__MigrationHistory')
+									begin
+										declare @dropSql nvarchar(max)
+										set @dropSql = 'truncate table ' + @tableSchema + '.[' + @tableName + ']'
+										exec (@dropSql)
+									end
+
+									fetch next from tableCursor into @tableSchema, @tableName
+
+								end
+
+								close tableCursor
+								deallocate tableCursor");
 			}
 		}
 

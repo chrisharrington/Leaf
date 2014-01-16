@@ -42,26 +42,13 @@ namespace IssueTracker.Data.Repositories
 
 			if (entry.State == EntityState.Detached)
 			{
-				var set = Context.Set<TModel>();
-				var attachedEntity = set.Local.SingleOrDefault(e => e.Id == model.Id);  // You need to have access to key
-
+				var attachedEntity = Context.Set<TModel>().Local.SingleOrDefault(e => e.Id == model.Id);
 				if (attachedEntity != null)
-				{
-					var attachedEntry = Context.Entry(attachedEntity);
-					attachedEntry.CurrentValues.SetValues(model);
-				}
-				else
-				{
-					entry.State = EntityState.Modified;
-				}
+					Context.Entry(attachedEntity).CurrentValues.SetValues(model);
 			}
 
-//			var collection = Context.Set<TModel>();
-//			var entry = Context.Entry(model);
-//			if (entry.State == EntityState.Detached)
-//				collection.Attach(model);
-//			Context.Entry(model).State = EntityState.Modified;
-//			Context.SaveChanges();
+			entry.State = EntityState.Modified;
+			Context.SaveChanges();
 		}
 
 		public void Delete(TModel model)

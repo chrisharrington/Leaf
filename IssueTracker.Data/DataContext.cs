@@ -12,6 +12,6 @@ namespace IssueTracker.Data
 		public DbSet<Project> Projects { get; set; }
 		public DbSet<Transition> Transitions { get; set; }
 
-		public DataContext() : base("DefaultDataConnection") {}
+		public DataContext() : base("DefaultDataConnection") { }
 	}
 }
