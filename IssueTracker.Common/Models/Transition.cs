@@ -1,7 +1,8 @@
 ﻿namespace IssueTracker.Common.Models
 {
-	public enum Transition
+	public class Transition : ProjectModel
 	{
-		PendingTo
+		public Status From { get; set; }
+		public Status To { get; set; }
 	}
 }

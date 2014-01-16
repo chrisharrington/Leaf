@@ -10,6 +10,7 @@ namespace IssueTracker.Data
 		public DbSet<Status> Statuses { get; set; }
 		public DbSet<User> Users { get; set; }
 		public DbSet<Project> Projects { get; set; }
+		public DbSet<Transition> Transitions { get; set; }
 
 		public DataContext() : base("DefaultDataConnection") {}
 	}

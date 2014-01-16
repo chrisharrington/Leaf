@@ -45,6 +45,7 @@
     <Compile Include="Data\Repositories\IProjectRepository.cs" />
     <Compile Include="Data\Repositories\IRepository.cs" />
     <Compile Include="Data\Repositories\IStatusRepository.cs" />
+    <Compile Include="Data\Repositories\ITransitionRepository.cs" />
     <Compile Include="Data\Repositories\IUserRepository.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Models\Project.cs" />

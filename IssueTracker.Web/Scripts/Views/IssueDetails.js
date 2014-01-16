@@ -4,6 +4,7 @@
 	var _container;
 	var _oldDescription;
 	var _descriptionFlipper;
+	var _transitioner = IssueTracker.Transitioner;
 
 	root.load = function (container) {
 		_container = container;
@@ -17,6 +18,11 @@
 	function _hookupEvents(container) {
 		container.on("click", "#save-description", _saveDescription);
 		container.on("click", "#cancel-description", _discardDescription);
+		container.on("click", "div.transitions button", _executeTransition);
+	}
+
+	function _executeTransition() {
+		_transitioner.execute($(this).attr("data-transition-id"));
 	}
 
 	function _setUpFlipPanels(container) {

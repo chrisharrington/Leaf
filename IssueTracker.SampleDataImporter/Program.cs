@@ -18,7 +18,7 @@ namespace IssueTracker.SampleDataImporter
 {
 	public class Program
 	{
-		private const int NUM_ISSUES = 150;
+		private const int NUM_ISSUES = 20;
 		private const int NUM_PROJECTS = 1;
 		private const string WORDS = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
@@ -157,29 +157,40 @@ namespace IssueTracker.SampleDataImporter
 		private static IEnumerable<Status> BuildStatuses(Project project)
 		{
 			var order = 1;
-			var list = new List<Status>();
-			list.Add(new Status { Name = "Pending", Order = order++, Project = project });
-			list.Add(new Status { Name = "In Development", Order = order++, Project = project });
-			list.Add(new Status { Name = "Ready to Test", Order = order++, Project = project });
-			list.Add(new Status { Name = "In Testing", Order = order++, Project = project });
-			list.Add(new Status { Name = "Failed Testing", Order = order++, Project = project });
-			list.Add(new Status { Name = "Complete", Order = order, Project = project });
+			var pendingDevelopment = new Status { Id = Guid.NewGuid(), Name = "Pending Development", Order = order++, Project = project };
+			var inDevelopment = new Status { Id = Guid.NewGuid(), Name = "In Development", Order = order++, Project = project };
+			var pendingTesting = new Status { Id = Guid.NewGuid(), Name = "Pending Testing", Order = order++, Project = project };
+			var inTesting = new Status { Id = Guid.NewGuid(), Name = "In Testing", Order = order++, Project = project };
+			var failedTesting = new Status { Id = Guid.NewGuid(), Name = "Failed Testing", Order = order++, Project = project };
+			var complete = new Status { Id = Guid.NewGuid(), Name = "Complete", Order = order, Project = project };
 
-			var repository = _container.Resolve<IStatusRepository>();
-			foreach (var status in list)
-				repository.Insert(status);
+			var statusRepository = _container.Resolve<IStatusRepository>();
+			var statuses = new List<Status> { pendingDevelopment, inDevelopment, pendingTesting, inTesting, failedTesting, complete };
+			foreach (var status in statuses)
+				statusRepository.Insert(status);
 
-			return list;
+			var startDevelopment = new Transition {Project = project, From = pendingDevelopment, To = inDevelopment, Name = "Start Development"};
+			var completeDevelopment = new Transition {Project = project, From = inDevelopment, To = pendingTesting, Name = "Complete Development"};
+			var startTesting = new Transition {Project = project, From = pendingTesting, To = inTesting, Name = "Start Testing"};
+			var failTesting = new Transition {Project = project, From = inTesting, To = failedTesting, Name = "Fail Testing"};
+			var restartDevelopment = new Transition {Project = project, From = failedTesting, To = inDevelopment, Name = "Restart Development"};
+			var passTesting = new Transition {Project = project, From = inTesting, To = complete, Name = "Pass Testing"};
+
+			var transitionRepository = _container.Resolve<ITransitionRepository>();
+			new List<Transition> {startDevelopment, completeDevelopment, startTesting, failTesting, restartDevelopment, passTesting}.ForEach(x => transitionRepository.Insert(x));
+
+			return statuses;
 		}
 
 		private static IEnumerable<Priority> BuildPriorities(Project project)
 		{
 			var order = 1;
-			var list = new List<Priority>();
-			list.Add(new Priority { Name = "Low", Order = order++, Project = project });
-			list.Add(new Priority { Name = "Medium", Order = order++, Project = project });
-			list.Add(new Priority { Name = "High", Order = order++, Project = project });
-			list.Add(new Priority { Name = "Critical", Order = order, Project = project });
+			var list = new List<Priority> {
+				new Priority {Name = "Low", Order = order++, Project = project},
+				new Priority {Name = "Medium", Order = order++, Project = project},
+				new Priority {Name = "High", Order = order++, Project = project},
+				new Priority {Name = "Critical", Order = order, Project = project}
+			};
 
 			var repository = _container.Resolve<IPriorityRepository>();
 			foreach (var priority in list)

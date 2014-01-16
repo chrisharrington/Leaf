@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace IssueTracker.Common.ViewModels
 {
@@ -18,6 +19,6 @@ namespace IssueTracker.Common.ViewModels
 		public Guid ownerId { get; set; }
 		public string opened { get; set; }
 		public string closed { get; set; }
-		public int transition { get; set; }
+		public IEnumerable<object> transitions { get; set; }
 	}
 }

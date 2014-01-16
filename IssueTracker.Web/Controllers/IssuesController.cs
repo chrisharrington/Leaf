@@ -15,6 +15,7 @@ namespace IssueTracker.Web.Controllers
 		public IPriorityRepository PriorityRepository { get; set; }
 		public IUserRepository UserRepository { get; set; }
 		public IIssueRepository IssueRepository { get; set; }
+		public ITransitionRepository TransitionRepository { get; set; }
 
 		public ActionResult Index()
 		{
@@ -39,7 +40,7 @@ namespace IssueTracker.Web.Controllers
 				description = issue.Description,
 				opened = issue.Opened.ToApplicationString(),
 				closed = issue.Closed.ToApplicationString(),
-				transition = DeriveTransition(issue)
+				transitions = TransitionRepository.Status(issue.Status).Select(x => new {id = x.Id, name = x.Name})
 		    });
 	    }
 

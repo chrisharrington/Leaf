@@ -12,6 +12,7 @@ namespace IssueTracker.Web.Controllers
 		public IStatusRepository StatusRepository { get; set; }
 		public IUserRepository UserRepository { get; set; }
 		public IProjectRepository ProjectRepository { get; set; }
+		public ITransitionRepository TransitionRepository { get; set; }
 
 		public ActionResult Index()
 		{
@@ -22,6 +23,7 @@ namespace IssueTracker.Web.Controllers
 				Statuses = StatusRepository.Project(selectedProject, x => x.Order),
 				Users = UserRepository.All(x => x.Name),
 				Projects = projects,
+				Transitions = TransitionRepository.All(x => x.Name),
 				SelectedProject = new { name = selectedProject.Name, id = selectedProject.Id }
             });
 		}
@@ -42,6 +44,7 @@ namespace IssueTracker.Web.Controllers
 		public IEnumerable<Status> Statuses { get; set; }
 		public IEnumerable<User> Users { get; set; }
 		public IEnumerable<Project> Projects { get; set; }
+		public IEnumerable<Transition> Transitions { get; set; }
 		public object SelectedProject { get; set; }
 	}
 }
