@@ -36,17 +36,22 @@
 	</div>
 </div>
 
-<div class="tile issues-container table" data-bind="foreach: list">
-	<a data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
-		<div data-bind="attr: { class: 'priority ' + priorityStyle }"></div>
-		<div class="ellipsis name">
-			<div>
-				<h3 class="name" data-bind="text: name"></h3>
-				<span class="info">Last updated by <b data-bind="text: updatedBy"></b> at <b data-bind="text: lastUpdated"></b>.</span>
+<div class="tile issues-container table">
+	<div class="data" data-bind="foreach: list">
+		<a data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
+			<div data-bind="attr: { class: 'priority ' + priorityStyle }"></div>
+			<div class="ellipsis name">
+				<div>
+					<h3 class="name" data-bind="text: name"></h3>
+					<span class="info">Last updated by <b data-bind="text: updatedBy"></b> at <b data-bind="text: lastUpdated"></b>.</span>
+				</div>
 			</div>
-		</div>
-		<div class="status" data-bind="text: status"></div>
-	</a>
+			<div class="status" data-bind="text: status"></div>
+		</a>
+	</div>
+	<div class="loading tile">
+		<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
+	</div>
 
 	@*<table>
 		<tbody data-bind="foreach: list">

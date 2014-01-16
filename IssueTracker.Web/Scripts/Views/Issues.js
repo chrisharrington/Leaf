@@ -26,7 +26,7 @@
 	root.load = function (container) {
 		_container = container;
 
-		_loader = container.find("table tfoot");
+		_loader = container.find("div.table div.loading");
 		_setupFilter(container);
 		_setupLoadingMoreIssues();
 		_getNextIssues(_startCount);

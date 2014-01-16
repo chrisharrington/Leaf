@@ -29,25 +29,30 @@
 	}
 
 	div.issues-container.table { font-family:"Roboto Condensed"; font-size:1em; padding:0;
-		>a { border-top:solid 1px #DDD; cursor:pointer; height:65px; display:block; color:@primary-font-colour;
-			>div { float:left; height:100%; .box-sizing; padding:@spacing; }
-			>div.priority { padding:0; width:8px; }
-			>div.priority.low { background-color:@low-priority-background; }
-			>div.priority.medium { background-color:@medium-priority-background; }
-			>div.priority.high { background-color:@high-priority-background; }
-			>div.priority.critical { background-color:@critical-priority-background; }
-			>div.name { padding:@small-spacing;
-				>div { height:100%;
-					>h3.name { float:left; width:100%; font-weight:bold; color:black; margin-bottom:4px; font-size:1.125em; padding-left:@small-spacing; }
-					>span.name.low { color:@low-priority-font-colour; }
-					>span.name.medium { color:@medium-priority-font-colour; }
-					>span.name.high { color:@high-priority-font-colour; }
-					>span.name.critical { color:@critical-priority-font-colour; }
-					>span.info { float:left; width:100%; color:@primary-font-colour-light; padding-left:@small-spacing; white-space:nowrap; overflow:hidden; font-size:0.875em; }
-					>span.info b { color:@primary-font-colour-dark; font-weight:normal; }
+		>div.data {
+			>a { border-top:solid 1px #DDD; cursor:pointer; height:65px; display:block; color:@primary-font-colour;
+				>div { float:left; height:100%; .box-sizing; padding:@spacing; }
+				>div.priority { padding:0; width:8px; }
+				>div.priority.low { background-color:@low-priority-background; }
+				>div.priority.medium { background-color:@medium-priority-background; }
+				>div.priority.high { background-color:@high-priority-background; }
+				>div.priority.critical { background-color:@critical-priority-background; }
+				>div.name { padding:@small-spacing;
+					>div { height:100%;
+						>h3.name { float:left; width:100%; font-weight:bold; color:black; margin-bottom:4px; font-size:1.125em; padding-left:@small-spacing; }
+						>span.name.low { color:@low-priority-font-colour; }
+						>span.name.medium { color:@medium-priority-font-colour; }
+						>span.name.high { color:@high-priority-font-colour; }
+						>span.name.critical { color:@critical-priority-font-colour; }
+						>span.info { float:left; width:100%; color:@primary-font-colour-light; padding-left:@small-spacing; white-space:nowrap; overflow:hidden; font-size:0.875em; }
+						>span.info b { color:@primary-font-colour-dark; font-weight:normal; }
+					}
 				}
+				>div.status { float:right; text-align:right; }
 			}
-			>div.status { float:right; text-align:right; }
+		}
+		>div.loading { float:left; width:100%; text-align:center; display:none;
+			>img { margin:auto; width:30px; height:30px; }
 		}
 		>a:first-child { border-top:none; }
 		>a:hover { background-color:@hover-colour; }
