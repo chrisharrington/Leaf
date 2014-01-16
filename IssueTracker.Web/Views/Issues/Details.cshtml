@@ -20,9 +20,18 @@
 	</div>
 	
 	<div class="buttons">
-		<button>Save Changes</button>
-		<button>Duplicate Issue</button>
-		<button>Delete Issue</button>
+		<div class="transitions">
+			&nbsp;
+			<button id="start-development">Start Development</button>
+			<button id="finish-development">Complete Development</button>
+			<button id="start-testing">Start Testing</button>
+			<button id="pass-testing">Pass Testing</button>
+			<button id="fail-testing">Fail Testing</button>
+		</div>
+		<div class="always">
+			<button>Duplicate Issue</button>
+			<button>Delete Issue</button>
+		</div>
 	</div>
 </div>
 
@@ -78,6 +87,14 @@
 			<span class="title">Owner</span>
 			<i class="fa fa-angle-down"></i>
 			<span class="info" data-bind="text: IssueTracker.selectedIssue.owner"></span>
+		</div>
+		<div>
+			<span class="title">Date Opened</span>
+			<span class="info" data-bind="text: IssueTracker.selectedIssue.opened"></span>
+		</div>
+		<div>
+			<span class="title">Date Closed</span>
+			<span class="info" data-bind="text: IssueTracker.selectedIssue.closed"></span>
 		</div>
 	</div>
 </div>

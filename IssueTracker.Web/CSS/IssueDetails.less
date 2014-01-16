@@ -12,8 +12,12 @@
 	}
 
 	div.buttons { float:right;
-		>button { float:left; margin-left:@small-spacing; }
-		>button:first-child { margin-left:0; }
+		>div { float:left; }
+		>div.transitions { margin-right:@spacing; border-right:solid 1px @border-colour; padding-right:@spacing; display:none; }
+		>div {
+			>button { float:left; margin-left:@small-spacing; }
+			>button:first-child { margin-left:0; }
+		}
 	}
 
 	div.container { float:left; width:100%; margin-top:@spacing; }
@@ -30,7 +34,7 @@
 	div.title:hover { .hover; }
 	div.title:hover>h1 { .hover; }
 
-	div.description { float:left; width:100%; height:207px;
+	div.description { float:left; width:100%; height:311px;
 		>div { margin-right:300px+@spacing; height:100%;
 			>div { float:left; width:100%; height:100%;
 				>div { float:left; width:100%;
@@ -41,7 +45,7 @@
 					>textarea { .hover; }
 				}
 				div.back {
-					>textarea { float:left; width:100%; height:138px; }
+					>textarea { float:left; width:100%; height:242px; }
 					>div.buttons { float:right; margin-top:@small-spacing;
 						>img { float:left; height:100%; height:26px; width:26px; margin-right:@small-spacing; margin-top:4px; display:none; }
 						>button { float:left; margin-left:@small-spacing; }

@@ -49,6 +49,7 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectModel.cs" />
+    <Compile Include="Models\Transition.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Issue.cs" />

@@ -36,7 +36,10 @@ namespace IssueTracker.Web.Controllers
 				assigneeId = issue.Assignee.Id,
 				owner = issue.Owner.ToString(),
 				ownerId = issue.Owner.Id,
-				description = issue.Description
+				description = issue.Description,
+				opened = issue.Opened.ToApplicationString(),
+				closed = issue.Closed.ToApplicationString(),
+				transition = DeriveTransition(issue)
 		    });
 	    }
 
@@ -76,6 +79,11 @@ namespace IssueTracker.Web.Controllers
 	    {
 		    return priority.Name.Replace(" ", "-").ToLower();
 	    }
+
+		private int DeriveTransition(Issue issue)
+		{
+			return 0;
+		}
     }
 
 	public class IssueParams
