@@ -1,17 +1,18 @@
 
 (function (root) {
 
-	var _cache = {};
 	var _container;
 
 	root.load = function (params) {
+		if (!params || !params.anchor)
+			throw new Error("Missing popup anchor.");
+
 		if (!_container) {
 			_container = $("div.dialog.popup");
 			_container.find("i").click(function() { _container.hide(); });
 		}
 		
 		IssueTracker.popup("");
-		_setTitle(params.title);
 		_container.show();
 		$.when(_getHtml(params.view)).then(function (html) {
 			IssueTracker.popup(html);
@@ -30,14 +31,6 @@
 	root.hide = function() {
 		_container.hide();
 	};
-	
-	function _setTitle(title) {
-		var h1 = _container.find("h1");
-		if (title)
-			h1.text(title).show();
-		else
-			h1.text("").hide();
-	}
 	
 	function _setPosition(trigger, verticalOffset) {
 		_setLeftOrRight(trigger);
@@ -64,8 +57,6 @@
 	}
 	
 	function _getHtml(location) {
-		if (_cache[location])
-			return new ResolvedDeferred(_cache[location]);
 		return new ResolvedDeferred($(location).html());
 	}
 

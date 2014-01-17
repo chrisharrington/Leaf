@@ -194,6 +194,7 @@
     <Content Include="Scripts\Views\Widget.js" />
     <Content Include="Tests\boot.js" />
     <Content Include="Tests\console.js" />
+    <Content Include="Tests\Controls\Popup.js" />
     <Content Include="Tests\Controls\Flipper.js" />
     <Content Include="Tests\jasmine-fixture.js" />
     <Content Include="Tests\jasmine-html.js" />
