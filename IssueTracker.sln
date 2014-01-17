@@ -20,10 +20,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.SampleDataImpo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Dependencies", "IssueTracker.Dependencies\IssueTracker.Dependencies.csproj", "{75A32E6D-D1B9-4464-8559-1FC7BCBDFC6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Common.Tests", "IssueTracker.Common.Tests\IssueTracker.Common.Tests.csproj", "{5AD65F03-C55F-4683-9486-AD3E91571F4E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Data.Tests", "IssueTracker.Data.Tests\IssueTracker.Data.Tests.csproj", "{BE33742D-CE52-49F1-92CE-59EA49D69E05}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,14 +46,6 @@ Global
 		{75A32E6D-D1B9-4464-8559-1FC7BCBDFC6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75A32E6D-D1B9-4464-8559-1FC7BCBDFC6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75A32E6D-D1B9-4464-8559-1FC7BCBDFC6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5AD65F03-C55F-4683-9486-AD3E91571F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AD65F03-C55F-4683-9486-AD3E91571F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AD65F03-C55F-4683-9486-AD3E91571F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AD65F03-C55F-4683-9486-AD3E91571F4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE33742D-CE52-49F1-92CE-59EA49D69E05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE33742D-CE52-49F1-92CE-59EA49D69E05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE33742D-CE52-49F1-92CE-59EA49D69E05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE33742D-CE52-49F1-92CE-59EA49D69E05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

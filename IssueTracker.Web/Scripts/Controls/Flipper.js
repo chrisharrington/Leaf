@@ -1,25 +1,28 @@
 
 namespace("IssueTracker.Controls");
 
-IssueTracker.Controls.Flipper = function(view) {
+IssueTracker.Controls.Flipper = function (view, userAgent) {
+	if (!userAgent)
+		userAgent = navigator.userAgent;
 	if (!view || view.length == 0)
 		throw new Error("Missing view for flipper.");
 
 	this._view = view;
+	this._isIE = userAgent.match(/msie/i) || ((/Trident\/7\./).test(userAgent));
 };
 
-IssueTracker.Controls.Flipper.create = function(params) {
-	return new IssueTracker.Controls.Flipper(params);
+IssueTracker.Controls.Flipper.create = function(view, userAgent) {
+	return new IssueTracker.Controls.Flipper(view, userAgent);
 };
 
 IssueTracker.Controls.Flipper.prototype.toggle = function() {
-	if (navigator.userAgent.match(/msie/i) || ((/Trident\/7\./).test(navigator.userAgent)))
+	if (this._isIE)
 		this._toggleForIE();
 	else
 		this._view.toggleClass("flipped");
 };
 
-IssueTracker.Controls.Flipper.prototype.toggleForIE = function() {
+IssueTracker.Controls.Flipper.prototype._toggleForIE = function() {
 	this._view.removeClass("transition");
 	var front = this._view.find(".front");
 	var back = this._view.find(".back");

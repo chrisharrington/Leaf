@@ -195,6 +195,7 @@
     <Content Include="Tests\boot.js" />
     <Content Include="Tests\console.js" />
     <Content Include="Tests\Controls\Flipper.js" />
+    <Content Include="Tests\jasmine-fixture.js" />
     <Content Include="Tests\jasmine-html.js" />
     <Content Include="Tests\jasmine-jquery.js" />
     <Content Include="Tests\jasmine.css" />
