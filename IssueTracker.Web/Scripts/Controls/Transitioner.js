@@ -2,6 +2,9 @@
 (function (root) {
 
 	root.execute = function (transitionId) {
+		if (!transitionId || transitionId == "")
+			throw new Error("Missing transitioner ID.");
+
 		var transition = _getTransition(transitionId);
 		var status = _getStatus(transition.toId);
 		IssueTracker.selectedIssue.status(status.name);
@@ -17,7 +20,11 @@
 				return false;
 			}
 		});
-		return found;
+
+		if (found)
+			return found;
+		else
+			throw new Error("No transition found for transition ID \"" + transitionId + "\".");
 	}
 	
 	function _getStatus(statusId) {
@@ -28,7 +35,11 @@
 				return false;
 			}
 		});
-		return found;
+
+		if (found)
+			return found;
+		else
+			throw new Error("No status was found with status ID \"" + statusId + "\".");
 	}
 	
 	function _getTransitions(statusId) {
