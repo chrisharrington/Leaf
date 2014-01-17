@@ -2,10 +2,14 @@
 namespace("IssueTracker.Controls");
 
 IssueTracker.Controls.Flipper = function(view) {
-	if (!view)
+	if (!view || view.length == 0)
 		throw new Error("Missing view for flipper.");
 
 	this._view = view;
+};
+
+IssueTracker.Controls.Flipper.create = function(params) {
+	return new IssueTracker.Controls.Flipper(params);
 };
 
 IssueTracker.Controls.Flipper.prototype.toggle = function() {
@@ -28,4 +32,4 @@ IssueTracker.Controls.Flipper.prototype.toggleForIE = function() {
 IssueTracker.Controls.Flipper.prototype._switch = function(first, second) {
 	first.removeClass("shown").fadeOut(200);
 	second.addClass("shown").fadeIn(200);
-}
+};

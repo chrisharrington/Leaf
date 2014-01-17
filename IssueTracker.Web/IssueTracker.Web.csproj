@@ -192,6 +192,14 @@
     <Content Include="Scripts\Views\Users.js" />
     <Content Include="Scripts\Views\Welcome.js" />
     <Content Include="Scripts\Views\Widget.js" />
+    <Content Include="Tests\boot.js" />
+    <Content Include="Tests\console.js" />
+    <Content Include="Tests\Controls\Flipper.js" />
+    <Content Include="Tests\jasmine-html.js" />
+    <Content Include="Tests\jasmine-jquery.js" />
+    <Content Include="Tests\jasmine.css" />
+    <Content Include="Tests\jasmine.js" />
+    <Content Include="Tests\SpecRunner.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
