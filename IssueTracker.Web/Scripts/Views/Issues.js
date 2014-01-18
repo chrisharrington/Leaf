@@ -27,7 +27,6 @@
 		_container = container;
 
 		_loader = container.find("div.table div.loading");
-		_setupFilter(container);
 		_setupLoadingMoreIssues();
 		_getNextIssues(_startCount);
 		_hookupEvents(container);
@@ -52,13 +51,13 @@
 		var loading = _container.find("div.filter-tags div.loading").removeClass("hidden");
 		var filters = _container.find("div.filter-tags div.filters").addClass("hidden");
 
-		$.get(IssueTracker.virtualDirectory() + "Root/Filters", $.toDictionary({ project: IssueTracker.selectedProject() })).success(function(data) {
+		$.get(IssueTracker.virtualDirectory() + "Root/Filters", $.toDictionary({ project: IssueTracker.selectedProject() })).done(function(data) {
 			IssueTracker.priorities(data.priorities);
 			IssueTracker.statuses(data.statuses);
 			IssueTracker.users(data.users);
-		}).error(function() {
-			alert("An error has occurred while retrieving your project's filter data. Please try again later.");
-		}).complete(function() {
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error has occurred while retrieving your project's filter data. Please try again later.");
+		}).always(function() {
 			loading.addClass("hidden");
 			filters.removeClass("hidden");
 		});
@@ -136,14 +135,6 @@
 			});
 		});
 	}
-
-	function _setupFilter(container) {
-		_filter = container.find("div.filter");
-		_filter.on("focus", "input[type='text']", function() { _filter.addClass("focus"); });
-		_filter.on("blur", "input[type='text']", function () { _filter.removeClass("focus"); });
-		_filter.on("click", "i", function () { _filter.find("input[type='text']").val("").keyup(); });
-		_filter.click(function () { $(this).find("input").focus(); });
-	}
 	
 	function _setupLoadingMoreIssues() {
 		$(window).scroll(function () {
@@ -158,13 +149,14 @@
 
 		_loader.show();
 		_nextIssuesRunning = true;
-		$.get(IssueTracker.virtualDirectory() + "Issues/Next", _buildParameters(count)).success(function(issues) {
+		$.get(IssueTracker.virtualDirectory() + "Issues/Next", _buildParameters(count)).done(function (issues) {
+			debugger;
 			root.list.pushAll(issues);
 			if (issues.length < count)
 				_allLoaded = true;
-		}).error(function() {
-			alert("An error has occurred while retrieving the next set of issues. Please try again later.");
-		}).complete(function() {
+		}).fail(function () {
+			IssueTracker.Feedback.error("An error has occurred while retrieving the next set of issues. Please try again later.");
+		}).always(function() {
 			_nextIssuesRunning = false;
 			_loader.hide();
 		});

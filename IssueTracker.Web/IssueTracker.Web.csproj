@@ -165,7 +165,6 @@
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\background.png" />
     <Content Include="Scripts\Binders\RemoteTemplateBinder.js" />
-    <Content Include="Scripts\Binders\SlideDownBinder.js" />
     <Content Include="Scripts\Bindings.js" />
     <Content Include="Scripts\Helpers\ChartDrawer.js" />
     <Content Include="Scripts\Helpers\Feedback.js" />
@@ -192,10 +191,6 @@
     <Content Include="Scripts\ThirdParty\ToDictionary.js" />
     <Content Include="Scripts\Views\IssueDetails.js" />
     <Content Include="Scripts\Views\Issues.js" />
-    <Content Include="Scripts\Views\Dashboard.js" />
-    <Content Include="Scripts\Views\Users.js" />
-    <Content Include="Scripts\Views\Welcome.js" />
-    <Content Include="Scripts\Views\Widget.js" />
     <Content Include="Tests\Binders\RemoteTemplateBinder.js" />
     <Content Include="Tests\console.js" />
     <Content Include="Tests\Helpers\Popup.js" />
@@ -208,6 +203,7 @@
     <Content Include="Tests\jasmine.js" />
     <Content Include="Tests\SpecRunner.html" />
     <Content Include="Tests\utils.js" />
+    <Content Include="Tests\Views\Issues.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
