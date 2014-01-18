@@ -15,7 +15,8 @@ describe("RemoteTemplateBinder", function () {
 			_update = ko.bindingHandlers.remoteTemplate.update;
 			_view = function () { return function () { return _viewData; }; };
 			_viewData = {
-				url: "a/remote/location.cshtml"
+				url: "a/remote/location.cshtml",
+				style: "the-style"
 			};
 			_remoteViewResult = ["<div class=\"the-view\"><div class=\"tile\"></div></div>"];
 		});
@@ -42,6 +43,14 @@ describe("RemoteTemplateBinder", function () {
 			setTimeout(function() {
 				expect(loadCalled).toBe(true);
 			}, 100);
+		});
+
+		it("should apply style to container", function() {
+			spyOn($, "get").andReturn(new ResolvedDeferred(_remoteViewResult));
+			
+			_update(_element, _view);
+
+			expect(_element).toHaveClass(_viewData.style);
 		});
 	});
 });

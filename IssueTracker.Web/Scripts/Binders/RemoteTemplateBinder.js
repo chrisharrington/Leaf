@@ -28,7 +28,7 @@
 		if (url instanceof Function)
 			url = url();
 
-		return url.substring(0, 1) == "#" ? new ResolvedDeferred($(url).html()) : $.get(IssueTracker.virtualDirectory() + url).fail(function () {
+		return $.get(IssueTracker.virtualDirectory() + url).fail(function () {
 			IssueTracker.Feedback.error("An error occurred retrieving the view at " + url + ". Please contact technical support.");
 		});
 	}
