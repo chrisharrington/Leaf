@@ -17,17 +17,15 @@ describe("RemoteTemplateBinder", function () {
 			_viewData = {
 				url: "a/remote/location.cshtml"
 			};
-			_remoteViewResult = "<div class=\"the-view\"></div>";
+			_remoteViewResult = ["<div class=\"the-view\"><div class=\"tile\"></div></div>"];
 		});
 
 		it("should fail with invalid view", function() {
 			expect(function() { _update(_element, function() { return function() {}; }); });
 		});
 
-		xit("should display error message when call for remote view fails", function() {
-			spyOn($, "get").andReturn({
-				error: function (callback) { callback(); }
-			});
+		it("should display error message when call for remote view fails", function() {
+			spyOn($, "get").andReturn(new FailedDeferred());
 			spyOn(IssueTracker.Feedback, "error");
 
 			_update(_element, _view);
@@ -40,7 +38,10 @@ describe("RemoteTemplateBinder", function () {
 			var loadCalled = false;
 			_viewData.load = function() { loadCalled = true; };
 			_update(_element, _view);
-			expect(loadCalled).toBe(true);
+
+			setTimeout(function() {
+				expect(loadCalled).toBe(true);
+			}, 100);
 		});
 	});
 });

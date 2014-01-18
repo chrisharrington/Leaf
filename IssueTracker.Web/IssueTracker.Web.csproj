@@ -207,6 +207,7 @@
     <Content Include="Tests\jasmine.css" />
     <Content Include="Tests\jasmine.js" />
     <Content Include="Tests\SpecRunner.html" />
+    <Content Include="Tests\utils.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
