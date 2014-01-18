@@ -8,8 +8,13 @@
 				return;
 
 			$.when(_getDataFromView(view), _hideTiles($(element))).done(function (result) {
+				if (!result)
+					return;
+
 				$(element).attr("class", "content-container " + view.style).empty().append($("<div></div>").addClass("binding-container").html(result[0])).find(">div.tile").css("visibility", "hidden");
 				_showTiles($(element));
+
+				ko.cleanNode($(element).find(">div.binding-container")[0]);
 				ko.applyBindings(view.data, $(element).find(">div.binding-container")[0]);
 
 				if (view.load)
@@ -23,8 +28,8 @@
 		if (url instanceof Function)
 			url = url();
 
-		return url.substring(0, 1) == "#" ? new ResolvedDeferred($(url).html()) : $.get(IssueTracker.virtualDirectory() + url).error(function() {
-			alert("An error occurred retrieving the view at " + url + ". Please contact technical support.");
+		return url.substring(0, 1) == "#" ? new ResolvedDeferred($(url).html()) : $.get(IssueTracker.virtualDirectory() + url).fail(function () {
+			IssueTracker.Feedback.error("An error occurred retrieving the view at " + url + ". Please contact technical support.");
 		});
 	}
 
@@ -56,7 +61,7 @@
 		for (var i = 0; i < array.length; i++) {
 			var tile = element.find(">div.tile:eq(" + array[i] + ")").css("visibility", "hidden");
 			(function(innerTile) {
-				setTimeout(function() {
+				IssueTracker.Defer.execute(function() {
 					innerTile.css("visibility", "visible").hide().fadeIn(250);
 				}, 50 * (i + 1));
 			})(tile);
