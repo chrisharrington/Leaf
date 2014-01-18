@@ -3,7 +3,7 @@ $.ajaxSetup({ cache: false });
 
 function namespace(space) {
 	var root = window.IssueTracker || (window.IssueTracker = {});
-	$(space.replace("IssueTracker.", "").split(".")).each(function (i, part) {
+	$(space.replace("IssueTracker.", "").split(".")).each(function(i, part) {
 		root[part] = root[part] || {};
 		root = root[part];
 	});
