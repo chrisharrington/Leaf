@@ -76,6 +76,15 @@ namespace IssueTracker.Web.Controllers
 			IssueRepository.Update(Mapper.Map<IssueViewModel, Issue>(issue));
 	    }
 
+	    [HttpPost]
+	    public void ExecuteTransition(Guid issueId, Guid statusId)
+	    {
+		    var issue = IssueRepository.Details(issueId);
+		    var status = StatusRepository.Details(statusId);
+		    issue.Status = status;
+		    IssueRepository.Update(issue);
+	    }
+
 	    private static string ToPriorityStyleString(BaseModel priority)
 	    {
 		    return priority.Name.Replace(" ", "-").ToLower();

@@ -164,6 +164,7 @@
     <Content Include="Global.asax" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\background.png" />
+    <Content Include="Images\button-loader.gif" />
     <Content Include="Scripts\Binders\RemoteTemplateBinder.js" />
     <Content Include="Scripts\Binders\SlideDownBinder.js" />
     <Content Include="Scripts\Bindings.js" />

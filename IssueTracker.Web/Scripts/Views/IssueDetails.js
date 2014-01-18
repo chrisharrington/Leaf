@@ -22,7 +22,7 @@
 	}
 
 	function _executeTransition() {
-		_transitioner.execute($(this).attr("data-transition-id"));
+		_transitioner.execute($(this));
 	}
 
 	function _setUpFlipPanels(container) {
