@@ -2,7 +2,6 @@
 (function (root) {
 
 	var _container;
-	var _position = IssueTracker.Position;
 
 	root.load = function (params) {
 		if (!params || !params.anchor)
@@ -47,7 +46,7 @@
 	
 	function _setLeftOrRight(trigger) {
 		var offset = trigger.offset();
-		var isLeft = _position.isElementLeftHalfOfWindow(trigger);
+		var isLeft = IssueTracker.Position.isElementLeftHalfOfWindow(trigger);
 		var arrow = _container.find("div.arrow").removeClass("left right");
 		arrow.addClass(isLeft ? "left" : "right");
 		_container.css("left", isLeft ? (offset.left + trigger.outerWidth()/2 - 30) : (offset.left - _container.outerWidth() + trigger.outerWidth()/2 + 30));
@@ -55,7 +54,7 @@
 	
 	function _setAboveOrBeneath(trigger, verticalOffset) {
 		var offset = trigger.offset();
-		var isBeneath = _position.isElementTopHalfOfWindow(trigger);
+		var isBeneath = IssueTracker.Position.isElementTopHalfOfWindow(trigger);
 		_container.removeClass("above beneath");
 		_container.addClass(isBeneath / 2 ? "beneath" : "above");
 		var top = isBeneath ? (offset.top + 47) : (offset.top - _container.height() - 49);
