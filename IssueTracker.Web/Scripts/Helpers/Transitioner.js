@@ -1,32 +1,23 @@
 
 (function (root) {
 
-	root.execute = function (button) {
-		if (!button)
-			throw new Error("Missing transition button.");
+	root.transitioning = ko.observable(false);
 
-		var transitionId = button.attr("data-transition-id");
-		if (!transitionId || transitionId == "")
-			throw new Error("Missing transitioner ID.");
+	root.execute = function (transitionId) {
+		if (!transitionId)
+			throw new Error("Missing transition transition ID.");
 
 		var transition = _getTransition(transitionId);
 		var status = _getStatus(transition.toId);
-		var buttonOptions = _addLoaderToButton(button);
-//		$.when(_pushTransition(IssueTracker.selectedIssue.id(), status.id)).then(function () {
-//			button.text(text);
-//			IssueTracker.selectedIssue.status(status.name);
-//			IssueTracker.selectedIssue.statusId(status.id);
-//			IssueTracker.selectedIssue.transitions(_getTransitions(status.id));
-//		});
+		root.transitioning(true);
+		$.when(_pushTransition(IssueTracker.selectedIssue.id(), status.id)).then(function () {
+			IssueTracker.selectedIssue.status(status.name);
+			IssueTracker.selectedIssue.statusId(status.id);
+			IssueTracker.selectedIssue.transitions(_getTransitions(status.id));
+			root.transitioning(false);
+		});
 	};
 	
-	function _addLoaderToButton(button) {
-		var width = button.width();
-		var text = button.text();
-		button.empty().append($("<img />").attr("src", "../../images/ajax-loader.gif")).width(width);
-		return { width: width, text: text };
-	}
-
 	function _getTransition(transitionId) {
 		var found;
 		$.each(IssueTracker.transitions(), function(i, transition) {

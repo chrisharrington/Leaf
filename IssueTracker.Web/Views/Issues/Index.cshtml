@@ -46,34 +46,14 @@
 					<span class="info">Last updated by <b data-bind="text: updatedBy"></b> at <b data-bind="text: lastUpdated"></b>.</span>
 				</div>
 			</div>
-			<div class="status" data-bind="text: status"></div>
+			<div class="status">
+				<span data-bind="text: status"></span>
+			</div>
 		</a>
 	</div>
 	<div class="loading tile">
 		<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
 	</div>
-
-	@*<table>
-		<tbody data-bind="foreach: list">
-			<tr data-bind="attr: { 'data-issue': JSON.stringify($data) }">
-				<td style="width:8px;" data-bind="attr: { class: 'priority ' + priorityStyle }"></td>
-				<td class="ellipsis name">
-					<div>
-						<span class="name" data-bind="text: name, attr: { class: 'name ' + priorityStyle }"></span>
-						<span class="info">Last updated by <b data-bind="text: updatedBy"></b> at <b data-bind="text: lastUpdated"></b>.</span>
-					</div>
-				</td>
-				<td style="width:100px; text-align:right;" data-bind="text: status"></td>
-			</tr>
-		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="3">
-					<img src="@Url.Content("~/Images/ajax-loader.gif")" alt=""/>
-				</td>
-			</tr>
-		</tfoot>
-	</table>*@
 </div>
 
 <script id="priority-filter-dialog" type="text/html">

@@ -20,8 +20,9 @@
 	</div>
 	
 	<div class="buttons">
+		<img id="transition-loader" class="hidden" src="@Url.Content("~/Images/ajax-loader.gif")" alt="" data-bind="css: { hidden: !IssueTracker.Transitioner.transitioning() }" />
 		<div class="transitions hidden" data-bind="css: { hidden: IssueTracker.selectedIssue.transitions().length == 0 }, foreach: IssueTracker.selectedIssue.transitions">
-			<button data-bind="text: name, attr: { 'data-transition-id': id }"></button>
+			<button data-bind="text: name, attr: { 'data-transition-id': id, disabled: IssueTracker.Transitioner.transitioning }"></button>
 		</div>
 		<div class="always">
 			<button>Duplicate Issue</button>

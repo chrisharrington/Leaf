@@ -44,7 +44,9 @@
 						>span.info b { color:@primary-font-colour-dark; font-weight:normal; }
 					}
 				}
-				>div.status { float:right; text-align:right; }
+				>div.status { float:right; text-align:right; display:table;
+					>span { .table-cell-vertically-aligned; }
+				}
 			}
 			>a:first-child { border-top:none; }
 			>a:hover { background-color:@hover-colour; }
