@@ -11,7 +11,6 @@
 		_descriptionFlipper = new IssueTracker.Controls.Flipper($("div.description div.flipper"));
 
 		_setUpFlipPanels(container);
-		_showAppropriateTransitionButtons(container.find("div.buttons div.transitions"));
 		_hookupEvents(container);
 		_transitioner.load(IssueTracker.selectedIssue.statusId());
 	};
@@ -66,10 +65,6 @@
 			opened: issue.opened(),
 			closed: issue.closed()
 		};
-	}
-
-	function _showAppropriateTransitionButtons(transitions) {
-		var status = IssueTracker.selectedIssue.status();
 	}
 
 	IssueTracker.Page.build({
