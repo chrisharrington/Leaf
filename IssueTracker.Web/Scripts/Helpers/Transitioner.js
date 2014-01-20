@@ -4,8 +4,10 @@
 	root.backStatus = ko.observable();
 	root.transitioning = ko.observable(false);
 
-	root.load = function(statusId) {
-		_setBackToStatus(statusId);
+	root.load = function (currentStatusId) {
+		var transitions = _getTransitions(currentStatusId, true);
+		var status = _getStatus(transitions[0].fromId);
+		_setBackToStatus(status.id);
 	};
 
 	root.execute = function (statusId) {
@@ -13,10 +15,17 @@
 			throw new Error("Missing status ID.");
 
 		root.transitioning(true);
+		var currentStatusId = IssueTracker.selectedIssue.statusId();
+		var status = _getStatus(statusId);
 		$.when(_pushTransition(IssueTracker.selectedIssue.id(), status.id)).then(function () {
 			IssueTracker.selectedIssue.status(status.name);
 			IssueTracker.selectedIssue.statusId(status.id);
 			IssueTracker.selectedIssue.transitions(_getTransitions(status.id));
+
+			var transitions = _getTransitions(status.id, true);
+			var backStatus = _getStatus(transitions[0].fromId);
+			_setBackToStatus(backStatus.id);
+
 			root.transitioning(false);
 		});
 	};

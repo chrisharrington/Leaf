@@ -181,9 +181,10 @@ namespace IssueTracker.SampleDataImporter
 			var failTesting = new Transition {Project = project, From = inTesting, To = failedTesting, Name = "Fail Testing"};
 			var restartDevelopment = new Transition {Project = project, From = failedTesting, To = inDevelopment, Name = "Restart Development"};
 			var passTesting = new Transition {Project = project, From = inTesting, To = complete, Name = "Pass Testing"};
+			var restartDevelopmentAfterCompletion = new Transition {Project = project, From = complete, To = inDevelopment, Name = "Restart Development"};
 
 			var transitionRepository = _container.Resolve<ITransitionRepository>();
-			new List<Transition> {startDevelopment, completeDevelopment, startTesting, failTesting, restartDevelopment, passTesting}.ForEach(x => transitionRepository.Insert(x));
+			new List<Transition> {startDevelopment, completeDevelopment, startTesting, failTesting, restartDevelopment, passTesting, restartDevelopmentAfterCompletion}.ForEach(x => transitionRepository.Insert(x));
 
 			return statuses;
 		}

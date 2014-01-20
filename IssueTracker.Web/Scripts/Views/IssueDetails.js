@@ -22,7 +22,7 @@
 	}
 
 	function _executeTransition() {
-		_transitioner.execute($(this).attr("data-to-status-id"));
+		_transitioner.execute($(this).attr("data-status-id"));
 	}
 
 	function _setUpFlipPanels(container) {
