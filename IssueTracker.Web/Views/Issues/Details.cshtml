@@ -19,7 +19,7 @@
 		</a>
 	</div>
 	
-	<div class="buttons">
+	<div class="issue-buttons">
 		<img id="transition-loader" class="hidden" src="@Url.Content("~/Images/ajax-loader.gif")" alt="" data-bind="css: { hidden: !IssueTracker.Transitioner.transitioning() }" />
 		<div class="transitions">
 			<button class="icon hidden" data-bind="css: { hidden: IssueTracker.Transitioner.backStatus() == undefined }, attr: { 'data-status-id': IssueTracker.Transitioner.backStatus() ? IssueTracker.Transitioner.backStatus().id : '', disabled: IssueTracker.Transitioner.transitioning }">
@@ -44,20 +44,40 @@
 	<div class="tile number">
 		<h1 data-bind="text: IssueTracker.selectedIssue.number"></h1>
 	</div>
-
-	<div class="tile title">
-		<h1 data-bind="text: IssueTracker.selectedIssue.name"></h1>
-		<i class="fa fa-angle-down"></i>
+	
+	<div class="name-container perspective">
+		<div class="flipper transition name">
+			<div class="tile flip-tile front">
+				<h1 data-bind="text: IssueTracker.selectedIssue.name"></h1>
+				<i class="fa fa-angle-down"></i>
+			</div>
+			<div class="tile flip-tile back">
+				<div class="back-container">
+					<div class="input-container"> <!-- 100% -->
+						<div> <!-- margined -->
+							<input type="text" data-bind="value: IssueTracker.selectedIssue.name" />
+						</div>
+					</div>
+					<div class="buttons">
+						<button id="save-name">Save</button>
+						<button id="discard-name">Discard</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
 <div class="container">
 	<div class="description">
-		<div class="flipper-container">
+		<div class="perspective">
 			<div class="flipper transition">
 				<div class="tile flip-tile front">
 					<h3>What's the problem?</h3>
 					<div data-bind="text: IssueTracker.selectedIssue.description"></div>
+					<div class="down-arrow">
+						<i class="fa fa-angle-down"></i>
+					</div>
 				</div>
 
 				<div class="tile flip-tile back">
@@ -65,7 +85,7 @@
 					<div class="buttons">
 						<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
 						<button id="save-description">Save</button>
-						<button id="cancel-description">Discard</button>
+						<button id="discard-description">Discard</button>
 					</div>
 				</div>
 			</div>

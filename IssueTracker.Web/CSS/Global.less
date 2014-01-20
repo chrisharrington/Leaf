@@ -59,10 +59,10 @@
 .condensed-font { font-family:"Roboto Condensed"; }
 .regular-font { font-family:"Roboto"; }
 
-h1, h2, h3, h4 { .condensed-font; margin:0; padding:0; }
-h1 { color:@primary-header-font-colour; font-size:1.875em; }
-h2 { color:@primary-sub-header-font-colour; font-size:1.5em; }
-h3 { font-size:1.125em; font-weight:bold; color:@secondary-font-colour; text-transform:uppercase; }
+h1, h2, h3, h4 { .condensed-font; margin:0; padding:0; text-transform:uppercase; }
+h1 { color:@primary-header-font-colour; font-size:1.75em; }
+h2 { color:@primary-sub-header-font-colour; font-size:1.375em; }
+h3 { font-size:1; font-weight:bold; color:@secondary-font-colour; text-transform:uppercase; }
 
 input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:3px 5px; font-size:1em; .condensed-font; .border-radius; .box-sizing; }
 input:focus, textarea:focus, select:focus { outline:none; border-color:#F2BC6F; box-shadow:0 0 10px #F2BC6F; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
@@ -74,7 +74,12 @@ button.icon { display:table;
 }
 button.icon.right>span { padding-left:0; padding-right:@small-spacing; }
 
-body { margin:0; padding:0; background:url(../Images/background.png); font-size:16px; .condensed-font; }
+body { margin:0; padding:0; background:url(../Images/background.png); font-size:16px; .regular-font; }
 .content-container { float:left; width:100%; .border-box; padding:@spacing; }
 
 div.tile { padding:@spacing; .border-radius; .gradient(@tile-gradient-light-colour, @tile-gradient-dark-colour); .box-sizing; .shadow; color:@primary-font-colour; }
+
+div.buttons {
+	button { float:left; margin-left:@small-spacing; }
+	button:first-child { margin-left:0; }
+}
