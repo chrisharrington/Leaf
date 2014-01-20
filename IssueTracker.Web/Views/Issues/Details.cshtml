@@ -92,27 +92,30 @@
 		</div>
 	</div>
 
-	<div class="tile details">
-		<div>
+	<div class="tile selectable-details details">
+		<div class="selectable">
 			<span class="title">Priority</span>
 			<i class="fa fa-angle-down"></i>
 			<span class="info" data-bind="text: IssueTracker.selectedIssue.priority"></span>
 		</div>
-		<div>
+		<div class="selectable">
 			<span class="title">Status</span>
 			<i class="fa fa-angle-down"></i>
 			<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
 		</div>
-		<div>
+		<div class="selectable">
 			<span class="title">Assignee</span>
 			<i class="fa fa-angle-down"></i>
 			<span class="info" data-bind="text: IssueTracker.selectedIssue.assignee"></span>
 		</div>
-		<div>
+		<div class="selectable">
 			<span class="title">Owner</span>
 			<i class="fa fa-angle-down"></i>
 			<span class="info" data-bind="text: IssueTracker.selectedIssue.owner"></span>
 		</div>
+	</div>
+	
+	<div class="tile static-details details">
 		<div>
 			<span class="title">Date Opened</span>
 			<span class="info" data-bind="text: IssueTracker.selectedIssue.opened"></span>

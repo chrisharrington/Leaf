@@ -51,7 +51,7 @@
 		}
 	}
 
-	div.description { float:left; width:100%; height:311px; position:relative;
+	div.description { float:left; width:100%; height:326px; position:relative;
 		>div { margin-right:300px+@spacing; height:100%;
 			>div { float:left; width:100%; height:100%;
 				>div { float:left; width:100%;
@@ -64,7 +64,7 @@
 					>textarea { .hover; }
 				}
 				div.back {
-					>textarea { float:left; width:100%; height:242px; }
+					>textarea { float:left; width:100%; height:257px; }
 					>div.buttons { float:right; margin-top:@small-spacing;
 						>img { float:left; height:100%; height:26px; width:26px; margin-right:@small-spacing; margin-top:4px; display:none; }
 						>button { float:left; margin-left:@small-spacing; }
@@ -74,14 +74,16 @@
 		}
 	}
 
-	div.details { float:left; margin-left:-300px; width:300px; padding:0;
-		>div { float:left; width:100%; padding:@spacing; .box-sizing; border-top:solid 1px @border-colour; cursor:pointer;
+	div.details { float:left; margin-left:-300px; width:300px; padding:0; position:relative; z-index:2;
+		>div { float:left; width:100%; padding:@spacing; .box-sizing; border-top:solid 1px @border-colour;
 			>span.title { float:left; }
 			>span.info { float:right; color:black; }
 			>i { float:right; margin-left:@small-spacing; margin-top:3px; font-size:1.125em; font-weight:bold; }
 		}
 		>div:first-child { border-top:none; }
-		>div:hover { .hover; }
-		>div:hover>span { .hover; }
+		>div.selectable { cursor:pointer; }
+		>div.selectable:hover { .hover; }
 	}
+
+	div.static-details { margin-top:207px+@spacing; }
 }
