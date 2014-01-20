@@ -33,11 +33,11 @@
 @primary-font-colour-dark:#444444;
 @primary-font-colour-dark-background:#DDDDDD;
 @primary-font-colour-icon:#BBBBBB;
-@secondary-font-colour:#F66B00;
-@secondary-font-colour-light:#F28D3F;
-@secondary-font-colour-dark-background:#F59538;
-@secondary-background-colour-top:#FF9A4D;
-@secondary-background-colour-bottom:#F66B00;
+@secondary-font-colour:#2D8F24;
+@secondary-font-colour-light:#409E37;
+@secondary-font-colour-dark-background:#7AD672;
+@secondary-background-colour-top:#42B038;
+@secondary-background-colour-bottom:#268A1D;
 
 @hover-colour:#F8F8F8;
 
@@ -65,7 +65,7 @@ h2 { color:@primary-sub-header-font-colour; font-size:1.375em; }
 h3 { font-size:1; font-weight:bold; color:@secondary-font-colour; text-transform:uppercase; }
 
 input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:3px 5px; font-size:1em; .condensed-font; .border-radius; .box-sizing; }
-input:focus, textarea:focus, select:focus { outline:none; border-color:#F2BC6F; box-shadow:0 0 10px #F2BC6F; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
+input:focus, textarea:focus, select:focus { outline:none; border-color:@secondary-font-colour; box-shadow:0 0 10px @secondary-font-colour; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
 button { padding:5px @small-spacing; .secondary-gradient; color:white; .border-radius; .regular-font; font-size:0.875em; .box-sizing; border:none; cursor:pointer; }
 button[disabled] { .gradient(#AAAAAA, #777777); cursor:default; }
 button.icon { display:table;
