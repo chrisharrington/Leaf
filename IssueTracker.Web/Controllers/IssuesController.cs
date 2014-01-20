@@ -40,7 +40,7 @@ namespace IssueTracker.Web.Controllers
 				description = issue.Description,
 				opened = issue.Opened.ToApplicationString(),
 				closed = issue.Closed.ToApplicationString(),
-				transitions = TransitionRepository.Status(issue.Status).Select(x => new {id = x.Id, name = x.Name})
+				transitions = TransitionRepository.Status(issue.Status).Select(x => new {id = x.Id, name = x.Name, fromId = x.From.Id, toId = x.To.Id})
 		    });
 	    }
 

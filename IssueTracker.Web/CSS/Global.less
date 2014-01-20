@@ -68,6 +68,11 @@ input[type='text'], input[type='password'], select, textarea, input[type='date']
 input:focus, textarea:focus, select:focus { outline:none; border-color:#F2BC6F; box-shadow:0 0 10px #F2BC6F; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
 button { padding:5px @small-spacing; .secondary-gradient; color:white; .border-radius; .regular-font; font-size:0.875em; .box-sizing; border:none; cursor:pointer; }
 button[disabled] { .gradient(#AAAAAA, #777777); cursor:default; }
+button.icon { display:table;
+	>* { .table-cell-vertically-aligned; }
+	>span { padding-left:@small-spacing; }
+}
+button.icon.right>span { padding-left:0; padding-right:@small-spacing; }
 
 body { margin:0; padding:0; background:url(../Images/background.png); font-size:16px; .condensed-font; }
 .content-container { float:left; width:100%; .border-box; padding:@spacing; }

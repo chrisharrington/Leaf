@@ -13,6 +13,7 @@
 		_setUpFlipPanels(container);
 		_showAppropriateTransitionButtons(container.find("div.buttons div.transitions"));
 		_hookupEvents(container);
+		_transitioner.load(IssueTracker.selectedIssue.statusId());
 	};
 
 	function _hookupEvents(container) {
@@ -22,7 +23,7 @@
 	}
 
 	function _executeTransition() {
-		_transitioner.execute($(this).attr("data-transition-id"));
+		_transitioner.execute($(this).attr("data-to-status-id"));
 	}
 
 	function _setUpFlipPanels(container) {

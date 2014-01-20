@@ -16,9 +16,10 @@
 		>img { margin-top:4px; margin-right:@spacing; }
 		>div.transitions { margin-right:@spacing; border-right:solid 1px @border-colour-dark; padding-right:@spacing; }
 		>div {
-			>button { float:left; margin-left:@small-spacing; }
-			>button:first-child { margin-left:0; }
+			>div { float:left; }
+			button { float:left; margin-left:@small-spacing; }
 		}
+		>div.always>button:first-child { margin-left:0; }
 	}
 
 	div.container { float:left; width:100%; margin-top:@spacing; }

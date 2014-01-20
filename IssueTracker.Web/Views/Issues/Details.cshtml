@@ -21,8 +21,17 @@
 	
 	<div class="buttons">
 		<img id="transition-loader" class="hidden" src="@Url.Content("~/Images/ajax-loader.gif")" alt="" data-bind="css: { hidden: !IssueTracker.Transitioner.transitioning() }" />
-		<div class="transitions hidden" data-bind="css: { hidden: IssueTracker.selectedIssue.transitions().length == 0 }, foreach: IssueTracker.selectedIssue.transitions">
-			<button data-bind="text: name, attr: { 'data-transition-id': id, disabled: IssueTracker.Transitioner.transitioning }"></button>
+		<div class="transitions hidden" data-bind="css: { hidden: IssueTracker.selectedIssue.transitions().length == 0 }">
+			<button class="icon hidden" data-bind="css: { hidden: IssueTracker.Transitioner.backStatus() == undefined }, attr: { 'data-status-id': IssueTracker.Transitioner.backStatus() ? IssueTracker.Transitioner.backStatus().id : '', disabled: IssueTracker.Transitioner.transitioning }">
+				<i class="fa fa-angle-left"></i>
+				<span data-bind="text: IssueTracker.Transitioner.backStatus() == undefined ? '' : 'Back to ' + IssueTracker.Transitioner.backStatus().name"></span>
+			</button>
+			<div data-bind="foreach: IssueTracker.selectedIssue.transitions">
+				<button class="icon right" data-bind="attr: { 'data-to-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }">
+					<span data-bind="text: name"></span>
+					<i class="fa fa-angle-right"></i>
+				</button>
+			</div>
 		</div>
 		<div class="always">
 			<button>Duplicate Issue</button>

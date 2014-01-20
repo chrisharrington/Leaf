@@ -1,14 +1,17 @@
 
 (function (root) {
 
+	root.backStatus = ko.observable();
 	root.transitioning = ko.observable(false);
 
-	root.execute = function (transitionId) {
-		if (!transitionId)
-			throw new Error("Missing transition transition ID.");
+	root.load = function(statusId) {
+		_setBackToStatus(statusId);
+	};
 
-		var transition = _getTransition(transitionId);
-		var status = _getStatus(transition.toId);
+	root.execute = function (statusId) {
+		if (!statusId)
+			throw new Error("Missing status ID.");
+
 		root.transitioning(true);
 		$.when(_pushTransition(IssueTracker.selectedIssue.id(), status.id)).then(function () {
 			IssueTracker.selectedIssue.status(status.name);
@@ -17,6 +20,10 @@
 			root.transitioning(false);
 		});
 	};
+	
+	function _setBackToStatus(statusId) {
+		root.backStatus(_getStatus(statusId));
+	}
 	
 	function _getTransition(transitionId) {
 		var found;
@@ -48,10 +55,10 @@
 			throw new Error("No status was found with status ID \"" + statusId + "\".");
 	}
 	
-	function _getTransitions(statusId) {
+	function _getTransitions(statusId, isTo) {
 		var transitions = [];
 		$.each(IssueTracker.transitions(), function(i, transition) {
-			if (transition.fromId == statusId)
+			if (isTo ? transition.toId == statusId : transition.fromId == statusId)
 				transitions.push(transition);
 		});
 		return transitions;
