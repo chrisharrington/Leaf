@@ -24,6 +24,7 @@
 			root.transitions = ko.observableArray(@Html.Raw(Json.Encode(Model.Transitions)))
 			root.projects = ko.observableArray(@Html.Raw(Json.Encode(Model.Projects)));
 			root.selectedProject = ko.observable(@Html.Raw(Json.Encode(Model.SelectedProject)));
+			root.signedInUser = ko.observable(@Html.Raw(Json.Encode(Model.SignedInUser)));
 			root.selectedIssue = ko.observable();
 			IssueTracker.Init.init();
 		});

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web.Mvc;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
@@ -19,13 +20,15 @@ namespace IssueTracker.Web.Controllers
 		{
 			var projects = ProjectRepository.All(x => x.Name).ToArray();
 			var selectedProject = projects.First();
+			var signedInUser = UserRepository.All().First();
 			return View("~/Views/Shared/Root.cshtml", new RootModel {
 	            Priorities = PriorityRepository.Project(selectedProject, x => x.Order).ToArray(),
 				Statuses = StatusRepository.Project(selectedProject, x => x.Order).ToArray().Select(x => new StatusViewModel {id = x.Id, name = x.Name, order = x.Order}),
 				Users = UserRepository.All(x => x.Name).ToArray(),
 				Projects = projects.ToArray(),
 				Transitions = TransitionRepository.All(x => x.Name).Select(x => new TransitionViewModel {id = x.Id, fromId = x.From.Id, toId = x.To.Id, name = x.Name}),
-				SelectedProject = new { name = selectedProject.Name, id = selectedProject.Id }
+				SelectedProject = new { name = selectedProject.Name, id = selectedProject.Id },
+				SignedInUser = new { name = signedInUser.Name, emailAddress = signedInUser.EmailAddress, id = signedInUser.Id }
             });
 		}
 
@@ -47,5 +50,6 @@ namespace IssueTracker.Web.Controllers
 		public IEnumerable<Project> Projects { get; set; }
 		public IEnumerable<TransitionViewModel> Transitions { get; set; }
 		public object SelectedProject { get; set; }
+		public object SignedInUser { get; set; }
 	}
 }

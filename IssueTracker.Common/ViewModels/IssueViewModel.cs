@@ -19,6 +19,8 @@ namespace IssueTracker.Common.ViewModels
 		public Guid ownerId { get; set; }
 		public string opened { get; set; }
 		public string closed { get; set; }
+		public Guid updatedId { get; set; }
+		public string updated { get; set; }
 		public IEnumerable<object> transitions { get; set; }
 	}
 }

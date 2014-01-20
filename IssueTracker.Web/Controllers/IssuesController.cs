@@ -9,11 +9,10 @@ using IssueTracker.Common.ViewModels;
 
 namespace IssueTracker.Web.Controllers
 {
-    public class IssuesController : Controller
+    public class IssuesController : BaseController
     {
 		public IStatusRepository StatusRepository { get; set; }
 		public IPriorityRepository PriorityRepository { get; set; }
-		public IUserRepository UserRepository { get; set; }
 		public IIssueRepository IssueRepository { get; set; }
 		public ITransitionRepository TransitionRepository { get; set; }
 
@@ -40,6 +39,8 @@ namespace IssueTracker.Web.Controllers
 				description = issue.Description,
 				opened = issue.Opened.ToApplicationString(),
 				closed = issue.Closed.ToApplicationString(),
+				updatedId = issue.UpdatedBy.Id,
+				updated = issue.Updated.ToApplicationString(),
 				transitions = TransitionRepository.Status(issue.Status).Select(x => new {id = x.Id, name = x.Name, fromId = x.From.Id, toId = x.To.Id})
 		    });
 	    }
@@ -73,6 +74,8 @@ namespace IssueTracker.Web.Controllers
 		    if (issue == null || issue.id == Guid.Empty)
 			    throw new ArgumentNullException("issue");
 
+			issue.updated = DateTime.Now.ToApplicationString();
+			issue.updatedId = SignedInUser.Id;
 			IssueRepository.Update(Mapper.Map<IssueViewModel, Issue>(issue));
 	    }
 
@@ -89,11 +92,6 @@ namespace IssueTracker.Web.Controllers
 	    {
 		    return priority.Name.Replace(" ", "-").ToLower();
 	    }
-
-		private int DeriveTransition(Issue issue)
-		{
-			return 0;
-		}
     }
 
 	public class IssueParams

@@ -8,9 +8,6 @@ namespace IssueTracker.Dependencies.MappingResolvers
 	public class DatabaseDetailsResolver<Model> : ValueResolver<Guid, Model> where Model : BaseModel
 	{
 		public IRepository<Model> Repository { get; set; }
-//		{
-//			get { return DependencyResolver.Current.GetService<IRepository<Model>>(); }
-//		}
 
 		protected override Model ResolveCore(Guid source)
 		{

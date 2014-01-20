@@ -45,9 +45,11 @@ namespace IssueTracker.Data.Repositories
 				var attachedEntity = Context.Set<TModel>().Local.SingleOrDefault(e => e.Id == model.Id);
 				if (attachedEntity != null)
 					Context.Entry(attachedEntity).CurrentValues.SetValues(model);
+				else
+					entry.State = EntityState.Modified;
 			}
-
-			entry.State = EntityState.Modified;
+			else
+				entry.State = EntityState.Modified;
 			Context.SaveChanges();
 		}
 
