@@ -48,7 +48,6 @@
 .secondary-gradient { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); }
 .shadow { box-shadow:0 2px 8px rgba(0, 0, 0, 0.3); }
 .dark-shadow { box-shadow:0 2px 8px rgba(0, 0, 0, 0.5); }
-.box-sizing { box-sizing:border-box; -moz-box-sizing:border-box; }
 .border { border:solid 1px @border-colour; }
 .dark-background { background:url(../Images/body-background.png); }
 .border-radius(@radius: 2px) { border-radius:@radius; }
@@ -57,6 +56,7 @@
 .table-cell-vertically-aligned { display:table-cell; height:100%; vertical-align:middle; }
 .hidden { display:none !important; }
 .hover { background:@hover-colour; }
+.background-colour-transition { -webkit-transition: background-color 1000ms linear; -moz-transition: background-color 1000ms linear; -o-transition: background-color 1000ms linear; -ms-transition: background-color 1000ms linear; transition: background-color 1000ms linear; }
 
 .condensed-font { font-family:"Roboto Condensed"; }
 .regular-font { font-family:"Roboto"; }
@@ -66,9 +66,9 @@ h1 { color:@primary-header-font-colour; font-size:1.75em; }
 h2 { color:@primary-sub-header-font-colour; font-size:1.5em; }
 h3 { font-size:1.375em; font-weight:bold; color:@secondary-font-colour; text-transform:uppercase; }
 
-input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:3px 5px; font-size:1em; .regular-font; .border-radius; .box-sizing; }
+input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:3px 5px; font-size:1em; .regular-font; .border-radius; .border-box; }
 input:focus, textarea:focus, select:focus { outline:none; border-color:@active-highlight; box-shadow:0 0 10px @active-highlight; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
-button { padding:@small-spacing @spacing; margin-top:0; margin-bottom:0; .secondary-gradient; color:white; .border-radius; .regular-font; font-size:0.875em; .box-sizing; border:none; cursor:pointer; .border-radius(3px); }
+button { padding:@small-spacing @spacing; margin-top:0; margin-bottom:0; .secondary-gradient; color:white; .border-radius; .regular-font; font-size:0.875em; .border-box; border:none; cursor:pointer; .border-radius(3px); }
 button[disabled] { .gradient(#AAAAAA, #777777); cursor:default; }
 button.icon { display:table;
 	>* { .table-cell-vertically-aligned; }
@@ -80,7 +80,7 @@ button.right>span { padding-left:0; padding-right:@small-spacing; }
 body { margin:0; padding:0; background:url(../Images/background.png); font-size:14px; .regular-font; }
 .content-container { float:left; width:100%; .border-box; padding:@spacing; }
 
-div.tile { padding:@spacing; .border-radius; .gradient(@tile-gradient-light-colour, @tile-gradient-dark-colour); .box-sizing; .shadow; color:@primary-font-colour; }
+div.tile { padding:@spacing; .border-radius; .gradient(@tile-gradient-light-colour, @tile-gradient-dark-colour); .border-box; .shadow; color:@primary-font-colour; }
 
 div.buttons {
 	button { float:left; margin-left:@small-spacing; }

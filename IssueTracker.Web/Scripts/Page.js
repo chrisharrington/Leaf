@@ -6,6 +6,7 @@ IssueTracker.Page = function(params) {
 	params.root.route = params.route;
 	params.root.navigate = function(routeParameters) { me.navigate(params.route[0], routeParameters || {}); };
 	this.load = params.root.load;
+	this.init = params.root.init;
 
 	if (!(params.route instanceof Array))
 		params.route = [params.route];
@@ -53,6 +54,11 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 		url = url.replace(":" + name, routeArguments[name].replace(/-/g, " "));
 	
 	IssueTracker.view({ url: url, style: params.style, data: params.root, load: function() {
+		var container = $(".content-container");
+		if (me.init && !me._initFired) {
+			me.init(container);
+			me._initFired = true;
+		}
 		if (me.load)
 			me.load($(".content-container"), routeArguments);
 	} });

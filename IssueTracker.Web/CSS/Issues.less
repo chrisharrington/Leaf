@@ -31,7 +31,7 @@
 	div.issues-container.table { font-family:"Roboto Condensed"; font-size:1em; padding:0;
 		>div.data {
 			>a { border-top:solid 1px #DDD; cursor:pointer; height:72px; display:block; color:@primary-font-colour;
-				>div { float:left; height:100%; .box-sizing; padding:@spacing; }
+				>div { float:left; height:100%; .border-box; padding:@spacing; }
 				>div.priority { padding:0; width:8px; }
 				>div.priority.low { background-color:@low-priority-background; }
 				>div.priority.medium { background-color:@medium-priority-background; }
@@ -77,7 +77,7 @@ div.sort-dialog {
 	>div:hover { color:inherit !important; }
 }
 
-div.text-filter-dialog { float:left; width:100%; .box-sizing; padding:@small-spacing;
+div.text-filter-dialog { float:left; width:100%; .border-box; padding:@small-spacing;
 	>input { float:left; width:100%; }
 	>div.buttons { float:left; width:100%; margin-top:@small-spacing; 
 		>button { float:right; width:48%; }

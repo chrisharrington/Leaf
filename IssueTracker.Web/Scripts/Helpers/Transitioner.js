@@ -4,8 +4,14 @@
 	root.backStatus = ko.observable();
 	root.transitioning = ko.observable(false);
 
-	root.load = function (currentStatusId) {
-		var transitions = _getTransitions(currentStatusId, true);
+	root.init = function() {
+		IssueTracker.selectedIssue.statusId.subscribe(function(statusId) {
+			root.execute(statusId);
+		});
+	};
+
+	root.load = function (statusId) {
+		var transitions = _getTransitions(statusId, true);
 		var status = _getStatus(transitions[0].fromId);
 		_setBackToStatus(status.id);
 	};
@@ -31,21 +37,6 @@
 	
 	function _setBackToStatus(statusId) {
 		root.backStatus(_getStatus(statusId));
-	}
-	
-	function _getTransition(transitionId) {
-		var found;
-		$.each(IssueTracker.transitions(), function(i, transition) {
-			if (transition.id == transitionId) {
-				found = transition;
-				return false;
-			}
-		});
-
-		if (found)
-			return found;
-		else
-			throw new Error("No transition found for transition ID \"" + transitionId + "\".");
 	}
 	
 	function _getStatus(statusId) {

@@ -9,14 +9,22 @@
 	var _detailsFlipper;
 	var _transitioner = IssueTracker.Transitioner;
 
+	root.chooser = {
+		template: ko.observable(),
+		data: ko.observable()
+	};
+
+	root.init = function () {
+		_transitioner.init();
+	};
+
 	root.load = function (container) {
 		_container = container;
 		_descriptionFlipper = new IssueTracker.Controls.Flipper($("div.description div.flipper"));
 		_nameFlipper = new IssueTracker.Controls.Flipper($("div.name.flipper"));
-		//_detailsFlipper = new IssueTracker.Controls.Flipper($("div."))
+		_detailsFlipper = new IssueTracker.Controls.Flipper($("div.details-container>div.flipper"));
 
 		_setUpFlipPanels(container);
-		_setUpPropertyPopups(container);
 		_hookupEvents(container);
 		_transitioner.load(IssueTracker.selectedIssue.statusId());
 	};
@@ -27,23 +35,34 @@
 		container.on("click", "div.transitions button", _executeTransition);
 		container.on("click", "#save-name", _saveName);
 		container.on("click", "#discard-name", _discardName);
+		container.on("click", "div.priority-chooser>div", _setPriority);
+		container.on("click", "div.status-chooser>div", _setStatus);
+	}
+
+	function _setPriority() {
+		_detailsFlipper.toggle();
+		_container.find("div.priority-chooser>div.selected").removeClass("selected");
+		$(this).addClass("selected");
+
+		var priority = $.parseJSON($(this).attr("data-priority"));
+		IssueTracker.selectedIssue.priorityId(priority.id);
+		IssueTracker.selectedIssue.priority(priority.name);
+
+		_updateIssue();
+	}
+
+	function _setStatus() {
+		_detailsFlipper.toggle();
+		_container.find("div.status-chooser>div.selected").removeClass("selected");
+		$(this).addClass("selected");
+
+		var status = $.parseJSON($(this).attr("data-status"));
+		IssueTracker.selectedIssue.statusId(status.id);
+		IssueTracker.selectedIssue.status(status.name);
 	}
 
 	function _executeTransition() {
 		_transitioner.execute($(this).attr("data-status-id"));
-	}
-
-	function _setUpPropertyPopups(container) {
-		container.find("#priority").click(function() {
-			var popup = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this).find("span.info"), trigger: $(this) });
-			popup.find(">div").click(function() {
-				var priority = $.parseJSON($(this).find(">div").attr("data-priority"));
-				IssueTracker.selectedIssue.priorityId(priority.Id);
-				IssueTracker.selectedIssue.priority(priority.Name);
-				IssueTracker.Popup.hide();
-				_updateIssue();
-			});
-		});
 	}
 
 	function _setUpFlipPanels(container) {
@@ -55,6 +74,18 @@
 		container.on("click", "div.name div.front", function () {
 			_oldName = IssueTracker.selectedIssue.name();
 			_nameFlipper.toggle();
+		});
+
+		container.on("click", "#priority", function () {
+			root.chooser.data({ priorities: IssueTracker.priorities() });
+			root.chooser.template("priority-chooser");
+			_detailsFlipper.toggle();
+		});
+
+		container.on("click", "#status", function() {
+			root.chooser.data({ statuses: IssueTracker.statuses() });
+			root.chooser.template("status-chooser");
+			_detailsFlipper.toggle();
 		});
 	};
 

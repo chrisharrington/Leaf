@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Web.Mvc;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
@@ -22,8 +21,8 @@ namespace IssueTracker.Web.Controllers
 			var selectedProject = projects.First();
 			var signedInUser = UserRepository.All().First();
 			return View("~/Views/Shared/Root.cshtml", new RootModel {
-	            Priorities = PriorityRepository.Project(selectedProject, x => x.Order).ToArray(),
-				Statuses = StatusRepository.Project(selectedProject, x => x.Order).ToArray().Select(x => new StatusViewModel {id = x.Id, name = x.Name, order = x.Order}),
+	            Priorities = PriorityRepository.Project(selectedProject, x => x.Order).ToArray().Select(x => new OrderViewModel {id = x.Id, name = x.Name, order = x.Order}),
+				Statuses = StatusRepository.Project(selectedProject, x => x.Order).ToArray().Select(x => new OrderViewModel {id = x.Id, name = x.Name, order = x.Order}),
 				Users = UserRepository.All(x => x.Name).ToArray(),
 				Projects = projects.ToArray(),
 				Transitions = TransitionRepository.All(x => x.Name).Select(x => new TransitionViewModel {id = x.Id, fromId = x.From.Id, toId = x.To.Id, name = x.Name}),
@@ -44,8 +43,8 @@ namespace IssueTracker.Web.Controllers
 
 	public class RootModel
 	{
-		public IEnumerable<Priority> Priorities { get; set; }
-		public IEnumerable<StatusViewModel> Statuses { get; set; }
+		public IEnumerable<OrderViewModel> Priorities { get; set; }
+		public IEnumerable<OrderViewModel> Statuses { get; set; }
 		public IEnumerable<User> Users { get; set; }
 		public IEnumerable<Project> Projects { get; set; }
 		public IEnumerable<TransitionViewModel> Transitions { get; set; }

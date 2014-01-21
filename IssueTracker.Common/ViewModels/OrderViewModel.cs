@@ -2,7 +2,7 @@
 
 namespace IssueTracker.Common.ViewModels
 {
-	public class StatusViewModel
+	public class OrderViewModel
 	{
 		public Guid id { get; set; }
 		public string name { get; set; }

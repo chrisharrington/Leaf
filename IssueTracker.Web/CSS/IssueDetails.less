@@ -1,6 +1,13 @@
 ﻿@import "Global.less";
 
-.issue-details-container {
+.issue-details-container { padding:0 !important;
+	div.wrapper { padding:@spacing; }
+	div.priority-bar { float:left; width:100%; height:6px; margin-bottom:@spacing; .background-colour-transition; }
+	div.priority-bar.low { background-color:@low-priority-background; }
+	div.priority-bar.medium { background-color:@medium-priority-background; }
+	div.priority-bar.high { background-color:@high-priority-background; }
+	div.priority-bar.critical { background-color:@critical-priority-background; }
+
 	div.breadcrumbs { .table-cell-vertically-aligned; font-size:1.125em; .condensed-font;
 		>a { float:left; display:block; color:black;
 			>i { float:left; margin-right:@small-spacing; margin-top:4px; }
@@ -8,7 +15,7 @@
 		}
 		>a.clickable { cursor:pointer; }
 		>a.clickable:hover>span { text-decoration:underline; }
-		>i { float:left; margin-left:@spacing; margin-right:@spacing; margin-top:4px; }
+		>i { float:left; margin-left:@spacing; margin-right:@spacing; margin-top:4px; color:darken(@primary-font-colour-light, 10%); }
 	}
 
 	div.issue-buttons { float:right;
@@ -83,7 +90,7 @@
 		div.details-container { float:left; margin-left:-300px; width:300px; height:100%; position:relative; z-index:2;
 			>div { height:100%; 
 				div.details { padding:0; 
-					>div { float:left; width:100%; padding:@spacing; .box-sizing; border-top:solid 1px @border-colour;
+					>div { float:left; width:100%; padding:@spacing; .border-box; border-top:solid 1px @border-colour;
 						>span.title { float:left; color:@primary-font-colour-light; }
 						>span.info { float:right; color:@secondary-font-colour; }
 						>i { float:right; margin-left:@small-spacing; margin-top:3px; font-size:1.125em; font-weight:bold; }
@@ -91,6 +98,33 @@
 					>div:first-child { border-top:none; }
 					>div.selectable { cursor:pointer; }
 					>div.selectable:hover { .hover; }
+				}
+				div.back { padding:0; height:100%;
+					>div.chooser { float:left; width:100%; height:100%;
+						>div { float:left; width:100%; height:50px; cursor:pointer; border-bottom:solid 1px @border-colour; .border-box; color:@primary-font-colour-light;
+							>div { float:left; width:100%; height:100%;
+								>div { float:left; width:100%; height:100%; padding:0 @spacing; .border-box;
+									>span { float:left; height:100%; line-height:49px; vertical-align:middle; }
+									>i { float:right; height:100%; line-height:49px; vertical-align:middle; display:none; }
+								}
+							}
+						}
+						>div:hover { .hover; }
+						>div.selected { color:@secondary-font-colour !important;
+							i { display:inline-block; }
+						}
+					}
+
+					>div.priority-chooser {
+						>div {
+							>span.colour { float:left; width:8px; height:100%; }
+							>span.colour.low { background:@low-priority-background; }
+							>span.colour.medium { background:@medium-priority-background; }
+							>span.colour.high { background:@high-priority-background; }
+							>span.colour.critical { background:@critical-priority-background; }
+							>div { position:relative; margin-left:8px; height:100%; float:none; }
+						}
+					}
 				}
 			}
 		}
