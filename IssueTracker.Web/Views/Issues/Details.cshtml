@@ -28,15 +28,12 @@
 				<span data-bind="text: IssueTracker.Transitioner.backStatus() == undefined ? '' : 'Back to ' + IssueTracker.Transitioner.backStatus().name"></span>
 			</button>
 			<div data-bind="foreach: IssueTracker.selectedIssue.transitions">
-				<button class="icon right" data-bind="attr: { 'data-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }">
-					<span data-bind="text: name"></span>
-					<i class="fa fa-angle-right"></i>
-				</button>
+				@Html.IconButton("", "fa-angle-right", "right", dataBind: "attr: { 'data-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }", labelDataBind: "text: name", isRight: true)
 			</div>
 		</div>
 		<div class="always">
-			@Html.IconButton("duplicate-issue", "Duplicate Issue", "fa-copy")
-			@Html.IconButton("delete-issue", "Delete Issue", "fa-trash-o")
+			@Html.IconButton("Duplicate Issue", "fa-copy", id: "duplicate-issue")
+			@Html.IconButton("Delete Issue", "fa-trash-o", id: "delete-issue")
 		</div>
 	</div>
 </div>
