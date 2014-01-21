@@ -38,7 +38,7 @@
 	</div>
 </div>
 
-<div class="container">
+<div class="container name-and-number-wrapper">
 	<div class="tile number">
 		<h1 data-bind="text: IssueTracker.selectedIssue.number"></h1>
 	</div>
@@ -46,13 +46,15 @@
 	<div class="name-container perspective">
 		<div class="flipper transition name">
 			<div class="tile flip-tile front">
-				<h1 data-bind="text: IssueTracker.selectedIssue.name"></h1>
-				<i class="fa fa-angle-down"></i>
+				<div>
+					<h1 data-bind="text: IssueTracker.selectedIssue.name"></h1>
+					<i class="fa fa-angle-down"></i>
+				</div>
 			</div>
 			<div class="tile flip-tile back">
 				<div class="back-container">
-					<div class="input-container"> <!-- 100% -->
-						<div> <!-- margined -->
+					<div class="input-container">
+						<div>
 							<input type="text" data-bind="value: IssueTracker.selectedIssue.name" />
 						</div>
 					</div>
@@ -66,7 +68,7 @@
 	</div>
 </div>
 
-<div class="container">
+<div class="container details-wrapper">
 	<div class="description">
 		<div class="perspective">
 			<div class="flipper transition">
@@ -89,38 +91,42 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="tile selectable-details details">
-		<div class="selectable" id="priority">
-			<span class="title">Priority</span>
-			<i class="fa fa-angle-down"></i>
-			<span class="info" data-bind="text: IssueTracker.selectedIssue.priority"></span>
-		</div>
-		<div class="selectable">
-			<span class="title">Status</span>
-			<i class="fa fa-angle-down"></i>
-			<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
-		</div>
-		<div class="selectable">
-			<span class="title">Assignee</span>
-			<i class="fa fa-angle-down"></i>
-			<span class="info" data-bind="text: IssueTracker.selectedIssue.assignee"></span>
-		</div>
-		<div class="selectable">
-			<span class="title">Owner</span>
-			<i class="fa fa-angle-down"></i>
-			<span class="info" data-bind="text: IssueTracker.selectedIssue.owner"></span>
-		</div>
-	</div>
 	
-	<div class="tile static-details details">
-		<div>
-			<span class="title">Date Opened</span>
-			<span class="info" data-bind="text: IssueTracker.selectedIssue.opened"></span>
-		</div>
-		<div>
-			<span class="title">Date Closed</span>
-			<span class="info" data-bind="text: IssueTracker.selectedIssue.closed"></span>
+	<div class="details-container perspective">
+		<div class="flipper transition">
+			<div class="tile flip-tile front selectable-details details">
+				<div class="selectable" id="priority">
+					<span class="title">Priority</span>
+					<i class="fa fa-angle-down"></i>
+					<span class="info" id="selected-priority" data-bind="text: IssueTracker.selectedIssue.priority"></span>
+				</div>
+				<div class="selectable">
+					<span class="title">Status</span>
+					<i class="fa fa-angle-down"></i>
+					<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
+				</div>
+				<div class="selectable">
+					<span class="title">Assignee</span>
+					<i class="fa fa-angle-down"></i>
+					<span class="info" data-bind="text: IssueTracker.selectedIssue.assignee"></span>
+				</div>
+				<div class="selectable">
+					<span class="title">Owner</span>
+					<i class="fa fa-angle-down"></i>
+					<span class="info" data-bind="text: IssueTracker.selectedIssue.owner"></span>
+				</div>
+				<div>
+					<span class="title">Date Opened</span>
+					<span class="info" data-bind="text: IssueTracker.selectedIssue.opened"></span>
+				</div>
+				<div>
+					<span class="title">Date Closed</span>
+					<span class="info" data-bind="text: IssueTracker.selectedIssue.closed"></span>
+				</div>
+			</div>
+			<div class="tile flip-tile back">
+				back!
+			</div>
 		</div>
 	</div>
 </div>

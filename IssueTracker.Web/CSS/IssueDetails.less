@@ -14,7 +14,7 @@
 	div.issue-buttons { float:right;
 		>* { float:left; }
 		>img { margin-top:4px; margin-right:@spacing; }
-		>div.transitions { margin-right:@spacing; border-right:solid 1px @border-colour; padding-right:@spacing; }
+		>div.transitions { margin-right:@spacing; border-right:solid 1px @border-colour-semi-dark; padding-right:@spacing; }
 		>div {
 			>div { float:left; }
 			button { float:left; margin-left:@small-spacing; }
@@ -26,65 +26,73 @@
 	div.container.notop { margin-top:0; }
 	div.container.table { display:table; }
 
-	div.number { float:left; width:85px; text-align:center; padding:@spacing 0;
-		>h1 { float:left; width:100%; }
-	}
-	div.name-container { position:relative; margin-left:@spacing+85; height:67px;
-		>div { float:left; width:100%; height:100%;
+	div.name-and-number-wrapper { height:67px;
+		div.number { float:left; width:85px; text-align:center; padding:@spacing 0; height:100%; display:table;
+			>h1 { .table-cell-vertically-aligned; }
+		}
+		div.name-container { position:relative; margin-left:@spacing+85; height:100%;
 			>div { float:left; width:100%; height:100%;
-				>h1 { float:left; }
-				>i { float:right; font-size:1.5em; font-weight:bold; margin-top:9px; }
+				>div { float:left; width:100%; height:100%; }
+				>div.front { cursor:pointer; display:table;
+					>div { .table-cell-vertically-aligned;
+						>h1 { float:left; }
+						>i { float:right; font-size:1.5em; font-weight:bold; margin-top:9px; }
+					}
+				}
+				>div.front:hover { .hover; }
+				>div.back { display:table;
+					>div { .table-cell-vertically-aligned;
+						>div.input-container { float:left; width:100%; position:relative;
+							>div { height:100%; margin-right:139px+@spacing;
+								>input { float:left; width:100%; height:35px; }
+								>button { margin-top:0; margin-bottom:0; }
+							}
+						}
+						>div.buttons { float:left; margin-left:-139px; width:139px; position:relative; z-index:2; }
+					}
+				
+				}
 			}
-			>div.front { cursor:pointer; }
-			>div.front:hover { .hover; }
-			>div.back { display:table;
-				>div { .table-cell-vertically-aligned;
-					>div.input-container { float:left; width:100%; position:relative;
-						>div { height:100%; margin-right:139px+@spacing;
-							>input { float:left; width:100%; height:35px; }
-							>button { margin-top:0; margin-bottom:0; }
+		}
+	}
+
+	div.details-wrapper { height:299px;
+		div.description { float:left; width:100%; height:100%; position:relative;
+			>div { margin-right:300px+@spacing; height:100%;
+				>div { float:left; width:100%; height:100%;
+					>div { float:left; width:100%;
+						>h3 { float:left; width:100%; margin-bottom:@small-spacing; }
+					}
+					div.front { cursor:pointer;
+						>div.down-arrow { position:absolute; bottom:0; margin-bottom:@small-spacing; width:100%; margin-top:@small-spacing; text-align:center; font-size:1.5em; font-weight:bold; }
+					}
+					div.front:hover { .hover;
+						>textarea { .hover; }
+					}
+					div.back {
+						>textarea { float:left; width:100%; height:230px; }
+						>div.buttons { float:right; margin-top:@small-spacing;
+							>img { float:left; height:100%; height:26px; width:26px; margin-right:@small-spacing; margin-top:4px; display:none; }
+							>button { float:left; margin-left:@small-spacing; }
 						}
 					}
-					>div.buttons { float:left; margin-left:-139px; width:139px; position:relative; z-index:2; }
 				}
-				
 			}
 		}
-	}
 
-	div.description { float:left; width:100%; height:326px; position:relative;
-		>div { margin-right:300px+@spacing; height:100%;
-			>div { float:left; width:100%; height:100%;
-				>div { float:left; width:100%;
-					>h3 { float:left; width:100%; margin-bottom:@small-spacing; }
-				}
-				div.front { cursor:pointer;
-					>div.down-arrow { position:absolute; bottom:0; margin-bottom:@small-spacing; width:100%; margin-top:@small-spacing; text-align:center; font-size:1.5em; font-weight:bold; }
-				}
-				div.front:hover { .hover;
-					>textarea { .hover; }
-				}
-				div.back {
-					>textarea { float:left; width:100%; height:257px; }
-					>div.buttons { float:right; margin-top:@small-spacing;
-						>img { float:left; height:100%; height:26px; width:26px; margin-right:@small-spacing; margin-top:4px; display:none; }
-						>button { float:left; margin-left:@small-spacing; }
+		div.details-container { float:left; margin-left:-300px; width:300px; height:100%; position:relative; z-index:2;
+			>div { height:100%; 
+				div.details { padding:0; 
+					>div { float:left; width:100%; padding:@spacing; .box-sizing; border-top:solid 1px @border-colour;
+						>span.title { float:left; color:@primary-font-colour-light; }
+						>span.info { float:right; color:@secondary-font-colour; }
+						>i { float:right; margin-left:@small-spacing; margin-top:3px; font-size:1.125em; font-weight:bold; }
 					}
+					>div:first-child { border-top:none; }
+					>div.selectable { cursor:pointer; }
+					>div.selectable:hover { .hover; }
 				}
 			}
 		}
 	}
-
-	div.details { float:left; margin-left:-300px; width:300px; padding:0; position:relative; z-index:2;
-		>div { float:left; width:100%; padding:@spacing; .box-sizing; border-top:solid 1px @border-colour;
-			>span.title { float:left; color:@primary-font-colour-light; }
-			>span.info { float:right; color:@secondary-font-colour; }
-			>i { float:right; margin-left:@small-spacing; margin-top:3px; font-size:1.125em; font-weight:bold; }
-		}
-		>div:first-child { border-top:none; }
-		>div.selectable { cursor:pointer; }
-		>div.selectable:hover { .hover; }
-	}
-
-	div.static-details { margin-top:207px+@spacing; }
 }

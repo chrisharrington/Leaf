@@ -6,13 +6,15 @@
 	var _oldName;
 	var _descriptionFlipper;
 	var _nameFlipper;
+	var _detailsFlipper;
 	var _transitioner = IssueTracker.Transitioner;
 
 	root.load = function (container) {
 		_container = container;
 		_descriptionFlipper = new IssueTracker.Controls.Flipper($("div.description div.flipper"));
 		_nameFlipper = new IssueTracker.Controls.Flipper($("div.name.flipper"));
-		
+		//_detailsFlipper = new IssueTracker.Controls.Flipper($("div."))
+
 		_setUpFlipPanels(container);
 		_setUpPropertyPopups(container);
 		_hookupEvents(container);
@@ -33,7 +35,7 @@
 
 	function _setUpPropertyPopups(container) {
 		container.find("#priority").click(function() {
-			var popup = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this), verticalOffset: 20 });
+			var popup = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this).find("span.info"), trigger: $(this) });
 			popup.find(">div").click(function() {
 				var priority = $.parseJSON($(this).find(">div").attr("data-priority"));
 				IssueTracker.selectedIssue.priorityId(priority.Id);
