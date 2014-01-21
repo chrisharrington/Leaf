@@ -64,7 +64,7 @@
 	function _saveDescription() {
 		var loader = _container.find("div.description img").show();
 		var buttons = _container.find("div.description button").attr("disabled", true);
-		_updateIssue().done(function() {
+		$.post(IssueTracker.virtualDirectory() + "Issues/UpdateDescription", { issueId: IssueTracker.selectedIssue.id(), description: IssueTracker.selectedIssue.description() }).done(function() {
 			_descriptionFlipper.toggle();
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while updating the issue's description. Please try again later.");
@@ -81,7 +81,7 @@
 
 	function _saveName() {
 		var buttons = _container.find("div.name button").attr("disabled", true);
-		_updateIssue().done(function () {
+		$.post(IssueTracker.virtualDirectory() + "Issues/UpdateName", { issueId: IssueTracker.selectedIssue.id(), name: IssueTracker.selectedIssue.name() }).done(function () {
 			_nameFlipper.toggle();
 			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.name().formatForUrl());
 		}).fail(function () {

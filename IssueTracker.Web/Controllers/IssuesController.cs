@@ -68,6 +68,28 @@ namespace IssueTracker.Web.Controllers
 			}), JsonRequestBehavior.AllowGet);
 	    }
 
+	    [HttpPost]
+	    public void UpdateDescription(Guid issueId, string description)
+	    {
+		    var model = IssueRepository.Details(issueId);
+		    if (model == null)
+			    throw new ArgumentException("The issue ID \"" + issueId + "\" corresponds to no issue.");
+
+		    model.Description = description;
+		    IssueRepository.Update(model);
+	    }
+
+	    [HttpPost]
+	    public void UpdateName(Guid issueId, string name)
+	    {
+			var model = IssueRepository.Details(issueId);
+			if (model == null)
+				throw new ArgumentException("The issue ID \"" + issueId + "\" corresponds to no issue.");
+
+			model.Name = name;
+			IssueRepository.Update(model);
+	    }
+
 		[HttpPost]
 	    public void Update(IssueViewModel issue)
 	    {

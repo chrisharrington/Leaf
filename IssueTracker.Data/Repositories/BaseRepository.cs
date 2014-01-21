@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
@@ -37,12 +38,19 @@ namespace IssueTracker.Data.Repositories
 			if (model == null)
 				throw new ArgumentNullException("model");
 
-			var retrieved = Context.Set<TModel>().Find(model.Id);
-			if (retrieved == null)
-				throw new InvalidOperationException("Missing model to update.");
+			var entry = Context.Entry(model);
 
-			Context.Entry(retrieved).CurrentValues.SetValues(model);
-			SetComplexProperties(model, retrieved);
+			if (entry.State == EntityState.Detached)
+			{
+				var attachedEntity = Context.Set<TModel>().Local.SingleOrDefault(e => e.Id == model.Id);
+				SetComplexProperties(model, attachedEntity);
+				if (attachedEntity != null)
+					Context.Entry(attachedEntity).CurrentValues.SetValues(model);
+				else
+					entry.State = EntityState.Modified;
+			}
+			else
+				entry.State = EntityState.Modified;
 			Context.SaveChanges();
 		}
 
