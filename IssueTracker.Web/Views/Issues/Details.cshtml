@@ -1,4 +1,5 @@
-﻿@model object
+﻿@using IssueTracker.Web.Helpers
+@model object
 
 <script type="text/javascript">
 	$(function () {
@@ -34,8 +35,8 @@
 			</div>
 		</div>
 		<div class="always">
-			<button>Duplicate Issue</button>
-			<button>Delete Issue</button>
+			@Html.IconButton("duplicate-issue", "Duplicate Issue", "fa-copy")
+			@Html.IconButton("delete-issue", "Delete Issue", "fa-trash-o")
 		</div>
 	</div>
 </div>
