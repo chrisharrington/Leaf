@@ -60,5 +60,47 @@
 				<div></div>
 			</div>
 		</div>
+		
+		<script id="priority-filter-dialog" type="text/html">
+			<div class="select-dialog priority-filter-dialog" data-bind="foreach: priorities">
+				<div>
+					<div data-bind="text: Name, attr: { 'data-priority': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedPriority() && IssueTracker.Issues.selectedPriority().Name == Name ? ' selected' : '') }"></div>
+				</div>
+			</div>
+		</script>
+
+		<script id="status-filter-dialog" type="text/html">
+			<div class="select-dialog status-filter-dialog" data-bind="foreach: statuses">
+				<div>
+					<div data-bind="text: name, attr: { 'data-status': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().name == name ? ' selected' : '') }"></div>
+				</div>
+			</div>
+		</script>
+
+		<script id="assignee-filter-dialog" type="text/html">
+			<div class="select-dialog assignee-filter-dialog" data-bind="foreach: users">
+				<div>
+					<div data-bind="text: Name, attr: { 'data-assignee': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedAssignee() && IssueTracker.Issues.selectedAssignee().Name == Name ? ' selected' : '') }"></div>
+				</div>
+			</div>
+		</script>
+
+		<script id="owner-filter-dialog" type="text/html">
+			<div class="select-dialog owner-filter-dialog" data-bind="foreach: users">
+				<div>
+					<div data-bind="text: Name, attr: { 'data-owner': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedOwner() && IssueTracker.Issues.selectedOwner().Name == Name ? ' selected' : '') }"></div>
+				</div>
+			</div>
+		</script>
+
+		<script id="text-filter-dialog" type="text/html">
+			<div class="text-filter-dialog">
+				<input type="text" data-bind="value: $root" />
+				<div class="buttons">
+					<button class="set-filter">Filter</button>
+					<button class="clear-filter">Clear</button>
+				</div>
+			</div>
+		</script>
 	</body>
 </html>

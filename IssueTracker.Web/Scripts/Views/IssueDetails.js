@@ -14,6 +14,7 @@
 		_nameFlipper = new IssueTracker.Controls.Flipper($("div.name.flipper"));
 		
 		_setUpFlipPanels(container);
+		_setUpPropertyPopups(container);
 		_hookupEvents(container);
 		_transitioner.load(IssueTracker.selectedIssue.statusId());
 	};
@@ -28,6 +29,19 @@
 
 	function _executeTransition() {
 		_transitioner.execute($(this).attr("data-status-id"));
+	}
+
+	function _setUpPropertyPopups(container) {
+		container.find("#priority").click(function() {
+			var popup = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this), verticalOffset: 15 });
+			popup.find(">div").click(function() {
+				var priority = $.parseJSON($(this).find(">div").attr("data-priority"));
+				IssueTracker.selectedIssue.priorityId(priority.Id);
+				IssueTracker.selectedIssue.priority(priority.Name);
+				IssueTracker.Popup.hide();
+				_updateIssue();
+			});
+		});
 	}
 
 	function _setUpFlipPanels(container) {
