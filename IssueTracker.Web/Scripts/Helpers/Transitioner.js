@@ -15,7 +15,6 @@
 			throw new Error("Missing status ID.");
 
 		root.transitioning(true);
-		var currentStatusId = IssueTracker.selectedIssue.statusId();
 		var status = _getStatus(statusId);
 		$.when(_pushTransition(IssueTracker.selectedIssue.id(), status.id)).then(function () {
 			IssueTracker.selectedIssue.status(status.name);

@@ -33,7 +33,7 @@
 
 	function _setUpPropertyPopups(container) {
 		container.find("#priority").click(function() {
-			var popup = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this), verticalOffset: 15 });
+			var popup = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this), verticalOffset: 20 });
 			popup.find(">div").click(function() {
 				var priority = $.parseJSON($(this).find(">div").attr("data-priority"));
 				IssueTracker.selectedIssue.priorityId(priority.Id);
