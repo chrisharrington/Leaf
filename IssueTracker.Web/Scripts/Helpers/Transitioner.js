@@ -1,7 +1,6 @@
 
 (function (root) {
 
-	root.backStatus = ko.observable();
 	root.transitioning = ko.observable(false);
 
 	root.init = function() {
@@ -13,7 +12,6 @@
 	root.load = function (statusId) {
 		var transitions = _getTransitions(statusId, true);
 		var status = _getStatus(transitions[0].fromId);
-		_setBackToStatus(status.id);
 	};
 
 	root.execute = function (statusId) {
@@ -26,10 +24,6 @@
 			IssueTracker.selectedIssue.status(status.name);
 			IssueTracker.selectedIssue.statusId(status.id);
 			IssueTracker.selectedIssue.transitions(_getTransitions(status.id));
-
-			var transitions = _getTransitions(status.id, true);
-			_setBackToStatus(transitions.length == 0 ? undefined : _getStatus(transitions[0].fromId).id);
-
 			root.transitioning(false);
 		});
 	};

@@ -23,14 +23,8 @@
 
 		<div class="issue-buttons">
 			<img id="transition-loader" class="hidden" src="@Url.Content("~/Images/ajax-loader.gif")" alt="" data-bind="css: { hidden: !IssueTracker.Transitioner.transitioning() }" />
-			<div class="transitions">
-				<button class="icon hidden" data-bind="css: { hidden: IssueTracker.Transitioner.backStatus() == undefined }, attr: { 'data-status-id': IssueTracker.Transitioner.backStatus() ? IssueTracker.Transitioner.backStatus().id : '', disabled: IssueTracker.Transitioner.transitioning }">
-					<i class="fa fa-angle-left"></i>
-					<span data-bind="text: IssueTracker.Transitioner.backStatus() == undefined ? '' : 'Back to ' + IssueTracker.Transitioner.backStatus().name"></span>
-				</button>
-				<div data-bind="foreach: IssueTracker.selectedIssue.transitions">
-					@Html.IconButton("", "fa-angle-right", "right", dataBind: "attr: { 'data-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }", labelDataBind: "text: name", isRight: true)
-				</div>
+			<div class="transitions" data-bind="visible: IssueTracker.selectedIssue.transitions().length > 0, foreach: IssueTracker.selectedIssue.transitions">
+				@Html.IconButton("", "fa-angle-right", "right", dataBind: "attr: { 'data-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }", labelDataBind: "text: name", isRight: true)
 			</div>
 			<div class="always">
 				@Html.IconButton("Duplicate Issue", "fa-copy", id: "duplicate-issue")
