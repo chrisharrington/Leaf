@@ -21,10 +21,10 @@ namespace IssueTracker.Common.ViewModels
 					return x => x.Priority.Order;
 				case "status":
 					return x => x.Status.Order;
-				case "assignee":
-					return x => x.Assignee.Name;
-				case "owner":
-					return x => x.Owner.Name;
+				case "developer":
+					return x => x.Developer.Name;
+				case "tester":
+					return x => x.Tester.Name;
 				case "opened":
 					return x => x.Opened;
 				case "closed":

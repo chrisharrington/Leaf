@@ -77,18 +77,18 @@
 			</div>
 		</script>
 
-		<script id="assignee-filter-dialog" type="text/html">
-			<div class="select-dialog assignee-filter-dialog" data-bind="foreach: users">
+		<script id="developer-filter-dialog" type="text/html">
+			<div class="select-dialog developer-filter-dialog" data-bind="foreach: users">
 				<div>
-					<div data-bind="text: Name, attr: { 'data-assignee': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedAssignee() && IssueTracker.Issues.selectedAssignee().Name == Name ? ' selected' : '') }"></div>
+					<div data-bind="text: Name, attr: { 'data-developer': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedDeveloper() && IssueTracker.Issues.selectedDeveloper().Name == Name ? ' selected' : '') }"></div>
 				</div>
 			</div>
 		</script>
 
-		<script id="owner-filter-dialog" type="text/html">
-			<div class="select-dialog owner-filter-dialog" data-bind="foreach: users">
+		<script id="tester-filter-dialog" type="text/html">
+			<div class="select-dialog tester-filter-dialog" data-bind="foreach: users">
 				<div>
-					<div data-bind="text: Name, attr: { 'data-owner': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedOwner() && IssueTracker.Issues.selectedOwner().Name == Name ? ' selected' : '') }"></div>
+					<div data-bind="text: Name, attr: { 'data-tester': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedTester() && IssueTracker.Issues.selectedTester().Name == Name ? ' selected' : '') }"></div>
 				</div>
 			</div>
 		</script>

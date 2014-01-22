@@ -137,8 +137,8 @@
 			description: issue.description(),
 			priorityId: issue.priorityId(),
 			statusId: issue.statusId(),
-			assigneeId: issue.assigneeId(),
-			ownerId: issue.ownerId(),
+			developerId: issue.developerId(),
+			testerId: issue.testerId(),
 			opened: issue.opened(),
 			closed: issue.closed()
 		};

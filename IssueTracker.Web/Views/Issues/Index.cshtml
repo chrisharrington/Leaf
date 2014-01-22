@@ -16,12 +16,12 @@
 				<span data-bind="css: { selected: selectedStatus() != undefined }, text: selectedStatus() ? selectedStatus().name : 'Status'"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
-			<div id="assignee-filter">
-				<span data-bind="css: { selected: selectedAssignee() != undefined }, text: selectedAssignee() ? selectedAssignee().Name : 'Assignee'"></span>
+			<div id="developer-filter">
+				<span data-bind="css: { selected: selectedDeveloper() != undefined }, text: selectedDeveloper() ? selectedDeveloper().Name : 'Developer'"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
-			<div id="owner-filter">
-				<span data-bind="css: { selected: selectedOwner() != undefined }, text: selectedOwner() ? selectedOwner().Name : 'Owner'"></span>
+			<div id="tester-filter">
+				<span data-bind="css: { selected: selectedTester() != undefined }, text: selectedTester() ? selectedTester().Name : 'Tester'"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
 			<div id="text-filter">
@@ -73,15 +73,15 @@
 			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'status' }"></i>
 			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'status' }"></i>
 		</div>
-		<div data-comparer="owner">
-			<span>Owner</span>
-			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'owner' }"></i>
-			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'owner' }"></i>
+		<div data-comparer="tester">
+			<span>Tester</span>
+			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'tester' }"></i>
+			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'tester' }"></i>
 		</div>
-		<div data-comparer="assignee">
-			<span>Assignee</span>
-			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'assignee' }"></i>
-			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'assignee' }"></i>
+		<div data-comparer="developer">
+			<span>Developer</span>
+			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'developer' }"></i>
+			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'developer' }"></i>
 		</div>
 		<div data-comparer="opened">
 			<span>Date Opened</span>

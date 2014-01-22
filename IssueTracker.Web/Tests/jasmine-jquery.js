@@ -437,7 +437,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     },
 
     toBeFocused: function (selector) {
-      return this.actual[0] === this.actual[0].ownerDocument.activeElement
+      return this.actual[0] === this.actual[0].testerDocument.activeElement
     },
 
     toHandle: function (event) {

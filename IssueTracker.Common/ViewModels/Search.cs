@@ -9,8 +9,8 @@ namespace IssueTracker.Common.ViewModels
 		public Project project { get; set; }
 		public Priority priority { get; set; }
 		public Status status { get; set; }
-		public User assignee { get; set; }
-		public User owner { get; set; }
+		public User developer { get; set; }
+		public User tester { get; set; }
 		public string filter { get; set; }
 	}
 }

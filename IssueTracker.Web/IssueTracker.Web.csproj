@@ -186,11 +186,7 @@
     <Content Include="Scripts\Init.js" />
     <Content Include="Scripts\Controls\Flipper.js" />
     <Content Include="Scripts\Page.js" />
-    <Content Include="Scripts\ThirdParty\highcharts.js" />
     <Content Include="Scripts\ThirdParty\jquery.animate-enhanced.js" />
-    <Content Include="Scripts\ThirdParty\jquery.js" />
-    <Content Include="Scripts\ThirdParty\knockout.js" />
-    <Content Include="Scripts\ThirdParty\path.js" />
     <Content Include="Scripts\ThirdParty\ToDictionary.js" />
     <Content Include="Scripts\Views\IssueDetails.js" />
     <Content Include="Scripts\Views\Issues.js" />

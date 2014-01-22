@@ -15,8 +15,8 @@
 	root.filter = ko.observable("");
 	root.selectedPriority = ko.observable();
 	root.selectedStatus = ko.observable();
-	root.selectedAssignee = ko.observable();
-	root.selectedOwner = ko.observable();
+	root.selectedDeveloper = ko.observable();
+	root.selectedTester = ko.observable();
 
 	root.sortModel = {
 		direction: ko.observable("descending"),
@@ -40,8 +40,8 @@
 	function _resetFilters() {
 		root.selectedPriority(undefined);
 		root.selectedStatus(undefined);
-		root.selectedAssignee(undefined);
-		root.selectedOwner(undefined);
+		root.selectedDeveloper(undefined);
+		root.selectedTester(undefined);
 		root.filter("");
 
 		_loadFilters();
@@ -90,20 +90,20 @@
 			});
 		});
 
-		container.find("#assignee-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#assignee-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
+		container.find("#developer-filter").click(function () {
+			var popupContainer = IssueTracker.Popup.load({ view: "#developer-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.selectedAssignee($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-assignee")));
+				root.selectedDeveloper($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-developer")));
 				$(this).find(">div").toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
 			});
 		});
 
-		container.find("#owner-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#owner-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
+		container.find("#tester-filter").click(function () {
+			var popupContainer = IssueTracker.Popup.load({ view: "#tester-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
 			popupContainer.find(">div").click(function () {
-				root.selectedOwner($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-owner")));
+				root.selectedTester($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-tester")));
 				$(this).find(">div").toggleClass("selected");
 				IssueTracker.Popup.hide();
 				_resetIssueList();
@@ -169,7 +169,7 @@
 			project: IssueTracker.selectedProject(),
 			priority: root.selectedPriority(),
 			status: root.selectedStatus(),
-			assignee: root.selectedAssignee(),
+			developer: root.selectedDeveloper(),
 			direction: root.sortModel.direction(),
 			comparer: root.sortModel.comparer(),
 			filter: root.filter()

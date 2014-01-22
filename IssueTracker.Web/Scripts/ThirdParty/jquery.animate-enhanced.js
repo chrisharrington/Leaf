@@ -69,7 +69,7 @@ Changelog:
 		- PR #109 Added support for list-item nodes. FadeIn on tags was omitting the list-style support. (thx @SeanCannon)
 		
 	0.98 (12/11/2012):
-		- Merging pull request #106 thx @gboysko - checking for ownerDocument before using getComputedStyle
+		- Merging pull request #106 thx @gboysko - checking for testerDocument before using getComputedStyle
 
 	0.97 (6/11/2012):
 		- Merging pull request #104 thx @gavrochelegnou - .bind instead of .one
@@ -542,7 +542,7 @@ Changelog:
 	function _isValidElement(element) {
 		var allValid=true;
 		element.each(function(index, el) {
-			allValid = allValid && el.ownerDocument;
+			allValid = allValid && el.testerDocument;
 			return allValid;
 		});
 		return allValid;

@@ -68,10 +68,10 @@ h3 { font-size:1.375em; font-weight:bold; color:@secondary-font-colour; text-tra
 
 input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:3px 5px; font-size:1em; .regular-font; .border-radius; .border-box; }
 input:focus, textarea:focus, select:focus { outline:none; border-color:@active-highlight; box-shadow:0 0 10px @active-highlight; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
-button { padding:@small-spacing @spacing; margin-top:0; margin-bottom:0; .secondary-gradient; color:white; .border-radius; .regular-font; font-size:0.875em; .border-box; border:none; cursor:pointer; .border-radius(3px); }
+button { padding:((@small-spacing)-3) ((@spacing)-3); margin-top:0; margin-bottom:0; .secondary-gradient; color:white; .border-radius; .regular-font; font-size:1em; .border-box; border:none; cursor:pointer; .border-radius(3px); }
 button[disabled] { .gradient(#AAAAAA, #777777); cursor:default; }
 button.icon { display:table;
-	>* { .table-cell-vertically-aligned; }
+	>* { .table-cell-vertically-aligned; line-height:19px; }
 	>i { font-size:1.125em; }
 	>span { padding-left:@small-spacing; }
 }

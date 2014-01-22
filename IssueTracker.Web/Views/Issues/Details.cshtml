@@ -107,14 +107,14 @@
 						<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
 					</div>
 					<div class="selectable">
-						<span class="title">Assignee</span>
+						<span class="title">Developer</span>
 						<i class="fa fa-angle-down"></i>
-						<span class="info" data-bind="text: IssueTracker.selectedIssue.assignee"></span>
+						<span class="info" data-bind="text: IssueTracker.selectedIssue.developer"></span>
 					</div>
 					<div class="selectable">
-						<span class="title">Owner</span>
+						<span class="title">Tester</span>
 						<i class="fa fa-angle-down"></i>
-						<span class="info" data-bind="text: IssueTracker.selectedIssue.owner"></span>
+						<span class="info" data-bind="text: IssueTracker.selectedIssue.tester"></span>
 					</div>
 					<div>
 						<span class="title">Date Opened</span>
@@ -125,7 +125,7 @@
 						<span class="info" data-bind="text: IssueTracker.selectedIssue.closed"></span>
 					</div>
 				</div>
-				<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker.IssueDetails.chooser.data }"></div>
+				<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
 			</div>
 		</div>
 	</div>

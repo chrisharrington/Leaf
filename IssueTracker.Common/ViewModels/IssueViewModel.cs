@@ -13,10 +13,10 @@ namespace IssueTracker.Common.ViewModels
 		public Guid priorityId { get; set; }
 		public string status { get; set; }
 		public Guid statusId { get; set; }
-		public string assignee { get; set; }
-		public Guid assigneeId { get; set; }
-		public string owner { get; set; }
-		public Guid ownerId { get; set; }
+		public string developer { get; set; }
+		public Guid developerId { get; set; }
+		public string tester { get; set; }
+		public Guid testerId { get; set; }
 		public string opened { get; set; }
 		public string closed { get; set; }
 		public Guid updatedId { get; set; }

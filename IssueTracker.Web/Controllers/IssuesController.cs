@@ -32,10 +32,10 @@ namespace IssueTracker.Web.Controllers
 				priorityId = issue.Priority.Id,
 				status = issue.Status.ToString(),
 				statusId = issue.Status.Id,
-				assignee = issue.Assignee.ToString(),
-				assigneeId = issue.Assignee.Id,
-				owner = issue.Owner.ToString(),
-				ownerId = issue.Owner.Id,
+				developer = issue.Developer.ToString(),
+				developerId = issue.Developer.Id,
+				tester = issue.Tester.ToString(),
+				testerId = issue.Tester.Id,
 				description = issue.Description,
 				opened = issue.Opened.ToApplicationString(),
 				closed = issue.Closed.ToApplicationString(),
@@ -57,8 +57,8 @@ namespace IssueTracker.Web.Controllers
 				name = x.Name,
 				description = x.Description,
 				priority = x.Priority.ToString(),
-				owner = x.Owner.ToString(),
-				assignee = x.Assignee.ToString(),
+				tester = x.Tester.ToString(),
+				developer = x.Developer.ToString(),
 				status = x.Status.ToString(),
 				priorityStyle = ToPriorityStyleString(x.Priority),
 				opened = x.Opened.ToApplicationString(),
@@ -123,8 +123,8 @@ namespace IssueTracker.Web.Controllers
 		public Project project { get; set; }
 		public Priority priority { get; set; }
 		public Status status { get; set; }
-		public User assignee { get; set; }
-		public User owner { get; set; }
+		public User developer { get; set; }
+		public User tester { get; set; }
 		public string filter { get; set; }
 
 		public SortDirection direction { get; set; }
@@ -134,12 +134,12 @@ namespace IssueTracker.Web.Controllers
 		{
 			return new Search {
 				project = project,
-				assignee = assignee,
+				developer = developer,
 				start = start,
 				end = end,
 				priority = priority,
 				status = status,
-				owner = owner,
+				tester = tester,
 				filter = filter
 			};
 		}

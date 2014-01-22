@@ -28,15 +28,14 @@
 			IssueTracker.selectedIssue.transitions(_getTransitions(status.id));
 
 			var transitions = _getTransitions(status.id, true);
-			var backStatus = _getStatus(transitions[0].fromId);
-			_setBackToStatus(backStatus.id);
+			_setBackToStatus(transitions.length == 0 ? undefined : _getStatus(transitions[0].fromId).id);
 
 			root.transitioning(false);
 		});
 	};
 	
 	function _setBackToStatus(statusId) {
-		root.backStatus(_getStatus(statusId));
+		root.backStatus(statusId ? _getStatus(statusId) : undefined);
 	}
 	
 	function _getStatus(statusId) {
