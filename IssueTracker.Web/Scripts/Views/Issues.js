@@ -71,7 +71,7 @@
 		});
 
 		container.find("#priority-filter").click(function() {
-			var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
+			var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this) });
 			popupContainer.find(">div").click(function () {
 				root.selectedPriority($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-priority")));
 				$(this).find(">div").toggleClass("selected");
@@ -81,7 +81,7 @@
 		});
 		
 		container.find("#status-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#status-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
+			var popupContainer = IssueTracker.Popup.load({ view: "#status-filter-dialog", anchor: $(this) });
 			popupContainer.find(">div").click(function () {
 				root.selectedStatus($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-status")));
 				$(this).find(">div").toggleClass("selected");
@@ -91,7 +91,7 @@
 		});
 
 		container.find("#developer-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#developer-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
+			var popupContainer = IssueTracker.Popup.load({ view: "#developer-filter-dialog", anchor: $(this) });
 			popupContainer.find(">div").click(function () {
 				root.selectedDeveloper($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-developer")));
 				$(this).find(">div").toggleClass("selected");
@@ -101,7 +101,7 @@
 		});
 
 		container.find("#tester-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#tester-filter-dialog", anchor: $(this).find(">span"), trigger: $(this) });
+			var popupContainer = IssueTracker.Popup.load({ view: "#tester-filter-dialog", anchor: $(this) });
 			popupContainer.find(">div").click(function () {
 				root.selectedTester($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-tester")));
 				$(this).find(">div").toggleClass("selected");

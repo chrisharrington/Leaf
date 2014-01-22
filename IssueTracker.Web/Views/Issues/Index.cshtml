@@ -9,7 +9,7 @@
 				<i class="fa fa-angle-down"></i>
 			</div>
 			<div id="priority-filter">
-				<span data-bind="css: { selected: selectedPriority() != undefined }, text: selectedPriority() ? selectedPriority().Name : 'Priority'"></span>
+				<span data-bind="css: { selected: selectedPriority() != undefined }, text: selectedPriority() ? selectedPriority().name : 'Priority'"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
 			<div id="status-filter">
@@ -39,15 +39,13 @@
 <div class="tile issues-container table">
 	<div class="data" data-bind="foreach: list">
 		<a data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
-			<div data-bind="attr: { class: 'priority ' + priorityStyle }"></div>
-			<div class="ellipsis name">
-				<div>
-					<h3 class="name" data-bind="text: name"></h3>
+			<div>
+				<div data-bind="attr: { class: 'priority ' + priorityStyle }"></div>
+				<div class="ellipsis name">
+					<h2 class="name" data-bind="text: name"></h2>
 					<span class="info">Last updated by <b data-bind="text: updatedBy"></b> at <b data-bind="text: lastUpdated"></b>.</span>
 				</div>
-			</div>
-			<div class="status">
-				<span data-bind="text: status"></span>
+				<div class="status" data-bind="text: status"></div>
 			</div>
 		</a>
 	</div>
@@ -55,6 +53,48 @@
 		<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
 	</div>
 </div>
+
+<script id="priority-filter-dialog" type="text/html">
+	<div class="select-dialog priority-filter-dialog" data-bind="foreach: priorities">
+		<div>
+			<div data-bind="text: name, attr: { 'data-priority': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedPriority() && IssueTracker.Issues.selectedPriority().name == name ? ' selected' : '') }"></div>
+		</div>
+	</div>
+</script>
+
+<script id="status-filter-dialog" type="text/html">
+	<div class="select-dialog status-filter-dialog" data-bind="foreach: statuses">
+		<div>
+			<div data-bind="text: name, attr: { 'data-status': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().name == name ? ' selected' : '') }"></div>
+		</div>
+	</div>
+</script>
+
+<script id="developer-filter-dialog" type="text/html">
+	<div class="select-dialog developer-filter-dialog" data-bind="foreach: users">
+		<div>
+			<div data-bind="text: Name, attr: { 'data-developer': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedDeveloper() && IssueTracker.Issues.selectedDeveloper().Name == Name ? ' selected' : '') }"></div>
+		</div>
+	</div>
+</script>
+
+<script id="tester-filter-dialog" type="text/html">
+	<div class="select-dialog tester-filter-dialog" data-bind="foreach: users">
+		<div>
+			<div data-bind="text: Name, attr: { 'data-tester': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedTester() && IssueTracker.Issues.selectedTester().Name == Name ? ' selected' : '') }"></div>
+		</div>
+	</div>
+</script>
+
+<script id="text-filter-dialog" type="text/html">
+	<div class="text-filter-dialog">
+		<input type="text" data-bind="value: $root" />
+		<div class="buttons">
+			<button class="set-filter">Filter</button>
+			<button class="clear-filter">Clear</button>
+		</div>
+	</div>
+</script>
 
 <script id="sort-dialog" type="text/html">
 	<div class="select-dialog sort-dialog">

@@ -50,12 +50,14 @@
 				>div.back { display:table;
 					>div { .table-cell-vertically-aligned;
 						>div.input-container { float:left; width:100%; position:relative;
-							>div { height:100%; margin-right:140px+@spacing;
+							>div { height:100%; margin-right:155px+@spacing;
 								>input { float:left; width:100%; height:29px; }
-								>button { margin-top:0; margin-bottom:0; }
+								>button { float:left; margin-top:0; margin-bottom:0; }
 							}
 						}
-						>div.buttons { float:left; margin-left:-140px; width:140px; position:relative; z-index:2; }
+						>div.buttons { float:left; margin-left:-155px; width:155px; position:relative; z-index:2;
+							>button { float:right; margin-right:0; margin-left:@small-spacing; }
+						}
 					}
 				
 				}

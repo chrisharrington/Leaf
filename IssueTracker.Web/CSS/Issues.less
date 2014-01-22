@@ -9,7 +9,7 @@
 			>div.filters { float:left; height:100%; display:table;
 				>div { .table-cell-vertically-aligned; margin-left:@spacing; padding-left:@spacing; padding-right:@spacing; border-left:solid 1px @border-colour; cursor:pointer;
 					>* { .table-cell-vertically-aligned; }
-					>span.selected { color:black; }
+					>span.selected { color:@secondary-font-colour; font-weight:bold; }
 					>i { padding-left:@small-spacing; padding-top:3px; font-size:1.125em; }
 				}
 				>div:first-child { padding-left:0; border-left:none; }
@@ -28,24 +28,22 @@
 		}
 	}
 
-	div.issues-container.table { font-family:"Roboto Condensed"; font-size:1em; padding:0;
+	div.issues-container.table { font-size:1em; padding:0;
 		>div.data {
-			>a { border-top:solid 1px #DDD; cursor:pointer; height:72px; display:block; color:@primary-font-colour;
-				>div { float:left; height:100%; .border-box; padding:@spacing; }
-				>div.priority { padding:0; width:8px; }
-				>div.priority.low { background-color:@low-priority-background; }
-				>div.priority.medium { background-color:@medium-priority-background; }
-				>div.priority.high { background-color:@high-priority-background; }
-				>div.priority.critical { background-color:@critical-priority-background; }
-				>div.name { padding:@small-spacing;
-					>div { height:100%;
-						>h3.name { float:left; width:100%; font-weight:bold; color:black; margin-bottom:4px; font-size:1.375em; padding-left:@small-spacing; }
-						>span.info { float:left; width:100%; color:@primary-font-colour-light; padding-left:@small-spacing; white-space:nowrap; overflow:hidden; font-size:1em; }
+			>a { border-top:solid 1px #DDD; cursor:pointer; height:67px; display:block; color:@primary-font-colour;
+				>div { float:left; width:100%; height:100%; display:table; table-layout:fixed;
+					>div { display:table-cell; height:100%; white-space:nowrap; }
+					>div.priority { padding:0; width:8px; }
+					>div.priority.low { background-color:@low-priority-background; }
+					>div.priority.medium { background-color:@medium-priority-background; }
+					>div.priority.high { background-color:@high-priority-background; }
+					>div.priority.critical { background-color:@critical-priority-background; }
+					>div.name { padding:@small-spacing;
+						>.name { float:left; width:100%; font-weight:bold; color:black; margin-bottom:4px; padding-left:@small-spacing; .ellipsis; }
+						>span.info { float:left; width:100%; color:@primary-font-colour-light; padding-left:@small-spacing; white-space:nowrap; overflow:hidden; font-size:1em; .ellipsis; }
 						>span.info b { color:@primary-font-colour-dark; font-weight:normal; }
 					}
-				}
-				>div.status { float:right; text-align:right; display:table;
-					>span { .table-cell-vertically-aligned; }
+					>div.status { width:200px; text-align:right; vertical-align:middle; height:100%; line-height:67px; .border-box; padding:0 @spacing; }
 				}
 			}
 			>a:first-child { border-top:none; }
