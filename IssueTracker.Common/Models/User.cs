@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Common.Models
 {

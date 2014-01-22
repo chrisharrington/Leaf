@@ -37,14 +37,23 @@ namespace IssueTracker.SampleDataImporter
 			var user = InsertAuthorizedUser();
 			foreach (var project in BuildProjects(user))
 			{
-				BuildFilters(user, project);
 				BuildIssues(user, project);
+				BuildFilters(user, project);
 			}
 		}
 
 		private static void BuildFilters(User user, Project project)
 		{
-			var myHighPriority = new Filter {Id = Guid.NewGuid(), Name = "My High Priority Issues"};
+			project = _container.Resolve<IProjectRepository>().Details(project.Id, x => x.Priorities, x => x.Statuses);
+			var filterRepository = _container.Resolve<IFilterRepository>();
+			filterRepository.Insert(new Filter {
+				Id = Guid.NewGuid(),
+				Name = "My Open Critical Issues",
+				Priorities = new List<FilterPriority> {new FilterPriority { Priority = project.Priorities.First(x => x.Name == "Critical") }},
+				Statuses = new List<FilterStatus> {new FilterStatus { Status = project.Statuses.First(x => x.Name == "Pending Development")}},
+				Developers = new List<FilterUser> {new FilterUser {User = user}},
+				Testers = new List<FilterUser> {new FilterUser {User = user}}
+			});
 		}
 
 		private static IEnumerable<Project> BuildProjects(User user)
@@ -60,8 +69,8 @@ namespace IssueTracker.SampleDataImporter
 				names.Add(name);
 
 				var project = new Project { Id = Guid.NewGuid(), Name = name[0].ToString().ToUpper() + name.Substring(1), Users = new List<User> { user } };
-				projects.Add(project);
 				projectRepository.Insert(project);
+				projects.Add(project);
 			}
 			return projects;
 		}
@@ -125,8 +134,8 @@ namespace IssueTracker.SampleDataImporter
 
 		private static void BuildIssues(User user, Project project)
 		{
-			var statuses = BuildStatuses(project).ToArray();
-			var priorities = BuildPriorities(project).ToArray();
+			var statuses = BuildStatuses(project);
+			var priorities = BuildPriorities(project);
 
 			var repository = _container.Resolve<IIssueRepository>();
 			for (var i = 1; i <= NUM_ISSUES; i++)

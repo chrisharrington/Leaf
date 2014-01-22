@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace IssueTracker.Common.Models
+namespace IssueTracker.Common.Models.Base
 {
-    public class BaseModel
+    public abstract class BaseModel
     {
 		public Guid Id { get; set; }
 		public string Name { get; set; }

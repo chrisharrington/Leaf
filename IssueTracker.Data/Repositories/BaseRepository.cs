@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Linq.Expressions;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
+using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Data.Repositories
 {
@@ -11,12 +14,15 @@ namespace IssueTracker.Data.Repositories
 	{
 		public DataContext Context { get; set; }
 
-		public TModel Details(Guid id)
+		public TModel Details(Guid id, params Expression<Func<TModel, object>>[] includes)
 		{
 			if (id == Guid.Empty)
 				throw new ArgumentNullException("id");
 
-			return Context.Set<TModel>().FirstOrDefault(x => x.Id == id);
+			var set = (IQueryable<TModel>) Context.Set<TModel>();
+			foreach (var include in includes)
+				set = set.Include(include);
+			return set.FirstOrDefault(x => x.Id == id);
 		}
 
 		public Guid Insert(TModel model)

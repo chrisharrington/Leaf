@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IssueTracker.Common.Models;
+using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Common.Data.Repositories
 {

@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.Common.Models
+﻿using IssueTracker.Common.Models.Base;
+
+namespace IssueTracker.Common.Models
 {
 	public class Status : ProjectModel
 	{

@@ -5,6 +5,7 @@ using AutoMapper;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Extensions;
 using IssueTracker.Common.Models;
+using IssueTracker.Common.Models.Base;
 using IssueTracker.Common.ViewModels;
 
 namespace IssueTracker.Web.Controllers

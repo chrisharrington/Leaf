@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
+using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Data.Repositories
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IssueTracker.Common.Models
+﻿namespace IssueTracker.Common.Models.Base
 {
     public class UserModel : BaseModel
     {

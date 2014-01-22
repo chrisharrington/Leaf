@@ -2,8 +2,8 @@
 
 namespace IssueTracker.Common.Models
 {
-	public class Priority : ProjectModel
+	public class FilterPriority : FilterModel
 	{
-		public int Order { get; set; }
+		public Priority Priority { get; set; }
 	}
 }
