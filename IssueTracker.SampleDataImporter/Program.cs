@@ -36,7 +36,15 @@ namespace IssueTracker.SampleDataImporter
 
 			var user = InsertAuthorizedUser();
 			foreach (var project in BuildProjects(user))
+			{
+				BuildFilters(user, project);
 				BuildIssues(user, project);
+			}
+		}
+
+		private static void BuildFilters(User user, Project project)
+		{
+			var myHighPriority = new Filter {Id = Guid.NewGuid(), Name = "My High Priority Issues"};
 		}
 
 		private static IEnumerable<Project> BuildProjects(User user)
