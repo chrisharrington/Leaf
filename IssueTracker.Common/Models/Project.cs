@@ -7,6 +7,7 @@ namespace IssueTracker.Common.Models
 	{
 		public ICollection<User> Users { get; set; }
 		public ICollection<Priority> Priorities { get; set; }
-		public ICollection<Status> Statuses { get; set; } 
+		public ICollection<Status> Statuses { get; set; }
+		public ICollection<Filter> Filters { get; set; } 
 	}
 }

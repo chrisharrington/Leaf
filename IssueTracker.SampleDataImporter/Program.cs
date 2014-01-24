@@ -39,7 +39,7 @@ namespace IssueTracker.SampleDataImporter
 			foreach (var project in BuildProjects(user))
 			{
 				BuildIssues(user, project);
-				//BuildFilters(user, project);
+				BuildFilters(user, project);
 			}
 		}
 
@@ -49,11 +49,12 @@ namespace IssueTracker.SampleDataImporter
 			var filterRepository = _container.Resolve<IFilterRepository>();
 			filterRepository.Insert(new Filter {
 				Id = Guid.NewGuid(),
+				Project = project,
 				Name = "My Open Critical Issues",
-				Priorities = new List<FilterPriority> {new FilterPriority { Priority = project.Priorities.First(x => x.Name == "Critical") }},
-				Statuses = new List<FilterStatus> {new FilterStatus { Status = project.Statuses.First(x => x.Name == "Pending Development")}},
-				Developers = new List<FilterUser> {new FilterUser {User = user}},
-				Testers = new List<FilterUser> {new FilterUser {User = user}}
+				//Priorities = new List<FilterPriority> {new FilterPriority { Priority = project.Priorities.First(x => x.Name == "Critical") }},
+				Status = project.Statuses.First()
+				//Developers = new List<FilterDeveloper> { new FilterDeveloper { Developer = user } },
+				//Testers = new List<FilterTester> { new FilterTester { Tester = user } }
 			});
 		}
 
@@ -135,8 +136,8 @@ namespace IssueTracker.SampleDataImporter
 
 		private static void BuildIssues(User user, Project project)
 		{
-			var statuses = BuildStatuses(project);
-			var priorities = BuildPriorities(project);
+			var statuses = BuildStatuses(project).ToArray();
+			var priorities = BuildPriorities(project).ToArray();
 
 			var repository = _container.Resolve<IIssueRepository>();
 			for (var i = 1; i <= NUM_ISSUES; i++)
