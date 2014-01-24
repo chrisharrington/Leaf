@@ -27,12 +27,14 @@ namespace IssueTracker.Data
 			builder.Entity<Status>()
 				.Map(x => { x.ToTable("Statuses"); x.MapInheritedProperties(); })
 				.HasRequired(x => x.Project)
-				.WithMany(x => x.Statuses);
+				.WithMany(x => x.Statuses)
+				.WillCascadeOnDelete(false);
 
 			builder.Entity<Priority>()
 				.Map(x => { x.ToTable("Priorities"); x.MapInheritedProperties(); })
 				.HasRequired(x => x.Project)
-				.WithMany(x => x.Priorities);
+				.WithMany(x => x.Priorities)
+				.WillCascadeOnDelete(false);
 
 			MapFilters(builder);
 			MapProjects(builder);

@@ -26,7 +26,8 @@ namespace IssueTracker.SampleDataImporter
 
 		public static void Main(string[] args)
 		{
-			if (!ConfigurationManager.ConnectionStrings["DefaultDataConnection"].ConnectionString.Contains("Database=Development"))
+			var connectionString = ConfigurationManager.ConnectionStrings["DefaultDataConnection"].ConnectionString;
+			if (!connectionString.Contains("Database=Development") && !connectionString.Contains("localhost"))
 				throw new Exception("Production database!");
 
 			_random = new Random();
@@ -38,7 +39,7 @@ namespace IssueTracker.SampleDataImporter
 			foreach (var project in BuildProjects(user))
 			{
 				BuildIssues(user, project);
-				BuildFilters(user, project);
+				//BuildFilters(user, project);
 			}
 		}
 
