@@ -51,10 +51,8 @@ namespace IssueTracker.SampleDataImporter
 				Id = Guid.NewGuid(),
 				Project = project,
 				Name = "My Open Critical Issues",
-				//Priorities = new List<FilterPriority> {new FilterPriority { Priority = project.Priorities.First(x => x.Name == "Critical") }},
-				Status = project.Statuses.First()
-				//Developers = new List<FilterDeveloper> { new FilterDeveloper { Developer = user } },
-				//Testers = new List<FilterTester> { new FilterTester { Tester = user } }
+				Priority = project.Priorities.First(x => x.Name == "Critical"),
+				Developer = user
 			});
 		}
 

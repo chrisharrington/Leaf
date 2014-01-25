@@ -34,7 +34,7 @@
 		@Html.Partial("~/Views/Shared/Header.cshtml")
 		<section class="content" data-bind="remoteTemplate: view"></section>
 		
-		<div class="popup dialog">
+		<div class="popup">
 			<div class="arrow top left">
 				<div></div>
 			</div>
@@ -44,21 +44,7 @@
 			</div>
 		</div>
 
-		<div class="serious dialog">
-			<h1 class="default"></h1>
-			<i class="fa fa-times"></i>
-			<div class="arrow top left">
-				<div></div>
-			</div>
-			<div class="loading">
-				<div>
-					<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
-				</div>
-			</div>
-			<div class="content" data-bind="html: dialog"></div>
-			<div class="arrow bottom left">
-				<div></div>
-			</div>
-		</div>
+		<div class="dialog" data-bind="html: dialog"></div>
+		<div class="overlay"></div>
 	</body>
 </html>

@@ -5,8 +5,8 @@
 @dark-gradient-bottom-colour:#555555;
 @tile-gradient-light-colour:#FFFFFF;
 @tile-gradient-dark-colour:#FFFFFF;
-@dialog-gradient-light-colour:#555555;
-@dialog-gradient-dark-colour:#222222;
+@popup-gradient-light-colour:#555555;
+@popup-gradient-dark-colour:#222222;
 
 @border-colour:#D0D0D0;
 @border-colour-semi-dark:#A0A0A0;
@@ -85,4 +85,17 @@ div.tile { padding:@spacing; .border-radius; .gradient(@tile-gradient-light-colo
 div.buttons {
 	button { float:left; margin-left:@small-spacing; }
 	button:first-child { margin-left:0; }
+}
+
+div.selector {
+	>div { float:left; width:100%; padding:@spacing; border-top:solid 1px @border-colour; cursor:pointer; .border-box;
+		>* { line-height:19px; display:inline-block; vertical-align:middle; }
+		>span { float:left; }
+		>i { float:right; display:none; }
+	}
+	>div:first-child { border-top:none; }
+	>div:hover { background-color:@hover-colour; }
+	>div.selected { color:@secondary-font-colour;
+		>i { display:inline-block; }
+	}
 }

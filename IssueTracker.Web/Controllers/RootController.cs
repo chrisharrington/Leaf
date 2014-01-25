@@ -23,7 +23,7 @@ namespace IssueTracker.Web.Controllers
 			return View("~/Views/Shared/Root.cshtml", new RootModel {
 	            Priorities = PriorityRepository.Project(selectedProject, x => x.Order).ToArray().Select(x => new OrderViewModel {id = x.Id, name = x.Name, order = x.Order}),
 				Statuses = StatusRepository.Project(selectedProject, x => x.Order).ToArray().Select(x => new OrderViewModel {id = x.Id, name = x.Name, order = x.Order}),
-				Users = UserRepository.All(x => x.Name).ToArray(),
+				Users = UserRepository.All(x => x.Name).ToArray().Select(x => new UserViewModel {id = x.Id, name = x.Name, emailAddress = x.EmailAddress}),
 				Projects = projects.ToArray().Select(project => new ProjectViewModel {id = project.Id, name = project.Name}),
 				Transitions = TransitionRepository.All(x => x.Name).Select(x => new TransitionViewModel {id = x.Id, fromId = x.From.Id, toId = x.To.Id, name = x.Name}),
 				SelectedProject = new { name = selectedProject.Name, id = selectedProject.Id },
@@ -45,7 +45,7 @@ namespace IssueTracker.Web.Controllers
 	{
 		public IEnumerable<OrderViewModel> Priorities { get; set; }
 		public IEnumerable<OrderViewModel> Statuses { get; set; }
-		public IEnumerable<User> Users { get; set; }
+		public IEnumerable<UserViewModel> Users { get; set; }
 		public IEnumerable<ProjectViewModel> Projects { get; set; }
 		public IEnumerable<TransitionViewModel> Transitions { get; set; }
 		public object SelectedProject { get; set; }

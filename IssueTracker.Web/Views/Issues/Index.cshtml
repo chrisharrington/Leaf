@@ -4,7 +4,7 @@
 			<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
 		</div>
 		<div class="filters">
-			<div id="view">
+			<div id="saved-filter">
 				<span>Saved Filter</span>
 				<i class="fa fa-angle-down"></i>
 			</div>
@@ -55,7 +55,7 @@
 </div>
 
 <script id="priority-filter-dialog" type="text/html">
-	<div class="select-dialog priority-filter-dialog" data-bind="foreach: priorities">
+	<div class="selector select-popup priority-filter-dialog" data-bind="foreach: priorities">
 		<div>
 			<div data-bind="text: name, attr: { 'data-priority': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedPriority() && IssueTracker.Issues.selectedPriority().name == name ? ' selected' : '') }"></div>
 		</div>
@@ -63,7 +63,7 @@
 </script>
 
 <script id="status-filter-dialog" type="text/html">
-	<div class="select-dialog status-filter-dialog" data-bind="foreach: statuses">
+	<div class="selector select-popup status-filter-dialog" data-bind="foreach: statuses">
 		<div>
 			<div data-bind="text: name, attr: { 'data-status': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().name == name ? ' selected' : '') }"></div>
 		</div>
@@ -71,7 +71,7 @@
 </script>
 
 <script id="developer-filter-dialog" type="text/html">
-	<div class="select-dialog developer-filter-dialog" data-bind="foreach: users">
+	<div class="selector select-popup developer-filter-dialog" data-bind="foreach: users">
 		<div>
 			<div data-bind="text: Name, attr: { 'data-developer': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedDeveloper() && IssueTracker.Issues.selectedDeveloper().Name == Name ? ' selected' : '') }"></div>
 		</div>
@@ -79,7 +79,7 @@
 </script>
 
 <script id="tester-filter-dialog" type="text/html">
-	<div class="select-dialog tester-filter-dialog" data-bind="foreach: users">
+	<div class="selector select-popup tester-filter-dialog" data-bind="foreach: users">
 		<div>
 			<div data-bind="text: Name, attr: { 'data-tester': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedTester() && IssueTracker.Issues.selectedTester().Name == Name ? ' selected' : '') }"></div>
 		</div>
@@ -97,7 +97,7 @@
 </script>
 
 <script id="sort-dialog" type="text/html">
-	<div class="select-dialog sort-dialog">
+	<div class="selector select-popup sort-dialog">
 		<div data-comparer="name">
 			<span>Description</span>
 			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'name' }"></i>
@@ -136,8 +136,49 @@
 	</div>
 </script>
 
-<script id="view-dialog" type="text/html">
-	<div class="view-dialog">
-
+<script id="saved-filter-dialog" type="text/html">
+	<div class="saved-filter-dialog">
+		<div class="header tile">
+			<h1>New Filter</h1>
+			<div class="buttons">
+				<button class="icon" id="save-filter">
+					<i class="fa fa-check"></i>	
+					<span>Save</span>
+				</button>
+				<button class="icon" id="discard-filter">
+					<i class="fa fa-times"></i>
+					<span>Discard</span>
+				</button>
+			</div>
+		</div>
+		<div class="name tile">
+			<input type="text" placeholder="Filter name..." />
+		</div>
+		<div class="choices">
+			<div class="priority selector tile" data-bind="foreach: priorities">
+				<div>
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+			</div>
+			<div class="status selector tile" data-bind="foreach: statuses">
+				<div>
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+			</div>
+			<div class="developer selector tile" data-bind="foreach: users">
+				<div>
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+			</div>
+			<div class="tester selector tile" data-bind="foreach: users">
+				<div>
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+			</div>
+		</div>
 	</div>
 </script>

@@ -82,3 +82,21 @@ div.text-filter-dialog { float:left; width:100%; .border-box; padding:@small-spa
 		>button:first-child { float:left; }
 	}
 }
+
+div.saved-filter-dialog { float:left; width:900px;
+	div.tile { .dark-shadow; }
+
+	>div.header { float:left; width:100%; cursor:pointer; height:63px;
+		>h1 { float:left; color:@secondary-font-colour; line-height:33px; display:inline-block; vertical-align:middle; color:inherit; }
+		>div.buttons { float:right; margin-top:2px;	}
+	}
+
+	>div.name { float:left; width:100%; margin-top:@spacing;
+		>input { float:left; width:100%; padding:@small-spacing; font-size:1.125em; }
+	}
+
+	>div.choices { float:left; width:100%; margin-top:@spacing;
+		>div { float:left; width:24.25%; margin-left:1%; padding:0; }
+		>div:first-child { margin-left:0; }
+	}
+}

@@ -2,13 +2,13 @@
 (function (root) {
 
 	var _container;
+	var _loader;
+
 	var _startCount = 50;
 	var _issueCountToLoad = 15;
 	var _start = 0;
 	var _nextIssuesRunning = false;
 	var _allLoaded = false;
-	var _filter;
-	var _loader;
 
 	root.list = ko.observableArray();
 	
@@ -64,75 +64,93 @@
 	}
 
 	function _hookupEvents(container) {
-		container.on("click", "table tbody tr", function() {
-			var issue = $.parseJSON($(this).attr("data-issue"));
-			IssueTracker.selectedIssue(issue);
-			IssueTracker.IssueDetails.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl(), name: issue.name.formatForUrl() });
-		});
+		container.on("click", "table tbody tr", _selectIssue);
+		container.find("#saved-filter").click(_showSavedFilters);
+		container.find("#priority-filter").click(_showPriorityFilter);
+		container.find("#status-filter").click(_showStatusFilter);
+		container.find("#developer-filter").click(_showDeveloperFilter);
+		container.find("#tester-filter").click(_showTesterFilter);
+		container.find("#sort").click(_showSorter);
+		container.find("#text-filter").click(_showTextFilter);
+	}
 
-		container.find("#priority-filter").click(function() {
-			var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this) });
-			popupContainer.find(">div").click(function () {
-				root.selectedPriority($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-priority")));
-				$(this).find(">div").toggleClass("selected");
-				IssueTracker.Popup.hide();
-				_resetIssueList();
-			});
-		});
-		
-		container.find("#status-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#status-filter-dialog", anchor: $(this) });
-			popupContainer.find(">div").click(function () {
-				root.selectedStatus($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-status")));
-				$(this).find(">div").toggleClass("selected");
-				IssueTracker.Popup.hide();
-				_resetIssueList();
-			});
-		});
+	function _showSavedFilters() {
+		var data = {
+			priorities: IssueTracker.priorities,
+			statuses: IssueTracker.statuses,
+			users: IssueTracker.users
+		};
+		var dialogContainer = IssueTracker.Dialog.load({ templateId: "saved-filter-dialog", data: data });
+	}
 
-		container.find("#developer-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#developer-filter-dialog", anchor: $(this) });
-			popupContainer.find(">div").click(function () {
-				root.selectedDeveloper($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-developer")));
-				$(this).find(">div").toggleClass("selected");
-				IssueTracker.Popup.hide();
-				_resetIssueList();
-			});
-		});
+	function _selectIssue() {
+		var issue = $.parseJSON($(this).attr("data-issue"));
+		IssueTracker.selectedIssue(issue);
+		IssueTracker.IssueDetails.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl(), name: issue.name.formatForUrl() });
+	}
 
-		container.find("#tester-filter").click(function () {
-			var popupContainer = IssueTracker.Popup.load({ view: "#tester-filter-dialog", anchor: $(this) });
-			popupContainer.find(">div").click(function () {
-				root.selectedTester($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-tester")));
-				$(this).find(">div").toggleClass("selected");
-				IssueTracker.Popup.hide();
-				_resetIssueList();
-			});
+	function _showPriorityFilter() {
+		var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this) });
+		popupContainer.find(">div").click(function () {
+			root.selectedPriority($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-priority")));
+			$(this).find(">div").toggleClass("selected");
+			IssueTracker.Popup.hide();
+			_resetIssueList();
 		});
+	}
 
-		container.find("#sort").click(function() {
-			var popupContainer = IssueTracker.Popup.load({ view: "#sort-dialog", model: root.sortModel, anchor: $(this), trigger: $(this) });
-			popupContainer.find("i:not(.selected)").click(function() {
-				root.sortModel.direction($(this).attr("data-direction"));
-				root.sortModel.comparer($(this).parent().attr("data-comparer"));
-				IssueTracker.Popup.hide();
-				_resetIssueList();
-			});
+	function _showStatusFilter() {
+		var popupContainer = IssueTracker.Popup.load({ view: "#status-filter-dialog", anchor: $(this) });
+		popupContainer.find(">div").click(function () {
+			root.selectedStatus($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-status")));
+			$(this).find(">div").toggleClass("selected");
+			IssueTracker.Popup.hide();
+			_resetIssueList();
 		});
+	}
 
-		container.find("#text-filter").click(function() {
-			var popupContainer = IssueTracker.Popup.load({ view: "#text-filter-dialog", model: root.filter, anchor: $(this), trigger: $(this) });
-			popupContainer.find("input").focus();
-			popupContainer.find("button.clear-filter").click(function () {
-				root.filter("");
-				IssueTracker.Popup.hide();
-				_resetIssueList();
-			});
-			popupContainer.find("button.set-filter").click(function () {
-				root.filter(popupContainer.find("input").val());
-				IssueTracker.Popup.hide();
-				_resetIssueList();
-			});
+	function _showDeveloperFilter() {
+		var popupContainer = IssueTracker.Popup.load({ view: "#developer-filter-dialog", anchor: $(this) });
+		popupContainer.find(">div").click(function () {
+			root.selectedDeveloper($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-developer")));
+			$(this).find(">div").toggleClass("selected");
+			IssueTracker.Popup.hide();
+			_resetIssueList();
+		});
+	}
+
+	function _showTesterFilter() {
+		var popupContainer = IssueTracker.Popup.load({ view: "#tester-filter-dialog", anchor: $(this) });
+		popupContainer.find(">div").click(function () {
+			root.selectedTester($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-tester")));
+			$(this).find(">div").toggleClass("selected");
+			IssueTracker.Popup.hide();
+			_resetIssueList();
+		});
+	}
+
+	function _showSorter() {
+		var popupContainer = IssueTracker.Popup.load({ view: "#sort-dialog", model: root.sortModel, anchor: $(this), trigger: $(this) });
+		popupContainer.find("i:not(.selected)").click(function () {
+			root.sortModel.direction($(this).attr("data-direction"));
+			root.sortModel.comparer($(this).parent().attr("data-comparer"));
+			IssueTracker.Popup.hide();
+			_resetIssueList();
+		});
+	}
+
+	function _showTextFilter() {
+		var popupContainer = IssueTracker.Popup.load({ view: "#text-filter-dialog", model: root.filter, anchor: $(this), trigger: $(this) });
+		popupContainer.find("input").focus();
+		popupContainer.find("button.clear-filter").click(function () {
+			root.filter("");
+			IssueTracker.Popup.hide();
+			_resetIssueList();
+		});
+		popupContainer.find("button.set-filter").click(function () {
+			root.filter(popupContainer.find("input").val());
+			IssueTracker.Popup.hide();
+			_resetIssueList();
 		});
 	}
 	

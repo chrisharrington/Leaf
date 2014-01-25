@@ -6,7 +6,7 @@
 </header>
 
 <script id="project-switcher-dialog" type="text/html">
-	<div class="project-switcher-dialog select-dialog" data-bind="foreach: $root.projects">
+	<div class="project-switcher-dialog select-popup" data-bind="foreach: $root.projects">
 		<div data-bind="text: Name, css: { selected: Name.toLowerCase() == $root.selectedProject().name.toLowerCase() }, attr: { 'data-project': JSON.stringify($data) }"></div>
 	</div>
 </script>

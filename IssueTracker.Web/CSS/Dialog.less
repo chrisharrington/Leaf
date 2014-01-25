@@ -1,36 +1,6 @@
 ﻿@import "Global.less";
 
-.dialog-gradient { background: linear-gradient(@dialog-gradient-light-colour, @dialog-gradient-dark-colour); }
-.dialog { position:absolute; z-index:2; width:300px; top:200px; left:100px; .dialog-gradient; .dark-shadow; color:white; display:none;
-	h1 { float:left; color:white !important; }
-	>i { float:right; color:@primary-font-colour; font-size:1.3em; cursor:pointer; }
-	>div.loading { float:left; width:100%; display:table; height:150px; text-align:center;
-		>div { margin:auto; display:table-cell; vertical-align:middle; height:100%; }
-	}
+@dialog-z-index:3;
 
-	div.arrow { float:left; position:relative; display:none;
-		>div { position:absolute; z-index:3; border:solid 15px transparent; }
-	}
-
-	div.arrow.top>div { top:-29px; left:15px; border-bottom-color:@dialog-gradient-light-colour; }
-	div.arrow.bottom>div { border-top-color:@dialog-gradient-dark-colour; }
-	div.arrow.bottom.right>div { top:62px; }
-	div.arrow.bottom.left>div { top:15px; }
-	div.arrow.top.right>div { top:-29px; left:-45px; }
-	div.arrow.left { width:100%; }
-	div.arrow.right { float:right; }
-}
-
-div.dialog.beneath div.arrow.top { display:block; }
-div.dialog.above div.arrow.bottom { display:block; }
-
-div.dialog .selected { .secondary-gradient; color:white; }
-div.dialog .selected:hover { color:white; }
-
-div.select-dialog {
-	>div { float:left; width:100%; padding:@small-spacing; border-top:solid 1px @border-colour-dark; cursor:pointer; .border-box;
-		>div { .border-radius; padding:@small-spacing; }
-	}
-	>div:first-child { border-top:none; }
-	>div:hover { color:@secondary-font-colour-dark-background; }
-}
+.dialog { position:fixed; z-index:@dialog-z-index; display:none; }
+.overlay { position:fixed; z-index:((@dialog-z-index)-1); top:0; right:0; bottom:0; left:0; display:none; background-color:#EEEEEE; opacity:0.8; }
