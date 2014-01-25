@@ -64,25 +64,28 @@
 </script>
 
 <script id="status-filter-dialog" type="text/html">
-	<div class="selector select-popup status-filter-dialog" data-bind="foreach: statuses">
-		<div>
-			<div data-bind="text: name, attr: { 'data-status': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().name == name ? ' selected' : '') }"></div>
+	<div class="selector dark select-popup status-filter-dialog" data-bind="foreach: statuses">
+		<div data-bind="attr: { 'data-status': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().name == name ? ' selected' : '') }">
+			<span data-bind="text: name"></span>
+			<i class="fa fa-check"></i>
 		</div>
 	</div>
 </script>
 
 <script id="developer-filter-dialog" type="text/html">
-	<div class="selector select-popup developer-filter-dialog" data-bind="foreach: users">
-		<div>
-			<div data-bind="text: Name, attr: { 'data-developer': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedDeveloper() && IssueTracker.Issues.selectedDeveloper().Name == Name ? ' selected' : '') }"></div>
+	<div class="selector dark select-popup developer-filter-dialog" data-bind="foreach: users">
+		<div data-bind="attr: { 'data-developer': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedDeveloper() && IssueTracker.Issues.selectedDeveloper().name == name ? ' selected' : '') }">
+			<span data-bind="text: name"></span>
+			<i class="fa fa-check"></i>
 		</div>
 	</div>
 </script>
 
 <script id="tester-filter-dialog" type="text/html">
-	<div class="selector select-popup tester-filter-dialog" data-bind="foreach: users">
-		<div>
-			<div data-bind="text: Name, attr: { 'data-tester': JSON.stringify($data), class: Name.toLowerCase() + (IssueTracker.Issues.selectedTester() && IssueTracker.Issues.selectedTester().Name == Name ? ' selected' : '') }"></div>
+	<div class="selector dark select-popup tester-filter-dialog" data-bind="foreach: users">
+		<div data-bind="attr: { 'data-tester': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedTester() && IssueTracker.Issues.selectedTester().name == name ? ' selected' : '') }">
+			<span data-bind="text: name"></span>
+			<i class="fa fa-check"></i>
 		</div>
 	</div>
 </script>

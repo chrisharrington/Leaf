@@ -92,7 +92,7 @@
 	function _showPriorityFilter() {
 		var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this) });
 		popupContainer.find(">div").click(function () {
-			root.selectedPriority($.parseJSON($(this).attr("data-priority")));
+			root.selectedPriority($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-priority")));
 			$(this).toggleClass("selected");
 			IssueTracker.Popup.hide();
 			_resetIssueList();
@@ -102,8 +102,8 @@
 	function _showStatusFilter() {
 		var popupContainer = IssueTracker.Popup.load({ view: "#status-filter-dialog", anchor: $(this) });
 		popupContainer.find(">div").click(function () {
-			root.selectedStatus($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-status")));
-			$(this).find(">div").toggleClass("selected");
+			root.selectedStatus($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-status")));
+			$(this).toggleClass("selected");
 			IssueTracker.Popup.hide();
 			_resetIssueList();
 		});
@@ -112,8 +112,8 @@
 	function _showDeveloperFilter() {
 		var popupContainer = IssueTracker.Popup.load({ view: "#developer-filter-dialog", anchor: $(this) });
 		popupContainer.find(">div").click(function () {
-			root.selectedDeveloper($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-developer")));
-			$(this).find(">div").toggleClass("selected");
+			root.selectedDeveloper($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-developer")));
+			$(this).toggleClass("selected");
 			IssueTracker.Popup.hide();
 			_resetIssueList();
 		});
@@ -122,8 +122,8 @@
 	function _showTesterFilter() {
 		var popupContainer = IssueTracker.Popup.load({ view: "#tester-filter-dialog", anchor: $(this) });
 		popupContainer.find(">div").click(function () {
-			root.selectedTester($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-tester")));
-			$(this).find(">div").toggleClass("selected");
+			root.selectedTester($(this).hasClass("selected") ? undefined : $.parseJSON($(this).attr("data-tester")));
+			$(this).toggleClass("selected");
 			IssueTracker.Popup.hide();
 			_resetIssueList();
 		});
