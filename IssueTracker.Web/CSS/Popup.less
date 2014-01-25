@@ -2,9 +2,7 @@
 
 @popup-z-index:3;
 
-
-.popup-gradient { background: linear-gradient(@popup-gradient-light-colour, @popup-gradient-dark-colour); }
-.popup { position:absolute; z-index:@popup-z-index; width:300px; .popup-gradient; .dark-shadow; color:white; display:none;
+.popup { position:absolute; z-index:@popup-z-index; width:300px; .dark-shadow; display:none;
 	h1 { float:left; color:white !important; }
 	>i { float:right; color:@primary-font-colour; font-size:1.3em; cursor:pointer; }
 	>div.loading { float:left; width:100%; display:table; height:150px; text-align:center;
@@ -15,8 +13,8 @@
 		>div { position:absolute; z-index:3; border:solid 15px transparent; }
 	}
 
-	div.arrow.top>div { top:-29px; left:15px; border-bottom-color:@popup-gradient-light-colour; }
-	div.arrow.bottom>div { border-top-color:@popup-gradient-dark-colour; }
+	div.arrow.top>div { top:-29px; left:15px; border-bottom-color:@dark-gradient-light-colour; }
+	div.arrow.bottom>div { border-top-color:@dark-gradient-dark-colour; }
 	div.arrow.bottom.right>div { top:62px; }
 	div.arrow.bottom.left>div { top:15px; }
 	div.arrow.top.right>div { top:-29px; left:-45px; }
@@ -31,3 +29,5 @@ div.popup .selected { .secondary-gradient; color:white; }
 div.popup .selected:hover { color:white; }
 
 div.overlay { position:fixed; z-index:((@popup-z-index)-1); top:0; right:0; bottom:0; left:0; }
+
+div.select-popup.selector { float:left; width:100%; .border-box; }

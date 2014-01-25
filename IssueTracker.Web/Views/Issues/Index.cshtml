@@ -55,9 +55,10 @@
 </div>
 
 <script id="priority-filter-dialog" type="text/html">
-	<div class="selector select-popup priority-filter-dialog" data-bind="foreach: priorities">
-		<div>
-			<div data-bind="text: name, attr: { 'data-priority': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedPriority() && IssueTracker.Issues.selectedPriority().name == name ? ' selected' : '') }"></div>
+	<div class="selector dark select-popup priority-filter-dialog" data-bind="foreach: priorities">
+		<div data-bind="attr: { 'data-priority': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedPriority() && IssueTracker.Issues.selectedPriority().name == name ? ' selected' : '') }">
+			<span data-bind="text: name"></span>
+			<i class="fa fa-check"></i>
 		</div>
 	</div>
 </script>
@@ -136,6 +137,12 @@
 	</div>
 </script>
 
+<script id="add-new-filter-popup" type="text/html">
+	<div class="add-new-filter-popup">
+		
+	</div>
+</script>
+
 <script id="saved-filter-dialog" type="text/html">
 	<div class="saved-filter-dialog">
 		<div class="header tile">
@@ -153,7 +160,7 @@
 		</div>
 		<div class="name tile">
 			<input type="text" placeholder="Filter name..." />
-		</div>
+		</div>w
 		<div class="choices">
 			<div class="priority selector tile" data-bind="foreach: priorities">
 				<div>

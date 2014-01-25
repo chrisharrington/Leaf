@@ -11,7 +11,7 @@
 		if (!params.view)
 			throw new Error("Missing popup view.");
 		if (!params.container)
-			params.container = $("div.dialog.popup");
+			params.container = $("div.popup");
 
 		_container = params.container;
 

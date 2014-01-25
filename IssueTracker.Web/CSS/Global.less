@@ -5,8 +5,8 @@
 @dark-gradient-bottom-colour:#555555;
 @tile-gradient-light-colour:#FFFFFF;
 @tile-gradient-dark-colour:#FFFFFF;
-@popup-gradient-light-colour:#555555;
-@popup-gradient-dark-colour:#222222;
+@dark-gradient-light-colour:#555555;
+@dark-gradient-dark-colour:#222222;
 
 @border-colour:#D0D0D0;
 @border-colour-semi-dark:#A0A0A0;
@@ -44,6 +44,7 @@
 @hover-colour:#F8F8F8;
 
 .gradient (@top, @bottom) { background:linear-gradient(to bottom, @top, @bottom); }
+.dark-gradient { background: linear-gradient(@dark-gradient-light-colour, @dark-gradient-dark-colour); }
 .horizontal-gradient (@left, @right, @start: 0%) { background: linear-gradient(to right, @left @start, @right); }
 .secondary-gradient { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); }
 .shadow { box-shadow:0 2px 8px rgba(0, 0, 0, 0.3); }
@@ -88,14 +89,23 @@ div.buttons {
 }
 
 div.selector {
-	>div { float:left; width:100%; padding:@spacing; border-top:solid 1px @border-colour; cursor:pointer; .border-box;
+	>div { float:left; width:100%; padding:@spacing; background:white; border-top:solid 1px @border-colour; cursor:pointer; .border-box;
 		>* { line-height:19px; display:inline-block; vertical-align:middle; }
-		>span { float:left; }
+		>span { float:left; color:#DDDDDD; }
 		>i { float:right; display:none; }
 	}
 	>div:first-child { border-top:none; }
 	>div:hover { background-color:@hover-colour; }
 	>div.selected { color:@secondary-font-colour;
 		>i { display:inline-block; }
+	}
+}
+div.selector.dark { .dark-gradient; height:100%;
+	>div { background:transparent; border-color:@border-colour-dark; }
+	>div:hover { background:#555555;
+		>span { color:white; }
+	}
+	>div.selected {
+		>* { color:@secondary-font-colour-dark-background !important; font-weight:bold; }
 	}
 }

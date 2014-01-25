@@ -92,8 +92,8 @@
 	function _showPriorityFilter() {
 		var popupContainer = IssueTracker.Popup.load({ view: "#priority-filter-dialog", anchor: $(this) });
 		popupContainer.find(">div").click(function () {
-			root.selectedPriority($(this).find(">div").hasClass("selected") ? undefined : $.parseJSON($(this).find(">div").attr("data-priority")));
-			$(this).find(">div").toggleClass("selected");
+			root.selectedPriority($.parseJSON($(this).attr("data-priority")));
+			$(this).toggleClass("selected");
 			IssueTracker.Popup.hide();
 			_resetIssueList();
 		});
