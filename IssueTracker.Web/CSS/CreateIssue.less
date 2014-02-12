@@ -1,0 +1,17 @@
+﻿@import "Global.less";
+
+.create-issue-container { 
+	div.breadcrumbs { float:left; }
+	div.buttons { float:right;
+		>button { float:left; margin-left:@spacing; }
+	}
+
+	div.tile { float:left; width:100%; padding:0; margin-top:@spacing;
+		>div { float:left; width:100%; padding:@spacing; .border-box; border:solid 1px @border-colour;
+			>input, >textarea { float:left; width:100%; }
+			>textarea { height:200px; }
+			>input { font-weight:bold; padding:@small-spacing; }
+		}
+		>div:first-child { border:none; }
+	}
+}

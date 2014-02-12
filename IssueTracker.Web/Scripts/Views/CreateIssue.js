@@ -5,6 +5,11 @@
 
 	root.loading = ko.observable(false);
 
+	root.createModel = {
+		description: ko.observable(""),
+		comments: ko.observable("")
+	};
+
 	root.init = function (container) {
 		_container = container;
 		_container = container;

@@ -1,1 +1,30 @@
-﻿create!
+﻿<div class="breadcrumbs">
+	<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
+		<i class="fa fa-home"></i>
+		<span data-bind="text: IssueTracker.selectedProject().name"></span>
+	</a>
+	<i class="fa fa-angle-right"></i>
+	<a>
+		<span>New Issue</span>
+	</a>
+</div>
+
+<div class="buttons">
+	<button class="icon positive">
+		<i class="fa fa-check"></i>
+		<span>Save New Issue</span>
+	</button>
+	<button class="icon negative">
+		<i class="fa fa-times"></i>
+		<span>Discard Issue</span>
+	</button>
+</div>
+
+<div class="tile">
+	<div class="description">
+		<input type="text" placeholder="Issue description..." data-bind="value: createModel.description" />
+	</div>
+	<div class="comments">
+		<textarea placeholder="Comments?" data-bind="value: createModel.comments"></textarea>
+	</div>
+</div>

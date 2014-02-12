@@ -167,10 +167,11 @@
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\background.png" />
     <Content Include="Images\button-loader.gif" />
+    <Content Include="Scripts\Binders\FadeBinder.js" />
     <Content Include="Scripts\Binders\RemoteTemplateBinder.js" />
     <Content Include="Scripts\Bindings.js" />
-    <Content Include="Scripts\Helpers\ChartDrawer.js" />
     <Content Include="Scripts\Helpers\Feedback.js" />
+    <Content Include="Scripts\Helpers\ChartDrawer.js" />
     <Content Include="Scripts\Helpers\Popup.js" />
     <Content Include="Scripts\Helpers\Dialog.js" />
     <Content Include="Scripts\Helpers\Position.js" />
@@ -188,6 +189,7 @@
     <Content Include="Scripts\Page.js" />
     <Content Include="Scripts\ThirdParty\jquery.animate-enhanced.js" />
     <Content Include="Scripts\ThirdParty\ToDictionary.js" />
+    <Content Include="Scripts\Views\CreateIssue.js" />
     <Content Include="Scripts\Views\IssueDetails.js" />
     <Content Include="Scripts\Views\Issues.js" />
     <Content Include="Tests\Binders\RemoteTemplateBinder.js" />
@@ -276,6 +278,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CSS\Popup.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Issues\Create.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
