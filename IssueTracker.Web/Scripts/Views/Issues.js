@@ -3,6 +3,7 @@
 
 	var _container;
 	var _resetTimeout;
+	var _searchTimeout;
 
 	var _startCount = 50;
 	var _issueCountToLoad = 15;
@@ -13,11 +14,11 @@
 	root.loading = ko.observable(true);
 
 	root.list = ko.observableArray();
-	root.filter = ko.observable("");
 	root.selectedPriorities = ko.observableArray();
 	root.selectedStatuses = ko.observableArray();
 	root.selectedDevelopers = ko.observableArray();
 	root.selectedTesters = ko.observableArray();
+	root.search = ko.observable("");
 
 	root.sortModel = {
 		direction: ko.observable("descending"),
@@ -50,6 +51,10 @@
 		container.on("click", "#status-filter>div", _selectStatus);
 		container.on("click", "#developer-filter>div", _selectDeveloper);
 		container.on("click", "#tester-filter>div", _selectTester);
+		container.on("focus", "div.search input", function () { $(this).parent().addClass("focus"); });
+		container.on("blur", "div.search input", function () { $(this).parent().removeClass("focus"); });
+		container.on("click", "div.search i", function () { root.search(""); });
+		root.search.subscribe(function() { _resetIssueList(true); });
 	}
 
 	function _showSorter() {
@@ -95,7 +100,7 @@
 			project: IssueTracker.selectedProject(),
 			direction: root.sortModel.direction(),
 			comparer: root.sortModel.comparer(),
-			filter: root.filter(),
+			filter: root.search(),
 			priorities: root.selectedPriorities().join(","),
 			statuses: root.selectedStatuses().join(","),
 			developers: root.selectedDevelopers().join(","),

@@ -4,23 +4,11 @@
 	div.table-tools { float:left; width:100%; }
 
 	div.table-tools { margin-top:0; height:61px;
-		>div.filter-tags { float:left; height:100%;
-			>div.filters { float:left; height:100%; display:table;
-				>div { .table-cell-vertically-aligned; margin-left:@spacing; padding-left:@spacing; padding-right:@spacing; border-left:solid 1px @border-colour; cursor:pointer;
-					>* { .table-cell-vertically-aligned; }
-					>span.selected { color:@secondary-font-colour; font-weight:bold; }
-					>i { padding-left:@small-spacing; padding-top:3px; font-size:1.125em; }
-				}
-				>div:first-child { padding-left:0; border-left:none; }
-				>div:hover>* { color:@secondary-font-colour !important; }
-			}
-			>div.loading { float:left; display:table; height:100%;
-				>img { .table-cell-vertically-aligned; }
-			}
+		@search-height:31px;
+		>div.search { float:left; border:solid 1px @border-colour; .border-radius; .border-box; height:@search-height;
+			>input { float:left; width:500px; height:100%; border:none; padding:@small-spacing; .border-box; margin:0; outline:none !important; box-shadow:none !important; }
+			>i { float:left; height:100%; margin-left:@spacing; vertical-align:middle; line-height:@search-height; padding:0 @small-spacing; cursor:pointer; color:@primary-font-colour-light; }
 		}
-
-		>div.filter { float:right; margin-right:@spacing; }
-
 		>div.tools { float:right; display:table; height:100%;
 			>i { display:table-cell; vertical-align:middle; font-size:1.25em; padding:@small-spacing; cursor:pointer; color:@primary-font-colour-icon; }
 			>i:hover { color:@secondary-font-colour; }
@@ -32,7 +20,7 @@
 		>div.issues-container { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@filter-width+@spacing; position:relative; .border-box;
 			>div.tile { float:left; width:100%; padding:0;
 				>div.data {
-					>a { border-top:solid 1px #DDD; cursor:pointer; height:67px; display:block; color:@primary-font-colour;
+					>a { border-top:solid 1px @border-colour; cursor:pointer; height:67px; display:block; color:@primary-font-colour;
 						>div { float:left; width:100%; height:100%; display:table; table-layout:fixed;
 							>div { display:table-cell; height:100%; white-space:nowrap; }
 							>div.priority { padding:0; width:8px; }
@@ -60,7 +48,7 @@
 			>div.tile { float:left; width:100%; margin-top:@spacing; padding:0;
 				@height:19px;
 				@local-spacing:@spacing;
-				>h2 { float:left; width:100%; padding:@local-spacing; color:@secondary-font-colour; }
+				>h2 { float:left; width:100%; padding:@local-spacing; }
 				>div { float:left; width:100%; padding:@local-spacing; border-top:solid 1px @border-colour; .border-box; cursor:pointer;
 					>* { height:@height; line-height:@height; display:inline-block; vertical-align:middle; }
 					>span { float:left; }
@@ -78,13 +66,14 @@
 
 div.sort-dialog { float:left; width:100%; .dark-gradient;
 	>div { float:left; width:100%; padding:@spacing; border-top:solid 1px @border-colour-dark; cursor:pointer; .border-box;
-		>* { line-height:19px; display:inline-block; vertical-align:middle; }
-		>span { float:left; color:#DDDDDD; }
-		>i { float:right; margin-left:@small-spacing; }
+		>* { line-height:19px; display:inline-block; vertical-align:middle; color:@primary-font-colour-lightest; }
+		>span { float:left; }
+		>i { float:right; margin-left:@small-spacing; width:20px; text-align:center; .border-radius; }
+		>i:hover { .secondary-gradient;; }
 	}
 	>div:first-child { border-top:none; }
-	>div:hover { background-color:@hover-colour; }
-	>div.selected { color:@secondary-font-colour;
+	>div:hover>span { color:@secondary-font-colour-light; }
+	>div.selected { color:@secondary-font-colour-light;
 		>i { display:inline-block; }
 	}
 }

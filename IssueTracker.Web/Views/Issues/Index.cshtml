@@ -1,34 +1,7 @@
 ﻿<div class="tile table-tools">
-	<div class="filter-tags">
-		<div class="loading hidden">
-			<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
-		</div>
-		<div class="filters">
-			@*<div id="saved-filter">
-				<span>Saved Filter</span>
-				<i class="fa fa-angle-down"></i>
-			</div>
-			<div id="priority-filter">
-				<span data-bind="css: { selected: selectedPriority() != undefined }, text: selectedPriority() ? selectedPriority().name : 'Priority'"></span>
-				<i class="fa fa-angle-down"></i>
-			</div>
-			<div id="status-filter">
-				<span data-bind="css: { selected: selectedStatus() != undefined }, text: selectedStatus() ? selectedStatus().name : 'Status'"></span>
-				<i class="fa fa-angle-down"></i>
-			</div>
-			<div id="developer-filter">
-				<span data-bind="css: { selected: selectedDeveloper() != undefined }, text: selectedDeveloper() ? selectedDeveloper().Name : 'Developer'"></span>
-				<i class="fa fa-angle-down"></i>
-			</div>
-			<div id="tester-filter">
-				<span data-bind="css: { selected: selectedTester() != undefined }, text: selectedTester() ? selectedTester().Name : 'Tester'"></span>
-				<i class="fa fa-angle-down"></i>
-			</div>
-			<div id="text-filter">
-				<span data-bind="css: { selected: filter() != '' }, text: filter() != '' ? filter() : 'Text Filter'"></span>
-				<i class="fa fa-angle-down"></i>
-			</div>*@
-		</div>
+	<div class="search">
+		<input type="text" data-bind="value: search, valueUpdate: 'keyup'" placeholder="Search for keywords, tags, dates..."/>
+		<i class="fa fa-times"></i>
 	</div>
 	<div class="tools">
 		<i id="sort" class="fa fa-sort-alpha-asc"></i>
