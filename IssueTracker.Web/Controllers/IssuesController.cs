@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using AutoMapper;
 using IssueTracker.Common.Data.Repositories;
@@ -23,6 +22,11 @@ namespace IssueTracker.Web.Controllers
 		{
 			return View();
 		}
+
+	    public ActionResult Create()
+	    {
+		    return View();
+	    }
 
 	    public ActionResult Details(string issueName, Guid projectId)
 	    {
