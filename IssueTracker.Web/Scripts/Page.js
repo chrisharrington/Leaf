@@ -60,7 +60,7 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 			me._initFired = true;
 		}
 		if (me.load)
-			me.load($(".content-container"), routeArguments);
+			me.load(container, routeArguments);
 	} });
 	IssueTracker.title(params.title);
 };

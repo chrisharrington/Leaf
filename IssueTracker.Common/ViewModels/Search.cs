@@ -1,4 +1,5 @@
-﻿using IssueTracker.Common.Models;
+﻿using System.Collections.Generic;
+using IssueTracker.Common.Models;
 
 namespace IssueTracker.Common.ViewModels
 {
@@ -12,5 +13,9 @@ namespace IssueTracker.Common.ViewModels
 		public User developer { get; set; }
 		public User tester { get; set; }
 		public string filter { get; set; }
+		public IEnumerable<Priority> priorities { get; set; }
+		public IEnumerable<Status> statuses { get; set; }
+		public IEnumerable<User> developers { get; set; }
+		public IEnumerable<User> testers { get; set; } 
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using AutoMapper;
 using IssueTracker.Common.Data.Repositories;
@@ -127,6 +129,10 @@ namespace IssueTracker.Web.Controllers
 		public User developer { get; set; }
 		public User tester { get; set; }
 		public string filter { get; set; }
+		public string priorities { get; set; }
+		public string statuses { get; set; }
+		public string developers { get; set; }
+		public string testers { get; set; }
 
 		public SortDirection direction { get; set; }
 		public string comparer { get; set; }
@@ -141,7 +147,11 @@ namespace IssueTracker.Web.Controllers
 				priority = priority,
 				status = status,
 				tester = tester,
-				filter = filter
+				filter = filter,
+				priorities = string.IsNullOrEmpty(priorities) ? new List<Priority>() : priorities.Split(',').Select(x => new Priority { Id = new Guid(x) }),
+				statuses = string.IsNullOrEmpty(statuses) ? new List<Status>() : statuses.Split(',').Select(x => new Status {  Id = new Guid(x) }),
+				developers = string.IsNullOrEmpty(developers) ? new List<User>() : developers.Split(',').Select(x => new User { Id = new Guid(x) }),
+				testers = string.IsNullOrEmpty(testers) ? new List<User>() : testers.Split(',').Select(x => new User { Id = new Guid(x) }),
 			};
 		}
 
