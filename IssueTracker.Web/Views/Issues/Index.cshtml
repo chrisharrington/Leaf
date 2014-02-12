@@ -11,6 +11,9 @@
 
 <div class="data-container">
 	<div class="issues-container">
+		<div class="loading tile" data-bind="visible: loading">
+			<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
+		</div>
 		<div class="tile">
 			<div class="data" data-bind="foreach: list">
 				<a data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
@@ -24,9 +27,6 @@
 					</div>
 				</a>
 			</div>
-		</div>
-		<div class="loading tile" data-bind="visible: loading">
-			<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
 		</div>
 	</div>
 	<div class="filter-container">

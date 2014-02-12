@@ -81,6 +81,7 @@
 		root.loading(true);
 		_nextIssuesRunning = true;
 		$.get(IssueTracker.virtualDirectory() + "Issues/Next", _buildParameters(count)).done(function (issues) {
+			root.list([]);
 			root.list.pushAll(issues);
 			if (issues.length < count)
 				_allLoaded = true;
@@ -120,7 +121,6 @@
 		function reset() {
 			_start = 0;
 			_allLoaded = false;
-			root.list([]);
 			_getNextIssues(_startCount);
 		}
 	}
