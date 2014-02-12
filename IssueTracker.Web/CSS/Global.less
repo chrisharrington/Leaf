@@ -41,6 +41,10 @@
 @secondary-background-colour-top:#388CD6;
 @secondary-background-colour-bottom:darken(@secondary-background-colour-top, 20%);
 
+@error-gradient-light-colour:#A61212;
+@error-gradient-dark-colour:#C23232;
+@error-font-colour:white;
+
 @active-highlight:lighten(@secondary-font-colour, 28%);
 @hover-colour:#F8F8F8;
 
@@ -108,5 +112,17 @@ div.selector.dark { .dark-gradient; height:100%;
 	}
 	>div.selected {
 		>* { color:@secondary-font-colour-dark-background !important; font-weight:bold; }
+	}
+}
+
+div.global-feedback { position:fixed; z-index:2000; padding:@small-spacing; .gradient(@error-gradient-light-colour, @error-gradient-dark-colour); width:100%; bottom:0; color:white; box-shadow:0 -2px 8px rgba(0, 0, 0, 0.5); display:none;
+	@icon-width:22px;
+	@height:28px;
+	>i { float:left; position:relative; font-size:1.5em; width:@icon-width; vertical-align:middle; line-height:@height; }
+	>div { position:relative; margin-left:@icon-width+@spacing; padding-right:@icon-width; height:@height;
+		>i { float:right; position:relative; margin-left:-20px; height:@height; line-height:@height; vertical-align:middle; cursor:pointer; color:#CCC; }
+		>span { float:left; width:100%; height:100%; vertical-align:middle; line-height:@height; position:relative; padding-right:20px; .border-box;
+			a { color:inherit; }
+		}
 	}
 }
