@@ -1,5 +1,6 @@
 ﻿@spacing:15px;
 @small-spacing:8px;
+@tiny-spacing:4px;
 
 @dark-gradient-top-colour:#222222;
 @dark-gradient-bottom-colour:#555555;
@@ -27,19 +28,26 @@
 @high-priority-background:#f27b56;
 @critical-priority-background:#CF3A3C;
 	
-@primary-header-font-colour:#000000;
-@primary-sub-header-font-colour:#444444;
-@primary-font-colour:#777777;
-@primary-font-colour-light:#AAAAAA;
-@primary-font-colour-lightest:#DDDDDD;
+@primary-header-font-colour:black;
+@primary-sub-header-font-colour:#444;
+@primary-font-colour:#666;
+@primary-font-colour-light:#888;
+@primary-font-colour-lightest:#BBB;
 @primary-font-colour-dark:#444444;
 @primary-font-colour-dark-background:#DDDDDD;
 @primary-font-colour-icon:#BBBBBB;
-@secondary-font-colour:#2D7ECF;
+@primary-font-hover-colour:black;
+@secondary-font-colour:#3776BF;
 @secondary-font-colour-light:lighten(@secondary-font-colour, 20%);
 @secondary-font-colour-dark-background:@secondary-font-colour-light;
-@secondary-background-colour-top:#388CD6;
-@secondary-background-colour-bottom:darken(@secondary-background-colour-top, 20%);
+@secondary-header-colour:#1C5A9C;
+@secondary-background-colour-top:#527FB3;
+@secondary-background-colour-bottom:darken(@secondary-background-colour-top, 15%);
+@positive-colour:#3CB046;
+@positive-colour-dark:#168A20;
+@negative-colour:#D44E4E;
+@negative-colour-dark:#8C2626;
+@link-colour:#1C5A9C;
 
 @error-gradient-light-colour:#A61212;
 @error-gradient-dark-colour:#C23232;
@@ -82,6 +90,7 @@ button.icon { display:table;
 	>span { padding-left:@small-spacing; }
 }
 button.right>span { padding-left:0; padding-right:@small-spacing; }
+button.loading { background:@secondary-background-colour-top url("../Images/button-loader.gif"); }
 
 body { margin:0; padding:0; background:url(../Images/background.png); font-size:14px; .regular-font; }
 .content-container { float:left; width:100%; .border-box; padding:@spacing; }

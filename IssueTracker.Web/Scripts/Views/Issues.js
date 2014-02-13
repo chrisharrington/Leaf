@@ -2,8 +2,6 @@
 (function (root) {
 
 	var _container;
-	var _resetTimeout;
-	var _searchTimeout;
 
 	var _startCount = 50;
 	var _issueCountToLoad = 15;
@@ -54,6 +52,7 @@
 		container.on("focus", "div.search input", function () { $(this).parent().addClass("focus"); });
 		container.on("blur", "div.search input", function () { $(this).parent().removeClass("focus"); });
 		container.on("click", "div.search i", function () { root.search(""); });
+		container.on("click", "#apply-filter", _resetIssueList);
 		root.search.subscribe(function() { _resetIssueList(true); });
 	}
 
@@ -109,20 +108,10 @@
 		});
 	}
 	
-	function _resetIssueList(isDelayed) {
-		if (_resetTimeout)
-			clearTimeout(_resetTimeout);
-
-		if (isDelayed)
-			_resetTimeout = setTimeout(reset, 500);
-		else
-			reset();
-
-		function reset() {
-			_start = 0;
-			_allLoaded = false;
-			_getNextIssues(_startCount);
-		}
+	function _resetIssueList() {
+		_start = 0;
+		_allLoaded = false;
+		_getNextIssues(_startCount);
 	}
 
 	function _selectPriority() {
@@ -133,7 +122,6 @@
 			root.selectedPriorities.push($(this).attr("data-priority-id"));
 		else
 			root.selectedPriorities.remove($(this).attr("data-priority-id"));
-		_resetIssueList(true);
 	}
 
 	function _selectStatus() {
@@ -144,7 +132,6 @@
 			root.selectedStatuses.push($(this).attr("data-status-id"));
 		else
 			root.selectedStatuses.remove($(this).attr("data-status-id"));
-		_resetIssueList(true);
 	}
 
 	function _selectDeveloper() {
@@ -155,7 +142,6 @@
 			root.selectedDevelopers.push($(this).attr("data-developer-id"));
 		else
 			root.selectedDevelopers.remove($(this).attr("data-developer-id"));
-		_resetIssueList(true);
 	}
 
 	function _selectTester() {
@@ -166,7 +152,6 @@
 			root.selectedTesters.push($(this).attr("data-tester-id"));
 		else
 			root.selectedTesters.remove($(this).attr("data-tester-id"));
-		_resetIssueList(true);
 	}
 
 	IssueTracker.Page.build({

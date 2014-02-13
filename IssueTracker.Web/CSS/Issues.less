@@ -43,23 +43,37 @@
 			>div.loading { float:left; width:100%; text-align:center; padding:@spacing; .border-box;
 				>img { margin:auto; width:30px; height:30px; }
 			}
-		}
-		>div.filter-container { float:left; width:@filter-width; position:relative; margin-left:@filter-width*-1;
-			>div.tile { float:left; width:100%; margin-top:@spacing; padding:0;
-				@height:19px;
-				@local-spacing:@spacing;
-				>h2 { float:left; width:100%; padding:@local-spacing; }
-				>div { float:left; width:100%; padding:@local-spacing; border-top:solid 1px @border-colour; .border-box; cursor:pointer;
-					>* { height:@height; line-height:@height; display:inline-block; vertical-align:middle; }
-					>span { float:left; }
-					>i { float:right; display:none; }
+			>div.sort { margin-bottom:@spacing;
+				@width:150px;
+				>div { float:left; padding:@small-spacing; border-left:solid 1px @border-colour; width:@width;
+					>span { float:left; margin-right:@small-spacing; text-align:center; width:100%; }
+					>div { float:left; width:100%; margin-top:@small-spacing;
+						>i { float:left; width:@width/2-@small-spacing/2; margin-left:@small-spacing; .border-box; padding:@tiny-spacing; font-weight:bold; color:@primary-header-font-colour; .border-radius; background-color:@hover-colour; border:solid 1px @border-colour; cursor:pointer; text-align:center; }
+						>i:first-child { margin-left:0; }
+						>i.selected { .secondary-gradient; color:white; }
+					}
 				}
-				>div.selected { color:@secondary-font-colour !important;
-					i { display:inline-block; }
-				}
-				>div:hover { .hover; }
+				>div:first-child { border-left:none; }
 			}
-			>div.tile:first-child { margin-top:0; }
+		}
+		>div.filter-container { float:left; position:fixed; width:@filter-width; position:relative; margin-left:@filter-width*-1;
+			>div { float:left; width:@filter-width;
+				>button { float:left; width:100%; }
+				>div.tile { float:left; width:100%; margin-top:@spacing; padding:0;
+					@height:19px;
+					@local-spacing:@spacing;
+					>h2 { float:left; width:100%; padding:@small-spacing @local-spacing; }
+					>div { float:left; width:100%; padding:@small-spacing @local-spacing; border-top:solid 1px @border-colour; .border-box; cursor:pointer;
+						>* { height:@height; line-height:@height; display:inline-block; vertical-align:middle; }
+						>span { float:left; }
+						>i { float:right; display:none; }
+					}
+					>div.selected { color:@secondary-font-colour !important;
+						i { display:inline-block; }
+					}
+					>div:hover { .hover; }
+				}
+			}
 		}
 	}
 }
