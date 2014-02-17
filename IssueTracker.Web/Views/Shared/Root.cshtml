@@ -23,6 +23,7 @@
 			root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));
 			root.transitions = ko.observableArray(@Html.Raw(Json.Encode(Model.Transitions)))
 			root.projects = ko.observableArray(@Html.Raw(Json.Encode(Model.Projects)));
+			root.milestones = ko.observableArray(@Html.Raw(Json.Encode(Model.Milestones)));
 			root.selectedProject = ko.observable(@Html.Raw(Json.Encode(Model.SelectedProject)));
 			root.signedInUser = ko.observable(@Html.Raw(Json.Encode(Model.SignedInUser)));
 			root.selectedIssue = ko.observable();

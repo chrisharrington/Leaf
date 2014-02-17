@@ -13,6 +13,7 @@ namespace IssueTracker.Data
 		public DbSet<Transition> Transitions { get; set; }
 		public DbSet<Filter> Filters { get; set; }
 		public DbSet<DateRange> DateRanges { get; set; }
+		public DbSet<Milestone> Milestones { get; set; }
 
 		public DataContext() : base("DefaultDataConnection") { }
 

@@ -136,6 +136,7 @@ namespace IssueTracker.SampleDataImporter
 		{
 			var statuses = BuildStatuses(project).ToArray();
 			var priorities = BuildPriorities(project).ToArray();
+			var milestones = BuildMilestones(project).ToArray();
 
 			var repository = _container.Resolve<IIssueRepository>();
 			for (var i = 1; i <= NUM_ISSUES; i++)
@@ -147,6 +148,7 @@ namespace IssueTracker.SampleDataImporter
 					Tester = user,
 					Developer = user,
 					Project = project,
+					Milestone = milestones.ElementAt(_random.Next(0, milestones.Count())),
 					Priority = priorities.ElementAt(_random.Next(0, priorities.Count())),
 					Status = statuses.ElementAt(_random.Next(0, priorities.Count())),
 					Opened = GetRandomDate().Value,
@@ -154,6 +156,21 @@ namespace IssueTracker.SampleDataImporter
 					Updated = GetRandomDate().Value,
 					UpdatedBy = user
 				});
+		}
+
+		private static IEnumerable<Milestone> BuildMilestones(Project project)
+		{
+			var milestones = new List<Milestone> {
+				new Milestone {Id = Guid.NewGuid(), Name = "Backlog", Project = project},
+				new Milestone {Id = Guid.NewGuid(), Name = "Version 1", Project = project},
+				new Milestone {Id = Guid.NewGuid(), Name = "Version 2", Project = project}
+			};
+
+			var milestoneRepository = _container.Resolve<IMilestoneRepository>();
+			foreach (var milestone in milestones)
+				milestoneRepository.Insert(milestone);
+
+			return milestones;
 		}
 
 		private static DateTime? GetRandomDate(bool canBeNull = false)

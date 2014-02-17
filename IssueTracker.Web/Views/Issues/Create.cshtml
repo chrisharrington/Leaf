@@ -78,8 +78,8 @@
 	<div class="padded-tile-container">
 		<div class="milestones tile choice-tile">
 			<h2>Milestone</h2>
-			<!-- ko foreach: IssueTracker.users -->
-			<div data-bind="attr: { 'data-tester-id': id }">
+			<!-- ko foreach: IssueTracker.milestones -->
+			<div data-bind="attr: { 'data-mileston-id': id }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>

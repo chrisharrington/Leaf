@@ -56,6 +56,7 @@
     <Compile Include="Repositories\BaseProjectRepository.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\FilterRepository.cs" />
+    <Compile Include="Repositories\MilestoneRepository.cs" />
     <Compile Include="Repositories\ProjectRepository.cs" />
     <Compile Include="Repositories\TransitionRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
