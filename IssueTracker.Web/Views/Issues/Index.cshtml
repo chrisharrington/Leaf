@@ -21,7 +21,7 @@
 	<div class="filter-container selectable-container">
 		<div>
 			<button id="apply-filter" data-bind="css: { loading: loading }">Apply Filter</button>
-			<div class="tile" id="priority-filter">
+			<div class="tile choice-tile" id="priority-filter">
 				<h2>Priority</h2>
 				<!-- ko foreach: IssueTracker.priorities -->
 				<div class="selected" data-bind="attr: { 'data-priority-id': id }">
@@ -30,7 +30,7 @@
 				</div>
 				<!-- /ko -->
 			</div>
-			<div class="tile" id="status-filter">
+			<div class="tile choice-tile" id="status-filter">
 				<h2>Status</h2>
 				<!-- ko foreach: IssueTracker.statuses -->
 				<div class="selected" data-bind="attr: { 'data-status-id': id }">
@@ -39,7 +39,7 @@
 				</div>
 				<!-- /ko -->
 			</div>
-			<div class="tile" id="developer-filter">
+			<div class="tile choice-tile" id="developer-filter">
 				<h2>Developer</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<div class="selected" data-bind="attr: { 'data-developer-id': id }">
@@ -48,7 +48,7 @@
 				</div>
 				<!-- /ko -->
 			</div>
-			<div class="tile" id="tester-filter">
+			<div class="tile choice-tile" id="tester-filter">
 				<h2>Tester</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<div class="selected" data-bind="attr: { 'data-tester-id': id }">

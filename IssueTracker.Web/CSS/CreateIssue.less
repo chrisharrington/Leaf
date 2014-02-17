@@ -1,17 +1,45 @@
 ﻿@import "Global.less";
 
-.create-issue-container { 
-	div.breadcrumbs { float:left; }
-	div.buttons { float:right;
-		>button { float:left; margin-left:@spacing; }
+.create-issue-container {
+	@header-height:29px;
+	@sidebar-width:250px;
+
+	#header { float:left; width:100%; height:@header-height;
+		>div.breadcrumbs { float:left; margin-top:5px; }
+		>div.buttons { float:right;
+			>button { float:left; margin-left:@spacing; }
+		}
 	}
 
-	div.tile { float:left; width:100%; padding:0; margin-top:@spacing;
-		>div { float:left; width:100%; padding:@spacing; .border-box; border:solid 1px @border-colour;
-			>input, >textarea { float:left; width:100%; }
-			>textarea { height:200px; }
-			>input { font-weight:bold; padding:@small-spacing; }
+	div.container { float:left; width:100%; margin-top:@spacing; }
+
+	div.description {
+		>input { float:left; width:100%; font-weight:bold; padding:@small-spacing; }
+	}
+
+	div.comments {
+		>textarea { float:left; width:100%; height:200px; padding:@small-spacing; }
+	}
+
+	div.detailed-info-container {
+		>div.padded-tile-container { float:left; width:20%; padding-left:@spacing; .border-box;
+			>div.choice-tile { float:left; width:100%; min-height:260px; }
 		}
-		>div:first-child { border:none; }
+		>div.priority { padding-left:0; }
+		>div.status>div>div:last-child { border-bottom:none; }
+	}
+
+	div.attached-files {
+		>h2 { float:left; }
+		>button { float:right; }
+		>div { float:left; width:100%;
+			@tile-height:150px;
+			>div { float:left; width:20%; height:@tile-height; margin-top:@spacing; .border-box; padding-left:@spacing;
+				>div.empty-file { border:dashed 2px @border-colour; .border-radius(5px); height:100%;
+					>span { float:left; width:100%; height:100%; color:@primary-font-colour-light; text-align:center; display:inline-block; vertical-align:middle; line-height:@tile-height; }
+				}
+			}
+			>div:first-child { padding-left:0; }
+		}
 	}
 }

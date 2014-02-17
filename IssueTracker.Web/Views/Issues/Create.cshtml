@@ -1,30 +1,121 @@
-﻿<div class="breadcrumbs">
-	<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
-		<i class="fa fa-home"></i>
-		<span data-bind="text: IssueTracker.selectedProject().name"></span>
-	</a>
-	<i class="fa fa-angle-right"></i>
-	<a>
-		<span>New Issue</span>
-	</a>
-</div>
-
-<div class="buttons">
-	<button class="icon positive">
-		<i class="fa fa-check"></i>
-		<span>Save New Issue</span>
-	</button>
-	<button class="icon negative">
-		<i class="fa fa-times"></i>
-		<span>Discard Issue</span>
-	</button>
-</div>
-
-<div class="tile">
-	<div class="description">
-		<input type="text" placeholder="Issue description..." data-bind="value: createModel.description" />
+﻿<section id="header">
+	<div class="breadcrumbs">
+		<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
+			<i class="fa fa-home"></i>
+			<span data-bind="text: IssueTracker.selectedProject().name"></span>
+		</a>
+		<i class="fa fa-angle-right"></i>
+		<a>
+			<span>New Issue</span>
+		</a>
 	</div>
-	<div class="comments">
-		<textarea placeholder="Comments?" data-bind="value: createModel.comments"></textarea>
+
+	<div class="buttons">
+		<button class="icon">
+			<i class="fa fa-check"></i>
+			<span>Save New Issue</span>
+		</button>
+		<button class="icon">
+			<i class="fa fa-times"></i>
+			<span>Discard Issue</span>
+		</button>
+	</div>
+</section>
+
+<div class="description tile container">
+	<input type="text" placeholder="Issue description..." data-bind="value: createModel.description" />
+</div>
+
+<div class="comments tile container">
+	<textarea placeholder="Comments?" data-bind="value: createModel.comments"></textarea>
+</div>
+
+<div class="detailed-info-container container">
+	<div class="priority padded-tile-container">
+		<div class="tile choice-tile">
+			<h2>Priority</h2>
+			<!-- ko foreach: IssueTracker.priorities -->
+			<div data-bind="attr: { 'data-priority-id': id }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+	</div>
+	<div class="status padded-tile-container">
+		<div class="tile choice-tile">
+			<h2>Status</h2>
+			<!-- ko foreach: IssueTracker.statuses -->
+			<div data-bind="attr: { 'data-status-id': id }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+	</div>
+	<div class="padded-tile-container">
+		<div class="developer tile choice-tile">
+			<h2>Developer</h2>
+			<!-- ko foreach: IssueTracker.users -->
+			<div data-bind="attr: { 'data-developer-id': id }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+	</div>
+	<div class="padded-tile-container">
+		<div class="tester tile choice-tile">
+			<h2>Tester</h2>
+			<!-- ko foreach: IssueTracker.users -->
+			<div data-bind="attr: { 'data-tester-id': id }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+	</div>
+	<div class="padded-tile-container">
+		<div class="milestones tile choice-tile">
+			<h2>Milestone</h2>
+			<!-- ko foreach: IssueTracker.users -->
+			<div data-bind="attr: { 'data-tester-id': id }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+	</div>
+</div>
+
+<div class="attached-files tile container">
+	<h2>Attached Files</h2>
+	<button>Browse...</button>
+	<div>
+		<div>
+			<div class="empty-file">
+				<span>Drop your file here</span>
+			</div>
+		</div>
+		<div>
+			<div class="empty-file">
+				<span>Drop your file here</span>
+			</div>
+		</div>
+		<div>
+			<div class="empty-file">
+				<span>Drop your file here</span>
+			</div>
+		</div>
+		<div>
+			<div class="empty-file">
+				<span>Drop your file here</span>
+			</div>
+		</div>
+		<div>
+			<div class="empty-file">
+				<span>Drop your file here</span>
+			</div>
+		</div>
 	</div>
 </div>

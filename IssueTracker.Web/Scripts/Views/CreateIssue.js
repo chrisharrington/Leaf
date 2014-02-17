@@ -17,12 +17,17 @@
 		_hookupEvents();
 	};
 
-	root.load = function(container) {
+	root.load = function() {
 
 	};
 
 	function _hookupEvents() {
-		
+		_container.on("click", "div.choice-tile>div", _toggleSelectedChoice);
+	}
+
+	function _toggleSelectedChoice() {
+		$(this).closest("div.choice-tile").find(">div.selected").removeClass("selected");
+		$(this).addClass("selected");
 	}
 
 	IssueTracker.Page.build({
