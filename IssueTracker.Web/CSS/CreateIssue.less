@@ -11,15 +11,10 @@
 		}
 	}
 
-	div.container { float:left; width:100%; margin-top:@spacing; }
+	.container { float:left; width:100%; margin-top:@spacing; }
 
-	div.description {
-		>input { float:left; width:100%; font-weight:bold; padding:@small-spacing; }
-	}
-
-	div.comments {
-		>textarea { float:left; width:100%; height:200px; padding:@small-spacing; }
-	}
+	input.tile { float:left; width:100%; font-weight:bold; padding:@spacing !important; border:none !important; }
+	textarea.tile { float:left; width:100%; height:200px; padding:@spacing !important; border:none !important; }
 
 	div.detailed-info-container {
 		>div.padded-tile-container { float:left; width:20%; padding-left:@spacing; .border-box;
