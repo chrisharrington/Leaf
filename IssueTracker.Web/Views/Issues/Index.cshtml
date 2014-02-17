@@ -1,42 +1,5 @@
 ﻿<div class="data-container">
 	<div class="issues-container">
-		<div class="sort tile">
-			<div>
-				<span>Description</span>
-				<div>
-					<i class="fa fa-angle-up"></i>
-					<i class="fa fa-angle-down"></i>
-				</div>
-			</div>
-			<div>
-				<span>Priority</span>
-				<div>
-					<i class="fa fa-angle-up"></i>
-					<i class="fa fa-angle-down selected"></i>
-				</div>
-			</div>
-			<div>
-				<span>Status</span>
-				<div>
-					<i class="fa fa-angle-up"></i>
-					<i class="fa fa-angle-down"></i>
-				</div>
-			</div>
-			<div>
-				<span>Date Opened</span>
-				<div>
-					<i class="fa fa-angle-up"></i>
-					<i class="fa fa-angle-down"></i>
-				</div>
-			</div>
-			<div>
-				<span>Date Closed</span>
-				<div>
-					<i class="fa fa-angle-up"></i>
-					<i class="fa fa-angle-down"></i>
-				</div>
-			</div>
-		</div>
 		<div class="loading tile" data-bind="visible: loading">
 			<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
 		</div>
@@ -55,7 +18,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="filter-container">
+	<div class="filter-container selectable-container">
 		<div>
 			<button id="apply-filter" data-bind="css: { loading: loading }">Apply Filter</button>
 			<div class="tile" id="priority-filter">
