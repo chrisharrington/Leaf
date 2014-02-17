@@ -46,5 +46,13 @@
 
 		<div class="dialog" data-bind="html: dialog"></div>
 		<div class="overlay"></div>
+		
+		<div class="global-feedback" data-bind="fadeVisible: error() != ''">
+			<i class="fa fa-warning"></i>
+			<div>
+				<span data-bind="html: error"></span>
+				<i class="fa fa-times"></i>
+			</div>
+		</div>
 	</body>
 </html>

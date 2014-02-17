@@ -1,15 +1,4 @@
-﻿<div class="tile table-tools">
-	<div class="search">
-		<input type="text" data-bind="value: search, valueUpdate: 'keyup'" placeholder="Search for keywords, tags, dates..."/>
-		<i class="fa fa-times"></i>
-	</div>
-	<div class="tools">
-		<i id="sort" class="fa fa-sort-alpha-asc"></i>
-		<i class="fa fa-gear"></i>
-	</div>
-</div>
-
-<div class="data-container">
+﻿<div class="data-container">
 	<div class="issues-container">
 		<div class="loading tile" data-bind="visible: loading">
 			<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
@@ -29,42 +18,45 @@
 			</div>
 		</div>
 	</div>
-	<div class="filter-container">
-		<div class="tile" id="priority-filter">
-			<h2>Priority</h2>
-			<!-- ko foreach: IssueTracker.priorities -->
+	<div class="filter-container selectable-container">
+		<div>
+			<button id="apply-filter" data-bind="css: { loading: loading }">Apply Filter</button>
+			<div class="tile" id="priority-filter">
+				<h2>Priority</h2>
+				<!-- ko foreach: IssueTracker.priorities -->
 				<div class="selected" data-bind="attr: { 'data-priority-id': id }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
-			<!-- /ko -->
-		</div>
-		<div class="tile" id="status-filter">
-			<h2>Status</h2>
-			<!-- ko foreach: IssueTracker.statuses -->
+				<!-- /ko -->
+			</div>
+			<div class="tile" id="status-filter">
+				<h2>Status</h2>
+				<!-- ko foreach: IssueTracker.statuses -->
 				<div class="selected" data-bind="attr: { 'data-status-id': id }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
-			<!-- /ko -->
-		</div>
-		<div class="tile" id="developer-filter">
-			<h2>Developer</h2>
-			<!-- ko foreach: IssueTracker.users -->
+				<!-- /ko -->
+			</div>
+			<div class="tile" id="developer-filter">
+				<h2>Developer</h2>
+				<!-- ko foreach: IssueTracker.users -->
 				<div class="selected" data-bind="attr: { 'data-developer-id': id }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
-			<!-- /ko -->
-		</div>
-		<div class="tile" id="tester-filter">
-			<h2>Tester</h2>
-			<!-- ko foreach: IssueTracker.users -->
+				<!-- /ko -->
+			</div>
+			<div class="tile" id="tester-filter">
+				<h2>Tester</h2>
+				<!-- ko foreach: IssueTracker.users -->
 				<div class="selected" data-bind="attr: { 'data-tester-id': id }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
-			<!-- /ko -->
+				<!-- /ko -->
+			</div>
 		</div>
 	</div>
 </div>

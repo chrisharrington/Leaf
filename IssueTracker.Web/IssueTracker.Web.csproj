@@ -282,6 +282,9 @@
   <ItemGroup>
     <Content Include="Views\Issues\Create.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSS\CreateIssue.less" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
