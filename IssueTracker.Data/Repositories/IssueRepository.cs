@@ -16,6 +16,11 @@ namespace IssueTracker.Data.Repositories
 			return issues.Skip(search.start - 1).Take(search.end - search.start + 1);
 		}
 
+		public int HighestNumber()
+		{
+			return Context.Issues.OrderByDescending(x => x.Number).Select(x => x.Number).FirstOrDefault();
+		}
+
 		private void ApplySort(ref IEnumerable<Issue> issues, Sort sort)
 		{
 			if (sort.direction == SortDirection.Ascending)

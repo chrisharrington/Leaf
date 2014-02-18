@@ -21,7 +21,7 @@
 	root.load = function (container) {
 		_container = container;
 		_descriptionFlipper = new IssueTracker.Controls.Flipper($("div.description div.flipper"));
-		_nameFlipper = new IssueTracker.Controls.Flipper($("div.name.flipper"));
+		_nameFlipper = new IssueTracker.Controls.Flipper($("div.description.flipper"));
 		_detailsFlipper = new IssueTracker.Controls.Flipper($("div.details-container>div.flipper"));
 
 		_setUpFlipPanels(container);
@@ -33,8 +33,8 @@
 		container.on("click", "#save-description", _saveDescription);
 		container.on("click", "#discard-description", _discardDescription);
 		container.on("click", "div.transitions button", _executeTransition);
-		container.on("click", "#save-name", _saveName);
-		container.on("click", "#discard-name", _discardName);
+		container.on("click", "#save-description", _saveName);
+		container.on("click", "#discard-description", _discardName);
 		container.on("click", "div.priority-chooser>div", _setPriority);
 		container.on("click", "div.status-chooser>div", _setStatus);
 	}
@@ -71,7 +71,7 @@
 			_descriptionFlipper.toggle();
 		});
 
-		container.on("click", "div.name div.front", function () {
+		container.on("click", "div.description div.front", function () {
 			_oldName = IssueTracker.selectedIssue.name();
 			_nameFlipper.toggle();
 		});
@@ -113,12 +113,12 @@
 	}
 
 	function _saveName() {
-		var buttons = _container.find("div.name button").attr("disabled", true);
+		var buttons = _container.find("div.description button").attr("disabled", true);
 		$.post(IssueTracker.virtualDirectory() + "Issues/UpdateName", { issueId: IssueTracker.selectedIssue.id(), name: IssueTracker.selectedIssue.name() }).done(function () {
 			_nameFlipper.toggle();
 			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.name().formatForUrl());
 		}).fail(function () {
-			IssueTracker.Feedback.error("An error has occurred while updating the issue's name. Please try again later.");
+			IssueTracker.Feedback.error("An error has occurred while updating the issue's description. Please try again later.");
 		}).always(function () {
 			buttons.attr("disabled", false);
 		});
@@ -146,9 +146,9 @@
 
 	IssueTracker.Page.build({
 		root: root,
-		view: function () { return "Issues/Details?issueName=:name&projectId=" + IssueTracker.selectedProject().id; },
+		view: function () { return "Issues/Details?issueName=:description&projectId=" + IssueTracker.selectedProject().id; },
 		title: "Issue Details",
-		route: "#/:project-name/issues/:name",
+		route: "#/:project-description/issues/:description",
 		style: "issue-details-container"
 	});
 

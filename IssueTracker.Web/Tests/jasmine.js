@@ -65,7 +65,7 @@ jasmine.getGlobal = function() {
  * @ignore
  * @private
  * @param base {Object} bound 'this' for the function
- * @param name {Function} function to find
+ * @param description {Function} function to find
  */
 jasmine.bindOriginal_ = function(base, name) {
   var original = base[name];
@@ -265,11 +265,11 @@ jasmine.objectContaining = function (sample) {
  *
  * @constructor
  * @see spyOn, jasmine.createSpy, jasmine.createSpyObj
- * @param {String} name
+ * @param {String} description
  */
 jasmine.Spy = function(name) {
   /**
-   * The name of the spy, if provided.
+   * The description of the spy, if provided.
    */
   this.identity = name || 'unknown';
   /**
@@ -438,7 +438,7 @@ jasmine.isSpy = function(putativeSpy) {
  * Creates a more complicated spy: an Object that has every property a function that is a spy.  Used for stubbing something
  * large in one call.
  *
- * @param {String} baseName name of spy class
+ * @param {String} baseName description of spy class
  * @param {Array} methodNames array of names of methods to make spies
  */
 jasmine.createSpyObj = function(baseName, methodNames) {
@@ -463,7 +463,7 @@ jasmine.log = function() {
 };
 
 /**
- * Function that installs a spy on an existing object's method name.  Used within a Spec to create a spy.
+ * Function that installs a spy on an existing object's method description.  Used within a Spec to create a spy.
  *
  * @example
  * // spy example

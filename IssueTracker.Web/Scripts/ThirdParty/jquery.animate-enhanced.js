@@ -295,7 +295,7 @@ Changelog:
 
 	/**
 		@private
-		@name _getUnit
+		@description _getUnit
 		@function
 		@description Return unit value ("px", "%", "em" for re-use correct one when translating)
 		@param {variant} [val] Target value
@@ -307,7 +307,7 @@ Changelog:
 
 	/**
 		@private
-		@name _interpretValue
+		@description _interpretValue
 		@function
 		@description Interpret value ("px", "+=" and "-=" sanitisation)
 		@param {object} [element] The Element for current CSS analysis
@@ -358,7 +358,7 @@ Changelog:
 
 	/**
 		@private
-		@name _getTranslation
+		@description _getTranslation
 		@function
 		@description Make a translate or translate3d string
 		@param {integer} [x]
@@ -372,7 +372,7 @@ Changelog:
 
 	/**
 		@private
-		@name _applyCSSTransition
+		@description _applyCSSTransition
 		@function
 		@description Build up the CSS object
 		@param {object} [e] Element
@@ -417,7 +417,7 @@ Changelog:
 
 	/**
 		@private
-		@name _applyCSSWithPrefix
+		@description _applyCSSWithPrefix
 		@function
 		@description Helper function to build up CSS properties using the various prefixes
 		@param {object} [cssProperties] Current CSS object to merge with
@@ -472,7 +472,7 @@ Changelog:
 
 	/**
 		@private
-		@name _isBoxShortcut
+		@description _isBoxShortcut
 		@function
 		@description Shortcut to detect if we need to step away from slideToggle, CSS accelerated transitions (to come later with fx.step support)
 		@param {object} [prop]
@@ -489,7 +489,7 @@ Changelog:
 
 	/**
 		@private
-		@name _isEmptyObject
+		@description _isEmptyObject
 		@function
 		@description Check if object is empty (<1.4 compatibility)
 		@param {object} [obj]
@@ -529,7 +529,7 @@ Changelog:
 
 	/**
 		@private
-		@name _cleanValue
+		@description _cleanValue
 		@function
 		@description Remove 'px' and other artifacts
 		@param {variant} [val]
@@ -550,7 +550,7 @@ Changelog:
 
 	/**
 		@private
-		@name _appropriateProperty
+		@description _appropriateProperty
 		@function
 		@description Function to check if property should be handled by plugin
 		@param {string} [prop]
@@ -570,7 +570,7 @@ Changelog:
 	jQuery.extend({
 		/**
 			@public
-			@name toggle3DByDefault
+			@description toggle3DByDefault
 			@function
 			@description Toggle for plugin settings to automatically use translate3d (where available). Usage: $.toggle3DByDefault
 		*/
@@ -581,7 +581,7 @@ Changelog:
 		
 		/**
 			@public
-			@name toggleDisabledByDefault
+			@description toggleDisabledByDefault
 			@function
 			@description Toggle the plugin to be disabled by default (can be overridden per animation with avoidCSSTransitions)
 		*/
@@ -592,7 +592,7 @@ Changelog:
 
 		/**
 			@public
-			@name setDisabledByDefault
+			@description setDisabledByDefault
 			@function
 			@description Set or unset the 'disabled by default' value
 		*/
@@ -604,7 +604,7 @@ Changelog:
 
 	/**
 		@public
-		@name translation
+		@description translation
 		@function
 		@description Get current X and Y translations
 	*/
@@ -642,7 +642,7 @@ Changelog:
 
 	/**
 		@public
-		@name jQuery.fn.animate
+		@description jQuery.fn.animate
 		@function
 		@description The enhanced jQuery.animate function
 		@param {string} [property]
@@ -811,7 +811,7 @@ Changelog:
 
 	/**
 		@public
-		@name jQuery.fn.stop
+		@description jQuery.fn.stop
 		@function
 		@description The enhanced jQuery.stop function (resets transforms to left/top)
 		@param {boolean} [clearQueue]

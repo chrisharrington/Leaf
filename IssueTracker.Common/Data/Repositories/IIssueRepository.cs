@@ -7,5 +7,6 @@ namespace IssueTracker.Common.Data.Repositories
 	public interface IIssueRepository : IBaseProjectRepository<Issue>
 	{
 		IEnumerable<Issue> Search(Search search, Sort sort);
+		int HighestNumber();
 	}
 }

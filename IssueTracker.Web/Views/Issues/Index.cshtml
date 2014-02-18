@@ -5,11 +5,11 @@
 		</div>
 		<div class="tile">
 			<div class="data" data-bind="foreach: list">
-				<a data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
+				<a data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().description.formatForUrl() + '/issues/' + description.formatForUrl() }">
 					<div>
 						<div data-bind="attr: { class: 'priority ' + priorityStyle }"></div>
-						<div class="ellipsis name">
-							<h2 class="name" data-bind="text: name"></h2>
+						<div class="ellipsis description">
+							<h2 class="description" data-bind="text: description"></h2>
 							<span class="info">Last updated by <b data-bind="text: updatedBy"></b> at <b data-bind="text: lastUpdated"></b>.</span>
 						</div>
 						<div class="status" data-bind="text: status"></div>
@@ -25,7 +25,7 @@
 				<h2>Priority</h2>
 				<!-- ko foreach: IssueTracker.priorities -->
 				<div class="selected" data-bind="attr: { 'data-priority-id': id }">
-					<span data-bind="text: name"></span>
+					<span data-bind="text: description"></span>
 					<i class="fa fa-check"></i>
 				</div>
 				<!-- /ko -->
@@ -34,7 +34,7 @@
 				<h2>Status</h2>
 				<!-- ko foreach: IssueTracker.statuses -->
 				<div class="selected" data-bind="attr: { 'data-status-id': id }">
-					<span data-bind="text: name"></span>
+					<span data-bind="text: description"></span>
 					<i class="fa fa-check"></i>
 				</div>
 				<!-- /ko -->
@@ -43,7 +43,7 @@
 				<h2>Developer</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<div class="selected" data-bind="attr: { 'data-developer-id': id }">
-					<span data-bind="text: name"></span>
+					<span data-bind="text: description"></span>
 					<i class="fa fa-check"></i>
 				</div>
 				<!-- /ko -->
@@ -52,7 +52,7 @@
 				<h2>Tester</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<div class="selected" data-bind="attr: { 'data-tester-id': id }">
-					<span data-bind="text: name"></span>
+					<span data-bind="text: description"></span>
 					<i class="fa fa-check"></i>
 				</div>
 				<!-- /ko -->
@@ -63,8 +63,8 @@
 
 <script id="priority-filter-dialog" type="text/html">
 	<div class="selector dark select-popup priority-filter-dialog" data-bind="foreach: priorities">
-		<div data-bind="attr: { 'data-priority': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedPriority() && IssueTracker.Issues.selectedPriority().name == name ? ' selected' : '') }">
-			<span data-bind="text: name"></span>
+		<div data-bind="attr: { 'data-priority': JSON.stringify($data), class: description.toLowerCase() + (IssueTracker.Issues.selectedPriority() && IssueTracker.Issues.selectedPriority().description == description ? ' selected' : '') }">
+			<span data-bind="text: description"></span>
 			<i class="fa fa-check"></i>
 		</div>
 	</div>
@@ -72,8 +72,8 @@
 
 <script id="status-filter-dialog" type="text/html">
 	<div class="selector dark select-popup status-filter-dialog" data-bind="foreach: statuses">
-		<div data-bind="attr: { 'data-status': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().name == name ? ' selected' : '') }">
-			<span data-bind="text: name"></span>
+		<div data-bind="attr: { 'data-status': JSON.stringify($data), class: description.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().description == description ? ' selected' : '') }">
+			<span data-bind="text: description"></span>
 			<i class="fa fa-check"></i>
 		</div>
 	</div>
@@ -81,8 +81,8 @@
 
 <script id="developer-filter-dialog" type="text/html">
 	<div class="selector dark select-popup developer-filter-dialog" data-bind="foreach: users">
-		<div data-bind="attr: { 'data-developer': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedDeveloper() && IssueTracker.Issues.selectedDeveloper().name == name ? ' selected' : '') }">
-			<span data-bind="text: name"></span>
+		<div data-bind="attr: { 'data-developer': JSON.stringify($data), class: description.toLowerCase() + (IssueTracker.Issues.selectedDeveloper() && IssueTracker.Issues.selectedDeveloper().description == description ? ' selected' : '') }">
+			<span data-bind="text: description"></span>
 			<i class="fa fa-check"></i>
 		</div>
 	</div>
@@ -90,8 +90,8 @@
 
 <script id="tester-filter-dialog" type="text/html">
 	<div class="selector dark select-popup tester-filter-dialog" data-bind="foreach: users">
-		<div data-bind="attr: { 'data-tester': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedTester() && IssueTracker.Issues.selectedTester().name == name ? ' selected' : '') }">
-			<span data-bind="text: name"></span>
+		<div data-bind="attr: { 'data-tester': JSON.stringify($data), class: description.toLowerCase() + (IssueTracker.Issues.selectedTester() && IssueTracker.Issues.selectedTester().description == description ? ' selected' : '') }">
+			<span data-bind="text: description"></span>
 			<i class="fa fa-check"></i>
 		</div>
 	</div>
@@ -109,10 +109,10 @@
 
 <script id="sort-dialog" type="text/html">
 	<div class="sort-dialog">
-		<div data-comparer="name">
+		<div data-comparer="description">
 			<span>Description</span>
-			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'name' }"></i>
-			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'name' }"></i>
+			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'description' }"></i>
+			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'description' }"></i>
 		</div>
 		<div data-comparer="priority">
 			<span>Priority</span>
@@ -169,31 +169,31 @@
 					</button>
 				</div>
 			</div>
-			<div class="name">
-				<input type="text" placeholder="Filter name..." />
+			<div class="description">
+				<input type="text" placeholder="Filter description..." />
 			</div>
 			<div class="choices">
 				<div class="priority selector" data-bind="foreach: priorities">
 					<div>
-						<span data-bind="text: name"></span>
+						<span data-bind="text: description"></span>
 						<i class="fa fa-check"></i>
 					</div>
 				</div>
 				<div class="status selector" data-bind="foreach: statuses">
 					<div>
-						<span data-bind="text: name"></span>
+						<span data-bind="text: description"></span>
 						<i class="fa fa-check"></i>
 					</div>
 				</div>
 				<div class="developer selector" data-bind="foreach: users">
 					<div>
-						<span data-bind="text: name"></span>
+						<span data-bind="text: description"></span>
 						<i class="fa fa-check"></i>
 					</div>
 				</div>
 				<div class="tester selector" data-bind="foreach: users">
 					<div>
-						<span data-bind="text: name"></span>
+						<span data-bind="text: description"></span>
 						<i class="fa fa-check"></i>
 					</div>
 				</div>

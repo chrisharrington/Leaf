@@ -1,26 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IssueTracker.Common.ViewModels
 {
 	public class IssueViewModel
 	{
+		[Required]
 		public Guid id { get; set; }
+
+		[Required]
+		[RangeAttribute(1, int.MaxValue)]
 		public int number { get; set; }
-		public string name { get; set; }
+
+		[Required]
 		public string description { get; set; }
-		public string priority { get; set; }
+
+		public string comments { get; set; }
+
+		[Required]
 		public Guid priorityId { get; set; }
-		public string status { get; set; }
+		public string priority { get; set; }
+
+		[Required]
 		public Guid statusId { get; set; }
-		public string developer { get; set; }
+		public string status { get; set; }
+
+		[Required]
 		public Guid developerId { get; set; }
-		public string tester { get; set; }
+		public string developer { get; set; }
+
+		[Required]
 		public Guid testerId { get; set; }
+		public string tester { get; set; }
+
+		[Required]
+		public Guid milestoneId { get; set; }
+		public string milestone { get; set; }
+		
+		[Required]
 		public string opened { get; set; }
 		public string closed { get; set; }
-		public Guid updatedId { get; set; }
+
+		[Required]
 		public string updated { get; set; }
+
+		[Required]
+		public Guid updatedId { get; set; }
+		public string updatedBy { get; set; }
+		
+
 		public IEnumerable<object> transitions { get; set; }
 	}
 }

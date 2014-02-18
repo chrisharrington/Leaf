@@ -158,7 +158,7 @@
 		root: root,
 		view: "Issues",
 		title: "Issues",
-		route: "#/:project-name/issues",
+		route: "#/:project-description/issues",
 		style: "issues-container"
 	});
 

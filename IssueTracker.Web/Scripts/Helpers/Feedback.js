@@ -7,8 +7,8 @@
 		});
 	})();
 
-	root.error = function (key) {
-		IssueTracker.error(Restokk.localize(key, Array.prototype.slice.call(arguments, 1)));
+	root.error = function (message) {
+		IssueTracker.error(message);
 	};
 
 	root.clear = function() {

@@ -34,7 +34,7 @@ namespace IssueTracker.Web.Controllers
 		    return View(new IssueViewModel {
 				id = issue.Id,
 			    number = issue.Number,
-				name = issue.Name,
+				description = issue.Name,
 				priority = issue.Priority.ToString(),
 				priorityId = issue.Priority.Id,
 				status = issue.Status.ToString(),
@@ -43,7 +43,7 @@ namespace IssueTracker.Web.Controllers
 				developerId = issue.Developer.Id,
 				tester = issue.Tester.ToString(),
 				testerId = issue.Tester.Id,
-				description = issue.Description,
+				comments = issue.Description,
 				opened = issue.Opened.ToApplicationString(),
 				closed = issue.Closed.ToApplicationString(),
 				updatedId = issue.UpdatedBy.Id,
@@ -115,6 +115,18 @@ namespace IssueTracker.Web.Controllers
 		    var status = StatusRepository.Details(statusId);
 		    issue.Status = status;
 		    IssueRepository.Update(issue);
+	    }
+
+	    [HttpPost]
+	    public void Create(IssueViewModel issue)
+	    {
+		    issue.number = IssueRepository.HighestNumber() + 1;
+		    issue.opened = DateTime.UtcNow.ToApplicationString();
+		    issue.updatedId = SignedInUser.Id;
+
+		    Validate(issue);
+
+			IssueRepository.Insert(Mapper.Map<IssueViewModel, Issue>(issue));
 	    }
 
 	    private static string ToPriorityStyleString(BaseModel priority)

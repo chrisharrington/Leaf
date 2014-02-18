@@ -11,9 +11,9 @@
 <div class="wrapper">
 	<div class="container notop table">
 		<div class="breadcrumbs">
-			<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
+			<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().description.formatForUrl() + '/issues' }">
 				<i class="fa fa-home"></i>
-				<span data-bind="text: IssueTracker.selectedProject().name"></span>
+				<span data-bind="text: IssueTracker.selectedProject().description"></span>
 			</a>
 			<i class="fa fa-angle-right"></i>
 			<a>
@@ -24,7 +24,7 @@
 		<div class="issue-buttons">
 			<img id="transition-loader" class="hidden" src="@Url.Content("~/Images/ajax-loader.gif")" alt="" data-bind="css: { hidden: !IssueTracker.Transitioner.transitioning() }" />
 			<div class="transitions" data-bind="visible: IssueTracker.selectedIssue.transitions().length > 0, foreach: IssueTracker.selectedIssue.transitions">
-				@Html.IconButton("", "fa-angle-right", "right", dataBind: "attr: { 'data-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }", labelDataBind: "text: name", isRight: true)
+				@Html.IconButton("", "fa-angle-right", "right", dataBind: "attr: { 'data-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }", labelDataBind: "text: description", isRight: true)
 			</div>
 			<div class="always">
 				@Html.IconButton("Duplicate Issue", "fa-copy", id: "duplicate-issue")
@@ -33,16 +33,16 @@
 		</div>
 	</div>
 
-	<div class="container name-and-number-wrapper">
+	<div class="container description-and-number-wrapper">
 		<div class="tile number">
 			<h1 data-bind="text: IssueTracker.selectedIssue.number"></h1>
 		</div>
 
-		<div class="name-container perspective">
-			<div class="flipper transition name">
+		<div class="description-container perspective">
+			<div class="flipper transition description">
 				<div class="tile flip-tile front">
 					<div>
-						<h1 data-bind="text: IssueTracker.selectedIssue.name"></h1>
+						<h1 data-bind="text: IssueTracker.selectedIssue.description"></h1>
 						<i class="fa fa-angle-down"></i>
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 					<div class="back-container">
 						<div class="input-container">
 							<div>
-								<input type="text" data-bind="value: IssueTracker.selectedIssue.name" />
+								<input type="text" data-bind="value: IssueTracker.selectedIssue.description" />
 							</div>
 						</div>
 						<div class="buttons">
@@ -119,7 +119,7 @@
 						<span class="info" data-bind="text: IssueTracker.selectedIssue.closed"></span>
 					</div>
 				</div>
-				<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
+				<div class="tile flip-tile back" data-bind="template: { description: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
 			</div>
 		</div>
 	</div>
@@ -128,10 +128,10 @@
 <script type="text/html" id="priority-chooser">
 	<div class="priority-chooser chooser" data-bind="foreach: priorities">
 		<div data-bind="attr: { 'data-priority': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.priorityId() }">
-			<span data-bind="attr: { class: 'colour ' + name.toLowerCase() }"></span>
+			<span data-bind="attr: { class: 'colour ' + description.toLowerCase() }"></span>
 			<div>
 				<div>
-					<span class="name" data-bind="text: name"></span>
+					<span class="description" data-bind="text: description"></span>
 					<i class="fa fa-check"></i>
 				</div>
 			</div>
@@ -144,7 +144,7 @@
 		<div data-bind="attr: { 'data-status': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.statusId() }">
 			<div>
 				<div>
-					<span class="name" data-bind="text: name"></span>
+					<span class="description" data-bind="text: description"></span>
 					<i class="fa fa-check"></i>
 				</div>
 			</div>
