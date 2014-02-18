@@ -10,8 +10,8 @@
 	};
 
 	root.load = function (statusId) {
-		var transitions = _getTransitions(statusId, true);
-		var status = _getStatus(transitions[0].fromId);
+//		var transitions = _getTransitions(statusId, true);
+//		var status = _getStatus(transitions[0].fromId);
 	};
 
 	root.execute = function (statusId) {

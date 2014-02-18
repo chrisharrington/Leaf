@@ -42,7 +42,7 @@
 			<div class="flipper transition name">
 				<div class="tile flip-tile front">
 					<div>
-						<h1 data-bind="text: IssueTracker.selectedIssue.name"></h1>
+						<h1 data-bind="text: IssueTracker.selectedIssue.description"></h1>
 						<i class="fa fa-angle-down"></i>
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 					<div class="back-container">
 						<div class="input-container">
 							<div>
-								<input type="text" data-bind="value: IssueTracker.selectedIssue.name" />
+								<input type="text" data-bind="value: IssueTracker.selectedIssue.description" />
 							</div>
 						</div>
 						<div class="buttons">
@@ -69,14 +69,14 @@
 				<div class="flipper transition">
 					<div class="tile flip-tile front">
 						<h3>What's the problem?</h3>
-						<div data-bind="text: IssueTracker.selectedIssue.description"></div>
+						<div data-bind="text: IssueTracker.selectedIssue.comments"></div>
 						<div class="down-arrow">
 							<i class="fa fa-angle-down"></i>
 						</div>
 					</div>
 
 					<div class="tile flip-tile back">
-						<textarea data-bind="value: IssueTracker.selectedIssue.description"></textarea>
+						<textarea data-bind="value: IssueTracker.selectedIssue.comments"></textarea>
 						<div class="buttons">
 							<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
 							<button id="save-description">Save</button>

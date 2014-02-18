@@ -28,13 +28,30 @@ namespace IssueTracker.Web.Controllers
 		    return View();
 	    }
 
+		[HttpPost]
+	    public void Create(IssueViewModel issue)
+		{
+			issue.id = Guid.NewGuid();
+			issue.number = IssueRepository.HighestNumber(CurrentProject) + 1;
+			issue.opened = DateTime.UtcNow.ToApplicationString();
+			issue.updated = issue.opened;
+			issue.updatedBy = SignedInUser.Name;
+			issue.updatedId = SignedInUser.Id;
+
+			Validate(issue);
+
+			var model = Mapper.Map<IssueViewModel, Issue>(issue);
+			model.Project = CurrentProject;
+			IssueRepository.Insert(model);
+		}
+
 	    public ActionResult Details(string issueName, Guid projectId)
 	    {
 		    var issue = IssueRepository.ProjectAndName(projectId, issueName);
 		    return View(new IssueViewModel {
 				id = issue.Id,
 			    number = issue.Number,
-				name = issue.Name,
+				description = issue.Name,
 				priority = issue.Priority.ToString(),
 				priorityId = issue.Priority.Id,
 				status = issue.Status.ToString(),
@@ -43,7 +60,9 @@ namespace IssueTracker.Web.Controllers
 				developerId = issue.Developer.Id,
 				tester = issue.Tester.ToString(),
 				testerId = issue.Tester.Id,
-				description = issue.Description,
+				milestone = issue.Milestone.ToString(),
+				milestoneId = issue.Milestone.Id,
+				comments = issue.Comments,
 				opened = issue.Opened.ToApplicationString(),
 				closed = issue.Closed.ToApplicationString(),
 				updatedId = issue.UpdatedBy.Id,
@@ -62,7 +81,7 @@ namespace IssueTracker.Web.Controllers
 				id = x.Id,
 				number = x.Number,
 				name = x.Name,
-				description = x.Description,
+				description = x.Comments,
 				priority = x.Priority.ToString(),
 				tester = x.Tester.ToString(),
 				developer = x.Developer.ToString(),
@@ -82,7 +101,7 @@ namespace IssueTracker.Web.Controllers
 		    if (model == null)
 			    throw new ArgumentException("The issue ID \"" + issueId + "\" corresponds to no issue.");
 
-		    model.Description = description;
+		    model.Comments = description;
 		    IssueRepository.Update(model);
 	    }
 
@@ -103,7 +122,7 @@ namespace IssueTracker.Web.Controllers
 		    if (issue == null || issue.id == Guid.Empty)
 			    throw new ArgumentNullException("issue");
 
-			issue.updated = DateTime.Now.ToApplicationString();
+			issue.updated = DateTime.UtcNow.ToApplicationString();
 			issue.updatedId = SignedInUser.Id;
 			IssueRepository.Update(Mapper.Map<IssueViewModel, Issue>(issue));
 	    }

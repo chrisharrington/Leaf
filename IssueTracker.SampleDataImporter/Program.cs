@@ -144,7 +144,7 @@ namespace IssueTracker.SampleDataImporter
 				{
 					Number = i,
 					Name = RandomWords(WORDS, 8),
-					Description = RandomWords(WORDS),
+					Comments = RandomWords(WORDS),
 					Tester = user,
 					Developer = user,
 					Project = project,

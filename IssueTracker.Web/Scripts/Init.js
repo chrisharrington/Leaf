@@ -13,6 +13,11 @@
 
 		IssueTracker.Header.init();
 
+		$.ajaxPrefilter(function (options, original) {
+			if (IssueTracker.selectedProject)
+				options.data = $.param($.extend(original.data, { projectId: IssueTracker.selectedProject().id }));
+		});
+
 		ko.applyBindings(IssueTracker);
 	};
 

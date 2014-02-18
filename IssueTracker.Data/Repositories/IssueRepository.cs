@@ -16,6 +16,12 @@ namespace IssueTracker.Data.Repositories
 			return issues.Skip(search.start - 1).Take(search.end - search.start + 1);
 		}
 
+		public int HighestNumber(Project project)
+		{
+			var issue = Context.Issues.Where(x => x.Project.Id == project.Id).OrderByDescending(x => x.Number).FirstOrDefault();
+			return issue == null ? 0 : issue.Number;
+		}
+
 		private void ApplySort(ref IEnumerable<Issue> issues, Sort sort)
 		{
 			if (sort.direction == SortDirection.Ascending)
@@ -45,7 +51,7 @@ namespace IssueTracker.Data.Repositories
 			{
 				search.filter = search.filter.Trim().ToLower();
 				issues = issues.Where(x =>
-					x.Name.ToLower().Trim().Contains(search.filter) || x.Description.Trim().ToLower().Contains(search.filter) ||
+					x.Name.ToLower().Trim().Contains(search.filter) || x.Comments.Trim().ToLower().Contains(search.filter) ||
 					x.Status.ToString().Trim().ToLower().Contains(search.filter) || x.Priority.ToString().Contains(search.filter) ||
 					x.Developer.ToString().Trim().ToLower().Contains(search.filter) ||
 					x.Tester.ToString().Trim().ToLower().Contains(search.filter));
