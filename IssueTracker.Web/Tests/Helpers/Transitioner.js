@@ -5,11 +5,11 @@ describe("Transitioner", function() {
 	var _statusId = guid();
 	var _transitionId = guid();
 	var _transitions = [_buildTransition({ id: _transitionId, toId: _statusId, name: "the first transition" }), _buildTransition({ fromId: _statusId, name: "the second transition" }), _buildTransition({ fromId: _statusId, name: "the third transition" })];
-	var _statuses = [{ id: _transitions[0].toId, name: "the first status name" }, { id: _statusId, name: "the second status description" }, { id: _transitions[2].fromId, name: "the third status description" }];
+	var _statuses = [{ id: _transitions[0].toId, name: "the first status name" }, { id: _statusId, name: "the second status name" }, { id: _transitions[2].fromId, name: "the third status name" }];
 
 	function _buildTransition(params) {
 		params = params || {};
-		return { id: params.id ? params.id : guid(), toId: params.toId ? params.toId : guid(), fromId: params.fromId ? params.fromId : guid(), name: params.name ? params.name : "the description" };
+		return { id: params.id ? params.id : guid(), toId: params.toId ? params.toId : guid(), fromId: params.fromId ? params.fromId : guid(), name: params.name ? params.name : "the name" };
 	}
 
 	beforeEach(function() {

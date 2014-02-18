@@ -1,8 +1,8 @@
 ﻿<section id="header">
 	<div class="breadcrumbs">
-		<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().description.formatForUrl() + '/issues' }">
+		<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
 			<i class="fa fa-home"></i>
-			<span data-bind="text: IssueTracker.selectedProject().description"></span>
+			<span data-bind="text: IssueTracker.selectedProject().name"></span>
 		</a>
 		<i class="fa fa-angle-right"></i>
 		<a>
@@ -11,11 +11,11 @@
 	</div>
 
 	<div class="buttons">
-		<button class="icon" id="save" data-bind="css: { loading: loading }">
+		<button class="icon">
 			<i class="fa fa-check"></i>
 			<span>Save New Issue</span>
 		</button>
-		<button class="icon" id="discard">
+		<button class="icon">
 			<i class="fa fa-times"></i>
 			<span>Discard Issue</span>
 		</button>
@@ -23,7 +23,7 @@
 </section>
 
 <input class="tile container" type="text" placeholder="Issue description..." data-bind="value: createModel.description" />
-<textarea class="tile container" placeholder="Comments?" data-bind="value: createModel.description"></textarea>
+<textarea class="tile container" placeholder="Comments?" data-bind="value: createModel.comments"></textarea>
 
 <div class="detailed-info-container container">
 	<div class="priority padded-tile-container">
@@ -42,40 +42,40 @@
 			<h2>Status</h2>
 			<!-- ko foreach: IssueTracker.statuses -->
 			<div data-bind="attr: { 'data-status-id': id }">
-				<span data-bind="text: description"></span>
+				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
 			<!-- /ko -->
 		</div>
 	</div>
-	<div class="developer padded-tile-container">
-		<div class="tile choice-tile">
+	<div class="padded-tile-container">
+		<div class="developer tile choice-tile">
 			<h2>Developer</h2>
 			<!-- ko foreach: IssueTracker.users -->
 			<div data-bind="attr: { 'data-developer-id': id }">
-				<span data-bind="text: description"></span>
+				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
 			<!-- /ko -->
 		</div>
 	</div>
-	<div class="tester padded-tile-container">
-		<div class="tile choice-tile">
+	<div class="padded-tile-container">
+		<div class="tester tile choice-tile">
 			<h2>Tester</h2>
 			<!-- ko foreach: IssueTracker.users -->
 			<div data-bind="attr: { 'data-tester-id': id }">
-				<span data-bind="text: description"></span>
+				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
 			<!-- /ko -->
 		</div>
 	</div>
-	<div class="milestone padded-tile-container">
-		<div class="tile choice-tile">
+	<div class="padded-tile-container">
+		<div class="milestones tile choice-tile">
 			<h2>Milestone</h2>
 			<!-- ko foreach: IssueTracker.milestones -->
-			<div data-bind="attr: { 'data-milestone-id': id }">
-				<span data-bind="text: description"></span>
+			<div data-bind="attr: { 'data-mileston-id': id }">
+				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
 			<!-- /ko -->

@@ -92,9 +92,9 @@
 	$.extend({
 		toDictionary: function (data, prefix, includeNulls) {
 			/// <summary>Flattens an arbitrary JSON object to a dictionary that Asp.net MVC default model binder understands.</summary>
-			/// <param description="data" type="Object">Can either be a JSON object or a function that returns one.</data>
-			/// <param description="prefix" type="String" Optional="true">Provide this parameter when you want the output names to be prefixed by something (ie. when flattening simple values).</param>
-			/// <param description="includeNulls" type="Boolean" Optional="true">Set this to 'true' when you want null valued properties to be included in result (default is 'false').</param>
+			/// <param name="data" type="Object">Can either be a JSON object or a function that returns one.</data>
+			/// <param name="prefix" type="String" Optional="true">Provide this parameter when you want the output names to be prefixed by something (ie. when flattening simple values).</param>
+			/// <param name="includeNulls" type="Boolean" Optional="true">Set this to 'true' when you want null valued properties to be included in result (default is 'false').</param>
 
 			// get data first if provided parameter is a function
 			data = $.isFunction(data) ? data.call() : data;

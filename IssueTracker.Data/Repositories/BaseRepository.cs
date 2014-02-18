@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using IssueTracker.Common.Data.Repositories;
+using IssueTracker.Common.Models;
 using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Data.Repositories
