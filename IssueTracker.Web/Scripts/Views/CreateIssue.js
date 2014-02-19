@@ -59,8 +59,9 @@
 
 	function _submit() {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "Issues/Create", IssueTracker.Utilities.extractPropertyObservableValues(root.createModel)).done(function() {
-			alert("success");
+		$.post(IssueTracker.virtualDirectory() + "Issues/Create", IssueTracker.Utilities.extractPropertyObservableValues(root.createModel)).done(function () {
+			IssueTracker.Feedback.success("Your issue has been created.");
+			IssueTracker.Issues.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl() });
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while creating your issue. Please try again later.");
 		}).always(function() {

@@ -127,16 +127,23 @@ div.selector.dark { .dark-gradient; height:100%;
 	}
 }
 
-div.global-feedback { position:fixed; z-index:2000; padding:@small-spacing; .gradient(@error-gradient-light-colour, @error-gradient-dark-colour); width:100%; bottom:0; color:white; box-shadow:0 -2px 8px rgba(0, 0, 0, 0.5); display:none;
-	@icon-width:22px;
+div.global-feedback { position:fixed; width:100%; z-index:3; bottom:0; .border-box; padding:@spacing; color:white; box-shadow:0 -2px 8px rgba(0, 0, 0, 0.5); display:none;
+	@icon-width:28px;
 	@height:28px;
 	>i { float:left; position:relative; font-size:1.5em; width:@icon-width; vertical-align:middle; line-height:@height; }
-	>div { position:relative; margin-left:@icon-width+@spacing; padding-right:@icon-width; height:@height;
-		>i { float:right; position:relative; margin-left:-20px; height:@height; line-height:@height; vertical-align:middle; cursor:pointer; color:#CCC; }
+	>div { position:relative; margin-left:@icon-width+@spacing; height:@height;
+		>i { float:right; position:relative; margin-left:@icon-width*-1; width:@icon-width; text-align:center; font-size:1.375em; height:@height; line-height:@height; vertical-align:middle; cursor:pointer; color:white; }
 		>span { float:left; width:100%; height:100%; vertical-align:middle; line-height:@height; position:relative; padding-right:20px; .border-box;
 			a { color:inherit; }
+			button { margin-left:@spacing; }
 		}
 	}
+}
+div.global-feedback.error { .gradient(@error-gradient-light-colour, @error-gradient-dark-colour);
+	i.fa-check { display:none; }
+}
+div.global-feedback.success { .gradient(@positive-colour, @positive-colour-dark);
+	i.fa-warning { display:none; }
 }
 
 div.breadcrumbs { font-size:1.125em; .condensed-font;

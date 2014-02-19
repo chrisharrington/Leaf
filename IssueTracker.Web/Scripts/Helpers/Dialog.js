@@ -34,7 +34,9 @@
 	}
 
 	function _getHtml(templateId) {
-		var template = $("#" + templateId);
+		if (!templateId.startsWith("#"))
+			templateId = "#" + templateId;
+		var template = $(templateId);
 		if (template.length == 0)
 			throw new Error("Template with ID \"" + templateId + "\" not found.");
 

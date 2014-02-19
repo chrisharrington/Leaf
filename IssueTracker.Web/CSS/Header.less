@@ -1,6 +1,11 @@
 ﻿@import "Global.less";
 
-header { float:left; width:100%; height:50px; .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour); color:@primary-font-colour-dark-background;
+@header-height:50px;
+header { float:left; width:100%; height:@header-height; .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour); color:@primary-font-colour-dark-background; .border-box; padding:0 @spacing;
+	>a { height:100%; color:inherit;
+		>i { font-size:1.375em; height:100%; line-height:@header-height !important; vertical-align:middle; }
+	}
+	>#create-issue { float:right; }
 	>#project-switcher { float:right; border-left:solid 1px @border-colour-dark; cursor:pointer; display:table; padding:@small-spacing @spacing; .border-box;
 		h3 { .table-cell-vertically-aligned; color:inherit; font-weight:normal; }
 		i { font-size:1.125em; .table-cell-vertically-aligned; text-align:right; padding-top:3px; padding-left:@spacing; }

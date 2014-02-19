@@ -1,6 +1,8 @@
 
 $(function() {
 	IssueTracker.error = ko.observable("");
+	IssueTracker.success = ko.observable("");
+
 	IssueTracker.view = ko.observable();
 	IssueTracker.title = ko.observable();
 

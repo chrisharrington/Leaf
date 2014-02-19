@@ -23,20 +23,20 @@
 		comparer: ko.observable("priority")
 	};
 
-	root.init = function(container) {
+	root.init = function (container) {
+		_container = container;
 		_hookupEvents(container);
 		
 		container.find("#priority-filter>div.selected").each(function () { root.selectedPriorities.push($(this).attr("data-priority-id")); });
 		container.find("#status-filter>div.selected").each(function () { root.selectedStatuses.push($(this).attr("data-status-id")); });
 		container.find("#developer-filter>div.selected").each(function () { root.selectedDevelopers.push($(this).attr("data-developer-id")); });
 		container.find("#tester-filter>div.selected").each(function () { root.selectedTesters.push($(this).attr("data-tester-id")); });
-	};
-
-	root.load = function (container) {
-		_container = container;
 
 		_setupLoadingMoreIssues();
-		_getNextIssues(_startCount);
+	};
+
+	root.load = function () {
+		_resetIssueList();
 	};
 
 	root.reset = function () {

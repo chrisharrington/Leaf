@@ -1,4 +1,7 @@
 ﻿<header>
+	<a id="create-issue" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/new-issue' }">
+		<i class="fa fa-plus"></i>
+	</a>
 	@*<div id="project-switcher">
 		<h3 data-bind="text: $root.selectedProject().name"></h3>
 		<i class="fa fa-angle-down"></i>

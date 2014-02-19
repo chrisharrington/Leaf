@@ -14,19 +14,17 @@
 		data: ko.observable()
 	};
 
-	root.init = function () {
-		_transitioner.init();
+	root.init = function (container) {
+		_container = container;
+		_setUpFlipPanels(container);
+		_hookupEvents(container);
 	};
 
-	root.load = function (container) {
-		_container = container;
+	root.load = function () {
 		_descriptionFlipper = new IssueTracker.Controls.Flipper($("div.description div.flipper"));
 		_nameFlipper = new IssueTracker.Controls.Flipper($("div.name.flipper"));
 		_detailsFlipper = new IssueTracker.Controls.Flipper($("div.details-container>div.flipper"));
-
-		_setUpFlipPanels(container);
-		_hookupEvents(container);
-		_transitioner.load(IssueTracker.selectedIssue.statusId());
+		_transitioner.init();
 	};
 
 	function _hookupEvents(container) {
@@ -133,12 +131,13 @@
 		return {
 			id: issue.id(),
 			number: issue.number(),
-			name: issue.name(),
 			description: issue.description(),
+			comments: issue.comments(),
 			priorityId: issue.priorityId(),
 			statusId: issue.statusId(),
 			developerId: issue.developerId(),
 			testerId: issue.testerId(),
+			milestoneId: issue.milestoneId(),
 			opened: issue.opened(),
 			closed: issue.closed()
 		};
