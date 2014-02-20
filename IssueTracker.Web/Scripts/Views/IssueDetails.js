@@ -70,7 +70,7 @@
 		});
 
 		container.on("click", "div.name div.front", function () {
-			_oldName = IssueTracker.selectedIssue.name();
+			_oldName = IssueTracker.selectedIssue.description();
 			_nameFlipper.toggle();
 		});
 
@@ -107,14 +107,14 @@
 
 	function _discardName() {
 		_nameFlipper.toggle();
-		IssueTracker.selectedIssue.name(_oldName);
+		IssueTracker.selectedIssue.description(_oldName);
 	}
 
 	function _saveName() {
 		var buttons = _container.find("div.name button").attr("disabled", true);
-		$.post(IssueTracker.virtualDirectory() + "Issues/UpdateName", { issueId: IssueTracker.selectedIssue.id(), name: IssueTracker.selectedIssue.name() }).done(function () {
+		$.post(IssueTracker.virtualDirectory() + "Issues/UpdateName", { issueId: IssueTracker.selectedIssue.id(), name: IssueTracker.selectedIssue.description() }).done(function () {
 			_nameFlipper.toggle();
-			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.name().formatForUrl());
+			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.description().formatForUrl());
 		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while updating the issue's name. Please try again later.");
 		}).always(function () {

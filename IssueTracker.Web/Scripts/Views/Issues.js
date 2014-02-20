@@ -128,56 +128,6 @@
 			collection.remove(element.attr("data-id"));
 	}
 
-	function _selectMilestone() {
-		if ($(this).parent().find(">.selected").length == 1 && $(this).hasClass("selected"))
-			return;
-		$(this).toggleClass("selected");
-		if ($(this).hasClass("selected"))
-			root.selectedPriorities.push($(this).attr("data-milestone-id"));
-		else
-			root.selectedPriorities.remove($(this).attr("data-milestone-id"));
-	}
-
-	function _selectPriority() {
-		if ($(this).parent().find(">.selected").length == 1 && $(this).hasClass("selected"))
-			return;
-		$(this).toggleClass("selected");
-		if ($(this).hasClass("selected"))
-			root.selectedPriorities.push($(this).attr("data-priority-id"));
-		else
-			root.selectedPriorities.remove($(this).attr("data-priority-id"));
-	}
-
-	function _selectStatus() {
-		if ($(this).parent().find(">.selected").length == 1 && $(this).hasClass("selected"))
-			return;
-		$(this).toggleClass("selected");
-		if ($(this).hasClass("selected"))
-			root.selectedStatuses.push($(this).attr("data-status-id"));
-		else
-			root.selectedStatuses.remove($(this).attr("data-status-id"));
-	}
-
-	function _selectDeveloper() {
-		if ($(this).parent().find(">.selected").length == 1 && $(this).hasClass("selected"))
-			return;
-		$(this).toggleClass("selected");
-		if ($(this).hasClass("selected"))
-			root.selectedDevelopers.push($(this).attr("data-developer-id"));
-		else
-			root.selectedDevelopers.remove($(this).attr("data-developer-id"));
-	}
-
-	function _selectTester() {
-		if ($(this).parent().find(">.selected").length == 1 && $(this).hasClass("selected"))
-			return;
-		$(this).toggleClass("selected");
-		if ($(this).hasClass("selected"))
-			root.selectedTesters.push($(this).attr("data-tester-id"));
-		else
-			root.selectedTesters.remove($(this).attr("data-tester-id"));
-	}
-
 	IssueTracker.Page.build({
 		root: root,
 		view: "Issues",
