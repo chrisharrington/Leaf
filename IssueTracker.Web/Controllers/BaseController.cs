@@ -37,6 +37,12 @@ namespace IssueTracker.Web.Controllers
 				throw new HttpException(400, "The object failed validation: " + results.Select(x => x.ToString()).Aggregate((first, second) => first + " " + second));
 	    }
 
+	    protected override void OnActionExecuted(ActionExecutedContext filterContext)
+	    {
+		    filterContext.HttpContext.Response.SuppressFormsAuthenticationRedirect = true;
+		    base.OnActionExecuted(filterContext);
+	    }
+
 	    private Project GetCurrentProject()
 	    {
 		    var parameters = ControllerContext.RequestContext.HttpContext.Request.Params;

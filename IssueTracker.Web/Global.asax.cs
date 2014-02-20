@@ -8,6 +8,7 @@ using AutoMapper;
 using dotless.Core;
 using IssueTracker.Dependencies;
 using IssueTracker.Dependencies.MappingResolvers;
+using WebMatrix.WebData;
 
 namespace IssueTracker.Web
 {
@@ -16,6 +17,7 @@ namespace IssueTracker.Web
 		protected void Application_Start()
 		{
 			AreaRegistration.RegisterAllAreas();
+			WebSecurity.InitializeDatabaseConnection("DefaultDataConnection", "UserProfiles", "UserId", "UserName", true);
 
 			RegisterRoutes(RouteTable.Routes);
 			RegisterBundles(BundleTable.Bundles);

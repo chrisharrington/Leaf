@@ -68,7 +68,7 @@ namespace IssueTracker.SampleDataImporter
 				while (names.Contains(name = words[_random.Next(0, words.Length - 1)])) { }
 				names.Add(name);
 
-				var project = new Project { Id = Guid.NewGuid(), Name = name[0].ToString().ToUpper() + name.Substring(1), Users = new List<User> { user } };
+				var project = new Project { Id = Guid.NewGuid(), Name = name[0].ToString().ToUpper() + name.Substring(1), User = user };
 				projectRepository.Insert(project);
 				projects.Add(project);
 			}
@@ -83,7 +83,8 @@ namespace IssueTracker.SampleDataImporter
 				if (!context.Database.Exists())
 					((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
 			}
-			WebSecurity.InitializeDatabaseConnection("DefaultDataConnection", "UserProfile", "UserId", "UserName", true);
+
+			WebSecurity.InitializeDatabaseConnection("DefaultDataConnection", "UserProfiles", "UserId", "UserName", true);
 
 			var user = new User { EmailAddress = "chrisharrington99@gmail.com", Id = Guid.NewGuid(), Name = "Chris Harrington" };
 			WebSecurity.CreateUserAndAccount(user.EmailAddress, "password");

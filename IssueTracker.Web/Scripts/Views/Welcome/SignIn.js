@@ -37,11 +37,15 @@
 
 	function _submit() {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "Welcome/SignIn", IssueTracker.Utilities.extractPropertyObservableValues(root.model)).done(function(user) {
-			root.signedInUser(user);
+		$.post(IssueTracker.virtualDirectory() + "Welcome/SignIn", IssueTracker.Utilities.extractPropertyObservableValues(root.model)).done(function (data) {
+			IssueTracker.signedInUser(data.user);
+			IssueTracker.selectedProject(data.project);
 			IssueTracker.Issues.navigate();
-		}).fail(function() {
-			IssueTracker.Feedback.error("An error has occurred while signing you in. Please try again later.");
+		}).fail(function (response) {
+			if (response.status == 500)
+				IssueTracker.Feedback.error("An error has occurred while signing you in. Please try again later.");
+			else if (response.status == 401)
+				IssueTracker.Feedback.error("Your credentials are invalid.");
 		}).always(function() {
 			root.loading(false);
 		});

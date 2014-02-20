@@ -69,6 +69,7 @@
     <Compile Include="ViewModels\MilestoneViewModel.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
     <Compile Include="ViewModels\Search.cs" />
+    <Compile Include="ViewModels\SignedInViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\Sort.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
