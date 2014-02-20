@@ -12,6 +12,7 @@
 	root.loading = ko.observable(true);
 
 	root.list = ko.observableArray();
+	root.selectedMilestones = ko.observableArray();
 	root.selectedPriorities = ko.observableArray();
 	root.selectedStatuses = ko.observableArray();
 	root.selectedDevelopers = ko.observableArray();
@@ -26,11 +27,12 @@
 	root.init = function (container) {
 		_container = container;
 		_hookupEvents(container);
-		
-		container.find("#priority-filter>div.selected").each(function () { root.selectedPriorities.push($(this).attr("data-priority-id")); });
-		container.find("#status-filter>div.selected").each(function () { root.selectedStatuses.push($(this).attr("data-status-id")); });
-		container.find("#developer-filter>div.selected").each(function () { root.selectedDevelopers.push($(this).attr("data-developer-id")); });
-		container.find("#tester-filter>div.selected").each(function () { root.selectedTesters.push($(this).attr("data-tester-id")); });
+
+		container.find("#milestones-filter>div.selected").each(function() { root.selectedMilestones.push($(this).attr("data-id")); });
+		container.find("#priority-filter>div.selected").each(function () { root.selectedPriorities.push($(this).attr("data-id")); });
+		container.find("#status-filter>div.selected").each(function () { root.selectedStatuses.push($(this).attr("data-id")); });
+		container.find("#developer-filter>div.selected").each(function () { root.selectedDevelopers.push($(this).attr("data-id")); });
+		container.find("#tester-filter>div.selected").each(function () { root.selectedTesters.push($(this).attr("data-id")); });
 
 		_setupLoadingMoreIssues();
 	};
@@ -45,10 +47,11 @@
 
 	function _hookupEvents(container) {
 		container.find("#sort").click(_showSorter);
-		container.on("click", "#priority-filter>div", _selectPriority);
-		container.on("click", "#status-filter>div", _selectStatus);
-		container.on("click", "#developer-filter>div", _selectDeveloper);
-		container.on("click", "#tester-filter>div", _selectTester);
+		container.on("click", "#milestone-filter>div", function () { _toggleFilterItem($(this), root.selectedMilestones); });
+		container.on("click", "#priority-filter>div", function () { _toggleFilterItem($(this), root.selectedPriorities); });
+		container.on("click", "#status-filter>div", function () { _toggleFilterItem($(this), root.selectedStatuses); });
+		container.on("click", "#developer-filter>div", function () { _toggleFilterItem($(this), root.selectedDevelopers); });
+		container.on("click", "#tester-filter>div", function () { _toggleFilterItem($(this), root.selectedTesters); });
 		container.on("focus", "div.search input", function () { $(this).parent().addClass("focus"); });
 		container.on("blur", "div.search input", function () { $(this).parent().removeClass("focus"); });
 		container.on("click", "div.search i", function () { root.search(""); });
@@ -101,6 +104,7 @@
 			direction: root.sortModel.direction(),
 			comparer: root.sortModel.comparer(),
 			filter: root.search(),
+			milestones: root.selectedMilestones().join(","),
 			priorities: root.selectedPriorities().join(","),
 			statuses: root.selectedStatuses().join(","),
 			developers: root.selectedDevelopers().join(","),
@@ -112,6 +116,26 @@
 		_start = 0;
 		_allLoaded = false;
 		_getNextIssues(_startCount);
+	}
+
+	function _toggleFilterItem(element, collection) {
+		if (element.parent().find(">.selected").length == 1 && element.hasClass("selected"))
+			return;
+		element.toggleClass("selected");
+		if (element.hasClass("selected"))
+			collection.push(element.attr("data-id"));
+		else
+			collection.remove(element.attr("data-id"));
+	}
+
+	function _selectMilestone() {
+		if ($(this).parent().find(">.selected").length == 1 && $(this).hasClass("selected"))
+			return;
+		$(this).toggleClass("selected");
+		if ($(this).hasClass("selected"))
+			root.selectedPriorities.push($(this).attr("data-milestone-id"));
+		else
+			root.selectedPriorities.remove($(this).attr("data-milestone-id"));
 	}
 
 	function _selectPriority() {

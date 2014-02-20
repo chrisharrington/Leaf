@@ -33,6 +33,8 @@ namespace IssueTracker.Data.Repositories
 		private void ApplyFilter(ref IEnumerable<Issue> issues, Search search)
 		{
 			issues = issues.Where(x => x.Project.Id == search.project.Id);
+			if (search.milestones.Any())
+				issues = issues.Where(x => search.milestones.Select(y => y.Id).Contains(x.Milestone.Id));
 			if (search.priorities.Any())
 				issues = issues.Where(x => search.priorities.Select(y => y.Id).Contains(x.Priority.Id));
 			if (search.statuses.Any())

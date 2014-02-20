@@ -3,28 +3,35 @@
 		<div class="loading tile" data-bind="visible: loading">
 			<img src="@Url.Content("~/Images/ajax-loader.gif")" alt="" />
 		</div>
-		<div class="tile">
-			<div class="data" data-bind="foreach: list">
-				<a data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
-					<div>
-						<div data-bind="attr: { class: 'priority ' + priorityStyle }"></div>
-						<div class="ellipsis name">
-							<h2 class="name" data-bind="text: name"></h2>
-							<span class="info">Last updated by <b data-bind="text: updatedBy"></b> at <b data-bind="text: lastUpdated"></b>.</span>
-						</div>
-						<div class="status" data-bind="text: status"></div>
+		<div class="data" data-bind="foreach: list">
+			<a class="tile" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
+				<div>
+					<div data-bind="attr: { class: 'priority ' + priorityStyle }"></div>
+					<div class="ellipsis name">
+						<h2 class="name" data-bind="text: name"></h2>
+						<span class="info">Last updated by <b data-bind="text: updatedBy"></b> at <b data-bind="text: lastUpdated"></b>.</span>
 					</div>
-				</a>
-			</div>
+					<div class="status" data-bind="text: status"></div>
+				</div>
+			</a>
 		</div>
 	</div>
 	<div class="filter-container selectable-container">
 		<div>
 			<button id="apply-filter" data-bind="css: { loading: loading }">Apply Filter</button>
+			<div class="tile choice-tile" id="milestone-filter">
+				<h2>Milestone</h2>
+				<!-- ko foreach: IssueTracker.milestones -->
+				<div class="selected" data-bind="attr: { 'data-id': id }">
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+				<!-- /ko -->
+			</div>
 			<div class="tile choice-tile" id="priority-filter">
 				<h2>Priority</h2>
 				<!-- ko foreach: IssueTracker.priorities -->
-				<div class="selected" data-bind="attr: { 'data-priority-id': id }">
+				<div class="selected" data-bind="attr: { 'data-id': id }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
@@ -33,7 +40,7 @@
 			<div class="tile choice-tile" id="status-filter">
 				<h2>Status</h2>
 				<!-- ko foreach: IssueTracker.statuses -->
-				<div class="selected" data-bind="attr: { 'data-status-id': id }">
+				<div class="selected" data-bind="attr: { 'data-id': id }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
@@ -42,7 +49,7 @@
 			<div class="tile choice-tile" id="developer-filter">
 				<h2>Developer</h2>
 				<!-- ko foreach: IssueTracker.users -->
-				<div class="selected" data-bind="attr: { 'data-developer-id': id }">
+				<div class="selected" data-bind="attr: { 'data-id': id }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
@@ -51,7 +58,7 @@
 			<div class="tile choice-tile" id="tester-filter">
 				<h2>Tester</h2>
 				<!-- ko foreach: IssueTracker.users -->
-				<div class="selected" data-bind="attr: { 'data-tester-id': id }">
+				<div class="selected" data-bind="attr: { 'data-id': id }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>

@@ -13,6 +13,7 @@ namespace IssueTracker.Common.ViewModels
 		public User developer { get; set; }
 		public User tester { get; set; }
 		public string filter { get; set; }
+		public IEnumerable<Milestone> milestones { get; set; } 
 		public IEnumerable<Priority> priorities { get; set; }
 		public IEnumerable<Status> statuses { get; set; }
 		public IEnumerable<User> developers { get; set; }
