@@ -40,7 +40,7 @@
 		$.post(IssueTracker.virtualDirectory() + "Welcome/SignIn", IssueTracker.Utilities.extractPropertyObservableValues(root.model)).done(function (data) {
 			IssueTracker.signedInUser(data.user);
 			IssueTracker.selectedProject(data.project);
-			IssueTracker.Issues.navigate();
+			IssueTracker.Issues.navigate({ "project-name": data.project.name.formatForUrl() });
 		}).fail(function (response) {
 			if (response.status == 500)
 				IssueTracker.Feedback.error("An error has occurred while signing you in. Please try again later.");
