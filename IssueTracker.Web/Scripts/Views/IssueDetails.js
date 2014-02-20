@@ -8,6 +8,8 @@
 	var _detailsFlipper;
 	var _transitioner = IssueTracker.Transitioner;
 
+	root.saving = ko.observable(false);
+
 	root.chooser = {
 		template: ko.observable(),
 		data: ko.observable()
@@ -24,9 +26,11 @@
 		_descriptionFlipper = new IssueTracker.Controls.Flipper($("div.description div.flipper"));
 		_detailsFlipper = new IssueTracker.Controls.Flipper($("div.details-container>div.flipper"));
 		_transitioner.init();
+		_oldName = IssueTracker.selectedIssue.description();
 	};
 
 	function _hookupEvents(container) {
+		container.on("click", "#save-changes", _updateIssue);
 		container.on("click", "#save-description", _saveDescription);
 		container.on("click", "#discard-description", _discardDescription);
 		container.on("click", "div.transitions button", _executeTransition);
@@ -44,8 +48,6 @@
 		var priority = $.parseJSON($(this).attr("data-priority"));
 		IssueTracker.selectedIssue.priorityId(priority.id);
 		IssueTracker.selectedIssue.priority(priority.name);
-
-		_updateIssue();
 	}
 
 	function _setStatus() {
@@ -117,7 +119,14 @@
 	}
 
 	function _updateIssue() {
-		return $.post(IssueTracker.virtualDirectory() + "Issues/Update", _buildIssueParameters());
+		root.saving(true);
+		return $.post(IssueTracker.virtualDirectory() + "Issues/Update", _buildIssueParameters()).done(function() {
+			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.description().formatForUrl());
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error has occurred while saving your issue. Please try again later.");
+		}).always(function() {
+			root.saving(false);
+		});
 	}
 
 	function _buildIssueParameters() {

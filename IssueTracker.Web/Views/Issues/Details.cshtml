@@ -25,7 +25,7 @@
 				@Html.IconButton("", "fa-angle-right", "right", dataBind: "attr: { 'data-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }", labelDataBind: "text: name", isRight: true)
 			</div>
 			<div class="always">
-				@Html.IconButton("Duplicate Issue", "fa-copy", id: "duplicate-issue")
+				@Html.IconButton("Save Changes", "fa-check", id: "save-changes", dataBind: "css: { loading: saving }")
 				@Html.IconButton("Delete Issue", "fa-trash-o", id: "delete-issue")
 			</div>
 		</div>
