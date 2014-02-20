@@ -29,6 +29,11 @@
 	function _hookupEvents() {
 		_container.on("click", "div.choice-tile>div", _toggleSelectedChoice);
 		_container.on("click", "#save", _save);
+		_container.on("click", "#discard", _discard);
+	}
+
+	function _discard() {
+		IssueTracker.Issues.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl() });
 	}
 
 	function _save() {
