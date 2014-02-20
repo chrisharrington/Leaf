@@ -26,7 +26,7 @@
 			</div>
 			<div class="always">
 				@Html.IconButton("Duplicate Issue", "fa-copy", id: "duplicate-issue")
-				@Html.IconButton("Delete Issue", "fa-trash-o", id: "delete-issue", style: "negative")
+				@Html.IconButton("Delete Issue", "fa-trash-o", id: "delete-issue")
 			</div>
 		</div>
 	</div>
@@ -37,8 +37,9 @@
 				<div class="tile flip-tile front">
 					<div>
 						<h1 class="number" data-bind="text: '#' + IssueTracker.selectedIssue.number()"></h1>
-						<h1 class="description" data-bind="text: IssueTracker.selectedIssue.description"></h1>
-						<i class="fa fa-angle-down"></i>
+						<div class="description">
+							<input type="text" class="description" data-bind="value: IssueTracker.selectedIssue.description" />
+						</div>
 					</div>
 				</div>
 				<div class="tile flip-tile back">
@@ -85,6 +86,11 @@
 		<div class="details-container perspective">
 			<div class="flipper transition">
 				<div class="tile flip-tile front selectable-details details">
+					<div class="selectable" id="milestone">
+						<span class="title">Milestone</span>
+						<i class="fa fa-angle-down"></i>
+						<span class="info" id="selected-milestone" data-bind="text: IssueTracker.selectedIssue.milestone"></span>
+					</div>
 					<div class="selectable" id="priority">
 						<span class="title">Priority</span>
 						<i class="fa fa-angle-down"></i>

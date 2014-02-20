@@ -5,7 +5,6 @@
 	var _oldDescription;
 	var _oldName;
 	var _descriptionFlipper;
-	var _nameFlipper;
 	var _detailsFlipper;
 	var _transitioner = IssueTracker.Transitioner;
 
@@ -21,8 +20,8 @@
 	};
 
 	root.load = function () {
+		_setNumberWidth();
 		_descriptionFlipper = new IssueTracker.Controls.Flipper($("div.description div.flipper"));
-		_nameFlipper = new IssueTracker.Controls.Flipper($("div.name.flipper"));
 		_detailsFlipper = new IssueTracker.Controls.Flipper($("div.details-container>div.flipper"));
 		_transitioner.init();
 	};
@@ -67,11 +66,6 @@
 		container.on("click", "div.description div.front", function () {
 			_oldDescription = IssueTracker.selectedIssue.description();
 			_descriptionFlipper.toggle();
-		});
-
-		container.on("click", "div.name div.front", function () {
-			_oldName = IssueTracker.selectedIssue.description();
-			_nameFlipper.toggle();
 		});
 
 		container.on("click", "#priority", function () {
@@ -141,6 +135,13 @@
 			opened: issue.opened(),
 			closed: issue.closed()
 		};
+	}
+
+	function _setNumberWidth() {
+		var number = _container.find("h1.number");
+		var padding = parseInt(number.css("padding-left").replace("px", "")) * 2;
+		var width = 13 + IssueTracker.selectedIssue.number().toString().length * 12;
+		number.width(width).parent().find("div.description").css({ "padding-left": width + padding + 1 });
 	}
 
 	IssueTracker.Page.build({
