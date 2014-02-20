@@ -18,7 +18,7 @@ namespace IssueTracker.Web.Controllers
 
 	    public User SignedInUser
 	    {
-			get { return UserRepository.All().First(); }
+		    get { return !HttpContext.User.Identity.IsAuthenticated ? null : UserRepository.Email(HttpContext.User.Identity.Name); }
 	    }
 
 	    public Project CurrentProject

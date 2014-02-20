@@ -1,0 +1,26 @@
+﻿@import "Global.less";
+
+.welcome-container {
+	div.tile { float:left; width:100%; 
+		>h1 { float:left; width:100%; margin-bottom:@small-spacing; }
+	}
+
+	@sign-in-container-width:400px;
+	div.promo-container { float:left; width:100%; position:relative; padding-right:@sign-in-container-width+@spacing; .border-box; }
+	div.sign-in-container { float:left; width:@sign-in-container-width; position:relative; margin-left:@sign-in-container-width*-1;
+		>div.sign-in { margin-bottom:@spacing; }
+		>div.register {
+			@subdomain-height:41px;
+			>div.subdomain { float:left; width:100%; margin-top:@small-spacing; height:@subdomain-height;
+				>input { float:left; width:280px; padding:@small-spacing; }
+				>span { float:right; font-weight:bold; height:100%; line-height:@subdomain-height; vertical-align:middle; }
+			}
+		}
+	}
+
+	div.input.tile {
+		>* { float:left; width:100%; margin-top:@small-spacing; }
+		>input, >button { padding:@small-spacing; }
+		>:first-child { margin-top:0; }
+	}
+}

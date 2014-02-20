@@ -144,11 +144,20 @@
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.30506.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\IssuesController.cs" />
     <Compile Include="Controllers\RootController.cs" />
+    <Compile Include="Controllers\WelcomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -193,6 +202,8 @@
     <Content Include="Scripts\Views\CreateIssue.js" />
     <Content Include="Scripts\Views\IssueDetails.js" />
     <Content Include="Scripts\Views\Issues.js" />
+    <Content Include="Scripts\Views\Welcome\SignIn.js" />
+    <Content Include="Scripts\Views\Welcome\Welcome.js" />
     <Content Include="Tests\Binders\RemoteTemplateBinder.js" />
     <Content Include="Tests\console.js" />
     <Content Include="Tests\Helpers\Popup.js" />
@@ -285,6 +296,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CSS\CreateIssue.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Welcome\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSS\Welcome.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
