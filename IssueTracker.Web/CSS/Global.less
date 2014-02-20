@@ -146,14 +146,16 @@ div.global-feedback.success { .gradient(@positive-colour, @positive-colour-dark)
 	i.fa-warning { display:none; }
 }
 
-div.breadcrumbs { font-size:1.125em; .condensed-font;
-	>a { float:left; display:block; color:black;
-		>i { float:left; margin-right:@small-spacing; margin-top:4px; }
+@breadcrumbs-height:35px;
+div.breadcrumbs { float:left; font-size:1.125em; .condensed-font; height:@breadcrumbs-height;
+	>*, >a>i { height:100%; line-height:@breadcrumbs-height !important; vertical-align:middle; display:inline-block; }
+	>a { float:left; color:black;
+		>i { float:left; margin-right:@small-spacing; }
 		>span { float:left; }
 	}
 	>a.clickable { cursor:pointer; }
 	>a.clickable:hover>span { text-decoration:underline; }
-	>i { float:left; margin-left:@spacing; margin-right:@spacing; margin-top:4px; color:darken(@primary-font-colour-light, 10%); }
+	>i { float:left; margin-left:@spacing; margin-right:@spacing; color:darken(@primary-font-colour-light, 10%); }
 }
 
 div.choice-tile { padding:0 !important;

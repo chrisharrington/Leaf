@@ -23,17 +23,17 @@
 	div.container.notop { margin-top:0; }
 	div.container.table { display:table; }
 
-	div.name-and-number-wrapper { height:61px;
-		div.number { float:left; width:85px; text-align:center; padding:@spacing 0; height:100%; display:table;
-			>h1 { .table-cell-vertically-aligned; }
-		}
-		div.name-container { position:relative; margin-left:@spacing+85; height:100%;
+	@name-height:74px;
+	div.name-and-number-wrapper { height:@name-height; .border-box;
+		div.name-container { float:left; width:100%; height:100%; .border-box; border-left:solid @small-spacing;
 			>div { float:left; width:100%; height:100%;
 				>div { float:left; width:100%; height:100%; }
-				>div.front { cursor:pointer; display:table;
-					>div { .table-cell-vertically-aligned;
-						>h1 { float:left; }
-						>i { float:right; font-size:1.5em; font-weight:bold; margin-top:9px; }
+				>div.front { cursor:pointer; padding:0;
+					>div { float:left; width:100%; height:100%;
+						>* { height:100%; line-height:(@name-height)-(@spacing*2); padding:@spacing; vertical-align:middle; display:inline-block; .border-box; }
+						>h1.number { float:left; .border-radius; font-weight:bold; border-right:solid 1px @border-colour; }
+						>h1.description { float:left; }
+						>i { float:right; font-size:1.5em; font-weight:bold; }
 					}
 				}
 				>div.front:hover { .hover; }
@@ -53,6 +53,10 @@
 				}
 			}
 		}
+		div.name-container.low { border-left-color:@low-priority-background; }
+		div.name-container.medium { border-left-color:@medium-priority-background; }
+		div.name-container.high { border-left-color:@high-priority-background; }
+		div.name-container.critical { border-left-color:@critical-priority-background; }
 	}
 
 	div.details-wrapper { height:299px;

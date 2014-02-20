@@ -6,10 +6,8 @@
 	root.selectedIssue = createNestedObservables(@Html.Raw(Json.Encode(Model)));
 </script>
 
-<div data-bind="attr: { class: 'priority-bar ' + IssueTracker.selectedIssue.priority().toLowerCase() }"></div>
-
 <div class="wrapper">
-	<div class="container notop table">
+	<div class="container notop details-header">
 		<div class="breadcrumbs">
 			<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
 				<i class="fa fa-home"></i>
@@ -34,15 +32,12 @@
 	</div>
 
 	<div class="container name-and-number-wrapper">
-		<div class="tile number">
-			<h1 data-bind="text: IssueTracker.selectedIssue.number"></h1>
-		</div>
-
-		<div class="name-container perspective">
+		<div class="name-container perspective" data-bind="attr: { class: 'name-container perspective ' + IssueTracker.selectedIssue.priority().toLowerCase() }">
 			<div class="flipper transition name">
 				<div class="tile flip-tile front">
 					<div>
-						<h1 data-bind="text: IssueTracker.selectedIssue.description"></h1>
+						<h1 class="number" data-bind="text: '#' + IssueTracker.selectedIssue.number()"></h1>
+						<h1 class="description" data-bind="text: IssueTracker.selectedIssue.description"></h1>
 						<i class="fa fa-angle-down"></i>
 					</div>
 				</div>
