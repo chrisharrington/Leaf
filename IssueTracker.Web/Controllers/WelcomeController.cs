@@ -22,7 +22,10 @@ namespace IssueTracker.Web.Controllers
 
 			var user = UserRepository.Email(model.email);
 
-			return Json(Mapper.DynamicMap<User, UserViewModel>(user));
+			return Json(new SignedInViewModel {
+				User = Mapper.DynamicMap<User, UserViewModel>(user),
+				//Project = Mapper.DynamicMap<Project, ProjectViewModel>(ProjectRepository.)
+			});
 		}
 	}
 }

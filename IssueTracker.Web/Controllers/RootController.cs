@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
 using IssueTracker.Common.ViewModels;
 
 namespace IssueTracker.Web.Controllers
 {
-    public class RootController : Controller
+    public class RootController : BaseController
     {
 		public IPriorityRepository PriorityRepository { get; set; }
 		public IStatusRepository StatusRepository { get; set; }
-		public IUserRepository UserRepository { get; set; }
-		public IProjectRepository ProjectRepository { get; set; }
 		public ITransitionRepository TransitionRepository { get; set; }
 		public IMilestoneRepository MilestoneRepository { get; set; }
 
@@ -20,7 +19,7 @@ namespace IssueTracker.Web.Controllers
 		{
 			var projects = ProjectRepository.All(x => x.Name).ToArray();
 			var selectedProject = projects.First();
-			var signedInUser = UserRepository.All().First();
+			var signedInUser = SignedInUser;
 			return View("~/Views/Shared/Root.cshtml", new RootModel {
 	            Priorities = PriorityRepository.Project(selectedProject, x => x.Order).ToArray().Select(x => new OrderViewModel {id = x.Id, name = x.Name, order = x.Order}),
 				Statuses = StatusRepository.Project(selectedProject, x => x.Order).ToArray().Select(x => new OrderViewModel {id = x.Id, name = x.Name, order = x.Order}),
@@ -29,7 +28,7 @@ namespace IssueTracker.Web.Controllers
 				Transitions = TransitionRepository.All(x => x.Name).Select(x => new TransitionViewModel {id = x.Id, fromId = x.From.Id, toId = x.To.Id, name = x.Name}),
 				Milestones = MilestoneRepository.Project(selectedProject, x => x.Name).ToArray().Select(x => new MilestoneViewModel {id = x.Id, name = x.Name}),
 				SelectedProject = new { name = selectedProject.Name, id = selectedProject.Id },
-				SignedInUser = new { name = signedInUser.Name, emailAddress = signedInUser.EmailAddress, id = signedInUser.Id }
+				SignedInUser = signedInUser == null ? null : Mapper.DynamicMap<User, UserViewModel>(signedInUser)
             });
 		}
 

@@ -37,12 +37,7 @@ IssueTracker.Page.prototype.navigate = function (route, params) {
 IssueTracker.Page.prototype._isAuthorized = function (params) {
 	if (params.isAnonymous)
 		return true;
-	
-	for (var i = 0; i < params.route.length; i++)
-		if (params.route[0].startsWith("#/welcome") || params.route[0].startsWith("#/verify"))
-			return true;
-
-	return !IssueTracker.isUnauthorized();
+	return IssueTracker.signedInUser() != null;
 };
 
 IssueTracker.Page.prototype._setView = function (params, routeArguments) {

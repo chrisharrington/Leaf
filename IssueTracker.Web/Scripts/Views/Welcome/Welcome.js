@@ -18,7 +18,8 @@
 		view: "Welcome/Index",
 		title: "Welcome",
 		route: "#/welcome",
-		style: "welcome-container"
+		style: "welcome-container",
+		isAnonymous: true
 	});
 
 })(root("IssueTracker.Welcome"));
