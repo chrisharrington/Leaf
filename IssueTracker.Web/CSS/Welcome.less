@@ -8,7 +8,13 @@
 	@sign-in-container-width:400px;
 	div.promo-container { float:left; width:100%; position:relative; padding-right:@sign-in-container-width+@spacing; .border-box; }
 	div.sign-in-container { float:left; width:@sign-in-container-width; position:relative; margin-left:@sign-in-container-width*-1;
-		>div.sign-in { margin-bottom:@spacing; }
+		>div.sign-in { margin-bottom:@spacing;
+			>div.stay-signed-in {
+				>input { float:left; margin:0; margin-top:4px; cursor:pointer; }
+				>label { float:left; padding-left:@small-spacing; cursor:pointer; }
+				>a { float:right; }
+			}
+		}
 		>div.register {
 			@subdomain-height:41px;
 			>div.subdomain { float:left; width:100%; margin-top:@small-spacing; height:@subdomain-height;
