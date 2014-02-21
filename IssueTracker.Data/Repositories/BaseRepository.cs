@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using IssueTracker.Common.Data.Repositories;
-using IssueTracker.Common.Models;
 using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Data.Repositories
@@ -48,7 +46,7 @@ namespace IssueTracker.Data.Repositories
 
 			if (entry.State == EntityState.Detached)
 			{
-				var attachedEntity = Context.Set<TModel>().Local.SingleOrDefault(e => e.Id == model.Id);
+				var attachedEntity = Context.Set<TModel>().SingleOrDefault(e => e.Id == model.Id);
 				SetComplexProperties(model, attachedEntity);
 				if (attachedEntity != null)
 					Context.Entry(attachedEntity).CurrentValues.SetValues(model);

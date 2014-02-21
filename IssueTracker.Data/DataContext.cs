@@ -11,7 +11,6 @@ namespace IssueTracker.Data
 		public DbSet<User> Users { get; set; }
 		public DbSet<Project> Projects { get; set; }
 		public DbSet<Transition> Transitions { get; set; }
-		public DbSet<Filter> Filters { get; set; }
 		public DbSet<DateRange> DateRanges { get; set; }
 		public DbSet<Milestone> Milestones { get; set; }
 
@@ -22,7 +21,7 @@ namespace IssueTracker.Data
 			builder.Entity<User>().Map(x => { x.ToTable("Users"); x.MapInheritedProperties(); });
 			builder.Entity<Status>().Map(x => { x.ToTable("Statuses"); x.MapInheritedProperties(); }).HasRequired(x => x.Project).WithMany(x => x.Statuses).WillCascadeOnDelete(false);
 			builder.Entity<Priority>().Map(x => { x.ToTable("Priorities"); x.MapInheritedProperties(); }).HasRequired(x => x.Project).WithMany(x => x.Priorities).WillCascadeOnDelete(false);
-			builder.Entity<Filter>().Map(x => { x.ToTable("Filters"); x.MapInheritedProperties(); });
+			builder.Entity<Milestone>().Map(x => { x.ToTable("Milestones"); x.MapInheritedProperties(); }).HasRequired(x => x.Project).WithMany(x => x.Milestones).WillCascadeOnDelete(false);
 			
 			MapProjects(builder);
 

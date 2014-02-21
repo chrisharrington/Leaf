@@ -8,6 +8,6 @@ namespace IssueTracker.Common.Models
 		public User User { get; set; }
 		public ICollection<Priority> Priorities { get; set; }
 		public ICollection<Status> Statuses { get; set; }
-		public ICollection<Filter> Filters { get; set; } 
+		public ICollection<Milestone> Milestones { get; set; }  
 	}
 }

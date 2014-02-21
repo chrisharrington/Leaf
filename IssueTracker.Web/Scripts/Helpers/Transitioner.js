@@ -1,36 +1,24 @@
 
 (function (root) {
 
+	var _currentStatusId;
+
 	root.transitioning = ko.observable(false);
-
-	root.init = function() {
-		IssueTracker.selectedIssue.statusId.subscribe(function(statusId) {
-			root.execute(statusId);
-		});
-	};
-
-	root.load = function (statusId) {
-//		var transitions = _getTransitions(statusId, true);
-//		var status = _getStatus(transitions[0].fromId);
-	};
 
 	root.execute = function (statusId) {
 		if (!statusId)
 			throw new Error("Missing status ID.");
 
-		root.transitioning(true);
+		_currentStatusId = statusId;
 		var status = _getStatus(statusId);
-		$.when(_pushTransition(IssueTracker.selectedIssue.id(), status.id)).then(function () {
-			IssueTracker.selectedIssue.status(status.name);
-			IssueTracker.selectedIssue.statusId(status.id);
-			IssueTracker.selectedIssue.transitions(_getTransitions(status.id));
-			root.transitioning(false);
-		});
+		IssueTracker.selectedIssue.status(status.name);
+		IssueTracker.selectedIssue.statusId(status.id);
+		IssueTracker.selectedIssue.transitions(_getTransitions(status.id));
 	};
-	
-	function _setBackToStatus(statusId) {
-		root.backStatus(statusId ? _getStatus(statusId) : undefined);
-	}
+
+	root.save = function () {
+		_pushTransition(IssueTracker.selectedIssue.id(), _currentStatusId);
+	};
 	
 	function _getStatus(statusId) {
 		var found;
@@ -57,8 +45,11 @@
 	}
 	
 	function _pushTransition(issueId, statusId) {
-		return $.post(IssueTracker.virtualDirectory() + "Issues/ExecuteTransition", { issueId: issueId, statusId: statusId }).fail(function() {
+		root.transitioning(true);
+		$.post(IssueTracker.virtualDirectory() + "Issues/ExecuteTransition", { issueId: issueId, statusId: statusId }).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while performing the transition. Please try again later.");
+		}).always(function() {
+			root.transitioning(false);
 		});
 	}
 

@@ -11,6 +11,8 @@ namespace IssueTracker.Common.ViewModels
 		[Required] public string description { get; set; }
 		public string comments { get; set; }
 		public string priority { get; set; }
+		[Required] public Guid milestoneId { get; set; }
+		public string milestone { get; set; }
 		[Required] public Guid priorityId { get; set; }
 		public string status { get; set; }
 		[Required] public Guid statusId { get; set; }
@@ -18,8 +20,6 @@ namespace IssueTracker.Common.ViewModels
 		[Required] public Guid developerId { get; set; }
 		public string tester { get; set; }
 		[Required] public Guid testerId { get; set; }
-		public string milestone { get; set; }
-		[Required] public Guid milestoneId { get; set; }
 		[Required] public string opened { get; set; }
 		public string closed { get; set; }
 		[Required] public Guid updatedId { get; set; }

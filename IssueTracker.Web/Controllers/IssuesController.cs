@@ -95,28 +95,6 @@ namespace IssueTracker.Web.Controllers
 	    }
 
 	    [HttpPost]
-	    public void UpdateDescription(Guid issueId, string description)
-	    {
-		    var model = IssueRepository.Details(issueId);
-		    if (model == null)
-			    throw new ArgumentException("The issue ID \"" + issueId + "\" corresponds to no issue.");
-
-		    model.Comments = description;
-		    IssueRepository.Update(model);
-	    }
-
-	    [HttpPost]
-	    public void UpdateName(Guid issueId, string name)
-	    {
-			var model = IssueRepository.Details(issueId);
-			if (model == null)
-				throw new ArgumentException("The issue ID \"" + issueId + "\" corresponds to no issue.");
-
-			model.Name = name;
-			IssueRepository.Update(model);
-	    }
-
-		[HttpPost]
 	    public void Update(IssueViewModel issue)
 	    {
 		    if (issue == null || issue.id == Guid.Empty)
@@ -124,7 +102,8 @@ namespace IssueTracker.Web.Controllers
 
 			issue.updated = DateTime.UtcNow.ToApplicationString();
 			issue.updatedId = SignedInUser.Id;
-			IssueRepository.Update(Mapper.Map<IssueViewModel, Issue>(issue));
+		    var model = Mapper.Map<IssueViewModel, Issue>(issue);
+		    IssueRepository.Update(model);
 	    }
 
 	    [HttpPost]

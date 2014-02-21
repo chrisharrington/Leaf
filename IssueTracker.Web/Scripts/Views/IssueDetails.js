@@ -2,7 +2,6 @@
 (function (root) {
 
 	var _container;
-	var _oldDescription;
 	var _oldName;
 	var _detailsFlipper;
 	var _transitioner = IssueTracker.Transitioner;
@@ -23,15 +22,31 @@
 	root.load = function () {
 		_setNumberWidth();
 		_detailsFlipper = new IssueTracker.Controls.Flipper($("div.details-container>div.flipper"));
-		_transitioner.init();
 		_oldName = IssueTracker.selectedIssue.description();
+		
+		IssueTracker.selectedIssue.statusId.subscribe(function (statusId) {
+			_transitioner.execute(statusId);
+		});
 	};
 
 	function _hookupEvents(container) {
 		container.on("click", "#save-changes", _updateIssue);
 		container.on("click", "div.transitions button", _executeTransition);
+		container.on("click", "div.milestone-chooser>div", _setMilestone);
 		container.on("click", "div.priority-chooser>div", _setPriority);
 		container.on("click", "div.status-chooser>div", _setStatus);
+		container.on("click", "div.developer-chooser>div", _setDeveloper);
+		container.on("click", "div.tester-chooser>div", _setTester);
+	}
+
+	function _setMilestone() {
+		_detailsFlipper.toggle();
+		_container.find("div.milestone-chooser>div.selected").removeClass("selected");
+		$(this).addClass("selected");
+
+		var milestone = $.parseJSON($(this).attr("data-milestone"));
+		IssueTracker.selectedIssue.milestoneId(milestone.id);
+		IssueTracker.selectedIssue.milestone(milestone.name);
 	}
 
 	function _setPriority() {
@@ -45,13 +60,33 @@
 	}
 
 	function _setStatus() {
-		_detailsFlipper.toggle();
 		_container.find("div.status-chooser>div.selected").removeClass("selected");
 		$(this).addClass("selected");
 
 		var status = $.parseJSON($(this).attr("data-status"));
 		IssueTracker.selectedIssue.statusId(status.id);
 		IssueTracker.selectedIssue.status(status.name);
+		_detailsFlipper.toggle();
+	}
+	
+	function _setDeveloper() {
+		_detailsFlipper.toggle();
+		_container.find("div.developer-chooser>div.selected").removeClass("selected");
+		$(this).addClass("selected");
+
+		var developer = $.parseJSON($(this).attr("data-developer"));
+		IssueTracker.selectedIssue.developerId(developer.id);
+		IssueTracker.selectedIssue.developer(developer.name);
+	}
+	
+	function _setTester() {
+		_detailsFlipper.toggle();
+		_container.find("div.tester-chooser>div.selected").removeClass("selected");
+		$(this).addClass("selected");
+
+		var tester = $.parseJSON($(this).attr("data-tester"));
+		IssueTracker.selectedIssue.testerId(tester.id);
+		IssueTracker.selectedIssue.tester(tester.name);
 	}
 
 	function _executeTransition() {
@@ -59,6 +94,12 @@
 	}
 
 	function _setUpFlipPanels(container) {
+		container.on("click", "#milestone", function () {
+			root.chooser.data({ milestones: IssueTracker.milestones() });
+			root.chooser.template("milestone-chooser");
+			_detailsFlipper.toggle();
+		});
+
 		container.on("click", "#priority", function () {
 			root.chooser.data({ priorities: IssueTracker.priorities() });
 			root.chooser.template("priority-chooser");
@@ -68,6 +109,18 @@
 		container.on("click", "#status", function() {
 			root.chooser.data({ statuses: IssueTracker.statuses() });
 			root.chooser.template("status-chooser");
+			_detailsFlipper.toggle();
+		});
+		
+		container.on("click", "#developer", function () {
+			root.chooser.data({ developers: IssueTracker.users() });
+			root.chooser.template("developer-chooser");
+			_detailsFlipper.toggle();
+		});
+		
+		container.on("click", "#tester", function () {
+			root.chooser.data({ testers: IssueTracker.users() });
+			root.chooser.template("tester-chooser");
 			_detailsFlipper.toggle();
 		});
 	};
@@ -90,11 +143,11 @@
 			number: issue.number(),
 			description: issue.description(),
 			comments: issue.comments(),
+			milestoneId: issue.milestoneId(),
 			priorityId: issue.priorityId(),
 			statusId: issue.statusId(),
 			developerId: issue.developerId(),
 			testerId: issue.testerId(),
-			milestoneId: issue.milestoneId(),
 			opened: issue.opened(),
 			closed: issue.closed()
 		};

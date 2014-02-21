@@ -63,12 +63,12 @@
 						<i class="fa fa-angle-down"></i>
 						<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
 					</div>
-					<div class="selectable">
+					<div class="selectable" id="developer">
 						<span class="title">Developer</span>
 						<i class="fa fa-angle-down"></i>
 						<span class="info" data-bind="text: IssueTracker.selectedIssue.developer"></span>
 					</div>
-					<div class="selectable">
+					<div class="selectable" id="tester">
 						<span class="title">Tester</span>
 						<i class="fa fa-angle-down"></i>
 						<span class="info" data-bind="text: IssueTracker.selectedIssue.tester"></span>
@@ -88,6 +88,19 @@
 	</div>
 </div>
 
+<script type="text/html" id="milestone-chooser">
+	<div class="milestone-chooser chooser" data-bind="foreach: milestones">
+		<div data-bind="attr: { 'data-milestone': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.milestoneId() }">
+			<div>
+				<div>
+					<span class="name" data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
 <script type="text/html" id="priority-chooser">
 	<div class="priority-chooser chooser" data-bind="foreach: priorities">
 		<div data-bind="attr: { 'data-priority': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.priorityId() }">
@@ -105,6 +118,32 @@
 <script type="text/html" id="status-chooser">
 	<div class="status-chooser chooser" data-bind="foreach: statuses">
 		<div data-bind="attr: { 'data-status': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.statusId() }">
+			<div>
+				<div>
+					<span class="name" data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="developer-chooser">
+	<div class="developer-chooser chooser" data-bind="foreach: users">
+		<div data-bind="attr: { 'data-developer': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.developerId() }">
+			<div>
+				<div>
+					<span class="name" data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tester-chooser">
+	<div class="tester-chooser chooser" data-bind="foreach: users">
+		<div data-bind="attr: { 'data-tester': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.testerId() }">
 			<div>
 				<div>
 					<span class="name" data-bind="text: name"></span>
