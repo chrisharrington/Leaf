@@ -17,6 +17,7 @@
 		_container = container;
 		_setUpFlipPanels(container);
 		_hookupEvents(container);
+		_transitioner.init();
 	};
 
 	root.load = function () {
