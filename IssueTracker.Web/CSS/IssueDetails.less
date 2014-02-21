@@ -25,32 +25,10 @@
 
 	@name-height:74px;
 	div.name-and-number-wrapper { height:@name-height; .border-box;
-		div.name-container { float:left; width:100%; height:100%; .border-box; border-left:solid @small-spacing;
-			>div { float:left; width:100%; height:100%;
-				>div { float:left; width:100%; height:100%; }
-				>div.front { padding:0;
-					>div { float:left; width:100%; height:100%;
-						>h1.number { float:left; .border-radius; text-align:center; font-weight:bold; border-right:solid 1px @border-colour; height:100%; line-height:(@name-height)-(@spacing*2); padding:@spacing; vertical-align:middle; display:inline-block; .border-box; }
-						>div.description { position:relative; padding:0; height:100%;
-							>input { float:left; width:100%; padding:@spacing !important; height:100%; cursor:pointer; border:none; font-weight:bold; .condensed-font; margin:0; padding:0; text-transform:uppercase; color:@primary-header-font-colour; font-size:1.75em; }
-							>input:focus { box-shadow:none; border:none; }
-						}
-					}
-				}
-				>div.back { display:table;
-					>div { .table-cell-vertically-aligned;
-						>div.input-container { float:left; width:100%; position:relative;
-							>div { height:100%; margin-right:155px+@spacing;
-								>input { float:left; width:100%; height:29px; }
-								>button { float:left; margin-top:0; margin-bottom:0; }
-							}
-						}
-						>div.buttons { float:left; margin-left:-155px; width:155px; position:relative; z-index:2;
-							>button { float:right; margin-right:0; margin-left:@small-spacing; }
-						}
-					}
-				
-				}
+		div.name-container { float:left; width:100%; height:100%; .border-box; border-left:solid @small-spacing; .tile; padding:0;
+			>h1.number { float:left; .border-radius; text-align:center; font-weight:bold; border-right:solid 1px @border-colour; height:100%; line-height:(@name-height)-(@spacing*2); padding:@spacing; vertical-align:middle; display:inline-block; .border-box; background-color:white; }
+			>div.description { position:relative; padding:0; height:100%;
+				>input { float:left; width:100%; padding:@spacing !important; height:100%; cursor:pointer; border:none; box-shadow:none; font-weight:bold; .condensed-font; margin:0; padding:0; text-transform:uppercase; color:@primary-header-font-colour; font-size:1.75em; }
 			}
 		}
 		div.name-container.low { border-left-color:@low-priority-background; }
@@ -60,31 +38,13 @@
 	}
 
 	@details-wrapper-height:350px;
-	div.details-wrapper { height:@details-wrapper-height;
-		div.description { float:left; width:100%; height:100%; position:relative;
-			>div { margin-right:300px+@spacing; height:100%;
-				>div { float:left; width:100%; height:100%;
-					>div { float:left; width:100%;
-						>h3 { float:left; width:100%; margin-bottom:@small-spacing; }
-					}
-					div.front { cursor:pointer;
-						>div.down-arrow { position:absolute; bottom:0; margin-bottom:@small-spacing; width:100%; margin-top:@small-spacing; text-align:center; font-size:1.5em; font-weight:bold; }
-					}
-					div.front:hover { .hover;
-						>textarea { .hover; }
-					}
-					div.back {
-						>textarea { float:left; width:100%; height:(@details-wrapper-height)-70px; }
-						>div.buttons { float:right; margin-top:@small-spacing;
-							>img { float:left; height:100%; height:26px; width:26px; margin-right:@small-spacing; margin-top:4px; display:none; }
-							>button { float:left; margin-left:@small-spacing; }
-						}
-					}
-				}
-			}
+	div.details-wrapper { height:@details-wrapper-height; padding-bottom:@spacing;
+		@details-container-width:300px;
+		div.description { float:left; width:100%; height:100%; position:relative; .border-box; padding-right:@details-container-width+@spacing; cursor:pointer;
+			>textarea { .tile; float:left; width:100%; height:100%; cursor:pointer; color:black; }
 		}
 
-		div.details-container { float:left; margin-left:-300px; width:300px; height:100%; position:relative; z-index:2;
+		div.details-container { float:left; margin-left:@details-container-width*-1; width:@details-container-width; height:100%; position:relative; z-index:2;
 			>div { height:100%; 
 				div.details { padding:0; 
 					>div { float:left; width:100%; padding:@spacing; .border-box; border-top:solid 1px @border-colour;
@@ -107,7 +67,7 @@
 							}
 						}
 						>div:hover { .hover; }
-						>div.selected { color:@secondary-font-colour !important;
+						>div.selected { color:@secondary-font-colour !important; font-weight:bold; background:@hover-colour;
 							i { display:inline-block; }
 						}
 					}

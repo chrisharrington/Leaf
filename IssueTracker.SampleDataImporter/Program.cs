@@ -87,7 +87,7 @@ namespace IssueTracker.SampleDataImporter
 			WebSecurity.InitializeDatabaseConnection("DefaultDataConnection", "UserProfiles", "UserId", "UserName", true);
 
 			var user = new User { EmailAddress = "chrisharrington99@gmail.com", Id = Guid.NewGuid(), Name = "Chris Harrington" };
-			WebSecurity.CreateUserAndAccount(user.EmailAddress, "password");
+			WebSecurity.CreateUserAndAccount(user.EmailAddress, "test");
 			_container.Resolve<IUserRepository>().Insert(user);
 			return user;
 		}
