@@ -18,6 +18,10 @@
 	div.data-container { float:left; width:100%;
 		@filter-width:250px;
 		>div.issues-container { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@filter-width+@spacing; position:relative; .border-box;
+			>div.no-issues { float:left; width:100%;
+				>* { float:left; width:100%; }
+				>span { margin-top:@spacing; color:@primary-font-colour-light; }
+			}
 			>div.data {
 				@issue-height:81px;
 				>a { float:left; width:100%; cursor:pointer; height:@issue-height; padding:0; display:block; color:@primary-font-colour; margin-top:@spacing;
