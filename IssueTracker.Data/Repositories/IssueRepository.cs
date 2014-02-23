@@ -13,7 +13,7 @@ namespace IssueTracker.Data.Repositories
 			var issues = (IEnumerable<Issue>) Context.Issues.Include("Developer").Include("Tester").Include("Priority").Include("Status").Include("Project");
 			ApplyFilter(ref issues, search);
 			ApplySort(ref issues, sort);
-			return issues.Skip(search.start - 1).Take(search.end - search.start + 1);
+			return issues.Where(x => !x.IsDeleted).Skip(search.start - 1).Take(search.end - search.start + 1);
 		}
 
 		public int HighestNumber(Project project)

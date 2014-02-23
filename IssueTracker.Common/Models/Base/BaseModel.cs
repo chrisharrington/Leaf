@@ -6,6 +6,7 @@ namespace IssueTracker.Common.Models.Base
     {
 		public Guid Id { get; set; }
 		public string Name { get; set; }
+		public bool IsDeleted { get; set; }
 
 	    public override string ToString()
 	    {

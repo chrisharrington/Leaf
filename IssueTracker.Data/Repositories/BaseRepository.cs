@@ -71,7 +71,7 @@ namespace IssueTracker.Data.Repositories
 
 		public IEnumerable<TModel> All(Func<TModel, object> orderBy = null)
 		{
-			var collection = Context.Set<TModel>();
+			var collection = Context.Set<TModel>().Where(x => !x.IsDeleted);
 			if (orderBy != null)
 				return collection.OrderBy(orderBy);
 			return collection;
