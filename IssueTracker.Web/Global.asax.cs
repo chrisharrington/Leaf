@@ -1,4 +1,7 @@
-﻿using System.Web;
+﻿using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -63,7 +66,27 @@ namespace IssueTracker.Web
 		{
 			public override void Process(BundleContext context, BundleResponse response)
 			{
-				response.Content = Less.Parse(response.Content);
+				var builder = new StringBuilder();
+				foreach (var bundle in context.BundleCollection.Where(x => x is LessBundle))
+				{
+					var files = bundle.EnumerateFiles(context);
+					var global = files.FirstOrDefault(x => x.VirtualFile.VirtualPath.EndsWith("Global.less"));
+					var remaining = files.Where(x => !x.VirtualFile.VirtualPath.EndsWith("Global.less")).ToList();
+					remaining.Insert(0, global);
+					foreach (var file in remaining)
+					{
+						var location = HttpContext.Current.Server.MapPath(file.VirtualFile.VirtualPath);
+						using (var reader = new StreamReader(File.Open(location, FileMode.Open, FileAccess.Read)))
+						{
+							string line;
+							while ((line = reader.ReadLine()) != null)
+								if (!line.Contains("@import"))
+									builder.AppendLine(line);
+						}
+
+					}
+				}
+				response.Content = Less.Parse(builder.ToString());
 				base.Process(context, response);
 			}
 		}
