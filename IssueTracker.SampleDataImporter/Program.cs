@@ -37,23 +37,7 @@ namespace IssueTracker.SampleDataImporter
 
 			var user = InsertAuthorizedUser();
 			foreach (var project in BuildProjects(user))
-			{
 				BuildIssues(user, project);
-				BuildFilters(user, project);
-			}
-		}
-
-		private static void BuildFilters(User user, Project project)
-		{
-			project = _container.Resolve<IProjectRepository>().Details(project.Id, x => x.Priorities, x => x.Statuses);
-			var filterRepository = _container.Resolve<IFilterRepository>();
-			filterRepository.Insert(new Filter {
-				Id = Guid.NewGuid(),
-				Project = project,
-				Name = "My Open Critical Issues",
-				Priority = project.Priorities.First(x => x.Name == "Critical"),
-				Developer = user
-			});
 		}
 
 		private static IEnumerable<Project> BuildProjects(User user)
@@ -139,24 +123,24 @@ namespace IssueTracker.SampleDataImporter
 			var priorities = BuildPriorities(project).ToArray();
 			var milestones = BuildMilestones(project).ToArray();
 
-			var repository = _container.Resolve<IIssueRepository>();
-			for (var i = 1; i <= NUM_ISSUES; i++)
-				repository.Insert(new Issue
-				{
-					Number = i,
-					Name = RandomWords(WORDS, 8),
-					Comments = RandomWords(WORDS),
-					Tester = user,
-					Developer = user,
-					Project = project,
-					Milestone = milestones.ElementAt(_random.Next(0, milestones.Count())),
-					Priority = priorities.ElementAt(_random.Next(0, priorities.Count())),
-					Status = statuses.ElementAt(_random.Next(0, priorities.Count())),
-					Opened = GetRandomDate().Value,
-					Closed = GetRandomDate(true),
-					Updated = GetRandomDate().Value,
-					UpdatedBy = user
-				});
+			//var repository = _container.Resolve<IIssueRepository>();
+			//for (var i = 1; i <= NUM_ISSUES; i++)
+			//	repository.Insert(new Issue
+			//	{
+			//		Number = i,
+			//		Name = RandomWords(WORDS, 8),
+			//		Comments = RandomWords(WORDS),
+			//		Tester = user,
+			//		Developer = user,
+			//		Project = project,
+			//		Milestone = milestones.ElementAt(_random.Next(0, milestones.Count())),
+			//		Priority = priorities.ElementAt(_random.Next(0, priorities.Count())),
+			//		Status = statuses.ElementAt(_random.Next(0, priorities.Count())),
+			//		Opened = GetRandomDate().Value,
+			//		Closed = GetRandomDate(true),
+			//		Updated = GetRandomDate().Value,
+			//		UpdatedBy = user
+			//	});
 		}
 
 		private static IEnumerable<Milestone> BuildMilestones(Project project)

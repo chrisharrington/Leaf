@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="IssueTracker.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2013-10.2.2">
+  <Role name="IssueTracker.Web">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=issuetracker;AccountKey=9DcAF5xUMHTvTheS/Y9scWS5Z0ef+Cdj94ydue2mGTgu/43sH+BnsJIWG+JoSreOeDlhgMMiD7m2CZ2e9mVf7g==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="chrisharrington" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEGAiyyoOvD6uQmk8YxmsTw4wDQYJKoZIhvcNAQEBBQAEggEARxODYFiEYahl49nXQ05Gkql6OhW8qszyKNKr/QSUgB03XSArDbOzBeFL+e+0QWMRgJZef3DjJQb5wV62sGvMGvAEoaDtFwM30Lwk7Vq+1yGxve3/G6Z2VFRowrszhyGKZ1zNDK6aD6pJE9jDal7gl0P3k4bX6go+fccp0P1L5tQtYPscfhXaI3HSbh5NvDtvlDMBfdwcaDwC9VTundxX0X9asIuEgxfqnxVAzvooRQ/R/MT+TP3tSeHbXwP0pVlrdd9DbiYftWTs0TGv29no1JjaQjbVXpCIe3sE5FnaGLyCECDKYUErmfRdGMiTrkbzmSfyvkrwddDmTzs0e6EaMzAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECIa9piL4+vSwgBAzkeR9qGpQ1WQFGZ5Pk1ii" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2015-02-23T23:59:59.0000000-07:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="A0E6C145EDBFAAA6D91314EBE487454CBC90BB28" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>
