@@ -65,8 +65,8 @@ namespace IssueTracker.Data.Repositories
 			if (model.Id == Guid.Empty)
 				throw new ArgumentNullException("model.Id");
 
-			Context.Set<TModel>().Remove(model);
-			Context.SaveChanges();
+			model.IsDeleted = true;
+			Update(model);
 		}
 
 		public IEnumerable<TModel> All(Func<TModel, object> orderBy = null)

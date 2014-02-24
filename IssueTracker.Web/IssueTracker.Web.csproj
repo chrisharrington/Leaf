@@ -222,7 +222,8 @@
     <Content Include="Scripts\ThirdParty\ToDictionary.js" />
     <Content Include="Scripts\Utilities.js" />
     <Content Include="Scripts\Views\CreateIssue.js" />
-    <Content Include="Scripts\Views\IssueDetails.js" />
+    <Content Include="Scripts\Views\Details\DeleteIssue.js" />
+    <Content Include="Scripts\Views\Details\IssueDetails.js" />
     <Content Include="Scripts\Views\Issues.js" />
     <Content Include="Scripts\Views\Welcome\SignIn.js" />
     <Content Include="Scripts\Views\Welcome\Welcome.js" />

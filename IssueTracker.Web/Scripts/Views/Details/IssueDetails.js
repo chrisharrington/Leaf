@@ -5,6 +5,7 @@
 	var _oldName;
 	var _detailsFlipper;
 	var _transitioner = IssueTracker.Transitioner;
+	var _deleter = root.Delete;
 
 	root.saving = ko.observable(false);
 
@@ -18,6 +19,7 @@
 		_setUpFlipPanels(container);
 		_hookupEvents(container);
 		_transitioner.init();
+		_deleter.init(container);
 	};
 
 	root.load = function () {

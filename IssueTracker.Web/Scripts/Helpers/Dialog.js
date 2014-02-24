@@ -4,7 +4,12 @@
 	var _container;
 	var _overlay;
 
-	root.load = function (params) {
+	root.load = function (templateId, data) {
+		var params;
+		if (typeof(templateId) == "string")
+			params = { templateId: templateId, data: data };
+		else
+			params = templateId;
 		_validateParams(params);
 
 		var html = _getHtml(params.templateId);

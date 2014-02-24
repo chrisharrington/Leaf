@@ -115,6 +115,12 @@ namespace IssueTracker.Web.Controllers
 		    IssueRepository.Update(issue);
 	    }
 
+	    [HttpPost]
+	    public void Delete(IssueViewModel issue)
+	    {
+		    IssueRepository.Delete(Mapper.Map<IssueViewModel, Issue>(issue));
+	    }
+
 	    private static string ToPriorityStyleString(BaseModel priority)
 	    {
 		    return priority.Name.Replace(" ", "-").ToLower();
