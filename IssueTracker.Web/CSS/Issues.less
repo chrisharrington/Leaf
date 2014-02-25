@@ -23,25 +23,34 @@
 				>span { margin-top:@spacing; color:@primary-font-colour-light; }
 			}
 			>div.data {
-				@issue-height:81px;
-				>a { float:left; width:100%; cursor:pointer; height:@issue-height; padding:0; display:block; color:@primary-font-colour; margin-top:@spacing;
-					>div { float:left; width:100%; height:100%; display:table; table-layout:fixed;
-						>div { display:table-cell; height:100%; white-space:nowrap; }
-						>div.priority { padding:0; width:@small-spacing; }
+				@priority-width:@small-spacing;
+				>a { float:left; width:100%; cursor:pointer; padding:0; display:block; color:@primary-font-colour; margin-top:@spacing;
+					>div { float:left; width:100%; height:100%; overflow:hidden;
+						>div { height:100%; }
+						>div.priority { float:left; padding:0; width:@priority-width; }
 						>div.priority.low { background-color:@low-priority-background; }
 						>div.priority.medium { background-color:@medium-priority-background; }
 						>div.priority.high { background-color:@high-priority-background; }
 						>div.priority.critical { background-color:@critical-priority-background; }
-						>div.name { padding:@spacing;
-							>.name { float:left; width:100%; font-weight:bold; color:black; margin-bottom:4px; padding-left:@small-spacing; .ellipsis; }
-							>span.info { float:left; width:100%; color:@primary-font-colour-light; padding-left:@small-spacing; white-space:nowrap; overflow:hidden; font-size:1em; .ellipsis; }
-							>span.info b { color:@primary-font-colour-dark; font-weight:normal; }
+						>div.info-container { position:relative; margin-left:@priority-width;
+							>div.info { float:left; width:100%; .border-box; padding:@spacing @spacing;
+								>* { margin-top:@small-spacing; .border-box; }
+								>.name { float:left; font-weight:bold; color:black; .ellipsis; margin-top:0; }
+								>span.date { float:right; color:@primary-font-colour-light; font-size:0.875em; margin-top:0; }
+								>span.updated { float:left; width:100%; color:@secondary-font-colour; }
+								>span.comments { float:left; width:100%; white-space:nowrap; .ellipsis; color:@primary-font-colour-light; }
+							}
+							>div.status { float:left; width:100%; font-size:0.875em; color:@primary-font-colour-light; border-top:solid 1px @border-colour-light; background-color:#F5F5F5;
+								>span { float:left; padding:@small-spacing @spacing; border-left:solid 1px @border-colour-light; }
+								>span:first-child { border-left:none; }
+							}
 						}
-						>div.status { width:200px; text-align:right; vertical-align:middle; height:100%; line-height:@issue-height; .border-box; padding:0 @spacing; }
 					}
 				}
 				>a:first-child { margin-top:0; }
-				>a:hover { background:@hover-colour; }
+				>a:hover { background:@hover-colour;
+					div.info-container>div.status { background-color:@hover-colour; }
+				}
 			}
 			>div.loading { float:left; width:100%; text-align:center; padding:@spacing; .border-box;
 				>img { margin:auto; width:30px; height:30px; }

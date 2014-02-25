@@ -82,6 +82,7 @@ namespace IssueTracker.Web.Controllers
 				number = x.Number,
 				name = x.Name,
 				description = x.Comments,
+				milestone = x.Milestone.ToString(),
 				priority = x.Priority.ToString(),
 				tester = x.Tester.ToString(),
 				developer = x.Developer.ToString(),

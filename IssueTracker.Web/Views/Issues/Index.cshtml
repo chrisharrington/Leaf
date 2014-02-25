@@ -5,14 +5,23 @@
 			<span>Your current filter settings have excluded all issues. Create an issue or change the filter on the right to see a list of issues.</span>
 		</div>
 		<div class="data" data-bind="foreach: list">
-			<a class="tile" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
+			<a class="tile hidden" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
 				<div>
-					<div data-bind="attr: { class: 'priority ' + priorityStyle }"></div>
-					<div class="ellipsis name">
-						<h2 class="name" data-bind="text: name"></h2>
-						<span class="info">Last updated by <b data-bind="text: updatedBy"></b> at <b data-bind="text: lastUpdated"></b>.</span>
+					<div data-bind="attr: { class: 'priority unset ' + priorityStyle }"></div>
+					<div class="info-container">
+						<div class="info">
+							<h2 class="name" data-bind="text: name"></h2>
+							<span class="date" data-bind="text: opened"></span>
+							<span class="updated" data-bind="text: 'Last updated by ' + updatedBy + ' at ' + lastUpdated + '.'"></span>
+							<span class="comments" data-bind="visible: description != null, text: description"></span>
+						</div>
+						<div class="status">
+							<span data-bind="text: milestone"></span>
+							<span data-bind="text: status"></span>
+							<span data-bind="text: developer"></span>
+							<span data-bind="text: tester"></span>
+						</div>
 					</div>
-					<div class="status" data-bind="text: status"></div>
 				</div>
 			</a>
 		</div>

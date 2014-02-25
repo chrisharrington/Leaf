@@ -85,6 +85,7 @@
 		$.get(IssueTracker.virtualDirectory() + "Issues/Next", _buildParameters(count)).done(function (issues) {
 			root.list([]);
 			root.list.pushAll(issues);
+			_setPriorityBarHeights();
 			if (issues.length < count)
 				_allLoaded = true;
 		}).fail(function () {
@@ -94,6 +95,14 @@
 			root.loading(false);
 		});
 		_start += count;
+	}
+
+	function _setPriorityBarHeights() {
+		_container.find("div.priority.unset").each(function() {
+			var bar = $(this).removeClass("unset");
+			var tile = bar.closest("a.tile");
+			bar.height(tile.removeClass("hidden").height());
+		});
 	}
 	
 	function _buildParameters(count) {
