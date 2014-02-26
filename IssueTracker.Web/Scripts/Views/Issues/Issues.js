@@ -13,11 +13,6 @@
 	root.loading = ko.observable(true);
 
 	root.list = ko.observableArray();
-	root.selectedMilestones = ko.observableArray();
-	root.selectedPriorities = ko.observableArray();
-	root.selectedStatuses = ko.observableArray();
-	root.selectedDevelopers = ko.observableArray();
-	root.selectedTesters = ko.observableArray();
 	root.search = ko.observable("");
 	root.sidebar = ko.observable("modify-filter-template");
 
@@ -30,15 +25,9 @@
 		_container = container;
 		_hookupEvents(container);
 
-		container.find("#milestones-filter>div.selected").each(function() { root.selectedMilestones.push($(this).attr("data-id")); });
-		container.find("#priority-filter>div.selected").each(function () { root.selectedPriorities.push($(this).attr("data-id")); });
-		container.find("#status-filter>div.selected").each(function () { root.selectedStatuses.push($(this).attr("data-id")); });
-		container.find("#developer-filter>div.selected").each(function () { root.selectedDevelopers.push($(this).attr("data-id")); });
-		container.find("#tester-filter>div.selected").each(function () { root.selectedTesters.push($(this).attr("data-id")); });
-
 		_setupLoadingMoreIssues();
 
-		_filter.init(container);
+		_filter.init(container, _resetIssueList);
 	};
 
 	root.load = function () {
@@ -51,11 +40,6 @@
 
 	function _hookupEvents(container) {
 		container.find("#sort").click(_showSorter);
-		container.on("click", "#milestone-filter>div", function () { _toggleFilterItem($(this), root.selectedMilestones); });
-		container.on("click", "#priority-filter>div", function () { _toggleFilterItem($(this), root.selectedPriorities); });
-		container.on("click", "#status-filter>div", function () { _toggleFilterItem($(this), root.selectedStatuses); });
-		container.on("click", "#developer-filter>div", function () { _toggleFilterItem($(this), root.selectedDevelopers); });
-		container.on("click", "#tester-filter>div", function () { _toggleFilterItem($(this), root.selectedTesters); });
 		container.on("focus", "div.search input", function () { $(this).parent().addClass("focus"); });
 		container.on("blur", "div.search input", function () { $(this).parent().removeClass("focus"); });
 		container.on("click", "div.search i", function () { root.search(""); });
@@ -116,11 +100,11 @@
 			direction: root.sortModel.direction(),
 			comparer: root.sortModel.comparer(),
 			filter: root.search(),
-			milestones: root.selectedMilestones().join(","),
-			priorities: root.selectedPriorities().join(","),
-			statuses: root.selectedStatuses().join(","),
-			developers: root.selectedDevelopers().join(","),
-			testers: root.selectedTesters().join(",")
+			milestones: _filter.selectedMilestones().join(","),
+			priorities: _filter.selectedPriorities().join(","),
+			statuses: _filter.selectedStatuses().join(","),
+			developers: _filter.selectedDevelopers().join(","),
+			testers: _filter.selectedTesters().join(",")
 		});
 	}
 	
@@ -128,16 +112,6 @@
 		_start = 0;
 		_allLoaded = false;
 		_getNextIssues(_startCount);
-	}
-
-	function _toggleFilterItem(element, collection) {
-		if (element.parent().find(">.selected").length == 1 && element.hasClass("selected"))
-			return;
-		element.toggleClass("selected");
-		if (element.hasClass("selected"))
-			collection.push(element.attr("data-id"));
-		else
-			collection.remove(element.attr("data-id"));
 	}
 
 	IssueTracker.Page.build({
