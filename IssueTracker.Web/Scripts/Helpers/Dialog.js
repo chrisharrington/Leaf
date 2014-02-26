@@ -49,7 +49,7 @@
 	}
 
 	function _setPositionAndShow(container) {
-		container.show().css({ "left": $(window).outerWidth() / 2 - container.outerWidth() / 2, "top": $(window).outerHeight() / 4 - container.outerHeight() / 2 });
+		container.show().css({ "left": $(window).outerWidth() / 2 - container.outerWidth() / 2, "top": $(window).outerHeight() / 5 });
 	}
 
 })(root("IssueTracker.Dialog"));

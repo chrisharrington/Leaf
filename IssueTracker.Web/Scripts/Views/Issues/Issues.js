@@ -19,6 +19,7 @@
 	root.selectedDevelopers = ko.observableArray();
 	root.selectedTesters = ko.observableArray();
 	root.search = ko.observable("");
+	root.sidebar = ko.observable("modify-filter-template");
 
 	root.sortModel = {
 		direction: ko.observable("descending"),
