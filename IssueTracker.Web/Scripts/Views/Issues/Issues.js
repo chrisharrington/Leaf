@@ -2,6 +2,7 @@
 (function (root) {
 
 	var _container;
+	var _filter = root.Filter;
 
 	var _startCount = 50;
 	var _issueCountToLoad = 15;
@@ -35,6 +36,8 @@
 		container.find("#tester-filter>div.selected").each(function () { root.selectedTesters.push($(this).attr("data-id")); });
 
 		_setupLoadingMoreIssues();
+
+		_filter.init();
 	};
 
 	root.load = function () {
@@ -55,8 +58,7 @@
 		container.on("focus", "div.search input", function () { $(this).parent().addClass("focus"); });
 		container.on("blur", "div.search input", function () { $(this).parent().removeClass("focus"); });
 		container.on("click", "div.search i", function () { root.search(""); });
-		container.on("click", "#apply-filter", _resetIssueList);
-		root.search.subscribe(function() { _resetIssueList(true); });
+		root.search.subscribe(_resetIssueList);
 	}
 
 	function _showSorter() {

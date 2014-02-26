@@ -1,20 +1,6 @@
 ﻿@import "Global.less";
 
 .issues-container {
-	div.table-tools { float:left; width:100%; }
-
-	div.table-tools { margin-top:0; height:61px;
-		@search-height:31px;
-		>div.search { float:left; border:solid 1px @border-colour; .border-radius; .border-box; height:@search-height;
-			>input { float:left; width:500px; height:100%; border:none; padding:@small-spacing; .border-box; margin:0; outline:none !important; box-shadow:none !important; }
-			>i { float:left; height:100%; margin-left:@spacing; vertical-align:middle; line-height:@search-height; padding:0 @small-spacing; cursor:pointer; color:@primary-font-colour-light; }
-		}
-		>div.tools { float:right; display:table; height:100%;
-			>i { display:table-cell; vertical-align:middle; font-size:1.25em; padding:@small-spacing; cursor:pointer; color:@primary-font-colour-icon; }
-			>i:hover { color:@secondary-font-colour; }
-		}
-	}
-
 	div.data-container { float:left; width:100%;
 		@filter-width:250px;
 		>div.issues-container { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@filter-width+@spacing; position:relative; .border-box;
@@ -69,21 +55,16 @@
 			}
 		}
 		>div.selectable-container { float:left; position:fixed; width:@filter-width; position:relative; margin-left:@filter-width*-1;
-			>div { float:left; width:@filter-width;
-				>button { float:left; width:100%; }
-				>div.tile { float:left; width:100%; margin-top:@spacing;
-					@height:19px;
-					@local-spacing:@spacing;
-					>h2 { float:left; width:100%; padding:@small-spacing local-spacing; }
-					>div { float:left; width:100%; padding:@local-spacing; border-top:solid 1px @border-colour; .border-box; cursor:pointer;
-						>* { height:@height; line-height:@height; display:inline-block; vertical-align:middle; }
-						>span { float:left; }
-						>i { float:right; display:none; }
-					}
-					>div.selected { color:@secondary-font-colour !important;
-						i { display:inline-block; }
-					}
-					>div:hover { .hover; }
+			>div { float:left; width:@filter-width; .tile; }
+
+			#filter-container { padding:0;
+				@header-height:28px;
+				>h2 { float:left; padding:@small-spacing @spacing; }
+				>i { float:right; padding:@small-spacing @spacing; cursor:pointer; height:@header-height; line-height:@header-height !important; display:inline-block; vertical-align:middle; }
+				>i:hover { .hover; color:@secondary-font-colour; }
+				>div { float:left; width:100%;
+					>div { float:left; width:100%; padding:@small-spacing @spacing; border-top:solid 1px @border-colour; .border-box; }
+					>div.empty>span { float:left; width:100%; text-align:center; color:@primary-font-colour-light; }
 				}
 			}
 		}

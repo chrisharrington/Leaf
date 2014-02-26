@@ -27,9 +27,13 @@
 		</div>
 	</div>
 	<div class="filter-container selectable-container">
-		<div>
-			<button id="apply-filter" data-bind="css: { loading: loading }">Apply Filter</button>
-			<div class="tile choice-tile no-selected-background" id="milestone-filter">
+		<div id="filter-container">
+			<h2>Filter</h2>
+			<i class="fa fa-plus"></i>
+			<div></div>
+		</div>
+		@*<div>
+			<div class="choice-tile no-selected-background" id="milestone-filter">
 				<h2>Milestone</h2>
 				<!-- ko foreach: IssueTracker.milestones -->
 				<div class="selected" data-bind="attr: { 'data-id': id }">
@@ -38,7 +42,7 @@
 				</div>
 				<!-- /ko -->
 			</div>
-			<div class="tile choice-tile no-selected-background" id="priority-filter">
+			<div class="choice-tile no-selected-background" id="priority-filter">
 				<h2>Priority</h2>
 				<!-- ko foreach: IssueTracker.priorities -->
 				<div class="selected" data-bind="attr: { 'data-id': id }">
@@ -47,7 +51,7 @@
 				</div>
 				<!-- /ko -->
 			</div>
-			<div class="tile choice-tile no-selected-background" id="status-filter">
+			<div class="choice-tile no-selected-background" id="status-filter">
 				<h2>Status</h2>
 				<!-- ko foreach: IssueTracker.statuses -->
 				<div class="selected" data-bind="attr: { 'data-id': id }">
@@ -56,7 +60,7 @@
 				</div>
 				<!-- /ko -->
 			</div>
-			<div class="tile choice-tile no-selected-background" id="developer-filter">
+			<div class="choice-tile no-selected-background" id="developer-filter">
 				<h2>Developer</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<div class="selected" data-bind="attr: { 'data-id': id }">
@@ -65,7 +69,7 @@
 				</div>
 				<!-- /ko -->
 			</div>
-			<div class="tile choice-tile no-selected-background" id="tester-filter">
+			<div class="choice-tile no-selected-background" id="tester-filter">
 				<h2>Tester</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<div class="selected" data-bind="attr: { 'data-id': id }">
@@ -74,7 +78,7 @@
 				</div>
 				<!-- /ko -->
 			</div>
-		</div>
+		</div>*@
 	</div>
 </div>
 
