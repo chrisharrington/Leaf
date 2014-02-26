@@ -37,7 +37,7 @@
 
 		_setupLoadingMoreIssues();
 
-		_filter.init();
+		_filter.init(container);
 	};
 
 	root.load = function () {

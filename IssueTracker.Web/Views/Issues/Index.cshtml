@@ -29,7 +29,7 @@
 	<div class="filter-container selectable-container">
 		<div id="filter-container">
 			<h2>Filter</h2>
-			<i class="fa fa-plus"></i>
+			<i id="set-filters" class="fa fa-plus"></i>
 			<div></div>
 		</div>
 		@*<div>
@@ -81,6 +81,12 @@
 		</div>*@
 	</div>
 </div>
+
+<script id="filter-dialog" type="text/html">
+	<div class="filter-dialog">
+		<h1>Set Filters</h1>
+	</div>
+</script>
 
 <script id="priority-filter-dialog" type="text/html">
 	<div class="selector dark select-popup priority-filter-dialog" data-bind="foreach: priorities">
