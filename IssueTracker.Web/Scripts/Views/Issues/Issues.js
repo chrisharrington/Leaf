@@ -100,17 +100,18 @@
 			direction: root.sortModel.direction(),
 			comparer: root.sortModel.comparer(),
 			filter: root.search(),
-			milestones: _joinFilterIds(_filter.selectedMilestones()),
-			priorities: _joinFilterIds(_filter.selectedPriorities()),
-			statuses: _joinFilterIds(_filter.selectedStatuses()),
-			developers: _joinFilterIds(_filter.selectedDevelopers()),
-			testers: _joinFilterIds(_filter.selectedTesters())
+			milestones: _joinFilterIds(_filter.selectedMilestones(), IssueTracker.milestones()),
+			priorities: _joinFilterIds(_filter.selectedPriorities(), IssueTracker.priorities()),
+			statuses: _joinFilterIds(_filter.selectedStatuses(), IssueTracker.statuses()),
+			developers: _joinFilterIds(_filter.selectedDevelopers(), IssueTracker.users()),
+			testers: _joinFilterIds(_filter.selectedTesters(), IssueTracker.users())
 		});
 	}
 	
-	function _joinFilterIds(filterCollection) {
+	function _joinFilterIds(filterCollection, masterCollection) {
 		var ids = [];
-		$.each(filterCollection, function(i, filterItem) {
+		var collection = filterCollection.length == 0 ? masterCollection : filterCollection; 
+		$.each(collection, function(i, filterItem) {
 			ids.push(filterItem.id);
 		});
 		return ids.join(",");

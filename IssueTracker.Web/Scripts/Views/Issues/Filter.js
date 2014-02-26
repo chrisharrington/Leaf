@@ -19,12 +19,6 @@
 		_selected = {};
 
 		_hookupEvents();
-
-		container.find("#milestone-filter>div").each(function () { _toggleFilterItem($(this), root.selectedMilestones); });
-		container.find("#priority-filter>div").each(function () { _toggleFilterItem($(this), root.selectedPriorities); });
-		container.find("#status-filter>div").each(function () { _toggleFilterItem($(this), root.selectedStatuses); });
-		container.find("#developer-filter>div").each(function () { _toggleFilterItem($(this), root.selectedDevelopers); });
-		container.find("#tester-filter>div").each(function () { _toggleFilterItem($(this), root.selectedTesters); });
 	};
 
 	root.contains = function(collection, data) {
@@ -50,9 +44,6 @@
 	}
 
 	function _toggleFilterItem(element, collection) {
-		if (collection().length == 1 && element.hasClass("selected"))
-			return;
-		
 		var raw = $.parseJSON(element.attr("data-raw"));
 		if (!root.contains(collection, raw))
 			collection.push(raw);
