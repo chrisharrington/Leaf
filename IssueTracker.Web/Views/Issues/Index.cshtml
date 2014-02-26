@@ -29,10 +29,13 @@
 	<div class="sidebar perspective">
 		<div class="flipper transition horizontal">
 			<div class="tile flip-tile front">
-				<div id="modify-filter">
-					<div class="header">
+				<div class="modify-filter-container">
+					<div class="header" id="modify-filter">
 						<h2>Filter</h2>
 						<i class="fa fa-angle-right"></i>
+					</div>
+					<div class="selected-filters" data-bind="template: { name: 'selected-filters' }">
+						
 					</div>
 				</div>
 			</div>
@@ -41,12 +44,55 @@
 	</div>
 </div>
 
+<script id="selected-filters" type="text/html">
+	<!-- ko if: Filter.selectedMilestones().length != IssueTracker.milestones().length -->
+	<!-- ko foreach: Filter.selectedMilestones -->
+	<div>
+		<span class="type">Milestone</span>
+		<span class="name" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+	<!-- ko if: Filter.selectedPriorities().length != IssueTracker.priorities().length -->
+	<!-- ko foreach: Filter.selectedPriorities -->
+	<div>
+		<span class="type">Priority</span>
+		<span class="name" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+	<!-- ko if: Filter.selectedStatuses().length != IssueTracker.statuses().length -->
+	<!-- ko foreach: Filter.selectedStatuses -->
+	<div>
+		<span class="type">Status</span>
+		<span class="name" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+	<!-- ko if: Filter.selectedDevelopers().length != IssueTracker.users().length -->
+	<!-- ko foreach: Filter.selectedDevelopers -->
+	<div>
+		<span class="type">Developer</span>
+		<span class="name" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+	<!-- ko if: Filter.selectedTesters().length != IssueTracker.users().length -->
+	<!-- ko foreach: Filter.selectedTesters -->
+	<div>
+		<span class="type">Tester</span>
+		<span class="name" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+</script>
+
 <script id="modify-filter-template" type="text/html">
 	<div class="modify-filter">
 		<div class="tile choice-tile no-selected-background" id="milestone-filter">
 			<h2>Milestone</h2>
 			<!-- ko foreach: IssueTracker.milestones -->
-			<div class="selected" data-bind="attr: { 'data-id': id }">
+			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedMilestones, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
@@ -55,7 +101,7 @@
 		<div class="tile choice-tile no-selected-background" id="priority-filter">
 			<h2>Priority</h2>
 			<!-- ko foreach: IssueTracker.priorities -->
-			<div class="selected" data-bind="attr: { 'data-id': id }">
+			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedPriorities, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
@@ -64,7 +110,7 @@
 		<div class="tile choice-tile no-selected-background" id="status-filter">
 			<h2>Status</h2>
 			<!-- ko foreach: IssueTracker.statuses -->
-			<div class="selected" data-bind="attr: { 'data-id': id }">
+			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedStatuses, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
@@ -73,7 +119,7 @@
 		<div class="tile choice-tile no-selected-background" id="developer-filter">
 			<h2>Developer</h2>
 			<!-- ko foreach: IssueTracker.users -->
-			<div class="selected" data-bind="attr: { 'data-id': id }">
+			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedDevelopers, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
@@ -82,7 +128,7 @@
 		<div class="tile choice-tile no-selected-background" id="tester-filter">
 			<h2>Tester</h2>
 			<!-- ko foreach: IssueTracker.users -->
-			<div class="selected" data-bind="attr: { 'data-id': id }">
+			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedTesters, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>

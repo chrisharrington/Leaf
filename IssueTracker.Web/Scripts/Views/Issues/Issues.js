@@ -100,14 +100,22 @@
 			direction: root.sortModel.direction(),
 			comparer: root.sortModel.comparer(),
 			filter: root.search(),
-			milestones: _filter.selectedMilestones().join(","),
-			priorities: _filter.selectedPriorities().join(","),
-			statuses: _filter.selectedStatuses().join(","),
-			developers: _filter.selectedDevelopers().join(","),
-			testers: _filter.selectedTesters().join(",")
+			milestones: _joinFilterIds(_filter.selectedMilestones()),
+			priorities: _joinFilterIds(_filter.selectedPriorities()),
+			statuses: _joinFilterIds(_filter.selectedStatuses()),
+			developers: _joinFilterIds(_filter.selectedDevelopers()),
+			testers: _joinFilterIds(_filter.selectedTesters())
 		});
 	}
 	
+	function _joinFilterIds(filterCollection) {
+		var ids = [];
+		$.each(filterCollection, function(i, filterItem) {
+			ids.push(filterItem.id);
+		});
+		return ids.join(",");
+	}
+
 	function _resetIssueList() {
 		_start = 0;
 		_allLoaded = false;

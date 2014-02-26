@@ -4,6 +4,7 @@
 	var _container;
 	var _flipper;
 	var _onFilterSet;
+	var _selected;
 
 	root.selectedMilestones = ko.observableArray();
 	root.selectedPriorities = ko.observableArray();
@@ -15,14 +16,22 @@
 		_container = container;
 		_onFilterSet = onFilterSet;
 		_flipper = new IssueTracker.Controls.Flipper(container.find("div.sidebar .flipper"));
+		_selected = {};
 
 		_hookupEvents();
 
-		container.find("#milestones-filter>div.selected").each(function () { root.selectedMilestones.push($(this).attr("data-id")); });
-		container.find("#priority-filter>div.selected").each(function () { root.selectedPriorities.push($(this).attr("data-id")); });
-		container.find("#status-filter>div.selected").each(function () { root.selectedStatuses.push($(this).attr("data-id")); });
-		container.find("#developer-filter>div.selected").each(function () { root.selectedDevelopers.push($(this).attr("data-id")); });
-		container.find("#tester-filter>div.selected").each(function () { root.selectedTesters.push($(this).attr("data-id")); });
+		container.find("#milestone-filter>div").each(function () { _toggleFilterItem($(this), root.selectedMilestones); });
+		container.find("#priority-filter>div").each(function () { _toggleFilterItem($(this), root.selectedPriorities); });
+		container.find("#status-filter>div").each(function () { _toggleFilterItem($(this), root.selectedStatuses); });
+		container.find("#developer-filter>div").each(function () { _toggleFilterItem($(this), root.selectedDevelopers); });
+		container.find("#tester-filter>div").each(function () { _toggleFilterItem($(this), root.selectedTesters); });
+	};
+
+	root.contains = function(collection, data) {
+		for (var i = 0; i < collection().length; i++)
+			if (collection()[i].id === data.id)
+				return true;
+		return false;
 	};
 
 	function _hookupEvents() {
@@ -41,13 +50,14 @@
 	}
 
 	function _toggleFilterItem(element, collection) {
-		if (element.parent().find(">.selected").length == 1 && element.hasClass("selected"))
+		if (collection().length == 1 && element.hasClass("selected"))
 			return;
-		element.toggleClass("selected");
-		if (element.hasClass("selected"))
-			collection.push(element.attr("data-id"));
+		
+		var raw = $.parseJSON(element.attr("data-raw"));
+		if (!root.contains(collection, raw))
+			collection.push(raw);
 		else
-			collection.remove(element.attr("data-id"));
+			collection.remove(function(item) { return item.id === raw.id; });
 	}
 
 })(root("IssueTracker.Issues.Filter"));
