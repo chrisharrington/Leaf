@@ -29,7 +29,7 @@
 		var status = _statuses[statusId];
 		IssueTracker.selectedIssue.status(status.name);
 		IssueTracker.selectedIssue.statusId(status.id);
-		IssueTracker.selectedIssue.transitions(_transitions[status.id]);
+		IssueTracker.selectedIssue.transitions(_transitions[status.id] ? _transitions[status.id] : []);
 	};
 
 	root.save = function () {

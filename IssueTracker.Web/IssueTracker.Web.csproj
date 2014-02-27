@@ -224,7 +224,8 @@
     <Content Include="Scripts\Views\CreateIssue.js" />
     <Content Include="Scripts\Views\Details\DeleteIssue.js" />
     <Content Include="Scripts\Views\Details\IssueDetails.js" />
-    <Content Include="Scripts\Views\Issues.js" />
+    <Content Include="Scripts\Views\Issues\Issues.js" />
+    <Content Include="Scripts\Views\Issues\Filter.js" />
     <Content Include="Scripts\Views\Welcome\SignIn.js" />
     <Content Include="Scripts\Views\Welcome\Welcome.js" />
     <Content Include="Tests\Binders\RemoteTemplateBinder.js" />
