@@ -46,13 +46,14 @@
 			>div { float:left; width:@filter-width;
 				div.front { padding:0; height:auto;
 					@header-height:28px;
-					>div { float:left; width:100%;
+					>div { float:left; width:100%; margin-top:@spacing; padding:0;
 						>div.header { float:left; width:100%; cursor:pointer;
 							>h2 { float:left; padding:@small-spacing @spacing; }
 							>i { float:right; padding:@small-spacing @spacing; cursor:pointer; height:@header-height; line-height:@header-height !important; display:inline-block; vertical-align:middle; font-weight:bold; font-size:1.25em; }
 						}
 						>div.header:hover { .hover; }
 					}
+					>div:first-child { margin-top:0; }
 
 					div.modify-filter-container {
 						@selected-filter-height:19px;
@@ -67,53 +68,23 @@
 					}
 				}
 				div.back { padding:0; height:auto;
-					>div.modify-filter { float:left; width:100%;
+					>div { float:left; width:100%; }
+					>div.modify-filter {
 						>* { float:left; width:100%; margin-top:@spacing; }
 						>div:first-child { margin-top:0; }
 						>button { float:left; width:100%; }
 					}
+					>div.modify-sort {
+						>div { float:left; width:100%; padding:0; cursor:default;
+							>* { padding:@small-spacing @spacing;}
+						}
+						>div:hover { background:transparent !important; }
+						i { display:inline-block; cursor:pointer; }
+						i:hover { .hover; }
+						i.selected { .select; }
+					}
 				}
 			}
-		}
-	}
-}
-
-div.sort-dialog { float:left; width:100%; .dark-gradient;
-	>div { float:left; width:100%; padding:@spacing; border-top:solid 1px @border-colour-dark; cursor:pointer; .border-box;
-		>* { line-height:19px; display:inline-block; vertical-align:middle; color:@primary-font-colour-lightest; }
-		>span { float:left; }
-		>i { float:right; margin-left:@small-spacing; width:20px; text-align:center; .border-radius; }
-		>i:hover { .secondary-gradient;; }
-	}
-	>div:first-child { border-top:none; }
-	>div:hover>span { color:@secondary-font-colour-light; }
-	>div.selected { color:@secondary-font-colour-light;
-		>i { display:inline-block; }
-	}
-}
-
-div.text-filter-dialog { float:left; width:100%; .border-box; padding:@small-spacing; .dark-gradient;
-	>input { float:left; width:100%; }
-	>div.buttons { float:left; width:100%; margin-top:@small-spacing; 
-		>button { float:right; width:48%; }
-		>button:first-child { float:left; }
-	}
-}
-
-div.saved-filter-dialog { float:left; width:900px;
-	>div.tile { float:left; width:100%; .dark-shadow;
-		>div.header { float:left; width:100%; cursor:pointer; height:63px;
-			>h1 { float:left; color:@secondary-font-colour; line-height:33px; display:inline-block; vertical-align:middle; color:inherit; }
-			>div.buttons { float:right; margin-top:2px;	}
-		}
-
-		>div.name { float:left; width:100%; margin-top:@spacing;
-			>input { float:left; width:100%; padding:@small-spacing; font-size:1.125em; }
-		}
-
-		>div.choices { float:left; width:100%; margin-top:@spacing;
-			>div { float:left; width:24.25%; margin-left:1%; padding:0; }
-			>div:first-child { margin-left:0; }
 		}
 	}
 }

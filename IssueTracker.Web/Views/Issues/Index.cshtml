@@ -28,14 +28,18 @@
 	</div>
 	<div class="sidebar perspective">
 		<div class="flipper transition horizontal">
-			<div class="tile flip-tile front">
-				<div class="modify-filter-container">
+			<div class="flip-tile front">
+				<div class="tile modify-filter-container">
 					<div class="header" id="modify-filter">
 						<h2>Filter</h2>
 						<i class="fa fa-angle-right"></i>
 					</div>
-					<div class="selected-filters" data-bind="template: { name: 'selected-filters' }">
-						
+					<div class="selected-filters" data-bind="template: { name: 'selected-filters' }"></div>
+				</div>
+				<div class="tile modify-sort-container">
+					<div class="header" id="modify-sort">
+						<h2>Sort</h2>
+						<i class="fa fa-angle-right"></i>
 					</div>
 				</div>
 			</div>
@@ -43,6 +47,47 @@
 		</div>
 	</div>
 </div>
+
+<script id="modify-sort-template" type="text/html">
+	<div class="modify-sort choice-tile tile">
+		<h2>Sort</h2>
+		<div>
+			<span>Description</span>
+			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('description'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'description' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('description'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'description' && $root.Sorter.direction() == 'asc' }"></i>
+		</div>
+		<div>
+			<span>Milestone</span>
+			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('milestone'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'milestone' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('milestone'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'milestone' && $root.Sorter.direction() == 'asc' }"></i>
+		</div>
+		<div>
+			<span>Priority</span>
+			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('priority'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'priority' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('priority'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'priority' && $root.Sorter.direction() == 'asc' }"></i>
+		</div>
+		<div>
+			<span>Status</span>
+			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('status'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'status' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('status'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'status' && $root.Sorter.direction() == 'asc' }"></i>
+		</div>
+		<div>
+			<span>Developer</span>
+			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('developer'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'developer' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('developer'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'developer' && $root.Sorter.direction() == 'asc' }"></i>
+		</div>
+		<div>
+			<span>Tester</span>
+			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('tester'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'tester' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('tester'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'tester' && $root.Sorter.direction() == 'asc' }"></i>
+		</div>
+		<div>
+			<span>Date Opened</span>
+			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('date-opened'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'date-opened' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('date-opened'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'date-opened' && $root.Sorter.direction() == 'asc' }"></i>
+		</div>
+	</div>
+</script>
 
 <script id="selected-filters" type="text/html">
 	<!-- ko if: Filter.selectedMilestones().length != IssueTracker.milestones().length -->

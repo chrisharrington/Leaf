@@ -2,7 +2,9 @@
 (function (root) {
 
 	var _container;
-	var _filter = root.Filter;
+	var _filter;
+	var _sorter;
+	var _flipper;
 
 	var _startCount = 50;
 	var _issueCountToLoad = 15;
@@ -14,7 +16,7 @@
 
 	root.list = ko.observableArray();
 	root.search = ko.observable("");
-	root.sidebar = ko.observable("modify-filter-template");
+	root.sidebar = ko.observable();
 
 	root.sortModel = {
 		direction: ko.observable("descending"),
@@ -22,12 +24,17 @@
 	};
 
 	root.init = function (container) {
+		_filter = IssueTracker.Issues.Filter;
+		_sorter = IssueTracker.Issues.Sorter;
+		
 		_container = container;
 		_hookupEvents(container);
 
 		_setupLoadingMoreIssues();
 
-		_filter.init(container, _resetIssueList);
+		_flipper = new IssueTracker.Controls.Flipper("div.sidebar .flipper");
+		_filter.init(container, _flipper, root.sidebar, _resetIssueList);
+		_sorter.init(container, _flipper, root.sidebar);
 	};
 
 	root.load = function () {
