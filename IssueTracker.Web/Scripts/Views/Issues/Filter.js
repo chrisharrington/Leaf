@@ -15,7 +15,7 @@
 	root.init = function (container, onFilterSet) {
 		_container = container;
 		_onFilterSet = onFilterSet;
-		_flipper = new IssueTracker.Controls.Flipper(container.find("div.sidebar .flipper"));
+		_flipper = new IssueTracker.Controls.Flipper("div.sidebar .flipper");
 		_selected = {};
 
 		_hookupEvents();
@@ -34,7 +34,9 @@
 	};
 
 	function _hookupEvents() {
-		_container.on("click", "#modify-filter", function () { _flipper.toggle(); });
+		_container.on("click", "#modify-filter", function() {
+			_flipper.toggle();
+		});
 		_container.on("click", "#set-filter", _saveFilter);
 		_container.on("click", "#milestone-filter>div", function () { _toggleFilterItem($(this), root.selectedMilestones); });
 		_container.on("click", "#priority-filter>div", function () { _toggleFilterItem($(this), root.selectedPriorities); });

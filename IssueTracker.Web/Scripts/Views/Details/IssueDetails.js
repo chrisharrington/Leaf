@@ -24,7 +24,7 @@
 
 	root.load = function () {
 		_setNumberWidth();
-		_detailsFlipper = new IssueTracker.Controls.Flipper($("div.details-container>div.flipper"));
+		_detailsFlipper = new IssueTracker.Controls.Flipper("div.details-container>div.flipper");
 		_oldName = IssueTracker.selectedIssue.description();
 		
 		IssueTracker.selectedIssue.statusId.subscribe(function (statusId) {
