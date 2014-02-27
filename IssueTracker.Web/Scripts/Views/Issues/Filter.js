@@ -28,6 +28,11 @@
 		return false;
 	};
 
+	root.remove = function (collection, data) {
+		collection.remove(function (item) { return item.id == data.id; });
+		_onFilterSet();
+	};
+
 	function _hookupEvents() {
 		_container.on("click", "#modify-filter", function () { _flipper.toggle(); });
 		_container.on("click", "#set-filter", _saveFilter);
@@ -48,7 +53,7 @@
 		if (!root.contains(collection, raw))
 			collection.push(raw);
 		else
-			collection.remove(function(item) { return item.id === raw.id; });
+			collection.remove(function(item) { return item.id == raw.id; });
 	}
 
 })(root("IssueTracker.Issues.Filter"));

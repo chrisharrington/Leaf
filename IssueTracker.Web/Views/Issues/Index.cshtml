@@ -47,7 +47,7 @@
 <script id="selected-filters" type="text/html">
 	<!-- ko if: Filter.selectedMilestones().length != IssueTracker.milestones().length -->
 	<!-- ko foreach: Filter.selectedMilestones -->
-	<div>
+	<div data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedMilestones, $data); }">
 		<span class="type">Milestone</span>
 		<span class="name" data-bind="text: name"></span>
 	</div>
@@ -55,7 +55,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedPriorities().length != IssueTracker.priorities().length -->
 	<!-- ko foreach: Filter.selectedPriorities -->
-	<div>
+	<div data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedPriorities, $data); }">
 		<span class="type">Priority</span>
 		<span class="name" data-bind="text: name"></span>
 	</div>
@@ -63,7 +63,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedStatuses().length != IssueTracker.statuses().length -->
 	<!-- ko foreach: Filter.selectedStatuses -->
-	<div>
+	<div data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedStatuses, $data); }">
 		<span class="type">Status</span>
 		<span class="name" data-bind="text: name"></span>
 	</div>
@@ -71,7 +71,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedDevelopers().length != IssueTracker.users().length -->
 	<!-- ko foreach: Filter.selectedDevelopers -->
-	<div>
+	<div data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedDevelopers, $data); }">
 		<span class="type">Developer</span>
 		<span class="name" data-bind="text: name"></span>
 	</div>
@@ -79,7 +79,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedTesters().length != IssueTracker.users().length -->
 	<!-- ko foreach: Filter.selectedTesters -->
-	<div>
+	<div data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedTesters, $data); }">
 		<span class="type">Tester</span>
 		<span class="name" data-bind="text: name"></span>
 	</div>
