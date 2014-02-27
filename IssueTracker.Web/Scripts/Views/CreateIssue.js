@@ -23,7 +23,8 @@
 	};
 
 	root.load = function() {
-
+		root.createModel.description("");
+		root.createModel.comments("");
 	};
 
 	function _hookupEvents() {
