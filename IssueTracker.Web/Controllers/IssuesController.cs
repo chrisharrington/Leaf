@@ -16,6 +16,7 @@ namespace IssueTracker.Web.Controllers
 		public IStatusRepository StatusRepository { get; set; }
 		public IPriorityRepository PriorityRepository { get; set; }
 		public IIssueRepository IssueRepository { get; set; }
+		public IIssueAuditRepository IssueAuditRepository { get; set; }
 		public ITransitionRepository TransitionRepository { get; set; }
 
 		public ActionResult Index()
@@ -42,7 +43,7 @@ namespace IssueTracker.Web.Controllers
 
 			var model = Mapper.Map<IssueViewModel, Issue>(issue);
 			model.Project = CurrentProject;
-			IssueRepository.Insert(model);
+			IssueRepository.Insert(model, SignedInUser);
 		}
 
 	    public ActionResult Details(string issueName, Guid projectId)
@@ -103,8 +104,10 @@ namespace IssueTracker.Web.Controllers
 
 			issue.updated = DateTime.UtcNow.ToApplicationString();
 			issue.updatedId = SignedInUser.Id;
+			
 		    var model = Mapper.Map<IssueViewModel, Issue>(issue);
-		    IssueRepository.Update(model);
+		    model.Project = CurrentProject;
+			IssueRepository.Update(model, SignedInUser);
 	    }
 
 	    [HttpPost]
@@ -113,13 +116,13 @@ namespace IssueTracker.Web.Controllers
 		    var issue = IssueRepository.Details(issueId);
 		    var status = StatusRepository.Details(statusId);
 		    issue.Status = status;
-		    IssueRepository.Update(issue);
+			IssueRepository.Update(issue, SignedInUser);
 	    }
 
 	    [HttpPost]
 	    public void Delete(IssueViewModel issue)
 	    {
-		    IssueRepository.Delete(Mapper.Map<IssueViewModel, Issue>(issue));
+			IssueRepository.Delete(Mapper.Map<IssueViewModel, Issue>(issue), SignedInUser);
 	    }
 
 	    private static string ToPriorityStyleString(BaseModel priority)

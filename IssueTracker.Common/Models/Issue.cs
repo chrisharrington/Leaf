@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Common.Models
@@ -16,6 +17,12 @@ namespace IssueTracker.Common.Models
 		public virtual Priority Priority { get; set; }
 		public virtual Status Status { get; set; }
 		public virtual Milestone Milestone { get; set; }
+		public virtual ICollection<IssueAudit> Audits { get; set; }
 		public User UpdatedBy { get; set; }
+
+	    public Issue()
+	    {
+		    Audits = new List<IssueAudit>();
+	    }
     }
 }

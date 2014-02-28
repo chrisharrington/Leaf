@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using IssueTracker.Common.Data.Repositories;
+using IssueTracker.Common.Models;
 using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Data.Repositories
@@ -23,42 +24,46 @@ namespace IssueTracker.Data.Repositories
 			return set.FirstOrDefault(x => x.Id == id);
 		}
 
-		public Guid Insert(TModel model)
+		public virtual Guid Insert(TModel model, User user)
 		{
 			if (model == null)
 				throw new ArgumentNullException("model");
 			if (model.Id == Guid.Empty)
 				model.Id = Guid.NewGuid();
-			if (string.IsNullOrEmpty(model.Name))
-				throw new ArgumentException("model.Name");
 
 			Context.Set<TModel>().Add(model);
 			Context.SaveChanges();
 			return model.Id;
 		}
 
-		public void Update(TModel model)
+		public virtual void Update(TModel model, User user)
 		{
 			if (model == null)
 				throw new ArgumentNullException("model");
 
-			var entry = Context.Entry(model);
+			var retrieved = Context.Set<TModel>().FirstOrDefault(x => x.Id == model.Id);
+			if (retrieved == null)
+				throw new ArgumentNullException("The ID \"" + model.Id + "\" corresponds to no saved model.");
 
-			if (entry.State == EntityState.Detached)
-			{
-				var attachedEntity = Context.Set<TModel>().SingleOrDefault(e => e.Id == model.Id);
-				SetComplexProperties(model, attachedEntity);
-				if (attachedEntity != null)
-					Context.Entry(attachedEntity).CurrentValues.SetValues(model);
-				else
-					entry.State = EntityState.Modified;
-			}
-			else
-				entry.State = EntityState.Modified;
+			SetProperties(model, retrieved);
 			Context.SaveChanges();
+
+//			var entry = Context.Entry(model);
+//
+//			if (entry.State == EntityState.Detached)
+//			{
+//				var attachedEntity = Context.Set<TModel>().SingleOrDefault(e => e.Id == model.Id);
+//				if (attachedEntity != null)
+//					SetProperties(model, attachedEntity);
+//				else
+//					entry.State = EntityState.Modified;
+//			}
+//			else
+//				entry.State = EntityState.Modified;
+//			Context.SaveChanges();
 		}
 
-		public void Delete(TModel model)
+		public virtual void Delete(TModel model, User user)
 		{
 			if (model == null)
 				throw new ArgumentNullException("model");
@@ -66,7 +71,7 @@ namespace IssueTracker.Data.Repositories
 				throw new ArgumentNullException("model.Id");
 
 			model.IsDeleted = true;
-			Update(model);
+			Update(model, user);
 		}
 
 		public IEnumerable<TModel> All(Func<TModel, object> orderBy = null)
@@ -77,9 +82,9 @@ namespace IssueTracker.Data.Repositories
 			return collection;
 		}
 
-		private void SetComplexProperties(TModel source, TModel destination)
+		protected void SetProperties(TModel source, TModel destination)
 		{
-			foreach (var property in typeof (TModel).GetProperties().Where(x => x.GetGetMethod().IsVirtual))
+			foreach (var property in typeof (TModel).GetProperties())
 				property.SetValue(destination, property.GetValue(source));
 		}
 	}

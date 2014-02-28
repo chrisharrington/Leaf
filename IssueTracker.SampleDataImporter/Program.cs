@@ -53,7 +53,7 @@ namespace IssueTracker.SampleDataImporter
 				names.Add(name);
 
 				var project = new Project { Id = Guid.NewGuid(), Name = name[0].ToString().ToUpper() + name.Substring(1), User = user };
-				projectRepository.Insert(project);
+				projectRepository.Insert(project, user);
 				projects.Add(project);
 			}
 			return projects;
@@ -72,7 +72,7 @@ namespace IssueTracker.SampleDataImporter
 
 			var user = new User { EmailAddress = "chrisharrington99@gmail.com", Id = Guid.NewGuid(), Name = "Chris Harrington" };
 			WebSecurity.CreateUserAndAccount(user.EmailAddress, "test");
-			_container.Resolve<IUserRepository>().Insert(user);
+			_container.Resolve<IUserRepository>().Insert(user, user);
 			return user;
 		}
 
@@ -153,7 +153,7 @@ namespace IssueTracker.SampleDataImporter
 
 			var milestoneRepository = _container.Resolve<IMilestoneRepository>();
 			foreach (var milestone in milestones)
-				milestoneRepository.Insert(milestone);
+				milestoneRepository.Insert(milestone, null);
 
 			return milestones;
 		}
@@ -192,7 +192,7 @@ namespace IssueTracker.SampleDataImporter
 			var statusRepository = _container.Resolve<IStatusRepository>();
 			var statuses = new List<Status> { pendingDevelopment, inDevelopment, pendingTesting, inTesting, failedTesting, complete };
 			foreach (var status in statuses)
-				statusRepository.Insert(status);
+				statusRepository.Insert(status, null);
 
 			var startDevelopment = new Transition {Project = project, From = pendingDevelopment, To = inDevelopment, Name = "Start Development"};
 			var completeDevelopment = new Transition {Project = project, From = inDevelopment, To = pendingTesting, Name = "Complete Development"};
@@ -202,7 +202,7 @@ namespace IssueTracker.SampleDataImporter
 			var passTesting = new Transition {Project = project, From = inTesting, To = complete, Name = "Pass Testing"};
 
 			var transitionRepository = _container.Resolve<ITransitionRepository>();
-			new List<Transition> {startDevelopment, completeDevelopment, startTesting, failTesting, restartDevelopment, passTesting}.ForEach(x => transitionRepository.Insert(x));
+			new List<Transition> {startDevelopment, completeDevelopment, startTesting, failTesting, restartDevelopment, passTesting}.ForEach(x => transitionRepository.Insert(x, null));
 
 			return statuses;
 		}
@@ -219,7 +219,7 @@ namespace IssueTracker.SampleDataImporter
 
 			var repository = _container.Resolve<IPriorityRepository>();
 			foreach (var priority in list)
-				repository.Insert(priority);
+				repository.Insert(priority, null);
 
 			return list;
 		}

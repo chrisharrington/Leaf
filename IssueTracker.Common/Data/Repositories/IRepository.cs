@@ -9,9 +9,9 @@ namespace IssueTracker.Common.Data.Repositories
 	public interface IRepository<TModel> where TModel : BaseModel
 	{
 		TModel Details(Guid id, params Expression<Func<TModel, object>>[] includes);
-		Guid Insert(TModel model);
-		void Update(TModel model);
-		void Delete(TModel model);
+		Guid Insert(TModel model, User user);
+		void Update(TModel model, User user);
+		void Delete(TModel model, User user);
 		IEnumerable<TModel> All(Func<TModel, object> orderBy = null);
 	}
 }

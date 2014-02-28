@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
 using IssueTracker.Common.ViewModels;
@@ -20,6 +22,28 @@ namespace IssueTracker.Data.Repositories
 		{
 			var issue = Context.Issues.Where(x => x.Project.Id == project.Id).OrderByDescending(x => x.Number).FirstOrDefault();
 			return issue == null ? 0 : issue.Number;
+		}
+
+		public override void Update(Issue model, User user)
+		{
+			var retrieved = Details(model.Id);
+			var changes = new List<Audit>();
+			var oldProperties = retrieved.GetType().GetProperties().ToDictionary(x => x.Name);
+			var newProperties = model.GetType().GetProperties().ToDictionary(x => x.Name);
+			foreach (var key in oldProperties.Keys)
+			{
+				if (key == "Audits")
+					continue;
+
+				var oldValue = oldProperties[key].GetValue(retrieved);
+				var newValue = newProperties[key].GetValue(model);
+				if (oldValue != null && !oldValue.Equals(newValue))
+					changes.Add(new Audit { Id = Guid.NewGuid(), OldValue = oldValue.ToString(), NewValue = newValue.ToString(), Property = key });
+			}
+			SetProperties(model, retrieved);
+			var issueAudit = new IssueAudit { Id = Guid.NewGuid(), Changes = changes, Date = DateTime.UtcNow, User = user, Issue = retrieved};
+			model.Audits.Add(issueAudit);
+			Context.SaveChanges();
 		}
 
 		private void ApplySort(ref IEnumerable<Issue> issues, Sort sort)
