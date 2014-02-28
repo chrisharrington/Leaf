@@ -70,7 +70,7 @@ namespace IssueTracker.SampleDataImporter
 
 			WebSecurity.InitializeDatabaseConnection("DefaultDataConnection", "UserProfiles", "UserId", "UserName", true);
 
-			var user = new User { EmailAddress = "chrisharrington99@gmail.com", Id = Guid.NewGuid(), Name = "Chris Harrington" };
+			var user = new User { EmailAddress = "chrisharrington99@gmail.com", Id = Guid.NewGuid(), Name = "Chris Harrington", ColourCode = "#267509" };
 			WebSecurity.CreateUserAndAccount(user.EmailAddress, "test");
 			_container.Resolve<IUserRepository>().Insert(user, user);
 			return user;

@@ -6,85 +6,96 @@
 	root.selectedIssue = createNestedObservables(@Html.Raw(Json.Encode(Model)));
 </script>
 
-<div class="wrapper">
-	<div class="container notop details-header">
-		<div class="breadcrumbs">
-			<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
-				<i class="fa fa-home"></i>
-				<span data-bind="text: IssueTracker.selectedProject().name"></span>
-			</a>
-			<i class="fa fa-angle-right"></i>
-			<a>
-				<span data-bind="text: 'Issue #' + IssueTracker.selectedIssue.number()"></span>
-			</a>
-		</div>
-
-		<div class="issue-buttons">
-			<img id="transition-loader" class="hidden" src="@Url.Content("~/Images/ajax-loader.gif")" alt="" data-bind="css: { hidden: !IssueTracker.Transitioner.transitioning() }" />
-			<div class="transitions" data-bind="visible: IssueTracker.selectedIssue.transitions().length > 0, foreach: IssueTracker.selectedIssue.transitions">
-				@Html.IconButton("", "fa-angle-right", "right", dataBind: "attr: { 'data-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }", labelDataBind: "text: name", isRight: true)
-			</div>
-			<div class="always">
-				@Html.IconButton("Save Changes", "fa-check", id: "save-changes", dataBind: "css: { loading: saving }")
-				@Html.IconButton("Delete Issue", "fa-trash-o", id: "delete-issue")
-			</div>
-		</div>
+<div class="container notop details-header">
+	<div class="breadcrumbs">
+		<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
+			<i class="fa fa-home"></i>
+			<span data-bind="text: IssueTracker.selectedProject().name"></span>
+		</a>
+		<i class="fa fa-angle-right"></i>
+		<a>
+			<span data-bind="text: 'Issue #' + IssueTracker.selectedIssue.number()"></span>
+		</a>
 	</div>
 
-	<div class="container name-and-number-wrapper">
-		<div class="name-container" data-bind="attr: { class: 'name-container perspective ' + IssueTracker.selectedIssue.priority().toLowerCase() }">
-			<h1 class="number" data-bind="text: '#' + IssueTracker.selectedIssue.number()"></h1>
-			<div class="description">
-				<input type="text" class="description no-focus" data-bind="value: IssueTracker.selectedIssue.description" />
-			</div>
+	<div class="issue-buttons">
+		<img id="transition-loader" class="hidden" src="@Url.Content("~/Images/ajax-loader.gif")" alt="" data-bind="css: { hidden: !IssueTracker.Transitioner.transitioning() }" />
+		<div class="transitions" data-bind="visible: IssueTracker.selectedIssue.transitions().length > 0, foreach: IssueTracker.selectedIssue.transitions">
+			@Html.IconButton("", "fa-angle-right", "right", dataBind: "attr: { 'data-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }", labelDataBind: "text: name", isRight: true)
+		</div>
+		<div class="always">
+			@Html.IconButton("Save Changes", "fa-check", id: "save-changes", dataBind: "css: { loading: saving }")
+			@Html.IconButton("Delete Issue", "fa-trash-o", id: "delete-issue")
 		</div>
 	</div>
+</div>
 
-	<div class="container details-wrapper">
+<div class="container name-and-number-wrapper">
+	<div class="name-container" data-bind="attr: { class: 'name-container perspective ' + IssueTracker.selectedIssue.priority().toLowerCase() }">
+		<h1 class="number" data-bind="text: '#' + IssueTracker.selectedIssue.number()"></h1>
 		<div class="description">
-			<textarea placeholder="Comments..." class="no-focus" data-bind="value: IssueTracker.selectedIssue.comments"></textarea>
+			<input type="text" class="description no-focus" data-bind="value: IssueTracker.selectedIssue.description" />
 		</div>
-
-		<div class="details-container perspective">
-			<div class="flipper transition horizontal">
-				<div class="tile flip-tile front selectable-details details">
-					<div class="selectable" id="milestone">
-						<span class="title">Milestone</span>
-						<i class="fa fa-angle-down"></i>
-						<span class="info" id="selected-milestone" data-bind="text: IssueTracker.selectedIssue.milestone"></span>
-					</div>
-					<div class="selectable" id="priority">
-						<span class="title">Priority</span>
-						<i class="fa fa-angle-down"></i>
-						<span class="info" id="selected-priority" data-bind="text: IssueTracker.selectedIssue.priority"></span>
-					</div>
-					<div class="selectable" id="status">
-						<span class="title">Status</span>
-						<i class="fa fa-angle-down"></i>
-						<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
-					</div>
-					<div class="selectable" id="developer">
-						<span class="title">Developer</span>
-						<i class="fa fa-angle-down"></i>
-						<span class="info" data-bind="text: IssueTracker.selectedIssue.developer"></span>
-					</div>
-					<div class="selectable" id="tester">
-						<span class="title">Tester</span>
-						<i class="fa fa-angle-down"></i>
-						<span class="info" data-bind="text: IssueTracker.selectedIssue.tester"></span>
-					</div>
+	</div>
+</div>
+	
+<div class="content">
+	<textarea placeholder="Details..." class="no-focus" data-bind="value: IssueTracker.selectedIssue.details"></textarea>
+	
+	<div class="comments">
+		<div class="existing-comment">
+			<div class="user">
+				<div class="colour">
 					<div>
-						<span class="title">Date Opened</span>
-						<span class="info" data-bind="text: IssueTracker.selectedIssue.opened"></span>
-					</div>
-					<div>
-						<span class="title">Date Closed</span>
-						<span class="info" data-bind="text: IssueTracker.selectedIssue.closed"></span>
+						<span>C</span>
 					</div>
 				</div>
-				<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
+				<span class="name">Chris Harrington</span>
+				<span class="date">2014-02-24 12:34:56</span>
+			</div>
+			<div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+		</div>
+	</div>
+</div>
+
+<div class="sidebar perspective">
+	<div class="flipper transition horizontal" id="choices-container">
+		<div class="tile flip-tile front selectable-details details">
+			<div class="selectable" id="milestone">
+				<span class="title">Milestone</span>
+				<i class="fa fa-angle-down"></i>
+				<span class="info" id="selected-milestone" data-bind="text: IssueTracker.selectedIssue.milestone"></span>
+			</div>
+			<div class="selectable" id="priority">
+				<span class="title">Priority</span>
+				<i class="fa fa-angle-down"></i>
+				<span class="info" id="selected-priority" data-bind="text: IssueTracker.selectedIssue.priority"></span>
+			</div>
+			<div class="selectable" id="status">
+				<span class="title">Status</span>
+				<i class="fa fa-angle-down"></i>
+				<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
+			</div>
+			<div class="selectable" id="developer">
+				<span class="title">Developer</span>
+				<i class="fa fa-angle-down"></i>
+				<span class="info" data-bind="text: IssueTracker.selectedIssue.developer"></span>
+			</div>
+			<div class="selectable" id="tester">
+				<span class="title">Tester</span>
+				<i class="fa fa-angle-down"></i>
+				<span class="info" data-bind="text: IssueTracker.selectedIssue.tester"></span>
+			</div>
+			<div>
+				<span class="title">Date Opened</span>
+				<span class="info" data-bind="text: IssueTracker.selectedIssue.opened"></span>
+			</div>
+			<div>
+				<span class="title">Date Closed</span>
+				<span class="info" data-bind="text: IssueTracker.selectedIssue.closed"></span>
 			</div>
 		</div>
+		<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
 	</div>
 </div>
 

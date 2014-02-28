@@ -9,7 +9,7 @@ namespace IssueTracker.Common.ViewModels
 		[Required] public Guid id { get; set; }
 		[Required] public int number { get; set; }
 		[Required] public string description { get; set; }
-		public string comments { get; set; }
+		public string details { get; set; }
 		public string priority { get; set; }
 		[Required] public Guid milestoneId { get; set; }
 		public string milestone { get; set; }

@@ -77,7 +77,7 @@ namespace IssueTracker.Data.Repositories
 			{
 				search.filter = search.filter.Trim().ToLower();
 				issues = issues.Where(x =>
-					x.Name.ToLower().Trim().Contains(search.filter) || x.Comments.Trim().ToLower().Contains(search.filter) ||
+					x.Name.ToLower().Trim().Contains(search.filter) || x.Details.Trim().ToLower().Contains(search.filter) ||
 					x.Status.ToString().Trim().ToLower().Contains(search.filter) || x.Priority.ToString().Contains(search.filter) ||
 					x.Developer.ToString().Trim().ToLower().Contains(search.filter) ||
 					x.Tester.ToString().Trim().ToLower().Contains(search.filter));

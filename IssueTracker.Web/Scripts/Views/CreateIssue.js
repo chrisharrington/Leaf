@@ -7,7 +7,7 @@
 
 	root.createModel = {
 		description: ko.observable(""),
-		comments: ko.observable(""),
+		details: ko.observable(""),
 		priorityId: function () { return _getSelectedFromChoiceTile($("div.priority")); },
 		statusId: function () { return _getSelectedFromChoiceTile($("div.status")); },
 		developerId: function () { return _getSelectedFromChoiceTile($("div.developer")); },
@@ -24,7 +24,7 @@
 
 	root.load = function() {
 		root.createModel.description("");
-		root.createModel.comments("");
+		root.createModel.details("");
 
 		_setDefaultValues();
 	};
