@@ -1,6 +1,12 @@
 ﻿
 (function(root) {
 
+	var _milestonesStorageKey = "Filter.SelectedMilestones";
+	var _prioritiesStorageKey = "Filter.SelectedPriorities";
+	var _statusesStorageKey = "Filter.SelectedStatuses";
+	var _developersStorageKey = "Filter.SelectedDevelopers";
+	var _testersStorageKey = "Filter.SelectedTesters";
+
 	var _container;
 	var _flipper;
 	var _onFilterSet;
@@ -21,6 +27,8 @@
 		_selected = {};
 
 		_hookupEvents();
+
+		_load();
 	};
 
 	root.contains = function(collection, data) {
@@ -33,6 +41,7 @@
 	root.remove = function (collection, data) {
 		collection.remove(function (item) { return item.id == data.id; });
 		_onFilterSet();
+		_save();
 	};
 
 	function _hookupEvents() {
@@ -51,6 +60,7 @@
 	function _saveFilter() {
 		_flipper.toggle();
 		_onFilterSet();
+		_save();
 	}
 
 	function _toggleFilterItem(element, collection) {
@@ -59,6 +69,29 @@
 			collection.push(raw);
 		else
 			collection.remove(function(item) { return item.id == raw.id; });
+	}
+
+	function _load() {
+		_restoreCommaSeparatedListTo(root.selectedMilestones, _milestonesStorageKey);
+		_restoreCommaSeparatedListTo(root.selectedPriorities, _prioritiesStorageKey);
+		_restoreCommaSeparatedListTo(root.selectedStatuses, _statusesStorageKey);
+		_restoreCommaSeparatedListTo(root.selectedDevelopers, _developersStorageKey);
+		_restoreCommaSeparatedListTo(root.selectedTesters, _testersStorageKey);
+
+	}
+
+	function _restoreCommaSeparatedListTo(collection, key) {
+		var data = $.jStorage.get(key);
+		if (data)
+			collection.pushAll(data);
+	}
+
+	function _save() {
+		$.jStorage.set(_milestonesStorageKey, root.selectedMilestones());
+		$.jStorage.set(_prioritiesStorageKey, root.selectedPriorities());
+		$.jStorage.set(_statusesStorageKey, root.selectedStatuses());
+		$.jStorage.set(_developersStorageKey, root.selectedDevelopers());
+		$.jStorage.set(_testersStorageKey, root.selectedTesters());
 	}
 
 })(root("IssueTracker.Issues.Filter"));
