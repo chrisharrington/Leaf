@@ -25,6 +25,8 @@
 	root.load = function() {
 		root.createModel.description("");
 		root.createModel.comments("");
+
+		_setDefaultValues();
 	};
 
 	function _hookupEvents() {
@@ -82,6 +84,16 @@
 
 	function _getSelectedFromChoiceTile(tile) {
 		return tile.find("div.selected").attr("data-id");
+	}
+
+	function _setDefaultValues() {
+		_container.find("div.detailed-info-container>div.milestone>div>div:first").addClass("selected");
+		_container.find("div.detailed-info-container>div.priority>div>div:first").addClass("selected");
+		_container.find("div.detailed-info-container>div.status>div>div:first").addClass("selected");
+
+		var signedInUserId = IssueTracker.signedInUser().id;
+		_container.find("div.detailed-info-container>div.developer>div>div[data-id='" + signedInUserId + "']").addClass("selected");
+		_container.find("div.detailed-info-container>div.tester>div>div[data-id='" + signedInUserId + "']").addClass("selected");
 	}
 
 	IssueTracker.Page.build({

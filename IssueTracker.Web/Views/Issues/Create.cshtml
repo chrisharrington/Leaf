@@ -26,6 +26,17 @@
 <textarea class="tile container" placeholder="Comments?" data-bind="value: createModel.comments"></textarea>
 
 <div class="detailed-info-container container">
+	<div class="milestone padded-tile-container">
+		<div class="tile choice-tile">
+			<h2>Milestone</h2>
+			<!-- ko foreach: IssueTracker.milestones -->
+			<div data-bind="attr: { 'data-id': id }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+	</div>
 	<div class="priority padded-tile-container">
 		<div class="tile choice-tile">
 			<h2>Priority</h2>
@@ -63,17 +74,6 @@
 		<div class="tile choice-tile">
 			<h2>Tester</h2>
 			<!-- ko foreach: IssueTracker.users -->
-			<div data-bind="attr: { 'data-id': id }">
-				<span data-bind="text: name"></span>
-				<i class="fa fa-check"></i>
-			</div>
-			<!-- /ko -->
-		</div>
-	</div>
-	<div class="milestone padded-tile-container">
-		<div class="tile choice-tile">
-			<h2>Milestone</h2>
-			<!-- ko foreach: IssueTracker.milestones -->
 			<div data-bind="attr: { 'data-id': id }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
