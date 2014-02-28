@@ -15,8 +15,10 @@ namespace IssueTracker.Common.ViewModels
 
 			switch (comparer.ToLower())
 			{
-				case "name":
+				case "description":
 					return x => x.Name;
+				case "milestone":
+					return x => x.Milestone.Name;
 				case "priority":
 					return x => x.Priority.Order;
 				case "status":
@@ -25,9 +27,9 @@ namespace IssueTracker.Common.ViewModels
 					return x => x.Developer.Name;
 				case "tester":
 					return x => x.Tester.Name;
-				case "opened":
+				case "date-opened":
 					return x => x.Opened;
-				case "closed":
+				case "date-closed":
 					return x => x.Closed;
 			}
 

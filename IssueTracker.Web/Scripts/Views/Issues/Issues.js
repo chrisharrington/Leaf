@@ -18,11 +18,6 @@
 	root.search = ko.observable("");
 	root.sidebar = ko.observable();
 
-	root.sortModel = {
-		direction: ko.observable("descending"),
-		comparer: ko.observable("priority")
-	};
-
 	root.init = function (container) {
 		_filter = IssueTracker.Issues.Filter;
 		_sorter = IssueTracker.Issues.Sorter;
@@ -34,7 +29,7 @@
 
 		_flipper = new IssueTracker.Controls.Flipper("div.sidebar .flipper");
 		_filter.init(container, _flipper, root.sidebar, _resetIssueList);
-		_sorter.init(container, _flipper, root.sidebar);
+		_sorter.init(container, _flipper, root.sidebar, _resetIssueList);
 	};
 
 	root.load = function () {
@@ -46,21 +41,10 @@
 	};
 
 	function _hookupEvents(container) {
-		container.find("#sort").click(_showSorter);
 		container.on("focus", "div.search input", function () { $(this).parent().addClass("focus"); });
 		container.on("blur", "div.search input", function () { $(this).parent().removeClass("focus"); });
 		container.on("click", "div.search i", function () { root.search(""); });
 		root.search.subscribe(_resetIssueList);
-	}
-
-	function _showSorter() {
-		var popupContainer = IssueTracker.Popup.load({ view: "#sort-dialog", model: root.sortModel, anchor: $(this), trigger: $(this) });
-		popupContainer.find("i:not(.selected)").click(function () {
-			root.sortModel.direction($(this).attr("data-direction"));
-			root.sortModel.comparer($(this).parent().attr("data-comparer"));
-			IssueTracker.Popup.hide();
-			_resetIssueList();
-		});
 	}
 	
 	function _setupLoadingMoreIssues() {
@@ -104,8 +88,8 @@
 			start: _start + 1,
 			end: _start + count,
 			project: IssueTracker.selectedProject(),
-			direction: root.sortModel.direction(),
-			comparer: root.sortModel.comparer(),
+			direction: _sorter.direction(),
+			comparer: _sorter.property(),
 			filter: root.search(),
 			milestones: _joinFilterIds(_filter.selectedMilestones(), IssueTracker.milestones()),
 			priorities: _joinFilterIds(_filter.selectedPriorities(), IssueTracker.priorities()),

@@ -4,14 +4,16 @@
 	var _container;
 	var _observable;
 	var _flipper;
+	var _onSortSet;
 
 	root.property = ko.observable("priority");
-	root.direction = ko.observable("desc");
+	root.direction = ko.observable("descending");
 
-	root.init = function (container, flipper, observable) {
+	root.init = function (container, flipper, observable, onSortSet) {
 		_container = container;
 		_observable = observable;
 		_flipper = flipper;
+		_onSortSet = onSortSet;
 
 		_hookupEvents();
 	};
@@ -23,7 +25,9 @@
 
 	function _setSortProperties() {
 		root.property($(this).closest("[data-property]").attr("data-property"));
-		root.direction($(this).hasClass("fa-angle-down") ? "desc" : "asc");
+		root.direction($(this).hasClass("fa-angle-down") ? "descending" : "ascending");
+		_flipper.toggle();
+		_onSortSet();
 	}
 
 })(root("IssueTracker.Issues.Sorter"));
