@@ -37,9 +37,13 @@
 					<div class="selected-filters" data-bind="template: { name: 'selected-filters' }"></div>
 				</div>
 				<div class="tile modify-sort-container">
-					<div class="header" id="modify-sort">
+					<div class="header">
 						<h2>Sort</h2>
 						<i class="fa fa-angle-right"></i>
+					</div>
+					<div class="sidebar-item">
+						<span class="type" data-bind="text: Sorter.property().replace('-', ' ').capitalize()"></span>
+						<span class="name" data-bind="text: Sorter.direction().capitalize()"></span>
 					</div>
 				</div>
 			</div>
@@ -92,7 +96,7 @@
 <script id="selected-filters" type="text/html">
 	<!-- ko if: Filter.selectedMilestones().length != IssueTracker.milestones().length -->
 	<!-- ko foreach: Filter.selectedMilestones -->
-	<div data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedMilestones, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedMilestones, $data); }">
 		<span class="type">Milestone</span>
 		<span class="name" data-bind="text: name"></span>
 	</div>
@@ -100,7 +104,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedPriorities().length != IssueTracker.priorities().length -->
 	<!-- ko foreach: Filter.selectedPriorities -->
-	<div data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedPriorities, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedPriorities, $data); }">
 		<span class="type">Priority</span>
 		<span class="name" data-bind="text: name"></span>
 	</div>
@@ -108,7 +112,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedStatuses().length != IssueTracker.statuses().length -->
 	<!-- ko foreach: Filter.selectedStatuses -->
-	<div data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedStatuses, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedStatuses, $data); }">
 		<span class="type">Status</span>
 		<span class="name" data-bind="text: name"></span>
 	</div>
@@ -116,7 +120,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedDevelopers().length != IssueTracker.users().length -->
 	<!-- ko foreach: Filter.selectedDevelopers -->
-	<div data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedDevelopers, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedDevelopers, $data); }">
 		<span class="type">Developer</span>
 		<span class="name" data-bind="text: name"></span>
 	</div>
@@ -124,7 +128,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedTesters().length != IssueTracker.users().length -->
 	<!-- ko foreach: Filter.selectedTesters -->
-	<div data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedTesters, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedTesters, $data); }">
 		<span class="type">Tester</span>
 		<span class="name" data-bind="text: name"></span>
 	</div>

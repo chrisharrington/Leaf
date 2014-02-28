@@ -19,7 +19,7 @@
 	};
 
 	function _hookupEvents() {
-		_container.on("click", "#modify-sort", function () { _observable("modify-sort-template"); _flipper.toggle(); });
+		_container.on("click", "div.modify-sort-container", function () { _observable("modify-sort-template"); _flipper.toggle(); });
 		_container.on("click", "div.modify-sort>div>i", _setSortProperties);
 	}
 

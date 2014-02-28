@@ -43,6 +43,13 @@
 			}
 		}
 		>div.sidebar { float:left; position:fixed; width:@filter-width; position:relative; margin-left:@filter-width*-1;
+			@selected-filter-height:19px;
+			div.sidebar-item { float:left; width:100%; border-top:solid 1px @border-colour; padding:@small-spacing @spacing; .border-box; cursor:pointer;
+				>span.type { float:left; color:@primary-font-colour-light; }
+				>span.name { float:right; color:@secondary-font-colour; font-weight:bold; }
+				>i { float:right; height:@selected-filter-height; margin-left:@spacing; line-height:@selected-filter-height; display:inline-block; vertical-align:middle; }
+			}
+
 			>div { float:left; width:@filter-width;
 				div.front { padding:0; height:auto;
 					@header-height:28px;
@@ -56,16 +63,11 @@
 					>div:first-child { margin-top:0; }
 
 					div.modify-filter-container {
-						@selected-filter-height:19px;
-						>div.selected-filters { float:left; width:100%;
-							>div { float:left; width:100%; border-top:solid 1px @border-colour; padding:@small-spacing @spacing; .border-box; cursor:pointer;
-								>span.type { float:left; color:@primary-font-colour-light; }
-								>span.name { float:right; color:@secondary-font-colour; font-weight:bold; }
-								>i { float:right; height:@selected-filter-height; margin-left:@spacing; line-height:@selected-filter-height; display:inline-block; vertical-align:middle; }
-							}
+						>div.selected-filters { float:left; width:100%;						
 							>div:hover { .hover; }
 						}
 					}
+					div.modify-sort-container:hover { .hover; }
 				}
 				div.back { padding:0; height:auto;
 					>div { float:left; width:100%; }
