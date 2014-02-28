@@ -51,40 +51,40 @@
 <script id="modify-sort-template" type="text/html">
 	<div class="modify-sort choice-tile tile">
 		<h2>Sort</h2>
-		<div>
+		<div data-property="description">
 			<span>Description</span>
-			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('description'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'description' && $root.Sorter.direction() == 'desc' }"></i>
-			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('description'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'description' && $root.Sorter.direction() == 'asc' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'description' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'description' && $root.Sorter.direction() == 'asc' }"></i>
 		</div>
-		<div>
+		<div data-property="milestone">
 			<span>Milestone</span>
-			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('milestone'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'milestone' && $root.Sorter.direction() == 'desc' }"></i>
-			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('milestone'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'milestone' && $root.Sorter.direction() == 'asc' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'milestone' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'milestone' && $root.Sorter.direction() == 'asc' }"></i>
 		</div>
-		<div>
+		<div data-property="priority">
 			<span>Priority</span>
-			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('priority'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'priority' && $root.Sorter.direction() == 'desc' }"></i>
-			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('priority'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'priority' && $root.Sorter.direction() == 'asc' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'priority' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'priority' && $root.Sorter.direction() == 'asc' }"></i>
 		</div>
-		<div>
+		<div data-property="status">
 			<span>Status</span>
-			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('status'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'status' && $root.Sorter.direction() == 'desc' }"></i>
-			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('status'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'status' && $root.Sorter.direction() == 'asc' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'status' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'status' && $root.Sorter.direction() == 'asc' }"></i>
 		</div>
-		<div>
+		<div data-property="developer">
 			<span>Developer</span>
-			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('developer'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'developer' && $root.Sorter.direction() == 'desc' }"></i>
-			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('developer'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'developer' && $root.Sorter.direction() == 'asc' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'developer' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'developer' && $root.Sorter.direction() == 'asc' }"></i>
 		</div>
-		<div>
+		<div data-property="tester">
 			<span>Tester</span>
-			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('tester'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'tester' && $root.Sorter.direction() == 'desc' }"></i>
-			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('tester'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'tester' && $root.Sorter.direction() == 'asc' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'tester' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'tester' && $root.Sorter.direction() == 'asc' }"></i>
 		</div>
-		<div>
+		<div data-property="date-opened">
 			<span>Date Opened</span>
-			<i class="fa fa-angle-down" data-bind="click: function() { $root.Sorter.property('date-opened'); $root.Sorter.direction('desc'); }, css: { selected: $root.Sorter.property() == 'date-opened' && $root.Sorter.direction() == 'desc' }"></i>
-			<i class="fa fa-angle-up" data-bind="click: function() { $root.Sorter.property('date-opened'); $root.Sorter.direction('asc'); }, css: { selected: $root.Sorter.property() == 'date-opened' && $root.Sorter.direction() == 'asc' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'date-opened' && $root.Sorter.direction() == 'desc' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'date-opened' && $root.Sorter.direction() == 'asc' }"></i>
 		</div>
 	</div>
 </script>
