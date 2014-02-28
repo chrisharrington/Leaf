@@ -25,9 +25,9 @@ namespace IssueTracker.Data.Repositories
 		private void ApplySort(ref IEnumerable<Issue> issues, Sort sort)
 		{
 			if (sort.direction == SortDirection.Ascending)
-				issues = issues.OrderBy(sort.GetComparerFunction());
+				issues = issues.OrderBy(sort.GetComparerFunction()).ThenBy(x => x.Opened);
 			else if (sort.direction == SortDirection.Descending)
-				issues = issues.OrderByDescending(sort.GetComparerFunction());
+				issues = issues.OrderByDescending(sort.GetComparerFunction()).ThenBy(x => x.Opened);
 		}
 
 		private void ApplyFilter(ref IEnumerable<Issue> issues, Search search)
