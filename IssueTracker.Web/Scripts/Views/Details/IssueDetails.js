@@ -22,7 +22,7 @@
 		_hookupEvents(container);
 		_transitioner.init();
 		_deleter.init(container);
-		_comments.init(container);
+		_comments.init(container, IssueTracker.selectedIssue.history());
 	};
 
 	root.load = function () {
@@ -33,8 +33,6 @@
 		_oldName = IssueTracker.selectedIssue.description();
 		
 		IssueTracker.selectedIssue.statusId.subscribe(function (statusId) { _transitioner.execute(statusId); });
-
-		root.comments.pushAll(IssueTracker.selectedIssue.comments());
 	};
 
 	function _hookupEvents(container) {

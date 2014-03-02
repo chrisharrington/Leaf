@@ -26,6 +26,6 @@ namespace IssueTracker.Common.ViewModels
 		[Required] public string updated { get; set; }
 		[Required] public string updatedBy { get; set; }
 		public IEnumerable<object> transitions { get; set; }
-		public IEnumerable<object> comments { get; set; }
+		public IEnumerable<object> history { get; set; }
 	}
 }

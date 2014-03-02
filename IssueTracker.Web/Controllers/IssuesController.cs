@@ -69,7 +69,7 @@ namespace IssueTracker.Web.Controllers
 				updatedId = issue.UpdatedBy.Id,
 				updated = issue.Updated.ToApplicationString(),
 				transitions = TransitionRepository.Status(issue.Status).Select(x => new {id = x.Id, name = x.Name, fromId = x.From.Id, toId = x.To.Id}),
-				comments = new List<object>()
+				history = BuildIssueHistory(issue.Audits, issue.Comments)
 		    });
 	    }
 
@@ -137,6 +137,19 @@ namespace IssueTracker.Web.Controllers
 	    private static string ToPriorityStyleString(NameModel priority)
 	    {
 		    return priority.Name.Replace(" ", "-").ToLower();
+	    }
+
+		private IEnumerable<IssueHistoryViewModel> BuildIssueHistory(IEnumerable<IssueAudit> audits, IEnumerable<Comment> comments)
+		{
+			var history = new List<IssueHistoryViewModel>();
+			history.AddRange(audits.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(), text = BuildAuditString(x), user = x.User.ToString() }));
+			history.AddRange(comments.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(), text = x.Text, user = x.User.ToString() }));
+			return history.OrderByDescending(x => DateTime.Parse(x.date));
+		}
+
+	    private string BuildAuditString(IssueAudit audit)
+	    {
+		    return audit.Changes.Aggregate("The following property changes were made:<br/>", (current, change) => current + ("<br/>" + change.Property + ": " + change.OldValue + " --> " + change.NewValue));
 	    }
     }
 

@@ -5,11 +5,15 @@
 
 	root.loading = ko.observable(false);
 	root.text = ko.observable("");
+	root.list = ko.observableArray();
 
-	root.init = function(container) {
+	root.init = function(container, comments) {
 		_container = container;
 
 		_hookupEvents();
+
+		root.list.removeAll();
+		root.list.pushAll(comments);
 	};
 
 	function _hookupEvents() {
