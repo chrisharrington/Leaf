@@ -13,9 +13,16 @@
 				return;
 
 			element = $(element);
-			for (var i = 0; i < comments.length; i++) {
-				element.append(html);
-				ko.applyBindings(comments[i], element.find(">div:last")[0]);
+			var difference = comments.length - element.find(">div").length;
+			if (difference > 1) {
+				element.empty();
+				for (var i = 0; i < comments.length; i++) {
+					element.append(html);
+					ko.applyBindings(comments[i], element.find(">div:last")[0]);
+				}
+			} else if (difference == 1) {
+				element.prepend(html);
+				ko.applyBindings(comments[comments.length-1], element.find(">div:first")[0]);
 			}
 		}
 	};
