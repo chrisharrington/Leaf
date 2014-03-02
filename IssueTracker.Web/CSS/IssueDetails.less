@@ -43,19 +43,20 @@
 		>textarea { .tile; float:left; width:100%; height:200px; cursor:pointer; color:black; }
 		
 		>div.comments { float:left; width:100%;
-			>div { float:left; width:100%; margin-top:@spacing; .tile; padding:0;
-				@user-width:152px;
-				@tile-size:100px;
-				>div.user { float:left; width:@user-width; padding:@spacing; .border-box; border-right:solid 1px @border-colour;
-					>div.colour { float:left; width:100%; margin-bottom:@small-spacing; text-align:center;
-						>div { width:@tile-size; height:@tile-size; .border-radius(5px); .gradient(lighten(#2A8C06, 5%), darken(#2A8C06, 5%)); color:white; font-weight:bold; font-size:5em; text-align:center; .regular-font; margin:auto;
+			>div { float:left; width:100%; margin-top:@spacing; .tile; padding:0; display:table;
+				@user-width:252px;
+				@tile-size:58px;
+				>div.user { display:table-cell; width:@user-width; padding:@spacing; .border-box; border-right:solid 1px @border-colour;
+					>div.colour { float:left; margin-bottom:@small-spacing; text-align:center; margin-right:@spacing;
+						>div { width:@tile-size; height:@tile-size; .gradient(lighten(#2A8C06, 5%), darken(#2A8C06, 5%)); color:white; font-size:3em; text-align:center; .regular-font; margin:auto;
 							>span { display:inline-block; float:left; width:100%; height:100%; line-height:@tile-size; text-align:center; }
 						}
 					}
-					>span { float:left; width:100%; margin-top:@tiny-spacing; color:@primary-font-colour; font-weight:bold; text-align:center; }
-					>span.date { font-size:0.75em; color:@primary-font-colour-lightest; font-weight:normal; }
+					>span { float:left; margin-top:@tiny-spacing; color:@primary-font-colour; font-weight:bold; }
+					>span.date { font-size:0.875em; color:@primary-font-colour-light; font-weight:normal; }
+					>span.name { font-size:1.25em; }
 				}
-				>div.text { position:relative; padding:@spacing; padding-left:@user-width+@spacing; .border-box; }
+				>div.text { display:table-cell; position:relative; padding:@spacing; .border-box; vertical-align:top; }
 			}
 		}
 	}
