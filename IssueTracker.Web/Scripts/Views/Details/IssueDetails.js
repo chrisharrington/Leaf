@@ -6,6 +6,7 @@
 	var _detailsFlipper;
 	var _transitioner = IssueTracker.Transitioner;
 	var _deleter = root.Delete;
+	var _comments = root.Comments;
 
 	root.saving = ko.observable(false);
 	root.comments = ko.observableArray();
@@ -21,6 +22,7 @@
 		_hookupEvents(container);
 		_transitioner.init();
 		_deleter.init(container);
+		_comments.init(container);
 	};
 
 	root.load = function () {

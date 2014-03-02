@@ -130,7 +130,7 @@ namespace IssueTracker.Web.Controllers
 	    public void AddComment(IssueHistoryViewModel model)
 	    {
 		    var issue = IssueRepository.Details(model.issueId);
-			issue.Comments.Add(new Comment { Date = DateTime.Parse(model.date), Id = Guid.NewGuid(), Issue = issue, Text = model.text });
+			issue.Comments.Add(new Comment { User = SignedInUser, Date = DateTime.UtcNow, Id = Guid.NewGuid(), Issue = issue, Text = model.text });
 		    IssueRepository.Update(issue, SignedInUser);
 	    }
 

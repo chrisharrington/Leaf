@@ -223,6 +223,7 @@
     <Content Include="Scripts\ThirdParty\ToDictionary.js" />
     <Content Include="Scripts\Utilities.js" />
     <Content Include="Scripts\Views\CreateIssue.js" />
+    <Content Include="Scripts\Views\Details\Comments.js" />
     <Content Include="Scripts\Views\Details\DeleteIssue.js" />
     <Content Include="Scripts\Views\Details\IssueDetails.js" />
     <Content Include="Scripts\Views\Issues\Sorter.js" />

@@ -54,8 +54,8 @@
 				<span class="date">2014-02-24 12:34:56</span>
 			</div>
 			<div class="text">
-				<textarea placeholder="New comment..."></textarea>
-				<button>Add Comment</button>
+				<textarea placeholder="New comment..." data-bind="value: Comments.text"></textarea>
+				<button id="add-comment" data-bind="css: { loading: Comments.loading }">Add Comment</button>
 			</div>
 		</div>
 		<div class="existing-comments" data-bind="comments: comments">
