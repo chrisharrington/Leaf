@@ -58,19 +58,8 @@
 				<button id="add-comment" data-bind="css: { loading: Comments.loading }">Add Comment</button>
 			</div>
 		</div>
-		<div class="existing-comments" data-bind="comments: comments">
-			<div class="existing-comment">
-				<div class="user">
-					<div class="colour">
-						<div>
-							<span data-bind="text: user()[0].toUpperCase()"></span>
-						</div>
-					</div>
-					<span class="name" data-bind="text: user"></span>
-					<span class="date" data-bind="text: date"></span>
-				</div>
-				<div class="text" data-bind="html: text"></div>
-			</div>
+		<div class="existing-comments" data-bind="comments: { list: Comments.list, template: 'comment-template' }">
+			
 			@*<div class="existing-comment">
 				<div class="user">
 					<div class="colour">
@@ -277,5 +266,20 @@
 		<div>
 			<button id="cancel-delete">Cancel</button>
 		</div>
+	</div>
+</script>
+
+<script type="text/html" id="comment-template">
+	<div class="existing-comment">
+		<div class="user">
+			<div class="colour">
+				<div>
+					<span data-bind="text: user[0].toUpperCase()"></span>
+				</div>
+			</div>
+			<span class="name" data-bind="text: user"></span>
+			<span class="date" data-bind="text: date"></span>
+		</div>
+		<div class="text" data-bind="html: text"></div>
 	</div>
 </script>
