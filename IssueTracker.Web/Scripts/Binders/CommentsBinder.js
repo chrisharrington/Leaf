@@ -22,7 +22,9 @@
 				}
 			} else if (difference == 1) {
 				element.prepend(html);
-				ko.applyBindings(comments[comments.length-1], element.find(">div:first")[0]);
+				var added = element.find(">div:first");
+				ko.applyBindings(comments[comments.length - 1], added[0]);
+				added.hide().fadeIn(200);
 			}
 		}
 	};
