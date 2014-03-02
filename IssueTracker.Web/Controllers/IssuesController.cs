@@ -68,7 +68,8 @@ namespace IssueTracker.Web.Controllers
 				closed = issue.Closed.ToApplicationString(),
 				updatedId = issue.UpdatedBy.Id,
 				updated = issue.Updated.ToApplicationString(),
-				transitions = TransitionRepository.Status(issue.Status).Select(x => new {id = x.Id, name = x.Name, fromId = x.From.Id, toId = x.To.Id})
+				transitions = TransitionRepository.Status(issue.Status).Select(x => new {id = x.Id, name = x.Name, fromId = x.From.Id, toId = x.To.Id}),
+				comments = new List<object>()
 		    });
 	    }
 

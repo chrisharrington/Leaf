@@ -198,6 +198,7 @@
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\background.png" />
     <Content Include="Images\button-loader.gif" />
+    <Content Include="Scripts\Binders\CommentsBinder.js" />
     <Content Include="Scripts\Binders\FadeBinder.js" />
     <Content Include="Scripts\Binders\RemoteTemplateBinder.js" />
     <Content Include="Scripts\Bindings.js" />

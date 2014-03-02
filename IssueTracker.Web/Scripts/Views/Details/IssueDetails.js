@@ -8,6 +8,7 @@
 	var _deleter = root.Delete;
 
 	root.saving = ko.observable(false);
+	root.comments = ko.observableArray();
 
 	root.chooser = {
 		template: ko.observable(),
@@ -30,6 +31,8 @@
 		_oldName = IssueTracker.selectedIssue.description();
 		
 		IssueTracker.selectedIssue.statusId.subscribe(function (statusId) { _transitioner.execute(statusId); });
+
+		root.comments.pushAll(IssueTracker.selectedIssue.comments());
 	};
 
 	function _hookupEvents(container) {
