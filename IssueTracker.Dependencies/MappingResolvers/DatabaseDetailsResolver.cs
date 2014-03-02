@@ -6,7 +6,7 @@ using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Dependencies.MappingResolvers
 {
-	public class DatabaseDetailsResolver<Model> : ValueResolver<Guid, Model> where Model : BaseModel
+	public class DatabaseDetailsResolver<Model> : ValueResolver<Guid, Model> where Model : NameModel
 	{
 		public IRepository<Model> Repository { get; set; }
 

@@ -18,6 +18,7 @@ namespace IssueTracker.Common.Models
 		public virtual Status Status { get; set; }
 		public virtual Milestone Milestone { get; set; }
 		public virtual ICollection<IssueAudit> Audits { get; set; }
+		public virtual ICollection<Comment> Comments { get; set; }
 		public User UpdatedBy { get; set; }
 
 	    public Issue()

@@ -126,7 +126,15 @@ namespace IssueTracker.Web.Controllers
 			IssueRepository.Delete(Mapper.Map<IssueViewModel, Issue>(issue), SignedInUser);
 	    }
 
-	    private static string ToPriorityStyleString(BaseModel priority)
+	    [HttpPost]
+	    public void AddComment(IssueHistoryViewModel model)
+	    {
+		    var issue = IssueRepository.Details(model.issueId);
+			issue.Comments.Add(new Comment { Date = DateTime.Parse(model.date), Id = Guid.NewGuid(), Issue = issue, Text = model.text });
+		    IssueRepository.Update(issue, SignedInUser);
+	    }
+
+	    private static string ToPriorityStyleString(NameModel priority)
 	    {
 		    return priority.Name.Replace(" ", "-").ToLower();
 	    }

@@ -6,7 +6,7 @@ using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Common.Data.Repositories
 {
-	public interface IRepository<TModel> where TModel : BaseModel
+	public interface IRepository<TModel> where TModel : IdModel
 	{
 		TModel Details(Guid id, params Expression<Func<TModel, object>>[] includes);
 		Guid Insert(TModel model, User user);

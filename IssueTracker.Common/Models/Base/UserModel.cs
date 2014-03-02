@@ -1,6 +1,6 @@
 ﻿namespace IssueTracker.Common.Models.Base
 {
-    public class UserModel : BaseModel
+    public class UserModel : NameModel
     {
 		public User User { get; set; }
     }

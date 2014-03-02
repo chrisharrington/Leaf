@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
 using IssueTracker.Common.ViewModels;

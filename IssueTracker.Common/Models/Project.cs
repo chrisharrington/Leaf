@@ -3,7 +3,7 @@ using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Common.Models
 {
-	public class Project : BaseModel
+	public class Project : NameModel
 	{
 		public User User { get; set; }
 		public ICollection<Priority> Priorities { get; set; }

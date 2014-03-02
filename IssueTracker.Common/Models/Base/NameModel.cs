@@ -2,11 +2,9 @@
 
 namespace IssueTracker.Common.Models.Base
 {
-    public abstract class BaseModel
+    public abstract class NameModel : IdModel
     {
-		public Guid Id { get; set; }
 		public string Name { get; set; }
-		public bool IsDeleted { get; set; }
 
 	    public override string ToString()
 	    {

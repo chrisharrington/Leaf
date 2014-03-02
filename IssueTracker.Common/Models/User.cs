@@ -3,7 +3,7 @@ using IssueTracker.Common.Models.Base;
 
 namespace IssueTracker.Common.Models
 {
-	public class User : BaseModel
+	public class User : NameModel
 	{
 		public string EmailAddress { get; set; }
 		public IEnumerable<Project> Projects { get; set; }

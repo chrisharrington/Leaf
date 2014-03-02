@@ -54,6 +54,8 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Models\Audit.cs" />
     <Compile Include="Models\Base\FilterModel.cs" />
+    <Compile Include="Models\Base\IdModel.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\DateRange.cs" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\IssueAudit.cs" />
@@ -62,7 +64,7 @@
     <Compile Include="Models\Base\ProjectModel.cs" />
     <Compile Include="Models\Transition.cs" />
     <Compile Include="Models\Base\UserModel.cs" />
-    <Compile Include="Models\Base\BaseModel.cs" />
+    <Compile Include="Models\Base\NameModel.cs" />
     <Compile Include="Models\Issue.cs" />
     <Compile Include="Models\Priority.cs" />
     <Compile Include="Models\Status.cs" />

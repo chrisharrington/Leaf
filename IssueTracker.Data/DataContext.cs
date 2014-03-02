@@ -15,6 +15,7 @@ namespace IssueTracker.Data
 		public DbSet<Milestone> Milestones { get; set; }
 		public DbSet<IssueAudit> IssueAudits { get; set; }
 		public DbSet<Audit> Audits { get; set; }
+		public DbSet<Comment> Comments { get; set; }
 
 		public DataContext() : base("DefaultDataConnection") { }
 
@@ -63,6 +64,10 @@ namespace IssueTracker.Data
 
 		private void MapIssues(DbModelBuilder builder)
 		{
+			var comment = builder.Entity<Comment>();
+			comment.Map(x => { x.ToTable("Comments"); x.MapInheritedProperties(); });
+			comment.HasRequired(x => x.Issue).WithMany(x => x.Comments);
+
 			var audit = builder.Entity<Audit>();
 			audit.Map(x => { x.ToTable("Audits"); x.MapInheritedProperties(); });
 
@@ -75,6 +80,7 @@ namespace IssueTracker.Data
 			var issue = builder.Entity<Issue>();
 			issue.Map(x => { x.ToTable("Issues"); x.MapInheritedProperties(); });
 			issue.HasMany(x => x.Audits).WithRequired(x => x.Issue);
+			issue.HasMany(x => x.Comments).WithRequired(x => x.Issue);
 			issue.HasRequired(x => x.Milestone).WithMany(x => x.Issues).WillCascadeOnDelete(false);
 			issue.HasRequired(x => x.Priority).WithMany(x => x.Issues).WillCascadeOnDelete(false);
 			issue.HasRequired(x => x.Status).WithMany(x => x.Issues).WillCascadeOnDelete(false);
