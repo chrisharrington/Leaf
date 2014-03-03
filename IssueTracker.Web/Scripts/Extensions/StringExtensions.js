@@ -24,4 +24,8 @@ String.prototype.formatForUrl = function() {
 
 String.prototype.capitalize = function() {
 	return this[0].toUpperCase() + this.substring(1);
-}
+};
+
+String.prototype.padLeft = function (paddingValue) {
+	return String(paddingValue + this).slice(-paddingValue.length);
+};

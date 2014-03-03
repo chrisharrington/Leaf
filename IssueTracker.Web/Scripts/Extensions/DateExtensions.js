@@ -1,4 +1,8 @@
 ﻿
+Date.prototype.toApplicationString = function() {
+	return this.getFullYear() + "-" + (this.getMonth() + 1).toString().padLeft("00") + "-" + this.getDate().toString().padLeft("00") + " " + this.getHours().toString().padLeft("00") + ":" + this.getMinutes().toString().padLeft("00") + ":" + this.getSeconds().toString().padLeft("00");
+};
+
 Date.prototype.toReadableDateString = function () {
 	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	return months[this.getMonth()] + " " + this.getDate() + ", " + this.getFullYear();

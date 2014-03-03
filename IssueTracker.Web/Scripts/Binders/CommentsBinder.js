@@ -24,7 +24,7 @@
 				element.prepend(html);
 				var added = element.find(">div:first");
 				ko.applyBindings(comments[comments.length - 1], added[0]);
-				added.hide().fadeIn(200);
+				added.hide().slideDown(200);
 			}
 		}
 	};
