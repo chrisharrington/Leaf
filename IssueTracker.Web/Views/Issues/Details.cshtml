@@ -41,7 +41,21 @@
 	
 <div class="content">
 	<textarea placeholder="Details..." class="no-focus" data-bind="value: IssueTracker.selectedIssue.details"></textarea>
-	<div class="comments" data-bind="comments: { list: Comments.list, template: 'comment-template' }"></div>
+	<div class="comments">
+		<div class="new-comment">
+			<div>
+				<div class="colour-logo">
+					<div>
+						<span data-bind="text: IssueTracker.signedInUser().name[0].capitalize()"></span>
+					</div>
+				</div>
+				<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
+				<i id="add-comment" class="fa fa-check" data-bind="css: { loading: Comments.loading }"></i>
+				<textarea class="no-focus" placeholder="Add a comment..." data-bind="value: Comments.text"></textarea>
+			</div>
+		</div>
+		<div class="existing-comments" data-bind="comments: { list: Comments.list, template: 'comment-template' }"></div>
+	</div>
 </div>
 
 <div class="sidebar perspective">
@@ -82,12 +96,6 @@
 			</div>
 		</div>
 		<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
-	</div>
-	
-	<div class="new-comment tile">
-		<h1>Add Comment</h1>
-		<textarea placeholder="New comment..." data-bind="value: Comments.text"></textarea>
-		<button id="add-comment" data-bind="css: { loading: Comments.loading }">Add Comment</button>
 	</div>
 </div>
 
@@ -173,15 +181,13 @@
 
 <script type="text/html" id="comment-template">
 	<div>
-		<div>
-			<div class="colour-logo">
-				<div>
-					<span data-bind="text: user[0].toUpperCase()"></span>
-				</div>
+		<div class="colour-logo">
+			<div>
+				<span data-bind="text: user[0].toUpperCase()"></span>
 			</div>
-			<span class="name" data-bind="text: user"></span>
-			<span class="date" data-bind="text: date"></span>
-			<div class="text" data-bind="html: text"></div>
 		</div>
+		<span class="name" data-bind="text: user"></span>
+		<span class="date" data-bind="text: date"></span>
+		<div class="text" data-bind="html: text"></div>
 	</div>
 </script>

@@ -75,7 +75,6 @@
 .hover { background:@hover-colour !important; }
 .select { background:darken(@hover-colour, 10%) !important; }
 .background-colour-transition { -webkit-transition: background-color 1000ms linear; -moz-transition: background-color 1000ms linear; -o-transition: background-color 1000ms linear; -ms-transition: background-color 1000ms linear; transition: background-color 1000ms linear; }
-.no-focus { box-shadow:none; border:none; }
 
 .condensed-font { font-family:"Roboto Condensed"; }
 .regular-font { font-family:"Roboto"; }
@@ -95,9 +94,10 @@ button.icon { display:table;
 	>span { padding-left:@small-spacing; }
 }
 button.right>span { padding-left:0; padding-right:@small-spacing; }
-button.positive { .gradient(@positive-colour, @positive-colour-dark); }
 button.loading { background:@secondary-background-colour-top url("../Images/button-loader.gif"); }
+button.positive { .gradient(@positive-colour, @positive-colour-dark); }
 button.negative { .gradient(@negative-colour, @negative-colour-dark); }
+i.loading { background:url("../Images/ajax-loader.gif") center no-repeat; color:transparent !important; }
 
 body { margin:0; padding:0; overflow-x:hidden; background:url(../Images/background.png); font-size:14px; .regular-font; }
 .content-container { float:left; width:100%; .border-box; padding:@spacing; }
