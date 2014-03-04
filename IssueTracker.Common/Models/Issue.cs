@@ -24,6 +24,7 @@ namespace IssueTracker.Common.Models
 	    public Issue()
 	    {
 		    Audits = new List<IssueAudit>();
+		    Comments = new List<Comment>();
 	    }
     }
 }

@@ -31,7 +31,7 @@ namespace IssueTracker.Data.Repositories
 			var newProperties = model.GetType().GetProperties().ToDictionary(x => x.Name);
 			foreach (var key in oldProperties.Keys)
 			{
-				if (key == "Audits")
+				if (key == "Audits" || key == "Comments")
 					continue;
 
 				var oldValue = oldProperties[key].GetValue(retrieved);
@@ -39,10 +39,10 @@ namespace IssueTracker.Data.Repositories
 				if (oldValue != null && newValue != null && !oldValue.Equals(newValue))
 					changes.Add(new Audit { Id = Guid.NewGuid(), OldValue = oldValue.ToString(), NewValue = newValue.ToString(), Property = key });
 			}
-			SetProperties(model, retrieved);
+			SetProperties(model, retrieved, "Comments", "Audits");
 			if (changes.Any()) {
 				var issueAudit = new IssueAudit { Id = Guid.NewGuid(), Changes = changes, Date = DateTime.UtcNow, User = user, Issue = retrieved};
-				model.Audits.Add(issueAudit);
+				retrieved.Audits.Add(issueAudit);
 			}
 			Context.SaveChanges();
 		}

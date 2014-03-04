@@ -47,20 +47,6 @@ namespace IssueTracker.Data.Repositories
 
 			SetProperties(model, retrieved);
 			Context.SaveChanges();
-
-//			var entry = Context.Entry(model);
-//
-//			if (entry.State == EntityState.Detached)
-//			{
-//				var attachedEntity = Context.Set<TModel>().SingleOrDefault(e => e.Id == model.Id);
-//				if (attachedEntity != null)
-//					SetProperties(model, attachedEntity);
-//				else
-//					entry.State = EntityState.Modified;
-//			}
-//			else
-//				entry.State = EntityState.Modified;
-//			Context.SaveChanges();
 		}
 
 		public virtual void Delete(TModel model, User user)
@@ -82,9 +68,9 @@ namespace IssueTracker.Data.Repositories
 			return collection;
 		}
 
-		protected void SetProperties(TModel source, TModel destination)
+		protected void SetProperties(TModel source, TModel destination, params string[] ignores)
 		{
-			foreach (var property in typeof (TModel).GetProperties())
+			foreach (var property in typeof (TModel).GetProperties().Where(x => !ignores.Select(ignore => ignore.ToLower()).Contains(x.Name.ToLower())))
 				property.SetValue(destination, property.GetValue(source));
 		}
 	}
