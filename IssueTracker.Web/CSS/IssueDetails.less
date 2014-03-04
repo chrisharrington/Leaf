@@ -42,26 +42,23 @@
 	div.content { float:left; width:100%; position:relative; margin-top:@spacing; .border-box; padding-right:@sidebar-width+@spacing;
 		>textarea { .tile; float:left; width:100%; height:200px; cursor:pointer; color:black; }
 		
-		>div.comments { float:left; width:100%; .tile; padding:0; margin-top:@spacing; cursor:default;
-			>div.existing-comments { float:left; width:100%; }
-			>div.existing-comments>div, >div { float:left; width:100%; display:block; border-top:solid 1px @border-colour;
-				>div { float:left; width:100%; display:table;
+		>div.comments { float:left; width:100%; padding:0; cursor:default;
+			>div { float:left; width:33.3333%; padding-right:@spacing; .border-box; margin-top:@spacing;
+				>div { float:left; width:100%; .tile;
 					@user-width:252px;
 					@tile-size:56px;
-					>div.user { display:table-cell; width:@user-width; padding:@spacing; .border-box; border-right:solid 1px @border-colour;
-						>div.colour { float:left; text-align:center; margin-right:@spacing;
-							>div { width:@tile-size; height:@tile-size; .gradient(lighten(#2A8C06, 5%), darken(#2A8C06, 5%)); color:white; font-size:3em; text-align:center; .regular-font; margin:auto;
-								>span { display:inline-block; float:left; width:100%; height:100%; line-height:@tile-size; text-align:center; }
-							}
+					>div.colour-logo { float:left; margin-right:@spacing;
+						>div { width:@tile-size; height:@tile-size; .gradient(lighten(#2A8C06, 5%), darken(#2A8C06, 5%)); color:white; font-size:3em; text-align:center; .regular-font; margin:auto;
+							>span { display:inline-block; float:left; width:100%; height:100%; line-height:@tile-size; text-align:center; }
 						}
-						>span { float:left; margin-top:@tiny-spacing; color:@primary-font-colour; font-weight:bold; }
-						>span.date { font-size:0.875em; color:@primary-font-colour-light; font-weight:normal; }
-						>span.name { font-size:1.125em; }
 					}
-					>div.text { display:table-cell; padding:@spacing; .border-box; vertical-align:top; }
+					>span { float:left; margin-top:@tiny-spacing; color:@primary-font-colour; font-weight:bold; }
+					>span.date { font-size:0.875em; color:@primary-font-colour-light; font-weight:normal; }
+					>span.name { font-size:1.125em; }
+					>div.text { float:left; width:100%; margin-top:@spacing; }
 				}
 			}
-			>div.existing-comments>div:first-child { border-top:none; }
+			>div:nth-child(3n) { padding-right:0; }
 		}
 	}
 
