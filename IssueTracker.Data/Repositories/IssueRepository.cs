@@ -36,12 +36,14 @@ namespace IssueTracker.Data.Repositories
 
 				var oldValue = oldProperties[key].GetValue(retrieved);
 				var newValue = newProperties[key].GetValue(model);
-				if (oldValue != null && !oldValue.Equals(newValue))
+				if (oldValue != null && newValue != null && !oldValue.Equals(newValue))
 					changes.Add(new Audit { Id = Guid.NewGuid(), OldValue = oldValue.ToString(), NewValue = newValue.ToString(), Property = key });
 			}
 			SetProperties(model, retrieved);
-			var issueAudit = new IssueAudit { Id = Guid.NewGuid(), Changes = changes, Date = DateTime.UtcNow, User = user, Issue = retrieved};
-			model.Audits.Add(issueAudit);
+			if (changes.Any()) {
+				var issueAudit = new IssueAudit { Id = Guid.NewGuid(), Changes = changes, Date = DateTime.UtcNow, User = user, Issue = retrieved};
+				model.Audits.Add(issueAudit);
+			}
 			Context.SaveChanges();
 		}
 

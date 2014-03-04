@@ -142,14 +142,16 @@ namespace IssueTracker.Web.Controllers
 		private IEnumerable<IssueHistoryViewModel> BuildIssueHistory(IEnumerable<IssueAudit> audits, IEnumerable<Comment> comments)
 		{
 			var history = new List<IssueHistoryViewModel>();
-			history.AddRange(audits.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(), text = BuildAuditString(x), user = x.User.ToString() }));
-			history.AddRange(comments.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(), text = x.Text, user = x.User.ToString() }));
+			if (audits != null)
+				history.AddRange(audits.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(), text = BuildAuditString(x), user = x.User.ToString() }));
+			if (comments != null)
+				history.AddRange(comments.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(), text = x.Text, user = x.User.ToString() }));
 			return history.OrderByDescending(x => DateTime.Parse(x.date));
 		}
 
 	    private string BuildAuditString(IssueAudit audit)
 	    {
-		    return audit.Changes.Aggregate("The following property changes were made:<br/>", (current, change) => current + ("<br/>" + change.Property + ": " + change.OldValue + " --> " + change.NewValue));
+		    return audit.Changes.Aggregate("", (current, change) => current + ("<br/>" + change.Property + ": <b>" + change.OldValue + "</b> to <b>" + change.NewValue + "</b>")).Substring(5);
 	    }
     }
 
