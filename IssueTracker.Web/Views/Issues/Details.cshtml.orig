@@ -41,7 +41,14 @@
 	
 <div class="content">
 	<textarea placeholder="Details..." class="no-focus" data-bind="value: IssueTracker.selectedIssue.details"></textarea>
+<<<<<<< HEAD
+	
+	<div class="comments">
+		<div class="existing-comments" data-bind="comments: { list: Comments.list, template: 'comment-template' }"></div>
+	</div>
+=======
 	<div class="comments" data-bind="comments: { list: Comments.list, template: 'comment-template' }"></div>
+>>>>>>> issue-history-alternate-view
 </div>
 
 <div class="sidebar perspective">
@@ -83,7 +90,10 @@
 		</div>
 		<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
 	</div>
+<<<<<<< HEAD
+=======
 	
+>>>>>>> issue-history-alternate-view
 	<div class="new-comment tile">
 		<h1>Add Comment</h1>
 		<textarea placeholder="New comment..." data-bind="value: Comments.text"></textarea>

@@ -28,7 +28,6 @@
 			>h1.number { float:left; .border-radius; text-align:center; font-weight:bold; border-right:solid 1px @border-colour; height:100%; line-height:(@name-height)-(@spacing*2); padding:@spacing; vertical-align:middle; display:inline-block; .border-box; background-color:white; }
 			>div.description { position:relative; padding:0; height:100%;
 				>input { float:left; width:100%; padding:@spacing !important; height:100%; cursor:pointer; border:none; box-shadow:none; font-weight:bold; .condensed-font; margin:0; padding:0; text-transform:uppercase; color:@primary-header-font-colour; font-size:1.75em; }
-				>input:hover { .hover; }
 			}
 		}
 		div.name-container.low { border-left-color:@low-priority-background; }
@@ -41,39 +40,41 @@
 	@sidebar-width:300px;
 	@sidebar-height:350px;
 	div.content { float:left; width:100%; position:relative; margin-top:@spacing; .border-box; padding-right:@sidebar-width+@spacing;
-		>textarea { .tile; float:left; width:100%; height:200px; cursor:pointer; color:black; cursor:pointer; }
-		>textarea:hover { .hover; }
+		>textarea { .tile; float:left; width:100%; height:200px; cursor:pointer; color:black; }
 		
-		>div.comments { float:left; width:100%;
-<<<<<<< HEAD
-			>div { float:left; width:100%; margin-top:@spacing; .tile; padding:0; display:table;
-				@user-width:252px;
-				@tile-size:58px;
-				>div.user { display:table-cell; width:@user-width; padding:@spacing; .border-box; border-right:solid 1px @border-colour;
-					>div.colour { float:left; text-align:center; margin-right:@spacing;
-						>div { width:@tile-size; height:@tile-size; .gradient(lighten(#2A8C06, 5%), darken(#2A8C06, 5%)); color:white; font-size:3em; text-align:center; .regular-font; margin:auto;
-							>span { display:inline-block; float:left; width:100%; height:100%; line-height:@tile-size; text-align:center; }
+		>div.comments { float:left; width:100%; padding:0; cursor:default;
+			>div { float:left; width:100%; margin-top:@spacing;
+				>div { float:left; width:100%; .tile; padding:0;
+					@user-width:252px;
+					@tile-size:42px;
+					>div.colour-logo { float:left; margin-right:@spacing;
+						>div { width:@tile-size; height:@tile-size; font-size:2em;
+							>span { line-height:@tile-size; }
 						}
+<<<<<<< HEAD
+						>span { float:left; margin-top:@tiny-spacing; color:@primary-font-colour; font-weight:bold; }
+						>span.date { font-size:0.875em; color:@primary-font-colour-light; font-weight:normal; }
+						>span.name { font-size:1.125em; }
 					}
-					>span { float:left; margin-top:@tiny-spacing; color:@primary-font-colour; font-weight:bold; }
-					>span.date { font-size:0.875em; color:@primary-font-colour-light; font-weight:normal; }
-					>span.name { font-size:1.25em; }
+					>div.text { display:table-cell; padding:@spacing; .border-box; vertical-align:top; }
 				}
-				>div.text { display:table-cell; position:relative; padding:@spacing; .border-box; vertical-align:top; }
-=======
-			>div { float:left; width:100%; margin-top:@spacing; .tile;
-				>span.name { float:left; width:100%; text-align:right; color:@primary-font-colour-light;
-					>b { color:@secondary-font-colour; }
-				}
-				>span.date { float:left; width:100%; text-align:right; font-size:0.75em; color:@primary-font-colour-lightest; }
-				>span.text { float:left; width:100%; margin-bottom:@small-spacing; }
->>>>>>> e3229788edff1057d92ffb6971f53931217432ff
 			}
+			>div.existing-comments>div:first-child { border-top:none; }
+=======
+					}
+					>span { float:left; color:@primary-font-colour; font-weight:bold; padding:0 @spacing; .border-box; height:@tile-size; display:inline-block; line-height:@tile-size; vertical-align:middle; }
+					>span.date { float:right; font-size:0.875em; color:@primary-font-colour-light; font-weight:normal; }
+					>span.name { font-size:1.125em; padding:0; }
+					>div.text { float:left; width:100%; padding:@spacing; .border-box; border-top:solid 1px @border-colour; }
+				}
+			}
+			
+>>>>>>> issue-history-alternate-view
 		}
 	}
 
 	div.sidebar { float:left; margin-left:@sidebar-width*-1; width:@sidebar-width; position:relative; z-index:2;
-		>div { height:@sidebar-height; margin-top:@spacing;
+		>div.choices { height:@sidebar-height; margin-top:@spacing;
 			div.details { padding:0; 
 				>div { float:left; width:100%; padding:@spacing; .border-box; border-top:solid 1px @border-colour;
 					>span.title { float:left; color:@primary-font-colour-light; }
@@ -111,6 +112,11 @@
 					}
 				}
 			}
+		}
+		>div.new-comment { float:left; width:100%; margin-top:@spacing;
+			>* { float:left; width:100%; margin-top:@spacing; }
+			>h1 { margin-top:0; }
+			>textarea { height:150px; }
 		}
 	}
 }
