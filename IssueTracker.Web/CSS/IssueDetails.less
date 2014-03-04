@@ -62,20 +62,11 @@
 				}
 			}
 			>div.existing-comments>div:first-child { border-top:none; }
-
-			>div.new-comment {
-				>div {
-					>div.text {
-						>textarea { float:left; width:100%; height:100px; }
-						>button { float:right; width:auto; margin-top:@spacing; }
-					}
-				}
-			}
 		}
 	}
 
 	div.sidebar { float:left; margin-left:@sidebar-width*-1; width:@sidebar-width; position:relative; z-index:2;
-		>div { height:@sidebar-height; margin-top:@spacing;
+		>div.choices { height:@sidebar-height; margin-top:@spacing;
 			div.details { padding:0; 
 				>div { float:left; width:100%; padding:@spacing; .border-box; border-top:solid 1px @border-colour;
 					>span.title { float:left; color:@primary-font-colour-light; }
@@ -113,6 +104,11 @@
 					}
 				}
 			}
+		}
+		>div.new-comment { float:left; width:100%; margin-top:@spacing;
+			>* { float:left; width:100%; margin-top:@spacing; }
+			>h1 { margin-top:0; }
+			>textarea { height:150px; }
 		}
 	}
 }
