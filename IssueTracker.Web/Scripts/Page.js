@@ -17,6 +17,12 @@ IssueTracker.Page = function(params) {
 				IssueTracker.Welcome.navigate();
 			else
 				me._setView(params, this.params);
+		}).enter(function() {
+			if (params.root.enter)
+				params.root.enter();
+		}).exit(function() {
+			if (params.root.exit)
+				params.root.exit();
 		});
 	});
 

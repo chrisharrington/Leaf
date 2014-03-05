@@ -22,7 +22,7 @@
 		_hookupEvents(container);
 		_transitioner.init();
 		_deleter.init(container);
-		_comments.init(container, IssueTracker.selectedIssue.history());
+		_comments.init(container);
 	};
 
 	root.load = function () {
@@ -31,6 +31,7 @@
 
 		_detailsFlipper = new IssueTracker.Controls.Flipper("#choices-container");
 		_oldName = IssueTracker.selectedIssue.description();
+		_comments.load(IssueTracker.selectedIssue.history());
 		
 		IssueTracker.selectedIssue.statusId.subscribe(function (statusId) { _transitioner.execute(statusId); });
 	};
@@ -178,7 +179,8 @@
 		view: function () { return "Issues/Details?issueName=:name&projectId=" + IssueTracker.selectedProject().id; },
 		title: "Issue Details",
 		route: "#/:project-name/issues/:name",
-		style: "issue-details-container"
+		style: "issue-details-container",
+		exit: function() { _container.find("div.existing-comments").empty(); }
 	});
 
 })(root("IssueTracker.IssueDetails"));

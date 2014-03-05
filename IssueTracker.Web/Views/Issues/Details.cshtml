@@ -54,7 +54,18 @@
 				<textarea class="no-focus" placeholder="Add a comment..." data-bind="value: Comments.text"></textarea>
 			</div>
 		</div>
-		<div class="existing-comments" data-bind="comments: { list: Comments.list, template: 'comment-template' }"></div>
+		<div class="existing-comments" data-bind="foreach: { data: Comments.list, afterAdd: Comments.slideDown }">
+			<div>
+				<div class="colour-logo">
+					<div>
+						<span data-bind="text: user[0].toUpperCase()"></span>
+					</div>
+				</div>
+				<span class="name" data-bind="text: user"></span>
+				<span class="date" data-bind="text: date"></span>
+				<div class="text" data-bind="html: text"></div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -176,18 +187,5 @@
 		<div>
 			<button id="cancel-delete">Cancel</button>
 		</div>
-	</div>
-</script>
-
-<script type="text/html" id="comment-template">
-	<div>
-		<div class="colour-logo">
-			<div>
-				<span data-bind="text: user[0].toUpperCase()"></span>
-			</div>
-		</div>
-		<span class="name" data-bind="text: user"></span>
-		<span class="date" data-bind="text: date"></span>
-		<div class="text" data-bind="html: text"></div>
 	</div>
 </script>

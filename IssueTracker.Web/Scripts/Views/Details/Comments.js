@@ -2,6 +2,7 @@
 (function(root) {
 
 	var _container;
+	var _isAdd;
 
 	root.loading = ko.observable(false);
 	root.text = ko.observable("");
@@ -11,9 +12,17 @@
 		_container = container;
 
 		_hookupEvents();
+	};
 
+	root.load = function (comments) {
+		_isAdd = false;
 		root.list.removeAll();
 		root.list.pushAll(comments);
+	};
+
+	root.slideDown = function (element) {
+		if (_isAdd)
+			$(element).hide().slideDown(200);
 	};
 
 	function _hookupEvents() {
@@ -27,7 +36,8 @@
 		}
 
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "Issues/AddComment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function() {
+		$.post(IssueTracker.virtualDirectory() + "Issues/AddComment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function () {
+			_isAdd = true;
 			root.list.push({ date: new Date().toApplicationString(), user: IssueTracker.signedInUser().name, text: root.text() });
 			root.text("");
 		}).fail(function() {
