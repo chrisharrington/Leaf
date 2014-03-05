@@ -74,7 +74,7 @@ namespace IssueTracker.Data
 		{
 			var type = builder.Entity<IssueType>();
 			type.Map(x => { x.ToTable("IssueTypes"); x.MapInheritedProperties(); });
-			type.HasMany(x => x.Issues).WithOptional(x => x.Type);
+			type.HasMany(x => x.Issues).WithRequired(x => x.Type);
 
 			var comment = builder.Entity<IssueComment>();
 			comment.Map(x => { x.ToTable("Comments"); x.MapInheritedProperties(); });
@@ -95,7 +95,7 @@ namespace IssueTracker.Data
 			issue.HasRequired(x => x.Status).WithMany(x => x.Issues).WillCascadeOnDelete(false);
 			issue.HasRequired(x => x.Developer).WithMany(x => x.DeveloperIssues).WillCascadeOnDelete(false);
 			issue.HasRequired(x => x.Tester).WithMany(x => x.TesterIssues).WillCascadeOnDelete(false);
-			issue.HasOptional(x => x.Type).WithMany(x => x.Issues).WillCascadeOnDelete(false);
+			issue.HasRequired(x => x.Type).WithMany(x => x.Issues).WillCascadeOnDelete(false);
 		}
 
 		private void MapProjects(DbModelBuilder builder)

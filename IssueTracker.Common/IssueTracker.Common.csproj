@@ -44,6 +44,7 @@
     <Compile Include="Data\Repositories\IFilterRepository.cs" />
     <Compile Include="Data\Repositories\IIssueAuditRepository.cs" />
     <Compile Include="Data\Repositories\IIssueRepository.cs" />
+    <Compile Include="Data\Repositories\IIssueTypeRepository.cs" />
     <Compile Include="Data\Repositories\IMilestoneRepository.cs" />
     <Compile Include="Data\Repositories\IPriorityRepository.cs" />
     <Compile Include="Data\Repositories\IProjectRepository.cs" />
