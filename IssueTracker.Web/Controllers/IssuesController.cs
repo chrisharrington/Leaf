@@ -57,6 +57,8 @@ namespace IssueTracker.Web.Controllers
 				priorityId = issue.Priority.Id,
 				status = issue.Status.ToString(),
 				statusId = issue.Status.Id,
+				type = issue.Type.ToString(),
+				typeId = issue.Type.Id,
 				developer = issue.Developer.ToString(),
 				developerId = issue.Developer.Id,
 				tester = issue.Tester.ToString(),

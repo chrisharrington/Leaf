@@ -16,6 +16,8 @@ namespace IssueTracker.Common.ViewModels
 		[Required] public Guid priorityId { get; set; }
 		public string status { get; set; }
 		[Required] public Guid statusId { get; set; }
+		public string type { get; set; }
+		[Required] public Guid typeId { get; set; }
 		public string developer { get; set; }
 		[Required] public Guid developerId { get; set; }
 		public string tester { get; set; }

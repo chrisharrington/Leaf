@@ -87,6 +87,11 @@
 				<i class="fa fa-angle-down"></i>
 				<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
 			</div>
+			<div class="selectable" id="issue-type">
+				<span class="title">Type</span>
+				<i class="fa fa-angle-down"></i>
+				<span class="info" data-bind="text: IssueTracker.selectedIssue.type"></span>
+			</div>
 			<div class="selectable" id="developer">
 				<span class="title">Developer</span>
 				<i class="fa fa-angle-down"></i>
@@ -109,6 +114,19 @@
 		<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
 	</div>
 </div>
+
+<script type="text/html" id="type-chooser">
+	<div class="type-chooser chooser" data-bind="foreach: issueTypes">
+		<div data-bind="attr: { 'data-type': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.typeId() }">
+			<div>
+				<div>
+					<span class="name" data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
 
 <script type="text/html" id="milestone-chooser">
 	<div class="milestone-chooser chooser" data-bind="foreach: milestones">

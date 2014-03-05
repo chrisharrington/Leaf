@@ -42,6 +42,7 @@
 		container.on("click", "div.milestone-chooser>div", _setMilestone);
 		container.on("click", "div.priority-chooser>div", _setPriority);
 		container.on("click", "div.status-chooser>div", _setStatus);
+		container.on("click", "div.type-chooser>div", _setType);
 		container.on("click", "div.developer-chooser>div", _setDeveloper);
 		container.on("click", "div.tester-chooser>div", _setTester);
 	}
@@ -64,6 +65,16 @@
 		var priority = $.parseJSON($(this).attr("data-priority"));
 		IssueTracker.selectedIssue.priorityId(priority.id);
 		IssueTracker.selectedIssue.priority(priority.name);
+	}
+	
+	function _setType() {
+		_detailsFlipper.toggle();
+		_container.find("div.type-chooser>div.selected").removeClass("selected");
+		$(this).addClass("selected");
+
+		var type = $.parseJSON($(this).attr("data-type"));
+		IssueTracker.selectedIssue.typeId(type.id);
+		IssueTracker.selectedIssue.type(type.name);
 	}
 
 	function _setStatus() {
@@ -118,6 +129,12 @@
 			root.chooser.template("status-chooser");
 			_detailsFlipper.toggle();
 		});
+
+		container.on("click", "#issue-type", function () {
+			root.chooser.data({ issueTypes: IssueTracker.issueTypes() });
+			root.chooser.template("type-chooser");
+			_detailsFlipper.toggle();
+		});
 		
 		container.on("click", "#developer", function () {
 			root.chooser.data({ developers: IssueTracker.users() });
@@ -136,6 +153,7 @@
 		root.saving(true);
 		return $.post(IssueTracker.virtualDirectory() + "Issues/Update", _buildIssueParameters()).done(function() {
 			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.description().formatForUrl());
+			IssueTracker.Feedback.success("Your issue has been updated.");
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while saving your issue. Please try again later.");
 		}).always(function() {
@@ -153,6 +171,7 @@
 			milestoneId: issue.milestoneId(),
 			priorityId: issue.priorityId(),
 			statusId: issue.statusId(),
+			typeId: issue.typeId(),
 			developerId: issue.developerId(),
 			testerId: issue.testerId(),
 			opened: issue.opened(),
