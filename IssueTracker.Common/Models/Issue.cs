@@ -17,14 +17,15 @@ namespace IssueTracker.Common.Models
 		public virtual Priority Priority { get; set; }
 		public virtual Status Status { get; set; }
 		public virtual Milestone Milestone { get; set; }
+		public virtual IssueType Type { get; set; }
 		public virtual ICollection<IssueAudit> Audits { get; set; }
-		public virtual ICollection<Comment> Comments { get; set; }
+		public virtual ICollection<IssueComment> Comments { get; set; }
 		public User UpdatedBy { get; set; }
 
 	    public Issue()
 	    {
 		    Audits = new List<IssueAudit>();
-		    Comments = new List<Comment>();
+		    Comments = new List<IssueComment>();
 	    }
     }
 }

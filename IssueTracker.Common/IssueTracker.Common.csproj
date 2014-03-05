@@ -55,10 +55,11 @@
     <Compile Include="Models\Audit.cs" />
     <Compile Include="Models\Base\FilterModel.cs" />
     <Compile Include="Models\Base\IdModel.cs" />
-    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\IssueComment.cs" />
     <Compile Include="Models\DateRange.cs" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\IssueAudit.cs" />
+    <Compile Include="Models\IssueType.cs" />
     <Compile Include="Models\Milestone.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Base\ProjectModel.cs" />

@@ -15,7 +15,8 @@ namespace IssueTracker.Data
 		public DbSet<Milestone> Milestones { get; set; }
 		public DbSet<IssueAudit> IssueAudits { get; set; }
 		public DbSet<Audit> Audits { get; set; }
-		public DbSet<Comment> Comments { get; set; }
+		public DbSet<IssueComment> Comments { get; set; }
+		public DbSet<IssueType> IssueTypes { get; set; }
 
 		public DataContext() : base("DefaultDataConnection") { }
 
@@ -25,6 +26,7 @@ namespace IssueTracker.Data
 			MapPriorities(builder);
 			MapStatuses(builder);
 			MapUsers(builder);
+			MapAudits(builder);
 			MapIssues(builder);
 			MapProjects(builder);
 
@@ -62,14 +64,21 @@ namespace IssueTracker.Data
 			status.HasMany(x => x.Issues).WithRequired(x => x.Status);
 		}
 
-		private void MapIssues(DbModelBuilder builder)
+		private void MapAudits(DbModelBuilder builder)
 		{
-			var comment = builder.Entity<Comment>();
-			comment.Map(x => { x.ToTable("Comments"); x.MapInheritedProperties(); });
-			comment.HasRequired(x => x.Issue).WithMany(x => x.Comments);
-
 			var audit = builder.Entity<Audit>();
 			audit.Map(x => { x.ToTable("Audits"); x.MapInheritedProperties(); });
+		}
+
+		private void MapIssues(DbModelBuilder builder)
+		{
+			var type = builder.Entity<IssueType>();
+			type.Map(x => { x.ToTable("IssueTypes"); x.MapInheritedProperties(); });
+			type.HasMany(x => x.Issues).WithOptional(x => x.Type);
+
+			var comment = builder.Entity<IssueComment>();
+			comment.Map(x => { x.ToTable("Comments"); x.MapInheritedProperties(); });
+			comment.HasRequired(x => x.Issue).WithMany(x => x.Comments);
 
 			var issueAudit = builder.Entity<IssueAudit>();
 			issueAudit.Map(x => { x.ToTable("IssueAudits"); x.MapInheritedProperties(); });
@@ -86,6 +95,7 @@ namespace IssueTracker.Data
 			issue.HasRequired(x => x.Status).WithMany(x => x.Issues).WillCascadeOnDelete(false);
 			issue.HasRequired(x => x.Developer).WithMany(x => x.DeveloperIssues).WillCascadeOnDelete(false);
 			issue.HasRequired(x => x.Tester).WithMany(x => x.TesterIssues).WillCascadeOnDelete(false);
+			issue.HasOptional(x => x.Type).WithMany(x => x.Issues).WillCascadeOnDelete(false);
 		}
 
 		private void MapProjects(DbModelBuilder builder)

@@ -130,7 +130,7 @@ namespace IssueTracker.Web.Controllers
 	    public void AddComment(IssueHistoryViewModel model)
 	    {
 		    var issue = IssueRepository.Details(model.issueId);
-			issue.Comments.Add(new Comment { User = SignedInUser, Date = DateTime.UtcNow, Id = Guid.NewGuid(), Issue = issue, Text = model.text });
+			issue.Comments.Add(new IssueComment { User = SignedInUser, Date = DateTime.UtcNow, Id = Guid.NewGuid(), Issue = issue, Text = model.text });
 		    IssueRepository.Update(issue, SignedInUser);
 	    }
 
@@ -139,7 +139,7 @@ namespace IssueTracker.Web.Controllers
 		    return priority.Name.Replace(" ", "-").ToLower();
 	    }
 
-		private IEnumerable<IssueHistoryViewModel> BuildIssueHistory(IEnumerable<IssueAudit> audits, IEnumerable<Comment> comments)
+		private IEnumerable<IssueHistoryViewModel> BuildIssueHistory(IEnumerable<IssueAudit> audits, IEnumerable<IssueComment> comments)
 		{
 			var history = new List<IssueHistoryViewModel>();
 			if (audits != null)

@@ -198,8 +198,6 @@
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\background.png" />
     <Content Include="Images\button-loader.gif" />
-    <Content Include="Scripts\Binders\CommentsBinder.js" />
-    <Content Include="Scripts\Binders\FadeBinder.js" />
     <Content Include="Scripts\Binders\RemoteTemplateBinder.js" />
     <Content Include="Scripts\Bindings.js" />
     <Content Include="Scripts\Helpers\Feedback.js" />
@@ -226,7 +224,8 @@
     <Content Include="Scripts\Views\Details\Comments.js" />
     <Content Include="Scripts\Views\Details\DeleteIssue.js" />
     <Content Include="Scripts\Views\Details\IssueDetails.js" />
-    <Content Include="Scripts\Views\Issues\Sorter.js" />
+    <Content Include="Scripts\Views\Issues\View.js" />
+    <Content Include="Scripts\Views\Issues\Sort.js" />
     <Content Include="Scripts\Views\Issues\Issues.js" />
     <Content Include="Scripts\Views\Issues\Filter.js" />
     <Content Include="Scripts\Views\Welcome\SignIn.js" />
