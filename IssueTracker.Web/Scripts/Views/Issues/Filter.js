@@ -4,6 +4,7 @@
 	var _milestonesStorageKey = "Filter.SelectedMilestones";
 	var _prioritiesStorageKey = "Filter.SelectedPriorities";
 	var _statusesStorageKey = "Filter.SelectedStatuses";
+	var _typesStorageKey = "Filter.SelectedTypes";
 	var _developersStorageKey = "Filter.SelectedDevelopers";
 	var _testersStorageKey = "Filter.SelectedTesters";
 
@@ -16,6 +17,7 @@
 	root.selectedMilestones = ko.observableArray();
 	root.selectedPriorities = ko.observableArray();
 	root.selectedStatuses = ko.observableArray();
+	root.selectedTypes = ko.observableArray();
 	root.selectedDevelopers = ko.observableArray();
 	root.selectedTesters = ko.observableArray();
 
@@ -53,6 +55,7 @@
 		_container.on("click", "#milestone-filter>div", function () { _toggleFilterItem($(this), root.selectedMilestones); });
 		_container.on("click", "#priority-filter>div", function () { _toggleFilterItem($(this), root.selectedPriorities); });
 		_container.on("click", "#status-filter>div", function () { _toggleFilterItem($(this), root.selectedStatuses); });
+		_container.on("click", "#type-filter>div", function() { _toggleFilterItem($(this), root.selectedTypes); });
 		_container.on("click", "#developer-filter>div", function () { _toggleFilterItem($(this), root.selectedDevelopers); });
 		_container.on("click", "#tester-filter>div", function () { _toggleFilterItem($(this), root.selectedTesters); });
 	}
@@ -75,6 +78,7 @@
 		_restoreCommaSeparatedListTo(root.selectedMilestones, _milestonesStorageKey);
 		_restoreCommaSeparatedListTo(root.selectedPriorities, _prioritiesStorageKey);
 		_restoreCommaSeparatedListTo(root.selectedStatuses, _statusesStorageKey);
+		_restoreCommaSeparatedListTo(root.selectedTypes, _typesStorageKey);
 		_restoreCommaSeparatedListTo(root.selectedDevelopers, _developersStorageKey);
 		_restoreCommaSeparatedListTo(root.selectedTesters, _testersStorageKey);
 
@@ -90,6 +94,7 @@
 		$.jStorage.set(_milestonesStorageKey, root.selectedMilestones());
 		$.jStorage.set(_prioritiesStorageKey, root.selectedPriorities());
 		$.jStorage.set(_statusesStorageKey, root.selectedStatuses());
+		$.jStorage.set(_typesStorageKey, root.selectedTypes());
 		$.jStorage.set(_developersStorageKey, root.selectedDevelopers());
 		$.jStorage.set(_testersStorageKey, root.selectedTesters());
 	}

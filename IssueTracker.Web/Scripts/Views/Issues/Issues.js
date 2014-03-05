@@ -89,6 +89,7 @@
 			milestones: _joinFilterIds(_filter.selectedMilestones(), IssueTracker.milestones()),
 			priorities: _joinFilterIds(_filter.selectedPriorities(), IssueTracker.priorities()),
 			statuses: _joinFilterIds(_filter.selectedStatuses(), IssueTracker.statuses()),
+			types: _joinFilterIds(_filter.selectedTypes(), IssueTracker.issueTypes()),
 			developers: _joinFilterIds(_filter.selectedDevelopers(), IssueTracker.users()),
 			testers: _joinFilterIds(_filter.selectedTesters(), IssueTracker.users())
 		});

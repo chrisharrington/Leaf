@@ -91,6 +91,7 @@ namespace IssueTracker.Web.Controllers
 				tester = x.Tester.ToString(),
 				developer = x.Developer.ToString(),
 				status = x.Status.ToString(),
+				type = x.Type.ToString(),
 				priorityStyle = ToPriorityStyleString(x.Priority),
 				opened = x.Opened.ToApplicationString(),
 				closed = x.Closed.ToApplicationString(),
@@ -164,12 +165,14 @@ namespace IssueTracker.Web.Controllers
 		public Project project { get; set; }
 		public Priority priority { get; set; }
 		public Status status { get; set; }
+		public IssueType type { get; set; }
 		public User developer { get; set; }
 		public User tester { get; set; }
 		public string filter { get; set; }
 		public string milestones { get; set; }
 		public string priorities { get; set; }
 		public string statuses { get; set; }
+		public string types { get; set; }
 		public string developers { get; set; }
 		public string testers { get; set; }
 
@@ -185,11 +188,13 @@ namespace IssueTracker.Web.Controllers
 				end = end,
 				priority = priority,
 				status = status,
+				type = type,
 				tester = tester,
 				filter = filter,
 				milestones = string.IsNullOrEmpty(milestones) ? new List<Milestone>() : milestones.Split(',').Select(x => new Milestone { Id = new Guid(x) }),
 				priorities = string.IsNullOrEmpty(priorities) ? new List<Priority>() : priorities.Split(',').Select(x => new Priority { Id = new Guid(x) }),
 				statuses = string.IsNullOrEmpty(statuses) ? new List<Status>() : statuses.Split(',').Select(x => new Status { Id = new Guid(x) }),
+				types = string.IsNullOrEmpty(types) ? new List<IssueType>() : types.Split(',').Select(x => new IssueType { Id = new Guid(x) }),
 				developers = string.IsNullOrEmpty(developers) ? new List<User>() : developers.Split(',').Select(x => new User { Id = new Guid(x) }),
 				testers = string.IsNullOrEmpty(testers) ? new List<User>() : testers.Split(',').Select(x => new User { Id = new Guid(x) }),
 			};

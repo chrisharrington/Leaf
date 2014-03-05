@@ -10,12 +10,14 @@ namespace IssueTracker.Common.ViewModels
 		public Project project { get; set; }
 		public Priority priority { get; set; }
 		public Status status { get; set; }
+		public IssueType type { get; set; }
 		public User developer { get; set; }
 		public User tester { get; set; }
 		public string filter { get; set; }
 		public IEnumerable<Milestone> milestones { get; set; } 
 		public IEnumerable<Priority> priorities { get; set; }
 		public IEnumerable<Status> statuses { get; set; }
+		public IEnumerable<IssueType> types { get; set; } 
 		public IEnumerable<User> developers { get; set; }
 		public IEnumerable<User> testers { get; set; } 
 	}

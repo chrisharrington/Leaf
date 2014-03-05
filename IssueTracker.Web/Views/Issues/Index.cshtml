@@ -16,6 +16,7 @@
 					<div class="status">
 						<span data-bind="text: milestone"></span>
 						<span data-bind="text: status"></span>
+						<span data-bind="text: type"></span>
 						<span data-bind="text: developer"></span>
 						<span data-bind="text: tester"></span>
 					</div>
@@ -137,6 +138,14 @@
 	</div>
 	<!-- /ko -->
 	<!-- /ko -->
+	<!-- ko if: Filter.selectedTypes().length != IssueTracker.issueTypes().length -->
+	<!-- ko foreach: Filter.selectedTypes -->
+	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedTypes, $data); }">
+		<span class="type">Type</span>
+		<span class="name" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
 	<!-- ko if: Filter.selectedDevelopers().length != IssueTracker.users().length -->
 	<!-- ko foreach: Filter.selectedDevelopers -->
 	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedDevelopers, $data); }">
@@ -179,6 +188,15 @@
 			<h2>Status</h2>
 			<!-- ko foreach: IssueTracker.statuses -->
 			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedStatuses, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+		<div class="tile choice-tile no-selected-background" id="type-filter">
+			<h2>Type</h2>
+			<!-- ko foreach: IssueTracker.issueTypes -->
+			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedTypes, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
