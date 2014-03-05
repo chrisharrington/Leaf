@@ -4,23 +4,20 @@
 			<h1>No issues found.</h1>
 			<span>Your current filter settings have excluded all issues. Create an issue or change the filter on the right to see a list of issues.</span>
 		</div>
-		<div class="data" data-bind="foreach: list">
+		<div data-bind="foreach: list, attr: { 'class': 'data ' + View.view() }">
 			<a class="tile hidden" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
-				<div>
-					<div data-bind="attr: { class: 'priority unset ' + priorityStyle }"></div>
-					<div class="info-container">
-						<div class="info">
-							<h2 class="name" data-bind="text: name"></h2>
-							<span class="date" data-bind="text: opened"></span>
-							<span class="updated" data-bind="text: 'Last updated by ' + updatedBy + ' at ' + lastUpdated + '.'"></span>
-							<span class="comments" data-bind="visible: description != null, text: description"></span>
-						</div>
-						<div class="status">
-							<span data-bind="text: milestone"></span>
-							<span data-bind="text: status"></span>
-							<span data-bind="text: developer"></span>
-							<span data-bind="text: tester"></span>
-						</div>
+				<div data-bind="attr: { class: priorityStyle }">
+					<div class="info">
+						<h2 class="name" data-bind="text: name"></h2>
+						<span class="date" data-bind="text: opened"></span>
+						<span class="updated" data-bind="text: 'Last updated by ' + updatedBy + ' at ' + lastUpdated + '.'"></span>
+						<span class="comments" data-bind="visible: description != null, text: description"></span>
+					</div>
+					<div class="status">
+						<span data-bind="text: milestone"></span>
+						<span data-bind="text: status"></span>
+						<span data-bind="text: developer"></span>
+						<span data-bind="text: tester"></span>
 					</div>
 				</div>
 			</a>
@@ -42,8 +39,18 @@
 						<i class="fa fa-angle-right"></i>
 					</div>
 					<div class="sidebar-item">
-						<span class="type" data-bind="text: Sorter.property().replace('-', ' ').capitalize()"></span>
-						<span class="name" data-bind="text: Sorter.direction().capitalize()"></span>
+						<span class="type" data-bind="text: Sort.property().replace('-', ' ').capitalize()"></span>
+						<span class="name" data-bind="text: Sort.direction().capitalize()"></span>
+					</div>
+				</div>
+				<div class="tile modify-view-container">
+					<div class="header">
+						<h2>View</h2>
+						<i class="fa fa-angle-right"></i>
+					</div>
+					<div class="sidebar-item">
+						<span class="type">View</span>
+						<span class="name" data-bind="text: View.view().capitalize()"></span>
 					</div>
 				</div>
 			</div>
@@ -52,43 +59,55 @@
 	</div>
 </div>
 
+<script id="modify-view-template" type="text/html">
+	<div class="modify-view tile choice-tile no-selected-background">
+		<h2>View</h2>
+		<!-- ko foreach: View.availableViews -->
+		<div data-bind="css: { selected: $root.View.view().toLowerCase().indexOf($data) > -1 }, click: function() { $root.View.view($data); }">
+			<span data-bind="text: $data.capitalize()"></span>
+			<i class="fa fa-check"></i>
+		</div>
+		<!-- /ko -->
+	</div>
+</script>
+
 <script id="modify-sort-template" type="text/html">
 	<div class="modify-sort choice-tile tile">
 		<h2>Sort</h2>
 		<div data-property="description">
 			<span>Description</span>
-			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'description' && $root.Sorter.direction() == 'descending' }"></i>
-			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'description' && $root.Sorter.direction() == 'ascending' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'description' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'description' && $root.Sort.direction() == 'ascending' }"></i>
 		</div>
 		<div data-property="milestone">
 			<span>Milestone</span>
-			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'milestone' && $root.Sorter.direction() == 'descending' }"></i>
-			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'milestone' && $root.Sorter.direction() == 'ascending' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'milestone' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'milestone' && $root.Sort.direction() == 'ascending' }"></i>
 		</div>
 		<div data-property="priority">
 			<span>Priority</span>
-			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'priority' && $root.Sorter.direction() == 'descending' }"></i>
-			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'priority' && $root.Sorter.direction() == 'ascending' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'priority' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'priority' && $root.Sort.direction() == 'ascending' }"></i>
 		</div>
 		<div data-property="status">
 			<span>Status</span>
-			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'status' && $root.Sorter.direction() == 'descending' }"></i>
-			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'status' && $root.Sorter.direction() == 'ascending' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'status' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'status' && $root.Sort.direction() == 'ascending' }"></i>
 		</div>
 		<div data-property="developer">
 			<span>Developer</span>
-			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'developer' && $root.Sorter.direction() == 'descending' }"></i>
-			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'developer' && $root.Sorter.direction() == 'ascending' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'developer' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'developer' && $root.Sort.direction() == 'ascending' }"></i>
 		</div>
 		<div data-property="tester">
 			<span>Tester</span>
-			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'tester' && $root.Sorter.direction() == 'descending' }"></i>
-			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'tester' && $root.Sorter.direction() == 'ascending' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'tester' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'tester' && $root.Sort.direction() == 'ascending' }"></i>
 		</div>
 		<div data-property="date-opened">
 			<span>Date Opened</span>
-			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sorter.property() == 'date-opened' && $root.Sorter.direction() == 'descending' }"></i>
-			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sorter.property() == 'date-opened' && $root.Sorter.direction() == 'ascending' }"></i>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'date-opened' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'date-opened' && $root.Sort.direction() == 'ascending' }"></i>
 		</div>
 	</div>
 </script>

@@ -3,7 +3,8 @@
 
 	var _container;
 	var _filter;
-	var _sorter;
+	var _sort;
+	var _view;
 	var _flipper;
 
 	var _startCount = 50;
@@ -20,7 +21,8 @@
 
 	root.init = function (container) {
 		_filter = IssueTracker.Issues.Filter;
-		_sorter = IssueTracker.Issues.Sorter;
+		_sort = IssueTracker.Issues.Sort;
+		_view = IssueTracker.Issues.View;
 		
 		_container = container;
 		_hookupEvents(container);
@@ -29,7 +31,8 @@
 
 		_flipper = new IssueTracker.Controls.Flipper("div.sidebar .flipper");
 		_filter.init(container, _flipper, root.sidebar, _resetIssueList);
-		_sorter.init(container, _flipper, root.sidebar, _resetIssueList);
+		_sort.init(container, _flipper, root.sidebar, _resetIssueList);
+		_view.init(container, _flipper, root.sidebar);
 	};
 
 	root.load = function () {
@@ -63,7 +66,7 @@
 		$.get(IssueTracker.virtualDirectory() + "Issues/Next", _buildParameters(count)).done(function (issues) {
 			root.list([]);
 			root.list.pushAll(issues);
-			_setPriorityBarHeights();
+			_container.find("a.tile.hidden").removeClass("hidden");
 			if (issues.length < count)
 				_allLoaded = true;
 		}).fail(function () {
@@ -74,22 +77,14 @@
 		});
 		_start += count;
 	}
-
-	function _setPriorityBarHeights() {
-		_container.find("div.priority.unset").each(function() {
-			var bar = $(this).removeClass("unset");
-			var tile = bar.closest("a.tile");
-			bar.height(tile.removeClass("hidden").height());
-		});
-	}
 	
 	function _buildParameters(count) {
 		return $.toDictionary({
 			start: _start + 1,
 			end: _start + count,
 			project: IssueTracker.selectedProject(),
-			direction: _sorter.direction(),
-			comparer: _sorter.property(),
+			direction: _sort.direction(),
+			comparer: _sort.property(),
 			filter: root.search(),
 			milestones: _joinFilterIds(_filter.selectedMilestones(), IssueTracker.milestones()),
 			priorities: _joinFilterIds(_filter.selectedPriorities(), IssueTracker.priorities()),

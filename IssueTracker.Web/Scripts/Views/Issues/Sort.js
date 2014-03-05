@@ -30,4 +30,4 @@
 		_onSortSet();
 	}
 
-})(root("IssueTracker.Issues.Sorter"));
+})(root("IssueTracker.Issues.Sort"));
