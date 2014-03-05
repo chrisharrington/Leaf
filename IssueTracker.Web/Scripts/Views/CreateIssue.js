@@ -10,6 +10,7 @@
 		details: ko.observable(""),
 		priorityId: function () { return _getSelectedFromChoiceTile($("div.priority")); },
 		statusId: function () { return _getSelectedFromChoiceTile($("div.status")); },
+		typeId: function() { return _getSelectedFromChoiceTile($("div.type")); },
 		developerId: function () { return _getSelectedFromChoiceTile($("div.developer")); },
 		testerId: function () { return _getSelectedFromChoiceTile($("div.tester")); },
 		milestoneId: function () { return _getSelectedFromChoiceTile($("div.milestone")); },
@@ -57,6 +58,8 @@
 			return "The priority is required.";
 		if (!model.statusId())
 			return "The status is required.";
+		if (!model.typeId())
+			return "The type is required.";
 		if (!model.developerId())
 			return "The developer is required.";
 		if (!model.testerId())
@@ -90,6 +93,7 @@
 		_container.find("div.detailed-info-container>div.milestone>div>div:first").addClass("selected");
 		_container.find("div.detailed-info-container>div.priority>div>div:first").addClass("selected");
 		_container.find("div.detailed-info-container>div.status>div>div:first").addClass("selected");
+		_container.find("div.detailed-info-container>div.type>div>div:first").addClass("selected");
 
 		var signedInUserId = IssueTracker.signedInUser().id;
 		_container.find("div.detailed-info-container>div.developer>div>div[data-id='" + signedInUserId + "']").addClass("selected");

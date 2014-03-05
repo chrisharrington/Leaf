@@ -59,6 +59,17 @@
 			<!-- /ko -->
 		</div>
 	</div>
+	<div class="type padded-tile-container">
+		<div class="tile choice-tile">
+			<h2>Type</h2>
+			<!-- ko foreach: IssueTracker.issueTypes -->
+			<div data-bind="attr: { 'data-id': id }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+	</div>
 	<div class="developer padded-tile-container">
 		<div class="tile choice-tile">
 			<h2>Developer</h2>
@@ -87,6 +98,11 @@
 	<h2>Attached Files</h2>
 	<button>Browse...</button>
 	<div>
+		<div>
+			<div class="empty-file">
+				<span>Drop your file here</span>
+			</div>
+		</div>
 		<div>
 			<div class="empty-file">
 				<span>Drop your file here</span>
