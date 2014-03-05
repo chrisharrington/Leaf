@@ -1,6 +1,8 @@
 ﻿
 (function(root) {
 
+	var _key = "View.view";
+
 	var _container;
 	var _observable;
 	var _flipper;
@@ -14,19 +16,15 @@
 		_flipper = flipper;
 		
 		_hookupEvents();
+
+		var restored = $.jStorage.get(_key);
+		if (restored)
+			root.view(restored);
 	};
 
 	function _hookupEvents() {
 		_container.on("click", "div.modify-view-container", function () { _observable("modify-view-template"); _flipper.toggle(); });
-		_container.on("click", "div.modify-view>div", function() { _flipper.toggle(); _setPriorityBarHeights(); });
-	}
-
-	function _setPriorityBarHeights() {
-		_container.find("div.priority.unset").each(function () {
-			var bar = $(this).removeClass("unset");
-			var tile = bar.closest("a.tile");
-			bar.height(tile.removeClass("hidden").height());
-		});
+		_container.on("click", "div.modify-view>div", function() { _flipper.toggle(); $.jStorage.set(_key, root.view()); });
 	}
 
 })(root("IssueTracker.Issues.View"));
