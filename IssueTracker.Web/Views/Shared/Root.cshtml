@@ -22,9 +22,10 @@
 			root.priorities = ko.observableArray(@Html.Raw(Json.Encode(Model.Priorities)));
 			root.statuses = ko.observableArray(@Html.Raw(Json.Encode(Model.Statuses)));
 			root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));
-			root.transitions = ko.observableArray(@Html.Raw(Json.Encode(Model.Transitions)))
+			root.transitions = ko.observableArray(@Html.Raw(Json.Encode(Model.Transitions)));
 			root.projects = ko.observableArray(@Html.Raw(Json.Encode(Model.Projects)));
 			root.milestones = ko.observableArray(@Html.Raw(Json.Encode(Model.Milestones)));
+			root.issueTypes = ko.observableArray(@Html.Raw(Json.Encode(Model.Types)));
 			root.selectedProject = ko.observable(@Html.Raw(Json.Encode(Model.SelectedProject)));
 			root.signedInUser = ko.observable(@Html.Raw(Json.Encode(Model.SignedInUser)));
 			root.selectedIssue = ko.observable();

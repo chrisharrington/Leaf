@@ -14,6 +14,7 @@ namespace IssueTracker.Web.Controllers
 		public IStatusRepository StatusRepository { get; set; }
 		public ITransitionRepository TransitionRepository { get; set; }
 		public IMilestoneRepository MilestoneRepository { get; set; }
+		public IIssueTypeRepository IssueTypeRepository { get; set; }
 
 		public ActionResult Index()
 		{
@@ -27,6 +28,7 @@ namespace IssueTracker.Web.Controllers
 				Projects = projects.ToArray().Select(project => new ProjectViewModel {id = project.Id, name = project.Name}),
 				Transitions = TransitionRepository.All(x => x.Name).Select(x => new TransitionViewModel {id = x.Id, fromId = x.From.Id, toId = x.To.Id, name = x.Name}),
 				Milestones = MilestoneRepository.Project(selectedProject, x => x.Name).ToArray().Select(x => new MilestoneViewModel {id = x.Id, name = x.Name}),
+				Types = IssueTypeRepository.All().OrderBy(x => x.Name).Select(x => new IssueTypeViewModel {id = x.Id, name = x.Name}),
 				SelectedProject = new { name = selectedProject.Name, id = selectedProject.Id },
 				SignedInUser = signedInUser == null ? null : Mapper.DynamicMap<User, UserViewModel>(signedInUser)
             });
@@ -50,6 +52,7 @@ namespace IssueTracker.Web.Controllers
 		public IEnumerable<ProjectViewModel> Projects { get; set; }
 		public IEnumerable<TransitionViewModel> Transitions { get; set; }
 		public IEnumerable<MilestoneViewModel> Milestones { get; set; }
+		public IEnumerable<IssueTypeViewModel> Types { get; set; } 
 		public object SelectedProject { get; set; }
 		public object SignedInUser { get; set; }
 	}
