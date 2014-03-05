@@ -126,7 +126,9 @@ namespace IssueTracker.Web.Controllers
 	    [HttpPost]
 	    public void Delete(IssueViewModel issue)
 	    {
-			IssueRepository.Delete(Mapper.Map<IssueViewModel, Issue>(issue), SignedInUser);
+		    var model = Mapper.Map<IssueViewModel, Issue>(issue);
+		    model.Project = CurrentProject;
+		    IssueRepository.Delete(model, SignedInUser);
 	    }
 
 	    [HttpPost]
