@@ -164,7 +164,7 @@ div.breadcrumbs { float:left; font-size:1.125em; .condensed-font; height:@breadc
 }
 
 div.choice-tile.no-selected-background>div.selected { background:white; }
-div.choice-tile { padding:0 !important;
+div.choice-tile, div.data-tile { padding:0 !important;
 	@height:19px;
 	@local-spacing:@spacing;
 	>h2, >h3 { float:left; width:100%; padding:@small-spacing @local-spacing; .border-box; }
@@ -178,6 +178,13 @@ div.choice-tile { padding:0 !important;
 	}
 	>div:last-child { border-bottom:solid 1px @border-colour; }
 	>div:hover { .hover; }
+}
+
+div.data-tile {
+	>div {
+		span.label { float:left; }
+		span.value { float:right; color:@secondary-font-colour; font-weight:bold; }
+	}
 }
 
 div.colour-logo { text-align:center;

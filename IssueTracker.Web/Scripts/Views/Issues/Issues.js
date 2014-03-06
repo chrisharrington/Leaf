@@ -5,6 +5,7 @@
 	var _filter;
 	var _sort;
 	var _view;
+	var _details;
 	var _flipper;
 
 	var _startCount = 50;
@@ -18,21 +19,23 @@
 	root.list = ko.observableArray();
 	root.search = ko.observable("");
 	root.sidebar = ko.observable();
+	root.sidebarData = ko.observable();
 
 	root.init = function (container) {
 		_filter = IssueTracker.Issues.Filter;
 		_sort = IssueTracker.Issues.Sort;
 		_view = IssueTracker.Issues.View;
+		_details = IssueTracker.Issues.Details;
 		
 		_container = container;
 		_hookupEvents(container);
-
 		_setupLoadingMoreIssues();
 
 		_flipper = new IssueTracker.Controls.Flipper("div.sidebar .flipper");
 		_filter.init(container, _flipper, root.sidebar, _resetIssueList);
-		_sort.init(container, _flipper, root.sidebar, _resetIssueList);
-		_view.init(container, _flipper, root.sidebar);
+		_sort.init(container, _flipper, root.sidebar, root.sidebarData, _resetIssueList);
+		_view.init(container, _flipper, root.sidebar, root.sidebarData);
+		_details.init(container, _flipper, root.sidebar, root.sidebarData);
 	};
 
 	root.load = function () {

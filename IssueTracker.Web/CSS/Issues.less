@@ -56,12 +56,16 @@
 		>div.sidebar { float:left; position:fixed; width:@filter-width; position:relative; margin-left:@filter-width*-1;
 			@selected-filter-height:19px;
 			div.sidebar-item { float:left; width:100%; border-top:solid 1px @border-colour; padding:@small-spacing @spacing; .border-box; cursor:pointer;
-				>span.type { float:left; color:@primary-font-colour-light; }
-				>span.name { float:right; color:@secondary-font-colour; font-weight:bold; }
+				>span.label { float:left; color:@primary-font-colour-light; }
+				>span.value { float:right; color:@secondary-font-colour; font-weight:bold; }
 				>i { float:right; height:@selected-filter-height; margin-left:@spacing; line-height:@selected-filter-height; display:inline-block; vertical-align:middle; }
 			}
 
-			>div { float:left; width:@filter-width;
+			>div.issue-details { float:left; width:@filter-width;
+				>span.description { float:left; width:100%; padding:0 @spacing @small-spacing @spacing; .border-box; }
+			}
+
+			>div.flipper { float:left; width:@filter-width;
 				div.front { padding:0; height:auto;
 					@header-height:28px;
 					>div { float:left; width:100%; margin-top:@spacing; padding:0;

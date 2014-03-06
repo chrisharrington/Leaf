@@ -15,18 +15,29 @@ IssueTracker.Controls.Flipper.create = function(view, userAgent) {
 	return new IssueTracker.Controls.Flipper(view, userAgent);
 };
 
-IssueTracker.Controls.Flipper.prototype.toggle = function() {
+IssueTracker.Controls.Flipper.prototype.toggle = function(show) {
 	if (this._isIE)
-		this._toggleForIE();
-	else
+		this._toggleForIE(show);
+	else if (typeof show == "undefined")
 		$(this._selector).toggleClass("flipped");
+	else if (show === true)
+		$(this._selector).addClass("flipped");
+	else if (show === false)
+		$(this._selector).removeClass("flipped");
 };
 
-IssueTracker.Controls.Flipper.prototype._toggleForIE = function () {
+IssueTracker.Controls.Flipper.prototype._toggleForIE = function (show) {
 	var view = $(this._selector);
 	view.removeClass("transition");
 	var front = view.find(".front");
 	var back = view.find(".back");
+	if (show && show === true && front.hasClass("shown"))
+		return;
+	if (typeof show != "undefined" && show === false && !front.hasClass("shown")) {
+		this._switch(back, front);
+		return;
+	}
+		
 	if (front.hasClass("shown") || (!front.hasClass("shown") && !back.hasClass("shown")))
 		this._switch(front, back);
 	else

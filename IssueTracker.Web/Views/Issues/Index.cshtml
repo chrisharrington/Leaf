@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	<div class="sidebar perspective">
-		<div class="flipper transition horizontal">
+		<div class="flipper transition horizontal" data-bind="visible: Details.selectedIssue().description() == ''">
 			<div class="flip-tile front">
 				<div class="tile modify-filter-container">
 					<div class="header" id="modify-filter">
@@ -40,8 +40,8 @@
 						<i class="fa fa-angle-right"></i>
 					</div>
 					<div class="sidebar-item">
-						<span class="type" data-bind="text: Sort.property().replace('-', ' ').capitalize()"></span>
-						<span class="name" data-bind="text: Sort.direction().capitalize()"></span>
+						<span class="label" data-bind="text: Sort.property().replace('-', ' ').capitalize()"></span>
+						<span class="value" data-bind="text: Sort.direction().capitalize()"></span>
 					</div>
 				</div>
 				<div class="tile modify-view-container">
@@ -50,21 +50,51 @@
 						<i class="fa fa-angle-right"></i>
 					</div>
 					<div class="sidebar-item">
-						<span class="type">View</span>
-						<span class="name" data-bind="text: View.view().capitalize()"></span>
+						<span class="label">View</span>
+						<span class="value" data-bind="text: View.view().capitalize()"></span>
 					</div>
 				</div>
 			</div>
-			<div class="back flip-tile" data-bind="template: { name: sidebar }"></div>
+			<div class="back flip-tile" data-bind="template: { name: sidebar, data: sidebarData }"></div>
 		</div>
+		<div class="issue-details data-tile tile" data-bind="template: { name: 'issue-details-template', data: Details.selectedIssue }, visible: Details.selectedIssue().description() != ''"></div>
 	</div>
 </div>
+
+<script id="issue-details-template" type="text/html">
+	<h2 data-bind="text: name"></h2>
+	<span class="description" data-bind="text: description, visible: description() != null"></span>
+	<div>
+		<span class="label">Milestone</span>
+		<span class="value" data-bind="text: milestone"></span>
+	</div>
+	<div>
+		<span class="label">Priority</span>
+		<span class="value" data-bind="text: priority"></span>
+	</div>
+	<div>
+		<span class="label">Status</span>
+		<span class="value" data-bind="text: status"></span>
+	</div>
+	<div>
+		<span class="label">Type</span>
+		<span class="value" data-bind="text: type"></span>
+	</div>
+	<div>
+		<span class="label">Developer</span>
+		<span class="value" data-bind="text: developer"></span>
+	</div>
+	<div>
+		<span class="label">Tester</span>
+		<span class="value" data-bind="text: tester"></span>
+	</div>
+</script>
 
 <script id="modify-view-template" type="text/html">
 	<div class="modify-view tile choice-tile no-selected-background">
 		<h2>View</h2>
-		<!-- ko foreach: View.availableViews -->
-		<div data-bind="css: { selected: $root.View.view().toLowerCase().indexOf($data) > -1 }, click: function() { $root.View.view($data); }">
+		<!-- ko foreach: availableViews -->
+		<div data-bind="css: { selected: $parent.view().toLowerCase().indexOf($data) > -1 }, click: function() { $parent.view($data); }">
 			<span data-bind="text: $data.capitalize()"></span>
 			<i class="fa fa-check"></i>
 		</div>
@@ -122,48 +152,48 @@
 	<!-- ko if: Filter.selectedMilestones().length != IssueTracker.milestones().length -->
 	<!-- ko foreach: Filter.selectedMilestones -->
 	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedMilestones, $data); }">
-		<span class="type">Milestone</span>
-		<span class="name" data-bind="text: name"></span>
+		<span class="label">Milestone</span>
+		<span class="value" data-bind="text: name"></span>
 	</div>
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedPriorities().length != IssueTracker.priorities().length -->
 	<!-- ko foreach: Filter.selectedPriorities -->
 	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedPriorities, $data); }">
-		<span class="type">Priority</span>
-		<span class="name" data-bind="text: name"></span>
+		<span class="label">Priority</span>
+		<span class="value" data-bind="text: name"></span>
 	</div>
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedStatuses().length != IssueTracker.statuses().length -->
 	<!-- ko foreach: Filter.selectedStatuses -->
 	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedStatuses, $data); }">
-		<span class="type">Status</span>
-		<span class="name" data-bind="text: name"></span>
+		<span class="label">Status</span>
+		<span class="value" data-bind="text: name"></span>
 	</div>
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedTypes().length != IssueTracker.issueTypes().length -->
 	<!-- ko foreach: Filter.selectedTypes -->
 	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedTypes, $data); }">
-		<span class="type">Type</span>
-		<span class="name" data-bind="text: name"></span>
+		<span class="label">Type</span>
+		<span class="value" data-bind="text: name"></span>
 	</div>
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedDevelopers().length != IssueTracker.users().length -->
 	<!-- ko foreach: Filter.selectedDevelopers -->
 	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedDevelopers, $data); }">
-		<span class="type">Developer</span>
-		<span class="name" data-bind="text: name"></span>
+		<span class="label">Developer</span>
+		<span class="value" data-bind="text: name"></span>
 	</div>
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedTesters().length != IssueTracker.users().length -->
 	<!-- ko foreach: Filter.selectedTesters -->
 	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedTesters, $data); }">
-		<span class="type">Tester</span>
-		<span class="name" data-bind="text: name"></span>
+		<span class="label">Tester</span>
+		<span class="value" data-bind="text: name"></span>
 	</div>
 	<!-- /ko -->
 	<!-- /ko -->
