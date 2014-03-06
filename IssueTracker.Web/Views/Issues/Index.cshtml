@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	<div class="sidebar perspective">
-		<div class="flipper transition horizontal" data-bind="visible: Details.selectedIssue().description() == ''">
+		<div class="flipper transition horizontal" data-bind="visible: View.view() == 'expanded' || Details.selectedIssue().description() == ''">
 			<div class="flip-tile front">
 				<div class="tile modify-filter-container">
 					<div class="header" id="modify-filter">
@@ -57,7 +57,7 @@
 			</div>
 			<div class="back flip-tile" data-bind="template: { name: sidebar, data: sidebarData }"></div>
 		</div>
-		<div class="issue-details data-tile tile" data-bind="template: { name: 'issue-details-template', data: Details.selectedIssue }, visible: Details.selectedIssue().description() != ''"></div>
+		<div class="issue-details data-tile tile" data-bind="template: { name: 'issue-details-template', data: Details.selectedIssue }, visible: View.view() == 'collapsed' && Details.selectedIssue().description() != ''"></div>
 	</div>
 </div>
 
