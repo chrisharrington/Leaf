@@ -19,7 +19,7 @@ String.prototype.startsWith = function(value) {
 };
 
 String.prototype.formatForUrl = function() {
-	return this.replace(/ |_/g, "-").replace(/\.\'/g, "").toLowerCase();
+	return this.replace(/ |_/g, "-").replace(/\.\/\'/g, "").toLowerCase();
 };
 
 String.prototype.capitalize = function() {

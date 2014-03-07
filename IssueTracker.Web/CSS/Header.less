@@ -1,14 +1,17 @@
 ﻿@import "Global.less";
 
 @header-height:50px;
-header { float:left; width:100%; height:@header-height; .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour); color:@primary-font-colour-dark-background; .border-box; padding:0 @spacing;
-	>a { height:100%; color:inherit;
-		>i { font-size:1.375em; height:100%; line-height:@header-height !important; vertical-align:middle; }
+header { float:left; width:100%; height:@header-height; .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); color:@primary-font-colour-dark-background; .border-box;
+	>div.menu { float:left; }
+	>div.account { float:right; }
+
+	>div {
+		>a { float:left; height:100%; color:inherit; padding:0 @spacing; border-left:solid 1px @primary-font-colour-light; cursor:pointer;
+			>* { line-height:@header-height!important; height:100%; vertical-align:middle; display:inline-block; }
+			>i { float:left; font-size:1.375em; }
+			>span { float:left; margin-left:@spacing; }
+		}
+		>a:first-child { border-left:none; }
+		>a:hover { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); }
 	}
-	>#create-issue { float:right; }
-	>#project-switcher { float:right; border-left:solid 1px @border-colour-dark; cursor:pointer; display:table; padding:@small-spacing @spacing; .border-box;
-		h3 { .table-cell-vertically-aligned; color:inherit; font-weight:normal; }
-		i { font-size:1.125em; .table-cell-vertically-aligned; text-align:right; padding-top:3px; padding-left:@spacing; }
-	}
-	>div.project-switcher:hover { color:@secondary-font-colour-dark-background; }
 }
