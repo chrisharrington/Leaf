@@ -61,9 +61,7 @@
 				>i { float:right; height:@selected-filter-height; margin-left:@spacing; line-height:@selected-filter-height; display:inline-block; vertical-align:middle; }
 			}
 
-			>div.issue-details { float:left; width:@filter-width;
-				>span.description { float:left; width:100%; padding:0 @spacing @small-spacing @spacing; .border-box; }
-			}
+			
 
 			>div.flipper { float:left; width:@filter-width;
 				div.front { padding:0; height:auto;
@@ -83,6 +81,9 @@
 						}
 					}
 					div.modify-sort-container:hover, div.modify-view-container:hover { .hover; }
+					>div.issue-details { float:left; width:@filter-width;
+						>span.description { float:left; width:100%; padding:0 @spacing @small-spacing @spacing; .border-box; }
+					}
 				}
 				div.back { padding:0; height:auto;
 					>div { float:left; width:100%; }

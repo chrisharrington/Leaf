@@ -32,7 +32,7 @@
 		_setupLoadingMoreIssues();
 
 		_flipper = new IssueTracker.Controls.Flipper("div.sidebar .flipper");
-		_filter.init(container, _flipper, root.sidebar, _resetIssueList);
+		_filter.init(container, _flipper, root.sidebar, root.sidebarData, _resetIssueList);
 		_sort.init(container, _flipper, root.sidebar, root.sidebarData, _resetIssueList);
 		_view.init(container, _flipper, root.sidebar, root.sidebarData);
 		_details.init(container, _flipper, root.sidebar, root.sidebarData);
