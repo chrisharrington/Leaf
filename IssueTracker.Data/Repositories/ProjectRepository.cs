@@ -10,7 +10,7 @@ namespace IssueTracker.Data.Repositories
 	{
 		public IEnumerable<Project> User(Guid userId)
 		{
-			return Context.Projects.Where(x => x.User.Id == userId);
+			return Context.Projects.Where(x => x.Users.Select(y => y.Id).Contains(userId));
 		}
 	}
 }

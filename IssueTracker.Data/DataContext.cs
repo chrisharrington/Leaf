@@ -54,6 +54,7 @@ namespace IssueTracker.Data
 			user.Map(x => { x.ToTable("Users"); x.MapInheritedProperties(); });
 			user.HasMany(x => x.DeveloperIssues).WithRequired(x => x.Developer);
 			user.HasMany(x => x.TesterIssues).WithRequired(x => x.Tester);
+			user.HasRequired(x => x.Project).WithMany(x => x.Users).WillCascadeOnDelete(false);
 		}
 
 		private void MapStatuses(DbModelBuilder builder)
@@ -101,8 +102,9 @@ namespace IssueTracker.Data
 		private void MapProjects(DbModelBuilder builder)
 		{
 			var projects = builder.Entity<Project>().ToTable("Projects");
-			projects.HasMany(x => x.Statuses).WithOptional();
+			projects.HasMany(x => x.Statuses).WithRequired();
 			projects.HasMany(x => x.Priorities).WithRequired();
+			projects.HasMany(x => x.Users).WithRequired();
 		}
 	}
 }

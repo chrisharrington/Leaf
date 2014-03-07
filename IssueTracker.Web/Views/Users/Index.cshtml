@@ -1,0 +1,10 @@
+﻿@model IssueTracker.Common.ViewModels.UsersViewModel
+
+<script type="text/javascript">
+	$(function() {
+		var root = IssueTracker.Users;
+		root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));
+	});
+</script>
+
+users!

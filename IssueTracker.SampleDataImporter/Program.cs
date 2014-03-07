@@ -52,7 +52,7 @@ namespace IssueTracker.SampleDataImporter
 				while (names.Contains(name = words[_random.Next(0, words.Length - 1)])) { }
 				names.Add(name);
 
-				var project = new Project { Id = Guid.NewGuid(), Name = name[0].ToString().ToUpper() + name.Substring(1), User = user };
+				var project = new Project { Id = Guid.NewGuid(), Name = name[0].ToString().ToUpper() + name.Substring(1), Users = new List<User> {user} };
 				projectRepository.Insert(project, user);
 				projects.Add(project);
 			}

@@ -179,6 +179,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\IssuesController.cs" />
     <Compile Include="Controllers\RootController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WelcomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -229,6 +230,7 @@
     <Content Include="Scripts\Views\Issues\Sort.js" />
     <Content Include="Scripts\Views\Issues\Issues.js" />
     <Content Include="Scripts\Views\Issues\Filter.js" />
+    <Content Include="Scripts\Views\Users\Users.js" />
     <Content Include="Scripts\Views\Welcome\SignIn.js" />
     <Content Include="Scripts\Views\Welcome\Welcome.js" />
     <Content Include="Tests\Binders\RemoteTemplateBinder.js" />
@@ -329,6 +331,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CSS\Welcome.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Users\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSS\Users.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -4,7 +4,7 @@ using IssueTracker.Common.Models;
 
 namespace IssueTracker.Data.Repositories
 {
-	public class UserRepository : BaseRepository<User>, IUserRepository
+	public class UserRepository : BaseProjectRepository<User>, IUserRepository
 	{
 		public User Email(string email)
 		{

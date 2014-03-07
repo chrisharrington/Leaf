@@ -55,6 +55,14 @@
     <Compile Include="Migrations\201403052128143_enabled-required-issue-types.Designer.cs">
       <DependentUpon>201403052128143_enabled-required-issue-types.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201403071947479_SingleProjectPerUser.cs" />
+    <Compile Include="Migrations\201403071947479_SingleProjectPerUser.Designer.cs">
+      <DependentUpon>201403071947479_SingleProjectPerUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201403071958465_SingleProjectPerUserDataRestored.cs" />
+    <Compile Include="Migrations\201403071958465_SingleProjectPerUserDataRestored.Designer.cs">
+      <DependentUpon>201403071958465_SingleProjectPerUserDataRestored.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseProjectRepository.cs" />
@@ -83,6 +91,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201403052128143_enabled-required-issue-types.resx">
       <DependentUpon>201403052128143_enabled-required-issue-types.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403071947479_SingleProjectPerUser.resx">
+      <DependentUpon>201403071947479_SingleProjectPerUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403071958465_SingleProjectPerUserDataRestored.resx">
+      <DependentUpon>201403071958465_SingleProjectPerUserDataRestored.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

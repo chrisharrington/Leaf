@@ -1,0 +1,11 @@
+﻿@import "Global.less";
+
+div.users-container {
+	>div { float:left; width:25%; padding-right:@spacing; .border-box;
+		>div { float:left; width:100%; .tile; }
+		>div.user {
+			>h2 { float:left; width:100%; }
+		}
+	}
+	>div:nth-child(4n) { padding-right:0; }
+}
