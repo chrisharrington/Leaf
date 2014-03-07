@@ -26,7 +26,7 @@ namespace IssueTracker.Web.Controllers
 				Statuses = StatusRepository.Project(selectedProject, x => x.Order).ToArray().Select(x => new OrderViewModel {id = x.Id, name = x.Name, order = x.Order}),
 				Users = UserRepository.All(x => x.Name).ToArray().Select(x => new UserViewModel {id = x.Id, name = x.Name, emailAddress = x.EmailAddress}),
 				Projects = projects.ToArray().Select(project => new ProjectViewModel {id = project.Id, name = project.Name}),
-				Transitions = TransitionRepository.All(x => x.Name).Select(x => new TransitionViewModel {id = x.Id, fromId = x.From.Id, toId = x.To.Id, name = x.Name}),
+				Transitions = TransitionRepository.All(x => x.Name, x => x.From, x => x.To).Select(x => new TransitionViewModel {id = x.Id, fromId = x.From.Id, toId = x.To.Id, name = x.Name}),
 				Milestones = MilestoneRepository.Project(selectedProject, x => x.Name).ToArray().Select(x => new MilestoneViewModel {id = x.Id, name = x.Name}),
 				Types = IssueTypeRepository.All().OrderBy(x => x.Name).Select(x => new IssueTypeViewModel {id = x.Id, name = x.Name}),
 				SelectedProject = new { name = selectedProject.Name, id = selectedProject.Id },

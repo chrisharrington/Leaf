@@ -60,9 +60,11 @@ namespace IssueTracker.Data.Repositories
 			Update(model, user);
 		}
 
-		public IEnumerable<TModel> All(Func<TModel, object> orderBy = null)
+		public IEnumerable<TModel> All(Func<TModel, object> orderBy = null, params Expression<Func<TModel, object>>[] includes)
 		{
 			var collection = Context.Set<TModel>().Where(x => !x.IsDeleted);
+			foreach (var include in includes)
+				collection = collection.Include(include);
 			if (orderBy != null)
 				return collection.OrderBy(orderBy);
 			return collection;

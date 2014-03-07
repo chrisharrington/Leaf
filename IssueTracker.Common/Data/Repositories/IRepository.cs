@@ -12,6 +12,6 @@ namespace IssueTracker.Common.Data.Repositories
 		Guid Insert(TModel model, User user);
 		void Update(TModel model, User user);
 		void Delete(TModel model, User user);
-		IEnumerable<TModel> All(Func<TModel, object> orderBy = null);
+		IEnumerable<TModel> All(Func<TModel, object> orderBy = null, params Expression<Func<TModel, object>>[] includes);
 	}
 }
