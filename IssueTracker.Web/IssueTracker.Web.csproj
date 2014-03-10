@@ -230,6 +230,7 @@
     <Content Include="Scripts\Views\Issues\Sort.js" />
     <Content Include="Scripts\Views\Issues\Issues.js" />
     <Content Include="Scripts\Views\Issues\Filter.js" />
+    <Content Include="Scripts\Views\Users\EditUser.js" />
     <Content Include="Scripts\Views\Users\DeleteUser.js" />
     <Content Include="Scripts\Views\Users\ResetPassword.js" />
     <Content Include="Scripts\Views\Users\Users.js" />

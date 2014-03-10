@@ -34,5 +34,11 @@ namespace IssueTracker.Web.Controllers
 
 			UserRepository.Delete(Mapper.DynamicMap<UserViewModel, User>(user), SignedInUser);
 		}
+
+		[HttpPost]
+		public void Edit(UserViewModel user)
+		{
+			UserRepository.Update(Mapper.DynamicMap<UserViewModel, User>(user), SignedInUser);
+		}
 	}
 }
