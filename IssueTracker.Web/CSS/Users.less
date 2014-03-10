@@ -4,12 +4,10 @@
 	div.user-container { float:left; width:50%; padding-right:@spacing; .border-box;
 		>div { float:left; width:100%; .tile; padding:0; }
 		>div.user {
-			@header-height:45px;
-			>* { .border-box; }
-			>h1, >div.colour-logo { float:left; padding:0; height:@header-height; display:inline-block; vertical-align:middle; line-height:@header-height; }
-			>h1 { padding:0 @spacing; }
-			>div.colour-logo { width:@header-height; font-size:2em; color:white; }
-			>div.info, >div.actions { float:left; width:100%; border-top:solid 1px @border-colour; padding:@spacing; }
+			>* { .border-box; padding:@small-spacing @spacing
+			}
+			>h1 { float:left; width:100%; }
+			>div.info, >div.actions { float:left; width:100%; border-top:solid 1px @border-colour; }
 			>div.info {
 				@info-height:19px;
 				>div { float:left; width:100%; margin-top:@small-spacing; height:@info-height;
@@ -20,7 +18,7 @@
 				}
 				>div:first-child { margin-top:0; }
 			}
-			>div.actions { padding:@small-spacing;
+			>div.actions { 
 				>div { float:left; width:33.3333%; padding-left:@small-spacing; .border-box; 
 					button { width:100%; }
 				}

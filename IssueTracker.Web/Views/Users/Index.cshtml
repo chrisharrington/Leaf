@@ -3,35 +3,37 @@
 <script type="text/javascript">
 	$(function() {
 		var root = IssueTracker.Users;
-		root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));
+		root.users = ko.observableArray([]);
+		$.each(@Html.Raw(Json.Encode(Model.Users)), function(i, user) {
+			root.users.push(IssueTracker.Utilities.createPropertyObservables(user));
+		});
 	});
 </script>
 
 <!-- ko foreach: users -->
 <div class="user-container">
 	<div class="user">
-		<div class="colour-logo" data-bind="text: name[0].toUpperCase(), attr: { class: 'colour-logo ' + background }"></div>
 		<h1 data-bind="text: name"></h1>
 		<div class="info">
 			<div>
 				<i class="fa fa-fw fa-envelope-o"></i>
 				<span class="label">Email address</span>
-				<span class="value" data-bind="text: emailAddress"></span>
+				<span class="value" data-bind="text: emailAddress()"></span>
 			</div>
 			<div>
 				<i class="fa fa-fw fa-tint"></i>
 				<span class="label">Colour</span>
-				<span class="value" data-bind="text: background.capitalize()"></span>
+				<span class="value" data-bind="text: background().capitalize()"></span>
 			</div>
 			<div>
 				<i class="fa fa-fw fa-wrench"></i>
 				<span class="label">Developer</span>
-				<span class="value" data-bind="text: developerIssueCount + ' issue' + (developerIssueCount == 1 ? '' : 's')"></span>
+				<span class="value" data-bind="text: developerIssueCount() + ' issue' + (developerIssueCount() == 1 ? '' : 's')"></span>
 			</div>
 			<div>
 				<i class="fa fa-fw fa-flask"></i>
 				<span class="label">Tester</span>
-				<span class="value" data-bind="text: testerIssueCount + ' issue' + (testerIssueCount == 1 ? '' : 's')"></span>
+				<span class="value" data-bind="text: testerIssueCount() + ' issue' + (testerIssueCount() == 1 ? '' : 's')"></span>
 			</div>
 		</div>
 		<div class="actions">
