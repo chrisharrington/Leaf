@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
@@ -13,7 +14,7 @@ namespace IssueTracker.Data.Repositories
 			if (status == null)
 				throw new ArgumentNullException("status");
 
-			return Context.Transitions.Where(x => x.From.Id == status.Id);
+			return Context.Transitions.Include(x => x.From).Include(x => x.To).Where(x => x.From.Id == status.Id);
 		}
 	}
 }

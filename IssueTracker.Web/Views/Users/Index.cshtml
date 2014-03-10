@@ -7,4 +7,53 @@
 	});
 </script>
 
-users!
+<!-- ko foreach: users -->
+<div class="user-container">
+	<div class="user">
+		<div class="colour-logo" data-bind="text: name[0].toUpperCase(), attr: { class: 'colour-logo ' + background }"></div>
+		<h1 data-bind="text: name"></h1>
+		<div class="info">
+			<div>
+				<i class="fa fa-fw fa-envelope-o"></i>
+				<span class="label">Email address</span>
+				<span class="value" data-bind="text: emailAddress"></span>
+			</div>
+			<div>
+				<i class="fa fa-fw fa-tint"></i>
+				<span class="label">Colour</span>
+				<span class="value" data-bind="text: background.capitalize()"></span>
+			</div>
+			<div>
+				<i class="fa fa-fw fa-wrench"></i>
+				<span class="label">Developer</span>
+				<span class="value" data-bind="text: developerIssueCount + ' issue' + (developerIssueCount == 1 ? '' : 's')"></span>
+			</div>
+			<div>
+				<i class="fa fa-fw fa-flask"></i>
+				<span class="label">Tester</span>
+				<span class="value" data-bind="text: testerIssueCount + ' issue' + (testerIssueCount == 1 ? '' : 's')"></span>
+			</div>
+		</div>
+		<div class="actions">
+			<div>
+				<button class="icon">
+					<i class="fa fa-key"></i>
+					<span>Reset Password</span>
+				</button>
+			</div>
+			<div>
+				<button class="icon">
+					<i class="fa fa-times"></i>
+					<span>Delete User</span>
+				</button>
+			</div>
+			<div>
+				<button class="icon">
+					<i class="fa fa-pencil"></i>
+					<span>Edit User</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /ko -->

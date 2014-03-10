@@ -6,7 +6,9 @@ namespace IssueTracker.Common.ViewModels
 	{
 		public Guid id { get; set; }
 		public string name { get; set; }
-		public string colourCode { get; set; }
+		public string background { get; set; }
 		public string emailAddress { get; set; }
+		public int developerIssueCount { get; set; }
+		public int testerIssueCount { get; set; }
 	}
 }

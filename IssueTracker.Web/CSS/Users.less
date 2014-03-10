@@ -1,11 +1,32 @@
 ﻿@import "Global.less";
 
-div.users-container {
-	>div { float:left; width:25%; padding-right:@spacing; .border-box;
-		>div { float:left; width:100%; .tile; }
+.users-container {
+	div.user-container { float:left; width:50%; padding-right:@spacing; .border-box;
+		>div { float:left; width:100%; .tile; padding:0; }
 		>div.user {
-			>h2 { float:left; width:100%; }
+			@header-height:45px;
+			>* { .border-box; }
+			>h1, >div.colour-logo { float:left; padding:0; height:@header-height; display:inline-block; vertical-align:middle; line-height:@header-height; }
+			>h1 { padding:0 @spacing; }
+			>div.colour-logo { width:@header-height; font-size:2em; color:white; }
+			>div.info, >div.actions { float:left; width:100%; border-top:solid 1px @border-colour; padding:@spacing; }
+			>div.info {
+				@info-height:19px;
+				>div { float:left; width:100%; margin-top:@small-spacing; height:@info-height;
+					>* { line-height:@info-height; height:100%; display:inline-block; vertical-align:middle; }
+					>i { float:left; margin-right:@small-spacing; margin-top:1px; }
+					>span.label { float:left; }
+					>span.value { float:right; font-weight:bold; color:@secondary-font-colour; }
+				}
+				>div:first-child { margin-top:0; }
+			}
+			>div.actions { padding:@small-spacing;
+				>div { float:left; width:33.3333%; padding-left:@small-spacing; .border-box; 
+					button { width:100%; }
+				}
+				>div:first-child { padding-left:0; }
+			}
 		}
 	}
-	>div:nth-child(4n) { padding-right:0; }
+	div.user-container:nth-child(4n) { padding-right:0; }
 }
