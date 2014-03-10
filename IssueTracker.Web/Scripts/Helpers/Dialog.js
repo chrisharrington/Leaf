@@ -18,6 +18,7 @@
 		_container = params.containerSelector ? $(params.containerSelector) : $("div.dialog");
 		_overlay = params.overlaySelector ? $(params.overlaySelector) : $("div.overlay");
 
+		ko.cleanNode(_container.find(">div")[0]);
 		ko.applyBindings(params.data ? params.data : IssueTracker, _container.find(">div")[0]);
 
 		_setPositionAndShow(_container);

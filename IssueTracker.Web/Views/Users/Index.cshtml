@@ -36,14 +36,14 @@
 		</div>
 		<div class="actions">
 			<div>
-				<button class="icon">
+				<button class="icon" data-bind="click: $parent.ResetPassword.reset">
 					<i class="fa fa-key"></i>
 					<span>Reset Password</span>
 				</button>
 			</div>
 			<div>
 				<button class="icon">
-					<i class="fa fa-times"></i>
+					<i class="fa fa-stimes"></i>
 					<span>Delete User</span>
 				</button>
 			</div>
@@ -57,3 +57,16 @@
 	</div>
 </div>
 <!-- /ko -->
+
+<script type="text/html" id="confirm-reset-password-template">
+	<div class="confirm-reset-password confirmation-dialog">
+		<h1>Reset Password</h1>
+		<span>Are you sure you want to reset <b data-bind="text: user().name"></b>'s password? An email will be sent to the user with instructions on how to reset their password.</span>
+		<div class="confirm-container">
+			<button data-bind="click: confirm, css: { loading: loading }">Reset Password</button>
+		</div>
+		<div>
+			<button data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>
