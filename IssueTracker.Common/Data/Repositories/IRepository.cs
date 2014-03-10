@@ -13,5 +13,6 @@ namespace IssueTracker.Common.Data.Repositories
 		void Update(TModel model, User user);
 		void Delete(TModel model, User user);
 		IEnumerable<TModel> All(Func<TModel, object> orderBy = null, params Expression<Func<TModel, object>>[] includes);
+		int Count(params Expression<Func<TModel, bool>>[] wheres);
 	}
 }

@@ -13,8 +13,11 @@
 		root.loading(true);
 		$.post(IssueTracker.virtualDirectory() + "Users/Delete", root.user()).done(function() {
 			IssueTracker.Feedback.success(root.user().name + " has been deleted.");
-		}).fail(function() {
-			IssueTracker.Feedback.error("An error has occurred while deleting the user. Please try again later.");
+		}).fail(function (response) {
+			if (response.status == 403)
+				IssueTracker.Feedback.error("You can't delete the last user.");
+			else
+				IssueTracker.Feedback.error("An error has occurred while deleting the user. Please try again later.");
 		}).always(function() {
 			root.loading(false);
 		});

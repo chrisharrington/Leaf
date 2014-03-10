@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using IssueTracker.Common.Data.Repositories;
@@ -22,6 +23,16 @@ namespace IssueTracker.Web.Controllers
 				user.testerIssueCount = issues.Count(x => x.Tester.Id == user.id);
 			}
 			return PartialView(new UsersViewModel { Users = users });
+		}
+
+		[HttpPost]
+		public void Delete(UserViewModel user)
+		{
+			var count = UserRepository.Count(x => x.Project.Id == CurrentProject.Id);
+			if (count == 1)
+				throw new HttpException(403, "You can't delete the only user.");
+
+			UserRepository.Delete(Mapper.DynamicMap<UserViewModel, User>(user), SignedInUser);
 		}
 	}
 }

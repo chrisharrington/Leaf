@@ -70,6 +70,12 @@ namespace IssueTracker.Data.Repositories
 			return collection;
 		}
 
+		public int Count(params Expression<Func<TModel, bool>>[] wheres)
+		{
+			var collection = Context.Set<TModel>().AsQueryable();
+			return wheres.Aggregate(collection, (first, second) => first.Where(second)).Count();
+		}
+
 		protected void SetProperties(TModel source, TModel destination, params string[] ignores)
 		{
 			foreach (var property in typeof (TModel).GetProperties().Where(x => !ignores.Select(ignore => ignore.ToLower()).Contains(x.Name.ToLower())))
