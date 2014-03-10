@@ -1,17 +1,16 @@
 ﻿@import "Global.less";
 
 @header-height:50px;
-header { float:left; width:100%; height:@header-height; .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); color:@primary-font-colour-dark-background; .border-box;
+header { float:left; width:100%; height:@header-height; .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour); color:@primary-font-colour-dark-background; .border-box;
 	>div.menu { float:left; }
 	>div.account { float:right; }
 
 	>div {
-		>a { float:left; height:100%; color:inherit; padding:0 @spacing; border-left:solid 1px @primary-font-colour-light; cursor:pointer;
+		>a { float:left; height:100%; color:inherit; padding:0 @spacing; cursor:pointer;
 			>* { line-height:@header-height!important; height:100%; vertical-align:middle; display:inline-block; }
-			>i { float:left; font-size:1.375em; }
-			>span { float:left; margin-left:@spacing; }
+			>i { float:left; font-size:1.375em; display:none !important; margin-right:@spacing; }
+			>span { float:left; font-size:1.25em; font-weight:bold; text-transform:uppercase; }
 		}
-		>a:first-child { border-left:none; }
 		>a:hover { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); }
 	}
 }
