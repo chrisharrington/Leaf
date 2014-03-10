@@ -87,9 +87,6 @@
 		<h1>Edit User</h1>
 		<input type="text" placeholder="Name..." data-bind="value: user().name" />
 		<input type="text" placeholder="Email address..." data-bind="value: user().emailAddress" />
-		<select data-bind="value: user().background">
-			<option value="green">Green</option>
-		</select>
 		<div class="button-container first">
 			<button data-bind="click: save, css: { loading: loading }">Save</button>
 		</div>

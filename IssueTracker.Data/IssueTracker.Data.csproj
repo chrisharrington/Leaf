@@ -67,6 +67,10 @@
     <Compile Include="Migrations\201403101540426_RenamedUserColourCodeToBackground.Designer.cs">
       <DependentUpon>201403101540426_RenamedUserColourCodeToBackground.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201403102106405_UserProfiles.cs" />
+    <Compile Include="Migrations\201403102106405_UserProfiles.Designer.cs">
+      <DependentUpon>201403102106405_UserProfiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseProjectRepository.cs" />
@@ -104,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201403101540426_RenamedUserColourCodeToBackground.resx">
       <DependentUpon>201403101540426_RenamedUserColourCodeToBackground.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403102106405_UserProfiles.resx">
+      <DependentUpon>201403102106405_UserProfiles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

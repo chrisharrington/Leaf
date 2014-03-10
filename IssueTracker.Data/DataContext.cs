@@ -17,11 +17,13 @@ namespace IssueTracker.Data
 		public DbSet<Audit> Audits { get; set; }
 		public DbSet<IssueComment> Comments { get; set; }
 		public DbSet<IssueType> IssueTypes { get; set; }
+		public DbSet<UserProfile> UserProfiles { get; set; }
 
 		public DataContext() : base("DefaultDataConnection") { }
 
 		protected override void OnModelCreating(DbModelBuilder builder)
 		{
+			MapUserProfiles(builder);
 			MapMilestones(builder);
 			MapPriorities(builder);
 			MapStatuses(builder);
@@ -31,6 +33,13 @@ namespace IssueTracker.Data
 			MapProjects(builder);
 
 			base.OnModelCreating(builder); 
+		}
+
+		private void MapUserProfiles(DbModelBuilder builder)
+		{
+			var profiles = builder.Entity<UserProfile>();
+			profiles.Map(x => x.ToTable("UserProfiles"));
+			profiles.HasKey(x => x.UserId);
 		}
 
 		private static void MapMilestones(DbModelBuilder builder)
