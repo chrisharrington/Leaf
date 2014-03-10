@@ -3,7 +3,7 @@
 @tiny-spacing:4px;
 
 @dark-gradient-top-colour:#222222;
-@dark-gradient-bottom-colour:#555555;
+@dark-gradient-bottom-colour:#444444;
 @tile-gradient-light-colour:#FFFFFF;
 @tile-gradient-dark-colour:#FFFFFF;
 @dark-gradient-light-colour:#555555;
@@ -84,7 +84,7 @@ h1 { color:@primary-header-font-colour; font-size:1.75em; }
 h2 { color:@primary-sub-header-font-colour; font-size:1.5em; }
 h3 { font-size:1.375em; font-weight:bold; color:@secondary-font-colour; text-transform:uppercase; }
 a { color:@secondary-font-colour; }
-input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:@small-spacing; font-size:1em; .regular-font; .border-radius; .border-box; }
+input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:@small-spacing; font-size:1em; .regular-font; .border-radius; .border-box; margin:0; }
 input:focus, textarea:focus, select:focus, .focus { outline:none; border-color:@active-highlight; box-shadow:0 0 10px @active-highlight; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
 button { padding:@small-spacing @spacing;  .secondary-gradient; color:white; .border-radius; .regular-font; font-size:1em; .border-box; border:none; cursor:pointer; .border-radius(3px); }
 button[disabled] { .gradient(#AAAAAA, #777777); cursor:default; }
@@ -189,3 +189,8 @@ div.data-tile {
 
 div.colour-logo { text-align:center; color:white; .regular-font; }
 div.colour-logo.green { .gradient(lighten(#2A8C06, 5%), darken(#2A8C06, 5%)); }
+
+div.form {
+	>input, >select { float:left; width:100%; .border-box; padding:@small-spacing; margin-top:@small-spacing; }
+	>input:first-child, >select:first-child { margin-top:0; }
+}

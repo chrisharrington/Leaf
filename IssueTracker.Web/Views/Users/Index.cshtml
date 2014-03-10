@@ -48,7 +48,7 @@
 				</button>
 			</div>
 			<div>
-				<button class="icon">
+				<button class="icon" data-bind="click: $parent.EditUser.edit">
 					<i class="fa fa-pencil"></i>
 					<span>Edit User</span>
 				</button>
@@ -81,6 +81,23 @@
 		</div>
 		<div>
 			<button id="cancel-delete" data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="edit-user-template">
+	<div class="edit-user form">
+		<h1>Edit User</h1>
+		<input type="text" placeholder="Name..." data-bind="value: user().name" />
+		<input type="text" placeholder="Email address..." data-bind="value: user().emailAddress" />
+		<select data-bind="value: user().background">
+			<option value="green">Green</option>
+		</select>
+		<div class="button-container first">
+			<button data-bind="click: save, css: { loading: loading }">Save</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: cancel">Cancel</button>
 		</div>
 	</div>
 </script>
