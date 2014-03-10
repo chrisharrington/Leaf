@@ -44,11 +44,6 @@
 	<div class="comments">
 		<div class="new-comment">
 			<div>
-				<div class="colour-logo">
-					<div>
-						<span data-bind="text: IssueTracker.signedInUser().name[0].capitalize()"></span>
-					</div>
-				</div>
 				<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
 				<i id="add-comment" class="fa fa-check" data-bind="css: { loading: Comments.loading }"></i>
 				<textarea class="no-focus" placeholder="Add a comment..." data-bind="value: Comments.text"></textarea>

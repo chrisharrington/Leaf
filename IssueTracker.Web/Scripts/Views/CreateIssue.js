@@ -95,7 +95,7 @@
 		_container.find("div.detailed-info-container>div.status>div>div:first").addClass("selected");
 		_container.find("div.detailed-info-container>div.type>div>div:first").addClass("selected");
 
-		var signedInUserId = IssueTracker.signedInUser().id;
+		var signedInUserId = IssueTracker.signedInUser().id();
 		_container.find("div.detailed-info-container>div.developer>div>div[data-id='" + signedInUserId + "']").addClass("selected");
 		_container.find("div.detailed-info-container>div.tester>div>div[data-id='" + signedInUserId + "']").addClass("selected");
 	}

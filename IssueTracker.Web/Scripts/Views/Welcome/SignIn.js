@@ -38,7 +38,7 @@
 	function _submit() {
 		root.loading(true);
 		$.post(IssueTracker.virtualDirectory() + "Welcome/SignIn", IssueTracker.Utilities.extractPropertyObservableValues(root.model)).done(function (data) {
-			IssueTracker.signedInUser(data.user);
+			IssueTracker.Utilities.setObservableProperties(data.user, IssueTracker.signedInUser());
 			IssueTracker.selectedProject(data.project);
 			IssueTracker.Issues.navigate({ "project-name": data.project.name.formatForUrl() });
 		}).fail(function (response) {
