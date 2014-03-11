@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using IssueTracker.Common.Models;

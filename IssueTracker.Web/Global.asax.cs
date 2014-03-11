@@ -49,17 +49,14 @@ namespace IssueTracker.Web
 
 		private void RegisterDependencies()
 		{
-			IContainer container = null;
 			var builder = Dependencies.Dependencies.Register();
 			builder.RegisterControllers(typeof(MvcApplication).Assembly).PropertiesAutowired();
 
-			Mapper.Initialize(x => x.ConstructServicesUsing(y => container.Resolve(y)));
+			Mapper.Initialize(x => x.ConstructServicesUsing(y => DependencyResolver.Current.GetService(y)));
 
 			builder.RegisterGeneric(typeof(DatabaseDetailsResolver<>)).AsSelf().PropertiesAutowired();
 
-			container = builder.Build();
-
-			DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+			DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
 		}
 
 		private class LessMinify : CssMinify
