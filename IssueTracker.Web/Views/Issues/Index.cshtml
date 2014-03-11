@@ -151,7 +151,7 @@
 <script id="selected-filters" type="text/html">
 	<!-- ko if: Filter.selectedMilestones().length != IssueTracker.milestones().length -->
 	<!-- ko foreach: Filter.selectedMilestones -->
-	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedMilestones, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedMilestones, $data); }">
 		<span class="label">Milestone</span>
 		<span class="value" data-bind="text: name"></span>
 	</div>
@@ -159,7 +159,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedPriorities().length != IssueTracker.priorities().length -->
 	<!-- ko foreach: Filter.selectedPriorities -->
-	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedPriorities, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedPriorities, $data); }">
 		<span class="label">Priority</span>
 		<span class="value" data-bind="text: name"></span>
 	</div>
@@ -167,7 +167,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedStatuses().length != IssueTracker.statuses().length -->
 	<!-- ko foreach: Filter.selectedStatuses -->
-	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedStatuses, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedStatuses, $data); }">
 		<span class="label">Status</span>
 		<span class="value" data-bind="text: name"></span>
 	</div>
@@ -175,7 +175,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedTypes().length != IssueTracker.issueTypes().length -->
 	<!-- ko foreach: Filter.selectedTypes -->
-	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedTypes, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedTypes, $data); }">
 		<span class="label">Type</span>
 		<span class="value" data-bind="text: name"></span>
 	</div>
@@ -183,7 +183,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedDevelopers().length != IssueTracker.users().length -->
 	<!-- ko foreach: Filter.selectedDevelopers -->
-	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedDevelopers, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedDevelopers, $data); }">
 		<span class="label">Developer</span>
 		<span class="value" data-bind="text: name"></span>
 	</div>
@@ -191,7 +191,7 @@
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedTesters().length != IssueTracker.users().length -->
 	<!-- ko foreach: Filter.selectedTesters -->
-	<div class="sidebar-item" data-bind="click: function() { IssueTracker.Issues.Filter.remove(IssueTracker.Issues.Filter.selectedTesters, $data); }">
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedTesters, $data); }">
 		<span class="label">Tester</span>
 		<span class="value" data-bind="text: name"></span>
 	</div>
@@ -204,7 +204,7 @@
 		<div class="tile choice-tile no-selected-background" id="milestone-filter">
 			<h2>Milestone</h2>
 			<!-- ko foreach: IssueTracker.milestones -->
-			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedMilestones, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedMilestones, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
@@ -213,7 +213,7 @@
 		<div class="tile choice-tile no-selected-background" id="priority-filter">
 			<h2>Priority</h2>
 			<!-- ko foreach: IssueTracker.priorities -->
-			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedPriorities, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedPriorities, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
@@ -222,7 +222,7 @@
 		<div class="tile choice-tile no-selected-background" id="status-filter">
 			<h2>Status</h2>
 			<!-- ko foreach: IssueTracker.statuses -->
-			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedStatuses, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedStatuses, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
@@ -231,7 +231,7 @@
 		<div class="tile choice-tile no-selected-background" id="type-filter">
 			<h2>Type</h2>
 			<!-- ko foreach: IssueTracker.issueTypes -->
-			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedTypes, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTypes, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
@@ -240,7 +240,7 @@
 		<div class="tile choice-tile no-selected-background" id="developer-filter">
 			<h2>Developer</h2>
 			<!-- ko foreach: IssueTracker.users -->
-			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedDevelopers, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedDevelopers, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
@@ -249,153 +249,12 @@
 		<div class="tile choice-tile no-selected-background" id="tester-filter">
 			<h2>Tester</h2>
 			<!-- ko foreach: IssueTracker.users -->
-			<div data-bind="css: { selected: IssueTracker.Issues.Filter.contains(IssueTracker.Issues.Filter.selectedTesters, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTesters, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
 				<span data-bind="text: name"></span>
 				<i class="fa fa-check"></i>
 			</div>
 			<!-- /ko -->
 		</div>
 		<button id="set-filter">Set Filter</button>
-	</div>
-</script>
-
-<script id="priority-filter-dialog" type="text/html">
-	<div class="selector dark select-popup priority-filter-dialog" data-bind="foreach: priorities">
-		<div data-bind="attr: { 'data-priority': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedPriority() && IssueTracker.Issues.selectedPriority().name == name ? ' selected' : '') }">
-			<span data-bind="text: name"></span>
-			<i class="fa fa-check"></i>
-		</div>
-	</div>
-</script>
-
-<script id="status-filter-dialog" type="text/html">
-	<div class="selector dark select-popup status-filter-dialog" data-bind="foreach: statuses">
-		<div data-bind="attr: { 'data-status': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedStatus() && IssueTracker.Issues.selectedStatus().name == name ? ' selected' : '') }">
-			<span data-bind="text: name"></span>
-			<i class="fa fa-check"></i>
-		</div>
-	</div>
-</script>
-
-<script id="developer-filter-dialog" type="text/html">
-	<div class="selector dark select-popup developer-filter-dialog" data-bind="foreach: users">
-		<div data-bind="attr: { 'data-developer': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedDeveloper() && IssueTracker.Issues.selectedDeveloper().name == name ? ' selected' : '') }">
-			<span data-bind="text: name"></span>
-			<i class="fa fa-check"></i>
-		</div>
-	</div>
-</script>
-
-<script id="tester-filter-dialog" type="text/html">
-	<div class="selector dark select-popup tester-filter-dialog" data-bind="foreach: users">
-		<div data-bind="attr: { 'data-tester': JSON.stringify($data), class: name.toLowerCase() + (IssueTracker.Issues.selectedTester() && IssueTracker.Issues.selectedTester().name == name ? ' selected' : '') }">
-			<span data-bind="text: name"></span>
-			<i class="fa fa-check"></i>
-		</div>
-	</div>
-</script>
-
-<script id="text-filter-dialog" type="text/html">
-	<div class="text-filter-dialog">
-		<input type="text" data-bind="value: $root" />
-		<div class="buttons">
-			<button class="set-filter">Filter</button>
-			<button class="clear-filter">Clear</button>
-		</div>
-	</div>
-</script>
-
-<script id="sort-dialog" type="text/html">
-	<div class="sort-dialog">
-		<div data-comparer="name">
-			<span>Description</span>
-			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'name' }"></i>
-			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'name' }"></i>
-		</div>
-		<div data-comparer="priority">
-			<span>Priority</span>
-			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'priority' }"></i>
-			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'priority' }"></i>
-		</div>
-		<div data-comparer="status">
-			<span>Status</span>
-			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'status' }"></i>
-			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'status' }"></i>
-		</div>
-		<div data-comparer="tester">
-			<span>Tester</span>
-			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'tester' }"></i>
-			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'tester' }"></i>
-		</div>
-		<div data-comparer="developer">
-			<span>Developer</span>
-			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'developer' }"></i>
-			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'developer' }"></i>
-		</div>
-		<div data-comparer="opened">
-			<span>Date Opened</span>
-			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'opened' }"></i>
-			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'opened' }"></i>
-		</div>
-		<div data-comparer="closed">
-			<span>Date Closed</span>
-			<i data-direction="descending" class="fa fa-angle-down" data-bind="css: { selected: direction() == 'descending' && comparer() == 'closed' }"></i>
-			<i data-direction="ascending" class="fa fa-angle-up" data-bind="css: { selected: direction() == 'ascending' && comparer() == 'closed' }"></i>
-		</div>
-	</div>
-</script>
-
-<script id="add-new-filter-popup" type="text/html">
-	<div class="add-new-filter-popup">
-		
-	</div>
-</script>
-
-<script id="saved-filter-dialog" type="text/html">
-	<div class="saved-filter-dialog">
-		<div class="tile">
-			<div class="header">
-				<h1>New Filter</h1>
-				<div class="buttons">
-					<button class="icon" id="save-filter">
-						<i class="fa fa-check"></i>
-						<span>Save</span>
-					</button>
-					<button class="icon" id="discard-filter">
-						<i class="fa fa-times"></i>
-						<span>Discard</span>
-					</button>
-				</div>
-			</div>
-			<div class="name">
-				<input type="text" placeholder="Filter name..." />
-			</div>
-			<div class="choices">
-				<div class="priority selector" data-bind="foreach: priorities">
-					<div>
-						<span data-bind="text: name"></span>
-						<i class="fa fa-check"></i>
-					</div>
-				</div>
-				<div class="status selector" data-bind="foreach: statuses">
-					<div>
-						<span data-bind="text: name"></span>
-						<i class="fa fa-check"></i>
-					</div>
-				</div>
-				<div class="developer selector" data-bind="foreach: users">
-					<div>
-						<span data-bind="text: name"></span>
-						<i class="fa fa-check"></i>
-					</div>
-				</div>
-				<div class="tester selector" data-bind="foreach: users">
-					<div>
-						<span data-bind="text: name"></span>
-						<i class="fa fa-check"></i>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 </script>
