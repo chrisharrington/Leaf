@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using IssueTracker.Common.Data.Repositories;
 using IssueTracker.Common.Models;
@@ -28,6 +29,19 @@ namespace IssueTracker.Data.Repositories
 				throw new ArgumentNullException("name");
 
 			return Context.Set<TModel>().FirstOrDefault(x => x.Project.Id == projectId && x.Name.ToLower().Trim() == name.ToLower().Trim());
+		}
+
+		public override Guid Insert(TModel model, User user)
+		{
+			if (model == null)
+				throw new ArgumentNullException("model");
+			if (model.Id == Guid.Empty)
+				model.Id = Guid.NewGuid();
+
+			Context.Entry(model.Project).State = EntityState.Unchanged;
+			Context.Set<TModel>().Add(model);
+			Context.SaveChanges();
+			return model.Id;
 		}
 	}
 }

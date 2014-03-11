@@ -31,6 +31,7 @@ namespace IssueTracker.Data.Repositories
 			if (model.Id == Guid.Empty)
 				model.Id = Guid.NewGuid();
 
+			//context.Entry(amazonProductCompetitivePrice.AmazonProduct).State = EntityState.Unchanged;
 			Context.Set<TModel>().Add(model);
 			Context.SaveChanges();
 			return model.Id;

@@ -7,7 +7,7 @@
 
 	div.user-container { float:left; width:50%; padding-right:@spacing; .border-box;
 		>div { float:left; width:100%; .tile; padding:0; }
-		>div.user {
+		>div.user { margin-bottom:@spacing;
 			>* { .border-box; padding:@small-spacing @spacing
 			}
 			>h1 { float:left; width:100%; }
@@ -35,6 +35,7 @@
 
 div.edit-user, div.create-user { float:left; width:600px;
 	>h1 { float:left; width:100%; }
+	>span { float:left; width:100%; margin-top:@small-spacing; }
 	>div.button-container { float:left; width:50%; padding-left:@small-spacing; .border-box; margin-top:@small-spacing;
 		>button { width:100%; }
 	}

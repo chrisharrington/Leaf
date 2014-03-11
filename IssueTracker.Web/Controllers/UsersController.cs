@@ -40,5 +40,15 @@ namespace IssueTracker.Web.Controllers
 		{
 			UserRepository.Update(Mapper.DynamicMap<UserViewModel, User>(user), SignedInUser);
 		}
+
+		[HttpPost]
+		public void Create(UserViewModel user)
+		{
+			var mapped = Mapper.DynamicMap<UserViewModel, User>(user);
+			mapped.Project = CurrentProject;
+			mapped.IsActivated = false;
+			mapped.ActivationId = Guid.NewGuid();
+			UserRepository.Insert(mapped, SignedInUser);
+		}
 	}
 }

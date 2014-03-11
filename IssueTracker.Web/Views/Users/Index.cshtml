@@ -28,6 +28,11 @@
 				<span class="value" data-bind="text: emailAddress()"></span>
 			</div>
 			<div>
+				<i class="fa fa-fw fa-check"></i>
+				<span class="label">Is Activated?</span>
+				<span class="value" data-bind="text: isActivated() ? 'Yes' : 'No'"></span>
+			</div>
+			<div>
 				<i class="fa fa-fw fa-wrench"></i>
 				<span class="label">Developer</span>
 				<span class="value" data-bind="text: developerIssueCount() + ' issue' + (developerIssueCount() == 1 ? '' : 's')"></span>
@@ -106,6 +111,7 @@
 <script type="text/html" id="create-user-template">
 	<div class="create-user form">
 		<h1>Create User</h1>
+		<span>Once created, the new user will receive an email with instructions on how to activate his or her account.</span>
 		<input type="text" placeholder="Name..." data-bind="value: user().name" />
 		<input type="text" placeholder="Email address..." data-bind="value: user().emailAddress" />
 		<div class="button-container first">
