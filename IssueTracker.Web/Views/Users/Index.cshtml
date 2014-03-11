@@ -10,6 +10,13 @@
 	});
 </script>
 
+<div class="page-actions">
+	<button class="icon create-user-trigger" data-bind="click: Create.create">
+		<i class="fa fa-plus"></i>
+		<span>Create User</span>
+	</button>
+</div>
+
 <!-- ko foreach: users -->
 <div class="user-container">
 	<div class="user">
@@ -85,6 +92,20 @@
 <script type="text/html" id="edit-user-template">
 	<div class="edit-user form">
 		<h1>Edit User</h1>
+		<input type="text" placeholder="Name..." data-bind="value: user().name" />
+		<input type="text" placeholder="Email address..." data-bind="value: user().emailAddress" />
+		<div class="button-container first">
+			<button data-bind="click: save, css: { loading: loading }">Save</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="create-user-template">
+	<div class="create-user form">
+		<h1>Create User</h1>
 		<input type="text" placeholder="Name..." data-bind="value: user().name" />
 		<input type="text" placeholder="Email address..." data-bind="value: user().emailAddress" />
 		<div class="button-container first">

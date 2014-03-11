@@ -1,6 +1,10 @@
 ﻿@import "Global.less";
 
 .users-container {
+	div.page-actions { float:left; width:100%; margin-bottom:@spacing;
+		button.create-user-trigger { float:left; }
+	}
+
 	div.user-container { float:left; width:50%; padding-right:@spacing; .border-box;
 		>div { float:left; width:100%; .tile; padding:0; }
 		>div.user {
@@ -29,7 +33,7 @@
 	div.user-container:nth-child(4n) { padding-right:0; }
 }
 
-div.edit-user { float:left; width:600px;
+div.edit-user, div.create-user { float:left; width:600px;
 	>h1 { float:left; width:100%; }
 	>div.button-container { float:left; width:50%; padding-left:@small-spacing; .border-box; margin-top:@small-spacing;
 		>button { width:100%; }

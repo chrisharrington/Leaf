@@ -14,7 +14,7 @@
 		$.post(IssueTracker.virtualDirectory() + "Users/Edit", root.user()).done(function() {
 			IssueTracker.Feedback.success(root.user().name() + " has been saved.");
 			IssueTracker.Dialog.hide();
-			//_updateUserInList();
+			_updateUserInList();
 			_updateSignedInUser();
 		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while editing the user. Please try again later.");
