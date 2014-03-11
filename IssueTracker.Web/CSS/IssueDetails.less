@@ -44,25 +44,19 @@
 		
 		>div.comments { float:left; width:100%; padding:0; cursor:default;
 			@user-width:252px;
-			@tile-size:42px;
+			@header-size:45px;
 			>div { float:left; width:100%; }
 			>div.existing-comments, >div.new-comment {
 				>div { float:left; width:100%; .tile; padding:0; margin-top:@spacing;
-					
-					>div.colour-logo { float:left; margin-right:@spacing;
-						>div { width:@tile-size; height:@tile-size; font-size:2em;
-							>span { line-height:@tile-size; }
-						}
-					}
-					>span { float:left; color:@primary-font-colour; font-weight:bold; padding:0 @spacing; .border-box; height:@tile-size; display:inline-block; line-height:@tile-size; vertical-align:middle; }
-					>span.date { float:right; font-size:0.875em; color:@primary-font-colour-light; font-weight:normal; }
-					>span.name { font-size:1.125em; padding:0; }
+					>span { float:left; color:@primary-font-colour; padding:0 @spacing; .border-box; height:@header-size; display:inline-block; line-height:@header-size; vertical-align:middle; }
+					>span.date { float:right; font-size:0.875em; color:@primary-font-colour-light; }
+					>span.name { font-size:1em; text-transform:none; color:@secondary-font-colour; font-weight:bold; }
 					>div.text { float:left; width:100%; padding:@spacing; .border-box; border-top:solid 1px @border-colour; border-left:none; border-right:none; border-bottom:none; .border-radius(0px); }
 				}
 			}
-			>div.new-comment i { float:right; padding:0 @spacing; height:@tile-size; cursor:pointer; line-height:@tile-size; vertical-align:middle; font-size:1.25em; color:@primary-font-colour-lightest; }
+			>div.new-comment i { float:right; padding:0 @spacing; height:@header-size; cursor:pointer; line-height:@header-size; vertical-align:middle; font-size:1.25em; color:@primary-font-colour-lightest; }
 			>div.new-comment i:hover { .hover; color:@primary-font-colour-light; }
-			>div.new-comment textarea { float:left; width:100%; padding:@spacing; .border-box; height:100px; }
+			>div.new-comment textarea { float:left; width:100%; padding:@spacing; .border-box; height:100px; border:none; border-top:solid 1px @border-colour; }
 		}
 	}
 
