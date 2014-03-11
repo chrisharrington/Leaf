@@ -150,7 +150,7 @@
 
 <script id="selected-filters" type="text/html">
 	<!-- ko if: Filter.selectedMilestones().length != IssueTracker.milestones().length -->
-	<!-- ko foreach: Filter.selectedMilestones -->
+	<!-- ko foreach: { data: Filter.selectedMilestones, beforeRemove: Filter.slideUp } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedMilestones, $data); }">
 		<span class="label">Milestone</span>
 		<span class="value" data-bind="text: name"></span>
@@ -158,7 +158,7 @@
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedPriorities().length != IssueTracker.priorities().length -->
-	<!-- ko foreach: Filter.selectedPriorities -->
+	<!-- ko foreach: { data: Filter.selectedPriorities, beforeRemove: Filter.slideUp } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedPriorities, $data); }">
 		<span class="label">Priority</span>
 		<span class="value" data-bind="text: name"></span>
@@ -166,7 +166,7 @@
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedStatuses().length != IssueTracker.statuses().length -->
-	<!-- ko foreach: Filter.selectedStatuses -->
+	<!-- ko foreach: { data: Filter.selectedStatuses, beforeRemove: Filter.slideUp } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedStatuses, $data); }">
 		<span class="label">Status</span>
 		<span class="value" data-bind="text: name"></span>
@@ -174,7 +174,7 @@
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedTypes().length != IssueTracker.issueTypes().length -->
-	<!-- ko foreach: Filter.selectedTypes -->
+	<!-- ko foreach: { data: Filter.selectedTypes, beforeRemove: Filter.slideUp } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedTypes, $data); }">
 		<span class="label">Type</span>
 		<span class="value" data-bind="text: name"></span>
@@ -182,7 +182,7 @@
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedDevelopers().length != IssueTracker.users().length -->
-	<!-- ko foreach: Filter.selectedDevelopers -->
+	<!-- ko foreach: { data: Filter.selectedDevelopers, beforeRemove: Filter.slideUp } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedDevelopers, $data); }">
 		<span class="label">Developer</span>
 		<span class="value" data-bind="text: name"></span>
@@ -190,7 +190,7 @@
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedTesters().length != IssueTracker.users().length -->
-	<!-- ko foreach: Filter.selectedTesters -->
+	<!-- ko foreach: { data: Filter.selectedTesters, beforeRemove: Filter.slideUp } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedTesters, $data); }">
 		<span class="label">Tester</span>
 		<span class="value" data-bind="text: name"></span>

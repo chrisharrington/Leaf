@@ -46,6 +46,12 @@
 		_save();
 	};
 
+	root.slideUp = function(element) {
+		$(element).slideUp(250, function() {
+			$(element).remove();
+		});
+	};
+
 	function _hookupEvents() {
 		_container.on("click", "#modify-filter", function () {
 			_template("modify-filter-template");
