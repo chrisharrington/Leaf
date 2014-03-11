@@ -5,10 +5,10 @@ header { float:left; width:100%; height:@header-height; .gradient(@dark-gradient
 	>div.menu { float:left; }
 	>div.account { float:right; }
 
-	>div {
+	>div { height:100%;
 		>a { float:left; height:100%; color:inherit; padding:0 @spacing; cursor:pointer;
-			>* { line-height:@header-height!important; height:100%; vertical-align:middle; display:inline-block; }
-			>i { float:left; font-size:1.375em; display:none !important; margin-right:@spacing; }
+			>* { line-height:@header-height !important; height:100%; vertical-align:middle; display:inline-block; }
+			>i { float:left; font-size:1.375em; }
 			>span { float:left; font-size:1.25em; font-weight:bold; text-transform:uppercase; }
 		}
 		>a:hover { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); }
