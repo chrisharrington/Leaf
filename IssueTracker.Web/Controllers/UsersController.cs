@@ -28,7 +28,7 @@ namespace IssueTracker.Web.Controllers
 		[HttpPost]
 		public void Delete(UserViewModel user)
 		{
-			var count = UserRepository.Count(x => x.Project.Id == CurrentProject.Id);
+			var count = UserRepository.Count(x => x.Project.Id == CurrentProject.Id, x => !x.IsDeleted);
 			if (count == 1)
 				throw new HttpException(403, "You can't delete the only user.");
 
