@@ -10,5 +10,6 @@ namespace IssueTracker.Common.ViewModels
 		public bool isActivated { get; set; }
 		public int developerIssueCount { get; set; }
 		public int testerIssueCount { get; set; }
+		public bool isDeleted { get; set; }
 	}
 }

@@ -18,11 +18,11 @@ namespace IssueTracker.Data.Repositories
 			{
 				var old = Details(model.Id);
 				var retrieved = Context.UserProfiles.FirstOrDefault(x => x.UserName == old.EmailAddress);
-				if (retrieved == null)
-					throw new ArgumentException("Could not update user; no such was found.");
-
-				retrieved.UserName = model.EmailAddress;
-				Context.SaveChanges();
+				if (retrieved != null)
+				{
+					retrieved.UserName = model.EmailAddress;
+					Context.SaveChanges();
+				}
 
 				base.Update(model, user);
 

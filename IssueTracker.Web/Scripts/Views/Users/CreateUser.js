@@ -5,6 +5,7 @@
 		name: ko.observable(""),
 		emailAddress: ko.observable(""),
 		isActivated: ko.observable(false),
+		isDeleted: ko.observable(false),
 		developerIssueCount: ko.observable(0),
 		testerIssueCount: ko.observable(0)
 	});
