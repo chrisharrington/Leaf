@@ -219,6 +219,7 @@
     <Content Include="Scripts\Controls\Flipper.js" />
     <Content Include="Scripts\Page.js" />
     <Content Include="Scripts\ThirdParty\jquery.animate-enhanced.js" />
+    <Content Include="Scripts\ThirdParty\nanobar.js" />
     <Content Include="Scripts\ThirdParty\ToDictionary.js" />
     <Content Include="Scripts\Utilities.js" />
     <Content Include="Scripts\Views\CreateIssue.js" />
