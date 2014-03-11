@@ -56,7 +56,7 @@
 				</div>
 				<div class="issue-details data-tile tile" data-bind="template: { name: 'issue-details-template', data: Details.selectedIssue }, visible: View.view() == 'collapsed' && Details.selectedIssue().description() != ''"></div>
 			</div>
-			<div class="back flip-tile" data-bind="template: { name: sidebar, data: sidebarData }"></div>
+			<div class="back flip-tile" data-bind="template: { name: sidebar }"></div>
 		</div>
 	</div>
 </div>
@@ -93,8 +93,8 @@
 <script id="modify-view-template" type="text/html">
 	<div class="modify-view tile choice-tile no-selected-background">
 		<h2>View</h2>
-		<!-- ko foreach: availableViews -->
-		<div data-bind="css: { selected: $parent.view().toLowerCase().indexOf($data) > -1 }, click: function() { $parent.view($data); }">
+		<!-- ko foreach: View.availableViews -->
+		<div data-bind="css: { selected: $parent.View.view().toLowerCase().indexOf($data) > -1 }, click: function() { $parent.View.view($data); }">
 			<span data-bind="text: $data.capitalize()"></span>
 			<i class="fa fa-check"></i>
 		</div>

@@ -13,7 +13,6 @@
 	var _onFilterSet;
 	var _selected;
 	var _template;
-	var _data;
 
 	root.selectedMilestones = ko.observableArray();
 	root.selectedPriorities = ko.observableArray();
@@ -22,12 +21,11 @@
 	root.selectedDevelopers = ko.observableArray();
 	root.selectedTesters = ko.observableArray();
 
-	root.init = function (container, flipper, template, data, onFilterSet) {
+	root.init = function (container, flipper, template, onFilterSet) {
 		_container = container;
 		_onFilterSet = onFilterSet;
 		_flipper = flipper;
 		_template = template;
-		_data = data;
 		_selected = {};
 
 		_hookupEvents();
@@ -50,7 +48,6 @@
 
 	function _hookupEvents() {
 		_container.on("click", "#modify-filter", function () {
-			_data(root);
 			_template("modify-filter-template");
 			_flipper.toggle();
 		});

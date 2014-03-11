@@ -3,17 +3,15 @@
 
 	var _container;
 	var _template;
-	var _data;
 	var _flipper;
 	var _onSortSet;
 
 	root.property = ko.observable("priority");
 	root.direction = ko.observable("descending");
 
-	root.init = function (container, flipper, template, data, onSortSet) {
+	root.init = function (container, flipper, template, onSortSet) {
 		_container = container;
 		_template = template;
-		_data = data;
 		_flipper = flipper;
 		_onSortSet = onSortSet;
 
@@ -21,7 +19,7 @@
 	};
 
 	function _hookupEvents() {
-		_container.on("click", "div.modify-sort-container", function () { _data(root); _template("modify-sort-template"); _flipper.toggle(); });
+		_container.on("click", "div.modify-sort-container", function () { _template("modify-sort-template"); _flipper.toggle(); });
 		_container.on("click", "div.modify-sort>div>i", _setSortProperties);
 	}
 
