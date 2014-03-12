@@ -56,9 +56,12 @@
 		if (_nextIssuesRunning === true || _allLoaded === true)
 			return;
 
-		root.loading(true);
 		_nextIssuesRunning = true;
-		$.get(IssueTracker.virtualDirectory() + "Issues/Next", _buildParameters(count)).done(function (issues) {
+		$.ajax({
+			url: IssueTracker.virtualDirectory() + "Issues/Next",
+			data: _buildParameters(count),
+			global: false
+		}).done(function (issues) {
 			root.list([]);
 			root.list.pushAll(issues);
 			if (issues.length < count)
