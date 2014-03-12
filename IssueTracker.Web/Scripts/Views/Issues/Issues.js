@@ -33,6 +33,8 @@
 		_sort.init(container, _flipper, root.sidebar, _resetIssueList);
 		_view.init(container, _flipper, root.sidebar);
 		_details.init(container);
+
+		$(window).on("focus", _resetIssueList);
 	};
 
 	root.load = function () {
