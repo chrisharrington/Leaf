@@ -106,7 +106,19 @@
 	}
 
 	function _attach() {
-		
+		var file = _container.find("input[type='file']")[0].files[0];
+		var xhr = new XMLHttpRequest();
+		var fd = new FormData();
+		fd.append("issueId", root.createModel.id());
+		fd.append("file", file);
+
+		//xhr.upload.addEventListener("progress", uploadProgress, false);
+		//xhr.addEventListener("load", uploadComplete, false);
+		//xhr.addEventListener("error", uploadFailed, false);
+		//xhr.addEventListener("abort", uploadCanceled, false);
+
+		xhr.open("POST", IssueTracker.virtualDirectory() + "Issues/AttachFile");
+		xhr.send(fd);
 	}
 
 	IssueTracker.Page.build({

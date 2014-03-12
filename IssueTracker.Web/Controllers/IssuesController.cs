@@ -149,6 +149,12 @@ namespace IssueTracker.Web.Controllers
 		    IssueRepository.Update(issue, SignedInUser);
 	    }
 
+	    [HttpPost]
+	    public void AttachFile(Guid issueId, HttpPostedFileBase file)
+	    {
+		    
+	    }
+
 	    private static string ToPriorityStyleString(NameModel priority)
 	    {
 		    return priority.Name.Replace(" ", "-").ToLower();
