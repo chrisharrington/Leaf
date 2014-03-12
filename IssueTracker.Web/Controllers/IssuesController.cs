@@ -110,11 +110,14 @@ namespace IssueTracker.Web.Controllers
 			issue.updatedId = SignedInUser.Id;
 
 			var model = Mapper.Map<IssueViewModel, Issue>(issue);
-		    var status = StatusRepository.Details(issue.statusId);
-		    var transitions = TransitionRepository.Status(status);
-		    if (!transitions.Any())
-			    model.Closed = DateTime.UtcNow;
-		    
+		    if (model.Closed == null)
+		    {
+			    var status = StatusRepository.Details(issue.statusId);
+			    var transitions = TransitionRepository.Status(status);
+			    if (!transitions.Any())
+				    model.Closed = DateTime.UtcNow;
+		    }
+
 		    model.Project = CurrentProject;
 			IssueRepository.Update(model, SignedInUser);
 	    }
