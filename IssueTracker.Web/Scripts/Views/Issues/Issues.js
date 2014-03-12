@@ -33,12 +33,15 @@
 		_sort.init(container, _flipper, root.sidebar, _resetIssueList);
 		_view.init(container, _flipper, root.sidebar);
 		_details.init(container);
-
-		$(window).on("focus", _resetIssueList);
 	};
 
 	root.load = function () {
 		_resetIssueList();
+		$(window).on("focus", _resetIssueList);
+	};
+
+	root.unload = function () {
+		$(window).off("focus", _resetIssueList);
 	};
 
 	root.reset = function () {

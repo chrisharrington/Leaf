@@ -20,9 +20,9 @@ IssueTracker.Page = function(params) {
 		}).enter(function() {
 			if (params.root.enter)
 				params.root.enter();
-		}).exit(function() {
-			if (params.root.exit)
-				params.root.exit();
+		}).exit(function () {
+			if (params.root.unload)
+				params.root.unload();
 		});
 	});
 
