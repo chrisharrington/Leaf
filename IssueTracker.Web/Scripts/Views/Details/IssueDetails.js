@@ -151,14 +151,18 @@
 
 	function _updateIssue() {
 		root.saving(true);
-		return $.post(IssueTracker.virtualDirectory() + "Issues/Update", _buildIssueParameters()).done(function() {
+		$.when(_comments.save(), _save()).done(function () {
 			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.description().formatForUrl());
 			IssueTracker.Feedback.success("Your issue has been updated.");
-		}).fail(function() {
+		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while saving your issue. Please try again later.");
-		}).always(function() {
+		}).always(function () {
 			root.saving(false);
 		});
+	}
+
+	function _save() {
+		return $.post(IssueTracker.virtualDirectory() + "Issues/Update", _buildIssueParameters())
 	}
 
 	function _buildIssueParameters() {

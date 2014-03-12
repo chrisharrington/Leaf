@@ -20,6 +20,10 @@
 		root.list.pushAll(comments);
 	};
 
+	root.save = function() {
+		return _save();
+	};
+
 	root.slideDown = function (element) {
 		if (_isAdd)
 			$(element).hide().slideDown(200);
@@ -35,14 +39,21 @@
 			return;
 		}
 
+		_save();
+	}
+
+	function _save() {
+		if (root.text() == "")
+			return new ResolvedDeferred();
+
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "Issues/AddComment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function () {
+		return $.post(IssueTracker.virtualDirectory() + "Issues/AddComment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function () {
 			_isAdd = true;
 			root.list.push({ date: new Date().toApplicationString(), user: IssueTracker.signedInUser().name(), text: root.text() });
 			root.text("");
-		}).fail(function() {
+		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while adding your comment. Please try again later.");
-		}).always(function() {
+		}).always(function () {
 			root.loading(false);
 		});
 	}
