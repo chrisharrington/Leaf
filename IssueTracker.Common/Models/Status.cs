@@ -6,6 +6,7 @@ namespace IssueTracker.Common.Models
 	public class Status : ProjectModel
 	{
 		public int Order { get; set; }
+		public bool IsFinal { get; set; }
 		public virtual ICollection<Issue> Issues { get; set; }
 	}
 }
