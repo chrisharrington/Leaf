@@ -27,7 +27,6 @@
 
 	root.load = function () {
 		_setNumberWidth();
-		_setCommentHeights();
 
 		_detailsFlipper = new IssueTracker.Controls.Flipper("#choices-container");
 		_oldName = IssueTracker.selectedIssue.description();
@@ -184,13 +183,6 @@
 		var padding = parseInt(number.css("padding-left").replace("px", "")) * 2;
 		var width = 13 + IssueTracker.selectedIssue.number().toString().length * 12;
 		number.width(width).parent().find("div.description").css({ "padding-left": width + padding + 1 });
-	}
-
-	function _setCommentHeights() {
-		_container.find("div.content>div.comments>div").each(function () {
-			var user = $(this).find("div.user");
-			var comments = $(this).find("div.comments");
-		});
 	}
 
 	IssueTracker.Page.build({

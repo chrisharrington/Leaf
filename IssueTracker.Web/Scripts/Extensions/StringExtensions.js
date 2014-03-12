@@ -18,8 +18,8 @@ String.prototype.startsWith = function(value) {
 	return value === this.substring(0, value.length);
 };
 
-String.prototype.formatForUrl = function() {
-	return this.replace(/ |_/g, "-").replace(/\.\/\'/g, "").toLowerCase();
+String.prototype.formatForUrl = function () {
+	return this.replace(/[^a-z0-9]/gi, '-').toLowerCase();
 };
 
 String.prototype.capitalize = function() {
