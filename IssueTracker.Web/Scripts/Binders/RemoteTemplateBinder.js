@@ -16,6 +16,7 @@
 
 			$.when(_getDataFromView(view)).done(function (result) {
 				_404.hide();
+				_500.hide();
 				$(element).show();
 
 				if (!result)
