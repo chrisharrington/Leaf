@@ -6,6 +6,7 @@
 	root.loading = ko.observable(false);
 
 	root.createModel = {
+		id: function() { return root.issueId; },
 		description: ko.observable(""),
 		details: ko.observable(""),
 		priorityId: function () { return _getSelectedFromChoiceTile($("div.priority")); },
@@ -36,6 +37,8 @@
 		_container.on("click", "div.choice-tile>div", _toggleSelectedChoice);
 		_container.on("click", "#save", _save);
 		_container.on("click", "#discard", _discard);
+		_container.on("click", "#browse", function () { _container.find("input[type='file']").click(); });
+		_container.on("change", "input[type='file']", _attach);
 	}
 
 	function _discard() {
@@ -100,6 +103,10 @@
 		var signedInUserId = IssueTracker.signedInUser().id();
 		_container.find("div.detailed-info-container>div.developer>div>div[data-id='" + signedInUserId + "']").addClass("selected");
 		_container.find("div.detailed-info-container>div.tester>div>div[data-id='" + signedInUserId + "']").addClass("selected");
+	}
+
+	function _attach() {
+		
 	}
 
 	IssueTracker.Page.build({

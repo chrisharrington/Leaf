@@ -1,4 +1,13 @@
-﻿<section id="header">
+﻿@model Guid
+
+<script type="text/javascript">
+	$(function() {
+		var root = IssueTracker.CreateIssue;
+		root.issueId = "@Model.ToString()";
+	})
+</script>
+
+<section id="header">
 	<div class="breadcrumbs">
 		<a class="clickable" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
 			<i class="fa fa-home"></i>
@@ -96,7 +105,8 @@
 
 <div class="attached-files tile container">
 	<h2>Attached Files</h2>
-	<button>Browse...</button>
+	<button id="browse">Browse...</button>
+	<input type="file" />
 	<div>
 		<div>
 			<div class="empty-file">

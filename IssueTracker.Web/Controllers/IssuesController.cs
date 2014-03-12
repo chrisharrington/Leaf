@@ -27,13 +27,12 @@ namespace IssueTracker.Web.Controllers
 
 	    public ActionResult Create()
 	    {
-		    return View();
+		    return View(Guid.NewGuid());
 	    }
 
 		[HttpPost]
 	    public void Create(IssueViewModel issue)
 		{
-			issue.id = Guid.NewGuid();
 			issue.number = IssueRepository.HighestNumber(CurrentProject) + 1;
 			issue.opened = DateTime.UtcNow.ToApplicationString(TimezoneOffsetInMinutes);
 			issue.updated = issue.opened;
