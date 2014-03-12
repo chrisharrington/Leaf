@@ -187,9 +187,9 @@
 
 	IssueTracker.Page.build({
 		root: root,
-		view: function () { return "Issues/Details?issueName=:name&projectId=" + IssueTracker.selectedProject().id; },
+		view: function () { return "Issues/Details?number=:number&projectId=" + IssueTracker.selectedProject().id; },
 		title: "Issue Details",
-		route: "#/:project-name/issues/:name",
+		route: "#/:project-name/issues/:number",
 		style: "issue-details-container",
 		exit: function() { _container.find("div.existing-comments").empty(); }
 	});

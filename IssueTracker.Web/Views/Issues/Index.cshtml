@@ -5,7 +5,7 @@
 			<span>Your current filter settings have excluded all issues. Create an issue or change the filter on the right to see a list of issues.</span>
 		</div>
 		<div data-bind="foreach: list, attr: { 'class': 'data ' + View.view() }">
-			<a class="tile hidden" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + name.formatForUrl() }">
+			<a class="tile hidden" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + number }">
 				<div data-bind="attr: { class: priorityStyle }">
 					<div class="info">
 						<h2 class="number" data-bind="text: '#' + number"></h2>

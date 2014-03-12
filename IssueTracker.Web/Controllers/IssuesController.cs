@@ -46,9 +46,9 @@ namespace IssueTracker.Web.Controllers
 			IssueRepository.Insert(model, SignedInUser);
 		}
 
-	    public ActionResult Details(string issueName, Guid projectId)
+	    public ActionResult Details(int number, Guid projectId)
 	    {
-		    var issue = IssueRepository.ProjectAndName(projectId, issueName);
+		    var issue = IssueRepository.ProjectAndNumber(projectId, number);
 		    return View(new IssueViewModel {
 				id = issue.Id,
 			    number = issue.Number,
