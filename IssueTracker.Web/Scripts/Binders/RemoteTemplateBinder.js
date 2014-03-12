@@ -2,10 +2,12 @@
 (function () {
 
 	var _404;
+	var _500;
 
 	ko.bindingHandlers.remoteTemplate = {
 		init: function() {
 			_404 = $("div.error404");
+			_500 = $("div.error500");
 		},
 		update: function(element, valueAccessor) {
 			var view = valueAccessor()();
@@ -25,11 +27,12 @@
 
 				if (view.load)
 					view.load();
-			}).fail(function(response) {
-				if (response.status == 404) {
+			}).fail(function (response) {
+				$(element).hide();
+				if (response.status == 404)
 					_404.show();
-					$(element).hide();
-				}
+				else if (response.status == 500)
+					_500.show();
 			});
 		}
 	};
@@ -39,10 +42,7 @@
 		if (url instanceof Function)
 			url = url();
 
-		return $.get(IssueTracker.virtualDirectory() + url).fail(function (response) {
-			if (response.status != 404)
-				IssueTracker.Feedback.error("An error occurred retrieving the view at " + url + ". Please contact technical support.");
-		});
+		return $.get(IssueTracker.virtualDirectory() + url);
 	}
 
 })();

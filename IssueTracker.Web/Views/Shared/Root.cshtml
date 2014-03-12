@@ -35,10 +35,16 @@
 	<body>
 		@Html.Partial("~/Views/Shared/Header.cshtml")
 		<section class="content-wrapper">
-			<div class="error404">
+			<div class="error404 error-code">
 				<div>
 					<h1>The page you're looking for was not found</h1>
 					<span>Unfortunately, the page you're looking for wasn't found. If you feel this page showed up in error, please contact technical support.</span>
+				</div>
+			</div>
+			<div class="error500 error-code">
+				<div>
+					<h1>An unexpected error has occurred</h1>
+					<span>Unfortunately, we've encountered an unexpected error. Chances are, this problem is intermittent and can be fixed by retrying your initial action. Regardless, our support team has already been notified of the error and will be attempting to fix it. If you feel the need to speak with someone directly, please contact technical support. Thanks, and sorry for any inconvenience.</span>
 				</div>
 			</div>
 
