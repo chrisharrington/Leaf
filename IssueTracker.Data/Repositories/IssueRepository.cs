@@ -36,7 +36,7 @@ namespace IssueTracker.Data.Repositories
 			var newProperties = model.GetType().GetProperties().ToDictionary(x => x.Name);
 			foreach (var key in oldProperties.Keys)
 			{
-				if (key == "Audits" || key == "Comments")
+				if (key == "Audits" || key == "Comments" || key == "Updated" || key == "Opened")
 					continue;
 
 				var oldValue = oldProperties[key].GetValue(retrieved);
