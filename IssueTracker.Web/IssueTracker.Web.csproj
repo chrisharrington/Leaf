@@ -343,6 +343,12 @@
   <ItemGroup>
     <Content Include="CSS\Users.less" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Spinner.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSS\Spinner.less" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
