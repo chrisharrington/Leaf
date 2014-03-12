@@ -34,7 +34,7 @@ namespace IssueTracker.Web.Controllers
 		{
 			issue.id = Guid.NewGuid();
 			issue.number = IssueRepository.HighestNumber(CurrentProject) + 1;
-			issue.opened = DateTime.UtcNow.ToApplicationString();
+			issue.opened = DateTime.UtcNow.ToApplicationString(TimezoneOffsetInMinutes);
 			issue.updated = issue.opened;
 			issue.updatedBy = SignedInUser.Name;
 			issue.updatedId = SignedInUser.Id;
@@ -66,10 +66,10 @@ namespace IssueTracker.Web.Controllers
 				milestone = issue.Milestone.ToString(),
 				milestoneId = issue.Milestone.Id,
 				details = issue.Details,
-				opened = issue.Opened.ToApplicationString(),
-				closed = issue.Closed.ToApplicationString(),
+				opened = issue.Opened.ToApplicationString(TimezoneOffsetInMinutes),
+				closed = issue.Closed.ToApplicationString(TimezoneOffsetInMinutes),
 				updatedId = issue.UpdatedBy.Id,
-				updated = issue.Updated.ToApplicationString(),
+				updated = issue.Updated.ToApplicationString(TimezoneOffsetInMinutes),
 				transitions = TransitionRepository.Status(issue.Status).Select(x => new {id = x.Id, name = x.Name, fromId = x.From.Id, toId = x.To.Id}),
 				history = BuildIssueHistory(issue.Audits, issue.Comments)
 		    });
@@ -93,9 +93,9 @@ namespace IssueTracker.Web.Controllers
 				status = x.Status.ToString(),
 				type = x.Type.ToString(),
 				priorityStyle = ToPriorityStyleString(x.Priority),
-				opened = x.Opened.ToApplicationString(),
-				closed = x.Closed.ToApplicationString(),
-				lastUpdated = x.Updated.ToLongApplicationString(),
+				opened = x.Opened.ToApplicationString(TimezoneOffsetInMinutes),
+				closed = x.Closed.ToApplicationString(TimezoneOffsetInMinutes),
+				lastUpdated = x.Updated.ToLongApplicationString(TimezoneOffsetInMinutes),
 				updatedBy = x.UpdatedBy.ToString()
 			}), JsonRequestBehavior.AllowGet);
 	    }
@@ -106,7 +106,7 @@ namespace IssueTracker.Web.Controllers
 		    if (issue == null || issue.id == Guid.Empty)
 			    throw new ArgumentNullException("issue");
 
-			issue.updated = DateTime.UtcNow.ToApplicationString();
+			issue.updated = DateTime.UtcNow.ToApplicationString(TimezoneOffsetInMinutes);
 			issue.updatedId = SignedInUser.Id;
 			
 		    var model = Mapper.Map<IssueViewModel, Issue>(issue);
@@ -148,9 +148,9 @@ namespace IssueTracker.Web.Controllers
 		{
 			var history = new List<IssueHistoryViewModel>();
 			if (audits != null)
-				history.AddRange(audits.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(), text = BuildAuditString(x), user = x.User.ToString() }));
+				history.AddRange(audits.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(TimezoneOffsetInMinutes), text = BuildAuditString(x), user = x.User.ToString() }));
 			if (comments != null)
-				history.AddRange(comments.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(), text = x.Text, user = x.User.ToString() }));
+				history.AddRange(comments.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(TimezoneOffsetInMinutes), text = x.Text, user = x.User.ToString() }));
 			return history.OrderByDescending(x => DateTime.Parse(x.date));
 		}
 

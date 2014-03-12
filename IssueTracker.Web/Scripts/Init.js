@@ -41,6 +41,7 @@
 		$.ajaxPrefilter(function (options, original) {
 			if (IssueTracker.selectedProject)
 				options.data = $.param($.extend(original.data, { projectId: IssueTracker.selectedProject().id }));
+			options.data = $.param($.extend(original.data, { timezoneOffset: new Date().getTimezoneOffset() }));
 		});
 	}
 
