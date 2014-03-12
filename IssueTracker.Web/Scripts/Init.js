@@ -17,6 +17,10 @@
 	
 	function _setupPath() {
 		Path.root("#/" + IssueTracker.selectedProject().name.formatForUrl() + "/issues");
+		Path.rescue(function () {
+			$("div.error404").show();
+			$("section.content-container").hide();
+		});
 		Path.listen();
 	}
 
