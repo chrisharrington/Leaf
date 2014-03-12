@@ -28,6 +28,8 @@
 		root.createModel.details("");
 
 		_setDefaultValues();
+
+		_container.find("input.tile.container").focus();
 	};
 
 	function _hookupEvents() {
