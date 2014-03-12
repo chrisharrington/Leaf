@@ -49,7 +49,7 @@
 		root.loading(true);
 		return $.post(IssueTracker.virtualDirectory() + "Issues/AddComment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function () {
 			_isAdd = true;
-			root.list.push({ date: new Date().toApplicationString(), user: IssueTracker.signedInUser().name(), text: root.text() });
+			root.list.splice(0, 0, { date: new Date().toApplicationString(), user: IssueTracker.signedInUser().name(), text: root.text() });
 			root.text("");
 		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while adding your comment. Please try again later.");
