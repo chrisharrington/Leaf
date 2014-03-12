@@ -27,7 +27,6 @@
 
 	root.load = function () {
 		_setNumberWidth();
-		_setCommentHeights();
 
 		_detailsFlipper = new IssueTracker.Controls.Flipper("#choices-container");
 		_oldName = IssueTracker.selectedIssue.description();
@@ -190,18 +189,11 @@
 		number.width(width).parent().find("div.description").css({ "padding-left": width + padding + 1 });
 	}
 
-	function _setCommentHeights() {
-		_container.find("div.content>div.comments>div").each(function () {
-			var user = $(this).find("div.user");
-			var comments = $(this).find("div.comments");
-		});
-	}
-
 	IssueTracker.Page.build({
 		root: root,
-		view: function () { return "Issues/Details?issueName=:name&projectId=" + IssueTracker.selectedProject().id; },
+		view: function () { return "Issues/Details?number=:number&projectId=" + IssueTracker.selectedProject().id; },
 		title: "Issue Details",
-		route: "#/:project-name/issues/:name",
+		route: "#/:project-name/issues/:number",
 		style: "issue-details-container",
 		exit: function() { _container.find("div.existing-comments").empty(); }
 	});

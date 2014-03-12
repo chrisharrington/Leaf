@@ -23,6 +23,11 @@ namespace IssueTracker.Data.Repositories
 			return issue == null ? 0 : issue.Number;
 		}
 
+		public Issue ProjectAndNumber(Guid projectId, int number)
+		{
+			return Context.Issues.FirstOrDefault(x => x.Project.Id == projectId && x.Number == number);
+		}
+
 		public override void Update(Issue model, User user)
 		{
 			var retrieved = Details(model.Id);
@@ -31,7 +36,7 @@ namespace IssueTracker.Data.Repositories
 			var newProperties = model.GetType().GetProperties().ToDictionary(x => x.Name);
 			foreach (var key in oldProperties.Keys)
 			{
-				if (key == "Audits" || key == "Comments")
+				if (key == "Audits" || key == "Comments" || key == "Updated" || key == "Opened")
 					continue;
 
 				var oldValue = oldProperties[key].GetValue(retrieved);

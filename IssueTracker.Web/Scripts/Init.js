@@ -9,6 +9,8 @@
 		_setupNanobar();
 		_setupAjaxPrefilters();
 
+		document.cookie = "timezoneOffset=" + new Date().getTimezoneOffset();
+
 		IssueTracker.Header.init();
 		ko.applyBindings(IssueTracker);
 	};

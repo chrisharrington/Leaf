@@ -14,7 +14,8 @@
 					>div { float:left; width:100%; height:100%; overflow:hidden; border-left:solid @priority-width; .border-box;
 						>div.info { float:left; width:100%; .border-box; padding:@spacing @spacing;
 							>* { margin-top:@small-spacing; .border-box; }
-							>.name { float:left; font-weight:bold; color:black; .ellipsis; margin-top:0; }
+							>h2.number { float:left; font-weight:bold; color:black; margin-top:0; }
+							>h2.name { float:left; color:black; .ellipsis; margin-top:0; padding-left:@small-spacing; font-weight:normal; }
 							>span.date { float:right; color:@primary-font-colour-light; font-size:0.875em; margin-top:0; }
 							>span.updated { float:left; width:100%; color:@secondary-font-colour; font-size:0.875em; margin-top:@tiny-spacing; }
 							>span.comments { float:left; width:100%; white-space:nowrap; .ellipsis; color:@primary-font-colour-light; }
@@ -39,7 +40,8 @@
 				>a { border-top:solid 1px @border-colour; margin-top:0; box-shadow:none;
 					>div {
 						>div.info { padding:0 @small-spacing; height:@info-height;
-							h2 { font-size:1em; .regular-font; text-transform:none; } 
+							h2 { font-size:1em; .regular-font; text-transform:none; }
+							h2.number { border-right:solid 1px @border-colour; width:50px; text-align:center; padding-right:@small-spacing; }
 							span.updated { display:none; }
 							span.comments { display:none; }
 						}

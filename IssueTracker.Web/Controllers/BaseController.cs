@@ -26,6 +26,11 @@ namespace IssueTracker.Web.Controllers
 		    get { return _project ?? (_project = GetCurrentProject()); }
 	    }
 
+	    public int TimezoneOffsetInMinutes
+	    {
+			get { return GetTimezoneOffset(); }
+	    }
+
 	    public void Validate(object obj)
 	    {
 		    if (obj == null)
@@ -45,16 +50,19 @@ namespace IssueTracker.Web.Controllers
 
 	    private Project GetCurrentProject()
 	    {
-		    var parameters = ControllerContext.RequestContext.HttpContext.Request.Params;
-		    if (parameters.AllKeys.All(x => x != "projectId"))
-			    return null;
+		    var raw = ParseQueryStringParameter("projectId").ToString();
+		    return string.IsNullOrEmpty(raw) ? null : ProjectRepository.Details(new Guid(raw));
+	    }
 
-			var rawProjectId = parameters["projectId"];
-		    Guid projectId;
-		    if (!Guid.TryParse(rawProjectId, out projectId))
-			    return null;
+		private int GetTimezoneOffset()
+		{
+			return Convert.ToInt16(ParseQueryStringParameter("timezoneOffset"));
+		}
 
-		    return ProjectRepository.Details(projectId);
+	    private object ParseQueryStringParameter(string parameter)
+	    {
+			var parameters = ControllerContext.RequestContext.HttpContext.Request.Params;
+		    return parameters.AllKeys.All(x => x != parameter) ? null : parameters[parameter];
 	    }
     }
 }
