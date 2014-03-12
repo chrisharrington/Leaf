@@ -34,7 +34,16 @@
 </head>
 	<body>
 		@Html.Partial("~/Views/Shared/Header.cshtml")
-		<section class="content" data-bind="remoteTemplate: view"></section>
+		<section class="content-wrapper">
+			<div class="error404">
+				<div>
+					<h1>The page you're looking for was not found</h1>
+					<span>Unfortunately, the page you're looking for wasn't found. If you feel this page showed up in error, please contact technical support.</span>
+				</div>
+			</div>
+
+			<section class="content-container" data-bind="remoteTemplate: view"></section>
+		</section>
 		
 		<div class="popup">
 			<div class="arrow top left">

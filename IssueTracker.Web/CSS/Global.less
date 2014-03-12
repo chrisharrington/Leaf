@@ -1,4 +1,5 @@
-﻿@spacing:15px;
+﻿@application-width:1680px;
+@spacing:15px;
 @small-spacing:8px;
 @tiny-spacing:4px;
 
@@ -100,7 +101,9 @@ button.negative { .gradient(@negative-colour, @negative-colour-dark); }
 i.loading { background:url("../Images/ajax-loader.gif") center no-repeat; color:transparent !important; }
 
 body { margin:0; padding:0; overflow-x:hidden; background:url(../Images/background.png); font-size:14px; .regular-font; }
-.content-container { float:left; width:100%; .border-box; padding:@spacing; padding-top:((@spacing)-5); }
+.content-wrapper { max-width:@application-width; margin:auto;
+	.content-container { float:left; width:100%; .border-box; padding:@spacing; padding-top:((@spacing)-5); }
+}
 
 .tile { padding:@spacing; .border-radius; .gradient(@tile-gradient-light-colour, @tile-gradient-dark-colour); .border-box; .shadow; color:@primary-font-colour; }
 
@@ -193,4 +196,11 @@ div.colour-logo.green { .gradient(lighten(#2A8C06, 5%), darken(#2A8C06, 5%)); }
 div.form {
 	>input, >select { float:left; width:100%; .border-box; padding:@small-spacing; margin-top:@small-spacing; }
 	>input:first-child, >select:first-child { margin-top:0; }
+}
+
+div.error404 { float:left; width:100%; display:none; padding:@spacing; padding-top:((@spacing)-5); .border-box;
+	>div { float:left; width:100%; .tile;
+		>* { float:left; width:100%; }
+		>span { margin-top:@small-spacing; }
+	}
 }

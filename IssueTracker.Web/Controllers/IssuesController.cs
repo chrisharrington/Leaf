@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using IssueTracker.Common.Data.Repositories;
@@ -49,6 +50,8 @@ namespace IssueTracker.Web.Controllers
 	    public ActionResult Details(int number, Guid projectId)
 	    {
 		    var issue = IssueRepository.ProjectAndNumber(projectId, number);
+		    if (issue == null)
+			    return new HttpStatusCodeResult(404, "No issue was found with number " + number + ".");
 		    return View(new IssueViewModel {
 				id = issue.Id,
 			    number = issue.Number,

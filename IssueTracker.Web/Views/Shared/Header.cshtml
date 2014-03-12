@@ -1,16 +1,18 @@
 ﻿<header>
-	<div class="menu">
-		<a data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
-			<span>Issues</span>
-		</a>
-		<a data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/users' }">
-			<span>Users</span>
-		</a>
-	</div>
-	<div class="account">
-		<a id="create-issue" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/new-issue' }">
-			<i class="fa fa-plus"></i>
-		</a>
+	<div>
+		<div class="menu">
+			<a data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
+				<span>Issues</span>
+			</a>
+			<a data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/users' }">
+				<span>Users</span>
+			</a>
+		</div>
+		<div class="account">
+			<a id="create-issue" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/new-issue' }">
+				<i class="fa fa-plus"></i>
+			</a>
+		</div>
 	</div>
 </header>
 
