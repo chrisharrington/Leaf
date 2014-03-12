@@ -13,7 +13,6 @@
 
 				$(element).attr("class", "content-container " + view.style).empty().append($("<div></div>").addClass("binding-container").html(result));
 
-				ko.cleanNode($(element).find(">div.binding-container")[0]);
 				ko.applyBindings(view.data, $(element).find(">div.binding-container")[0]);
 
 				if (view.load)

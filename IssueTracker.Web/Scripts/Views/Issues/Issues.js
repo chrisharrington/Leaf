@@ -17,7 +17,6 @@
 	root.loading = ko.observable(true);
 
 	root.list = ko.observableArray();
-	root.search = ko.observable("");
 	root.sidebar = ko.observable();
 
 	root.init = function (container) {
@@ -27,7 +26,6 @@
 		_details = IssueTracker.Issues.Details;
 		
 		_container = container;
-		_hookupEvents(container);
 		_setupLoadingMoreIssues();
 
 		_flipper = new IssueTracker.Controls.Flipper("div.sidebar .flipper");
@@ -44,13 +42,6 @@
 	root.reset = function () {
 		_resetIssueList();
 	};
-
-	function _hookupEvents(container) {
-		container.on("focus", "div.search input", function () { $(this).parent().addClass("focus"); });
-		container.on("blur", "div.search input", function () { $(this).parent().removeClass("focus"); });
-		container.on("click", "div.search i", function () { root.search(""); });
-		root.search.subscribe(_resetIssueList);
-	}
 	
 	function _setupLoadingMoreIssues() {
 		$(window).scroll(function () {
@@ -68,7 +59,6 @@
 		$.get(IssueTracker.virtualDirectory() + "Issues/Next", _buildParameters(count)).done(function (issues) {
 			root.list([]);
 			root.list.pushAll(issues);
-			_container.find("a.tile.hidden").removeClass("hidden");
 			if (issues.length < count)
 				_allLoaded = true;
 		}).fail(function () {
@@ -87,7 +77,7 @@
 			project: IssueTracker.selectedProject(),
 			direction: _sort.direction(),
 			comparer: _sort.property(),
-			filter: root.search(),
+			filter: "",
 			milestones: _joinFilterIds(_filter.selectedMilestones(), IssueTracker.milestones()),
 			priorities: _joinFilterIds(_filter.selectedPriorities(), IssueTracker.priorities()),
 			statuses: _joinFilterIds(_filter.selectedStatuses(), IssueTracker.statuses()),
@@ -113,7 +103,7 @@
 	}
 
 	IssueTracker.Page.build({
-		root: root,
+		root: IssueTracker.Issues,
 		view: "Issues",
 		title: "Issues",
 		route: "#/:project-name/issues",

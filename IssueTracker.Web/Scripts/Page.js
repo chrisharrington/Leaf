@@ -53,7 +53,7 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 		url = url();
 	for (var name in routeArguments)
 		url = url.replace(":" + name, routeArguments[name].replace(/-/g, " "));
-	
+
 	IssueTracker.view({ url: url, style: params.style, data: params.root, load: function() {
 		var container = $(".content-container");
 		if (me.init && !me._initFired) {
