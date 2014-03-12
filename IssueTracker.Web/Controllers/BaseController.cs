@@ -50,21 +50,19 @@ namespace IssueTracker.Web.Controllers
 
 	    private Project GetCurrentProject()
 	    {
-		    var projectId = ParseQueryStringParameter<Guid>("projectId");
-		    return projectId == Guid.Empty ? null : ProjectRepository.Details(projectId);
+		    var raw = ParseQueryStringParameter("projectId").ToString();
+		    return string.IsNullOrEmpty(raw) ? null : ProjectRepository.Details(new Guid(raw));
 	    }
 
 		private int GetTimezoneOffset()
 		{
-			return ParseQueryStringParameter<int>("timezoneOffset");
+			return Convert.ToInt16(ParseQueryStringParameter("timezoneOffset"));
 		}
 
-	    private ParsedType ParseQueryStringParameter<ParsedType>(string parameter)
+	    private object ParseQueryStringParameter(string parameter)
 	    {
 			var parameters = ControllerContext.RequestContext.HttpContext.Request.Params;
-			if (parameters.AllKeys.All(x => x != parameter))
-				return default(ParsedType);
-			return (ParsedType) Convert.ChangeType(parameters[parameter], typeof (ParsedType));
+		    return parameters.AllKeys.All(x => x != parameter) ? null : parameters[parameter];
 	    }
     }
 }
