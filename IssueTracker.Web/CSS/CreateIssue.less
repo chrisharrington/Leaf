@@ -32,12 +32,15 @@
 			>div { float:left; width:100%; height:@attached-file-height; .border-box; border-bottom:solid 1px @border-colour;
 				@delete-width:50px;
 				>* { display:inline-block; vertical-align:middle; line-height:@attached-file-height; height:100%; }
-				>div { position:relative; float:left; width:100%; padding-right:@delete-width; .border-box;
+				>div.info { position:relative; float:left; width:100%; padding-right:@delete-width; .border-box; .ellipsis;
 					>span.name { float:left; color:@secondary-font-colour; font-weight:bold; padding-left:@spacing; }
 					>span.size { float:left; font-size:0.75em; color:@primary-font-colour-light; margin-left:@spacing; }
 				}
 				>i { float:right; position:relative; margin-left:@delete-width*-1; width:@delete-width; font-size:1.125em; color:@primary-font-colour-lightest; cursor:pointer; padding:0 @spacing; .border-box; }
 				>i:hover { color:@secondary-font-colour; }
+				>div.progress { float:left; width:100%; position:relative; height:100%;
+					>div { float:left; width:100%; height:@attached-file-height; margin-top:@attached-file-height*-1+1; .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); opacity:0.25; }
+				}
 			}
 			>div:first-child { border-top:solid 1px @border-colour; }
 		}

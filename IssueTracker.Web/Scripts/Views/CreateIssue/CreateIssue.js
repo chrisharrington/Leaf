@@ -14,8 +14,7 @@
 		typeId: function() { return _getSelectedFromChoiceTile($("div.type")); },
 		developerId: function () { return _getSelectedFromChoiceTile($("div.developer")); },
 		testerId: function () { return _getSelectedFromChoiceTile($("div.tester")); },
-		milestoneId: function () { return _getSelectedFromChoiceTile($("div.milestone")); },
-		attachedFiles: ko.observableArray()
+		milestoneId: function () { return _getSelectedFromChoiceTile($("div.milestone")); }
 	};
 
 	root.init = function (container) {
@@ -23,6 +22,8 @@
 		_container = container;
 
 		_hookupEvents();
+
+		root.Upload.init(_container);
 	};
 
 	root.load = function() {
@@ -32,14 +33,13 @@
 		_setDefaultValues();
 
 		_container.find("input.tile.container").focus();
+		root.Upload.load(root.createModel.id());
 	};
 
 	function _hookupEvents() {
 		_container.on("click", "div.choice-tile>div", _toggleSelectedChoice);
 		_container.on("click", "#save", _save);
 		_container.on("click", "#discard", _discard);
-		_container.on("click", "#browse", function () { _container.find("input[type='file']").click(); });
-		_container.on("change", "input[type='file']", _attach);
 	}
 
 	function _discard() {
@@ -104,23 +104,6 @@
 		var signedInUserId = IssueTracker.signedInUser().id();
 		_container.find("div.detailed-info-container>div.developer>div>div[data-id='" + signedInUserId + "']").addClass("selected");
 		_container.find("div.detailed-info-container>div.tester>div>div[data-id='" + signedInUserId + "']").addClass("selected");
-	}
-
-	function _attach() {
-		var file = _container.find("input[type='file']")[0].files[0];
-		root.createModel.attachedFiles.push({ name: file.name, size: file.size.toSizeString(), progress: ko.observable(0) });
-		var xhr = new XMLHttpRequest();
-		var fd = new FormData();
-		fd.append("issueId", root.createModel.id());
-		fd.append("file", file);
-
-		//xhr.upload.addEventListener("progress", uploadProgress, false);
-		//xhr.addEventListener("load", uploadComplete, false);
-		//xhr.addEventListener("error", uploadFailed, false);
-		//xhr.addEventListener("abort", uploadCanceled, false);
-
-		xhr.open("POST", IssueTracker.virtualDirectory() + "Issues/AttachFile");
-		xhr.send(fd);
 	}
 
 	IssueTracker.Page.build({

@@ -19,11 +19,14 @@ function root(location) {
 	return root;
 }
 
-function inspect(o) {
+function inspect(o, isConsole) {
 	var string = "";
 	for (var name in o)
 		string += name + ": " + o[name] + "\n";
-	alert(string);
+	if (isConsole)
+		console.log(string);
+	else
+		alert(string);
 }
 
 function createNestedObservables(obj) {

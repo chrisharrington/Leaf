@@ -108,13 +108,16 @@
 	<button id="browse">Browse...</button>
 	<input type="file" />
 	<span>Attach files by either selecting them using the browse button above or dragging and dropping them into this container.</span>
-	<div data-bind="foreach: createModel.attachedFiles">
+	<div data-bind="foreach: Upload.attachedFiles">
 		<div>
-			<div class="ellipsis">
+			<div class="info">
 				<span class="name ellipsis" data-bind="text: name"></span>
 				<span class="size" data-bind="text: size"></span>
 			</div>
 			<i class="fa fa-times"></i>
+			<div class="progress" data-bind="attr: { style: 'width:' + progress() + '%' }">
+				<div></div>
+			</div>
 		</div>
 	</div>
 </div>
