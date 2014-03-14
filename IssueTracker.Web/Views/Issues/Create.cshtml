@@ -108,34 +108,12 @@
 	<button id="browse">Browse...</button>
 	<input type="file" />
 	<span>Attach files by either selecting them using the browse button above or dragging and dropping them into this container.</span>
-	<div>
+	<div data-bind="foreach: createModel.attachedFiles">
 		<div>
-			<span class="name">the-filename.png</span>
-			<span class="size">12345 kilobytes</span>
-			<i class="fa fa-times"></i>
-		</div>
-		<div>
-			<span class="name">the-filename.png</span>
-			<span class="size">12345 kilobytes</span>
-			<i class="fa fa-times"></i>
-		</div>
-		<div>
-			<span class="name">the-filename.png</span>
-			<span class="size">12345 kilobytes</span>
-			<i class="fa fa-times"></i>
-		</div>
-		<div>
-			<span class="name">the-filename.png</span>
-			<span class="size">12345 kilobytes</span>
-			<i class="fa fa-times"></i>
-		</div><div>
-			      <span class="name">the-filename.png</span>
-			      <span class="size">12345 kilobytes</span>
-			      <i class="fa fa-times"></i>
-		      </div>
-		<div>
-			<span class="name">the-filename.png</span>
-			<span class="size">12345 kilobytes</span>
+			<div class="ellipsis">
+				<span class="name ellipsis" data-bind="text: name"></span>
+				<span class="size" data-bind="text: size"></span>
+			</div>
 			<i class="fa fa-times"></i>
 		</div>
 	</div>

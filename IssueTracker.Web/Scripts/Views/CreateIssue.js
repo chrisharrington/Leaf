@@ -15,6 +15,7 @@
 		developerId: function () { return _getSelectedFromChoiceTile($("div.developer")); },
 		testerId: function () { return _getSelectedFromChoiceTile($("div.tester")); },
 		milestoneId: function () { return _getSelectedFromChoiceTile($("div.milestone")); },
+		attachedFiles: ko.observableArray()
 	};
 
 	root.init = function (container) {
@@ -107,6 +108,7 @@
 
 	function _attach() {
 		var file = _container.find("input[type='file']")[0].files[0];
+		root.createModel.attachedFiles.push({ name: file.name, size: file.size.toSizeString(), progress: ko.observable(0) });
 		var xhr = new XMLHttpRequest();
 		var fd = new FormData();
 		fd.append("issueId", root.createModel.id());
