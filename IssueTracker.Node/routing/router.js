@@ -2,21 +2,28 @@
 
     var _http = require("http");
     var _routes = {};
-    var _controllers = {
+
+    exports.controllers = {
         welcome: require("./../controllers/welcome")
     };
 
     exports.listen = function(port) {
-        _http.createServer(function(request, response) {
-            var callback = _findCallback(request.method, request.url);
-            if (!callback) {
-                response.writeHead(404, { "Content-Type": "text/plain" });
-                response.write("No route for " + request.url + " was found.");
-                response.end();
-            } else {
-                callback(request, response);
-            }
-        }).listen(port);
+       this.server =  _http.createServer(exports.handle).listen(port);
+    };
+
+    exports.handle = function(request, response) {
+        var callback = _findCallback(request.method, request.url);
+        if (!callback) {
+            response.writeHead(404, { "Content-Type": "text/plain" });
+            response.write("No route for " + request.url + " was found.");
+            response.end();
+        } else {
+            callback(request, response);
+        }
+    };
+
+    exports.close = function() {
+        this.server.close();
     };
 
     function _findCallback(verb, url) {
@@ -32,7 +39,7 @@
             url = url.substring(1);
 
         var slash = url.indexOf("/");
-        return _controllers[slash == -1 ? url : url.substring(0, slash)];
+        return exports.controllers[slash == -1 ? url : url.substring(0, slash)];
     }
 
     function _findAction(url, controller) {
