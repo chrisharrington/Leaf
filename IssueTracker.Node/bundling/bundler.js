@@ -1,6 +1,6 @@
 var _less = require("less");
 var _fs = require("fs");
-var _promsie = require("node-promise");
+var _compressor = require("clean-css");
 
 exports.bundle = function(directory, minify, callback) {
     _getAllFilesIn(directory, function(files) {
@@ -50,6 +50,6 @@ function _concatenateAllFiles(directory, files, callback) {
         });
 }
 
-function _applyMinification(content, callback) {
-    callback(content);
+function _applyMinification(content) {
+    return new _compressor().minify(content);
 }
