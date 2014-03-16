@@ -4,7 +4,8 @@
     var _routes = {};
 
     exports.controllers = {
-        welcome: require("./../controllers/welcome")
+        welcome: require("./../controllers/welcome"),
+        bundle: require("./../controllers/bundle")
     };
 
     exports.listen = function(port) {

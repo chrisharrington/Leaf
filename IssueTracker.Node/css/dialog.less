@@ -1,0 +1,19 @@
+﻿@import "_global.less";
+
+@dialog-z-index:3;
+
+.dialog { position:fixed; z-index:@dialog-z-index; display:none;
+	>div { float:left; .tile; }
+}
+.overlay { position:fixed; z-index:((@dialog-z-index)-1); top:0; right:0; bottom:0; left:0; display:none; background-color:#EEEEEE; opacity:0.8; }
+
+.confirmation-dialog { width:500px;
+	>* { float:left; width:100%; margin-top:@small-spacing; .border-box; }
+	>h1 { margin-top:0; }
+	span.warning { font-weight:bold; }
+	b { color:@warning-font-colour; }
+	>div { width:50%; padding-left:@spacing/2;
+		>button { width:100%; }
+	}
+	>div.confirm-container { padding-right:@spacing/2; padding-left:0; }
+}

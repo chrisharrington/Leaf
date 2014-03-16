@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+	<title>Unnamed Issue Tracker</title>
+	
+	<link href="bundle/style" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.0.0/knockout-min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/path.js/0.8.4/path.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highcharts/3.0.7/highcharts.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20130526/json2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jStorage/0.4.4/jstorage.min.js"></script>
+    <!--<script type="text/javascript" src="scripts.js"></script>-->
+	
+	<!--<script type="text/javascript">-->
+		<!--$(function () {-->
+			<!--var root = window.IssueTracker || (window.IssueTracker = {});-->
+			<!--root.virtualDirectory = ko.observable("@Url.Content("/")");-->
+			<!--root.priorities = ko.observableArray(@Html.Raw(Json.Encode(Model.Priorities)));-->
+			<!--root.statuses = ko.observableArray(@Html.Raw(Json.Encode(Model.Statuses)));-->
+			<!--root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));-->
+			<!--root.transitions = ko.observableArray(@Html.Raw(Json.Encode(Model.Transitions)));-->
+			<!--root.projects = ko.observableArray(@Html.Raw(Json.Encode(Model.Projects)));-->
+			<!--root.milestones = ko.observableArray(@Html.Raw(Json.Encode(Model.Milestones)));-->
+			<!--root.issueTypes = ko.observableArray(@Html.Raw(Json.Encode(Model.Types)));-->
+			<!--root.selectedProject = ko.observable(@Html.Raw(Json.Encode(Model.SelectedProject)));-->
+			<!--root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables(@Html.Raw(Json.Encode(Model.SignedInUser))));-->
+			<!--root.selectedIssue = ko.observable();-->
+			<!--IssueTracker.Init.init();-->
+		<!--});-->
+	<!--</script>-->
+</head>
+	<body>
+        <header>
+            <div>
+                <div class="menu">
+                    <a data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
+                        <span>Issues</span>
+                    </a>
+                    <a data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/users' }">
+                        <span>Users</span>
+                    </a>
+                </div>
+                <div class="account">
+                    <a id="create-issue" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/new-issue' }">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="bar-container"></div>
+
+		<section class="content-wrapper">
+			<div class="error404 error-code">
+				<div>
+					<h1>The page you're looking for was not found</h1>
+					<span>Unfortunately, the page you're looking for wasn't found. If you feel this page showed up in error, please contact technical support.</span>
+				</div>
+			</div>
+			<div class="error500 error-code">
+				<div>
+					<h1>An unexpected error has occurred</h1>
+					<span>Unfortunately, we've encountered an unexpected error. Chances are, this problem is intermittent and can be fixed by retrying your initial action. Regardless, our support team has already been notified of the error and will be attempting to fix it. If you feel the need to speak with someone directly, please contact technical support. Thanks, and sorry for any inconvenience.</span>
+				</div>
+			</div>
+
+			<section class="content-container" data-bind="remoteTemplate: view"></section>
+		</section>
+		
+		<div class="popup">
+			<div class="arrow top left">
+				<div></div>
+			</div>
+			<div class="content" data-bind="html: popup"></div>
+			<div class="arrow bottom left">
+				<div></div>
+			</div>
+		</div>
+
+		<div class="dialog" data-bind="html: dialog"></div>
+		<div class="overlay"></div>
+		
+		<div class="global-feedback">
+			<i class="fa fa-warning"></i>
+			<i class="fa fa-check"></i>
+			<div>
+				<span></span>
+				<i class="fa fa-times"></i>
+			</div>
+		</div>
+	</body>
+</html>

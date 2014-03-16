@@ -1,0 +1,20 @@
+.preserve-transform-style { -webkit-transform-style:e("preserve-3d"); transform-style:e("preserve-3d"); }
+.transform-transition { -webkit-transition:-webkit-transform 0.5s; -webkit-transition:transform 0.5s; transition:-webkit-transform 0.5s; transition:transform 0.5s; }
+.backface-visibility-hidden { -webkit-backface-visibility:hidden; -moz-backface-visibility:hidden; }
+.transform-180-y { transform:rotateY(180deg); -webkit-transform:rotateY(180deg); }
+.transform-180-x { transform:rotateX(-180deg); -webkit-transform:rotateX(-180deg); }
+.perspective { perspective:1000; -webkit-perspective:1000; }
+
+div.flipper { .perspective; .preserve-transform-style; position:relative; }
+div.flipper>div.flip-tile { position:absolute; width:100%; height:100%; }
+div.flipper>div.front { z-index:3; }
+div.flipper>div.back { z-index:2; }
+
+div.flipper.transition { .preserve-transform-style; .transform-transition; }
+div.flipper.transition>div.flip-tile { .backface-visibility-hidden;}
+
+div.flipper.flipped.transition.vertical { .transform-180-x; }
+div.flipper.transition.vertical>div.back { .transform-180-x; }
+
+div.flipper.flipped.transition.horizontal { .transform-180-y; }
+div.flipper.transition.horizontal>div.back { .transform-180-y; }
