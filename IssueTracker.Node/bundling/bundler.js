@@ -2,27 +2,52 @@ var _less = require("less");
 var _fs = require("fs");
 var _compressor = require("clean-css");
 
-exports.bundle = function(directory, minify, callback) {
-    _getAllFilesIn(directory, function(files) {
-        _concatenateAllFiles(directory, files, function(concatenated) {
-            _less.render(concatenated, function(error, css) {
-                if (minify)
-                    css = _applyMinification(css);
-                callback(css);
-            });
+exports.bundleCss = function(directory, minify, callback) {
+    var files = _getAllFilesIn(directory, [".css", ".less"]);
+    _concatenateAllFiles(directory, files, function(concatenated) {
+        _less.render(concatenated, function(error, css) {
+            if (minify)
+                css = new _compressor().minify(css);
+            callback(css);
         });
     });
 };
 
-function _getAllFilesIn(directory, callback) {
-    _fs.readdir(directory, function(err, files) {
-        var orderedFiles = [];
-        for (var i = 0; i < files.length; i++)
-            if (files[i][0] == "_")
-                orderedFiles.push(files.splice(i, 1)[0]);
-        orderedFiles.push.apply(orderedFiles, files);
-        callback(orderedFiles);
+exports.bundleScripts = function(directory, minify, callback) {
+    var files = _getAllFilesIn(directory, [".js"]);
+    _concatenateAllFiles(directory, files, function(script) {
+        if (minify)
+            script = _minifyJavascript(script);
+        callback(script);
     });
+};
+
+function _getAllFilesIn(directory, extensions) {
+    var files = _fs.readdirSync(directory);
+    var orderedFiles = [];
+    for (var i = 0; i < files.length; i++)
+        if (_isValidFile(files[i], extensions) && files[i][0] == "_")
+            orderedFiles.push(directory + "/" + files.splice(i, 1)[0]);
+    for (var i = 0; i < files.length; i++) {
+        var file = directory + "/" + files[i];
+        if(_isValidFile(file, extensions))
+            orderedFiles.push(file);
+        else {
+            if (_fs.statSync(file).isDirectory()) {
+                var newFiles = _getAllFilesIn(file, extensions);
+                for (var j = 0; j < newFiles.length; j++)
+                    orderedFiles.push(newFiles[j]);
+            }
+        }
+    }
+    return orderedFiles;
+}
+
+function _isValidFile(file, extensions) {
+    for (var i = 0; i < extensions.length; i++)
+        if (file.endsWith(extensions[i]))
+            return true;
+    return false;
 }
 
 function _concatenateAllFiles(directory, files, callback) {
@@ -33,9 +58,9 @@ function _concatenateAllFiles(directory, files, callback) {
 
     while (files.length > 0) {
         if (files[0][0] == "_")
-            highPriorityFiles.push(directory + "/" + files.splice(0, 1)[0]);
+            highPriorityFiles.push(files.splice(0, 1)[0]);
         else
-            lowPriorityFiles.push(directory + "/" + files.splice(0, 1)[0]);
+            lowPriorityFiles.push(files.splice(0, 1)[0]);
     }
 
     for (var i = 0; i < highPriorityFiles.length; i++)
@@ -50,6 +75,12 @@ function _concatenateAllFiles(directory, files, callback) {
         });
 }
 
-function _applyMinification(content) {
-    return new _compressor().minify(content);
+function _minifyJavascript(script) {
+    var jsp = require("uglify-js").parser;
+    var pro = require("uglify-js").uglify;
+
+    var ast = jsp.parse(script);
+    ast = pro.ast_mangle(ast);
+    ast = pro.ast_squeeze(ast);
+    return pro.gen_code(ast);
 }
