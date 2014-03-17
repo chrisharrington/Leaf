@@ -13,7 +13,7 @@ require("./controllers/welcome");
             _handleStaticFile(request, response);
         else
             _router.handle(request, response);
-    }).listen(8888);
+    }).listen(process.env.PORT);
 })();
 
 function _isStaticFileRequest(request) {

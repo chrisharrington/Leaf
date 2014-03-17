@@ -1,1 +1,0 @@
-﻿alter table Issues add constraint IssuesStatus foreign key (StatusId) references [Statuses] (Id)
