@@ -27,7 +27,7 @@ function _handleStaticFile(request, response) {
     var url = request.url;
     if (url.indexOf("?") > -1)
         url = url.substring(0, url.indexOf("?"));
-    _fs.readFile("./" + url, function(err, content) {
+    _fs.readFile("./public/" + url, function(err, content) {
         if (content) {
             response.writeHead(200, { "Content-Type": _mime.lookup(url) });
             response.write(content);
