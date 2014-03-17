@@ -13,25 +13,25 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highcharts/3.0.7/highcharts.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20130526/json2.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jStorage/0.4.4/jstorage.min.js"></script>
-    <!--<script type="text/javascript" src="scripts.js"></script>-->
+    <script type="text/javascript" src="bundle/scripts"></script>
 	
-	<!--<script type="text/javascript">-->
-		<!--$(function () {-->
-			<!--var root = window.IssueTracker || (window.IssueTracker = {});-->
-			<!--root.virtualDirectory = ko.observable("@Url.Content("/")");-->
-			<!--root.priorities = ko.observableArray(@Html.Raw(Json.Encode(Model.Priorities)));-->
-			<!--root.statuses = ko.observableArray(@Html.Raw(Json.Encode(Model.Statuses)));-->
-			<!--root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));-->
-			<!--root.transitions = ko.observableArray(@Html.Raw(Json.Encode(Model.Transitions)));-->
-			<!--root.projects = ko.observableArray(@Html.Raw(Json.Encode(Model.Projects)));-->
-			<!--root.milestones = ko.observableArray(@Html.Raw(Json.Encode(Model.Milestones)));-->
-			<!--root.issueTypes = ko.observableArray(@Html.Raw(Json.Encode(Model.Types)));-->
-			<!--root.selectedProject = ko.observable(@Html.Raw(Json.Encode(Model.SelectedProject)));-->
-			<!--root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables(@Html.Raw(Json.Encode(Model.SignedInUser))));-->
-			<!--root.selectedIssue = ko.observable();-->
-			<!--IssueTracker.Init.init();-->
-		<!--});-->
-	<!--</script>-->
+	<script type="text/javascript">
+		$(function () {
+			var root = window.IssueTracker || (window.IssueTracker = {});
+			root.virtualDirectory = ko.observable("/");
+//			root.priorities = ko.observableArray(@Html.Raw(Json.Encode(Model.Priorities)));
+//			root.statuses = ko.observableArray(@Html.Raw(Json.Encode(Model.Statuses)));
+//			root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));
+//			root.transitions = ko.observableArray(@Html.Raw(Json.Encode(Model.Transitions)));
+//			root.projects = ko.observableArray(@Html.Raw(Json.Encode(Model.Projects)));
+//			root.milestones = ko.observableArray(@Html.Raw(Json.Encode(Model.Milestones)));
+//			root.issueTypes = ko.observableArray(@Html.Raw(Json.Encode(Model.Types)));
+//			root.selectedProject = ko.observable(@Html.Raw(Json.Encode(Model.SelectedProject)));
+//			root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables(@Html.Raw(Json.Encode(Model.SignedInUser))));
+//			root.selectedIssue = ko.observable();
+			IssueTracker.Init.init();
+		});
+	</script>
 </head>
 	<body>
         <header>

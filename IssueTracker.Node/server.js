@@ -28,8 +28,13 @@ function _handleStaticFile(request, response) {
     if (url.indexOf("?") > -1)
         url = url.substring(0, url.indexOf("?"));
     _fs.readFile("./" + url, function(err, content) {
-        response.writeHead(200, { "Content-Type": _mime.lookup(url) });
-        response.write(content);
+        if (content) {
+            response.writeHead(200, { "Content-Type": _mime.lookup(url) });
+            response.write(content);
+        } else {
+            response.writeHead(404);
+            response.write("No such file.");
+        }
         response.end();
     });
 }
