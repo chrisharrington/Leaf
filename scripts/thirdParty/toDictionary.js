@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * jQuery toDictionary() plugin
  *
  * Version 1.2 (11 Apr 2011)

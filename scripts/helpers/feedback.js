@@ -1,4 +1,4 @@
-﻿
+
 (function(root) {
 
 	var SLIDE_INTERVAL = 250;

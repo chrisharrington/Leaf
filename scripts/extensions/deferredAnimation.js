@@ -1,4 +1,4 @@
-﻿
+
 (function ($) {
 	$.fn.fadeInDeferred = function(duration) {
 		return this.each(function () {

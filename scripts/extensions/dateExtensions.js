@@ -1,4 +1,4 @@
-﻿
+
 Date.prototype.toApplicationString = function() {
 	return this.getFullYear() + "-" + (this.getMonth() + 1).toString().padLeft("00") + "-" + this.getDate().toString().padLeft("00") + " " + this.getHours().toString().padLeft("00") + ":" + this.getMinutes().toString().padLeft("00") + ":" + this.getSeconds().toString().padLeft("00");
 };

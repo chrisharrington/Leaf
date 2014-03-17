@@ -1,4 +1,5 @@
-﻿(function (root) {
+
+(function (root) {
 
 	root.createPropertyObservables = function (obj) {
 		for (var name in obj)

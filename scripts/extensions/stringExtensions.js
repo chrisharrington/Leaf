@@ -1,4 +1,4 @@
-﻿
+
 String.prototype.endsWith = function(value) {
 	if (!value)
 		return false;

@@ -1,4 +1,4 @@
-﻿
+
 (function(root) {
 
 	var _milestonesStorageKey = "Filter.SelectedMilestones";

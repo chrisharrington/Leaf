@@ -1,4 +1,4 @@
-﻿
+
 (function(root) {
 
 	root.user = ko.observable({

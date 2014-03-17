@@ -1,4 +1,4 @@
-﻿
+
 (function (root) {
 	
 	IssueTracker.Page.build({
