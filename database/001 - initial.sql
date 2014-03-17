@@ -36,7 +36,7 @@ create table priorities (
 	name nvarchar(max) not null,
     isDeleted bit not null default(0),
     projectId uniqueidentifier not null,
-    order int not null,
+    [order] int not null,
     foreign key (projectId) references projects(id)
 )
 go
@@ -46,7 +46,7 @@ create table statuses (
 	name nvarchar(max) not null,
     isDeleted bit not null default(0),
     projectId uniqueidentifier not null,
-    order int not null,
+    [order] int not null,
     foreign key (projectId) references projects(id)
 )
 go
