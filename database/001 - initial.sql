@@ -1,6 +1,7 @@
 create table projects (
     id uniqueidentifier primary key,
-    name nvarchar(max) not null
+    name nvarchar(max) not null,
+    isDeleted bit not null default(0)
 )
 
 create table users (
