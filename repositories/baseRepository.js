@@ -1,3 +1,0 @@
-exports.retrieve = function(query) {
-
-}

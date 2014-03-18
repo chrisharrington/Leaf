@@ -1,0 +1,1708 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"da",
+				"days"
+			],
+			[
+				"millisecondsSi",
+				"millisecondsSinceMidnight"
+			],
+			[
+				"get",
+				"getHours"
+			],
+			[
+				"mil",
+				"millisecondsSinceEpoch"
+			],
+			[
+				"ge",
+				"getTime"
+			],
+			[
+				"getT",
+				"getTime"
+			],
+			[
+				"par",
+				"parameter"
+			],
+			[
+				"the",
+				"threeHundredthsOfSecond"
+			],
+			[
+				"th",
+				"threeHundredthsOfSecond"
+			],
+			[
+				"ro",
+				"row"
+			],
+			[
+				"set",
+				"setupRequest"
+			],
+			[
+				"pa",
+				"packetId"
+			],
+			[
+				"l",
+				"length"
+			],
+			[
+				"me",
+				"messageType"
+			],
+			[
+				"w",
+				"writeUInt8"
+			],
+			[
+				"L",
+				"LENGTH"
+			],
+			[
+				"de",
+				"debugData"
+			],
+			[
+				"stat",
+				"statusAsString"
+			],
+			[
+				"for",
+				"formattedHeader"
+			],
+			[
+				"t",
+				"typeByValue"
+			],
+			[
+				"debu",
+				"debugParts"
+			],
+			[
+				"_",
+				"_debugStream"
+			],
+			[
+				"_d",
+				"_dataParts"
+			],
+			[
+				"d",
+				"debugStream"
+			],
+			[
+				"pac",
+				"packetType"
+			],
+			[
+				"S",
+				"STATUS"
+			],
+			[
+				"st",
+				"status"
+			],
+			[
+				"Pa",
+				"PacketID"
+			],
+			[
+				"ex",
+				"expectedEvents"
+			],
+			[
+				"exp",
+				"expectedEvent"
+			],
+			[
+				"ch",
+				"chunksToWrite"
+			],
+			[
+				"W",
+				"WINDOW"
+			],
+			[
+				"by",
+				"bytesToConsume"
+			],
+			[
+				"_st",
+				"_startHeader"
+			],
+			[
+				"start",
+				"_startData"
+			],
+			[
+				"c",
+				"chunk"
+			],
+			[
+				"data",
+				"dataEmitted"
+			],
+			[
+				"pro",
+				"processChunk"
+			],
+			[
+				"I",
+				"INITIAL_PACKETID"
+			],
+			[
+				"pack",
+				"packetId"
+			],
+			[
+				"r",
+				"rawHeader"
+			],
+			[
+				"head",
+				"headerEmitted"
+			],
+			[
+				"he",
+				"headerEmitted"
+			],
+			[
+				"_i",
+				"_inHeader"
+			],
+			[
+				"messa",
+				"messageStream"
+			],
+			[
+				"mes",
+				"messageStream"
+			],
+			[
+				"secu",
+				"securePair"
+			],
+			[
+				"se",
+				"secure"
+			],
+			[
+				"reset",
+				"resetConnection"
+			],
+			[
+				"re",
+				"reset"
+			],
+			[
+				"res",
+				"resetConnectionOnNextRequest"
+			],
+			[
+				"RE",
+				"RESETCONNECTION"
+			],
+			[
+				"req",
+				"request"
+			],
+			[
+				"tr",
+				"true"
+			],
+			[
+				"to",
+				"token"
+			],
+			[
+				"test",
+				"testAnsiNullsOptionOn"
+			],
+			[
+				"op",
+				"optionOn"
+			],
+			[
+				"co",
+				"connection"
+			],
+			[
+				"option",
+				"optionOn"
+			],
+			[
+				"cry",
+				"cryptoCredentialsDetails"
+			],
+			[
+				"text",
+				"textPointerNull"
+			],
+			[
+				"mess",
+				"messageIo"
+			],
+			[
+				"un",
+				"undefined"
+			],
+			[
+				"sc",
+				"schema"
+			],
+			[
+				"x",
+				"xmlSchemaCollection"
+			],
+			[
+				"ta",
+				"tableName"
+			],
+			[
+				"create",
+				"createSchema"
+			],
+			[
+				"drop",
+				"dropSchema"
+			],
+			[
+				"col",
+				"columns"
+			],
+			[
+				"sql",
+				"sqlExecCount"
+			],
+			[
+				"exe",
+				"execSql"
+			],
+			[
+				"ev",
+				"eventName"
+			],
+			[
+				"b",
+				"buffer"
+			],
+			[
+				"cl",
+				"cleartext"
+			],
+			[
+				"encr",
+				"encrypt"
+			],
+			[
+				"ne",
+				"tlsNegotiated"
+			],
+			[
+				"sec",
+				"securePair"
+			],
+			[
+				"en",
+				"encrypted"
+			],
+			[
+				"cr",
+				"credentials"
+			],
+			[
+				"pre",
+				"preloginPayload"
+			],
+			[
+				"con",
+				"config"
+			],
+			[
+				"enc",
+				"encryptionString"
+			],
+			[
+				"bu",
+				"bufferOrOptions"
+			],
+			[
+				"selectExp",
+				"selectExpectZeroRows"
+			],
+			[
+				"row",
+				"rowCount"
+			],
+			[
+				"tra",
+				"transactions"
+			],
+			[
+				"new",
+				"newValue"
+			],
+			[
+				"transac",
+				"transactions"
+			],
+			[
+				"is",
+				"isolationLevelByValue"
+			],
+			[
+				"rec",
+				"receivedData"
+			],
+			[
+				"inser",
+				"insertRowSql"
+			],
+			[
+				"cre",
+				"createInsertSelect"
+			],
+			[
+				"in",
+				"insertRowsSql"
+			],
+			[
+				"packets",
+				"packetsData"
+			],
+			[
+				"as",
+				"async"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "Connection = require('../../src/connection')\nRequest = require('../../src/request')\nfs = require('fs')\n\ngetConfig = ->\n  config = JSON.parse(fs.readFileSync(process.env.HOME + '/.tedious/test-connection.json', 'utf8')).config\n  instanceName = JSON.parse(fs.readFileSync(process.env.HOME + '/.tedious/test-connection.json', 'utf8')).instanceName\n\n  config.options.debug =\n    packet: true\n    data: true\n    payload: true\n    token: false\n    log: true\n\n  config\n\ngetInstanceName = ->\n  JSON.parse(fs.readFileSync(process.env.HOME + '/.tedious/test-connection.json', 'utf8')).instanceName\n\nexports.execSql = (test) ->\n  test.expect(8)\n\n  config = getConfig()\n\n  request = new Request('select 8 as C1', (err, rowCount) ->\n      test.ok(!err)\n      test.strictEqual(rowCount, 1)\n\n      connection.close()\n  )\n\n  request.on('doneInProc', (rowCount, more) ->\n      test.ok(more)\n      test.strictEqual(rowCount, 1)\n  )\n\n  request.on('columnMetadata', (columnsMetadata) ->\n      test.strictEqual(columnsMetadata.length, 1)\n  )\n\n  request.on('row', (columns) ->\n      test.strictEqual(columns.length, 1)\n      test.strictEqual(columns[0].value, 8)\n      test.strictEqual(columns.C1.value, 8)\n  )\n\n  connection = new Connection(config)\n\n  connection.on('connect', (err) ->\n      connection.execSql(request)\n  )\n\n  connection.on('end', (info) ->\n      test.done()\n  )\n\n  connection.on('infoMessage', (info) ->\n    #console.log(\"#{info.number} : #{info.message}\")\n  )\n\n  connection.on('debug', (text) ->\n    #console.log(text)\n  )\n",
+			"file": "test/integration/datetime-test.coffee",
+			"file_size": 16049,
+			"file_write_time": 1368347221000000,
+			"settings":
+			{
+				"buffer_size": 1521,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test/integration/datatypes-in-results-test.coffee",
+			"settings":
+			{
+				"buffer_size": 8958,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test/integration/parameterised-statements-test.coffee",
+			"settings":
+			{
+				"buffer_size": 8154,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/data-type.coffee",
+			"settings":
+			{
+				"buffer_size": 12840,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/value-parser.coffee",
+			"settings":
+			{
+				"buffer_size": 8344,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 125.0,
+		"selected_items":
+		[
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"gitco",
+				"Git: Commit"
+			],
+			[
+				"gitlo",
+				"Git: Log Current File"
+			],
+			[
+				"gitlog",
+				"Git: Log Current File"
+			],
+			[
+				"pack",
+				"Package Control: Discover Packages"
+			],
+			[
+				"Pac",
+				"Package Control: List Packages"
+			],
+			[
+				"pa",
+				"Package Control: List Packages"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 435.0
+	},
+	"console":
+	{
+		"height": 146.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/mike/eclipse/workspace/tedious/src-coffee/data-type.coffee",
+		"/home/mike/eclipse/workspace/tedious/.gitignore",
+		"/home/mike/eclipse/workspace/tedious/test/integration/connection-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/message/parse-message-stream-test.js",
+		"/home/mike/eclipse/workspace/tedious/lib/packet.js",
+		"/home/mike/eclipse/workspace/tedious/test/unit/message/parse-message-stream-debug-test.js",
+		"/home/mike/eclipse/workspace/tedious/lib/message/message-type.js",
+		"/home/mike/eclipse/workspace/tedious/lib/message/parse-message-stream-debug.js",
+		"/home/mike/eclipse/workspace/tedious/src-coffee/packet.coffee",
+		"/home/mike/eclipse/workspace/tedious/src-coffee/message-io.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/message/parse-packet-stream-test.js",
+		"/home/mike/eclipse/workspace/tedious/lib/message/packet-header.js",
+		"/home/mike/eclipse/workspace/tedious/lib/message/parse-message-stream.js",
+		"/home/mike/eclipse/workspace/tedious/src/connection.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/integration/datatypes-in-results-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/lib/packet/packet-header.js",
+		"/home/mike/eclipse/workspace/tedious/package.json",
+		"/home/mike/eclipse/workspace/tedious/lib/message/message-chunk-parser.js",
+		"/home/mike/eclipse/workspace/tedious/lib/packet/packet.js",
+		"/home/mike/eclipse/workspace/tedious/lib/message/message-parser.js",
+		"/home/mike/eclipse/workspace/tedious/lib/message/parse-packet-stream.js",
+		"/home/mike/eclipse/workspace/tedious/tls-0.8.22.js",
+		"/home/mike/.nvm/src/node-v0.10.1/lib/net.js",
+		"/home/mike/eclipse/workspace/tedious/tls-latest.js",
+		"/home/mike/eclipse/workspace/tedious/src/message-io.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/data-type.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/integration/parameterised-statements-test.coffee",
+		"/home/mike/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/mike/eclipse/workspace/tedious/lib/connection.js",
+		"/home/mike/eclipse/workspace/tedious/tls-before-streams2.js",
+		"/home/mike/eclipse/workspace/tedious/tls-first-streams2.js",
+		"/home/mike/eclipse/workspace/tedious/.travis.yml",
+		"/home/mike/eclipse/workspace/tedious/examples/simple-client.js",
+		"/home/mike/eclipse/workspace/tedious/src/login7-payload.coffee",
+		"/home/mike/eclipse/workspace/tedious/tls-v0.8.22.js",
+		"/home/mike/eclipse/workspace/tedious/tls-last-working.js",
+		"/home/mike/eclipse/workspace/tedious/tls-first-stream2.js",
+		"/home/mike/eclipse/workspace/tedious/tls.js",
+		"/home/mike/eclipse/workspace/tedious/src/packet.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/token/env-change-token-parser.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/token/token-stream-parser.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/token/done-token-parser.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/request.coffee",
+		"/home/mike/.nvm/v0.10.1/bin/node",
+		"/home/mike/eclipse/workspace/tedious/src/value-parser.coffee",
+		"/home/mike/eclipse/workspace/tedious/lib/token/colmetadata-token-parser.js",
+		"/home/mike/eclipse/workspace/tedious/src/token/colmetadata-token-parser.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/token/row-token-parser-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/token/row-token-parser.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/metadata-parser.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/tracking-buffer/readable-tracking-buffer.coffee",
+		"/home/mike/eclipse/workspace/tedious/lib/token/token-stream-parser.js",
+		"/home/mike/eclipse/workspace/tedious/src/buffertools.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/tedious.coffee",
+		"/home/mike/eclipse/workspace/tedious-pages/changelog.html",
+		"/home/mike/eclipse/workspace/tedious/src/transaction.coffee",
+		"/home/mike/eclipse/workspace/tedious-pages/api-datatypes.html",
+		"/home/mike/eclipse/workspace/tedious-pages/api-request.html",
+		"/home/mike/eclipse/workspace/tedious-pages/api-connection.html",
+		"/home/mike/eclipse/workspace/tedious-pages/index.html",
+		"/home/mike/eclipse/workspace/tedious/todo",
+		"/home/mike/eclipse/workspace/tedious/src/prelogin-payload.coffee",
+		"/home/mike/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/mike/.config/sublime-text-2/Packages/Package Control/Package Control.sublime-settings",
+		"/home/mike/.config/sublime-text-2/Packages/User/Package Control.sublime-settings",
+		"/home/mike/eclipse/workspace/tedious/test/integration/transactions-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/prelogin-payload-test.coffee",
+		"/home/mike/eclipse/workspace/tedious-pages/test.md",
+		"/home/mike/eclipse/workspace/tedious/test/unit/all-headers-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/all-headers.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/rpcrequest-payload.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/tracking-buffer/writable-tracking-buffer.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/sqlbatch-payload.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/performance/big-select.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/token/colmetadata-token-parser-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/tedious-test.js",
+		"/home/mike/eclipse/workspace/tedious/test/unit/buffertools-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/tracking-buffer/writable-tracking-buffer-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/message-io-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/packet-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/tds-versions.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/login7-payload-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/debug.coffee",
+		"/home/mike/eclipse/workspace/tedious/test/unit/debug-test.coffee",
+		"/home/mike/eclipse/workspace/tedious/src/connection.js",
+		"/home/mike/tmp/classes.coffee",
+		"/home/mike/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/mike/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/mike/.config/sublime-text-2/Packages/Default/Base File.sublime-settings",
+		"/home/mike/.config/sublime-text-2/Packages/Default/Global.sublime-settings",
+		"/home/mike/.config/sublime-text-2/Packages/User/Base File.sublime-settings",
+		"/home/mike/.config/sublime-text-2/Packages/User/Global.sublime-settings"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"*.coffee",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"emit('connect'",
+			"@request.rowCount",
+			"setupRequest",
+			"rowcount",
+			"@request.callback",
+			"@request.rows",
+			"create",
+			"#",
+			"makeHeaderObject(header2, data)",
+			"makeHeaderObject(header, data)",
+			"Header.create(header, data)",
+			"makeHeaderObject(header, data)",
+			"makeHeaderObject",
+			"Header.OFFSET",
+			"makeHeaderObject(header2, data)",
+			"makeHeaderObject(header, data)",
+			"makeHeaderObject",
+			"Header.OFFSET",
+			"makeHeader",
+			"Header.OFFSET",
+			"Header.",
+			"header.",
+			"Header.",
+			"rawHeader",
+			"push",
+			"Header",
+			"header",
+			"Header",
+			"header",
+			"Header",
+			"statusAsString",
+			"headerAsString",
+			"typeByValue",
+			"Duplex",
+			"Writable",
+			"Transform",
+			"var",
+			"transform",
+			"Transform",
+			"ParseMessageStream",
+			"packetType",
+			"_startMessage",
+			"this._inMessage",
+			"_startMessage",
+			"this.emit",
+			"_header.status",
+			"this.emit('",
+			"this._header =",
+			"_header",
+			"this.push",
+			"length",
+			"_rawHeader",
+			"spid",
+			"packetid",
+			"spid",
+			"SimpleProtocol",
+			"header",
+			"source",
+			"stream",
+			"ParsePacketStream",
+			"tlsNegotiationComplete",
+			"sendPacket",
+			"encryptAllFutureTraffic",
+			"sendLogin7Packet",
+			"tlsNegotiated",
+			"encryptall",
+			".error",
+			"hello",
+			"handshake",
+			"connect",
+			"EncryptedStream",
+			"this.encrypted",
+			"@securepair",
+			"debug('onread'",
+			"onread",
+			"pipe",
+			"encryptAllFutureTraffic",
+			"tls",
+			"encrypted._pull",
+			"encrypted.pull",
+			"encrypted.read",
+			"slab",
+			"encrypted.read",
+			"connecttimeout",
+			"@emit(",
+			"islast",
+			"eom",
+			"console.log",
+			"sendDataToTokenStreamParser",
+			"@sendDataToTokenStreamParser",
+			"data",
+			"state",
+			"debug",
+			"initial",
+			"request.callback",
+			"sendini",
+			"initial",
+			"LOGGED_IN_SENDING_INITIAL_SQL",
+			"initialsql",
+			"textsize",
+			"default_textsize",
+			"rowcollec",
+			"emit('done",
+			"rowcount",
+			"rowCount",
+			"row",
+			"crypto",
+			"textPoin",
+			"text",
+			".write",
+			"encryptal",
+			"securepair",
+			"TYPE.LOGIN7",
+			"TYPE.",
+			"tls",
+			"xxml",
+			"test_schema",
+			"readMaxNChars",
+			"xml",
+			"part",
+			".type",
+			"type",
+			".type",
+			"secure",
+			"encrypt",
+			"secure",
+			"encrypt",
+			"isolationLevel"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"buffer"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "test/integration/datetime-test.coffee",
+					"settings":
+					{
+						"buffer_size": 1521,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								659,
+								659
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110.0
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2.0,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": true,
+							"sublimelinter_gutter_marks_theme": "simple",
+							"sublimelinter_mark_style": "none",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 289.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "test/integration/datatypes-in-results-test.coffee",
+					"settings":
+					{
+						"buffer_size": 8958,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110.0
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2.0,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": true,
+							"sublimelinter_gutter_marks_theme": "simple",
+							"sublimelinter_mark_style": "none",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "test/integration/parameterised-statements-test.coffee",
+					"settings":
+					{
+						"buffer_size": 8154,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2911,
+								2911
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110.0
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2.0,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": true,
+							"sublimelinter_gutter_marks_theme": "simple",
+							"sublimelinter_mark_style": "none",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1734.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/data-type.coffee",
+					"settings":
+					{
+						"buffer_size": 12840,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3332,
+								3332
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110.0
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2.0,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": true,
+							"sublimelinter_gutter_marks_theme": "simple",
+							"sublimelinter_mark_style": "none",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1870.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/value-parser.coffee",
+					"settings":
+					{
+						"buffer_size": 8344,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7761,
+								7761
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110.0
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2.0,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": true,
+							"sublimelinter_gutter_marks_theme": "simple",
+							"sublimelinter_mark_style": "none",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4072.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.git":
+	{
+		"height": 118.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"connection.c",
+				"tedious/src/connection.coffee"
+			],
+			[
+				"parsemesste",
+				"tedious/test/unit/message/parse-message-stream-test.js"
+			],
+			[
+				"packet.js",
+				"tedious/lib/packet.js"
+			],
+			[
+				"pack",
+				"tedious/package.json"
+			],
+			[
+				"parsedebugte",
+				"tedious/test/unit/message/parse-message-stream-debug-test.js"
+			],
+			[
+				"parmesdeb",
+				"tedious/lib/message/parse-message-stream-debug.js"
+			],
+			[
+				"packet.c",
+				"tedious/src-coffee/packet.coffee"
+			],
+			[
+				"messafe",
+				"tedious/src-coffee/message-io.coffee"
+			],
+			[
+				"colme",
+				"tedious/lib/token/colmetadata-token-parser.js"
+			],
+			[
+				"testtrans",
+				"tedious/test/integration/transactions-test.coffee"
+			],
+			[
+				"srcmess",
+				"tedious/src/message-io.coffee"
+			],
+			[
+				"testcon",
+				"tedious/test/integration/connection-test.coffee"
+			],
+			[
+				"testprel",
+				"tedious/test/unit/prelogin-payload-test.coffee"
+			],
+			[
+				"srcpre",
+				"tedious/src/prelogin-payload.coffee"
+			],
+			[
+				"srcconn",
+				"tedious/src/connection.coffee"
+			],
+			[
+				"testperfo",
+				"test/performance/big-select.coffee"
+			],
+			[
+				"srccon",
+				"src/connection.coffee"
+			],
+			[
+				"testallhe",
+				"test/unit/all-headers-test.coffee"
+			],
+			[
+				"srcallhe",
+				"src/all-headers.coffee"
+			],
+			[
+				"testdata",
+				"test/integration/datatypes-in-results-test.coffee"
+			],
+			[
+				"testtra",
+				"test/integration/transactions-test.coffee"
+			],
+			[
+				"srcenv",
+				"src/token/env-change-token-parser.coffee"
+			],
+			[
+				"srctokenstr",
+				"src/token/token-stream-parser.coffee"
+			],
+			[
+				"srcconnect",
+				"src/connection.coffee"
+			],
+			[
+				"src/rpcrequest-payload.coffee",
+				"src/rpcrequest-payload.coffee"
+			],
+			[
+				"srcrpcre",
+				"src/rpcrequest-payload.coffee"
+			],
+			[
+				"srcreq",
+				"src/request.coffee"
+			],
+			[
+				"srcread",
+				"src/tracking-buffer/readable-tracking-buffer.coffee"
+			],
+			[
+				"srcwrit",
+				"src/tracking-buffer/writable-tracking-buffer.coffee"
+			],
+			[
+				"srcen",
+				"src/token/env-change-token-parser.coffee"
+			],
+			[
+				"srcpack",
+				"src/packet.coffee"
+			],
+			[
+				"srcreadab",
+				"src/tracking-buffer/readable-tracking-buffer.coffee"
+			],
+			[
+				"colmetadata-token-parser-test.coffee",
+				"test/unit/token/colmetadata-token-parser-test.coffee"
+			],
+			[
+				"srctra",
+				"src/transaction.coffee"
+			],
+			[
+				"rpcpa",
+				"src/rpcrequest-payload.coffee"
+			],
+			[
+				"",
+				"src/tracking-buffer/writable-tracking-buffer.coffee"
+			],
+			[
+				"srcrea",
+				"src/tracking-buffer/readable-tracking-buffer.coffee"
+			],
+			[
+				"testdatat",
+				"test/integration/datatypes-in-results-test.coffee"
+			],
+			[
+				"test/data",
+				"test/integration/datatypes-in-results-test.coffee"
+			],
+			[
+				"srcrequ",
+				"src/rpcrequest-payload.coffee"
+			],
+			[
+				"srcted",
+				"src/tedious.coffee"
+			],
+			[
+				"srallhead",
+				"src/all-headers.coffee"
+			],
+			[
+				"testted",
+				"test/unit/tedious-test.js"
+			],
+			[
+				"srcenvch",
+				"src/token/env-change-token-parser.coffee"
+			],
+			[
+				"srclogin7",
+				"src/login7-payload.coffee"
+			],
+			[
+				"src/pa",
+				"src/packet.coffee"
+			],
+			[
+				"testpac",
+				"test/unit/packet-test.coffee"
+			],
+			[
+				"testmess",
+				"test/unit/message-io-test.coffee"
+			],
+			[
+				"srcpay",
+				"src/login7-payload.coffee"
+			],
+			[
+				"testwrit",
+				"test/unit/tracking-buffer/writable-tracking-buffer-test.coffee"
+			],
+			[
+				"testbuff",
+				"test/unit/buffertools-test.coffee"
+			],
+			[
+				"srcbuffto",
+				"src/buffertools.coffee"
+			],
+			[
+				"test/sele",
+				"test/performance/big-select.coffee"
+			],
+			[
+				"srcbuff",
+				"src/buffertools.coffee"
+			],
+			[
+				"testmessa",
+				"test/unit/message-io-test.coffee"
+			],
+			[
+				"srconn",
+				"src/connection.coffee"
+			],
+			[
+				"testlogin",
+				"test/unit/login7-payload-test.coffee"
+			],
+			[
+				"src/tdsver",
+				"src/tds-versions.coffee"
+			],
+			[
+				"src/log",
+				"src/login7-payload.coffee"
+			],
+			[
+				"src/writ",
+				"src/tracking-buffer/writable-tracking-buffer.coffee"
+			],
+			[
+				"pac",
+				"package.json"
+			],
+			[
+				"pa",
+				"package.json"
+			],
+			[
+				"srcsql",
+				"src/sqlbatch-payload.coffee"
+			],
+			[
+				"testconnec",
+				"test/integration/connection-test.coffee"
+			],
+			[
+				"srcconne",
+				"src/connection.coffee"
+			],
+			[
+				"yml",
+				".travis.yml"
+			],
+			[
+				"srcvalpa",
+				"src/value-parser.coffee"
+			],
+			[
+				"tesdebu",
+				"test/unit/debug-test.coffee"
+			],
+			[
+				"debug",
+				"src/debug.coffee"
+			],
+			[
+				".coffee",
+				"src/debug.coffee"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/home/mike/eclipse/workspace/tedious/.tedious.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 265.0,
+	"status_bar_visible": true
+}

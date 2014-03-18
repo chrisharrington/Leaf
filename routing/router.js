@@ -10,6 +10,8 @@ exports.controllers = {
 };
 
 exports.handle = function(request, response) {
+	if (request.url == "/")
+		request.url = "/root";
     var callback = _findCallback(request.method, request.url);
     if (!callback) {
         response.writeHead(404, { "Content-Type": "text/plain" });

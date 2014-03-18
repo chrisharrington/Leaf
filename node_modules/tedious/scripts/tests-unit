@@ -1,0 +1,6 @@
+#!/bin/sh
+
+node_modules/nodeunit/bin/nodeunit \
+  test/unit/                       \
+  test/unit/token/                 \
+  test/unit/tracking-buffer
