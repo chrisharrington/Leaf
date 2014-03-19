@@ -1,58 +1,40 @@
+var mongoose = require("mongoose");
+var fs = require("fs");
+
 var Promise = require("bluebird");
 
-var _mongoose = require("mongoose");
-var _fs = Promise.promisifyAll(require("fs"));
-var _models = Promise.promisifyAll(require("../data/models"));
-var _mustache = require("mustache");
-
 exports.index = function(request, response) {
+//	var readFile = Promise.promisify(fs.readFile);
+//	readFile("public/views/root.html").then(function(html) {
+//		console.log("Done: " + html);
+//	});
+
 	_openDatabaseConnection().then(function(connection) {
-		_models.Priority.find(function(error, priorities) {
-			if (error)
-				console.log("Error: " + error);
-			else
-				console.log("Priorities: " + priorities);
+		var prioritySchema = mongoose.Schema({
+			name: String,
+			isDeleted: { type: Boolean, default: false },
+			order: Number,
+
+			project: { type: mongoose.Schema.Types.ObjectId, ref: "project" },
+		});
+
+		var Priority = mongoose.model('priority', prioritySchema);
+
+		Priority = Promise.promisifyAll(Priority);
+		Promise.promisifyAll(Priority.prototype);
+
+		Priority.findAsync().then(function(priorities) {
+			console.log(priorities);
+		}).finally(function() {
 			connection.close();
 		});
-	}).catch(function(error) {
-		console.log("Catch: " + error);
 	});
-
-//	new Promise(function(resolve, reject) {
-//		_models.Priority.find(function(error, priorities) {
-//			if (error)
-//				reject(error);
-//			else
-//				resolve(priorities);
-//		});
-//	}).then(function(priorities) {
-//		console.log("Priorities: " + priorities);
-//	}).catch(function(error) {
-//		console.log("Error: " + error);
-//	});
-
-//	Promise.all([
-//		//_getRootHtml(),
-//		_getAllPriorities()
-////		_getAllStatuses(),
-////		_getAllUsers(),
-////		_getAllProjects(),
-////		_getAllMilestones(),
-////		_getAllIssueTypes(),
-////		_getAllTransitions()
-//	]).then(function(results) {
-//		console.log("Html: " + results[0]);
-//		console.log("Priorities: " + results[1]);
-//		response.writeHead(200, { "Content-Type": "text/html" });
-//        response.write(results[0]);
-//        response.end();
-//	});
 };
 
 function _openDatabaseConnection(callback) {
 	return new Promise(function(resolve, reject) {
-		_mongoose.connect("mongodb://nodejitsu_chrisharrington:5bujcm5jeineb9iqhdvddn19ho@ds061518.mongolab.com:61518/nodejitsu_chrisharrington_nodejitsudb9974367446");
-		var connection = _mongoose.connection;
+		mongoose.connect("mongodb://nodejitsu_chrisharrington:5bujcm5jeineb9iqhdvddn19ho@ds061518.mongolab.com:61518/nodejitsu_chrisharrington_nodejitsudb9974367446");
+		var connection = mongoose.connection;
 		connection.on("error", function(error) { reject(error); });
 		connection.once("open", function() { resolve(connection); });
 	});
@@ -66,16 +48,6 @@ function _getRootHtml() {
 function _getAllPriorities() {
 	console.log("Getting all priorities...");
 	return _models.Priority.find().exec();
-
-//	var promise = new Promise();
-//	_models.Priority.find(function(e, priorities) {
-//		if (e)
-//			console.log("Error retrieving priorities: " + error);
-//		else
-//			console.log("Retrieved " + priorities.length + " priorities.");
-//		promise.resolve(priorities || []);
-//	});
-//	return promise;
 }
 
 function _getAllStatuses() {
