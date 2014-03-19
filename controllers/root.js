@@ -3,17 +3,10 @@ var _models = require("../data/models");
 var _all = require("node-promise").all;
 var _mustache = require("mustache");
 
-var _html;
-var _priorities;
-var _statuses;
-var _users;
-var _transitions;
-var _milestones;
-var _projects;
-var _issueTypes;
+var Promise = require("node-promise").Promise;
 
 exports.index = function(request, response) {
-	_all(
+	_all([
 		_getRootContents(),
 		_getAllPriorities(),
 		_getAllStatuses(),
@@ -22,9 +15,9 @@ exports.index = function(request, response) {
 		_getAllMilestones(),
 		_getAllIssueTypes(),
 		_getAllTransitions()
-	).then(function() {
+	]).then(function(results) {
 		response.writeHead(200, { "Content-Type": "text/html" });
-        response.write(_html);
+        response.write(results[0]);
         response.end();
 	});
 	
@@ -34,49 +27,65 @@ exports.index = function(request, response) {
 };
 
 function _getRootContents() {
-	return _fs.readFile("public/views/root.html", function(error, content) {
-		_html = content;
+	var promise = new Promise();
+	_fs.readFile("public/views/root.html", function(error, content) {
+		promise.resolve(content);
 	});
+	return promise;
 }
 
 function _getAllPriorities() {
-	return _models.Priority.find(function(priorities) {
-		_priorities = priorities;
+	var promise = new Promise();
+	_models.Priority.find(function(e, priorities) {
+		promise.resolve(priorities);
 	});
+	return promise;
 }
 
 function _getAllStatuses() {
-	return _models.Status.find(function(statuses) {
-		_statuses = statuses;
+	var promise = new Promise();
+	_models.Status.find(function(e, statuses) {
+		promise.resolve(statuses);
 	});
+	return promise;
 }
 
 function _getAllUsers() {
-	return _models.User.find(function(users) {
-		_users = users;
+	var promise = new Promise();
+	_models.User.find(function(e, users) {
+		promise.resolve(users);
 	});
+	return promise;
 }
 
 function _getAllTransitions() {
-	return _models.Transition.find(function(transitions) {
-		_transitions = transitions;
+	var promise = new Promise();
+	_models.Transition.find(function(e, transitions) {
+		promise.resolve(transitions);
 	});
+	return promise;
 }
 
 function _getAllMilestones() {
-	return _models.Milestone.find(function(milestones) {
-		_milestones = milestones;
+	var promise = new Promise();
+_models.Milestone.find(function(e, milestones) {
+		promise.resolve(milestones);
 	});
+	return promise;
 }
 
 function _getAllProjects() {
-	return _models.Transition.find(function(projects) {
-		_projects = projects;
+	var promise = new Promise();
+	_models.Transition.find(function(e, projects) {
+		promise.resolve(projects);
 	});
+	return promise;
 }
 
 function _getAllIssueTypes() {
-	return _models.IssueTypes.find(function(issueTypes) {
-		_issueTypes = issueTypes;
+	var promise = new Promise();
+	_models.IssueType.find(function(e, issueTypes) {
+		promise.resolve(issueTypes);
 	});
+	return promise;
 }
