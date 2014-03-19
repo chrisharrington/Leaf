@@ -8,14 +8,12 @@ require("./extensions/string");
 require("./controllers/welcome");
 
 (function() {
-	require("./data/models").init();
-	
-    // _http.createServer(function(request, response) {
-    //     if (_isStaticFileRequest(request))
-    //         _handleStaticFile(request, response);
-    //     else
-    //         _router.handle(request, response);
-    // }).listen(process.env.PORT);
+	_http.createServer(function(request, response) {
+        if (_isStaticFileRequest(request))
+            _handleStaticFile(request, response);
+        else
+            _router.handle(request, response);
+    }).listen(process.env.PORT);
 })();
 
 function _isStaticFileRequest(request) {
