@@ -12,12 +12,16 @@ exports.controllers = {
 exports.handle = function(request, response) {
 	if (request.url == "/")
 		request.url = "/root";
+
+	console.log("Looking for route for " + request.url + ".");
     var callback = _findCallback(request.method, request.url);
     if (!callback) {
+		console.log("No callback found for " + request.url + ".");
         response.writeHead(404, { "Content-Type": "text/plain" });
         response.write("No route for " + request.url + " was found.");
         response.end();
     } else {
+	    console.log("Callback found for " + request.url + ".");
         callback(request, response);
     }
 };

@@ -51,12 +51,12 @@ function _createStatuses(project) {
 	_models.Status.remove(function() {
 		var pendingDevelopment, inDevelopment, pendingTesting, inTesting, failedTesting, complete;
 		_all(
-			new _models.Priority({ name: "Pending Development", order: 1, project: project._id }).save(function(e, m) { pendingDevelopment = m; }),
-			new _models.Priority({ name: "In Development", order: 2, project: project._id }).save(function(e, m) { inDevelopment = m; }),
-			new _models.Priority({ name: "Pending Testing", order: 3, project: project._id }).save(function(e, m) { pendingTesting = m; }),
-			new _models.Priority({ name: "In Testing", order: 4, project: project._id }).save(function(e, m) { inTesting = m; }),
-			new _models.Priority({ name: "Failed Testing", order: 5, project: project._id }).save(function(e, m) { failedTesting = m; }),
-			new _models.Priority({ name: "Complete", order: 6, project: project._id }).save(function(e, m) { complete = m; })
+			new _models.Status({ name: "Pending Development", order: 1, project: project._id }).save(function(e, m) { pendingDevelopment = m; }),
+			new _models.Status({ name: "In Development", order: 2, project: project._id }).save(function(e, m) { inDevelopment = m; }),
+			new _models.Status({ name: "Pending Testing", order: 3, project: project._id }).save(function(e, m) { pendingTesting = m; }),
+			new _models.Status({ name: "In Testing", order: 4, project: project._id }).save(function(e, m) { inTesting = m; }),
+			new _models.Status({ name: "Failed Testing", order: 5, project: project._id }).save(function(e, m) { failedTesting = m; }),
+			new _models.Status({ name: "Complete", order: 6, project: project._id }).save(function(e, m) { complete = m; })
 		).then(function() {
 			console.log("Created six statuses.");
 			_models.Transition.remove(function() {

@@ -8,12 +8,18 @@ require("./extensions/string");
 require("./controllers/welcome");
 
 (function() {
-	_http.createServer(function(request, response) {
+	var port = 8888;
+	var server = _http.createServer(function(request, response) {
+		console.log("Request for " + request.url);
         if (_isStaticFileRequest(request))
             _handleStaticFile(request, response);
         else
             _router.handle(request, response);
-    }).listen(process.env.PORT);
+    });
+	server.on("listening", function() {
+		console.log("Server listening on port " + port);
+	});
+	server.listen(port);
 })();
 
 function _isStaticFileRequest(request) {
