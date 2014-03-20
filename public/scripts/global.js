@@ -33,13 +33,6 @@ function decodeAndEval(string) {
 	return string == "" ? null : $.parseJSON($("<div />").html(string).text());
 }
 
-function createNestedObservables(obj) {
-	var result = {};
-	for (var name in obj)
-		result[name] = ko.observable(obj[name]);
-	return result;
-}
-
 function ResolvedDeferred(data) {
 	var deferred = new $.Deferred();
 	deferred.resolve(data);

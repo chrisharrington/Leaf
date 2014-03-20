@@ -25,8 +25,8 @@ module.exports = function(app) {
 
 				if (crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password) {
 					response.send({
-						user: user,
-						project: user.project
+						user: { emailAddress: user.emailAddress, name: user.name },
+						project: { name: user.project.name }
 					}, 200);
 				} else
 					response.send(401);
