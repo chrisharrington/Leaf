@@ -20,4 +20,4 @@ var schema = mongoose.Schema({
     project: { type: objectId, ref: "project" }
 });
 
-module.exports = mongoose.model("issue", schema);
+module.exports = require("bluebird").promisifyAll(mongoose.model("issue", schema));

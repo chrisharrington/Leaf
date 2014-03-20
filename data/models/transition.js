@@ -8,6 +8,6 @@ var schema = mongoose.Schema({
     project: { type: objectId, ref: "project" },
     from: { type: objectId, ref: "status" },
     to: { type: objectId, ref: "status" }
-})
+});
 
-module.exports = mongoose.model("transition", schema);
+module.exports = require("bluebird").promisifyAll(mongoose.model("transition", schema));

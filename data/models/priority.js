@@ -1,6 +1,8 @@
 var mongoose = require("mongoose");
 var objectId = mongoose.Schema.Types.ObjectId;
 
+var Promise = require("bluebird");
+
 var schema = mongoose.Schema({
     name: String,
     isDeleted: { type: Boolean, default: false },
@@ -9,4 +11,4 @@ var schema = mongoose.Schema({
     project: { type: objectId, ref: "project" },
 });
 
-module.exports = mongoose.model("priority", schema);
+module.exports = Promise.promisifyAll(mongoose.model("priority", schema));

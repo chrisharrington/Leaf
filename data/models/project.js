@@ -5,4 +5,4 @@ var schema = mongoose.Schema({
     isDeleted: { type: Boolean, default: false }
 });
 
-module.exports = mongoose.model("project", schema);
+module.exports = require("bluebird").promisifyAll(mongoose.model("project", schema));

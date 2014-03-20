@@ -19,15 +19,15 @@
 		$(function () {
 			var root = window.IssueTracker || (window.IssueTracker = {});
 			root.virtualDirectory = ko.observable("/");
-//			root.priorities = ko.observableArray(@Html.Raw(Json.Encode(Model.Priorities)));
-//			root.statuses = ko.observableArray(@Html.Raw(Json.Encode(Model.Statuses)));
-//			root.users = ko.observableArray(@Html.Raw(Json.Encode(Model.Users)));
-//			root.transitions = ko.observableArray(@Html.Raw(Json.Encode(Model.Transitions)));
-//			root.projects = ko.observableArray(@Html.Raw(Json.Encode(Model.Projects)));
-//			root.milestones = ko.observableArray(@Html.Raw(Json.Encode(Model.Milestones)));
-//			root.issueTypes = ko.observableArray(@Html.Raw(Json.Encode(Model.Types)));
-//			root.selectedProject = ko.observable(@Html.Raw(Json.Encode(Model.SelectedProject)));
-//			root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables(@Html.Raw(Json.Encode(Model.SignedInUser))));
+            root.priorities = ko.observableArray(decodeAndEval("{{priorities}}"));
+            root.statuses = ko.observableArray(decodeAndEval("{{statuses}}"));
+            root.users = ko.observableArray(decodeAndEval("{{users}}"));
+            root.transitions = ko.observableArray(decodeAndEval("{{transitions}}"));
+            root.projects = ko.observableArray(decodeAndEval("{{projects}}"));
+            root.milestones = ko.observableArray(decodeAndEval("{{milestones}}"));
+            root.issueTypes = ko.observableArray(decodeAndEval("{{issueTypes}}"));
+            root.selectedProject = ko.observable(decodeAndEval("{{selectedProject}}"));
+			root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables(decodeAndEval("{{signedInUser}}")));
 			root.selectedIssue = ko.observable();
 			IssueTracker.Init.init();
 		});

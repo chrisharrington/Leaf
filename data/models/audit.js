@@ -11,4 +11,4 @@ var schema = mongoose.Schema({
     issueAudit: { type: objectId, ref: "issue-audit" }
 });
 
-module.exports = mongoose.model("audit", schema);
+module.exports = require("bluebird").promisifyAll(mongoose.model("audit", schema));

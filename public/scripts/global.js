@@ -29,6 +29,10 @@ function inspect(o, isConsole) {
 		alert(string);
 }
 
+function decodeAndEval(string) {
+	return $.parseJSON($("<div />").html(string).text());
+}
+
 function createNestedObservables(obj) {
 	var result = {};
 	for (var name in obj)
