@@ -30,7 +30,7 @@ function inspect(o, isConsole) {
 }
 
 function decodeAndEval(string) {
-	return $.parseJSON($("<div />").html(string).text());
+	return string == "" ? null : $.parseJSON($("<div />").html(string).text());
 }
 
 function createNestedObservables(obj) {

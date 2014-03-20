@@ -5,7 +5,7 @@ var fs = Promise.promisifyAll(require("fs"));
 var mustache = require("mustache");
 
 module.exports = function(app) {
-	app.get("/root", function(request, response) {
+	app.get("/", function(request, response) {
 		_openDatabaseConnection().then(function(connection) {
 			var models = require("../data/models");
 			Promise.all([
@@ -27,8 +27,7 @@ module.exports = function(app) {
 						projects: JSON.stringify(projects),
 						milestones: JSON.stringify(milestones),
 						issueTypes: JSON.stringify(issueTypes),
-						selectedProject: JSON.stringify(projects[0]),
-						signedInUser: JSON.stringify(users[0])
+						selectedProject: JSON.stringify(projects[0])
 					}));
 				}).catch(function(e) {
 					response.writeHead(500, {"Content-Type": "text/plain"});

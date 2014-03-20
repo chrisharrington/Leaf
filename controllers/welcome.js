@@ -1,10 +1,9 @@
-var _fs = require("fs");
-var _base = require("./base");
+var fs = require("fs");
 
-exports.index = function(request, response) {
-    _fs.readFile("public/views/welcome.html", function(err, content) {
-        response.writeHead(200, { "Content-Type": "text/html" });
-        response.write(content);
-        response.end();
-    });
+module.exports = function(app) {
+	app.get("/welcome", function(request, response) {
+		fs.readFile("public/views/welcome.html", function(err, content) {
+			response.send(content);
+		});
+	});
 };

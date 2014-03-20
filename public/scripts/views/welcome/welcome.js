@@ -15,7 +15,7 @@
 
 	IssueTracker.Page.build({
 		root: root,
-		view: "Welcome/Index",
+		view: "welcome",
 		title: "Welcome",
 		route: "#/welcome",
 		style: "welcome-container",
