@@ -3,6 +3,9 @@ require("./extensions/string");
 var express = require("express");
 var app = express();
 var passport = require("passport"), LocalStrategy = require('passport-local').Strategy;
+var config = require("./config");
+
+var Promise = require("bluebird");
 
 app.configure(function() {
 	app.use(express.json());
@@ -37,5 +40,10 @@ passport.deserializeUser(function(id, done) {
 	});
 });
 
-var port = 8888;
-app.listen(port, function() { console.log("Server listening on port %d.", port); });
+require("./data/connection").open().then(function() {
+	app.listen(config.serverPort);
+}).then(function() {
+	console.log("Server listening on port " + config.serverPort + ".");
+}).catch(function(e) {
+	console.log("Server failed to start: " + e);
+});
