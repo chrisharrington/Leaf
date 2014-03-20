@@ -13,15 +13,12 @@ _openDatabaseConnection(_config.databaseConnectionString).then(function(connecti
 	_project = project;
 	return _createUser(project);
 }).then(function(user) {
-	Promise.all([
+	return [
 		_createIssueTypes(_project),
 		_createStatuses(_project),
 		_createPriorities(_project),
 		_createMilestones(_project)
-	]).finally(function() {
-		_connection.close();
-		console.log("Database connection closed.");
-	});
+	];
 });
 
 function _createProject(callback) {
