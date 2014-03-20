@@ -4,7 +4,7 @@
   "scripts": {
     "start": "node server.js"
   },
-  "version": "0.0.0-8",
+  "version": "0.0.0-9",
   "engines": {
     "node": "0.10.x"
   },
@@ -27,6 +27,8 @@
     "bluebird": "^1.1.1",
     "express": "^3.4.8",
     "passport": "^0.2.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "crypto": "0.0.3",
+    "csprng": "^0.1.1"
   }
 }

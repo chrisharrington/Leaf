@@ -7,6 +7,8 @@ var schema = mongoose.Schema({
     emailAddress: String,
     isActivated: { type: Boolean, default: false },
     activationToken: String,
+	salt: String,
+	password: String,
     
     project: { type: objectId, ref: "project" }
 });
