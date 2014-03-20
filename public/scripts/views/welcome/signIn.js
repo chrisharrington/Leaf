@@ -42,10 +42,10 @@
 			IssueTracker.selectedProject(data.project);
 			IssueTracker.Issues.navigate({ "project-name": data.project.name.formatForUrl() });
 		}).fail(function (response) {
-			if (response.status == 500)
-				IssueTracker.Feedback.error("An error has occurred while signing you in. Please try again later.");
-			else if (response.status == 401)
+			if (response.status == 401)
 				IssueTracker.Feedback.error("Your credentials are invalid.");
+			else
+				IssueTracker.Feedback.error("An error has occurred while signing you in. Please try again later.");
 		}).always(function() {
 			root.loading(false);
 		});

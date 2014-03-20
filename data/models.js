@@ -1,3 +1,5 @@
+var Promise = require("bluebird");
+
 var directory = "./models/";
 module.exports = {
 	Project: require(directory + "project"),
@@ -12,3 +14,4 @@ module.exports = {
 	Transition: require(directory + "transition"),
 	User: require(directory + "user")
 };
+

@@ -13,13 +13,8 @@ exports.open = function() {
 			}
 		});
 		var connection = mongoose.connection;
-		connection.on("error", function(error) {
-			reject(error);
-		});
-		connection.once("open", function() {
-			resolve(connection);
-		});
-
+		connection.on("error", function(error) { reject(error);	});
+		connection.once("open", function() { resolve(connection); });
 		process.on("exit", connection.close);
 		process.on("SIGINT", connection.close);
 		process.on("uncaughtException", connection.close);

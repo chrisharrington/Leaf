@@ -12,26 +12,27 @@ module.exports = function(app) {
 	});
 
 	app.post("/sign-in", function(request, response) {
-		var connection;
 		var email = request.body.email;
 		var password = request.body.password;
 		var staySignedIn = request.body.staySignedIn;
 
-		require("../data/connection").open().then(function(c) {
-			connection = c;
-			return models.User.findOneAsync({ emailAddress: email });
-		}).then(function(user) {
-			if (!user) {
-				response.send(404);
-				return;
-			}
+		models.User.findOne({ emailAddress: email }).populate("project").exec(function(err, user) {
+			try {
+				if (err || !user) {
+					response.send(404, err || "");
+					return;
+				}
 
-			response.send(crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password ? 200 : 401);
-		}).catch(function(e) {
-			response.send("Error: " + e, 500);
-		}).finally(function() {
-			connection.close();
-			response.end();
+				if (crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password) {
+					response.send({
+						user: user,
+						project: user.project
+					}, 200);
+				} else
+					response.send(401);
+			} catch (e) {
+				response.send("Error: " + e, 500);
+			}
 		});
 	});
 };

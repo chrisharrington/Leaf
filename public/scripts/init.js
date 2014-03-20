@@ -16,7 +16,6 @@
 	};
 	
 	function _setupPath() {
-		Path.root("#/" + IssueTracker.selectedProject().name.formatForUrl() + "/issues");
 		Path.rescue(function () {
 			$("div.error404").show();
 			$("section.content-container").hide();
@@ -45,7 +44,7 @@
 
 	function _setupAjaxPrefilters() {
 		$.ajaxPrefilter(function (options, original) {
-			if (IssueTracker.selectedProject)
+			if (IssueTracker.selectedProject())
 				options.data = $.param($.extend(original.data, { projectId: IssueTracker.selectedProject().id }));
 		});
 	}
