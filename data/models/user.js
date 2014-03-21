@@ -9,6 +9,7 @@ var schema = mongoose.Schema({
     activationToken: String,
 	salt: String,
 	password: String,
+	session: String,
     
     project: { type: objectId, ref: "project" }
 });
