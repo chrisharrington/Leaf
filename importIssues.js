@@ -63,7 +63,67 @@ var issues = [
 	{ name: "Build project management page", number: "12", isDeleted: 0, opened: "Feb 24 2014 12:00AM", closed: "", updated: "Mar  5 2014 12:00AM", developer: "Chris Harrington", tester: "Chris Harrington", priority: "Critical", status: "Pending Development", milestone: "Version 1", type: "Investigation", project: "Unnamed Issue Tracker", updatedBy: "Chris Harrington" },
 ];
 
-var user, project, priorities, statuses, milestones, types;
+var details = [
+	"Nanobar, maybe?",
+	"",
+	"User can click the \"save changes\" button to add a comment and make any other changes.",
+	"",
+	"",
+	"asdfadfadf",
+	"Anything wider just looks ridiculous. ",
+	"",
+	"Issues should slide, fade or otherwise jump in to view.",
+	"",
+	"",
+	"",
+	"Should abstract away from specific library in the event of caching, etc.",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"Start with issues and users.",
+	"",
+	"Maybe replace it with something? Not sure what, though. Some sort of loader, presumably.",
+	"",
+	"",
+	"Search bar should go on header, presumably.",
+	"",
+	"",
+	"The collapsed view of the issues list is pretty bare. Should add a hover popup dealie which shows the user some more detailed information about the issue. Could use the sidebar here.",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"Store the files in Azure blob storage? Cheaper than a database.",
+	"",
+	"",
+	"",
+	"Looks almost purple as it stands.",
+	"",
+	"",
+	"The bar is supposed to indicate that the issues list is being refreshed. It shouldn't show up on other pages.",
+	"Defect, feature, investigation. Others?",
+	"The results for the issue list should be cached so that when a user is going back and forth between the list and wherever, the issue list shouldn't \"flash\". The issue list can be refreshed on page load, but remember the previous list. For example, a user arrives at the issue list page and the issue list is loaded. He or she clicks on an issue, makes some changes, and navigates back to the issue list. At this point, the cached list should already be displayed. A refresh should occur in the background and overwrite the list afterward.",
+	"",
+	"",
+	"The flipper is relatively slow compared with a standard drop down list.",
+	"",
+	"",
+	"",
+	"This'll probably end up being an error view shown in place of the requested view via the RemoteTemplateBinder class.",
+	"",
+	"",
+	"",
+	"",
+	"Allow user to update the project name, modify milestones, priorities, and statuses."
+];
+
+var user, project;
 require("./data/connection").open().then(function() {
 	return [models.User.findOneAsync(), models.Project.findOneAsync()];
 }).spread(function(u, p) {
@@ -72,23 +132,25 @@ require("./data/connection").open().then(function() {
 	return models.Issue.removeAsync();
 }).then(function() {
 	return [models.Priority.findAsync(), models.Status.findAsync(), models.Milestone.findAsync(), models.IssueType.findAsync()];
-}).spread(function(p, s, m, it) {
-	priorities = _toObject(p);
-	statuses = _toObject(s);
-	milestones = _toObject(m);
-	types = _toObject(it);
+}).spread(function(p, s, m, t) {
+	var priorities = _toObject(p);
+	console.log(priorities);
+	var statuses = _toObject(s);
+	var milestones = _toObject(m);
+	var types = _toObject(t);
 	for (var i = 0; i < issues.length; i++) {
 		issues[i].developer = issues[i].tester = issues[i].updatedBy = user._id;
 		issues[i].project = project._id;
-		issues[i].priority = priorities[issues[i].priority.toLowerCase()]._id;
-		issues[i].status = statuses[issues[i].status.toLowerCase()]._id;
-		issues[i].milestone = milestones[issues[i].milestone.toLowerCase()]._id;
-		issues[i].type = types[issues[i].type.toLowerCase()]._id;
+		issues[i].priority = priorities[issues[i].priority.toLowerCase()];
+		issues[i].status = statuses[issues[i].status.toLowerCase()];
+		issues[i].milestone = milestones[issues[i].milestone.toLowerCase()];
+		issues[i].type = types[issues[i].type.toLowerCase()];
 		issues[i].opened = _formatDate(issues[i].opened);
 		issues[i].closed = _formatDate(issues[i].closed);
 		issues[i].updated = _formatDate(issues[i].updated);
-		issues[i] = new models.Issue(issues[i]).save(function(err) {
-			console.log(err);
+		issues[i].details = details[i];
+		issues[i] = new models.Issue(issues[i]).save(function(err, saved) {
+			//console.log(saved);
 		});
 	}
 	return issues;
@@ -108,5 +170,3 @@ function _toObject(array) {
 function _formatDate(date) {
 	return date ? moment(date, "MMM DD YYYY h:mmA") : null;
 }
-
-//"Feb 24 2014 12:00AM"

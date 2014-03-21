@@ -18,6 +18,8 @@
 	}
 
 	function _buildData(element) {
+		var blah = $(element).attr("data-issue");
+		console.log($.parseJSON(blah));
 		return IssueTracker.Utilities.createPropertyObservables($.parseJSON($(element).attr("data-issue")));
 	}
 

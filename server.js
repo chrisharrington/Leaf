@@ -4,6 +4,7 @@ var express = require("express");
 var app = express();
 var config = require("./config");
 var mapper = require("./data/mapper");
+var moment = require("moment");
 
 var Promise = require("bluebird");
 
@@ -30,13 +31,29 @@ function _registerControllers() {
 }
 
 function _registerMappings() {
-	mapper.define("priority", "priority-view-model", { "_id": "id", name: "name", order: "order" });
-	mapper.define("status", "status-view-model", { "_id": "id", name: "name", order: "order" });
-	mapper.define("user", "user-view-model", { "_id": "id", name: "name", emailAddress: "emailAddress" });
-	mapper.define("transition", "transition-view-model", { "_id": "id", name: "name" });
-	mapper.define("project", "project-view-model", { "_id": "id", name: "name" });
-	mapper.define("milestone", "milestone-view-model", { "_id": "id", name: "name" });
-	mapper.define("issue-type", "issue-type-view-model", { "_id": "id", name: "name" });
+	mapper.define("priority", "priority-view-model", { "id": "_id", name: "name", order: "order" });
+	mapper.define("status", "status-view-model", { "id": "_id", name: "name", order: "order" });
+	mapper.define("user", "user-view-model", { "id": "_id", name: "name", emailAddress: "emailAddress" });
+	mapper.define("transition", "transition-view-model", { "id": "id", name: "name" });
+	mapper.define("project", "project-view-model", { "id": "_id", name: "name" });
+	mapper.define("milestone", "milestone-view-model", { "id": "_id", name: "name" });
+	mapper.define("issue-type", "issue-type-view-model", { "id": "_id", name: "name" });
+	mapper.define("issue", "issue-view-model", {
+		id: "_id",
+		name: "name",
+		description: "details",
+		number: "number",
+		milestone: function(x) { return x.milestone.name; },
+		priority: function(x) { return x.priority.name; },
+		tester: function(x) { return x.tester.name; },
+		developer: function(x) { return x.developer.name; },
+		status: function(x) { return x.status.name; },
+		type: function(x) { return x.type.name; },
+		priorityStyle: function(x) { return x.priority.name.toLowerCase(); },
+		opened: function(x) { return moment(x.opened).format(config.dateFormat); },
+		closed: function(x) { return x.closed ? moment(x.closed).format(config.dateFormat) : ""; },
+		lastUpdated: function(x) { return moment(x.updated).format(config.dateFormat); },
+		updatedBy: function(x) { return x.updatedBy.name; } });
 }
 
 function _launchServer() {

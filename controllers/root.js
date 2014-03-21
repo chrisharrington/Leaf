@@ -27,7 +27,8 @@ module.exports = function(app) {
 				projects: JSON.stringify(mapper.mapAll("project", "project-view-model", projects)),
 				milestones: JSON.stringify(mapper.mapAll("milestone", "milestone-view-model", milestones)),
 				issueTypes: JSON.stringify(mapper.mapAll("issue-type", "issue-type-view-model", issueTypes)),
-				signedInUser: JSON.stringify(mapper.map("user", "user-view-model", !user || (user.expiration != null && user.expiration < Date.now()) ? null : user))
+				signedInUser: JSON.stringify(mapper.map("user", "user-view-model", !user || (user.expiration != null && user.expiration < Date.now()) ? null : user)),
+				selectedProject: JSON.stringify(mapper.map("project", "project-view-model", user ? user.project : null))
 			}));
 		}).catch(function(e) {
 			response.send("Error loading root: " + e, 500);
@@ -40,7 +41,7 @@ function _getSignedInUser(request) {
 		if (!request.cookies.session)
 			resolve(null);
 
-		models.User.findOne({ session: request.cookies.session }, function(err, user) {
+		models.User.findOne({ session: request.cookies.session }).populate("project").exec(function(err, user) {
 			if (err) reject(err);
 			else resolve(user);
 		});
