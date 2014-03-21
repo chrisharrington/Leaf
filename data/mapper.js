@@ -5,6 +5,9 @@ exports.define = function(sourceKey, destinationKey, definition) {
 };
 
 exports.map = function(sourceKey, destinationKey, source) {
+	if (source == null)
+		return null;
+
 	var key = _getCombinedKey(sourceKey, destinationKey);
 	if (!_maps || !_maps[key])
 		return source;

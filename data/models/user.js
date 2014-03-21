@@ -10,6 +10,7 @@ var schema = mongoose.Schema({
 	salt: String,
 	password: String,
 	session: String,
+	expiration: Date,
     
     project: { type: objectId, ref: "project" }
 });

@@ -42,7 +42,13 @@ module.exports = function(app) {
 				response.send(401);
 
 			user.session = session;
-			user.save();
+			user.expiration = staySignedIn ? Date.now() + 1000*60*60*24*7*2 : null;
+			return new Promise(function(resolve, reject) {
+				user.save(function(err) {
+					if (err) reject();
+					else resolve();
+				})
+			});
 		}).catch(function(e) {
 			response.send("Error signing in: " + e, 500);
 		});
