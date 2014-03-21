@@ -1,0 +1,270 @@
+﻿<div class="data-container">
+	<div class="issues-container">
+		<div class="issues-loading hidden" data-bind="css: { hidden: !loading() }">
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+		</div>
+		<div class="no-issues tile hidden" data-bind="css: { hidden: loading() || list().length > 0 }">
+			<h1>No issues found.</h1>
+			<span>Your current filter settings have excluded all issues. Create an issue or change the filter on the right to see a list of issues.</span>
+		</div>
+		<div data-bind="foreach: list, attr: { 'class': 'data ' + View.view() }">
+			<a class="tile" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues/' + number }">
+				<div data-bind="attr: { class: priorityStyle }">
+					<div class="info">
+						<h2 class="number" data-bind="text: '#' + number"></h2>
+						<h2 class="name" data-bind="text: name"></h2>
+						<span class="date" data-bind="text: opened"></span>
+						<span class="updated" data-bind="text: 'Last updated by ' + updatedBy + ' at ' + lastUpdated + '.'"></span>
+						<span class="comments" data-bind="visible: description != null, text: description"></span>
+					</div>
+					<div class="status">
+						<span data-bind="text: milestone"></span>
+						<span data-bind="text: status"></span>
+						<span data-bind="text: type"></span>
+						<span data-bind="text: developer"></span>
+						<span data-bind="text: tester"></span>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="sidebar perspective">
+		<div class="flipper transition horizontal">
+			<div class="flip-tile front">
+				<div class="tile modify-filter-container">
+					<div class="header" id="modify-filter">
+						<h2>Filter</h2>
+						<i class="fa fa-angle-right"></i>
+					</div>
+					<div class="selected-filters" data-bind="template: { name: 'selected-filters' }"></div>
+				</div>
+				<div class="tile modify-sort-container">
+					<div class="header">
+						<h2>Sort</h2>
+						<i class="fa fa-angle-right"></i>
+					</div>
+					<div class="sidebar-item">
+						<span class="label" data-bind="text: Sort.property().replace('-', ' ').capitalize()"></span>
+						<span class="value" data-bind="text: Sort.direction().capitalize()"></span>
+					</div>
+				</div>
+				<div class="tile modify-view-container">
+					<div class="header">
+						<h2>View</h2>
+						<i class="fa fa-angle-right"></i>
+					</div>
+					<div class="sidebar-item">
+						<span class="label">View</span>
+						<span class="value" data-bind="text: View.view().capitalize()"></span>
+					</div>
+				</div>
+				<div class="issue-details data-tile tile" data-bind="template: { name: 'issue-details-template', data: Details.selectedIssue }, visible: View.view() == 'collapsed' && Details.selectedIssue().description() != ''"></div>
+			</div>
+			<div class="back flip-tile" data-bind="template: { name: sidebar }"></div>
+		</div>
+	</div>
+</div>
+
+<script id="issue-details-template" type="text/html">
+	<h2 data-bind="text: name"></h2>
+	<span class="description" data-bind="text: description, visible: description() != null"></span>
+	<div>
+		<span class="label">Milestone</span>
+		<span class="value" data-bind="text: milestone"></span>
+	</div>
+	<div>
+		<span class="label">Priority</span>
+		<span class="value" data-bind="text: priority"></span>
+	</div>
+	<div>
+		<span class="label">Status</span>
+		<span class="value" data-bind="text: status"></span>
+	</div>
+	<div>
+		<span class="label">Type</span>
+		<span class="value" data-bind="text: type"></span>
+	</div>
+	<div>
+		<span class="label">Developer</span>
+		<span class="value" data-bind="text: developer"></span>
+	</div>
+	<div>
+		<span class="label">Tester</span>
+		<span class="value" data-bind="text: tester"></span>
+	</div>
+</script>
+
+<script id="modify-view-template" type="text/html">
+	<div class="modify-view tile choice-tile no-selected-background">
+		<h2>View</h2>
+		<!-- ko foreach: View.availableViews -->
+		<div data-bind="css: { selected: $parent.View.view().toLowerCase().indexOf($data) > -1 }, click: function() { $parent.View.view($data); }">
+			<span data-bind="text: $data.capitalize()"></span>
+			<i class="fa fa-check"></i>
+		</div>
+		<!-- /ko -->
+	</div>
+</script>
+
+<script id="modify-sort-template" type="text/html">
+	<div class="modify-sort choice-tile tile">
+		<h2>Sort</h2>
+		<div data-property="description">
+			<span>Description</span>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'description' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'description' && $root.Sort.direction() == 'ascending' }"></i>
+		</div>
+		<div data-property="milestone">
+			<span>Milestone</span>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'milestone' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'milestone' && $root.Sort.direction() == 'ascending' }"></i>
+		</div>
+		<div data-property="priority">
+			<span>Priority</span>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'priority' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'priority' && $root.Sort.direction() == 'ascending' }"></i>
+		</div>
+		<div data-property="status">
+			<span>Status</span>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'status' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'status' && $root.Sort.direction() == 'ascending' }"></i>
+		</div>
+		<div data-property="type">
+			<span>Type</span>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'type' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'type' && $root.Sort.direction() == 'ascending' }"></i>
+		</div>
+		<div data-property="developer">
+			<span>Developer</span>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'developer' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'developer' && $root.Sort.direction() == 'ascending' }"></i>
+		</div>
+		<div data-property="tester">
+			<span>Tester</span>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'tester' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'tester' && $root.Sort.direction() == 'ascending' }"></i>
+		</div>
+		<div data-property="date-opened">
+			<span>Date Opened</span>
+			<i class="fa fa-angle-down" data-bind="css: { selected: $root.Sort.property() == 'date-opened' && $root.Sort.direction() == 'descending' }"></i>
+			<i class="fa fa-angle-up" data-bind="css: { selected: $root.Sort.property() == 'date-opened' && $root.Sort.direction() == 'ascending' }"></i>
+		</div>
+	</div>
+</script>
+
+<script id="selected-filters" type="text/html">
+	<!-- ko if: Filter.selectedMilestones().length != IssueTracker.milestones().length -->
+	<!-- ko foreach: { data: Filter.selectedMilestones, beforeRemove: Filter.slideUp } -->
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedMilestones, $data); }">
+		<span class="label">Milestone</span>
+		<span class="value" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+	<!-- ko if: Filter.selectedPriorities().length != IssueTracker.priorities().length -->
+	<!-- ko foreach: { data: Filter.selectedPriorities, beforeRemove: Filter.slideUp } -->
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedPriorities, $data); }">
+		<span class="label">Priority</span>
+		<span class="value" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+	<!-- ko if: Filter.selectedStatuses().length != IssueTracker.statuses().length -->
+	<!-- ko foreach: { data: Filter.selectedStatuses, beforeRemove: Filter.slideUp } -->
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedStatuses, $data); }">
+		<span class="label">Status</span>
+		<span class="value" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+	<!-- ko if: Filter.selectedTypes().length != IssueTracker.issueTypes().length -->
+	<!-- ko foreach: { data: Filter.selectedTypes, beforeRemove: Filter.slideUp } -->
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedTypes, $data); }">
+		<span class="label">Type</span>
+		<span class="value" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+	<!-- ko if: Filter.selectedDevelopers().length != IssueTracker.users().length -->
+	<!-- ko foreach: { data: Filter.selectedDevelopers, beforeRemove: Filter.slideUp } -->
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedDevelopers, $data); }">
+		<span class="label">Developer</span>
+		<span class="value" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+	<!-- ko if: Filter.selectedTesters().length != IssueTracker.users().length -->
+	<!-- ko foreach: { data: Filter.selectedTesters, beforeRemove: Filter.slideUp } -->
+	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedTesters, $data); }">
+		<span class="label">Tester</span>
+		<span class="value" data-bind="text: name"></span>
+	</div>
+	<!-- /ko -->
+	<!-- /ko -->
+</script>
+
+<script id="modify-filter-template" type="text/html">
+	<div class="modify-filter">
+		<div class="tile choice-tile no-selected-background" id="milestone-filter">
+			<h2>Milestone</h2>
+			<!-- ko foreach: IssueTracker.milestones -->
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedMilestones, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+		<div class="tile choice-tile no-selected-background" id="priority-filter">
+			<h2>Priority</h2>
+			<!-- ko foreach: IssueTracker.priorities -->
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedPriorities, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+		<div class="tile choice-tile no-selected-background" id="status-filter">
+			<h2>Status</h2>
+			<!-- ko foreach: IssueTracker.statuses -->
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedStatuses, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+		<div class="tile choice-tile no-selected-background" id="type-filter">
+			<h2>Type</h2>
+			<!-- ko foreach: IssueTracker.issueTypes -->
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTypes, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+		<div class="tile choice-tile no-selected-background" id="developer-filter">
+			<h2>Developer</h2>
+			<!-- ko foreach: IssueTracker.users -->
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedDevelopers, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+		<div class="tile choice-tile no-selected-background" id="tester-filter">
+			<h2>Tester</h2>
+			<!-- ko foreach: IssueTracker.users -->
+			<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTesters, $data) }, attr: { 'data-raw': ko.toJSON($data) }">
+				<span data-bind="text: name"></span>
+				<i class="fa fa-check"></i>
+			</div>
+			<!-- /ko -->
+		</div>
+		<button id="set-filter">Set Filter</button>
+	</div>
+</script>

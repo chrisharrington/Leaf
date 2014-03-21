@@ -112,7 +112,7 @@
 
 	IssueTracker.Page.build({
 		root: IssueTracker.Issues,
-		view: "Issues",
+		view: "issues",
 		title: "Issues",
 		route: "#/:project-name/issues",
 		style: "issues-container"

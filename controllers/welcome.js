@@ -1,5 +1,4 @@
 var fs = require("fs");
-var passport = require("passport");
 var crypto = require("crypto");
 var models = require("../data/models");
 var config = require("../config");
@@ -14,7 +13,7 @@ module.exports = function(app) {
 	app.post("/sign-in", function(request, response) {
 		var email = request.body.email;
 		var password = request.body.password;
-		var staySignedIn = request.body.staySignedIn;
+		var staySignedIn = request.body.staySignedIn == "true";
 
 		models.User.findOne({ emailAddress: email }).populate("project").exec(function(err, user) {
 			try {
@@ -24,6 +23,7 @@ module.exports = function(app) {
 				}
 
 				if (crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password) {
+					response.cookie("staySignedIn", true, staySignedIn ? { maxAge: 1000*60*60*24*7*2 } : { expires: false });
 					response.send({
 						user: { emailAddress: user.emailAddress, name: user.name },
 						project: { name: user.project.name }

@@ -40,6 +40,7 @@
 		$.post(IssueTracker.virtualDirectory() + "sign-in", IssueTracker.Utilities.extractPropertyObservableValues(root.model)).done(function (data) {
 			IssueTracker.Utilities.setObservableProperties(data.user, IssueTracker.signedInUser());
 			IssueTracker.selectedProject(data.project);
+			IssueTracker.signedInUser(IssueTracker.Utilities.createPropertyObservables(data.user));
 			IssueTracker.Issues.navigate({ "project-name": data.project.name.formatForUrl() });
 		}).fail(function (response) {
 			if (response.status == 401)
