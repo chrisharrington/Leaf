@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "mustache": "^0.8.1",
-    "node-promise": "^0.5.10",
     "clean-css": "^2.1.6",
     "debug": "^0.7.4",
     "jitsu": "^0.13.15",
@@ -23,10 +22,10 @@
     "mocha": "^1.18.2",
     "mongoose": "^3.8.8",
     "sinon": "^1.9.0",
-    "q": "^1.0.1",
     "bluebird": "^1.1.1",
     "express": "^3.4.8",
     "crypto": "0.0.3",
-    "csprng": "^0.1.1"
+    "csprng": "^0.1.1",
+    "moment": "^2.5.1"
   }
 }

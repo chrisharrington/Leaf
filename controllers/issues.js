@@ -7,4 +7,8 @@ module.exports = function(app) {
 			response.send(content);
 		});
 	});
+
+	app.get("/issues/list", authenticate, function(request, response) {
+
+	});
 };
