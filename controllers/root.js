@@ -13,11 +13,11 @@ module.exports = function(app) {
 			fs.readFileAsync("public/views/root.html"),
 			repositories.Priority.all(),
 			repositories.Status.all(),
-			models.User.findAsync(),
-			models.Transition.findAsync(),
-			models.Project.findAsync(),
-			models.Milestone.findAsync(),
-			models.IssueType.findAsync(),
+			repositories.User.all(),
+			repositories.Transition.all(),
+			repositories.Project.all(),
+			repositories.Milestone.all(),
+			repositories.IssueType.all(),
 			_getSignedInUser(request)
 		]).spread(function(html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
 			response.send(mustache.render(html.toString(), {

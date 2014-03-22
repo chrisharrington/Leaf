@@ -1,8 +1,4 @@
-var model = require("../models").IssueType;
-var base = require("./baseRepository");
-
-exports.all = function() {
-	return base.all(model, {
-		sort: { name: 1 }
-	});
-};
+module.exports = Object.spawn(require("./baseRepository"), {
+	model: require("../models").IssueType,
+	sort: { name: 1 }
+});

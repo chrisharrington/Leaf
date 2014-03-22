@@ -6,6 +6,8 @@ var config = require("./config");
 var mapper = require("./data/mapper");
 var moment = require("moment");
 
+require("./inheritance");
+
 var Promise = require("bluebird");
 
 _configureApplication();

@@ -1,25 +1,28 @@
 var Promise = require("bluebird");
 
-exports.all = function(model, options) {
-	return new Promise(function(resolve, reject) {
-		var query = model.find();
-		if (options.sort)
-			query = query.sort(options.sort);
-		if (options.where)
-			query = _applyFilter(query, options.where);
-		if (options.limit)
-			query = query.limit(options.limit);
-		if (options.skip)
-			query = query.skip(options.skip);
-		query.exec(function(err, result) {
-			if (err) {
-				console.log("Error while retrieving all: " + err);
-				reject(err);
-			} else {
-				resolve(result);
-			}
-		})
-	});
+module.exports = {
+	all: function() {
+		var me = this;
+		return new Promise(function(resolve, reject) {
+			var query = me.model.find();
+			if (me.sort)
+				query = query.sort(me.sort);
+			if (me.where)
+				query = _applyFilter(query, me.where);
+			if (me.limit)
+				query = query.limit(me.limit);
+			if (me.skip)
+				query = query.skip(me.skip);
+			query.exec(function(err, result) {
+				if (err) {
+					console.log("Error while retrieving all: " + err);
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			})
+		});
+	}
 };
 
 function _applyFilter(query, wheres) {

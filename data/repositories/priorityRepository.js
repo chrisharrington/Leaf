@@ -1,8 +1,4 @@
-var model = require("../models").Priority;
-var base = require("./baseRepository");
-
-exports.all = function() {
-	return base.all(model, {
-		sort: { order: 1 }
-	});
-};
+module.exports = Object.spawn(require("./baseRepository"), {
+	model: require("../models").Priority,
+	sort: { order: 1 }
+});
