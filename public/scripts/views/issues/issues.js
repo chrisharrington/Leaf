@@ -65,7 +65,6 @@
 			data: _buildParameters(count),
 			global: false
 		}).done(function (issues) {
-			root.list([]);
 			root.list.pushAll(issues);
 			if (issues.length < count)
 				_allLoaded = true;
