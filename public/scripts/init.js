@@ -16,6 +16,10 @@
 	};
 	
 	function _setupPath() {
+		if (IssueTracker.selectedProject())
+			Path.root("#/" + IssueTracker.selectedProject().name.formatForUrl() + "/issues");
+		else
+			Path.root("#/welcome");
 		Path.rescue(function () {
 			$("div.error404").show();
 			$("section.content-container").hide();
