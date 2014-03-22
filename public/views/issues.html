@@ -64,7 +64,7 @@
 						<span class="value" data-bind="text: View.view().capitalize()"></span>
 					</div>
 				</div>
-				<div class="issue-details data-tile tile" data-bind="template: { name: 'issue-details-template', data: Details.selectedIssue }, visible: View.view() == 'collapsed' && Details.selectedIssue().description() != ''"></div>
+				<div class="issue-details data-tile tile" data-bind="template: { if: Details.selectedIssue(), name: 'issue-details-template', data: Details.selectedIssue }, visible: View.view() == 'collapsed' && Details.selectedIssue() != null"></div>
 			</div>
 			<div class="back flip-tile" data-bind="template: { name: sidebar }"></div>
 		</div>
