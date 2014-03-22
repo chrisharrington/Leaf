@@ -1,4 +1,4 @@
-var model = require("../models").User;
+var model = require("../models").IssueType;
 var base = require("./baseRepository");
 
 exports.all = function() {

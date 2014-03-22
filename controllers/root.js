@@ -5,13 +5,14 @@ var fs = Promise.promisifyAll(require("fs"));
 var mustache = require("mustache");
 var models = require("../data/models");
 var mapper = require("../data/mapper");
+var repositories = require("../data/repositories");
 
 module.exports = function(app) {
 	app.get("/", function(request, response) {
 		Promise.all([
 			fs.readFileAsync("public/views/root.html"),
-			models.Priority.findAsync(),
-			models.Status.findAsync(),
+			repositories.Priority.all(),
+			repositories.Status.all(),
 			models.User.findAsync(),
 			models.Transition.findAsync(),
 			models.Project.findAsync(),
