@@ -134,17 +134,31 @@ require("./data/connection").open().then(function() {
 	return [models.Priority.findAsync(), models.Status.findAsync(), models.Milestone.findAsync(), models.IssueType.findAsync()];
 }).spread(function(p, s, m, t) {
 	var priorities = _toObject(p);
-	console.log(priorities);
 	var statuses = _toObject(s);
 	var milestones = _toObject(m);
 	var types = _toObject(t);
 	for (var i = 0; i < issues.length; i++) {
-		issues[i].developer = issues[i].tester = issues[i].updatedBy = user._id;
+		var priority = priorities[issues[i].priority.toLowerCase()];
+		issues[i].priorityId = priority._id;
+		issues[i].priority = priority.name;
+		issues[i].priorityOrder = priority.order;
+
+		var status = statuses[issues[i].status.toLowerCase()];
+		issues[i].statusId = status._id;
+		issues[i].status = status.name;
+		issues[i].statusOrder = status.order;
+
+		var milestone = milestones[issues[i].milestone.toLowerCase()];
+		issues[i].milestoneId = milestone._id;
+		issues[i].milestone = milestone.name;
+
+		var type = types[issues[i].type.toLowerCase()];
+		issues[i].typeId = type._id;
+		issues[i].type = type.name;
+
+		issues[i].developerId = issues[i].testerId = issues[i].updatedById = user._id;
+		issues[i].developer = issues[i].tester = issues[i].updatedBy = user.name;
 		issues[i].project = project._id;
-		issues[i].priority = priorities[issues[i].priority.toLowerCase()];
-		issues[i].status = statuses[issues[i].status.toLowerCase()];
-		issues[i].milestone = milestones[issues[i].milestone.toLowerCase()];
-		issues[i].type = types[issues[i].type.toLowerCase()];
 		issues[i].opened = _formatDate(issues[i].opened);
 		issues[i].closed = _formatDate(issues[i].closed);
 		issues[i].updated = _formatDate(issues[i].updated);
@@ -163,7 +177,7 @@ require("./data/connection").open().then(function() {
 function _toObject(array) {
 	var result = {};
 	for (var i = 0; i < array.length; i++)
-		result[array[i].name.toLowerCase()] = array[i]._id;
+		result[array[i].name.toLowerCase()] = array[i];
 	return result;
 }
 

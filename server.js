@@ -43,17 +43,18 @@ function _registerMappings() {
 		name: "name",
 		description: "details",
 		number: "number",
-		milestone: function(x) { return x.milestone.name; },
-		priority: function(x) { return x.priority.name; },
-		tester: function(x) { return x.tester.name; },
-		developer: function(x) { return x.developer.name; },
-		status: function(x) { return x.status.name; },
-		type: function(x) { return x.type.name; },
-		priorityStyle: function(x) { return x.priority.name.toLowerCase(); },
+		milestone: "milestone",
+		priority: "priority",
+		status: "status",
+		tester: "tester",
+		developer: "developer",
+		type: "type",
+		priorityStyle: function(x) { return x.priority.toLowerCase(); },
 		opened: function(x) { return moment(x.opened).format(config.dateFormat); },
 		closed: function(x) { return x.closed ? moment(x.closed).format(config.dateFormat) : ""; },
 		lastUpdated: function(x) { return moment(x.updated).format(config.dateFormat); },
-		updatedBy: function(x) { return x.updatedBy.name; } });
+		updatedBy: "updatedBy"
+	});
 }
 
 function _launchServer() {

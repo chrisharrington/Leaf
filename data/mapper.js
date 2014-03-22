@@ -5,26 +5,30 @@ exports.define = function(sourceKey, destinationKey, definition) {
 };
 
 exports.map = function(sourceKey, destinationKey, source) {
-	if (source == null)
-		return null;
+	try {
+		if (source == null)
+			return null;
 
-	var key = _getCombinedKey(sourceKey, destinationKey);
-	if (!_maps || !_maps[key])
+		var key = _getCombinedKey(sourceKey, destinationKey);
+		if (!_maps || !_maps[key])
+			return source;
+
+		var definition = _maps[key];
+		var result = {};
+		for (var name in definition) {
+			var prop = definition[name];
+			var type = typeof(prop);
+			if (type == "function")
+				prop = prop(source);
+			else
+				prop = source[prop];
+			result[name] = prop;
+		}
+		return result;
+	} catch (error) {
+		console.log("Error during mapping: " + error);
 		return source;
-
-	var definition = _maps[key];
-	var result = {};
-	for (var name in definition) {
-		var prop = definition[name];
-		var type = typeof(prop);
-		if (type == "function")
-			prop = prop(source);
-		else
-			prop = source[prop];
-		result[name] = prop;
-//		result[name] = typeof(source[definition[name]]) == "Function" ? source[definition[name]](source) : source[definition[name]];
 	}
-	return result;
 };
 
 exports.mapAll = function(sourceKey, destinationKey, sourceList) {

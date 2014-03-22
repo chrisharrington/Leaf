@@ -65,16 +65,18 @@
 			data: _buildParameters(count),
 			global: false
 		}).done(function (issues) {
+			if (_start == 0)
+				root.list([]);
 			root.list.pushAll(issues);
 			if (issues.length < count)
 				_allLoaded = true;
+			_start += count;
 		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while retrieving the next set of issues. Please try again later.");
 		}).always(function() {
 			_nextIssuesRunning = false;
 			root.loading(false);
 		});
-		_start += count;
 	}
 	
 	function _buildParameters(count) {
