@@ -40,17 +40,35 @@ function _registerMappings() {
 	mapper.define("project", "project-view-model", { "id": "_id", name: "name" });
 	mapper.define("milestone", "milestone-view-model", { "id": "_id", name: "name" });
 	mapper.define("issue-type", "issue-type-view-model", { "id": "_id", name: "name" });
+	/*
+	 public string text { get; set; }
+	 public string date { get; set; }
+	 public string user { get; set; }
+	 public Guid issueId { get; set; }
+	 */
+	mapper.define("comment", "issue-history-view-model", {
+		date: function(x) { return moment(x.date).format(config.dateFormat);},
+		text: "text",
+		user: function(x) { return x.user.name; },
+		issueId: function(x) { return x.issue._id; }
+	});
 	mapper.define("issue", "issue-view-model", {
 		id: "_id",
-		name: "name",
-		description: "details",
+		description: "name",
+		details: "details",
 		number: "number",
 		milestone: "milestone",
+		milestoneId: "milestoneId",
 		priority: "priority",
+		priorityId: "priorityId",
 		status: "status",
+		statusId: "statusId",
 		tester: "tester",
+		testerId: "testerId",
 		developer: "developer",
+		developerId: "developerId",
 		type: "type",
+		typeId: "typeId",
 		priorityStyle: function(x) { return x.priority.toLowerCase(); },
 		opened: function(x) { return moment(x.opened).format(config.dateFormat); },
 		closed: function(x) { return x.closed ? moment(x.closed).format(config.dateFormat) : ""; },

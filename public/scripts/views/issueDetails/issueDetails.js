@@ -191,7 +191,7 @@
 
 	IssueTracker.Page.build({
 		root: root,
-		view: function () { return "Issues/Details?number=:number&projectId=" + IssueTracker.selectedProject().id; },
+		view: function () { return "Issues/Details?number=:number"; },
 		title: "Issue Details",
 		route: "#/:project-name/issues/:number",
 		style: "issue-details-container",

@@ -2,6 +2,9 @@ var fs = require("fs");
 var authenticate = require("../authentication/authenticate");
 var models = require("../data/models");
 var mapper = require("../data/mapper");
+var repositories = require("../data/repositories");
+var mustache = require("mustache");
+var Promise = require("bluebird");
 
 module.exports = function(app) {
 	app.get("/issues", authenticate.auth, function(request, response) {
@@ -23,6 +26,42 @@ module.exports = function(app) {
 				else response.send(mapper.mapAll("issue", "issue-view-model", issues));
 			});
 	});
+
+	app.get("/issues/details", authenticate.auth, function(request, response) {
+		var projectId = request.query.projectId, html, issue;
+		Promise.all([
+			fs.readFileAsync("public/views/issueDetails.html"),
+			repositories.Issue.number(request.query.projectId, request.query.number)
+		]).spread(function(h, i) {
+			html = h;
+			issue = i;
+			return [repositories.Transition.status(issue.statusId), repositories.Comment.issue(issue._id)];
+		}).spread(function(transitions, comments) {
+			var model = mapper.map("issue", "issue-view-model", issue);
+			model.transitions = mapper.mapAll("transition", "transition-view-model", transitions);
+			model.comments = mapper.mapAll("comment", "issue-history-view-model", comments);
+			model.history = [];
+			response.send(!issue ? 404 : mustache.render(html.toString(), {
+				issue: JSON.stringify(model)
+			}));
+		}).catch(function(e) {
+			var message = "Error while rendering issue details for issue #" + request.query.number + ": " + e;
+			console.log(message);
+			response.send(message, 500);
+		});
+	});
+
+	/*
+	 private IEnumerable<IssueHistoryViewModel> BuildIssueHistory(IEnumerable<IssueAudit> audits, IEnumerable<IssueComment> comments)
+	 {
+	 var history = new List<IssueHistoryViewModel>();
+	 if (audits != null)
+	 history.AddRange(audits.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(TimezoneOffsetInMinutes), text = BuildAuditString(x), user = x.User.ToString() }));
+	 if (comments != null)
+	 history.AddRange(comments.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(TimezoneOffsetInMinutes), text = x.Text, user = x.User.ToString() }));
+	 return history.OrderByDescending(x => DateTime.Parse(x.date));
+	 }
+	 */
 
 	function _buildSort(request) {
 		var direction = request.query.direction;
