@@ -1,7 +1,14 @@
 ﻿@header-height:50px;
 header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour);
 	>div { max-width:@application-width; margin:auto; height:@header-height;  color:@primary-font-colour-dark-background; .border-box;
-		>div.menu { float:left; }
+		>div.logo { float:left; margin-right:@spacing; padding-left:@spacing;
+			>* { line-height:@header-height; height:@header-height; vertical-align:middle; display:inline-block; }
+			>div { float:left;
+				>img { width:30px; height:30px; vertical-align:middle; }
+			}
+			>span { float:left; margin-left:@small-spacing; color:#67CF53; font-family:Oswald; font-size:28px; text-transform:uppercase; letter-spacing:1px; }
+		}
+		>div.menu { float:left; margin-left:@spacing; }
 		>div.account { float:right; }
 
 		>div { height:100%;
@@ -15,4 +22,4 @@ header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-grad
 	}
 }
 
-div.bar-container { float:left; width:100%; margin-top:1px; }
+div.bar-container { float:left; width:100%; position:relative; height:0; }

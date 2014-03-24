@@ -3,8 +3,8 @@
 @small-spacing:8px;
 @tiny-spacing:4px;
 
-@dark-gradient-top-colour:#222222;
-@dark-gradient-bottom-colour:#444444;
+@dark-gradient-top-colour:#519E3F;
+@dark-gradient-bottom-colour:darken(@dark-gradient-top-colour, 15%);
 @tile-gradient-light-colour:#FFFFFF;
 @tile-gradient-dark-colour:#FFFFFF;
 @dark-gradient-light-colour:#555555;
@@ -13,7 +13,7 @@
 @border-colour:#D0D0D0;
 @border-colour-light:#E0E0E0;
 @border-colour-semi-dark:#A0A0A0;
-@border-colour-dark:#606060;
+@border-colour-dark:#707070;
 @dashed-border-colour:#E0E0E0;
 
 @low-priority:#0F7AD1;
@@ -40,17 +40,18 @@
 @primary-font-colour-dark-background:#DDDDDD;
 @primary-font-colour-icon:#BBBBBB;
 @primary-font-hover-colour:black;
-@secondary-font-colour:#3776BF;
-@secondary-font-colour-light:lighten(@secondary-font-colour, 20%);
-@secondary-font-colour-dark-background:@secondary-font-colour-light;
-@secondary-header-colour:#1C5A9C;
-@secondary-background-colour-top:#527FB3;
-@secondary-background-colour-bottom:darken(@secondary-background-colour-top, 15%);
+
+@secondary-font-colour-light:#67CF53;
+@secondary-font-colour:darken(@secondary-font-colour-light, 15%);
+@secondary-font-colour-dark-background:darken(@secondary-font-colour-light, 5%);
+@secondary-background-colour-top:lighten(@dark-gradient-top-colour, 5%);
+@secondary-background-colour-bottom:@dark-gradient-bottom-colour;
+
 @positive-colour:@secondary-background-colour-top;
 @positive-colour-dark:@secondary-background-colour-bottom;
 @negative-colour:#D44E4E;
 @negative-colour-dark:#8C2626;
-@link-colour:#1C5A9C;
+@link-colour:@secondary-font-colour;
 
 @error-gradient-light-colour:#A61212;
 @error-gradient-dark-colour:#C23232;
@@ -58,7 +59,7 @@
 @warning-font-colour:black;
 
 @active-highlight:lighten(@secondary-font-colour, 28%);
-@hover-colour:#F2F7FF;
+@hover-colour:#E7FADC;
 
 .gradient (@top, @bottom) { background:linear-gradient(to bottom, @top, @bottom); }
 .dark-gradient { background: linear-gradient(@dark-gradient-light-colour, @dark-gradient-dark-colour); }
@@ -77,13 +78,13 @@
 .select { background:darken(@hover-colour, 10%) !important; }
 .background-colour-transition { -webkit-transition: background-color 1000ms linear; -moz-transition: background-color 1000ms linear; -o-transition: background-color 1000ms linear; -ms-transition: background-color 1000ms linear; transition: background-color 1000ms linear; }
 
-.condensed-font { font-family:"Roboto Condensed"; }
-.regular-font { font-family:"Roboto"; }
+.condensed-font { font-family:"Roboto Condensed" !important; }
+.regular-font { font-family:"Roboto" !important; }
 
-h1, h2, h3, h4 { .condensed-font; margin:0; padding:0; text-transform:uppercase; }
-h1 { color:@primary-header-font-colour; font-size:1.75em; }
-h2 { color:@primary-sub-header-font-colour; font-size:1.5em; }
-h3 { font-size:1.375em; font-weight:bold; color:@secondary-font-colour; text-transform:uppercase; }
+h1, h2, h3, h4 { .regular-font; margin:0; padding:0; text-transform:uppercase; }
+h1 { color:@primary-header-font-colour; font-size:1.625em; letter-spacing:1px; }
+h2 { color:@primary-sub-header-font-colour; font-size:1.375em; }
+h3 { font-size:1.25em; font-weight:bold; color:@secondary-font-colour; text-transform:uppercase; }
 a { color:@secondary-font-colour; }
 input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:@small-spacing; font-size:1em; .regular-font; .border-radius; .border-box; margin:0; }
 input:focus, textarea:focus, select:focus, .focus { outline:none; border-color:@active-highlight; box-shadow:0 0 10px @active-highlight; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
@@ -176,7 +177,7 @@ div.choice-tile, div.data-tile { padding:0 !important;
 		>span { float:left; }
 		>i { float:right; display:none; }
 	}
-	>div.selected { color:@secondary-font-colour !important; font-weight:bold; background:#F2F7FF;
+	>div.selected { color:@secondary-font-colour !important; font-weight:bold; background:@hover-colour;
 		i { display:inline-block; }
 	}
 	>div:last-child { border-bottom:solid 1px @border-colour; }

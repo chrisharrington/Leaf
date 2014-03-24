@@ -1,5 +1,5 @@
 ﻿<div class="data-container">
-	<div class="issues-container">
+	<div class="issues-list">
 		<div class="issues-loading hidden" data-bind="css: { hidden: !loading() }">
             <div class="spinner">
                 <div class="rect1"></div>
@@ -34,41 +34,99 @@
 			</a>
 		</div>
 	</div>
-	<div class="sidebar perspective">
-		<div class="flipper transition horizontal">
-			<div class="flip-tile front">
-				<div class="tile modify-filter-container">
-					<div class="header" id="modify-filter">
-						<h2>Filter</h2>
-						<i class="fa fa-angle-right"></i>
-					</div>
-					<div class="selected-filters" data-bind="template: { name: 'selected-filters' }"></div>
-				</div>
-				<div class="tile modify-sort-container">
-					<div class="header">
-						<h2>Sort</h2>
-						<i class="fa fa-angle-right"></i>
-					</div>
-					<div class="sidebar-item">
-						<span class="label" data-bind="text: Sort.property().replace('-', ' ').capitalize()"></span>
-						<span class="value" data-bind="text: Sort.direction().capitalize()"></span>
-					</div>
-				</div>
-				<div class="tile modify-view-container">
-					<div class="header">
-						<h2>View</h2>
-						<i class="fa fa-angle-right"></i>
-					</div>
-					<div class="sidebar-item">
-						<span class="label">View</span>
-						<span class="value" data-bind="text: View.view().capitalize()"></span>
-					</div>
-				</div>
-				<div class="issue-details data-tile tile" data-bind="template: { if: Details.selectedIssue(), name: 'issue-details-template', data: Details.selectedIssue }, visible: View.view() == 'collapsed' && Details.selectedIssue() != null"></div>
-			</div>
-			<div class="back flip-tile" data-bind="template: { name: sidebar }"></div>
-		</div>
-	</div>
+    <div class="sidebar">
+        <div class="filter">
+            <div>
+                <h3>Milestones</h3>
+                <!-- ko foreach: { data: IssueTracker.milestones } -->
+                <div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedMilestones, $data); }">
+                    <span class="value" data-bind="text: name"></span>
+                    <i class="fa fa-check-square"></i>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div>
+                <h3>Priorities</h3>
+                <!-- ko foreach: { data: IssueTracker.priorities } -->
+                <div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedPriorities, $data); }">
+                    <span class="value" data-bind="text: name"></span>
+                    <i class="fa fa-check-square"></i>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div>
+                <h3>Statuses</h3>
+                <!-- ko foreach: { data: IssueTracker.statuses } -->
+                <div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedStatuses, $data); }">
+                    <span class="value" data-bind="text: name"></span>
+                    <i class="fa fa-check-square"></i>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div>
+                <h3>Issue Types</h3>
+                <!-- ko foreach: { data: IssueTracker.issueTypes } -->
+                <div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedTypes, $data); }">
+                    <span class="value" data-bind="text: name"></span>
+                    <i class="fa fa-check-square"></i>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div>
+                <h3>Developers</h3>
+                <!-- ko foreach: { data: IssueTracker.users } -->
+                <div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedDevelopers, $data); }">
+                    <span class="value" data-bind="text: name"></span>
+                    <i class="fa fa-check-square"></i>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div>
+                <h3>Testers</h3>
+                <!-- ko foreach: { data: IssueTracker.users } -->
+                <div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedTesters, $data); }">
+                    <span class="value" data-bind="text: name"></span>
+                    <i class="fa fa-check-square"></i>
+                </div>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+	<!--<div class="sidebar perspective">-->
+		<!--<div class="flipper transition horizontal">-->
+			<!--<div class="flip-tile front">-->
+				<!--<div class="tile modify-filter-container">-->
+					<!--<div class="header" id="modify-filter">-->
+						<!--<h2>Filter</h2>-->
+						<!--<i class="fa fa-angle-right"></i>-->
+					<!--</div>-->
+					<!--<div class="selected-filters" data-bind="template: { name: 'selected-filters' }"></div>-->
+				<!--</div>-->
+				<!--<div class="tile modify-sort-container">-->
+					<!--<div class="header">-->
+						<!--<h2>Sort</h2>-->
+						<!--<i class="fa fa-angle-right"></i>-->
+					<!--</div>-->
+					<!--<div class="sidebar-item">-->
+						<!--<span class="label" data-bind="text: Sort.property().replace('-', ' ').capitalize()"></span>-->
+						<!--<span class="value" data-bind="text: Sort.direction().capitalize()"></span>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="tile modify-view-container">-->
+					<!--<div class="header">-->
+						<!--<h2>View</h2>-->
+						<!--<i class="fa fa-angle-right"></i>-->
+					<!--</div>-->
+					<!--<div class="sidebar-item">-->
+						<!--<span class="label">View</span>-->
+						<!--<span class="value" data-bind="text: View.view().capitalize()"></span>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="issue-details data-tile tile" data-bind="template: { if: Details.selectedIssue(), name: 'issue-details-template', data: Details.selectedIssue }, visible: View.view() == 'collapsed' && Details.selectedIssue() != null"></div>-->
+			<!--</div>-->
+			<!--<div class="back flip-tile" data-bind="template: { name: sidebar }"></div>-->
+		<!--</div>-->
+	<!--</div>-->
 </div>
 
 <script id="issue-details-template" type="text/html">
@@ -160,7 +218,7 @@
 
 <script id="selected-filters" type="text/html">
 	<!-- ko if: Filter.selectedMilestones().length != IssueTracker.milestones().length -->
-	<!-- ko foreach: { data: Filter.selectedMilestones, beforeRemove: Filter.slideUp } -->
+	<!-- ko foreach: { data: Filter.selectedMilestones } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedMilestones, $data); }">
 		<span class="label">Milestone</span>
 		<span class="value" data-bind="text: name"></span>
@@ -168,7 +226,7 @@
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedPriorities().length != IssueTracker.priorities().length -->
-	<!-- ko foreach: { data: Filter.selectedPriorities, beforeRemove: Filter.slideUp } -->
+	<!-- ko foreach: { data: Filter.selectedPriorities } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedPriorities, $data); }">
 		<span class="label">Priority</span>
 		<span class="value" data-bind="text: name"></span>
@@ -176,7 +234,7 @@
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedStatuses().length != IssueTracker.statuses().length -->
-	<!-- ko foreach: { data: Filter.selectedStatuses, beforeRemove: Filter.slideUp } -->
+	<!-- ko foreach: { data: Filter.selectedStatuses } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedStatuses, $data); }">
 		<span class="label">Status</span>
 		<span class="value" data-bind="text: name"></span>
@@ -184,7 +242,7 @@
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedTypes().length != IssueTracker.issueTypes().length -->
-	<!-- ko foreach: { data: Filter.selectedTypes, beforeRemove: Filter.slideUp } -->
+	<!-- ko foreach: { data: Filter.selectedTypes } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedTypes, $data); }">
 		<span class="label">Type</span>
 		<span class="value" data-bind="text: name"></span>
@@ -192,7 +250,7 @@
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedDevelopers().length != IssueTracker.users().length -->
-	<!-- ko foreach: { data: Filter.selectedDevelopers, beforeRemove: Filter.slideUp } -->
+	<!-- ko foreach: { data: Filter.selectedDevelopers } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedDevelopers, $data); }">
 		<span class="label">Developer</span>
 		<span class="value" data-bind="text: name"></span>
@@ -200,7 +258,7 @@
 	<!-- /ko -->
 	<!-- /ko -->
 	<!-- ko if: Filter.selectedTesters().length != IssueTracker.users().length -->
-	<!-- ko foreach: { data: Filter.selectedTesters, beforeRemove: Filter.slideUp } -->
+	<!-- ko foreach: { data: Filter.selectedTesters } -->
 	<div class="sidebar-item" data-bind="click: function() { $parent.Filter.remove($parent.Filter.selectedTesters, $data); }">
 		<span class="label">Tester</span>
 		<span class="value" data-bind="text: name"></span>

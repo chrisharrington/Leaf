@@ -13,8 +13,8 @@
 
 	function _hookupEvents() {
 		_container
-			.on("mouseenter", "div.issues-container>div>a", function() { root.selectedIssue(_buildData($(this))); })
-			.on("mouseleave", "div.issues-container>div>a", function() { root.selectedIssue(undefined); });
+			.on("mouseenter", "div.issues-list>div>a", function() { root.selectedIssue(_buildData($(this))); })
+			.on("mouseleave", "div.issues-list>div>a", function() { root.selectedIssue(undefined); });
 	}
 
 	function _buildData(element) {

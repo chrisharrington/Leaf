@@ -4,7 +4,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 	<title>Unnamed Issue Tracker</title>
-	
+
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 	<link href="bundle/style" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -44,6 +45,12 @@
 	<body>
         <header>
             <div>
+                <div class="logo">
+                    <div>
+                        <img src="images/leaf.png" alt="logo" />
+                    </div>
+                    <span>Leaf</span>
+                </div>
                 <!-- ko if: IssueTracker.selectedProject() -->
                 <div class="menu">
                     <a data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">

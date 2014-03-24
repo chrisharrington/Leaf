@@ -1,8 +1,8 @@
-﻿.issues-container {
-	div.data-container { float:left; width:100%;
-		@filter-width:300px;
-		>div.issues-container { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@filter-width+@spacing; position:relative; .border-box;
-			>div.issues-loading { float:left; width:100%; }
+﻿.issues-container { padding:0 !important;
+	div.data-container { float:left; width:100%; overflow:hidden;
+		@filter-width:250px;
+		>div.issues-list { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@filter-width; position:relative; .border-box;
+			>div.issues-loading { float:left; width:100%; padding-top:@spacing; }
 			>div.no-issues { float:left; width:100%;
 				>* { float:left; width:100%; }
 				>span { margin-top:@spacing; color:@primary-font-colour-light; }
@@ -39,7 +39,7 @@
 				>a { border-top:solid 1px @border-colour; margin-top:0; box-shadow:none;
 					>div {
 						>div.info { padding:0 @small-spacing; height:@info-height;
-							h2 { font-size:1em; .regular-font; text-transform:none; }
+							h2 { font-size:1em; text-transform:none; }
 							h2.number { border-right:solid 1px @border-colour; width:50px; text-align:center; padding-right:@small-spacing; }
 							span.updated { display:none; }
 							span.comments { display:none; }
@@ -54,55 +54,26 @@
 				>img { margin:auto; width:30px; height:30px; }
 			}
 		}
-		>div.sidebar { float:left; position:fixed; width:@filter-width; position:relative; margin-left:@filter-width*-1;
-			@selected-filter-height:19px;
-			div.sidebar-item { float:left; width:100%; border-top:solid 1px @border-colour; padding:@small-spacing @spacing; .border-box; cursor:pointer;
-				>span.label { float:left; color:@primary-font-colour-light; }
-				>span.value { float:right; color:@secondary-font-colour; font-weight:bold; }
-				>i { float:right; height:@selected-filter-height; margin-left:@spacing; line-height:@selected-filter-height; display:inline-block; vertical-align:middle; }
+		@sidebar-background:#333333;
+		>div.sidebar { float:left; width:@filter-width; position:relative; margin-left:@filter-width*-1; background:@sidebar-background; padding-bottom:100000px; margin-bottom:-100000px; box-shadow:0 2px 8px rgba(0, 0, 0, 0.3);
+			>div { float:left; width:100%; color:#bbb; .border-box;
+				>h1 { float:left; .border-box; padding:0 @spacing; .condensed-font; }
 			}
-
-			
-
-			>div.flipper { float:left; width:@filter-width;
-				div.front { padding:0; height:auto;
-					@header-height:28px;
-					>div { float:left; width:100%; margin-top:@spacing; padding:0;
-						>div.header { float:left; width:100%; cursor:pointer;
-							>h2 { float:left; padding:@small-spacing @spacing; }
-							>i { float:right; padding:@small-spacing @spacing; cursor:pointer; height:@header-height; line-height:@header-height !important; display:inline-block; vertical-align:middle; font-weight:bold; font-size:1.25em; }
-						}
-						>div.header:hover { .hover; }
+			>div.filter {
+				@filter-item-height:24px;
+				>* { float:left; width:100%; }
+				>div { border-bottom:solid 1px @border-colour-dark; padding:@small-spacing 0;
+					>* { float:left; width:100%; }
+					>h3 { padding:0 @small-spacing; .border-box; margin-bottom:@small-spacing; }
+					>div { cursor:pointer; padding:0 @spacing; .border-box;
+						>* { line-height:@filter-item-height; vertical-align:middle; display:inline-block; height:100%; }
+						>span { float:left; }
+						>i { float:right; margin:0; font-size:0.875em; }
+						>i.fa-check-square { font-weight:bold; color:@secondary-font-colour-light; }
 					}
-					>div:first-child { margin-top:0; }
-
-					div.modify-filter-container {
-						>div.selected-filters { float:left; width:100%;						
-							>div:hover { .hover; }
-						}
-					}
-					div.modify-sort-container:hover, div.modify-view-container:hover { .hover; }
-					>div.issue-details { float:left; width:@filter-width;
-						>span.description { float:left; width:100%; padding:0 @spacing @small-spacing @spacing; .border-box; }
-					}
+					>div:hover { background:lighten(@sidebar-background, 5%); }
 				}
-				div.back { padding:0; height:auto;
-					>div { float:left; width:100%; }
-					>div.modify-filter {
-						>* { float:left; width:100%; margin-top:@spacing; }
-						>div:first-child { margin-top:0; }
-						>button { float:left; width:100%; }
-					}
-					>div.modify-sort {
-						>div { float:left; width:100%; padding:0; cursor:default;
-							>* { padding:@small-spacing @spacing;}
-						}
-						>div:hover { background:transparent !important; }
-						i { display:inline-block; cursor:pointer; }
-						i:hover { .hover; }
-						i.selected { .select; }
-					}
-				}
+				>div:first-child { margin-top:0; }
 			}
 		}
 	}

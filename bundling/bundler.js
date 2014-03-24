@@ -10,6 +10,8 @@ exports.bundleCss = function(directory, minify, callback) {
 	        console.log("Error while bundling: " + err);
 	    _concatenateAllFiles(directory, files, function(concatenated) {
 	        _less.render(concatenated, function(error, css) {
+		        if (error)
+		            console.log("Error while performing LESS conversion: " + error);
 	            if (minify)
 	                css = new _compressor().minify(css);
 	            callback(css);
