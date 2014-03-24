@@ -122,6 +122,16 @@ module.exports = function(app) {
 		});
 	});
 
+	app.post("/issues/delete", authenticate, function(request, response) {
+		repositories.Issue.remove(request.body.id).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			var message = "Error while deleting issue: " + e;
+			console.log(e);
+			response.send(message, 500);
+		});
+	});
+
 	function _buildSort(request) {
 		var direction = request.query.direction;
 		var comparer = request.query.comparer;

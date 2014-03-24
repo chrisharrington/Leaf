@@ -15,7 +15,7 @@
 	
 	function _submit() {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "Issues/Delete", IssueTracker.Utilities.extractPropertyObservableValues(IssueTracker.selectedIssue)).done(function() {
+		$.post(IssueTracker.virtualDirectory() + "issues/delete", { id: IssueTracker.selectedIssue.id }).done(function() {
 			IssueTracker.Issues.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl() });
 			IssueTracker.Dialog.hide();
 		}).fail(function() {

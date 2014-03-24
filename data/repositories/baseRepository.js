@@ -26,6 +26,20 @@ module.exports = {
 
 	details: function(id) {
 		return this.model.findOneAsync({ "_id": id });
+	},
+
+	remove: function(id) {
+		var me = this;
+		return new Promise(function(resolve, reject) {
+			me.model.findOne({ "_id": id }, function(err, model) {
+				if (err) reject(err);
+				else
+					model.remove(function(err) {
+						if (err) reject(err);
+						else resolve();
+					});
+			});
+		});
 	}
 };
 
