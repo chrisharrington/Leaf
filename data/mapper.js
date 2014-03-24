@@ -100,7 +100,7 @@ exports.init = function() {
 		type: "type",
 		typeId: "typeId",
 		opened: function(x) { return moment(x.opened, config.dateFormat); },
-		closed: function(x) { return x.closed == "" ? null : moment(x.closed, config.dateFormat); }
+		closed: function(x) { return x.closed == "" || x.closed == null ? null : moment(x.closed, config.dateFormat); }
 	});
 };
 

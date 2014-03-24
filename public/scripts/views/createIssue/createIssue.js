@@ -76,7 +76,7 @@
 
 	function _submit() {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "Issues/Create", IssueTracker.Utilities.extractPropertyObservableValues(root.createModel)).done(function () {
+		$.post(IssueTracker.virtualDirectory() + "issues/create", IssueTracker.Utilities.extractPropertyObservableValues(root.createModel)).done(function () {
 			IssueTracker.Feedback.success("Your issue has been created.");
 			IssueTracker.Issues.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl() });
 		}).fail(function() {
@@ -108,7 +108,7 @@
 
 	IssueTracker.Page.build({
 		root: root,
-		view: "Issues/Create",
+		view: "issues/create",
 		title: "Create Issue",
 		route: "#/:project-name/new-issue",
 		style: "create-issue-container"

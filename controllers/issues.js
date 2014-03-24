@@ -5,15 +5,16 @@ var mapper = require("../data/mapper");
 var repositories = require("../data/repositories");
 var mustache = require("mustache");
 var Promise = require("bluebird");
+var mongoose = require("mongoose");
 
 module.exports = function(app) {
-	app.get("/issues", authenticate.auth, function(request, response) {
+	app.get("/issues", authenticate, function(request, response) {
 		fs.readFile("public/views/issues.html", function(err, content) {
 			response.send(content);
 		});
 	});
 
-	app.get("/issues/list", authenticate.authIgnoreSession, function(request, response) {
+	app.get("/issues/list", authenticate, function(request, response) {
 		var start = parseInt(request.query.start);
 		var end = parseInt(request.query.end);
 
@@ -27,7 +28,7 @@ module.exports = function(app) {
 			});
 	});
 
-	app.get("/issues/details", authenticate.auth, function(request, response) {
+	app.get("/issues/details", authenticate, function(request, response) {
 		var projectId = request.query.projectId, html, issue;
 		Promise.all([
 			fs.readFileAsync("public/views/issueDetails.html"),
@@ -50,7 +51,17 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post("/issues/update", authenticate.auth, function(request, response) {
+	app.get("/issues/create", authenticate, function(request, response) {
+		fs.readFileAsync("public/views/createIssue.html").then(function(html) {
+			response.send(mustache.render(html.toString(), {
+				issueId: mongoose.Types.ObjectId()
+			}));
+		}).catch(function(e) {
+			response.send("Error while rendering create issue: " + e, 500);
+		});
+	});
+
+	app.post("/issues/update", authenticate, function(request, response) {
 		repositories.Issue.update(mapper.map("issue-view-model", "issue", request.body)).then(function() {
 			response.send(200);
 		}).catch(function(e) {
@@ -60,7 +71,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post("/issues/add-comment", authenticate.auth, function(request, response) {
+	app.post("/issues/add-comment", authenticate, function(request, response) {
 		var comment = mapper.map("issue-history-view-model", "comment", request.body);
 		comment.date = new Date();
 		comment.user = request.user._id;
@@ -77,17 +88,39 @@ module.exports = function(app) {
 		});
 	});
 
-	/*
-	 private IEnumerable<IssueHistoryViewModel> BuildIssueHistory(IEnumerable<IssueAudit> audits, IEnumerable<IssueComment> comments)
-	 {
-	 var history = new List<IssueHistoryViewModel>();
-	 if (audits != null)
-	 history.AddRange(audits.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(TimezoneOffsetInMinutes), text = BuildAuditString(x), user = x.User.ToString() }));
-	 if (comments != null)
-	 history.AddRange(comments.Select(x => new IssueHistoryViewModel { date = x.Date.ToLongApplicationString(TimezoneOffsetInMinutes), text = x.Text, user = x.User.ToString() }));
-	 return history.OrderByDescending(x => DateTime.Parse(x.date));
-	 }
-	 */
+	app.post("/issues/create", authenticate, function(request, response) {
+		var model = mapper.map("issue-view-model", "issue", request.body);
+		Promise.all([
+			repositories.Issue.getNextNumber(request.project),
+			repositories.Milestone.details(model.milestoneId),
+			repositories.Priority.details(model.priorityId),
+			repositories.Status.details(model.statusId),
+			repositories.User.details(model.developerId),
+			repositories.User.details(model.testerId),
+			repositories.IssueType.details(model.typeId)
+		]).spread(function(number, milestone, priority, status, developer, tester, type) {
+			model.number = number;
+			model.milestone = milestone.name;
+			model.priority = priority.name;
+			model.priorityOrder = priority.order;
+			model.status = status.name;
+			model.statusOrder = status.order;
+			model.developer = developer.name;
+			model.tester = tester.name;
+			model.type = type.name;
+			model.opened = new Date();
+			model.updated = new Date();
+			model.updatedBy = request.user._id;
+			model.project = request.project._id;
+			return repositories.Issue.create(model);
+		}).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			var message = "Error while creating issue: " + e;
+			console.log(message);
+			response.send(message, 500);
+		});
+	});
 
 	function _buildSort(request) {
 		var direction = request.query.direction;
@@ -98,6 +131,7 @@ module.exports = function(app) {
 			comparer = "statusOrder";
 		var sort = {};
 		sort[comparer] = direction == "ascending" ? 1 : -1;
+		sort.opened = 1;
 		return sort;
 	}
 

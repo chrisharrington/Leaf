@@ -1,9 +1,8 @@
 var Promise = require("bluebird");
 
 var repository = Object.spawn(require("./baseRepository"), {
-	model: require("../models").Issue,
-	sort: { priority: -1, opened: 1 }
-});14
+	model: require("../models").Issue
+});
 
 repository.number = function(projectId, number) {
 	var me = this;
@@ -34,6 +33,20 @@ repository.update = function(model) {
 		issue.developer = developer.name;
 		issue.tester = tester.name;
 		Promise.promisifyAll(issue).saveAsync();
+	});
+};
+
+repository.create = function(model) {
+	return this.model.createAsync(model);
+};
+
+repository.getNextNumber = function(project) {
+	var me = this;
+	return new Promise(function(resolve, reject) {
+		me.model.findOne().sort({ number: -1 }).exec(function(err, issue) {
+			if (err) reject(err);
+			else (resolve(issue.number+1));
+		});
 	});
 };
 
