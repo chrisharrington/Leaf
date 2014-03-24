@@ -29,8 +29,16 @@
             root.selectedProject = ko.observable(decodeAndEval("{{selectedProject}}"));
 			root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables(decodeAndEval("{{signedInUser}}")));
 			root.selectedIssue = ko.observable();
+
+            IssueTracker.error = ko.observable("");
+            IssueTracker.success = ko.observable("");
+            IssueTracker.view = ko.observable();
+            IssueTracker.title = ko.observable();
+            IssueTracker.dialog = ko.observable();
+            IssueTracker.popup = ko.observable();
+            IssueTracker.isUnauthorized = ko.observable(false);
 			IssueTracker.Init.init();
-		});
+        })
 	</script>
 </head>
 	<body>

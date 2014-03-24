@@ -5,18 +5,17 @@ var _compressor = require("clean-css");
 var Promise = require("bluebird");
 
 exports.bundleCss = function(directory, minify, callback) {
-//    _getAllFilesIn(directory, [".css", ".less"], function(err, files) {
-//	    if (err)
-//	        console.log("Error while bundling: " + err);
-//	    _concatenateAllFiles(directory, files, function(concatenated) {
-//	        _less.render(concatenated, function(error, css) {
-//	            if (minify)
-//	                css = new _compressor().minify(css);
-//	            callback(css);
-//	        });
-//	    });
-//    });
-	callback("");
+    _getAllFilesIn(directory, [".css", ".less"], function(err, files) {
+	    if (err)
+	        console.log("Error while bundling: " + err);
+	    _concatenateAllFiles(directory, files, function(concatenated) {
+	        _less.render(concatenated, function(error, css) {
+	            if (minify)
+	                css = new _compressor().minify(css);
+	            callback(css);
+	        });
+	    });
+    });
 };
 
 exports.bundleScripts = function(directory, minify, callback) {
@@ -31,25 +30,31 @@ exports.bundleScripts = function(directory, minify, callback) {
 
 function _getAllFilesIn(directory, extensions, done) {
 	var results = [];
-	_fs.readdir(directory, function(err, list) {
-		if (err) return done(err);
-		var pending = list.length;
-		if (!pending) return done(null, results);
-		list.forEach(function(file) {
-			file = directory + '/' + file;
-			_fs.stat(file, function(err, stat) {
-				if (stat && stat.isDirectory()) {
-					walk(file, extensions, function(err, res) {
-						results = results.concat(res);
-						if (!--pending) done(null, results);
-					});
-				} else {
-					//if (_isValidFile(file, extensions))
+	_fs.readdir(directory, function(err, files) {
+		if (err) done(err);
+
+		var pending = files.length;
+		for (var i = 0; i < files.length; i++) {
+			(function(file) {
+				_fs.stat(file, function(err, info) {
+					if (info.isDirectory())
+						_getAllFilesIn(file, extensions, function(err, nested) {
+							if (err)
+								done(err);
+							else {
+								results = results.concat(nested);
+								if (--pending == 0)
+									done(null, results);
+							}
+						});
+					else {
 						results.push(file);
-					if (!--pending) done(null, results);
-				}
-			});
-		});
+						if (--pending == 0)
+							done(null, results);
+					}
+				});
+			})(directory + "/" + files[i]);
+		}
 	});
 }
 
