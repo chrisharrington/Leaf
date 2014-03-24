@@ -1,3 +1,4 @@
+var IssueTracker = window.IssueTracker || {};
 
 IssueTracker.Page = function(params) {
 	this._validateParams(params);
