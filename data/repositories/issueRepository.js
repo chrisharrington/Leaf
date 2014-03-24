@@ -33,7 +33,7 @@ repository.update = function(model) {
 		issue.type = type.name;
 		issue.developer = developer.name;
 		issue.tester = tester.name;
-		Promise.promisify(issue).saveAsync();
+		Promise.promisifyAll(issue).saveAsync();
 	});
 };
 

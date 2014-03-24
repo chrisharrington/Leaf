@@ -39,8 +39,7 @@ module.exports = function(app) {
 		}).spread(function(transitions, comments) {
 			var model = mapper.map("issue", "issue-view-model", issue);
 			model.transitions = mapper.mapAll("transition", "transition-view-model", transitions);
-			model.comments = mapper.mapAll("comment", "issue-history-view-model", comments);
-			model.history = [];
+			model.history = mapper.mapAll("comment", "issue-history-view-model", comments);
 			response.send(!issue ? 404 : mustache.render(html.toString(), {
 				issue: JSON.stringify(model)
 			}));
@@ -56,6 +55,23 @@ module.exports = function(app) {
 			response.send(200);
 		}).catch(function(e) {
 			var message = "Error while updating issue: " + e;
+			console.log(message);
+			response.send(message, 500);
+		});
+	});
+
+	app.post("/issues/add-comment", authenticate.auth, function(request, response) {
+		var comment = mapper.map("issue-history-view-model", "comment", request.body);
+		comment.date = new Date();
+		comment.user = request.user._id;
+		repositories.Issue.details(request.body.issueId).then(function(issue) {
+			comment.issue = issue._id;
+		}).then(function() {
+			return repositories.Comment.create(comment);
+		}).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			var message = "Error adding comment: " + e;
 			console.log(message);
 			response.send(message, 500);
 		});

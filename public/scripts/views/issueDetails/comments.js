@@ -47,7 +47,7 @@
 			return new ResolvedDeferred();
 
 		root.loading(true);
-		return $.post(IssueTracker.virtualDirectory() + "Issues/AddComment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function () {
+		return $.post(IssueTracker.virtualDirectory() + "issues/add-comment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function () {
 			_isAdd = true;
 			root.list.splice(0, 0, { date: new Date().toApplicationString(), user: IssueTracker.signedInUser().name(), text: root.text() });
 			root.text("");
