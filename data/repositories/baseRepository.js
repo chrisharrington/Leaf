@@ -20,8 +20,12 @@ module.exports = {
 				} else {
 					resolve(result);
 				}
-			})
+			});
 		});
+	},
+
+	details: function(id) {
+		return this.model.findOneAsync({ "_id": id });
 	}
 };
 

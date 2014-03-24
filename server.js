@@ -75,6 +75,26 @@ function _registerMappings() {
 		lastUpdated: function(x) { return moment(x.updated).format(config.dateFormat); },
 		updatedBy: "updatedBy"
 	});
+	mapper.define("issue-view-model", "issue", {
+		"_id": "id",
+		name: "description",
+		details: "details",
+		number: "number",
+		milestone: "milestone",
+		milestoneId: "milestoneId",
+		priority: "priority",
+		priorityId: "priorityId",
+		status: "status",
+		statusId: "statusId",
+		tester: "tester",
+		testerId: "testerId",
+		developer: "developer",
+		developerId: "developerId",
+		type: "type",
+		typeId: "typeId",
+		opened: function(x) { return moment(x.opened, config.dateFormat); },
+		closed: function(x) { return x.closed == "" ? null : moment(x.closed, config.dateFormat); }
+	})
 }
 
 function _launchServer() {

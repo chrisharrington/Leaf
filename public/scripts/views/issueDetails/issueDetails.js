@@ -161,7 +161,7 @@
 	}
 
 	function _save() {
-		return $.post(IssueTracker.virtualDirectory() + "Issues/Update", _buildIssueParameters())
+		return $.post(IssueTracker.virtualDirectory() + "issues/update", _buildIssueParameters())
 	}
 
 	function _buildIssueParameters() {

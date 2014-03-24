@@ -51,6 +51,16 @@ module.exports = function(app) {
 		});
 	});
 
+	app.post("/issues/update", authenticate.auth, function(request, response) {
+		repositories.Issue.update(mapper.map("issue-view-model", "issue", request.body)).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			var message = "Error while updating issue: " + e;
+			console.log(message);
+			response.send(message, 500);
+		});
+	});
+
 	/*
 	 private IEnumerable<IssueHistoryViewModel> BuildIssueHistory(IEnumerable<IssueAudit> audits, IEnumerable<IssueComment> comments)
 	 {

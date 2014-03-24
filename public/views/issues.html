@@ -18,7 +18,7 @@
 				<div data-bind="attr: { class: priorityStyle }">
 					<div class="info">
 						<h2 class="number" data-bind="text: '#' + number"></h2>
-						<h2 class="name" data-bind="text: name"></h2>
+						<h2 class="name" data-bind="text: description"></h2>
 						<span class="date" data-bind="text: opened"></span>
 						<span class="updated" data-bind="text: 'Last updated by ' + updatedBy + ' at ' + lastUpdated + '.'"></span>
 						<span class="comments" data-bind="visible: description != null, text: description"></span>
@@ -72,7 +72,7 @@
 </div>
 
 <script id="issue-details-template" type="text/html">
-	<h2 data-bind="text: name"></h2>
+	<h2 data-bind="text: description"></h2>
 	<span class="description" data-bind="text: description, visible: description() != null"></span>
 	<div>
 		<span class="label">Milestone</span>
