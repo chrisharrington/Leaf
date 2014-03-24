@@ -38,14 +38,12 @@ module.exports = function(app) {
 };
 
 function _getSignedInUser(request) {
+	if (!request.cookies.session)
+		console.log("Missing session.");
+
 	return new Promise(function(resolve, reject) {
 		if (!request.cookies.session)
 			resolve(null);
-
-		var blah = 1;
-		models.User.find(function(err, users) {
-			blah = 2;
-		});
 
 		models.User.findOne({ session: request.cookies.session }).populate("project").exec(function(err, user) {
 			if (err) reject(err);

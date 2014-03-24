@@ -4,9 +4,6 @@
 	var _container;
 	var _oldName;
 	var _detailsFlipper;
-	var _transitioner = IssueTracker.Transitioner;
-	var _deleter = root.Delete;
-	var _comments = root.Comments;
 
 	root.saving = ko.observable(false);
 	root.comments = ko.observableArray();
@@ -20,9 +17,10 @@
 		_container = container;
 		_setUpFlipPanels(container);
 		_hookupEvents(container);
-		_transitioner.init();
-		_deleter.init(container);
-		_comments.init(container);
+
+		IssueTracker.Transitioner.init();
+		root.Delete.init(container);
+		root.Comments.init(container);
 	};
 
 	root.load = function () {
@@ -30,9 +28,9 @@
 
 		_detailsFlipper = new IssueTracker.Controls.Flipper("#choices-container");
 		_oldName = IssueTracker.selectedIssue.description();
-		_comments.load(IssueTracker.selectedIssue.history());
+		root.Comments.load(IssueTracker.selectedIssue.history());
 		
-		IssueTracker.selectedIssue.statusId.subscribe(function (statusId) { _transitioner.execute(statusId); });
+		IssueTracker.selectedIssue.statusId.subscribe(function (statusId) { IssueTracker.Transitioner.execute(statusId); });
 	};
 
 	function _hookupEvents(container) {
@@ -107,7 +105,7 @@
 	}
 
 	function _executeTransition() {
-		_transitioner.execute($(this).attr("data-status-id"));
+		IssueTracker.Transitioner.execute($(this).attr("data-status-id"));
 	}
 
 	function _setUpFlipPanels(container) {
