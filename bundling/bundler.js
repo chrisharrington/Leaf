@@ -2,45 +2,55 @@ var _less = require("less");
 var _fs = require("fs");
 var _compressor = require("clean-css");
 
+var Promise = require("bluebird");
+
 exports.bundleCss = function(directory, minify, callback) {
-    var files = _getAllFilesIn(directory, [".css", ".less"]);
-    _concatenateAllFiles(directory, files, function(concatenated) {
-        _less.render(concatenated, function(error, css) {
-            if (minify)
-                css = new _compressor().minify(css);
-            callback(css);
-        });
-    });
+//    _getAllFilesIn(directory, [".css", ".less"], function(err, files) {
+//	    if (err)
+//	        console.log("Error while bundling: " + err);
+//	    _concatenateAllFiles(directory, files, function(concatenated) {
+//	        _less.render(concatenated, function(error, css) {
+//	            if (minify)
+//	                css = new _compressor().minify(css);
+//	            callback(css);
+//	        });
+//	    });
+//    });
+	callback("");
 };
 
 exports.bundleScripts = function(directory, minify, callback) {
-    var files = _getAllFilesIn(directory, [".js"]);
-    _concatenateAllFiles(directory, files, function(script) {
-        if (minify)
-            script = _minifyJavascript(script);
-        callback(script);
+    _getAllFilesIn(directory, [".js"], function(err, files) {
+	    _concatenateAllFiles(directory, files, function(script) {
+	        if (minify)
+	            script = _minifyJavascript(script);
+	        callback(script);
+	    });
     });
 };
 
-function _getAllFilesIn(directory, extensions) {
-    var files = _fs.readdirSync(directory);
-    var orderedFiles = [];
-    for (var i = 0; i < files.length; i++)
-        if (_isValidFile(files[i], extensions) && files[i][0] == "_")
-            orderedFiles.push(directory + "/" + files.splice(i, 1)[0]);
-    for (var i = 0; i < files.length; i++) {
-        var file = directory + "/" + files[i];
-        if(_isValidFile(file, extensions))
-            orderedFiles.push(file);
-        else {
-            if (_fs.statSync(file).isDirectory()) {
-                var newFiles = _getAllFilesIn(file, extensions);
-                for (var j = 0; j < newFiles.length; j++)
-                    orderedFiles.push(newFiles[j]);
-            }
-        }
-    }
-    return orderedFiles;
+function _getAllFilesIn(directory, extensions, done) {
+	var results = [];
+	_fs.readdir(directory, function(err, list) {
+		if (err) return done(err);
+		var pending = list.length;
+		if (!pending) return done(null, results);
+		list.forEach(function(file) {
+			file = directory + '/' + file;
+			_fs.stat(file, function(err, stat) {
+				if (stat && stat.isDirectory()) {
+					walk(file, extensions, function(err, res) {
+						results = results.concat(res);
+						if (!--pending) done(null, results);
+					});
+				} else {
+					//if (_isValidFile(file, extensions))
+						results.push(file);
+					if (!--pending) done(null, results);
+				}
+			});
+		});
+	});
 }
 
 function _isValidFile(file, extensions) {
