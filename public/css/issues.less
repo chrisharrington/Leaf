@@ -1,7 +1,7 @@
-﻿.issues-container { padding:0 !important;
+﻿.issues-container {
 	div.data-container { float:left; width:100%; overflow:hidden;
 		@filter-width:250px;
-		>div.issues-list { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@filter-width; position:relative; .border-box;
+		>div.issues-list { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@filter-width+@spacing; position:relative; .border-box;
 			>div.issues-loading { float:left; width:100%; padding-top:@spacing; }
 			>div.no-issues { float:left; width:100%;
 				>* { float:left; width:100%; }
@@ -31,16 +31,17 @@
 				}
 				>a:first-child { margin-top:0; }
 				>a:hover { background:@hover-colour;
-					div.info-container>div.status { background-color:@hover-colour; }
+					div.info-container>div.status { background:@hover-colour !important; }
+                    h2.number { background:darken(@hover-colour, 5%) !important; }
 				}
 			}
 			>div.data.collapsed { float:left; width:100%; .tile; padding:0;
 				@info-height:35px;
-				>a { border-top:solid 1px @border-colour; margin-top:0; box-shadow:none;
+				>a { margin-top:0; box-shadow:none;
 					>div {
-						>div.info { padding:0 @small-spacing; height:@info-height;
+						>div.info { height:@info-height; padding:0; padding-right:@small-spacing;
 							h2 { font-size:1em; text-transform:none; }
-							h2.number { border-right:solid 1px @border-colour; width:50px; text-align:center; padding-right:@small-spacing; }
+							h2.number { width:50px; text-align:center; color:black; font-weight:bold; }
 							span.updated { display:none; }
 							span.comments { display:none; }
 						}
@@ -49,6 +50,9 @@
 					>* { height:100%; line-height:@info-height; display:inline-block; vertical-align:middle; }
 				}
 				>a:first-child { border-top:none; }
+                >a:nth-child(even) { background:#F5F5F5;
+                  h2.number { background:#F0F0F0; }
+                }
 			}
 			>div.loading { float:left; width:100%; text-align:center; padding:@spacing; .border-box;
 				>img { margin:auto; width:30px; height:30px; }
@@ -56,7 +60,7 @@
 		}
 		@sidebar-background:#333333;
 		>div.sidebar { float:left; width:@filter-width; position:relative; margin-left:@filter-width*-1; background:@sidebar-background; padding-bottom:100000px; margin-bottom:-100000px; box-shadow:0 2px 8px rgba(0, 0, 0, 0.3);
-			>div { float:left; width:100%; color:#bbb; .border-box;
+			>div { float:left; width:100%; color:@primary-font-colour-dark-background; .border-box;
 				>h1 { float:left; .border-box; padding:0 @spacing; .condensed-font; }
 			}
 			>div.filter {
