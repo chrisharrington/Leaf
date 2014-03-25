@@ -36,7 +36,7 @@ function _launchServer() {
 	require("./data/connection").open().then(function() {
 		app.listen(config.serverPort);
 	}).then(function() {
-		console.log("Server listening on port " + config.serverPort + ".");
+		console.log("Server listening on port " + config.serverPort + " in " + process.env.NODE_ENV + " mode.");
 	}).catch(function(e) {
 		console.log("Server failed to start: " + e);
 	});
