@@ -45,13 +45,13 @@
 	<body>
         <header>
             <div>
+                <!-- ko if: IssueTracker.selectedProject() -->
                 <div class="logo">
                     <div>
                         <img src="images/leaf.png" alt="logo" />
                     </div>
                     <span>Leaf</span>
                 </div>
-                <!-- ko if: IssueTracker.selectedProject() -->
                 <div class="menu">
                     <a data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
                         <span>Issues</span>
