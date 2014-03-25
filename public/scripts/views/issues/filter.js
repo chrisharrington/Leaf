@@ -28,6 +28,7 @@
 		_template = template;
 		_selected = {};
 
+        _initializeData();
 		_hookupEvents();
 
 		_load();
@@ -40,16 +41,13 @@
 		return false;
 	};
 
-	root.remove = function (collection, data) {
-		collection.remove(function (item) { return item.id == data.id; });
+	root.toggle = function (collection, data, element) {
+        if ($(element).hasClass("selected"))
+		    collection.remove(function (item) { return item.id == data.id; });
+        else
+            collection.push(data);
 		_onFilterSet();
 		_save();
-	};
-
-	root.slideUp = function(element) {
-		$(element).slideUp(250, function() {
-			$(element).remove();
-		});
 	};
 
 	function _hookupEvents() {
@@ -65,6 +63,15 @@
 		_container.on("click", "#developer-filter>div", function () { _toggleFilterItem($(this), root.selectedDevelopers); });
 		_container.on("click", "#tester-filter>div", function () { _toggleFilterItem($(this), root.selectedTesters); });
 	}
+
+    function _initializeData(data) {
+        root.selectedMilestones.pushAll(IssueTracker.milestones());
+        root.selectedPriorities.pushAll(IssueTracker.priorities());
+        root.selectedStatuses.pushAll(IssueTracker.statuses());
+        root.selectedDevelopers.pushAll(IssueTracker.users());
+        root.selectedTesters.pushAll(IssueTracker.users());
+        root.selectedTypes.pushAll(IssueTracker.issueTypes());
+    }
 
 	function _saveFilter() {
 		_flipper.toggle();
@@ -92,8 +99,10 @@
 
 	function _restoreCommaSeparatedListTo(collection, key) {
 		var data = $.jStorage.get(key);
-		if (data)
+		if (data) {
+            collection.removeAll();
 			collection.pushAll(data);
+        }
 	}
 
 	function _save() {

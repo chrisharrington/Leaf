@@ -72,8 +72,13 @@
 						>* { line-height:@filter-item-height; vertical-align:middle; display:inline-block; height:100%; }
 						>span { float:left; }
 						>i { float:right; margin:0; font-size:0.875em; }
-						>i.fa-check-square { font-weight:bold; color:@secondary-font-colour-light; }
+						>i.fa-check-square { font-weight:bold; color:@secondary-font-colour-light; display:none; }
+                        >i.fa-square { color:#666666; }
 					}
+                    >div.selected {
+                        >i.fa-check-square { display:inline-block; }
+                        >i.fa-square { display:none; }
+                    }
 					>div:hover { background:lighten(@sidebar-background, 5%); }
 				}
 				>div:first-child { margin-top:0; }
