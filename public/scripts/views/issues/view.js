@@ -7,7 +7,7 @@
 	var _template;
 	var _flipper;
 
-	root.availableViews = ko.observableArray(["expanded", "collapsed"]);
+	root.availableViews = ko.observableArray(["collapsed", "expanded"]);
 	root.view = ko.observable(root.availableViews()[0]);
 
 	root.init = function (container, flipper, template) {

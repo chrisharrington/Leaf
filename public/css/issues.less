@@ -30,9 +30,8 @@
 					>div.critical { border-color:@critical-priority-background; }
 				}
 				>a:first-child { margin-top:0; }
-				>a:hover { background:@hover-colour;
-					div.info-container>div.status { background:@hover-colour !important; }
-                    h2.number { background:darken(@hover-colour, 5%) !important; }
+				>a:hover {
+                    h2.name { text-decoration:underline; }
 				}
 			}
 			>div.data.collapsed { float:left; width:100%; .tile; padding:0;
