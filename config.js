@@ -1,16 +1,16 @@
 module.exports = function() {
-	if (!process.env.NODE_ENV)
-		process.env.NODE_ENV = "development";
 	return process.env.NODE_ENV == "production" ? _prod() : _dev();
 }();
 
 function _dev() {
+	console.log("Development configuration set.");
 	var settings = _defaults();
 	settings.serverPort = 8888;
 	return settings;
 }
 
 function _prod() {
+	console.log("Production configuration set.");
 	var settings = _defaults();
 	settings.serverPort = process.env.PORT;
 	return settings;

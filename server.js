@@ -17,6 +17,8 @@ _launchServer();
 mapper.init();
 
 function _configureApplication() {
+	console.log("Node environment set to " + process.env.NODE_ENV + ".");
+
 	app.configure(function() {
 		app.use(express.json());
 		app.use(express.urlencoded());
