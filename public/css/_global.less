@@ -60,6 +60,9 @@
 @error-font-colour:white;
 @warning-font-colour:black;
 
+@dark-tile-background-colour:#333333;
+@light-tile-background-colour:#FFFFFF;
+
 @active-highlight:lighten(@secondary-font-colour, 28%);
 @hover-colour:#E7FADC;
 
@@ -79,7 +82,8 @@
 .hover { background:@hover-colour !important; }
 .select { background:darken(@hover-colour, 10%) !important; }
 .background-colour-transition { -webkit-transition: background-color 1000ms linear; -moz-transition: background-color 1000ms linear; -o-transition: background-color 1000ms linear; -ms-transition: background-color 1000ms linear; transition: background-color 1000ms linear; }
-.tile { padding:@spacing; .border-radius; .gradient(@tile-gradient-light-colour, @tile-gradient-dark-colour); .border-box; .shadow; color:@primary-font-colour; }
+.tile { padding:@spacing; .border-radius; background:@dark-tile-background-colour; .border-box; .shadow; color:@primary-font-colour; }
+.tile.light { background:@light-tile-background-colour; }
 
 .condensed-font { font-family:"Roboto Condensed" !important; }
 .regular-font { font-family:"Roboto" !important; }

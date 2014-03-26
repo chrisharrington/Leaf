@@ -9,19 +9,15 @@
 			}
 			@priority-width:@small-spacing;
 			>div.data {
-				>a { float:left; width:100%; cursor:pointer; padding:0; display:block; color:@primary-font-colour; margin-top:@spacing;
+				@info-height:35px;
+				>a { float:left; background:rgba(255, 255, 255, 0.5); margin-top:@spacing; box-shadow:none; font-size:1.125em; width:100%; cursor:pointer; padding:@small-spacing; display:block; color:black;
+					>* { height:100%; line-height:@info-height; display:inline-block; vertical-align:middle; }
 					>div { float:left; width:100%; height:100%; overflow:hidden; border-left:solid @priority-width; .border-box;
-						>div.info { float:left; width:100%; .border-box; padding:@spacing @spacing;
+						>div.info { float:left; width:100%; .border-box; height:@info-height;
 							>* { margin-top:@small-spacing; .border-box; }
-							>h2.number { float:left; font-weight:bold; color:black; margin-top:0; }
-							>h2.name { float:left; color:black; .ellipsis; margin-top:0; padding-left:@small-spacing; font-weight:normal; }
-							>span.date { float:right; color:@primary-font-colour-light; font-size:0.875em; margin-top:0; }
-							>span.updated { float:left; width:100%; color:@secondary-font-colour; font-size:0.875em; margin-top:@tiny-spacing; }
-							>span.comments { float:left; width:100%; white-space:nowrap; .ellipsis; color:@primary-font-colour-light; }
-						}
-						>div.status { float:left; width:100%; font-size:0.875em; color:@primary-font-colour-light; border-top:solid 1px @border-colour-light; background-color:#F5F5F5;
-							>span { float:left; padding:@small-spacing @spacing; border-left:solid 1px @border-colour-light; }
-							>span:first-child { border-left:none; }
+							>span.number { float:left; font-weight:bold; margin-top:0; width:50px; text-align:center; border-right:solid 1px @border-colour; }
+							>span.name { float:left; .ellipsis; margin-top:0; padding-left:@spacing; font-weight:normal; }
+							>span.date { float:right; font-size:0.875em; margin-top:0; padding-right:@small-spacing; }
 						}
 					}
 					>div.low { border-color:@low-priority-background; }
@@ -29,29 +25,8 @@
 					>div.high { border-color:@high-priority-background; }
 					>div.critical { border-color:@critical-priority-background; }
 				}
-				>a:first-child { margin-top:0; }
-				>a:hover {
-                    h2.name { text-decoration:underline; }
-				}
-			}
-			>div.data.collapsed { float:left; width:100%; .tile; padding:0;
-				@info-height:35px;
-				>a { margin-top:0; box-shadow:none;
-					>div {
-						>div.info { height:@info-height; padding:0; padding-right:@small-spacing;
-							h2 { font-size:1em; text-transform:none; }
-							h2.number { width:50px; text-align:center; color:black; font-weight:bold; }
-							span.updated { display:none; }
-							span.comments { display:none; }
-						}
-						>div.status { display:none; }
-					}
-					>* { height:100%; line-height:@info-height; display:inline-block; vertical-align:middle; }
-				}
-				>a:first-child { border-top:none; }
-                >a:nth-child(even) { background:#F5F5F5;
-                  h2.number { background:#F0F0F0; }
-                }
+				>a:first-child { margin-top:0; border-top:none; }
+				>a:hover { background:rgba(255, 255, 255, 0.75); }
 			}
 			>div.loading { float:left; width:100%; text-align:center; padding:@spacing; .border-box;
 				>img { margin:auto; width:30px; height:30px; }
