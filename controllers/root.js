@@ -38,9 +38,6 @@ module.exports = function(app) {
 };
 
 function _getSignedInUser(request) {
-	if (!request.cookies.session)
-		console.log("Missing session.");
-
 	return new Promise(function(resolve, reject) {
 		if (!request.cookies.session)
 			resolve(null);

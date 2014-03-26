@@ -4,7 +4,6 @@ var express = require("express");
 var app = express();
 var config = require("./config");
 var mapper = require("./data/mapper");
-var moment = require("moment");
 
 require("./inheritance");
 
@@ -17,14 +16,20 @@ _launchServer();
 mapper.init();
 
 function _configureApplication() {
-	console.log("Node environment set to " + process.env.NODE_ENV + ".");
-
 	app.configure(function() {
 		app.use(express.favicon(__dirname + "/public/images/favicon.ico"));
 		app.use(express.json());
 		app.use(express.urlencoded());
 		app.use(express.static(__dirname + "/public"));
 		app.use(express.cookieParser());
+	});
+
+	app.configure("development", function() {
+		app.set("env", "development");
+	});
+
+	app.configure("production", function() {
+		app.set("env", "production");
 	});
 }
 
@@ -39,7 +44,7 @@ function _launchServer() {
 	require("./data/connection").open().then(function() {
 		app.listen(config.serverPort);
 	}).then(function() {
-		console.log("Server listening on port " + config.serverPort + " in " + process.env.NODE_ENV + " mode.");
+		console.log("Server listening on port " + config.serverPort + " in " + app.get("env") + " mode.");
 	}).catch(function(e) {
 		console.log("Server failed to start: " + e);
 	});
