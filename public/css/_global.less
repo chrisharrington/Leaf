@@ -46,8 +46,8 @@
 @secondary-font-colour-light:#67CF53;
 @secondary-font-colour:darken(@secondary-font-colour-light, 15%);
 @secondary-font-colour-dark-background:darken(@secondary-font-colour-light, 5%);
-@secondary-background-colour-top:lighten(@dark-gradient-top-colour, 5%);
-@secondary-background-colour-bottom:@dark-gradient-bottom-colour;
+@secondary-background-colour-top:lighten(@secondary-font-colour, 5%);
+@secondary-background-colour-bottom:darken(@secondary-background-colour-top, 15%);
 
 @positive-colour:@secondary-background-colour-top;
 @positive-colour-dark:@secondary-background-colour-bottom;
@@ -103,6 +103,8 @@ button.loading { background:@secondary-background-colour-top url("../Images/butt
 button.positive { .gradient(@positive-colour, @positive-colour-dark); }
 button.negative { .gradient(@negative-colour, @negative-colour-dark); }
 i.loading { background:url("../Images/ajax-loader.gif") center no-repeat; color:transparent !important; }
+
+.tile button { .secondary-gradient; }
 
 body { margin:0; padding:0; overflow-x:hidden; background:url(../images/retina_wood.png); font-size:14px; .regular-font; }
 .content-wrapper { max-width:@application-width; margin:auto;
@@ -169,7 +171,7 @@ div.breadcrumbs { float:left; font-size:1.125em; .condensed-font; height:@breadc
 }
 
 div.choice-tile.no-selected-background>div.selected { background:white; }
-div.choice-tile, div.data-tile { padding:0 !important;
+div.choice-tile { padding:0 !important;
 	@height:19px;
 	@local-spacing:@spacing;
 	>h2, >h3 { float:left; width:100%; padding:@small-spacing @local-spacing; .border-box; }
@@ -185,24 +187,14 @@ div.choice-tile, div.data-tile { padding:0 !important;
 	>div:hover { .hover; }
 }
 
-div.data-tile {
-	>div {
-		span.label { float:left; }
-		span.value { float:right; color:@secondary-font-colour; font-weight:bold; }
-	}
-}
-
-div.colour-logo { text-align:center; color:white; .regular-font; }
-div.colour-logo.green { .gradient(lighten(#2A8C06, 5%), darken(#2A8C06, 5%)); }
-
-div.form {
-	>input, >select { float:left; width:100%; .border-box; padding:@small-spacing; margin-top:@small-spacing; }
-	>input:first-child, >select:first-child { margin-top:0; }
-}
-
 div.error-code { float:left; width:100%; display:none; padding:@spacing; padding-top:((@spacing)-5); .border-box;
 	>div { float:left; width:100%; .tile;
 		>* { float:left; width:100%; }
 		>span { margin-top:@small-spacing; }
 	}
+}
+
+div.form {
+	>input, >select, >textarea, >button { float:left; width:100%; padding:@tiny-spacing; .border-box; margin-top:@small-spacing; }
+	>*:first-child { margin-top:0; }
 }
