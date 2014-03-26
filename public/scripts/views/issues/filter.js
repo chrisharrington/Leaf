@@ -1,6 +1,8 @@
 
 (function(root) {
 
+	var SET_FILTER_TIMEOUT_DURATION = 1000;
+
 	var _milestonesStorageKey = "Filter.SelectedMilestones";
 	var _prioritiesStorageKey = "Filter.SelectedPriorities";
 	var _statusesStorageKey = "Filter.SelectedStatuses";
@@ -13,6 +15,7 @@
 	var _onFilterSet;
 	var _selected;
 	var _template;
+	var _filterSetTimeout;
 
 	root.selectedMilestones = ko.observableArray();
 	root.selectedPriorities = ko.observableArray();
@@ -46,7 +49,15 @@
 		    collection.remove(function (item) { return item.id == data.id; });
         else
             collection.push(data);
-		_onFilterSet();
+
+		if (_filterSetTimeout)
+			clearTimeout(_filterSetTimeout);
+
+		_filterSetTimeout = setTimeout(function() {
+			_onFilterSet();
+			console.log("filter set");
+		}, SET_FILTER_TIMEOUT_DURATION);
+
 		_save();
 	};
 
