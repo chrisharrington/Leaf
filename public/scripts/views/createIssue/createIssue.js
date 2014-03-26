@@ -109,7 +109,7 @@
 	IssueTracker.Page.build({
 		root: root,
 		view: "issues/create",
-		title: "Create Issue",
+		title: "Leaf - Create Issue",
 		route: "#/:project-name/new-issue",
 		style: "create-issue-container"
 	});

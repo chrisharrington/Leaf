@@ -190,7 +190,7 @@
 	IssueTracker.Page.build({
 		root: root,
 		view: function () { return "Issues/Details?number=:number"; },
-		title: "Issue Details",
+		title: function() { return "Leaf - " + IssueTracker.selectedIssue.number() + ": " + IssueTracker.selectedIssue.description(); },
 		route: "#/:project-name/issues/:number",
 		style: "issue-details-container",
 		exit: function() { _container.find("div.existing-comments").empty(); }

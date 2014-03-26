@@ -63,6 +63,7 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 		}
 		if (me.load)
 			me.load(container, routeArguments);
+		me._setTitle(params.title);
 	} });
 	IssueTracker.title(params.title);
 };
@@ -80,10 +81,16 @@ IssueTracker.Page.prototype._validateParams = function(params) {
 		throw new Error("Missing page root parameter.");
 	if (!params.view)
 		throw new Error("Missing page view.");
-	if (!params.title)
-		throw new Error("Missing page title.");
 	if (!params.route)
 		throw new Error("Missing page route.");
 	if (!params.style)
 		throw new Error("Missing page style.");
+};
+
+IssueTracker.Page.prototype._setTitle = function(title) {
+	if (!title)
+		title = "Leaf";
+	if (typeof(title) == "function")
+		title = title();
+	document.title = title;
 };

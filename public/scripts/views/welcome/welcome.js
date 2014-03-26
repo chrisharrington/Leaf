@@ -16,7 +16,6 @@
 	IssueTracker.Page.build({
 		root: root,
 		view: "welcome",
-		title: "Welcome",
 		route: "#/welcome",
 		style: "welcome-container",
 		isAnonymous: true

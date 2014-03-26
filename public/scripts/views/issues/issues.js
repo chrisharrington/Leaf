@@ -114,7 +114,7 @@
 	IssueTracker.Page.build({
 		root: IssueTracker.Issues,
 		view: "issues",
-		title: "Issues",
+		title: "Leaf - Issues",
 		route: "#/:project-name/issues",
 		style: "issues-container"
 	});
