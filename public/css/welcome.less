@@ -2,7 +2,7 @@
 	div.logo { float:left; width:100%; margin-top:@spacing*4; text-align:center;
 		>div { display:inline-block;
 			@height:70px;
-			>img { float:left; width:@height; height:@height; }
+			>img { float:left; height:((@height)-3); margin-top:3px; }
 			>span.name { float:left; margin-left:@spacing; font-family:Oswald; font-size:@height; line-height:@height; color:@logo-colour; text-transform:uppercase; letter-spacing:2px; }
 		}
 	}
