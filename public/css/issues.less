@@ -1,7 +1,7 @@
 ﻿.issues-container {
 	div.data-container { float:left; width:100%; overflow:hidden;
 		@filter-width:250px;
-		>div.issues-list { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@filter-width+@spacing; position:relative; .border-box;
+		>div.issues-list { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@filter-width+@spacing; padding-bottom:@spacing; position:relative; .border-box;
 			>div.issues-loading { float:left; width:100%; padding-top:@spacing; }
 			>div.no-issues { float:left; width:100%;
 				>* { float:left; width:100%; }
@@ -33,7 +33,7 @@
 			}
 		}
 		@sidebar-background:#333333;
-		>div.sidebar { float:left; width:@filter-width; position:relative; margin-left:@filter-width*-1; background:@sidebar-background; padding-bottom:100000px; margin-bottom:-100000px; box-shadow:0 2px 8px rgba(0, 0, 0, 0.3);
+		>div.sidebar { float:left; width:@filter-width; position:relative; margin-left:@filter-width*-1; background:@sidebar-background; box-shadow:0 2px 8px rgba(0, 0, 0, 0.3);
 			>div { float:left; width:100%; color:@primary-font-colour-dark-background; .border-box;
 				>h1 { float:left; .border-box; padding:0 @spacing; .condensed-font; }
 			}
