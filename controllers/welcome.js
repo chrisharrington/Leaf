@@ -3,6 +3,7 @@ var crypto = require("crypto");
 var models = require("../data/models");
 var config = require("../config");
 var csprng = require("csprng");
+var mapper = require("../data/mapper");
 
 var Promise = require("bluebird");
 
@@ -35,8 +36,8 @@ module.exports = function(app) {
 				var session = csprng(512, 36);
 				response.cookie("session", session, staySignedIn ? { maxAge: 1000*60*60*24*7*2 } : { expires: false });
 				response.send({
-					user: { emailAddress: user.emailAddress, name: user.name },
-					project: { name: user.project.name }
+					user: mapper.map("user", "user-view-model", user),
+					project: mapper.map("project", "project-view-model", user.project)
 				}, 200);
 			} else
 				response.send(401);
