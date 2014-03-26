@@ -33,9 +33,9 @@
 @high-priority-background:#f27b56;
 @critical-priority-background:#CF3A3C;
 	
-@primary-header-font-colour:#E0E0E0;
+@primary-header-font-colour:black;
 @primary-sub-header-font-colour:#444;
-@primary-font-colour:#A0A0A0;
+@primary-font-colour:#444444;
 @primary-font-colour-light:#888;
 @primary-font-colour-lightest:#AAA;
 @primary-font-colour-dark:#444444;
@@ -61,10 +61,10 @@
 @warning-font-colour:black;
 
 @dark-tile-background-colour:#333333;
-@light-tile-background-colour:#FFFFFF;
+@light-tile-background-colour:rgba(255, 255, 255, 0.6);
 
 @active-highlight:lighten(@secondary-font-colour, 28%);
-@hover-colour:#E7FADC;
+@hover-colour:rgba(255, 255, 255, 0.75);
 
 .gradient (@top, @bottom) { background:linear-gradient(to bottom, @top, @bottom); }
 .dark-gradient { background: linear-gradient(@dark-gradient-light-colour, @dark-gradient-dark-colour); }
@@ -82,14 +82,14 @@
 .hover { background:@hover-colour !important; }
 .select { background:darken(@hover-colour, 10%) !important; }
 .background-colour-transition { -webkit-transition: background-color 1000ms linear; -moz-transition: background-color 1000ms linear; -o-transition: background-color 1000ms linear; -ms-transition: background-color 1000ms linear; transition: background-color 1000ms linear; }
-.tile { padding:@spacing; .border-radius; background:@dark-tile-background-colour; .border-box; .shadow; color:@primary-font-colour; }
-.tile.light { background:@light-tile-background-colour; }
+.tile { padding:@spacing; .border-radius; background:@light-tile-background-colour; .border-box; .shadow; color:@primary-font-colour; }
+.tile.dark { background:@dark-tile-background-colour; }
 
 .condensed-font { font-family:"Roboto Condensed" !important; }
 .regular-font { font-family:"Roboto" !important; }
 
 h1, h2, h3, h4 { .condensed-font; margin:0; padding:0; text-transform:uppercase; font-weight:normal; }
-h1 { color:@primary-header-font-colour; font-size:1.75em; letter-spacing:1px; }
+h1 { color:@primary-header-font-colour; font-size:2em; font-weight:bold; }
 h2 { color:@primary-sub-header-font-colour; font-size:1.5em; }
 h3 { font-size:1.375em; font-weight:bold; color:@secondary-font-colour; text-transform:uppercase; }
 a { color:@secondary-font-colour; }

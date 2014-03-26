@@ -23,9 +23,9 @@
 	@name-height:74px;
 	div.name-and-number-wrapper { height:@name-height; .border-box;
 		div.name-container { float:left; width:100%; height:100%; .border-box; border-left:solid @small-spacing; .tile; padding:0;
-			>h1.number { float:left; .border-radius; text-align:center; font-weight:bold; border-right:solid 1px @border-colour; height:100%; line-height:(@name-height)-(@spacing*2); padding:@spacing; vertical-align:middle; display:inline-block; .border-box; background-color:white; }
+			>h1.number { float:left; .border-radius; text-align:center; font-weight:bold; border-right:solid 1px @border-colour; height:100%; line-height:(@name-height)-(@spacing*2); padding:@spacing; vertical-align:middle; display:inline-block; .border-box; }
 			>div.description { position:relative; padding:0; height:100%;
-				>input { float:left; width:100%; padding:@spacing !important; height:100%; cursor:pointer; border:none; box-shadow:none; font-weight:bold; .condensed-font; margin:0; padding:0; text-transform:uppercase; color:@primary-header-font-colour; font-size:1.75em; }
+				>input { float:left; width:100%; padding:@spacing !important; height:100%; cursor:pointer; border:none; box-shadow:none; font-weight:bold; .condensed-font; margin:0; text-transform:uppercase; color:@primary-header-font-colour; font-size:1.75em; background:transparent; }
 			}
 		}
 		div.name-container.low { border-left-color:@low-priority-background; }
@@ -54,7 +54,7 @@
 			}
 			>div.new-comment i { float:right; padding:0 @spacing; height:@header-size; cursor:pointer; line-height:@header-size; vertical-align:middle; font-size:1.25em; color:@primary-font-colour-lightest; }
 			>div.new-comment i:hover { .hover; color:@primary-font-colour-light; }
-			>div.new-comment textarea { float:left; width:100%; padding:@spacing; .border-box; height:100px; border:none; border-top:solid 1px @border-colour; }
+			>div.new-comment textarea { float:left; width:100%; padding:@spacing; .border-box; height:100px; border:none; border-top:solid 1px @border-colour; background:transparent; }
 		}
 	}
 
