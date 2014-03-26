@@ -20,6 +20,7 @@ function _configureApplication() {
 	console.log("Node environment set to " + process.env.NODE_ENV + ".");
 
 	app.configure(function() {
+		app.use(express.favicon(__dirname + "/public/images/favicon.ico"));
 		app.use(express.json());
 		app.use(express.urlencoded());
 		app.use(express.static(__dirname + "/public"));
