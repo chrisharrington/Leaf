@@ -36,10 +36,6 @@ repository.update = function(model) {
 	});
 };
 
-repository.create = function(model) {
-	return this.model.createAsync(model);
-};
-
 repository.getNextNumber = function(project) {
 	var me = this;
 	return new Promise(function(resolve, reject) {

@@ -141,17 +141,24 @@ module.exports = function(app) {
 			files = [];
 			paths = [];
 			for (var name in f) {
-				storage.set(request.project.name.toString().formatForUrl() + "-issue-files", f[name]);
+				files.push(storage.set(request.project._id.toString(), mongoose.Types.ObjectId().toString(), f[name].name, f[name].path));
 				paths.push(f[name].path);
 			}
-			return files;
-		}).then(function() {
+			return Promise.all(files);
+		}).spread(function() {
+			var created = [];
+			for (var i = 0; i < arguments.length; i++) {
+				var curr = arguments[i];
+				created.push(repositories.IssueFile.create({ _id: curr.id, name: curr.name, container: curr.container, issue: request.query.issueId }));
+			}
+			return created;
+		}).spread(function() {
 			response.send(200);
+			_cleanUpFiles(paths);
 		}).catch(function(err) {
 			var message = "Error while attaching file: " + err;
 			console.log(message);
 			response.send(message, 500);
-		}).finally(function() {
 			_cleanUpFiles(paths);
 		});
 	});
@@ -189,10 +196,10 @@ module.exports = function(app) {
 	}
 
 	function _cleanUpFiles(paths) {
-		for (var name in paths)
-			fs.unlink(paths[name].path, function(err) {
+		for (var i = 0; i < paths.length; i++)
+			fs.unlink(paths[i], function(err) {
 				if (err)
-					console.log("Error removing file " + paths[name].path + ": " + err);;
+					console.log("Error removing file " + paths[i] + ": " + err);
 			});
 	}
 };

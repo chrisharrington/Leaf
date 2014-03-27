@@ -23,7 +23,6 @@
 		root.attachedFiles.push(observable);
 		var xhr = new XMLHttpRequest();
 		var fd = new FormData();
-		fd.append("issueId", _issueId);
 		fd.append("file", file);
 
 		xhr.upload.addEventListener("progress", function(e) { observable.progress((e.position / e.totalSize).toFixed(2)); }, false);
@@ -31,7 +30,7 @@
 		//xhr.addEventListener("error", uploadFailed, false);
 		//xhr.addEventListener("abort", uploadCanceled, false);
 
-		xhr.open("POST", IssueTracker.virtualDirectory() + "issues/attach-file");
+		xhr.open("POST", IssueTracker.virtualDirectory() + "issues/attach-file?issueId=" + _issueId);
 		xhr.send(fd);
 	}
 

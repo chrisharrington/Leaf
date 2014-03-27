@@ -24,6 +24,10 @@ module.exports = {
 		});
 	},
 
+	create: function(model) {
+		return this.model.createAsync(model);
+	},
+
 	details: function(id) {
 		return this.model.findOneAsync({ "_id": id });
 	},

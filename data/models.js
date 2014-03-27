@@ -12,6 +12,7 @@ module.exports = {
 	Issue: require(directory + "issue"),
 	IssueAudit: require(directory + "issueAudit"),
 	Transition: require(directory + "transition"),
-	User: require(directory + "user")
+	User: require(directory + "user"),
+	IssueFile: require(directory + "issueFile")
 };
 
