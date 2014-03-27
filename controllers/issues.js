@@ -6,6 +6,7 @@ var repositories = require("../data/repositories");
 var mustache = require("mustache");
 var Promise = require("bluebird");
 var mongoose = require("mongoose");
+var formidable = require("formidable");
 
 module.exports = function(app) {
 	app.get("/issues", authenticate, function(request, response) {
@@ -132,6 +133,16 @@ module.exports = function(app) {
 		});
 	});
 
+	app.post("/issues/attach-file", authenticate, function(request, response) {
+		_readFilesFromRequest(request).then(function(files) {
+			response.send(200);
+		}).catch(function(err) {
+			var message = "Error while attaching file: " + err;
+			console.log(message);
+			response.send(message, 500);
+		});
+	});
+
 	function _buildSort(request) {
 		var direction = request.query.direction;
 		var comparer = request.query.comparer;
@@ -153,5 +164,14 @@ module.exports = function(app) {
 		query = query.where("milestoneId").in(request.query.milestones.split(","));
 		query = query.where("typeId").in(request.query.types.split(","));
 		return query;
+	}
+
+	function _readFilesFromRequest(request) {
+		return new Promise(function(resolve, reject) {
+			new formidable.IncomingForm().parse(request, function(err, fields, files) {
+				if (err) reject(err);
+				else resolve(files);
+			});
+		});
 	}
 };

@@ -27,6 +27,7 @@
     "crypto": "0.0.3",
     "csprng": "^0.1.1",
     "moment": "^2.5.1",
-    "node.extend": "^1.0.10"
+    "node.extend": "^1.0.10",
+    "formidable": "^1.0.14"
   }
 }
