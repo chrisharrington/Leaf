@@ -27,8 +27,11 @@
     "crypto": "0.0.3",
     "csprng": "^0.1.1",
     "moment": "^2.5.1",
-    "formidable": "^1.0.14"
     "node.extend": "^1.0.10",
+<<<<<<< HEAD
     "azure": "^0.8.1"
+=======
+    "formidable": "^1.0.14"
+>>>>>>> storage
   }
 }

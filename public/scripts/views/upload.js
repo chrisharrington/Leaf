@@ -31,7 +31,7 @@
 		//xhr.addEventListener("error", uploadFailed, false);
 		//xhr.addEventListener("abort", uploadCanceled, false);
 
-		xhr.open("POST", IssueTracker.virtualDirectory() + "Issues/AttachFile");
+		xhr.open("POST", IssueTracker.virtualDirectory() + "issues/attach-file");
 		xhr.send(fd);
 	}
 
