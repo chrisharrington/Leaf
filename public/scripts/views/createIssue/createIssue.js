@@ -111,7 +111,8 @@
 		view: "issues/create",
 		title: "Leaf - Create Issue",
 		route: "#/:project-name/new-issue",
-		style: "create-issue-container"
+		style: "create-issue-container",
+		unload: root.Upload.cleanUp
 	});
 
 })(root("IssueTracker.CreateIssue"));

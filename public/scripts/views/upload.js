@@ -18,6 +18,10 @@
 		_issueId = issueId;
 	};
 
+	root.cleanUp = function() {
+		
+	};
+
 	function _attach() {
 		root.uploading(true);
 		var files = _container.find("input[type='file']")[0].files;

@@ -22,8 +22,8 @@ IssueTracker.Page = function(params) {
 			if (params.root.enter)
 				params.root.enter();
 		}).exit(function () {
-			if (params.root.unload)
-				params.root.unload();
+			if (params.unload)
+				params.unload();
 		});
 	});
 
