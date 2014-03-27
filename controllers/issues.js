@@ -7,6 +7,7 @@ var mustache = require("mustache");
 var Promise = require("bluebird");
 var mongoose = require("mongoose");
 var formidable = require("formidable");
+var storage = require("../storage/storage");
 
 module.exports = function(app) {
 	app.get("/issues", authenticate, function(request, response) {
@@ -135,15 +136,23 @@ module.exports = function(app) {
 
 	app.post("/issues/attach-file", authenticate, function(request, response) {
 		var files;
+		var paths;
 		_readFilesFromRequest(request).then(function(f) {
-			files = f;
+			files = [];
+			paths = [];
+			for (var name in f) {
+				storage.set(request.project.name.toString().formatForUrl() + "-issue-files", f[name]);
+				paths.push(f[name].path);
+			}
+			return files;
+		}).then(function() {
 			response.send(200);
 		}).catch(function(err) {
 			var message = "Error while attaching file: " + err;
 			console.log(message);
 			response.send(message, 500);
 		}).finally(function() {
-			_cleanUpFiles(files);
+			_cleanUpFiles(paths);
 		});
 	});
 
@@ -179,11 +188,11 @@ module.exports = function(app) {
 		});
 	}
 
-	function _cleanUpFiles(files) {
-		for (var name in files)
-			fs.unlink(files[name].path, function(err) {
+	function _cleanUpFiles(paths) {
+		for (var name in paths)
+			fs.unlink(paths[name].path, function(err) {
 				if (err)
-					console.log("Error removing file " + files[name].path + ": " + err);;
+					console.log("Error removing file " + paths[name].path + ": " + err);;
 			});
 	}
 };
