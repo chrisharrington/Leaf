@@ -134,12 +134,16 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/attach-file", authenticate, function(request, response) {
-		_readFilesFromRequest(request).then(function(files) {
+		var files;
+		_readFilesFromRequest(request).then(function(f) {
+			files = f;
 			response.send(200);
 		}).catch(function(err) {
 			var message = "Error while attaching file: " + err;
 			console.log(message);
 			response.send(message, 500);
+		}).finally(function() {
+			_cleanUpFiles(files);
 		});
 	});
 
@@ -173,5 +177,13 @@ module.exports = function(app) {
 				else resolve(files);
 			});
 		});
+	}
+
+	function _cleanUpFiles(files) {
+		for (var name in files)
+			fs.unlink(files[name].path, function(err) {
+				if (err)
+					console.log("Error removing file " + files[name].path + ": " + err);;
+			});
 	}
 };
