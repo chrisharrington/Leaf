@@ -28,17 +28,20 @@
 		>div { float:left; width:100%;
 			@attached-file-height:36px;
 			>div { float:left; width:100%; height:@attached-file-height; .border-box; border-bottom:solid 1px @border-colour;
-				@delete-width:50px;
-				>* { display:inline-block; vertical-align:middle; line-height:@attached-file-height; height:100%; }
-				>div.info { position:relative; float:left; width:100%; padding-right:@delete-width; .border-box; .ellipsis;
-					>span.name { float:left; color:@secondary-font-colour; font-weight:bold; padding-left:@spacing; }
-					>span.size { float:left; font-size:0.75em; color:@primary-font-colour-light; margin-left:@spacing; }
+				>div.file-container { float:left; width:100%; position:relative; z-index:10;
+					@status-width:100px;
+					>* { display:inline-block; vertical-align:middle; line-height:@attached-file-height; height:100%; }
+					>div.info { position:relative; float:left; width:100%; padding-right:@status-width; .border-box; .ellipsis;
+						>span.name { float:left; color:@secondary-font-colour; font-weight:bold; padding-left:@spacing; }
+						>span.size { float:left; font-size:0.75em; color:@primary-font-colour-light; margin-left:@spacing; }
+					}
+					>div.status { float:right; width:@status-width; margin-left:@status-width*-1; position:relative; height:@attached-file-height;
+						>i { float:right; font-size:1.125em; color:@primary-font-colour-lightest; cursor:pointer; padding:0 @spacing; line-height:@attached-file-height; height:100%; vertical-align:middle; }
+						>i:hover { color:black; }
+						>img { float:right; width:20px; height:20px; margin-top:7px; }
+					}
 				}
-				>i { float:right; position:relative; margin-left:@delete-width*-1; width:@delete-width; font-size:1.125em; color:@primary-font-colour-lightest; cursor:pointer; padding:0 @spacing; .border-box; }
-				>i:hover { color:@secondary-font-colour; }
-				>div.progress { float:left; width:100%; position:relative; height:100%;
-					>div { float:left; width:100%; height:@attached-file-height; margin-top:@attached-file-height*-1+1; .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); opacity:0.25; }
-				}
+				>div.file-progress { float:left; height:((@attached-file-height)-2); position:relative; z-index:9; margin-top:@attached-file-height*-1; background:@hover-colour; }
 			}
 			>div:first-child { border-top:solid 1px @border-colour; }
 		}

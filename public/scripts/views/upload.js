@@ -5,6 +5,7 @@
 	var _issueId;
 
 	root.attachedFiles = ko.observableArray();
+	root.uploading = ko.observable(false);
 
 	root.init = function(container) {
 		_container = container;
@@ -18,7 +19,9 @@
 	};
 
 	function _attach() {
-		var file = _container.find("input[type='file']")[0].files[0];
+		root.uploading(true);
+		var files = _container.find("input[type='file']")[0].files;
+		var file = files[files.length-1];;
 		var observable = { id: guid(), name: file.name, size: file.size.toSizeString(), progress: ko.observable(0) };
 		root.attachedFiles.push(observable);
 		var xhr = new XMLHttpRequest();
@@ -26,7 +29,7 @@
 		fd.append("file", file);
 
 		xhr.upload.addEventListener("progress", function(e) { observable.progress((e.position / e.totalSize).toFixed(2)); }, false);
-		xhr.addEventListener("load", function() { observable.progress(100); }, false);
+		xhr.addEventListener("load", function() { observable.progress(100); root.uploading(false); }, false);
 		//xhr.addEventListener("error", uploadFailed, false);
 		//xhr.addEventListener("abort", uploadCanceled, false);
 
