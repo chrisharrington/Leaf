@@ -36,7 +36,7 @@
 
 	@comments-height:100px;
 	@sidebar-width:300px;
-	@sidebar-height:400px;
+	@sidebar-height:288px;
 	div.content { float:left; width:100%; position:relative; margin-top:@spacing; .border-box; padding-right:@sidebar-width+@spacing;
 		>textarea { .tile; float:left; width:100%; height:200px; cursor:pointer; color:black; }
 		
@@ -61,7 +61,7 @@
 	div.sidebar { float:left; margin-left:@sidebar-width*-1; width:@sidebar-width; position:relative; z-index:2;
 		>div.choices { height:@sidebar-height; margin-top:@spacing;
 			div.details { padding:0; 
-				>div { float:left; width:100%; padding:@spacing; .border-box; border-top:solid 1px @border-colour;
+				>div { float:left; width:100%; padding:@small-spacing @spacing; .border-box; border-top:solid 1px @border-colour;
 					>span.title { float:left; color:@primary-font-colour; }
 					>span.info { float:right; color:@secondary-font-colour; font-weight:bold; }
 					>i { float:right; margin-left:@small-spacing; margin-top:3px; font-size:1.125em; font-weight:bold; }
@@ -72,11 +72,11 @@
 			}
 			div.back { padding:0; height:100%;
 				>div.chooser { float:left; width:100%; height:100%;
-					>div { float:left; width:100%; height:50px; cursor:pointer; border-bottom:solid 1px @border-colour; .border-box; color:@primary-font-colour-light;
+					>div { float:left; width:100%; height:36px; cursor:pointer; border-bottom:solid 1px @border-colour; .border-box; color:@primary-font-colour-light;
 						>div { float:left; width:100%; height:100%;
 							>div { float:left; width:100%; height:100%; padding:0 @spacing; .border-box;
-								>span { float:left; height:100%; line-height:49px; vertical-align:middle; }
-								>i { float:right; height:100%; line-height:49px; vertical-align:middle; display:none; }
+								>span { float:left; height:100%; line-height:35px; vertical-align:middle; }
+								>i { float:right; height:100%; line-height:35px; vertical-align:middle; display:none; }
 							}
 						}
 					}
@@ -98,10 +98,16 @@
 				}
 			}
 		}
-		>div.new-comment { float:left; width:100%; margin-top:@spacing;
-			>* { float:left; width:100%; margin-top:@spacing; }
-			>h1 { margin-top:0; }
-			>textarea { height:150px; }
+		>div.attached-files { float:left; width:100%; margin-top:@spacing;
+			>div.tile { float:left; width:100%; cursor:pointer; border-top:solid 1px @border-colour; padding:@small-spacing @spacing; box-shadow:none;
+				@attached-file-height:19px;
+				>* { display:inline-block; vertical-align:middle; height:@attached-file-height; line-height:@attached-file-height; }
+				>i { float:left; font-size:1.125em; color:@primary-font-colour-light; }
+				>span.name { float:left; margin-left:@small-spacing; color:@secondary-font-colour; font-weight:bold; width:190px; .ellipsis; }
+				>span.size { float:right; color:@primary-font-colour-lightest; font-size:0.75em; }
+			}
+			>div.tile:first-child { border-top:none; }
+			>div:hover { .hover; }
 		}
 	}
 }

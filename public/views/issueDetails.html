@@ -69,32 +69,32 @@
 		<div class="tile flip-tile front selectable-details details">
 			<div class="selectable" id="milestone">
 				<span class="title">Milestone</span>
-				<i class="fa fa-angle-down"></i>
+				<i class="fa fa-angle-right"></i>
 				<span class="info" id="selected-milestone" data-bind="text: IssueTracker.selectedIssue.milestone"></span>
 			</div>
 			<div class="selectable" id="priority">
 				<span class="title">Priority</span>
-				<i class="fa fa-angle-down"></i>
+				<i class="fa fa-angle-right"></i>
 				<span class="info" id="selected-priority" data-bind="text: IssueTracker.selectedIssue.priority"></span>
 			</div>
 			<div class="selectable" id="status">
 				<span class="title">Status</span>
-				<i class="fa fa-angle-down"></i>
+				<i class="fa fa-angle-right"></i>
 				<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
 			</div>
 			<div class="selectable" id="issue-type">
 				<span class="title">Type</span>
-				<i class="fa fa-angle-down"></i>
+				<i class="fa fa-angle-right"></i>
 				<span class="info" data-bind="text: IssueTracker.selectedIssue.type"></span>
 			</div>
 			<div class="selectable" id="developer">
 				<span class="title">Developer</span>
-				<i class="fa fa-angle-down"></i>
+				<i class="fa fa-angle-right"></i>
 				<span class="info" data-bind="text: IssueTracker.selectedIssue.developer"></span>
 			</div>
 			<div class="selectable" id="tester">
 				<span class="title">Tester</span>
-				<i class="fa fa-angle-down"></i>
+				<i class="fa fa-angle-right"></i>
 				<span class="info" data-bind="text: IssueTracker.selectedIssue.tester"></span>
 			</div>
 			<div>
@@ -108,6 +108,29 @@
 		</div>
 		<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
 	</div>
+
+    <div class="attached-files shadow">
+        <div class="tile">
+            <i class="fa fa-paperclip"></i>
+            <span class="name">a super long really verbose incredibly useful yet long filename.png</span>
+            <span class="size">123.45kb</span>
+        </div>
+        <div class="tile">
+            <i class="fa fa-paperclip"></i>
+            <span class="name">a super long really verbose incredibly useful yet long filename.png</span>
+            <span class="size">123.45kb</span>
+        </div>
+        <div class="tile">
+            <i class="fa fa-paperclip"></i>
+            <span class="name">a super long really verbose incredibly useful yet long filename.png</span>
+            <span class="size">123.45kb</span>
+        </div>
+        <div class="tile">
+            <i class="fa fa-paperclip"></i>
+            <span class="name">a super long really verbose incredibly useful yet long filename.png</span>
+            <span class="size">123.45kb</span>
+        </div>
+    </div>
 </div>
 
 <script type="text/html" id="type-chooser">
