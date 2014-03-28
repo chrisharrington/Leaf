@@ -111,14 +111,12 @@
 		_getNextIssues(_startCount);
 	}
 
-	$(function() {
-		IssueTracker.Page.build({
-			root: IssueTracker.Issues,
-			view: "issues",
-			title: "Leaf - Issues",
-			route: "#/:project-name/issues",
-			style: "issues-container"
-		});
+	IssueTracker.Page.build({
+		root: IssueTracker.Issues,
+		view: "issues",
+		title: "Leaf - Issues",
+		route: "#/:project-name/issues",
+		style: "issues-container"
 	});
 
 })(root("IssueTracker.Issues"));

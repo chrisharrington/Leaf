@@ -18,7 +18,7 @@
     </div>
 
     <div class="buttons">
-        <button class="icon" id="save" data-bind="css: { loading: loading }, attr: { disabled: Upload.uploading }">
+        <button class="icon" id="save" data-bind="css: { loading: loading }">
             <i class="fa fa-check"></i>
             <span>Save New Issue</span>
         </button>
@@ -104,7 +104,7 @@
 <div class="attached-files tile container">
     <h2>Attach Files</h2>
     <button id="browse">Browse...</button>
-    <input type="file" />
+    <input type="file" multiple />
     <span>Attach files by either selecting them using the browse button above or dragging and dropping them into this container.</span>
     <div data-bind="foreach: Upload.attachedFiles">
         <div>

@@ -76,7 +76,7 @@
 
 	function _submit() {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "issues/create", IssueTracker.Utilities.extractPropertyObservableValues(root.createModel)).done(function () {
+		$.when(root.Upload.upload(), _send()).then(function() {
 			IssueTracker.Feedback.success("Your issue has been created.");
 			IssueTracker.Issues.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl() });
 		}).fail(function() {
@@ -84,6 +84,10 @@
 		}).always(function() {
 			root.loading(false);
 		});
+	}
+
+	function _send() {
+		return $.post(IssueTracker.virtualDirectory() + "issues/create", IssueTracker.Utilities.extractPropertyObservableValues(root.createModel));
 	}
 
 	function _toggleSelectedChoice() {
@@ -112,8 +116,7 @@
 			view: "issues/create",
 			title: "Leaf - Create Issue",
 			route: "#/:project-name/new-issue",
-			style: "create-issue-container",
-			unload: root.Upload.cleanUp
+			style: "create-issue-container"
 		});
 	});
 

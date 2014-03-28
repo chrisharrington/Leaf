@@ -18,27 +18,55 @@
 		_issueId = issueId;
 	};
 
-	root.cleanUp = function() {
-		
+	root.upload = function() {
+		_uploadAllFiles();
 	};
 
 	function _attach() {
-		root.uploading(true);
-		var files = _container.find("input[type='file']")[0].files;
-		var file = files[files.length-1];;
-		var observable = { id: guid(), name: file.name, size: file.size.toSizeString(), progress: ko.observable(0) };
-		root.attachedFiles.push(observable);
-		var xhr = new XMLHttpRequest();
-		var fd = new FormData();
-		fd.append("file", file);
+		$.each(_uniqueFiles(_container.find("input[type='file']")[0].files), function() {
+			root.attachedFiles.push({ id: guid(), file: this, name: this.name, size: this.size.toSizeString(), progress: ko.observable(0) });
+		});
+	}
 
-		xhr.upload.addEventListener("progress", function(e) { observable.progress((e.position / e.totalSize).toFixed(2)); }, false);
-		xhr.addEventListener("load", function() { observable.progress(100); root.uploading(false); }, false);
-		//xhr.addEventListener("error", uploadFailed, false);
-		//xhr.addEventListener("abort", uploadCanceled, false);
+	function _uploadAllFiles() {
+		var deferred = new $.Deferred();
+		var pending = root.attachedFiles.length;
+		$(root.attachedFiles()).each(function() {
+			var observable = this;
+			var xhr = new XMLHttpRequest();
+			var fd = new FormData();
+			fd.append("file", observable.file);
 
-		xhr.open("POST", IssueTracker.virtualDirectory() + "issues/attach-file?issueId=" + _issueId);
-		xhr.send(fd);
+			xhr.upload.addEventListener("progress", function (e) {
+				observable.progress((e.position / e.totalSize).toFixed(2));
+			}, false);
+			xhr.addEventListener("load", function () {
+				observable.progress(100);
+				if (--pending == 0)
+					deferred.resolve();
+			}, false);
+			xhr.addEventListener("error", function() {
+				deferred.reject();
+			}, false);
+
+			xhr.open("POST", IssueTracker.virtualDirectory() + "issues/attach-file?issueId=" + _issueId);
+			xhr.send(fd);
+		});
+		return deferred.promise();
+	}
+
+	function _uniqueFiles(files) {
+		var added = {};
+		$.each(root.attachedFiles(), function() {
+			added[this.name] = true;
+		});
+
+		var uniques = [];
+		$.each(files, function() {
+			if (!added[this.name])
+				uniques.push(this);
+		});
+		return uniques;
 	}
 
 })(root("IssueTracker.CreateIssue.Upload"));
