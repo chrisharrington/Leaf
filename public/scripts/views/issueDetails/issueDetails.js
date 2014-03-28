@@ -148,7 +148,7 @@
 
 	function _updateIssue() {
 		root.saving(true);
-		$.when(_comments.save(), _save()).done(function () {
+		$.when(root.Comments.save(), _save()).done(function () {
 			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.description().formatForUrl());
 			IssueTracker.Feedback.success("Your issue has been updated.");
 		}).fail(function () {
