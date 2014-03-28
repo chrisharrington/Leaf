@@ -18,8 +18,14 @@
 				<div data-bind="attr: { class: priorityStyle }">
 					<div class="info">
 						<span class="number" data-bind="text: number"></span>
-						<span class="name" data-bind="text: description"></span>
-						<span class="date" data-bind="text: opened"></span>
+                        <div class="name">
+                            <span class="name" data-bind="text: description"></span>
+                            <span class="details" data-bind="text: details"></span>
+                        </div>
+                        <div class="details">
+                            <span class="assignee" data-bind="text: developer"></span>
+                            <span class="date" data-bind="text: opened"></span>
+                        </div>
 					</div>
 				</div>
 			</a>

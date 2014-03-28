@@ -10,14 +10,21 @@
 			@priority-width:@small-spacing;
 			>div.data {
 				@info-height:35px;
-				>a { float:left; margin-top:@small-spacing; font-size:1.125em; width:100%; cursor:pointer; padding:@small-spacing; display:block; color:black;
-					>* { height:100%; line-height:@info-height; display:inline-block; vertical-align:middle; }
-					>div { float:left; width:100%; height:100%; overflow:hidden; border-left:solid @priority-width; .border-box;
+				>a { float:left; margin-top:@small-spacing; font-size:1em; width:100%; cursor:pointer; padding:@small-spacing; display:block; color:black;
+					>div { float:left; width:100%; height:100%; overflow:hidden; border-left:solid @priority-width; .border-box; line-height:@info-height; display:inline-block; vertical-align:middle;
 						>div.info { float:left; width:100%; .border-box; height:@info-height;
 							>* { margin-top:@small-spacing; .border-box; }
-							>span.number { float:left; font-weight:bold; margin-top:0; width:50px; text-align:center; border-right:solid 1px @border-colour; }
-							>span.name { float:left; .ellipsis; margin-top:0; padding-left:@spacing; font-weight:normal; }
-							>span.date { float:right; font-size:0.875em; margin-top:0; padding-right:@small-spacing; }
+							>span.number { float:left; font-weight:bold; margin-top:0; width:50px; text-align:center; border-right:solid 1px @border-colour; font-family:Oswald; font-size:1.125em; }
+							>div.name { float:left; .ellipsis; margin-top:0; padding-left:@spacing; font-weight:normal; width:85%;
+                              >span.name { float:left; }
+                              >span.details { float:left; margin-left:@spacing; color:@primary-font-colour-light; }
+                            }
+                            >div.details { float:right; margin-top:0; line-height:normal; padding-right:@tiny-spacing;
+                                >span { white-space:nowrap; display:block; text-align:right; color:@secondary-font-colour; }
+                                >br { display:block; }
+                                >span.assignee { color:@primary-font-colour-light; font-weight:bold; }
+							    >span.date { font-size:0.875em; margin-top:0; color:@primary-font-colour-light; }
+                            }
 						}
 					}
 					>div.low { border-color:@low-priority-background; }
