@@ -106,13 +106,15 @@
 		_container.find("div.detailed-info-container>div.tester>div>div[data-id='" + signedInUserId + "']").addClass("selected");
 	}
 
-	IssueTracker.Page.build({
-		root: root,
-		view: "issues/create",
-		title: "Leaf - Create Issue",
-		route: "#/:project-name/new-issue",
-		style: "create-issue-container",
-		unload: root.Upload.cleanUp
+	$(function() {
+		IssueTracker.Page.build({
+			root: root,
+			view: "issues/create",
+			title: "Leaf - Create Issue",
+			route: "#/:project-name/new-issue",
+			style: "create-issue-container",
+			unload: root.Upload.cleanUp
+		});
 	});
 
 })(root("IssueTracker.CreateIssue"));

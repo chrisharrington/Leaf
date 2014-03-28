@@ -13,12 +13,14 @@
 		_container.find("div.sign-in input:first").focus();
 	};
 
-	IssueTracker.Page.build({
-		root: root,
-		view: "welcome",
-		route: "#/welcome",
-		style: "welcome-container",
-		isAnonymous: true
+	$(function() {
+		IssueTracker.Page.build({
+			root: root,
+			view: "welcome",
+			route: "#/welcome",
+			style: "welcome-container",
+			isAnonymous: true
+		});
 	});
 
 })(root("IssueTracker.Welcome"));
