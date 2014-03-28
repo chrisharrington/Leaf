@@ -8,6 +8,7 @@ var Promise = require("bluebird");
 var mongoose = require("mongoose");
 var formidable = require("formidable");
 var storage = require("../storage/storage");
+var mime = require("mime");
 
 module.exports = function(app) {
 	app.get("/issues", authenticate, function(request, response) {
@@ -38,11 +39,12 @@ module.exports = function(app) {
 		]).spread(function(h, i) {
 			html = h;
 			issue = i;
-			return [repositories.Transition.status(issue.statusId), repositories.Comment.issue(issue._id)];
-		}).spread(function(transitions, comments) {
+			return [repositories.Transition.status(issue.statusId), repositories.Comment.issue(issue._id), repositories.IssueFile.issue(issue._id)];
+		}).spread(function(transitions, comments, files) {
 			var model = mapper.map("issue", "issue-view-model", issue);
 			model.transitions = mapper.mapAll("transition", "transition-view-model", transitions);
 			model.history = mapper.mapAll("comment", "issue-history-view-model", comments);
+			model.files = mapper.mapAll("issue-file", "issue-file-view-model", files);
 			response.send(!issue ? 404 : mustache.render(html.toString(), {
 				issue: JSON.stringify(model)
 			}));
@@ -60,6 +62,17 @@ module.exports = function(app) {
 			}));
 		}).catch(function(e) {
 			response.send("Error while rendering create issue: " + e, 500);
+		});
+	});
+
+	app.get("/issues/download-attached-file", authenticate, function(request, response) {
+		repositories.IssueFile.details(request.query.id).then(function(file) {
+			response.contentType(file.name);
+			return storage.get(file.container, file.id + "-" + file.name, response);
+		}).catch(function(e) {
+			var message = "Error while downloading attached file: " + e;
+			console.log(message);
+			response.send(message, 500);
 		});
 	});
 
@@ -141,7 +154,7 @@ module.exports = function(app) {
 			files = [];
 			paths = [];
 			for (var name in f) {
-				files.push(storage.set(request.project._id.toString(), mongoose.Types.ObjectId().toString(), f[name].name, f[name].path));
+				files.push(storage.set(request.project._id.toString(), mongoose.Types.ObjectId().toString(), f[name].name, f[name].path, f[name].size));
 				paths.push(f[name].path);
 			}
 			return Promise.all(files);
@@ -149,7 +162,7 @@ module.exports = function(app) {
 			var created = [];
 			for (var i = 0; i < arguments.length; i++) {
 				var curr = arguments[i];
-				created.push(repositories.IssueFile.create({ _id: curr.id, name: curr.name, container: curr.container, issue: request.query.issueId }));
+				created.push(repositories.IssueFile.create({ _id: curr.id, name: curr.name, container: curr.container, size: curr.size, issue: request.query.issueId }));
 			}
 			return created;
 		}).spread(function() {

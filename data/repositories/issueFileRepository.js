@@ -3,7 +3,7 @@ var repository = Object.spawn(require("./baseRepository"), {
 });
 
 repository.issue = function(issueId) {
-	return this.model.find({ "issue._id": issueId }).catch(function(e) {
+	return this.model.findAsync({ issue: issueId }).catch(function(e) {
 		console.log("Error during issueFileRepository.issue: " + e);
 	})
 };

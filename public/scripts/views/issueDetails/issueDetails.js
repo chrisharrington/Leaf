@@ -144,7 +144,7 @@
 			root.chooser.template("tester-chooser");
 			_detailsFlipper.toggle();
 		});
-	};
+	}
 
 	function _updateIssue() {
 		root.saving(true);

@@ -5,6 +5,7 @@ var schema = mongoose.Schema({
     isDeleted: { type: Boolean, default: false },
 	container: String,
 	name: String,
+	size: Number,
 
     issue: { type: objectId, ref: "issue" }
 });

@@ -109,27 +109,12 @@
 		<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
 	</div>
 
-    <div class="attached-files shadow">
-        <div class="tile">
+    <div class="attached-files shadow" data-bind="foreach: IssueTracker.selectedIssue.files">
+        <a class="tile" data-bind="attr: { href: IssueTracker.virtualDirectory() + 'issues/download-attached-file?id=' + $data.id }" target="_blank">
             <i class="fa fa-paperclip"></i>
-            <span class="name">a super long really verbose incredibly useful yet long filename.png</span>
-            <span class="size">123.45kb</span>
-        </div>
-        <div class="tile">
-            <i class="fa fa-paperclip"></i>
-            <span class="name">a super long really verbose incredibly useful yet long filename.png</span>
-            <span class="size">123.45kb</span>
-        </div>
-        <div class="tile">
-            <i class="fa fa-paperclip"></i>
-            <span class="name">a super long really verbose incredibly useful yet long filename.png</span>
-            <span class="size">123.45kb</span>
-        </div>
-        <div class="tile">
-            <i class="fa fa-paperclip"></i>
-            <span class="name">a super long really verbose incredibly useful yet long filename.png</span>
-            <span class="size">123.45kb</span>
-        </div>
+            <span class="name" data-bind="text: name"></span>
+            <span class="size" data-bind="text: size"></span>
+        </a>
     </div>
 </div>
 
