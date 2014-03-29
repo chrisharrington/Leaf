@@ -11,7 +11,7 @@ repository.number = function(projectId, number) {
 	});
 };
 
-repository.update = function(model) {
+repository.update = function(model, user) {
 	var repositories = require("../repositories");
 	var me = this;
 	return Promise.all([
@@ -23,15 +23,27 @@ repository.update = function(model) {
 		repositories.User.details(model.developerId),
 		repositories.User.details(model.testerId)
 	]).spread(function(issue, milestone, priority, status, type, developer, tester) {
-		for (var name in model)
-			if (issue[name] != undefined)
-				issue[name] = model[name];
+        issue.name = model.name;
+        issue.number = model.number;
+        issue.details = model.details;
+        issue.updatedById = user._id;
+        issue.updatedBy = user.name;
+        issue.milestoneId = milestone._id;
 		issue.milestone = milestone.name;
+        issue.priorityId = priority._id;
 		issue.priority = priority.name;
+        issue.priorityOrder = priority.order;
+        issue.statusId = status._id;
 		issue.status = status.name;
+        issue.statusOrder = status.order;
+        issue.typeId = type._id;
 		issue.type = type.name;
+        issue.developerId = developer._id;
 		issue.developer = developer.name;
+        issue.testerId = tester._id;
 		issue.tester = tester.name;
+        if (!issue.closed && issue.status.toLowerCase() == "closed")
+            issue.closed = new Date();
 		Promise.promisifyAll(issue).saveAsync();
 	});
 };

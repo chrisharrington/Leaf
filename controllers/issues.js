@@ -77,7 +77,7 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/update", authenticate, function(request, response) {
-		repositories.Issue.update(mapper.map("issue-view-model", "issue", request.body)).then(function() {
+		repositories.Issue.update(mapper.map("issue-view-model", "issue", request.body), request.user).then(function() {
 			response.send(200);
 		}).catch(function(e) {
 			var message = "Error while updating issue: " + e;
