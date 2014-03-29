@@ -1,6 +1,6 @@
 ﻿<script type="text/javascript">
 	var root = window.IssueTracker || (window.IssueTracker = {});
-	root.selectedIssue = IssueTracker.Utilities.createPropertyObservables(decodeAndEval("{{issue}}"));
+	root.selectedIssue = IssueTracker.Utilities.createPropertyObservables({{{issue}}});
 </script>
 
 <div class="container notop details-header">

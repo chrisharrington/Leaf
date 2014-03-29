@@ -29,10 +29,6 @@ function inspect(o, isConsole) {
 		alert(string);
 }
 
-function decodeAndEval(string) {
-	return string == "" ? null : $.parseJSON($("<div />").html(string).text());
-}
-
 function ResolvedDeferred(data) {
 	var deferred = new $.Deferred();
 	deferred.resolve(data);
