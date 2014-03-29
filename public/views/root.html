@@ -112,5 +112,14 @@
 				<i class="fa fa-times"></i>
 			</div>
 		</div>
+
+		<div class="notifications" data-bind="foreach: IssueTracker.Notifications.notifications">
+			<!-- ko if: type() === 'issue-assigned' -->
+			<div data-bind="click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
+				<h3>Issue Assigned</h3>
+				<span class="details" data-bind="text: '#' + issue().number + ': ' + issue().name"></span>
+			</div>
+			<!-- /ko -->
+		</div>
 	</body>
 </html>

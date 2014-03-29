@@ -1,0 +1,10 @@
+@notifications-width:400px;
+div.notifications { position:absolute; z-index:10; top:@header-height; right:@notifications-width*-1; background-color:@dark-gradient-bottom-colour; width:@notifications-width; .shadow;
+	>div { float:left; width:100%; padding:@small-spacing @spacing; .border-box; border-top:solid 1px @border-colour-dark; cursor:pointer;
+		>* { float:left; width:100%; margin-top:@tiny-spacing; }
+		>h3 { margin-top:0; }
+		>span { color:@primary-font-colour-dark-background; }
+	}
+
+	>div:hover { background:darken(@dark-gradient-bottom-colour, 10%); }
+}

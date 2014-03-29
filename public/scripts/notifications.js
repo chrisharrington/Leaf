@@ -9,7 +9,17 @@
 		_loadNotifications();
 
 		setInterval(_loadNotifications, NOTIFICATION_LOAD_INTERVAL);
+
+		$(document).on("click", "#notifications", _show);
     };
+
+	root.navigateToIssue = function(issueNumber) {
+		alert(issueNumber);
+	};
+
+	function _show() {
+		
+	}
 
 	function _loadNotifications() {
 		root.loading(true);

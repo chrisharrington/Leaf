@@ -50,6 +50,12 @@ exports.init = function() {
 	exports.define("milestone", "milestone-view-model", { "id": "_id", name: "name" });
 	exports.define("issue-type", "issue-type-view-model", { "id": "_id", name: "name" });
 	exports.define("issue-file", "issue-file-view-model", { "id": "_id", name: "name", size: function(x) { return x.size.toSizeString(); } });
+	exports.define("notification", "notification-view-model", {
+		id: "_id",
+		type: "type",
+		isViewed: "isViewed",
+		issue: function(x) { return x.issue == null ? null : { name: x.issue.name, number: x.issue.number, priority: x.issue.priority }		}
+	});
 	exports.define("comment", "issue-history-view-model", {
 		date: function(x) { return moment(x.date).format(config.dateFormat);},
 		text: "text",
