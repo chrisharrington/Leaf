@@ -40,6 +40,7 @@ function _registerControllers() {
 	require("./controllers/root")(app);
 	require("./controllers/welcome")(app);
 	require("./controllers/issues")(app);
+	require("./controllers/notifications")(app);
 }
 
 function _launchServer() {
