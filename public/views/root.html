@@ -37,7 +37,6 @@
             IssueTracker.title = ko.observable();
             IssueTracker.dialog = ko.observable();
             IssueTracker.popup = ko.observable();
-            IssueTracker.notifications = ko.observableArray();
 			IssueTracker.Init.init();
         })
 	</script>
@@ -62,8 +61,8 @@
                 </div>
                 <div class="account">
                     <a id="notifications">
-                        <i data-bind="attr: { class: 'fa ' + (IssueTracker.notifications().length == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
-                        <span data-bind="visible: IssueTracker.notifications().length > 0, text: IssueTracker.notifications().length"></span>
+                        <i data-bind="attr: { class: 'fa ' + (IssueTracker.Notifications.notifications().length == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
+                        <span data-bind="visible: IssueTracker.Notifications.notifications().length > 0, text: IssueTracker.Notifications.notifications().length"></span>
                     </a>
                     <a id="create-issue" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/new-issue' }">
                         <i class="fa fa-plus"></i>
