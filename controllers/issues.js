@@ -128,6 +128,8 @@ module.exports = function(app) {
 			model.updatedBy = request.user._id;
 			model.project = request.project._id;
 			return repositories.Issue.create(model);
+        }).then(function(issue) {
+            repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: request.user._id });
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {

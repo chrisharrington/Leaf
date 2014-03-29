@@ -12,6 +12,7 @@
 		document.cookie = "timezoneOffset=" + new Date().getTimezoneOffset();
 
 		IssueTracker.Header.init();
+        IssueTracker.Notifications.init();
 		ko.applyBindings(IssueTracker);
 	};
 	
