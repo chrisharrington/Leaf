@@ -13,5 +13,6 @@ module.exports = {
 	IssueAudit: require(directory + "issueAuditRepository"),
 	Transition: require(directory + "transitionRepository"),
 	User: require(directory + "userRepository"),
-	IssueFile: require(directory + "issueFileRepository")
+	IssueFile: require(directory + "issueFileRepository"),
+    Notification: require(directory + "notificationRepository")
 };
