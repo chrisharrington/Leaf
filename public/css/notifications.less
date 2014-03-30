@@ -1,16 +1,24 @@
 @notifications-width:400px;
 div.notifications { position:fixed; z-index:10; top:-10000px; right:0; background-color:@dark-gradient-bottom-colour; width:@notifications-width; .shadow;
-	>div { float:left; width:100%; padding:@small-spacing @spacing; .border-box; border-top:solid 1px @border-colour-dark; cursor:pointer;
-		@angle-icon-width:30px;
+	>div { float:left; width:100%; padding:@small-spacing @spacing; .border-box; border-top:solid 1px @border-colour-dark; cursor:pointer; }
+	>div.toolbar {
+		>* { float:left; color:@primary-font-colour-dark-background; }
+		>span { margin-left:@spacing; }
+	}
+	>div.notification {
+		@angle-icon-width:15px;
 		>div { float:left; position:relative; width:100%; padding-right:@angle-icon-width+@spacing; .border-box;
 			>h3 { margin-top:0; }
 			>span { color:@primary-font-colour-dark-background; }
 		}
-		>i { float:left; width:@angle-icon-width; text-align:right; position:relative; vertical-align:middle; font-size:1.5em; font-weight:bold; color:@primary-font-colour-lightest; margin-left:@angle-icon-width*-1; }
+		>i.fa { float:left; width:@angle-icon-width; text-align:right; position:relative; vertical-align:middle; font-size:1.5em; font-weight:bold; color:@primary-font-colour-lightest; margin-left:@angle-icon-width*-1; }
+		>i.fa-angle-right { text-align:right; }
 	}
-
-	>div:hover {
-		h3 { text-decoration:underline; }
-		>i { color:white; }
+	>div.notification.viewed {
+		h3 { color:darken(@primary-font-colour-dark-background, 5%); }
+		span { color:darken(@primary-font-colour-dark-background, 10%); }
+	}
+	>div:hover { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom);
+		* { color:white !important; }
 	}
 }

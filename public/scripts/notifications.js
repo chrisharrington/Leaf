@@ -27,8 +27,8 @@
     };
 
 	root.navigateToIssue = function(issueNumber) {
-		alert(issueNumber);
-	};
+        IssueTracker.IssueDetails.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl(), number: issueNumber });
+    };
 
 	function _show() {
         _container.css({ top: "-" + (_container.outerHeight()-HEADER_HEIGHT) + "px" }).transition({ y: _container.outerHeight() });
@@ -64,7 +64,7 @@
 	}
 
     function _setIconHeights() {
-        _container.find("i.fa-angle-right").each(function() {
+        _container.find("i.fa").each(function() {
             var height = $(this).parent().height();
             $(this).css({ "line-height": height + "px", "height" : height + "px" });
         });

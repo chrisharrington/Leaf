@@ -116,15 +116,21 @@
 			</div>
 		</div>
 
-		<div class="notifications" data-bind="foreach: IssueTracker.Notifications.notifications">
+		<div class="notifications">
+            <div class="toolbar">
+                <i class="fa fa-check"></i>
+                <span>Mark all notifications as read</span>
+            </div>
+            <!-- ko foreach: IssueTracker.Notifications.notifications -->
             <!-- ko if: type() === 'issue-assigned' -->
-            <div data-bind="click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
+            <div class="notification" data-bind="click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
                 <div>
                     <h3>Issue Assigned</h3>
                     <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
                 </div>
                 <i class="fa fa-angle-right"></i>
             </div>
+            <!-- /ko -->
             <!-- /ko -->
 		</div>
 	</body>
