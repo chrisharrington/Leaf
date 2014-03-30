@@ -62,9 +62,9 @@
                 </div>
                 <div class="account">
                     <a id="notifications">
-                        <i data-bind="attr: { class: 'fa ' + (IssueTracker.Notifications.notifications().length == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
+                        <i data-bind="attr: { class: 'fa ' + (IssueTracker.Notifications.unviewedNotifications() == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
                         <div>
-                            <span data-bind="visible: IssueTracker.Notifications.notifications().length > 0, text: IssueTracker.Notifications.notifications().length"></span>
+                            <span data-bind="visible: IssueTracker.Notifications.unviewedNotifications() > 0, text: IssueTracker.Notifications.unviewedNotifications()"></span>
                         </div>
                     </a>
                     <a id="create-issue" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/new-issue' }">
@@ -117,13 +117,13 @@
 		</div>
 
 		<div class="notifications">
-            <div class="toolbar">
+            <div class="mark-as-viewed">
                 <i class="fa fa-check"></i>
                 <span>Mark all notifications as read</span>
             </div>
             <!-- ko foreach: IssueTracker.Notifications.notifications -->
             <!-- ko if: type() === 'issue-assigned' -->
-            <div class="notification" data-bind="click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
+            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
                 <div>
                     <h3>Issue Assigned</h3>
                     <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>

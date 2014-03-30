@@ -10,6 +10,15 @@
 	root.loading = ko.observable(false);
 	root.notifications = ko.observableArray();
 
+    root.unviewedNotifications = ko.computed(function() {
+        var count = 0;
+        $.each(root.notifications(), function() {
+            if (!this.isViewed())
+                count++;
+        });
+        return count;
+    }, root, { deferEvaluation: true });
+
     root.init = function(container) {
         _container = container;
         _trigger = $("#notifications");
@@ -18,6 +27,7 @@
 		setInterval(_loadNotifications, NOTIFICATION_LOAD_INTERVAL);
 
 		_trigger.on("click", _show);
+        _container.on("click", ".mark-as-viewed", _markAllAsViewed);
 
         $(document).on("click", function (e) {
             var itemClicked = _wasNotificationClicked($(e.target));
@@ -67,6 +77,21 @@
         _container.find("i.fa").each(function() {
             var height = $(this).parent().height();
             $(this).css({ "line-height": height + "px", "height" : height + "px" });
+        });
+    }
+
+    function _markAllAsViewed() {
+        var notificationIds = [];
+        $(root.notifications()).each(function() {
+            notificationIds.push(this.id());
+        });
+
+        $.post(IssueTracker.virtualDirectory() + "notifications/mark-as-viewed", { notificationIds: notificationIds.join(",") }).done(function() {
+            $(root.notifications()).each(function() {
+                this.isViewed(true);
+            });
+        }).fail(function() {
+            IssueTracker.Feedback.error("An error occurred while setting your notifications to read. Please try again later.");
         });
     }
 

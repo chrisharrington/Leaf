@@ -14,5 +14,12 @@ repository.user = function(user) {
 	});
 };
 
+repository.markAsRead = function(notificationId) {
+    return repository.details(notificationId).then(function(notification) {
+        notification.isViewed = true;
+        return Promise.promisify(notification).saveAsync();
+    });
+};
+
 module.exports = repository;
 
