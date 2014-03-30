@@ -46,7 +46,7 @@
     };
 
 	function _show() {
-        _container.css({ top: "-" + (_container.outerHeight()-HEADER_HEIGHT) + "px" }).transition({ y: _container.outerHeight() });
+        _container.css({ top: "-" + (_container.outerHeight()-HEADER_HEIGHT+10) + "px" }).transition({ y: _container.outerHeight() + 10 });
 	}
 
     function _hide() {

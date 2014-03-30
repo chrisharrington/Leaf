@@ -79,7 +79,8 @@ module.exports = function(app) {
 	app.post("/issues/update", authenticate, function(request, response) {
 		var issue = mapper.map("issue-view-model", "issue", request.body);
 		repositories.Issue.update(issue, request.user).then(function() {
-			return repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId });
+			if (request.user._id.toString() != issue.developerId.toString())
+				return repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId });
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
@@ -99,7 +100,8 @@ module.exports = function(app) {
 		}).then(function() {
 			return repositories.Comment.create(comment);
 		}).then(function() {
-            return repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });
+			if (request.user._id.toString() != issue.developerId.toString())
+            	return repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });
         }).then(function() {
 			response.send(200);
 		}).catch(function(e) {
@@ -135,7 +137,8 @@ module.exports = function(app) {
 			model.project = request.project._id;
 			return repositories.Issue.create(model);
         }).then(function(issue) {
-            repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: issue.developerId });
+			if (request.user._id.toString() != issue.developerId.toString())
+            	repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: issue.developerId });
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
@@ -153,7 +156,8 @@ module.exports = function(app) {
 		}).then(function() {
 			return repositories.Issue.remove(request.body.id)
 		}).then(function() {
-			return repositories.Notification.create({ type: "issue-deleted", issue: issue._id, user: issue.developerId });
+			if (request.user._id.toString() != issue.developerId.toString())
+				return repositories.Notification.create({ type: "issue-deleted", issue: issue._id, user: issue.developerId });
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
