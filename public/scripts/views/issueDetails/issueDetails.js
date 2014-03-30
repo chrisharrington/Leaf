@@ -211,7 +211,9 @@
 			title: function() { return "Leaf - " + IssueTracker.selectedIssue.number() + ": " + IssueTracker.selectedIssue.description(); },
 			route: "#/:project-name/issues/:number",
 			style: "issue-details-container",
-			unload: function() { _container.find("div.existing-comments").empty(); }
+			unload: function() {
+				if (_container)
+					_container.find("div.existing-comments").empty(); }
 		});
 	});
 
