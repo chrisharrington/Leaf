@@ -123,7 +123,7 @@
             </div>
             <!-- ko foreach: IssueTracker.Notifications.notifications -->
             <!-- ko if: type() === 'issue-assigned' -->
-            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
+            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number, id()); }">
                 <div>
                     <h3>Issue Assigned</h3>
                     <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
@@ -132,7 +132,7 @@
             </div>
             <!-- /ko -->
             <!-- ko if: type() === 'issue-updated' -->
-            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
+            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number, id()); }">
                 <div>
                     <h3>Issue Updated</h3>
                     <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
@@ -141,7 +141,7 @@
             </div>
             <!-- /ko -->
             <!-- ko if: type() === 'comment-added' -->
-            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
+            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number, id()); }">
                 <div>
                     <h3>Comment Added</h3>
                     <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>

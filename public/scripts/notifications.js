@@ -40,7 +40,8 @@
 		_loadNotifications();
 	};
 
-	root.navigateToIssue = function(issueNumber) {
+	root.navigateToIssue = function(issueNumber, notificationId) {
+		_markAsViewed([notificationId]);
         IssueTracker.IssueDetails.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl(), number: issueNumber });
     };
 
@@ -90,13 +91,17 @@
             notificationIds.push(this.id());
         });
 
-        $.post(IssueTracker.virtualDirectory() + "notifications/mark-as-viewed", { notificationIds: notificationIds.join(",") }).done(function() {
-            $(root.notifications()).each(function() {
-                this.isViewed(true);
-            });
-        }).fail(function() {
-            IssueTracker.Feedback.error("An error occurred while setting your notifications to read. Please try again later.");
-        });
+		_markAsViewed(notificationIds);
     }
+
+	function _markAsViewed(notificationIds) {
+		return $.post(IssueTracker.virtualDirectory() + "notifications/mark-as-viewed", { notificationIds: notificationIds.join(",") }).done(function() {
+			$(root.notifications()).each(function() {
+				this.isViewed(true);
+			});
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error occurred while setting your notifications to read. Please try again later.");
+		});
+	}
 
 })(root("IssueTracker.Notifications"));
