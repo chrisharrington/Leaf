@@ -151,6 +151,7 @@
 		$.when(root.Comments.save(), _save()).done(function () {
 			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.description().formatForUrl());
 			IssueTracker.Feedback.success("Your issue has been updated.");
+			IssueTracker.Notifications.refresh();
 		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while saving your issue. Please try again later.");
 		}).always(function () {

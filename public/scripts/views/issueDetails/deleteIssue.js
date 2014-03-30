@@ -18,6 +18,7 @@
 		$.post(IssueTracker.virtualDirectory() + "issues/delete", { id: IssueTracker.selectedIssue.id }).done(function() {
 			IssueTracker.Issues.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl() });
 			IssueTracker.Dialog.hide();
+			IssueTracker.Notifications.refresh();
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while deleting this issue. Please try again later.");
 		}).always(function() {

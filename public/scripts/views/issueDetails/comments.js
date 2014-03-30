@@ -51,6 +51,7 @@
 			_isAdd = true;
 			root.list.splice(0, 0, { date: new Date().toApplicationString(), user: IssueTracker.signedInUser().name(), text: root.text() });
 			root.text("");
+			IssueTracker.Notifications.refresh();
 		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while adding your comment. Please try again later.");
 		}).always(function () {

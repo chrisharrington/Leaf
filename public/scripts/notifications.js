@@ -36,6 +36,10 @@
         });
     };
 
+	root.refresh = function() {
+		_loadNotifications();
+	};
+
 	root.navigateToIssue = function(issueNumber) {
         IssueTracker.IssueDetails.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl(), number: issueNumber });
     };

@@ -79,6 +79,7 @@
 		$.when(root.Upload.upload(), _send()).then(function() {
 			IssueTracker.Feedback.success("Your issue has been created.");
 			IssueTracker.Issues.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl() });
+			IssueTracker.Notifications.refresh();
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while creating your issue. Please try again later.");
 		}).always(function() {
