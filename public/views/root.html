@@ -14,6 +14,7 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highcharts/3.0.7/highcharts.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20130526/json2.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jStorage/0.4.4/jstorage.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min.js"></script>
     <script type="text/javascript" src="bundle/scripts"></script>
 	
 	<script type="text/javascript">
@@ -62,7 +63,9 @@
                 <div class="account">
                     <a id="notifications">
                         <i data-bind="attr: { class: 'fa ' + (IssueTracker.Notifications.notifications().length == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
-                        <span data-bind="visible: IssueTracker.Notifications.notifications().length > 0, text: IssueTracker.Notifications.notifications().length"></span>
+                        <div>
+                            <span data-bind="visible: IssueTracker.Notifications.notifications().length > 0, text: IssueTracker.Notifications.notifications().length"></span>
+                        </div>
                     </a>
                     <a id="create-issue" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/new-issue' }">
                         <i class="fa fa-plus"></i>
@@ -114,12 +117,15 @@
 		</div>
 
 		<div class="notifications" data-bind="foreach: IssueTracker.Notifications.notifications">
-			<!-- ko if: type() === 'issue-assigned' -->
-			<div data-bind="click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
-				<h3>Issue Assigned</h3>
-				<span class="details" data-bind="text: '#' + issue().number + ': ' + issue().name"></span>
-			</div>
-			<!-- /ko -->
+            <!-- ko if: type() === 'issue-assigned' -->
+            <div data-bind="click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
+                <div>
+                    <h3>Issue Assigned</h3>
+                    <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
+                </div>
+                <i class="fa fa-angle-right"></i>
+            </div>
+            <!-- /ko -->
 		</div>
 	</body>
 </html>

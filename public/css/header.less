@@ -1,4 +1,4 @@
-﻿header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour);
+﻿header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour); position:fixed; z-index:11;
 	>div { max-width:@application-width; margin:auto; height:@header-height;  color:@primary-font-colour-dark-background; .border-box;
 		>div.logo { float:left; margin-right:@spacing; padding-left:@spacing;
 			>* { line-height:@header-height; height:@header-height; vertical-align:middle; display:inline-block; }
@@ -16,8 +16,12 @@
 				>i { float:left; font-size:1.375em; }
 				>span { float:left; font-size:1.25em; font-weight:bold; text-transform:uppercase; color:inherit; }
 			}
-			>a:hover { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); color:white; }
-            >a#notifications>span { float:left; position:relative; background:#DB3232; border:solid 1px black; border-radius:5px; color:white; font-size:0.75em; font-weight:bold; .condensed-font; line-height:17px !important; display:inline-block; vertical-align:center; height:auto; width:auto; padding:0 5px; text-align:center; margin-top:10px; margin-left:-5px; }
+			>a:hover { .gradient(lighten(@dark-gradient-top-colour, 5%), lighten(@dark-gradient-bottom-colour, 5%)); color:white; }
+            >a#notifications {
+                >div { float:left; position:relative;
+                    >span { position:absolute; background:#DB3232; border:solid 1px black; border-radius:5px; color:white; font-size:0.75em; font-weight:bold; .condensed-font; line-height:17px !important; display:inline-block; vertical-align:center; height:auto; width:auto; padding:0 5px; text-align:center; margin-top:10px; margin-left:-5px; }
+                }
+            }
 		}
 	}
 }

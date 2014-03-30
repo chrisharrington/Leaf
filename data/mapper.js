@@ -54,7 +54,8 @@ exports.init = function() {
 		id: "_id",
 		type: "type",
 		isViewed: "isViewed",
-		issue: function(x) { return x.issue == null ? null : { name: x.issue.name, number: x.issue.number, priority: x.issue.priority }		}
+		issue: function(x) {
+            return x.issue == null ? null : { name: x.issue.name, number: x.issue.number, priority: x.issue.priority }		}
 	});
 	exports.define("comment", "issue-history-view-model", {
 		date: function(x) { return moment(x.date).format(config.dateFormat);},

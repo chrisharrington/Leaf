@@ -85,6 +85,7 @@
 .background-colour-transition { -webkit-transition: background-color 1000ms linear; -moz-transition: background-color 1000ms linear; -o-transition: background-color 1000ms linear; -ms-transition: background-color 1000ms linear; transition: background-color 1000ms linear; }
 .tile { padding:@spacing; .border-radius; background:@light-tile-background-colour; .border-box; .shadow; color:@primary-font-colour; }
 .tile.dark { background:@dark-tile-background-colour; }
+.base-background { background:url(../images/retina_wood.png); }
 
 .condensed-font { font-family:"Roboto Condensed" !important; }
 .regular-font { font-family:"Roboto" !important; }
@@ -111,9 +112,9 @@ i.loading { background:url("../Images/ajax-loader.gif") center no-repeat; color:
 
 .tile button { .secondary-gradient; }
 
-body { margin:0; padding:0; overflow-x:hidden; background:url(../images/retina_wood.png); font-size:14px; .regular-font; }
+body { margin:0; padding:0; overflow-x:hidden; .base-background; font-size:14px; .regular-font; }
 .content-wrapper { max-width:@application-width; margin:auto;
-	.content-container { float:left; width:100%; .border-box; padding:@spacing; }
+	.content-container { float:left; width:100%; .border-box; padding:@spacing; margin-top:@header-height; }
 }
 
 div.buttons {
