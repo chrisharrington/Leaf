@@ -33,16 +33,9 @@ module.exports = {
 	},
 
 	remove: function(id) {
-		var me = this;
-		return new Promise(function(resolve, reject) {
-			me.model.findOne({ "_id": id }, function(err, model) {
-				if (err) reject(err);
-				else
-					model.remove(function(err) {
-						if (err) reject(err);
-						else resolve();
-					});
-			});
+		return this.model.findOneAsync({ "_id": id }).then(function (model) {
+			model.isDeleted = true;
+			return Promise.promisifyAll(model).saveAsync();
 		});
 	}
 };

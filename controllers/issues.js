@@ -149,9 +149,9 @@ module.exports = function(app) {
 		var issue;
 		repositories.Issue.details(request.body.id).then(function(i) {
 			issue = i;
-			return repositories.Issue.remove(request.body.id)
-		}).then(function() {
 			return repositories.Notification.removeForIssue(issue._id);
+		}).then(function() {
+			return repositories.Issue.remove(request.body.id)
 		}).then(function() {
 			return repositories.Notification.create({ type: "issue-deleted", issue: issue._id, user: issue.developerId });
 		}).then(function() {
