@@ -64,6 +64,7 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 		if (me.load)
 			me.load(container, routeArguments);
 		me._setTitle(params.title);
+		$(document).scrollTop();
 	} });
 	IssueTracker.title(params.title);
 };

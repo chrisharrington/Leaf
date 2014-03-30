@@ -17,8 +17,18 @@ repository.user = function(user) {
 repository.markAsRead = function(notificationId) {
     return repository.details(notificationId).then(function(notification) {
         notification.isViewed = true;
-        return Promise.promisify(notification).saveAsync();
+        return Promise.promisifyAll(notification).saveAsync();
     });
+};
+
+repository.removeForIssue = function(issueId) {
+	var me = this;
+	return this.model.findAsync({ issue: issueId }).then(function(notifications) {
+		var all = [];
+		for (var i = 0; i < notifications.length; i++)
+			all.push(Promise.promisifyAll(notifications[i]).removeAsync());
+		return Promise.all(all);
+	});
 };
 
 module.exports = repository;

@@ -6,8 +6,8 @@ var schema = mongoose.Schema({
     date: { type: Date, default: Date.now },
     isDeleted: { type: Boolean, default: false },
     isViewed: { type: Boolean, default: false },
-
-    issue: { type: objectId, ref: "issue" },
+	comment: String,
+	issue: { type: objectId, ref: "issue" },
     user: { type: objectId, ref: "user" }
 });
 

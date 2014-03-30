@@ -77,7 +77,10 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/update", authenticate, function(request, response) {
-		repositories.Issue.update(mapper.map("issue-view-model", "issue", request.body), request.user).then(function() {
+		var issue = mapper.map("issue-view-model", "issue", request.body);
+		repositories.Issue.update(issue, request.user).then(function() {
+			return repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId });
+		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
 			var message = "Error while updating issue: " + e;
@@ -87,14 +90,17 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/add-comment", authenticate, function(request, response) {
-		var comment = mapper.map("issue-history-view-model", "comment", request.body);
+		var issue, comment = mapper.map("issue-history-view-model", "comment", request.body);
 		comment.date = new Date();
 		comment.user = request.user._id;
-		repositories.Issue.details(request.body.issueId).then(function(issue) {
+		repositories.Issue.details(request.body.issueId).then(function(i) {
+			issue = i;
 			comment.issue = issue._id;
 		}).then(function() {
 			return repositories.Comment.create(comment);
 		}).then(function() {
+            return repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });
+        }).then(function() {
 			response.send(200);
 		}).catch(function(e) {
 			var message = "Error adding comment: " + e;
@@ -129,7 +135,7 @@ module.exports = function(app) {
 			model.project = request.project._id;
 			return repositories.Issue.create(model);
         }).then(function(issue) {
-            repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: request.user._id });
+            repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: issue.developerId });
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
@@ -140,7 +146,15 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/delete", authenticate, function(request, response) {
-		repositories.Issue.remove(request.body.id).then(function() {
+		var issue;
+		repositories.Issue.details(request.body.id).then(function(i) {
+			issue = i;
+			return repositories.Issue.remove(request.body.id)
+		}).then(function() {
+			return repositories.Notification.removeForIssue(issue._id);
+		}).then(function() {
+			return repositories.Notification.create({ type: "issue-deleted", issue: issue._id, user: issue.developerId });
+		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
 			var message = "Error while deleting issue: " + e;

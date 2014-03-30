@@ -8,8 +8,10 @@ div.notifications { position:fixed; z-index:10; top:-10000px; right:0; backgroun
 	>div.notification {
 		@angle-icon-width:15px;
 		>div { float:left; position:relative; width:100%; padding-right:@angle-icon-width+@spacing; .border-box;
+			>* { float:left; width:100%; margin-top:@tiny-spacing; }
 			>h3 { margin-top:0; }
 			>span { color:@primary-font-colour-dark-background; }
+			>span.comment { color:darken(@primary-font-colour-dark-background, 15%); }
 		}
 		>i.fa { float:left; width:@angle-icon-width; text-align:right; position:relative; vertical-align:middle; font-size:1.5em; font-weight:bold; color:@primary-font-colour-lightest; margin-left:@angle-icon-width*-1; }
 		>i.fa-angle-right { text-align:right; }

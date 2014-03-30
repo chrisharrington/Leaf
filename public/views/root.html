@@ -131,6 +131,34 @@
                 <i class="fa fa-angle-right"></i>
             </div>
             <!-- /ko -->
+            <!-- ko if: type() === 'issue-updated' -->
+            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
+                <div>
+                    <h3>Issue Updated</h3>
+                    <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
+                </div>
+                <i class="fa fa-angle-right"></i>
+            </div>
+            <!-- /ko -->
+            <!-- ko if: type() === 'comment-added' -->
+            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number); }">
+                <div>
+                    <h3>Comment Added</h3>
+                    <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
+                    <span class="comment" data-bind="text: $data.comment().substring(0, Math.max($data.comment().length, 200))"></span>
+                </div>
+                <i class="fa fa-angle-right"></i>
+            </div>
+            <!-- /ko -->
+            <!-- ko if: type() === 'issue-deleted' -->
+            <div class="notification" data-bind="css: { viewed: isViewed }">
+                <div>
+                    <h3>Issue Deleted</h3>
+                    <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
+                </div>
+                <i class="fa fa-angle-right"></i>
+            </div>
+            <!-- /ko -->
             <!-- /ko -->
 		</div>
 	</body>
