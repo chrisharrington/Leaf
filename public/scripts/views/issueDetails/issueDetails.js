@@ -4,6 +4,7 @@
 	var _container;
 	var _oldName;
 	var _detailsFlipper;
+	var _updateNeeded;
 
 	root.saving = ko.observable(false);
 	root.comments = ko.observableArray();
@@ -29,8 +30,16 @@
 		_detailsFlipper = new IssueTracker.Controls.Flipper("#choices-container");
 		_oldName = IssueTracker.selectedIssue.description();
 		root.Comments.load(IssueTracker.selectedIssue.history());
-		
-		IssueTracker.selectedIssue.statusId.subscribe(function (statusId) { IssueTracker.Transitioner.execute(statusId); });
+
+		_updateNeeded = false;
+		IssueTracker.selectedIssue.statusId.subscribe(function (statusId) { _updateNeeded = true; IssueTracker.Transitioner.execute(statusId); });
+		IssueTracker.selectedIssue.description.subscribe(_updateRequired);
+		IssueTracker.selectedIssue.details.subscribe(_updateRequired);
+		IssueTracker.selectedIssue.milestoneId.subscribe(_updateRequired);
+		IssueTracker.selectedIssue.priorityId.subscribe(_updateRequired);
+		IssueTracker.selectedIssue.typeId.subscribe(_updateRequired);
+		IssueTracker.selectedIssue.developerId.subscribe(_updateRequired);
+		IssueTracker.selectedIssue.testerId.subscribe(_updateRequired);
 	};
 
 	function _hookupEvents(container) {
@@ -160,7 +169,10 @@
 	}
 
 	function _save() {
-		return $.post(IssueTracker.virtualDirectory() + "issues/update", _buildIssueParameters())
+		if (_updateNeeded)
+			return $.post(IssueTracker.virtualDirectory() + "issues/update", _buildIssueParameters())
+		else
+			return new ResolvedDeferred();
 	}
 
 	function _buildIssueParameters() {
@@ -186,6 +198,10 @@
 		var padding = parseInt(number.css("padding-left").replace("px", "")) * 2;
 		var width = 13 + IssueTracker.selectedIssue.number().toString().length * 12;
 		number.width(width).parent().find("div.description").css({ "padding-left": width + padding + 1 });
+	}
+
+	function _updateRequired() {
+		_updateNeeded = true;
 	}
 
 	$(function() {
