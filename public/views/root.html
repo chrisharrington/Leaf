@@ -186,7 +186,7 @@
 		</div>
 
 		<script type="text/html" id="email-notification-settings-template">
-			<div class="confirm-delete email-notifications-dialog">
+			<div class="email-notifications-dialog">
 				<h2>Email Notification Settings</h2>
 				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueAssigned'); }">
 					<span>Issue Assigned</span>
@@ -204,9 +204,9 @@
 					<span>New Comment on Assigned Issue</span>
 					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForNewCommentForAssignedIssue() ? 'fa-check-square' : 'fa-square') }"></i>
 				</div>
-				<div class="buttons">
-					<button>Cancel</button>
-					<button>Save</button>
+				<div class="button-container">
+					<button class="cancel">Cancel</button>
+					<button class="save">Save</button>
 				</div>
 			</div>
 		</script>

@@ -28,4 +28,20 @@ module.exports = function(app) {
             response.send(message, 500);
         });
     });
+
+	app.post("/notifications/email", authenticate, function(request, response) {
+		repositories.User.details(request.user.id).then(function(user) {
+			user.emailNotificationForIssueAssigned = request.body.emailNotificationForIssueAssigned;
+			user.emailNotificationForIssueDeleted = request.body.emailNotificationForIssueDeleted;
+			user.emailNotificationForIssueUpdated = request.body.emailNotificationForIssueUpdated;
+			user.emailNotificationForNewCommentForAssignedIssue = request.body.emailNotificationForNewCommentForAssignedIssue;
+			return Promise.promisifyAll(user).saveAsync();
+		}).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			var message = "Error while updating email notification settings: " + e;
+			console.log(message);
+			response.send(message, 500);
+		})
+	});
 };
