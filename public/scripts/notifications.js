@@ -49,8 +49,6 @@
 			for (var i = 0; i < notifications.length; i++)
 				root.notifications.push(IssueTracker.Utilities.createPropertyObservables(notifications[i]));
             _setIconHeights();
-		}).fail(function() {
-			IssueTracker.Feedback.error("An error has occurred while retrieving your notifications. Please contact technical support.");
 		}).always(function() {
 			root.loading(false);
 		});
