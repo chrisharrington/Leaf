@@ -121,7 +121,7 @@
 
 		<div class="user-settings slide-menu">
 			<h3 data-bind="text: IssueTracker.signedInUser() ? IssueTracker.signedInUser().name() : ''"></h3>
-			<div>
+			<div id="email-notification-settings-trigger">
 				<i class="fa fa-envelope"></i>
 				<span>Email Notifications</span>
 			</div>
@@ -185,10 +185,24 @@
             <!-- /ko -->
 		</div>
 
-		<script type="text/html" id="email-notifcation-settings">
+		<script type="text/html" id="email-notification-settings-template">
 			<div class="confirm-delete email-notifications-dialog">
+				<h2>Email Notification Settings</h2>
 				<div class="setting">
 					<span>Issue Assigned</span>
+					<i class="fa fa-check-square-o"></i>
+				</div>
+				<div class="setting">
+					<span>Issue Updated</span>
+					<i class="fa fa-check-square-o"></i>
+				</div>
+				<div class="setting">
+					<span>Issue Deleted</span>
+					<i class="fa fa-check-square-o"></i>
+				</div>
+				<div class="setting">
+					<span>New Comment on Assigned Issue</span>
+					<i class="fa fa-check-square-o"></i>
 				</div>
 				<div class="buttons">
 					<button>Cancel</button>
