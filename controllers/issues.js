@@ -11,6 +11,14 @@ var storage = require("../storage/storage");
 var mime = require("mime");
 
 module.exports = function(app) {
+	app.get("/send-grid-approval", function(request, response) {
+		fs.readFile("public/views/sendgrid.html", function(err, content) {
+			response.writeHead(200, { "Content-Type": "text/html" });
+			response.write(content);
+			response.end();
+		});
+	});
+
 	app.get("/issues", authenticate, function(request, response) {
 		fs.readFile("public/views/issues.html", function(err, content) {
 			response.send(content);
