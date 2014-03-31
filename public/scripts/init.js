@@ -13,7 +13,7 @@
 
 		IssueTracker.Header.init();
         IssueTracker.Notifications.init($("div.notifications"), $("#notifications"));
-		//IssueTracker.UserSettings.init($("div.user-settings"), $("#user-settings"));
+		IssueTracker.UserSettings.init($("div.user-settings"), $("#user-settings"));
 		ko.applyBindings(IssueTracker);
 	};
 	

@@ -6,7 +6,6 @@
 
     var _container;
     var _trigger;
-	var _menu;
 
 	root.loading = ko.observable(false);
 	root.notifications = ko.observableArray();
@@ -21,21 +20,14 @@
     }, root, { deferEvaluation: true });
 
     root.init = function(container, trigger) {
-		_menu = new IssueTracker.SlideMenu(container, trigger);
+		IssueTracker.SlideMenu.build(container, trigger);
         _container = container;
         _trigger = trigger;
 		_loadNotifications();
 
 		setInterval(_loadNotifications, NOTIFICATION_LOAD_INTERVAL);
 
-		_trigger.on("click", _menu.show);
         _container.on("click", ".mark-as-viewed", _markAllAsViewed);
-
-        $(document).on("click", function (e) {
-            var itemClicked = _wasNotificationClicked($(e.target));
-            if (!_container.is(":hidden") && !itemClicked)
-                _menu.hide();
-        });
     };
 
 	root.refresh = function() {
@@ -46,14 +38,6 @@
 		_markAsViewed([notificationId]);
         IssueTracker.IssueDetails.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl(), number: issueNumber });
     };
-
-    function _wasNotificationClicked(context) {
-        for (var i = 0; i < _trigger.length; i++) {
-            if ($(_trigger[i]).attr("id") == context.attr("id") || context.parents().filter("#" + $(_trigger[i]).attr("id")).length > 0)
-                return true;
-        }
-        return false;
-    }
 
 	function _loadNotifications() {
 		root.loading(true);
