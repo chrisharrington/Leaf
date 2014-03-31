@@ -67,6 +67,9 @@
                             <span data-bind="visible: IssueTracker.Notifications.unviewedNotifications() > 0, text: IssueTracker.Notifications.unviewedNotifications()"></span>
                         </div>
                     </a>
+                    <a id="user-settings">
+						<i class="fa fa-user"></i>
+                    </a>
                     <a id="create-issue" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/new-issue' }">
                         <i class="fa fa-plus"></i>
                     </a>
@@ -116,7 +119,27 @@
 			</div>
 		</div>
 
-		<div class="notifications">
+		<div class="user-settings slide-menu">
+			<span data-bind="text: IssueTracker.signedInUser() ? IssueTracker.signedInUser().name() : ''"></span>
+			<div>
+				<i class="fa fa-envelope"></i>
+				<span>Email Notifications</span>
+			</div>
+			<div>
+				<i class="fa fa-user"></i>
+				<span>Profile</span>
+			</div>
+			<div>
+				<i class="fa fa-key"></i>
+				<span>Change Password</span>
+			</div>
+			<div>
+				<i class="fa fa-sign-out"></i>
+				<span>Sign Out</span>
+			</div>
+		</div>
+
+		<div class="notifications slide-menu">
             <div class="mark-as-viewed">
                 <i class="fa fa-check"></i>
                 <span>Mark all notifications as read</span>

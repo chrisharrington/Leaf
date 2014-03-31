@@ -6,6 +6,7 @@
 
     var _container;
     var _trigger;
+	var _menu;
 
 	root.loading = ko.observable(false);
 	root.notifications = ko.observableArray();
@@ -19,20 +20,21 @@
         return count;
     }, root, { deferEvaluation: true });
 
-    root.init = function(container) {
+    root.init = function(container, trigger) {
+		_menu = new IssueTracker.SlideMenu(container, trigger);
         _container = container;
-        _trigger = $("#notifications");
+        _trigger = trigger;
 		_loadNotifications();
 
 		setInterval(_loadNotifications, NOTIFICATION_LOAD_INTERVAL);
 
-		_trigger.on("click", _show);
+		_trigger.on("click", _menu.show);
         _container.on("click", ".mark-as-viewed", _markAllAsViewed);
 
         $(document).on("click", function (e) {
             var itemClicked = _wasNotificationClicked($(e.target));
             if (!_container.is(":hidden") && !itemClicked)
-                _hide();
+                _menu.hide();
         });
     };
 
@@ -44,14 +46,6 @@
 		_markAsViewed([notificationId]);
         IssueTracker.IssueDetails.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl(), number: issueNumber });
     };
-
-	function _show() {
-        _container.css({ top: "-" + (_container.outerHeight()-HEADER_HEIGHT+10) + "px" }).transition({ y: _container.outerHeight() + 10 });
-	}
-
-    function _hide() {
-        _container.transition({ y: 0 }, ANIMATION_SPEED, "ease");
-    }
 
     function _wasNotificationClicked(context) {
         for (var i = 0; i < _trigger.length; i++) {
