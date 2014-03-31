@@ -188,21 +188,21 @@
 		<script type="text/html" id="email-notification-settings-template">
 			<div class="confirm-delete email-notifications-dialog">
 				<h2>Email Notification Settings</h2>
-				<div class="setting">
+				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueAssigned'); }">
 					<span>Issue Assigned</span>
-					<i class="fa fa-square"></i>
+					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueAssigned() ? 'fa-check-square' : 'fa-square') }"></i>
 				</div>
-				<div class="setting">
+				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueUpdated'); }">
 					<span>Issue Updated</span>
-					<i class="fa fa-check-square"></i>
+					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueUpdated() ? 'fa-check-square' : 'fa-square') }"></i>
 				</div>
-				<div class="setting">
+				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueDeleted'); }">
 					<span>Issue Deleted</span>
-					<i class="fa fa-check-square"></i>
+					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueDeleted() ? 'fa-check-square' : 'fa-square') }"></i>
 				</div>
-				<div class="setting">
+				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForNewCommentForAssignedIssue'); }">
 					<span>New Comment on Assigned Issue</span>
-					<i class="fa fa-check-square"></i>
+					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForNewCommentForAssignedIssue() ? 'fa-check-square' : 'fa-square') }"></i>
 				</div>
 				<div class="buttons">
 					<button>Cancel</button>

@@ -9,6 +9,11 @@
 		$(trigger).on("click", _load);
 	};
 
+	root.toggle = function(setting) {
+		var on = IssueTracker.signedInUser()[setting]();
+		IssueTracker.signedInUser()[setting](!on);
+	};
+
 	function _load() {
 		IssueTracker.Dialog.load(_template);
 	}
