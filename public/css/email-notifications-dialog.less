@@ -3,9 +3,9 @@
 	>h2 { float:left; width:100%; padding:@small-spacing @spacing; }
 	>div { float:left; width:100%; padding:@small-spacing @spacing; border-top:solid 1px @border-colour; .border-box; }
 	>div.setting { cursor:pointer;
-		>* { display:inline-block; vertical-align:middle; height:@setting-height; line-height:@setting-height; }
-		>span { float:left; }
-		>i { float:right; }
+		>span.title { float:left; font-weight:bold; }
+		>span.more-info { float:left; font-size:0.875em; width:100%; margin-top:@tiny-spacing; color:@primary-font-colour-lightest; }
+		>i { float:right; margin-top:1px; }
 		>i.fa-square { color:#E5E5E5; }
 		>i.fa-check-square { font-weight:bold; color:@secondary-font-colour-light; }
 	}
