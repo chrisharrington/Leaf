@@ -1,21 +1,21 @@
-var models = require("../data/models");
+var repositories = require("../data/repositories");
 
 var Promise = require("bluebird");
 
 module.exports = function(request, response, next) {
-	if (!request.cookies.session)
-		response.send(401);
-	else {
-		models.User.findOne({ session: request.cookies.session }).populate("project").exec(function(err, user) {
-			if (err)
-				response.send("Error while authenticating: " + err, 401);
-			else {
-				request.user = user;
-				request.project = user.project;
-				if (user.expiration != null && user.expiration < Date.now())
-					response.send(401);
-				next();
-			}
-		});
-	}
+	return new Promise(function(resolve, reject) {
+		if (!request.cookies.session)
+			response.send(401);
+		else
+			return repositories.User.get({ session: request.cookies.session });
+	}).then(function(users) {
+		request.user = users[0];
+		if (!request.user || (request.user.expiration != null && request.user.expiration < Date.now()))
+			response.send(401);
+		else
+			request.project = request.user.project;
+		next();
+	}).catch(function (e) {
+		response.send("Error while authenticating: " + e, 401);
+	});
 };

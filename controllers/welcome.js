@@ -34,8 +34,8 @@ module.exports = function(app) {
 			}
 
 			if (crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password) {
-				var session = csprng(512, 36);
 				if (!user.session) {
+					var session = csprng(512, 36);
 					response.cookie("session", session, staySignedIn ? { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 } : { expires: false });
 					user.session = session;
 				}

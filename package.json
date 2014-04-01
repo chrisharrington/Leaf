@@ -2,7 +2,8 @@
   "name": "issuetracker",
   "subdomain": "issuetracker",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha --recursive"
   },
   "version": "0.0.0-10",
   "engines": {
@@ -29,6 +30,7 @@
     "formidable": "^1.0.14",
     "node.extend": "^1.0.10",
     "azure": "^0.8.1",
-    "sendgrid": "^1.0.2"
+    "sendgrid": "^1.0.2",
+    "sinon-as-promised": "0.0.3"
   }
 }

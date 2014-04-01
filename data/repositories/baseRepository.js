@@ -24,12 +24,34 @@ module.exports = {
 		});
 	},
 
+	get: function(conditions, populate) {
+		var model = this.model;
+		return new Promise(function(resolve, reject) {
+			var query = model.find(conditions);
+			if (populate && populate != "")
+				query = query.populate(populate);
+			query.exec(function(err, data) {
+				if (err) reject(err);
+				else resolve(data);
+			});
+		});
+	},
+
 	create: function(model) {
 		return this.model.createAsync(model);
 	},
 
-	details: function(id) {
-		return this.model.findOneAsync({ "_id": id });
+	details: function(id, populate) {
+		var model = this.model;
+		return new Promise(function(resolve, reject) {
+			var query = model.findOne({ "_id": id });
+			if (populate && populate != "")
+				query = query.populate(populate);
+			query.exec(function(err, data) {
+				if (err) reject(err);
+				else resolve(data);
+			});
+		});
 	},
 
 	remove: function(id) {
