@@ -4,6 +4,7 @@ var models = require("../data/models");
 var config = require("../config");
 var csprng = require("csprng");
 var mapper = require("../data/mapper");
+var repositories = require("../data/repositories");
 
 var Promise = require("bluebird");
 
@@ -35,23 +36,19 @@ module.exports = function(app) {
 			if (crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password) {
 				var session = csprng(512, 36);
 				response.cookie("session", session, staySignedIn ? { maxAge: 1000*60*60*24*7*2 } : { expires: false });
+				user.session = session;
+				user.expiration = staySignedIn ? Date.now() + 1000*60*60*24*7*2 : null;
 				response.send({
 					user: mapper.map("user", "user-view-model", user),
 					project: mapper.map("project", "project-view-model", user.project)
 				}, 200);
+				return Promise.promisifyAll(user).saveAsync();
 			} else
 				response.send(401);
-
-			user.session = session;
-			user.expiration = staySignedIn ? Date.now() + 1000*60*60*24*7*2 : null;
-			return new Promise(function(resolve, reject) {
-				user.save(function(err) {
-					if (err) reject();
-					else resolve();
-				})
-			});
 		}).catch(function(e) {
-			response.send("Error signing in: " + e, 500);
+			var message = "Error signing in: " + e;
+			console.log(message);
+			response.send(message, 500);
 		});
 	});
 };

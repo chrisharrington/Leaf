@@ -2,6 +2,7 @@
 (function(root) {
 
 	var _container;
+	var _getRedirect;
 
 	root.loading = ko.observable(false);
 	root.model = {
@@ -10,8 +11,9 @@
 		staySignedIn: ko.observable(false)
 	};
 
-	root.init = function (container) {
+	root.init = function (container, getRedirect) {
 		_container = container;
+		_getRedirect = getRedirect;
 		container.on("click", "button", _signIn);
 	};
 
@@ -41,7 +43,12 @@
 			IssueTracker.Utilities.setObservableProperties(data.user, IssueTracker.signedInUser());
 			IssueTracker.selectedProject(data.project);
 			IssueTracker.signedInUser(IssueTracker.Utilities.createPropertyObservables(data.user));
-			IssueTracker.Issues.navigate({ "project-name": data.project.name.formatForUrl() });
+
+			var redirect = _getRedirect();
+			if (redirect)
+				window.location.hash = redirect;
+			else
+				IssueTracker.Issues.navigate({ "project-name": data.project.name.formatForUrl() });
 		}).fail(function (response) {
 			if (response.status == 401)
 				IssueTracker.Feedback.error("Your credentials are invalid.");

@@ -15,7 +15,7 @@ IssueTracker.Page = function(params) {
 	$.each(params.route, function() {
 		Path.map(this).to(function () {
 			if (!me._isAuthorized(params))
-				IssueTracker.Welcome.navigate();
+				IssueTracker.Welcome.redirect();
 			else
 				me._setView(params, this.params);
 		}).enter(function() {

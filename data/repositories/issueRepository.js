@@ -13,7 +13,6 @@ repository.number = function(projectId, number) {
 
 repository.update = function(model, user) {
 	var repositories = require("../repositories");
-	var me = this;
 	return Promise.all([
 		repository.details(model._id),
 		repositories.Milestone.details(model.milestoneId),
