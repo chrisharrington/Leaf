@@ -5,5 +5,5 @@ node_js:
 
 deploy:
   provider: heroku
-  api_key: "6513c4c8-3986-4bf3-8978-987a8d60b499",
+  api_key: "6513c4c8-3986-4bf3-8978-987a8d60b499"
   app: "leaf-issue-tracker"
