@@ -35,8 +35,10 @@ module.exports = function(app) {
 
 			if (crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password) {
 				var session = csprng(512, 36);
-				response.cookie("session", session, staySignedIn ? { maxAge: 1000*60*60*24*7*2 } : { expires: false });
-				user.session = session;
+				if (!user.session) {
+					response.cookie("session", session, staySignedIn ? { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 } : { expires: false });
+					user.session = session;
+				}
 				user.expiration = staySignedIn ? Date.now() + 1000*60*60*24*7*2 : null;
 				response.send({
 					user: mapper.map("user", "user-view-model", user),
