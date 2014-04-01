@@ -8,7 +8,7 @@ var Promise = require("bluebird");
 var mongoose = require("mongoose");
 var formidable = require("formidable");
 var storage = require("../storage/storage");
-var mime = require("mime");
+var notificationEmailer = require("../email/notificationEmailer");
 
 module.exports = function(app) {
 	app.get("/send-grid-approval", function(request, response) {
@@ -87,8 +87,13 @@ module.exports = function(app) {
 	app.post("/issues/update", authenticate, function(request, response) {
 		var issue = mapper.map("issue-view-model", "issue", request.body);
 		repositories.Issue.update(issue, request.user).then(function() {
-			if (request.user._id.toString() != issue.developerId.toString())
-				return repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId });
+			if (request.user._id.toString() != issue.developerId.toString()) {
+				repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId });
+				repositories.User.details(issue.developerId).then(function(user) {
+					if (user.emailNotificationForIssueUpdated)
+						notificationEmailer.issueUpdated(user, issue);
+				});
+			}
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
@@ -109,7 +114,11 @@ module.exports = function(app) {
 			return repositories.Comment.create(comment);
 		}).then(function() {
 			if (request.user._id.toString() != issue.developerId.toString())
-            	return repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });
+            	repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });
+				repositories.User.details(issue.developerId).then(function(user) {
+					if (user.emailNotificationForNewCommentForAssignedIssue)
+						notificationEmailer.newComment(user, issue);
+				});
         }).then(function() {
 			response.send(200);
 		}).catch(function(e) {
@@ -145,8 +154,13 @@ module.exports = function(app) {
 			model.project = request.project._id;
 			return repositories.Issue.create(model);
         }).then(function(issue) {
-			if (request.user._id.toString() != issue.developerId.toString())
-            	repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: issue.developerId });
+			if (request.user._id.toString() != issue.developerId.toString()) {
+				repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: issue.developerId });
+				repositories.User.details(issue.developerId).then(function(user) {
+					if (user.emailNotificationForIssueAssigned)
+						notificationEmailer.issueAssigned(user, issue);
+				});
+			}
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
@@ -164,8 +178,13 @@ module.exports = function(app) {
 		}).then(function() {
 			return repositories.Issue.remove(request.body.id)
 		}).then(function() {
-			if (request.user._id.toString() != issue.developerId.toString())
-				return repositories.Notification.create({ type: "issue-deleted", issue: issue._id, user: issue.developerId });
+			if (request.user._id.toString() != issue.developerId.toString()) {
+				repositories.Notification.create({ type: "issue-deleted", issue: issue._id, user: issue.developerId });
+				repositories.User.details(issue.developerId).then(function(user) {
+					if (user.emailNotificationForIssueDeleted)
+						notificationEmailer.issueDeleted(user, issue);
+				});
+			}
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {

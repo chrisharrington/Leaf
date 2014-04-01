@@ -44,9 +44,20 @@ function _registerControllers() {
 }
 
 function _launchServer() {
-	require("./data/connection").open()/*.then(function() {
-		require("./data/models").IssueFile.removeAsync();
-	})*/.then(function() {
+	var user;
+	require("./data/connection").open().then(function() {
+		return require("./data/models").User.findOneAsync();
+	}).then(function(u) {
+		user = u;
+		return new Promise(function(resolve, reject) {
+			require("./data/models").Issue.findOne().populate("project").exec(function(err, i) {
+				if (err) reject();
+				else resolve(i);
+			});
+		});
+	}).then(function(issue) {
+		return require("./email/notificationEmailer").issueAssigned(user, issue);
+	}).then(function() {
 		app.listen(config.serverPort);
 	}).then(function() {
 		console.log("Server listening on port " + config.serverPort + " in " + app.get("env") + " mode.");

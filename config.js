@@ -32,6 +32,10 @@ function _defaults() {
 		hashAlgorithm: "sha512",
 		dateFormat: "YYYY-MM-DD",
 		storageName: "leaf",
-		storageKey: "+TBkW/7TNt3nrL/u12GJFXHp6wSDelG94Jm/v3MUTWZwWS1Gd9KlndzXx+3G+sSa+fIU9uNgWnAjhhMNRVRyng=="
+		storageKey: "+TBkW/7TNt3nrL/u12GJFXHp6wSDelG94Jm/v3MUTWZwWS1Gd9KlndzXx+3G+sSa+fIU9uNgWnAjhhMNRVRyng==",
+		sendgridUsername: "LeafIssueTracker",
+		sendgridPassword: "a1b35913-ff9a-4c0c-a68f-6864f1dc476f",
+		fromAddress: "no-reply@leafissuetracker.com",
+		domain: "http://leafissuetracker.com"
 	};
 }

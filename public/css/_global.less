@@ -81,6 +81,7 @@
 .table-cell-vertically-aligned { display:table-cell; height:100%; vertical-align:middle; }
 .hidden { display:none !important; }
 .hover { background:@hover-colour !important; }
+.hover-light-background { background:#F8F8F8 !important; }
 .select { background:darken(@hover-colour, 10%) !important; }
 .background-colour-transition { -webkit-transition: background-color 1000ms linear; -moz-transition: background-color 1000ms linear; -o-transition: background-color 1000ms linear; -ms-transition: background-color 1000ms linear; transition: background-color 1000ms linear; }
 .tile { padding:@spacing; .border-radius; background:@light-tile-background-colour; .border-box; .shadow; color:@primary-font-colour; }
@@ -97,7 +98,7 @@ h3 { font-size:1.375em; font-weight:bold; color:@secondary-font-colour; text-tra
 a { color:@secondary-font-colour; }
 input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:@small-spacing; font-size:1em; .regular-font; .border-radius; .border-box; margin:0; }
 input:focus, textarea:focus, select:focus, .focus { outline:none; border-color:@active-highlight; box-shadow:0 0 10px @active-highlight; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
-button { padding:@small-spacing @spacing;  .secondary-gradient; color:white; .border-radius; .regular-font; font-size:1em; .border-box; border:none; cursor:pointer; .border-radius(3px); }
+button { padding:@small-spacing @spacing; margin:0; .secondary-gradient; color:white; .border-radius; .regular-font; font-size:1em; .border-box; border:none; cursor:pointer; .border-radius(3px); }
 button[disabled] { .gradient(#AAAAAA, #777777); cursor:default; }
 button.icon { display:table;
 	>* { .table-cell-vertically-aligned; line-height:19px; }

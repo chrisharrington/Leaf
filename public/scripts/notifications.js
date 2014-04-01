@@ -19,21 +19,15 @@
         return count;
     }, root, { deferEvaluation: true });
 
-    root.init = function(container) {
+    root.init = function(container, trigger) {
+		IssueTracker.SlideMenu.build(container, trigger);
         _container = container;
-        _trigger = $("#notifications");
+        _trigger = trigger;
 		_loadNotifications();
 
 		setInterval(_loadNotifications, NOTIFICATION_LOAD_INTERVAL);
 
-		_trigger.on("click", _show);
         _container.on("click", ".mark-as-viewed", _markAllAsViewed);
-
-        $(document).on("click", function (e) {
-            var itemClicked = _wasNotificationClicked($(e.target));
-            if (!_container.is(":hidden") && !itemClicked)
-                _hide();
-        });
     };
 
 	root.refresh = function() {
@@ -45,22 +39,6 @@
         IssueTracker.IssueDetails.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl(), number: issueNumber });
     };
 
-	function _show() {
-        _container.css({ top: "-" + (_container.outerHeight()-HEADER_HEIGHT+10) + "px" }).transition({ y: _container.outerHeight() + 10 });
-	}
-
-    function _hide() {
-        _container.transition({ y: 0 }, ANIMATION_SPEED, "ease");
-    }
-
-    function _wasNotificationClicked(context) {
-        for (var i = 0; i < _trigger.length; i++) {
-            if ($(_trigger[i]).attr("id") == context.attr("id") || context.parents().filter("#" + $(_trigger[i]).attr("id")).length > 0)
-                return true;
-        }
-        return false;
-    }
-
 	function _loadNotifications() {
 		root.loading(true);
         $.ajax({
@@ -71,8 +49,6 @@
 			for (var i = 0; i < notifications.length; i++)
 				root.notifications.push(IssueTracker.Utilities.createPropertyObservables(notifications[i]));
             _setIconHeights();
-		}).fail(function() {
-			IssueTracker.Feedback.error("An error has occurred while retrieving your notifications. Please contact technical support.");
 		}).always(function() {
 			root.loading(false);
 		});

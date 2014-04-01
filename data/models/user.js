@@ -11,6 +11,11 @@ var schema = mongoose.Schema({
 	password: String,
 	session: String,
 	expiration: Date,
+
+	emailNotificationForIssueAssigned: { type: Boolean, default: true },
+	emailNotificationForIssueDeleted: { type: Boolean, default: false },
+	emailNotificationForIssueUpdated: { type: Boolean, default: false },
+	emailNotificationForNewCommentForAssignedIssue: { type: Boolean, default: false },
     
     project: { type: objectId, ref: "project" }
 });

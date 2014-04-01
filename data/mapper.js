@@ -44,7 +44,7 @@ exports.mapAll = function(sourceKey, destinationKey, sourceList) {
 exports.init = function() {
 	exports.define("priority", "priority-view-model", { "id": "_id", name: "name", order: "order" });
 	exports.define("status", "status-view-model", { "id": "_id", name: "name", order: "order" });
-	exports.define("user", "user-view-model", { "id": "_id", name: "name", emailAddress: "emailAddress" });
+	exports.define("user", "user-view-model", { "id": "_id", name: "name", emailAddress: "emailAddress", emailNotificationForIssueAssigned: "emailNotificationForIssueAssigned", emailNotificationForIssueUpdated: "emailNotificationForIssueUpdated", emailNotificationForIssueDeleted: "emailNotificationForIssueDeleted", emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue" });
 	exports.define("transition", "transition-view-model", { "id": "id", name: "name" });
 	exports.define("project", "project-view-model", { "id": "_id", name: "name" });
 	exports.define("milestone", "milestone-view-model", { "id": "_id", name: "name" });

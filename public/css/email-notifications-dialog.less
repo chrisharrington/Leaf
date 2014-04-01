@@ -1,0 +1,16 @@
+.email-notifications-dialog { .border-box; width:500px; padding:0 !important;
+	@setting-height:19px;
+	>h2 { float:left; width:100%; padding:@small-spacing @spacing; }
+	>div { float:left; width:100%; padding:@small-spacing @spacing; border-top:solid 1px @border-colour; .border-box; }
+	>div.setting { cursor:pointer;
+		>* { display:inline-block; vertical-align:middle; height:@setting-height; line-height:@setting-height; }
+		>span { float:left; }
+		>i { float:right; }
+		>i.fa-square { color:#E5E5E5; }
+		>i.fa-check-square { font-weight:bold; color:@secondary-font-colour-light; }
+	}
+	>div.setting:hover { .hover-light-background; }
+	>div.button-container {
+		>button { float:right; margin-left:@small-spacing; }
+	}
+}
