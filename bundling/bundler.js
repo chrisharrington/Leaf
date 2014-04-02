@@ -1,20 +1,42 @@
-var _less = require("less");
-var _fs = require("fs");
-var _compressor = require("clean-css");
+var Promise = require("bluebird"),
+	less = require("less"),
+	fs = Promise.promisifyAll(require("fs")),
+	compressor = require("clean-css");
 
-var Promise = require("bluebird");
+var _env = "development";
 
-exports.renderScripts = function() {
-	return new Promise(function(resolve, reject) {
-		resolve("scripts");
+exports.env = function(env) {
+	_env = env;
+};
+
+exports.renderScripts = function(assets) {
+	var files = [];
+	return _buildOrderedFileList(assets.javascript(), files).then(function() {
+		console.log(files.length);
 	});
 };
 
 exports.renderCss = function() {
-	return new Promise(function(resolve, reject) {
+	return new Promise(function(resolve) {
 		resolve("css");
 	});
 };
+
+function _buildOrderedFileList(assets, files) {
+	return Promise.reduce(assets, function(list, asset) {
+		return fs.statAsync(asset).then(function(info) {
+			if (!info.isDirectory()) {
+				list.push(asset);
+				return list;
+			} else
+				return fs.readdirAsync(asset).then(function(newAssets) {
+					for (var i = 0; i < newAssets.length; i++)
+						newAssets[i] = asset + "/" + newAssets[i];
+					return _buildOrderedFileList(newAssets, list);
+				});
+		});
+	}, files);
+}
 
 exports.bundleCss = function(directory, minify, callback) {
     _getAllFilesIn(directory, [".css", ".less"], function(err, files) {

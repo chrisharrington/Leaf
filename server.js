@@ -5,6 +5,7 @@ var express = require("express");
 var app = express();
 var config = require("./config");
 var mapper = require("./data/mapper");
+var bundler = require("./bundling/bundler");
 
 require("./inheritance");
 
@@ -28,10 +29,12 @@ function _configureApplication() {
 
 	app.configure("development", function() {
 		app.set("env", "development");
+		bundler.env("development");
 	});
 
 	app.configure("production", function() {
 		app.set("env", "production");
+		bundler.env("production");
 	});
 }
 

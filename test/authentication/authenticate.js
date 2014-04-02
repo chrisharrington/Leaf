@@ -1,20 +1,9 @@
-require("../../inheritance");
-
-var assert = require("assert");
-var sinon = require("sinon");
-var repositories = require("../../data/repositories");
-var Promise = require("bluebird");
-var sinonAsPromised = require("sinon-as-promised")(Promise);
+require("../setup");
+var assert = require("assert"), sinon = require("sinon"), repositories = require("../../data/repositories")
 
 var sut = require("../../authentication/authenticate");
 
-sinon.stub.blah = function() {
-	return new Promise(function(resolve) {
-		resolve("boo");
-	});
-};
-
-describe("authenticate.", function() {
+describe("authenticate", function() {
 	describe("default", function() {
 		var users = [{ name: "the name" }];
 
