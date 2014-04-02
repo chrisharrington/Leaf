@@ -32,6 +32,6 @@
     "azure": "^0.8.1",
     "sendgrid": "^1.0.2",
     "sinon-as-promised": "0.0.3",
-    "q": "^1.0.1"
+    "yuicompressor": "^2.4.8"
   }
 }

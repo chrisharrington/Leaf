@@ -4,7 +4,7 @@
 	root.user = ko.observable();
 	root.loading = ko.observable(false);
 
-	root.delete = function (user) {
+	root.remove = function (user) {
 		root.user(user);
 		IssueTracker.Dialog.load("confirm-delete-user-template", root);
 	};

@@ -1,23 +1,36 @@
 var Promise = require("bluebird"),
 	less = require("less"),
 	fs = Promise.promisifyAll(require("fs")),
+	minifier = Promise.promisifyAll(require("yuicompressor")),
 	compressor = require("clean-css");
 
-var _env = "development";
+var _env = "production";
 
 exports.env = function(env) {
 	_env = env;
 };
 
-exports.renderScripts = function(assets) {
+exports.renderScripts = function(assets, app) {
 	var files = [];
-	var renderer = _getRenderer("javascript", _env);
 	return _buildOrderedFileList(assets.javascript(), files).then(function() {
-		return Promise.reduce(files.map(function(file) {
-			return renderer.render(file);
+		var promise = Promise.reduce(files.map(function(file) {
+			return _env == "production" ? fs.readFileAsync(file) : "<script type=\"text/javascript\" src=\"" + file.replace("public/", "") + "\"></script>\n";
 		}), function(result, rendered) {
 			return result + rendered;
-		}, "")
+		}, "");
+		if (_env == "production")
+			promise = promise.then(function(concatenated) {
+				return minifier.compressAsync(concatenated, { type: "js" }).then(function(result) {
+					var script = result[0];
+					app.get("/script", function(request, response) {
+						response.writeHead(200, { "Content-Type": "text/javascript" });
+						response.write(script);
+						response.end();
+					});
+					return "<script type=\"text/javascript\" src=\"/script\"></script>";
+				});
+			});
+		return promise;
 	});
 };
 
@@ -26,11 +39,6 @@ exports.renderCss = function() {
 		resolve("css");
 	});
 };
-
-function _getRenderer(type, environment) {
-	if (type == "javascript" && environment == "development")
-		return require("./renderers/devScriptRenderer");
-}
 
 function _buildOrderedFileList(assets, files) {
 	return Promise.reduce(assets, function(list, asset) {
