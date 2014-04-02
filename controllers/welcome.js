@@ -34,12 +34,10 @@ module.exports = function(app) {
 			}
 
 			if (crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password) {
-				if (!user.session) {
-					var session = csprng(512, 36);
-					response.cookie("session", session, staySignedIn ? { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 } : { expires: false });
-					user.session = session;
-				}
+				if (!user.session)
+					user.session = csprng(512, 36);
 				user.expiration = staySignedIn ? Date.now() + 1000*60*60*24*7*2 : null;
+				response.cookie("session", user.session, staySignedIn ? { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 } : { expires: false });
 				response.send({
 					user: mapper.map("user", "user-view-model", user),
 					project: mapper.map("project", "project-view-model", user.project)

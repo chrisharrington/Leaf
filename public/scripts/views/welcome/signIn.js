@@ -6,8 +6,8 @@
 
 	root.loading = ko.observable(false);
 	root.model = {
-		email: ko.observable(""),
-		password: ko.observable(""),
+		email: ko.observable("chrisharrington99@gmail.com"),
+		password: ko.observable("test"),
 		staySignedIn: ko.observable(false)
 	};
 
