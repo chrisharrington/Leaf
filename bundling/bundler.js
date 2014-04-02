@@ -4,6 +4,18 @@ var _compressor = require("clean-css");
 
 var Promise = require("bluebird");
 
+exports.renderScripts = function() {
+	return new Promise(function(resolve, reject) {
+		resolve("scripts");
+	});
+};
+
+exports.renderCss = function() {
+	return new Promise(function(resolve, reject) {
+		resolve("css");
+	});
+};
+
 exports.bundleCss = function(directory, minify, callback) {
     _getAllFilesIn(directory, [".css", ".less"], function(err, files) {
 	    if (err)

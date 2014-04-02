@@ -6,6 +6,7 @@ var mustache = require("mustache");
 var models = require("../data/models");
 var mapper = require("../data/mapper");
 var repositories = require("../data/repositories");
+var bundler = require("../bundling/bundler");
 
 module.exports = function(app) {
 	app.get("/", function(request, response) {
@@ -18,8 +19,10 @@ module.exports = function(app) {
 			repositories.Project.all(),
 			repositories.Milestone.all(),
 			repositories.IssueType.all(),
-			_getSignedInUser(request)
-		]).spread(function(html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
+			_getSignedInUser(request),
+			bundler.renderScripts(),
+			bundler.renderCss()
+		]).spread(function(html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, renderedScripts, renderedCss) {
 			response.send(mustache.render(html.toString(), {
 				priorities: JSON.stringify(mapper.mapAll("priority", "priority-view-model", priorities)),
 				statuses: JSON.stringify(mapper.mapAll("status", "status-view-model", statuses)),
@@ -29,7 +32,9 @@ module.exports = function(app) {
 				milestones: JSON.stringify(mapper.mapAll("milestone", "milestone-view-model", milestones)),
 				issueTypes: JSON.stringify(mapper.mapAll("issue-type", "issue-type-view-model", issueTypes)),
 				signedInUser: JSON.stringify(mapper.map("user", "user-view-model", !user || (user.expiration != null && user.expiration < Date.now()) ? null : user)),
-				selectedProject: JSON.stringify(mapper.map("project", "project-view-model", user ? user.project : null))
+				selectedProject: JSON.stringify(mapper.map("project", "project-view-model", user ? user.project : null)),
+				renderedScripts: renderedScripts,
+				renderedCss: renderedCss
 			}));
 		}).catch(function(e) {
 			response.send("Error loading root: " + e, 500);
