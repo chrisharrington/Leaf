@@ -5,7 +5,9 @@ var sut = require("../../bundling/bundler");
 describe("bundler", function() {
 	describe("renderScripts", function() {
 		it("should render script tags in developer mode", function(done) {
-			sut.renderScripts(require("../../bundling/assets"));
+			sut.renderScripts(require("../../bundling/assets")).then(function(result) {
+				done();
+			});
 		});
 	});
 });

@@ -11,8 +11,13 @@ exports.env = function(env) {
 
 exports.renderScripts = function(assets) {
 	var files = [];
+	var renderer = _getRenderer("javascript", _env);
 	return _buildOrderedFileList(assets.javascript(), files).then(function() {
-		console.log(files.length);
+		return Promise.reduce(files.map(function(file) {
+			return renderer.render(file);
+		}), function(result, rendered) {
+			return result + rendered;
+		}, "")
 	});
 };
 
@@ -22,6 +27,11 @@ exports.renderCss = function() {
 	});
 };
 
+function _getRenderer(type, environment) {
+	if (type == "javascript" && environment == "development")
+		return require("./renderers/devScriptRenderer");
+}
+
 function _buildOrderedFileList(assets, files) {
 	return Promise.reduce(assets, function(list, asset) {
 		return fs.statAsync(asset).then(function(info) {
@@ -30,9 +40,9 @@ function _buildOrderedFileList(assets, files) {
 				return list;
 			} else
 				return fs.readdirAsync(asset).then(function(newAssets) {
-					for (var i = 0; i < newAssets.length; i++)
-						newAssets[i] = asset + "/" + newAssets[i];
-					return _buildOrderedFileList(newAssets, list);
+					return _buildOrderedFileList(newAssets.map(function(curr) {
+						return asset + "/" + curr;
+					}), list);
 				});
 		});
 	}, files);
