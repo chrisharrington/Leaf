@@ -20,7 +20,7 @@ module.exports = function(app) {
 			repositories.Milestone.all(),
 			repositories.IssueType.all(),
 			_getSignedInUser(request),
-			bundler.renderScripts(),
+			bundler.renderScripts(require("../bundling/assets")),
 			bundler.renderCss()
 		]).spread(function(html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, renderedScripts, renderedCss) {
 			response.send(mustache.render(html.toString(), {
