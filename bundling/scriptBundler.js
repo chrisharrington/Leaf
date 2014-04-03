@@ -1,12 +1,11 @@
 var Promise = require("bluebird");
 var bundler = require("./bundler");
 var minifier = require("yuicompressor");
-var fs = Promise.promisifyAll(require("fs"));
 
 exports.render = function(assets, app) {
-	bundler.render(assets, app, {
+	return bundler.render(assets, app, {
 		productionHandler: exports.handleProduction,
-		perAssetDevRender: exports.buildPerAssetDevRender
+		buildPerAssetDevRender: exports.buildPerAssetDevRender
 	});
 };
 

@@ -11,7 +11,18 @@ describe("scriptBundler", function() {
 			var assets = ["file1.js"], app = sinon.stub();
 			sut.render(assets, app);
 
-			render.calledOnce.should.be.true;
+			assert(render.calledOnce);
+
+			render.restore();
+		});
+
+		it("should return promise", function() {
+			var render = sinon.stub(require("../../bundling/bundler"), "render").resolves("the result");
+
+			var assets = ["file1.js"], app = sinon.stub();
+			sut.render(assets, app).then(function(result) {
+				assert(result.should.equal("the result"));
+			});
 
 			render.restore();
 		});
