@@ -1,111 +1,82 @@
 require("../setup");
-var should = require("should"), sinon = require("sinon"), repositories = require("../../data/repositories"), Promise = require("bluebird")
-var fs = Promise.promisifyAll(require("fs"));
+var assert = require("assert"), should = require("should"), sinon = require("sinon"), repositories = require("../../data/repositories"), Promise = require("bluebird")
 var minifier = Promise.promisifyAll(require("yuicompressor"));
 var sut = require("../../bundling/scriptBundler");
 
 describe("scriptBundler", function() {
 	describe("render", function() {
-		it("should render script tags in developer mode", function(done) {
-			var files = ["file1.js"];
-			sinon.stub(fs, "statAsync").withArgs("./public/scripts/" + files[0]).resolves({ isDirectory: function() { return false; } });
+		it("should call bundler.render", function() {
+			var render = sinon.stub(require("../../bundling/bundler"), "render");
 
-			sut.render(files, { get: sinon.stub().returns("development") }).then(function(result) {
-				result.should.be.exactly("<script type=\"text/javascript\" src=\"/scripts/" + files[0] + "\"></script>\n");
-				done();
-			}).catch(function(e) {
-				done(e);
-			}).finally(function() {
-				fs.statAsync.restore();
-			});
+			var assets = ["file1.js"], app = sinon.stub();
+			sut.render(assets, app);
+
+			render.calledOnce.should.be.true;
+
+			render.restore();
 		});
+	});
 
-		it("should render generic script tag in production mode", function(done) {
-			var files = ["file1.js"];
-			sinon.stub(fs, "statAsync").withArgs("./public/scripts/" + files[0]).resolves({ isDirectory: function() { return false; } });
-			sinon.stub(fs, "readFileAsync").withArgs("./public/scripts/" + files[0]).resolves("var blah = 'file contents';");
-
-			sut.render(files, { get: sinon.stub().returns("production") }).then(function(result) {
-				result.should.be.exactly("<script type=\"text/javascript\" src=\"/script\"></script>");
-				done();
-			}).catch(function(e) {
-				done(e);
-			}).finally(function() {
-				fs.statAsync.restore();
-				fs.readFileAsync.restore();
-			});
+	describe("buildPerAssetDevRender", function() {
+		it("should build script tag", function() {
+			sut.buildPerAssetDevRender("file.js").should.equal("<script type=\"text/javascript\" src=\"file.js\"></script>\n");
 		});
+	});
 
-		it("should minify in production mode", function(done) {
-			var files = ["file1.js"];
-			sinon.stub(fs, "statAsync").withArgs("./public/scripts/" + files[0]).resolves({ isDirectory: function() { return false; } });
-			sinon.stub(fs, "readFileAsync").withArgs("./public/scripts/" + files[0]).resolves("var blah = 'file contents';");
-			sinon.spy(minifier, "compressAsync");
+	describe("handleProduction", function() {
+		it("should minify scripts", function(done) {
+			var script = "var blah = 4;";
+			var promise = Promise.resolve(script);
+			var app = { get: sinon.stub() };
+			var spy = sinon.spy(minifier, "compressAsync");
 
-			sut.render(files, { get: sinon.stub().returns("production") }).then(function(result) {
-				minifier.compressAsync.calledOnce.should.be.true;
+			sut.handleProduction(promise, app).then(function() {
+				assert(minifier.compressAsync.calledOnce);
 				done();
 			}).catch(function(e) {
 				done(e);
 			}).finally(function() {
-				fs.statAsync.restore();
-				fs.readFileAsync.restore();
 				minifier.compressAsync.restore();
 			});
 		});
 
-		it("should not minify in development mode", function(done) {
-			var files = ["file1.js"];
-			sinon.stub(fs, "statAsync").withArgs("./public/scripts/" + files[0]).resolves({ isDirectory: function() { return false; } });
-			sinon.stub(fs, "readFileAsync").withArgs("./public/scripts/" + files[0]).resolves("var blah = 'file contents';");
-			sinon.spy(minifier, "compressAsync");
+		it("should set route for retrieving minified javascript", function(done) {
+			var script = "var blah = 4;";
+			var promise = Promise.resolve(script);
+			var app = { get: sinon.stub() };
 
-			sut.render(files, { get: sinon.stub().returns("development") }).then(function(result) {
-				minifier.compressAsync.calledOnce.should.be.false;
+			sut.handleProduction(promise, app).then(function() {
+				assert(app.get.calledWith("/script", sinon.match.func));
 				done();
 			}).catch(function(e) {
 				done(e);
-			}).finally(function() {
-				fs.statAsync.restore();
-				fs.readFileAsync.restore();
-				minifier.compressAsync.restore();
 			});
 		});
+	});
 
-		it("should apply script route to app in production mode", function(done) {
-			var files = ["file1.js"], app = { get: sinon.stub().returns("production") };
-			sinon.stub(fs, "statAsync").withArgs("./public/scripts/" + files[0]).resolves({ isDirectory: function() { return false; } });
-			sinon.stub(fs, "readFileAsync").withArgs("./public/scripts/" + files[0]).resolves("var blah = 'file contents';");
-			sinon.spy(minifier, "compressAsync");
+	describe("writeProductionScriptToResponse", function() {
+		it("should set content type to javascript", function() {
+			var script = "the script";
+			var response = { writeHead: sinon.stub(), write: sinon.stub(), end: sinon.stub() };
+			sut.writeProductionScriptToResponse({}, response, script);
 
-			sut.render(files, app).then(function(result) {
-				app.get.calledWith("/script", sinon.match.func).should.be.true;
-				done();
-			}).catch(function(e) {
-				done(e);
-			}).finally(function() {
-				fs.statAsync.restore();
-				fs.readFileAsync.restore();
-				minifier.compressAsync.restore();
-			});
+			assert(response.writeHead.calledWith(200, { "Content-Type": "text/javascript" }));
 		});
 
-		it("should not apply script route to app in development mode", function(done) {
-			var files = ["file1.js"], app = { get: sinon.stub().returns("development") };
-			sinon.stub(fs, "statAsync").withArgs("./public/scripts/" + files[0]).resolves({ isDirectory: function() { return false; } });
-			sinon.stub(fs, "readFileAsync").withArgs("./public/scripts/" + files[0]).resolves("var blah = 'file contents';");
-			sinon.spy(minifier, "compressAsync");
+		it("should write script to response stream", function() {
+			var script = "the script";
+			var response = { writeHead: sinon.stub(), write: sinon.stub(), end: sinon.stub() };
+			sut.writeProductionScriptToResponse({}, response, script);
 
-			sut.render(files, app).then(function(result) {
-				app.get.calledWith("/script", sinon.match.func).should.be.false;
-				done();
-			}).catch(function(e) {
-				done(e);
-			}).finally(function() {
-				fs.statAsync.restore();
-				fs.readFileAsync.restore();
-				minifier.compressAsync.restore();
-			});
+			assert(response.write.calledWith(script));
+		});
+
+		it("should end the response", function() {
+			var script = "the script";
+			var response = { writeHead: sinon.stub(), write: sinon.stub(), end: sinon.stub() };
+			sut.writeProductionScriptToResponse({}, response, script);
+
+			assert(response.end.calledOnce);
 		});
 	});
 });
