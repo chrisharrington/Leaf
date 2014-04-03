@@ -5,8 +5,8 @@ var Promise = require("bluebird"),
 	compressor = require("clean-css");
 
 exports.render = function(assets, app, config) {
-	return _deriveFileList(assets).then(function (files) {
-		var promise = _buildInitialPromise(files, app, config.perAssetDevRender);
+	return _buildFileList(assets).then(function (files) {
+		var promise = _buildInitialPromise(files, app, config);
 		if (app.get("env") == "production")
 			promise = config.productionHandler(promise, app);
 		return promise;
@@ -21,14 +21,8 @@ function _buildInitialPromise(files, app, config) {
 	}, "");
 }
 
-function _deriveFileList(assets) {
-	var files = [];
-	return _buildFileList(assets.map(function (curr) {
-		return "./public/scripts/" + curr;
-	}), files);
-}
-
 function _buildFileList(assets, files) {
+	files = files || [];
 	return Promise.reduce(assets, function(list, asset) {
 		return _stat(asset, list);
 	}, files || []);
