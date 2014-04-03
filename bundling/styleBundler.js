@@ -1,0 +1,4 @@
+
+exports.render = function(assets) {
+
+}

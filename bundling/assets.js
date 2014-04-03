@@ -16,3 +16,15 @@ exports.javascript = function() {
 		"init.js"
 	];
 };
+
+exports.less = function() {
+	return [
+		"global.less",
+		"fonts.css",
+		"controls",
+		"partials",
+		"templates",
+		"thirdParty",
+		"views"
+	];
+};
