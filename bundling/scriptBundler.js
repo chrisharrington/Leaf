@@ -10,7 +10,7 @@ exports.render = function(assets, app) {
 };
 
 exports.buildPerAssetDevRender = function(file) {
-	return "<script type=\"text/javascript\" src=\"" + file + "\"></script>\n";
+	return "<script type=\"text/javascript\" src=\"" + file.replace("public/", "") + "\"></script>\n";
 };
 
 exports.handleProduction = function(promise, app) {

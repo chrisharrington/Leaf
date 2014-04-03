@@ -32,6 +32,10 @@ describe("scriptBundler", function() {
 		it("should build script tag", function() {
 			sut.buildPerAssetDevRender("file.js").should.equal("<script type=\"text/javascript\" src=\"file.js\"></script>\n");
 		});
+
+		it("should remove 'public/' from rendered paths", function() {
+			sut.buildPerAssetDevRender("./public/file.js").should.equal("<script type=\"text/javascript\" src=\"./file.js\"></script>\n");
+		});
 	});
 
 	describe("handleProduction", function() {
