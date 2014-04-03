@@ -3,9 +3,8 @@ var bundler = require("./bundler");
 var minifier = require("yuicompressor");
 var fs = Promise.promisifyAll(require("fs"));
 
-exports.render = function(directory, app) {
-	var files = [];
-	return _readDirectory(directory, files).then(function () {
+exports.render = function(assets, app) {
+	return _deriveFileList(assets).then(function (files) {
 		var promise = _buildInitialPromise(files, app);
 		if (app.get("env") == "production")
 			promise = _handleProduction(promise, app);
@@ -39,10 +38,9 @@ function _buildInitialPromise(files, app) {
 	}, "");
 }
 
-function _readDirectory(directory, files) {
-	return fs.readdirAsync(directory).then(function(scripts) {
-		return bundler.buildFileList(scripts.map(function (curr) {
-			return "./public/scripts/" + curr;
-		}), files);
-	});
+function _deriveFileList(assets) {
+	var files = [];
+	return bundler.buildFileList(assets.map(function (curr) {
+		return "./public/scripts/" + curr;
+	}), files);
 }
