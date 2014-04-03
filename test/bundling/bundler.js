@@ -6,6 +6,18 @@ var sut = require("../../bundling/bundler");
 
 describe("bundler", function() {
 	describe("render", function() {
+		it("should fail with missing production handler", function() {
+			should(sut.render.bind(null, null, null, {
+				buildPerAssetDevRender: function() {}
+			})).throw("Missing production handler for bundler.");
+		});
+
+		it("should fail with missing per asset dev render", function() {
+			should(sut.render.bind(null, null, null, {
+				productionHandler: function() {}
+			})).throw("Missing per asset dev render for bundler.");
+		});
+
 		it("should render development tag with appropriate file", function(done) {
 			_run({
 				done: done,

@@ -1,10 +1,8 @@
-var Promise = require("bluebird"),
-	less = require("less"),
-	fs = Promise.promisifyAll(require("fs")),
-	minifier = Promise.promisifyAll(require("yuicompressor")),
-	compressor = require("clean-css");
+var Promise = require("bluebird"), fs = Promise.promisifyAll(require("fs"));
 
 exports.render = function(assets, app, config) {
+	_validateConfig(config);
+
 	return _buildFileList(assets).then(function (files) {
 		var promise = _buildInitialPromise(files, app, config);
 		if (app.get("env") == "production")
@@ -12,6 +10,13 @@ exports.render = function(assets, app, config) {
 		return promise;
 	});
 };
+
+function _validateConfig(config) {
+	if (!config.productionHandler)
+		throw new ReferenceError("Missing production handler for bundler.");
+	if (!config.buildPerAssetDevRender)
+		throw new ReferenceError("Missing per asset dev render for bundler.");
+}
 
 function _buildInitialPromise(files, app, config) {
 	return Promise.reduce(files.map(function (file) {

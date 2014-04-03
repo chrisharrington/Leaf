@@ -29,12 +29,10 @@ function _configureApplication() {
 
 	app.configure("development", function() {
 		app.set("env", "development");
-		bundler.env("development");
 	});
 
 	app.configure("production", function() {
 		app.set("env", "production");
-		bundler.env("production");
 	});
 }
 
