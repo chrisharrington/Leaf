@@ -16,7 +16,7 @@ exports.renderCss = function() {
 	});
 };
 
-exports.buildOrderedFileList = function(assets, files) {
+exports.buildFileList = function(assets, files) {
 	return Promise.reduce(assets, function(list, asset) {
 		return fs.statAsync(asset).then(function(info) {
 			if (!info.isDirectory()) {
@@ -24,26 +24,10 @@ exports.buildOrderedFileList = function(assets, files) {
 				return list;
 			} else
 				return fs.readdirAsync(asset).then(function(newAssets) {
-					return exports.buildOrderedFileList(newAssets.map(function(curr) {
+					return exports.buildFileList(newAssets.map(function(curr) {
 						return asset + "/" + curr;
 					}), list);
 				});
 		});
-	}, files);
-};
-
-exports.bundleCss = function(directory, minify, callback) {
-    _getAllFilesIn(directory, [".css", ".less"], function(err, files) {
-	    if (err)
-	        console.log("Error while bundling: " + err);
-	    _concatenateAllFiles(directory, files, function(concatenated) {
-	        _less.render(concatenated, function(error, css) {
-		        if (error)
-		            console.log("Error while performing LESS conversion: " + error);
-	            if (minify)
-	                css = new _compressor().minify(css);
-	            callback(css);
-	        });
-	    });
-    });
+	}, files || []);
 };

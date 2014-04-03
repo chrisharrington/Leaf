@@ -1,11 +1,12 @@
 var Promise = require("bluebird");
 var bundler = require("./bundler");
+var minifier = require("yuicompressor");
 var fs = Promise.promisifyAll(require("fs"));
 
 exports.render = function(directory, app) {
 	var files = [];
 	return fs.readdirAsync(directory).then(function(scripts) {
-		return bundler.buildOrderedFileList(scripts.map(function(curr) {
+		return bundler.buildFileList(scripts.map(function(curr) {
 			return "./public/scripts/" + curr;
 		}), files);
 	}).then(function () {
