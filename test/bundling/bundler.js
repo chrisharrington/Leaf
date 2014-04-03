@@ -21,7 +21,10 @@ describe("bundler", function() {
 			stat.withArgs("./public/scripts/directory2/d2-file2.js").resolves({ isDirectory: function() { return false; } });
 
 			sut.buildFileList(files).then(function(list) {
-
+				list[0].should.equal("./public/scripts/directory1/d1-file1.js");
+				list[1].should.equal("./public/scripts/directory1/d1-file2.js");
+				list[2].should.equal("./public/scripts/directory2/d2-file1.js");
+				list[3].should.equal("./public/scripts/directory2/d2-file2.js");
 				done();
 			}).catch(function(e) {
 				done(e);
