@@ -12,8 +12,12 @@ var notificationEmailer = require("../email/notificationEmailer");
 
 module.exports = function(app) {
 	app.get("/issues", authenticate, function(request, response) {
-		fs.readFile("public/views/issues.html", function(err, content) {
+		return fs.readFileAsync("public/views/issues.html").then(function(content) {
 			response.send(content);
+		}).catch(function(e) {
+			var message = "Error while reading issues view: " + e;
+			console.log(message);
+			response.send(message, 500);
 		});
 	});
 
