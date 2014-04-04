@@ -10,7 +10,7 @@ describe("styleBundler", function() {
 		beforeEach(function() {
 			sinon.stub(bundler, "concatenate").resolves("concatenated");
 			sinon.stub(less, "renderAsync").resolves("css");
-			sinon.stub(minifier, "compressAsync").resolves("minified");
+			sinon.stub(minifier, "compressAsync").resolves(["minified"]);
 		});
 
 		it("should return a promise", function() {
