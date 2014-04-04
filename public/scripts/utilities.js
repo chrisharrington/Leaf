@@ -1,4 +1,3 @@
-alert("util");
 (function (root) {
 
 	root.createPropertyObservables = function (obj) {
