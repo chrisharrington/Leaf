@@ -22,3 +22,10 @@
   font-weight: 700;
   src: local('Roboto Condensed Bold'), local('RobotoCondensed-Bold'), url(../fonts/Roboto-Condensed-700.woff) format('woff');
 }
+
+@font-face {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Oswald'), local('Oswald'), url(../fonts/Oswald.woff) format('woff');
+}
