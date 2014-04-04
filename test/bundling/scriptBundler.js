@@ -73,7 +73,7 @@ describe("scriptBundler", function() {
 
 			sinon.stub(bundler, "concatenate").resolves(params.concatenated || "");
 			sinon.stub(bundler, "files").resolves(params.files || []);
-			sinon.stub(minifier, "compressAsync").resolves("minified");
+			sinon.stub(minifier, "compressAsync").resolves(["minified", ""]);
 
 			return sut.render(assets, app).finally(function() {
 				bundler.concatenate.restore();

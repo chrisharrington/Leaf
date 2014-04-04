@@ -20,10 +20,10 @@ function _handleProduction(assets, app) {
 	return bundler.concatenate(assets).then(function(concatenated) {
 		return minifier.compressAsync(concatenated);
 	}).then(function(minified) {
-		if (minified.length == 2)
+		if (minified[1] != "")
 			throw new Error("Error while minifying javascript: " + minified[1]);
 
-		_addScriptRoute(minified, app);
+		_addScriptRoute(minified[0], app);
 		return "<script type=\"text/javascript\" src=\"/script\"></script>";
 	});
 }
