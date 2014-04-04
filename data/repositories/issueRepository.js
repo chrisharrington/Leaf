@@ -4,6 +4,20 @@ var repository = Object.spawn(require("./baseRepository"), {
 	model: require("../models").Issue
 });
 
+repository.search = function(filter, sortDirection, sortComparer, start, end) {
+	var model = this.model;
+	return new Promise(function(resolve, reject) {
+		_applyFilters(model.find(), filter)
+			.sort(_buildSort(sortDirection, sortComparer))
+			.skip(start-1)
+			.limit(end-start+1)
+			.exec(function(err, issues) {
+				if (err) reject(err);
+				else resolve(issues);
+			});
+	});
+};
+
 repository.number = function(projectId, number) {
 	var me = this;
 	return me.model.findOneAsync({ project: projectId, number: number }).catch(function(e) {
@@ -56,5 +70,26 @@ repository.getNextNumber = function(project) {
 		});
 	});
 };
+
+function _buildSort(direction, comparer) {
+	if (comparer == "priority")
+		comparer = "priorityOrder";
+	else if (comparer == "status")
+		comparer = "statusOrder";
+	var sort = {};
+	sort[comparer] = direction == "ascending" ? 1 : -1;
+	sort.opened = 1;
+	return sort;
+}
+
+function _applyFilters(query, filter) {
+	query = query.where("priorityId").in(filter.priorities.split(","));
+	query = query.where("statusId").in(filter.statuses.split(","));
+	query = query.where("developerId").in(filter.developers.split(","));
+	query = query.where("testerId").in(filter.testers.split(","));
+	query = query.where("milestoneId").in(filter.milestones.split(","));
+	query = query.where("typeId").in(filter.types.split(","));
+	return query;
+}
 
 module.exports = repository;

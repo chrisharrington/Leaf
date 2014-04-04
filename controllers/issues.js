@@ -25,15 +25,34 @@ module.exports = function(app) {
 		var start = parseInt(request.query.start);
 		var end = parseInt(request.query.end);
 
-		_applyFilters(models.Issue.find(), request)
-			.sort(_buildSort(request))
-			.skip(start-1)
-			.limit(end-start+1)
-			.exec(function(err, issues) {
-				if (err) response.send("Error retrieving issues: " + e, 500);
-				else response.send(mapper.mapAll("issue", "issue-view-model", issues));
-			});
+		return repositories.Issue.search({
+			priorities: request.query.priorities,
+			statuses: request.query.statuses,
+			developers: request.query.developers,
+			testers: request.query.testers,
+			milestones: request.query.milestones,
+			types: request.query.types
+		}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
+			response.send(mapper.mapAll("issue", "issue-view-model", issues))
+		}).catch(function(e) {
+			response.send("Error retrieving issues: " + e, 500);
+		});
 	});
+
+//	app.get("/issues/list", authenticate, function(request, response) {
+//		var start = parseInt(request.query.start);
+//		var end = parseInt(request.query.end);
+//
+//		return repositories
+//		_applyFilters(models.Issue.find(), request)
+//			.sort(_buildSort(request))
+//			.skip(start-1)
+//			.limit(end-start+1)
+//			.exec(function(err, issues) {
+//				if (err) response.send("Error retrieving issues: " + e, 500);
+//				else response.send(mapper.mapAll("issue", "issue-view-model", issues));
+//			});
+//	});
 
 	app.get("/issues/details", authenticate, function(request, response) {
 		var projectId = request.query.projectId, html, issue;
@@ -218,29 +237,6 @@ module.exports = function(app) {
 			_cleanUpFiles(paths);
 		});
 	});
-
-	function _buildSort(request) {
-		var direction = request.query.direction;
-		var comparer = request.query.comparer;
-		if (comparer == "priority")
-			comparer = "priorityOrder";
-		else if (comparer == "status")
-			comparer = "statusOrder";
-		var sort = {};
-		sort[comparer] = direction == "ascending" ? 1 : -1;
-		sort.opened = 1;
-		return sort;
-	}
-
-	function _applyFilters(query, request) {
-		query = query.where("priorityId").in(request.query.priorities.split(","));
-		query = query.where("statusId").in(request.query.statuses.split(","));
-		query = query.where("developerId").in(request.query.developers.split(","));
-		query = query.where("testerId").in(request.query.testers.split(","));
-		query = query.where("milestoneId").in(request.query.milestones.split(","));
-		query = query.where("typeId").in(request.query.types.split(","));
-		return query;
-	}
 
 	function _readFilesFromRequest(request) {
 		return new Promise(function(resolve, reject) {
