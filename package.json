@@ -3,7 +3,8 @@
   "subdomain": "issuetracker",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "coverage": "istanbul cover _mocha -- --recursive"
   },
   "version": "0.0.0-10",
   "engines": {
@@ -33,6 +34,7 @@
     "should": "^3.2.0",
     "sinon": "^1.9.0",
     "sinon-as-promised": "0.0.3",
-    "yuicompressor": "^2.4.8"
+    "yuicompressor": "^2.4.8",
+    "istanbul": "^0.2.7"
   }
 }
