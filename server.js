@@ -39,7 +39,6 @@ function _configureApplication() {
 }
 
 function _registerControllers() {
-	require("./controllers/bundle")(app);
 	require("./controllers/root")(app);
 	require("./controllers/welcome")(app);
 	require("./controllers/issues")(app);
