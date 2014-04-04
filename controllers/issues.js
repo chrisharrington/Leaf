@@ -15,44 +15,32 @@ module.exports = function(app) {
 		return fs.readFileAsync("public/views/issues.html").then(function(content) {
 			response.send(content);
 		}).catch(function(e) {
-			var message = "Error while reading issues view: " + e;
-			console.log(message);
-			response.send(message, 500);
+			response.send("Error while reading issues view: " + e, 500);
 		});
 	});
 
 	app.get("/issues/list", authenticate, function(request, response) {
 		var start = parseInt(request.query.start);
+		if (isNaN(start))
+			start = 1;
 		var end = parseInt(request.query.end);
+		if (isNaN(end))
+			end = 50;
 
 		return repositories.Issue.search({
-			priorities: request.query.priorities,
-			statuses: request.query.statuses,
-			developers: request.query.developers,
-			testers: request.query.testers,
-			milestones: request.query.milestones,
-			types: request.query.types
+			priorities: request.query.priorities.split(","),
+			statuses: request.query.statuses.split(","),
+			developers: request.query.developers.split(","),
+			testers: request.query.testers.split(","),
+			milestones: request.query.milestones.split(","),
+			types: request.query.types.split(",")
 		}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
-			response.send(mapper.mapAll("issue", "issue-view-model", issues))
+			response.send(mapper.mapAll("issue", "issue-view-model", issues), 200);
+			return issues;
 		}).catch(function(e) {
 			response.send("Error retrieving issues: " + e, 500);
 		});
 	});
-
-//	app.get("/issues/list", authenticate, function(request, response) {
-//		var start = parseInt(request.query.start);
-//		var end = parseInt(request.query.end);
-//
-//		return repositories
-//		_applyFilters(models.Issue.find(), request)
-//			.sort(_buildSort(request))
-//			.skip(start-1)
-//			.limit(end-start+1)
-//			.exec(function(err, issues) {
-//				if (err) response.send("Error retrieving issues: " + e, 500);
-//				else response.send(mapper.mapAll("issue", "issue-view-model", issues));
-//			});
-//	});
 
 	app.get("/issues/details", authenticate, function(request, response) {
 		var projectId = request.query.projectId, html, issue;

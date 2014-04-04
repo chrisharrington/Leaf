@@ -83,12 +83,12 @@ function _buildSort(direction, comparer) {
 }
 
 function _applyFilters(query, filter) {
-	query = query.where("priorityId").in(filter.priorities.split(","));
-	query = query.where("statusId").in(filter.statuses.split(","));
-	query = query.where("developerId").in(filter.developers.split(","));
-	query = query.where("testerId").in(filter.testers.split(","));
-	query = query.where("milestoneId").in(filter.milestones.split(","));
-	query = query.where("typeId").in(filter.types.split(","));
+	query = query.where("priorityId").in(filter.priorities);
+	query = query.where("statusId").in(filter.statuses);
+	query = query.where("developerId").in(filter.developers);
+	query = query.where("testerId").in(filter.testers);
+	query = query.where("milestoneId").in(filter.milestones);
+	query = query.where("typeId").in(filter.types);
 	return query;
 }
 
