@@ -24,13 +24,14 @@ function _handleProduction(assets, app) {
 			throw new Error("Error while minifying javascript: " + minified[1]);
 
 		_addScriptRoute(minified[0], app);
-		return "<script type=\"text/javascript\" src=\"/script\"></script>";
+		return "<script type=\"text/javascript\" src=\"/script?v=" + new Date().getTime() + "\"></script>";
 	});
 }
 
 function _addScriptRoute(minified, app) {
 	app.get("/script", function(request, response) {
 		response.header("Content-Type", "text/javascript");
+		response.header("Cache-Control", "public, max-age=2592000000");
 		response.send(minified);
 	})
 }

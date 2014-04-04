@@ -12,8 +12,9 @@ exports.render = function(assets, app) {
 		var css = results[0];
 		app.get("/style", function(request, response) {
 			response.header("Content-Type", "text/css");
+			response.header("Cache-Control", "public, max-age=2592000000");
 			response.send(css);
 		});
-		return "<link rel=\"stylesheet\" href=\"/style\" type=\"text/css\" />";
+		return "<link rel=\"stylesheet\" href=\"/style?v=" + new Date().getTime() + "\" type=\"text/css\" />";
 	});
 };
