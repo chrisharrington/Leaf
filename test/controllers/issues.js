@@ -7,6 +7,40 @@ var mapper = require("../../data/mapper");
 var sut = require("../../controllers/issues");
 
 describe("issues", function() {
+	describe("issue-details", function() {
+		it("should get issue details", function() {
+			_runIssueDetails({});
+		});
+
+		function _runIssueDetails(params) {
+			params = params || {};
+			var stubs = {
+				readFile: sinon.stub(fs, "readFileAsync").resolves(params.detailsContent || "details-content"),
+				issueNumber: sinon.stub(repositories.Issue, "number").resolves(params.issue || {}),
+				transitionStatus: sinon.stub(repositories.Transition, "status").resolves(params.transitions || []),
+				commentIssue: sinon.stub(repositories.Comment, "issue").resolves(params.comments || []),
+				fileIssue: sinon.stub(repositories.IssueFile, "issue").resolves(params.files || []),
+				mapperMap: sinon.stub(mapper, "map").returns(params.mapped || {})
+			};
+
+			params.verb = "get";
+			params.route = "/issues/details";
+			params.request = {
+				query: {
+					projectId: params.projectId || "the project id"
+				}
+			};
+
+			return _run(params).then(function() {
+				if (params.assert)
+					params.assert(stubs);
+			}).finally(function() {
+				for (var name in stubs)
+					stubs[name].restore();
+			});
+		}
+	});
+
 	describe("search-issues", function() {
 		it("should set get /issues/list route", function() {
 			var app = { get: sinon.stub(), post: sinon.stub() };

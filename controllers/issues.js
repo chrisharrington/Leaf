@@ -44,7 +44,7 @@ module.exports = function(app) {
 
 	app.get("/issues/details", authenticate, function(request, response) {
 		var projectId = request.query.projectId, html, issue;
-		Promise.all([
+		return Promise.all([
 			fs.readFileAsync("public/views/issueDetails.html"),
 			repositories.Issue.number(request.query.projectId, request.query.number)
 		]).spread(function(h, i) {
