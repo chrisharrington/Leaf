@@ -1,4 +1,4 @@
 IssueTracker
 ============
 
-https://travis-ci.org/chrisharrington/IssueTracker.svg?branch=bundling
+![](https://travis-ci.org/chrisharrington/IssueTracker.svg?branch=bundling)
