@@ -1,4 +1,4 @@
-exports.javascript = function() {
+exports.scripts = function() {
 	return [
 		"./public/scripts/global.js",
 		"./public/scripts/header.js",
@@ -17,14 +17,14 @@ exports.javascript = function() {
 	];
 };
 
-exports.less = function() {
+exports.styles = function() {
 	return [
-		"global.less",
-		"fonts.css",
-		"controls",
-		"partials",
-		"templates",
-		"thirdParty",
-		"views"
+		"./public/css/global.less",
+		"./public/css/fonts.css",
+		"./public/css/controls",
+		"./public/css/partials",
+		"./public/css/templates",
+		"./public/css/thirdParty",
+		"./public/css/views"
 	];
 };

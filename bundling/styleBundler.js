@@ -9,8 +9,10 @@ exports.render = function(assets, app) {
 	});
 };
 
-exports.buildPerAssetDevRender = function(file) {
-	return "<link rel=\"stylesheet\" href=\"" + file.replace("public/", "") + "\" type=\"text/css\" />\n";
+exports.buildPerAssetDevRender = function(file, app) {
+	return less.renderAsync(file).then(function(lessified) {
+		return "<link rel=\"stylesheet\" href=\"" + file.replace("public/", "") + "\" type=\"text/css\" />\n";
+	});
 };
 
 exports.handleProduction = function(promise, app) {

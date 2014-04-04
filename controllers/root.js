@@ -20,7 +20,8 @@ module.exports = function(app) {
 			repositories.Milestone.all(),
 			repositories.IssueType.all(),
 			_getSignedInUser(request),
-			require("../bundling/scriptBundler").render(require("../bundling/assets").javascript(), app)
+			require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app)
+			//require("../bundling/styleBundler").render(require("../bundling/assets").styles(), app)
 		]).spread(function(html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, renderedScripts, renderedCss) {
 			response.send(mustache.render(html.toString(), {
 				priorities: JSON.stringify(mapper.mapAll("priority", "priority-view-model", priorities)),
