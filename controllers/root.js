@@ -20,8 +20,8 @@ module.exports = function(app) {
 			repositories.Milestone.all(),
 			repositories.IssueType.all(),
 			_getSignedInUser(request),
-			require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app)
-			//require("../bundling/styleBundler").render(require("../bundling/assets").styles(), app)
+			require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app),
+			require("../bundling/styleBundler").render(require("../bundling/assets").styles(), app)
 		]).spread(function(html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, renderedScripts, renderedCss) {
 			response.send(mustache.render(html.toString(), {
 				priorities: JSON.stringify(mapper.mapAll("priority", "priority-view-model", priorities)),
@@ -34,7 +34,7 @@ module.exports = function(app) {
 				signedInUser: JSON.stringify(mapper.map("user", "user-view-model", !user || (user.expiration != null && user.expiration < Date.now()) ? null : user)),
 				selectedProject: JSON.stringify(mapper.map("project", "project-view-model", user ? user.project : null)),
 				renderedScripts: renderedScripts,
-				renderedCss: ""
+				renderedCss: renderedCss
 			}));
 		}).catch(function(e) {
 			response.send("Error loading root: " + e, 500);
