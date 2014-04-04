@@ -27,8 +27,8 @@ describe("styleBundler", function() {
 		});
 
 		it("should render appropriate link tag", function() {
-			return _run().then(function(result) {
-				assert(result.should.equal("<link rel=\"stylesheet\" href=\"/style\" type=\"text/css\" />"));
+			return _run({ timestamp: 12345 }).then(function(result) {
+				assert(result.should.equal("<link rel=\"stylesheet\" href=\"/style?v=12345\" type=\"text/css\" />"));
 			});
 		});
 
@@ -66,7 +66,7 @@ describe("styleBundler", function() {
 
 		function _run(params) {
 			params = params || {};
-			return sut.render(params.assets || ["file1.less", "file2.less"], params.app || { get: function() { return params.env || "development"; }});
+			return sut.render(params.assets || ["file1.less", "file2.less"], params.app || { get: function() { return params.env || "development"; }}, params.timestamp);
 		}
 	});
 });

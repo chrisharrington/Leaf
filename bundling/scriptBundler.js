@@ -2,10 +2,10 @@ var Promise = require("bluebird");
 var bundler = require("./bundler");
 var minifier = Promise.promisifyAll(require("yuicompressor"));
 
-exports.render = function(assets, app) {
+exports.render = function(assets, app, timestamp) {
 	if (app.get("env") == "development")
 		return _handleDevelopment(assets);
-	return _handleProduction(assets, app);
+	return _handleProduction(assets, app, timestamp);
 };
 
 function _handleDevelopment(assets) {
@@ -16,7 +16,7 @@ function _handleDevelopment(assets) {
 	});
 }
 
-function _handleProduction(assets, app) {
+function _handleProduction(assets, app, timestamp) {
 	return bundler.concatenate(assets).then(function(concatenated) {
 		return minifier.compressAsync(concatenated);
 	}).then(function(minified) {
@@ -24,7 +24,7 @@ function _handleProduction(assets, app) {
 			throw new Error("Error while minifying javascript: " + minified[1]);
 
 		_addScriptRoute(minified[0], app);
-		return "<script type=\"text/javascript\" src=\"/script?v=" + new Date().getTime() + "\"></script>";
+		return "<script type=\"text/javascript\" src=\"/script?v=" + (timestamp || new Date().getTime()) + "\"></script>";
 	});
 }
 

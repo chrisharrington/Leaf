@@ -29,9 +29,10 @@ describe("scriptBundler", function() {
 		it("should render single script tag in production env", function() {
 			return _run({
 				env: "production",
-				files: ["file1.js", "file2.js"]
+				files: ["file1.js", "file2.js"],
+				timestamp: 12345
 			}).then(function(result) {
-				assert(result.should.equal("<script type=\"text/javascript\" src=\"/script\"></script>"));
+				assert(result.should.equal("<script type=\"text/javascript\" src=\"/script?v=12345\"></script>"));
 			});
 		});
 
@@ -39,11 +40,12 @@ describe("scriptBundler", function() {
 			return _run({
 				env: "production",
 				files: ["file1.js", "file2.js"],
+				timestamp: 12345,
 				assert: function(app) {
 					assert(app.get.calledWith("/script", sinon.match.func));
 				}
 			}).then(function(result) {
-				assert(result.should.equal("<script type=\"text/javascript\" src=\"/script\"></script>"));
+				assert(result.should.equal("<script type=\"text/javascript\" src=\"/script?v=12345\"></script>"));
 			});
 		});
 
@@ -75,7 +77,7 @@ describe("scriptBundler", function() {
 			sinon.stub(bundler, "files").resolves(params.files || []);
 			sinon.stub(minifier, "compressAsync").resolves(["minified", ""]);
 
-			return sut.render(assets, app).finally(function() {
+			return sut.render(assets, app, params.timestamp).finally(function() {
 				bundler.concatenate.restore();
 				bundler.files.restore();
 				minifier.compressAsync.restore();

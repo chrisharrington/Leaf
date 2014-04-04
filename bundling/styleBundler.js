@@ -3,7 +3,7 @@ var bundler = require("./bundler");
 var less = Promise.promisifyAll(require("less"));
 var minifier = Promise.promisifyAll(require("yuicompressor"));
 
-exports.render = function(assets, app) {
+exports.render = function(assets, app, timestamp) {
 	return bundler.concatenate(assets).then(function(concatenated) {
 		return less.renderAsync(concatenated);
 	}).then(function(css) {
@@ -15,6 +15,6 @@ exports.render = function(assets, app) {
 			response.header("Cache-Control", "public, max-age=2592000000");
 			response.send(css);
 		});
-		return "<link rel=\"stylesheet\" href=\"/style?v=" + new Date().getTime() + "\" type=\"text/css\" />";
+		return "<link rel=\"stylesheet\" href=\"/style?v=" + (timestamp || new Date().getTime()) + "\" type=\"text/css\" />";
 	});
 };
