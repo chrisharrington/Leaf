@@ -60,9 +60,7 @@ module.exports = function(app) {
 				issue: JSON.stringify(model)
 			}));
 		}).catch(function(e) {
-			var message = "Error while rendering issue details for issue #" + request.query.number + ": " + e;
-			console.log(message);
-			response.send(message, 500);
+			response.send("Error while rendering issue details for issue #" + request.query.number + ": " + e, 500);
 		});
 	});
 

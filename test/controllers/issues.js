@@ -12,11 +12,29 @@ describe("issues", function() {
 			_runIssueDetails({});
 		});
 
+		it("should send 500 on when failing to read view", function() {
+			_runIssueDetails({
+				readFile: sinon.stub(fs, "readFileAsync").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on when failing to get issue by number", function() {
+			_runIssueDetails({
+				issueNumber: sinon.stub(repositories.Issue, "number").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
 		function _runIssueDetails(params) {
 			params = params || {};
 			var stubs = {
-				readFile: sinon.stub(fs, "readFileAsync").resolves(params.detailsContent || "details-content"),
-				issueNumber: sinon.stub(repositories.Issue, "number").resolves(params.issue || {}),
+				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves(params.detailsContent || "details-content"),
+				issueNumber: params.issueNumber || sinon.stub(repositories.Issue, "number").resolves(params.issue || {}),
 				transitionStatus: sinon.stub(repositories.Transition, "status").resolves(params.transitions || []),
 				commentIssue: sinon.stub(repositories.Comment, "issue").resolves(params.comments || []),
 				fileIssue: sinon.stub(repositories.IssueFile, "issue").resolves(params.files || []),
@@ -31,10 +49,7 @@ describe("issues", function() {
 				}
 			};
 
-			return _run(params).then(function() {
-				if (params.assert)
-					params.assert(stubs);
-			}).finally(function() {
+			return _run(params).finally(function() {
 				for (var name in stubs)
 					stubs[name].restore();
 			});
@@ -256,7 +271,7 @@ describe("issues", function() {
 		};
 
 		sut(app);
-		return func(request, response).then(function() {
+		return func(request, response).finally(function() {
 			if (params.assert)
 				params.assert({ request: request, response: response });
 		});
