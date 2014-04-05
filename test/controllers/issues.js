@@ -3,71 +3,73 @@ var should = require("should"), assert = require("assert"), sinon = require("sin
 var fs = Promise.promisifyAll(require("fs"));
 var repositories = require("../../data/repositories");
 var mapper = require("../../data/mapper");
+var mustache = require("mustache");
 
 var sut = require("../../controllers/issues");
 
 describe("issues", function() {
 	describe("issue-details", function() {
-//		it("should get issue details", function() {
-//			_runIssueDetails({});
-//		});
-//
-//		it("should send 500 on when failing to read view", function() {
-//			_runIssueDetails({
-//				readFile: sinon.stub(fs, "readFileAsync").rejects(),
-//				assert: function(results) {
-//					assert(results.response.send.calledWith(sinon.match.string, 500));
-//				}
-//			});
-//		});
-//
-//		it("should send 500 on when failing to get issue by number", function() {
-//			_runIssueDetails({
-//				issueNumber: sinon.stub(repositories.Issue, "number").rejects(),
-//				assert: function(results) {
-//					assert(results.response.send.calledWith(sinon.match.string, 500));
-//				}
-//			});
-//		});
-//
-//		it("should send 500 on when failing to get transitions", function() {
-//			_runIssueDetails({
-//				transitionStatus: sinon.stub(repositories.Transition, "status").rejects(),
-//				assert: function(results) {
-//					assert(results.response.send.calledWith(sinon.match.string, 500));
-//				}
-//			});
-//		});
-//
-//		it("should send 500 on when failing to get comments", function() {
-//			_runIssueDetails({
-//				commentIssue: sinon.stub(repositories.Comment, "issue").rejects(),
-//				assert: function(results) {
-//					assert(results.response.send.calledWith(sinon.match.string, 500));
-//				}
-//			});
-//		});
-//
-//		it("should send 500 on when failing to get files", function() {
-//			_runIssueDetails({
-//				fileIssue: sinon.stub(repositories.IssueFile, "issue").rejects(),
-//				assert: function(results) {
-//					assert(results.response.send.calledWith(sinon.match.string, 500));
-//				}
-//			});
-//		});
-//
-//		it("should send 500 on when failing to map", function() {
-//			_runIssueDetails({
-//				mapperMap: sinon.stub(mapper, "map").throws(),
-//				assert: function(results) {
-//					assert(results.response.send.calledWith(sinon.match.string, 500));
-//				}
-//			});
-//		});
+		it("should get issue details", function() {
+			return _runIssueDetails({});
+		});
+
+		it("should send 500 on when failing to read view", function() {
+			return _runIssueDetails({
+				readFile: sinon.stub(fs, "readFileAsync").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on when failing to get issue by number", function() {
+			return _runIssueDetails({
+				issueNumber: sinon.stub(repositories.Issue, "number").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on when failing to get transitions", function() {
+			return _runIssueDetails({
+				issue: { number: 4 },
+				transitionStatus: sinon.stub(repositories.Transition, "status").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on when failing to get comments", function() {
+			return _runIssueDetails({
+				commentIssue: sinon.stub(repositories.Comment, "issue").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on when failing to get files", function() {
+			return _runIssueDetails({
+				fileIssue: sinon.stub(repositories.IssueFile, "issue").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on when failing to map", function() {
+			return _runIssueDetails({
+				mapperMap: sinon.stub(mapper, "map").throws(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
 
 		it("should send 404 when issue is not found", function() {
-			_runIssueDetails({
+			return _runIssueDetails({
 				issueNumber: sinon.stub(repositories.Issue, "number").resolves(undefined),
 				assert: function(results) {
 					assert(results.response.send.calledWith(404));
@@ -75,15 +77,71 @@ describe("issues", function() {
 			});
 		});
 
+		it("should map transitions to transition view models", function() {
+			var transitions = ["the first"];
+			return _runIssueDetails({
+				transitions: transitions,
+				assert: function(result) {
+					assert(result.stubs.mapperMapAll.calledWith("transition", "transition-view-model", transitions));
+				}
+			});
+		});
+
+		it("should map comments to comment view models", function() {
+			var comments = ["the first"];
+			return _runIssueDetails({
+				comments: comments,
+				assert: function(result) {
+					assert(result.stubs.mapperMapAll.calledWith("comment", "issue-history-view-model", comments));
+				}
+			});
+		});
+
+		it("should map files to issue file view models", function() {
+			var files = ["the first"];
+			return _runIssueDetails({
+				files: files,
+				assert: function(result) {
+					assert(result.stubs.mapperMapAll.calledWith("issue-file", "issue-file-view-model", files));
+				}
+			});
+		});
+
+		it("should render issueDetails.html with mapped issue", function() {
+			var html = "details-content";
+			var renderedHtml = "rendered-details-content";
+
+			var mappedTransitions = [{ name: "the first transition" }, { name: "the second transition" }];
+			var mappedComments = [{ name: "the first comment" }, { name: "the second comment" }];
+			var mappedFiles = [{ name: "the first file" }, { name: "the second file" }];
+			var mappedIssue = { number: 1 };
+			var mapAll = sinon.stub(mapper, "mapAll");
+			mapAll.withArgs("transition", "transition-view-model", []).returns(mappedTransitions);
+			mapAll.withArgs("comment", "issue-history-view-model", []).returns(mappedComments);
+			mapAll.withArgs("issue-file", "issue-file-view-model", []).returns(mappedFiles);
+			var mustacheRender = sinon.stub(mustache, "render").returns(renderedHtml);
+			return _runIssueDetails({
+				detailsContent: html,
+				mapped: mappedIssue,
+				mapperMapAll: mapAll,
+				mustacheRender: mustacheRender,
+				assert: function() {
+					assert(mustacheRender.calledWith(html, sinon.match.any));
+				}
+			});
+		});
+
 		function _runIssueDetails(params) {
 			params = params || {};
-			var stubs = {
+			params.stubs = {
 				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves(params.detailsContent || "details-content"),
 				issueNumber: params.issueNumber || sinon.stub(repositories.Issue, "number").resolves(params.issue || {}),
 				transitionStatus: params.transitionStatus || sinon.stub(repositories.Transition, "status").resolves(params.transitions || []),
 				commentIssue: params.commentIssue || sinon.stub(repositories.Comment, "issue").resolves(params.comments || []),
 				fileIssue: params.fileIssue || sinon.stub(repositories.IssueFile, "issue").resolves(params.files || []),
-				mapperMap: params.mapperMap || sinon.stub(mapper, "map").returns(params.mapped || {})
+				mapperMap: params.mapperMap || sinon.stub(mapper, "map").returns(params.mapped || {}),
+				mapperMapAll: params.mapperMapAll || sinon.stub(mapper, "mapAll").returns(params.mapAll || {}),
+				mustacheRender: params.mustacheRender || sinon.stub(mustache, "render").returns(params.rendered || "the rendered html")
 			};
 
 			params.verb = "get";
@@ -95,8 +153,9 @@ describe("issues", function() {
 			};
 
 			return _run(params).finally(function() {
-				for (var name in stubs)
-					stubs[name].restore();
+				var blah = params.stubs.mustacheRender;
+				for (var name in params.stubs)
+					params.stubs[name].restore();
 			});
 		}
 	});
@@ -318,7 +377,7 @@ describe("issues", function() {
 		sut(app);
 		return func(request, response).finally(function() {
 			if (params.assert)
-				params.assert({ request: request, response: response });
+				params.assert({ request: request, response: response, stubs: params.stubs });
 		});
 	}
 });

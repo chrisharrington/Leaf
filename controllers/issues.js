@@ -55,14 +55,12 @@ module.exports = function(app) {
 
 			html = h;
 			issue = i;
-			return [repositories.Transition.status(issue.statusId), repositories.Comment.issue(issue._id), repositories.IssueFile.issue(issue._id)].spread(function(transitions, comments, files) {
+			return Promise.all([repositories.Transition.status(issue.statusId), repositories.Comment.issue(issue._id), repositories.IssueFile.issue(issue._id)]).spread(function(transitions, comments, files) {
 				var model = mapper.map("issue", "issue-view-model", issue);
 				model.transitions = mapper.mapAll("transition", "transition-view-model", transitions);
 				model.history = mapper.mapAll("comment", "issue-history-view-model", comments);
 				model.files = mapper.mapAll("issue-file", "issue-file-view-model", files);
-				response.send(!issue ? 404 : mustache.render(html.toString(), {
-					issue: JSON.stringify(model)
-				}));
+				response.send(!issue ? 404 : mustache.render(html.toString(), { issue: JSON.stringify(model) }));
 			});
 		}).catch(function(e) {
 			response.send("Error while rendering issue details for issue #" + request.query.number + ": " + e, 500);
