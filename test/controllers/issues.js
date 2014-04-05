@@ -153,7 +153,6 @@ describe("issues", function() {
 			};
 
 			return _run(params).finally(function() {
-				var blah = params.stubs.mustacheRender;
 				for (var name in params.stubs)
 					params.stubs[name].restore();
 			});
@@ -206,7 +205,7 @@ describe("issues", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
 
 			var request = _buildDefaultRequest();
-			request.start = "not a number";
+			request.query.start = "not a number";
 			return _run({
 				request: request,
 				verb: "get",
@@ -231,7 +230,7 @@ describe("issues", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
 
 			var request = _buildDefaultRequest();
-			request.end = "not a number";
+			request.query.end = "not a number";
 			return _run({
 				request: request,
 				verb: "get",
