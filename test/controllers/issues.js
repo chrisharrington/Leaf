@@ -30,15 +30,51 @@ describe("issues", function() {
 			});
 		});
 
+		it("should send 500 on when failing to get transitions", function() {
+			_runIssueDetails({
+				transitionStatus: sinon.stub(repositories.Transition, "status").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on when failing to get comments", function() {
+			_runIssueDetails({
+				commentIssue: sinon.stub(repositories.Comment, "issue").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on when failing to get files", function() {
+			_runIssueDetails({
+				fileIssue: sinon.stub(repositories.IssueFile, "issue").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on when failing to map", function() {
+			_runIssueDetails({
+				mapperMap: sinon.stub(mapper, "map").throws(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
 		function _runIssueDetails(params) {
 			params = params || {};
 			var stubs = {
 				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves(params.detailsContent || "details-content"),
 				issueNumber: params.issueNumber || sinon.stub(repositories.Issue, "number").resolves(params.issue || {}),
-				transitionStatus: sinon.stub(repositories.Transition, "status").resolves(params.transitions || []),
-				commentIssue: sinon.stub(repositories.Comment, "issue").resolves(params.comments || []),
-				fileIssue: sinon.stub(repositories.IssueFile, "issue").resolves(params.files || []),
-				mapperMap: sinon.stub(mapper, "map").returns(params.mapped || {})
+				transitionStatus: params.transitionStatus || sinon.stub(repositories.Transition, "status").resolves(params.transitions || []),
+				commentIssue: params.commentIssue || sinon.stub(repositories.Comment, "issue").resolves(params.comments || []),
+				fileIssue: params.fileIssue || sinon.stub(repositories.IssueFile, "issue").resolves(params.files || []),
+				mapperMap: params.mapperMap || sinon.stub(mapper, "map").returns(params.mapped || {})
 			};
 
 			params.verb = "get";
