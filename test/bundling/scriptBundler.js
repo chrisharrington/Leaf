@@ -68,6 +68,17 @@ describe("scriptBundler", function() {
 			});
 		});
 
+		it("should throw error when minification fails", function() {
+			return _run({
+				env: "production",
+				files: ["file1.js", "file2.js"],
+				timestamp: 12345,
+				minified: ["", "some sort of minification error"]
+			}).catch(function(error) {
+				assert(error.toString().indexOf("some sort of minification error") > -1);
+			});
+		});
+
 		function _run(params) {
 			params = params || {};
 			var assets = ["file1.js", "file2.js"];
@@ -75,7 +86,7 @@ describe("scriptBundler", function() {
 
 			sinon.stub(bundler, "concatenate").resolves(params.concatenated || "");
 			sinon.stub(bundler, "files").resolves(params.files || []);
-			sinon.stub(minifier, "compressAsync").resolves(["minified", ""]);
+			sinon.stub(minifier, "compressAsync").resolves(params.minified || ["minified", ""]);
 
 			return sut.render(assets, app, params.timestamp).finally(function() {
 				bundler.concatenate.restore();

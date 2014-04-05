@@ -7,7 +7,6 @@ exports.concatenate = function(assets) {
 };
 
 exports.files = function(assets, files) {
-	files = files || [];
 	return Promise.reduce(assets, function(list, asset) {
 		return _stat(asset, list);
 	}, files || []);
