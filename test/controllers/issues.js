@@ -4,10 +4,64 @@ var fs = Promise.promisifyAll(require("fs"));
 var repositories = require("../../data/repositories");
 var mapper = require("../../data/mapper");
 var mustache = require("mustache");
+var mongoose = require("mongoose");
 
 var sut = require("../../controllers/issues");
 
 describe("issues", function() {
+	describe("get-issue-create", function() {
+		it("should write rendered html from createIssue.html to response", function() {
+			var html = "the html";
+			var rendered = "the rendered html";
+			return _runGetIssueCreate({
+				htmlContent: html,
+				rendered: rendered,
+				assert: function(result) {
+					assert(result.response.send.calledWith(rendered));
+				}
+			});
+		});
+
+		it("should send 500 when failing to read createIssue.html", function() {
+			var readFile = sinon.stub(fs, "readFileAsync").rejects();
+			return _runGetIssueCreate({
+				readFile: readFile,
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to render html", function() {
+			var mustacheRender = sinon.stub(mustache, "render").throws();
+			return _runGetIssueCreate({
+				mustacheRender: mustacheRender,
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should create a new object id and assign to issueId of the rendered html", function() {
+		});
+
+		function _runGetIssueCreate(params) {
+			params = params || {};
+			params.stubs = {
+				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves(params.html || "html-content"),
+				mustacheRender: params.mustacheRender || sinon.stub(mustache, "render").returns(params.rendered || "the rendered html")
+			};
+
+			params.verb = "get";
+			params.route = "/issues/create";
+
+			return _run(params).finally(function() {
+				for (var name in params.stubs)
+					params.stubs[name].restore();
+			});
+		}
+	});
+
 	describe("issue-details", function() {
 		it("should get issue details", function() {
 			return _runIssueDetails({});

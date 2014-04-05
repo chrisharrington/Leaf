@@ -68,7 +68,7 @@ module.exports = function(app) {
 	});
 
 	app.get("/issues/create", authenticate, function(request, response) {
-		fs.readFileAsync("public/views/createIssue.html").then(function(html) {
+		return fs.readFileAsync("public/views/createIssue.html").then(function(html) {
 			response.send(mustache.render(html.toString(), {
 				issueId: mongoose.Types.ObjectId()
 			}));
