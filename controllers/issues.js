@@ -78,13 +78,11 @@ module.exports = function(app) {
 	});
 
 	app.get("/issues/download-attached-file", authenticate, function(request, response) {
-		repositories.IssueFile.details(request.query.id).then(function(file) {
+		return repositories.IssueFile.details(request.query.id).then(function(file) {
 			response.contentType(file.name);
 			return storage.get(file.container, file.id + "-" + file.name, response);
 		}).catch(function(e) {
-			var message = "Error while downloading attached file: " + e;
-			console.log(message);
-			response.send(message, 500);
+			response.send("Error while downloading attached file: " + e, 500);
 		});
 	});
 

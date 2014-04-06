@@ -5,10 +5,84 @@ var repositories = require("../../data/repositories");
 var mapper = require("../../data/mapper");
 var mustache = require("mustache");
 var mongoose = require("mongoose");
+var storage = require("../../storage/storage");
 
 var sut = require("../../controllers/issues");
 
 describe("issues", function() {
+	describe("get-download-attached-file", function() {
+		it("should write retrieved storage value to response", function() {
+			var file = {
+				container: "the container",
+				id: "the id",
+				name: "the name"
+			};
+
+			return _runDownloadAttachedFile({
+				issueFile: file,
+				assert: function(results) {
+					assert(results.stubs.storageGet.calledWith(file.container, file.id + "-" + file.name, results.response));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get issue file details", function() {
+			return _runDownloadAttachedFile({
+				issueFileDetails: sinon.stub(repositories.IssueFile, "details").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should send 500 when failing to get file from storage", function() {
+			return _runDownloadAttachedFile({
+				storageGet: sinon.stub(storage, "get").rejects(),
+				assert: function(results) {
+					assert(results.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should set content type to file name", function() {
+			var file = {
+				container: "the container",
+				id: "the id",
+				name: "the name"
+			};
+
+			return _runDownloadAttachedFile({
+				issueFile: file,
+				assert: function(results) {
+					assert(results.response.contentType.calledWith(file.name));
+				}
+			});
+		});
+
+		function _runDownloadAttachedFile(params) {
+			params = params || {};
+			params.stubs = {
+				issueFileDetails: params.issueFileDetails || sinon.stub(repositories.IssueFile, "details").resolves(params.issueFile || "details"),
+				storageGet: params.storageGet || sinon.stub(storage, "get").resolves(params.storageGetValue || "the storage get value"),
+				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves(params.html || "html-content"),
+				mustacheRender: params.mustacheRender || sinon.stub(mustache, "render").returns(params.rendered || "the rendered html")
+			};
+
+			params.verb = "get";
+			params.route = "/issues/download-attached-file";
+			params.request = params.request || {
+				query: params.query || {
+					id: params.id || "the id"
+				}
+			};
+
+			return _run(params).finally(function() {
+				for (var name in params.stubs)
+					params.stubs[name].restore();
+			});
+		}
+	});
+
 	describe("get-issue-create", function() {
 		it("should write rendered html from createIssue.html to response", function() {
 			var html = "the html";
@@ -423,7 +497,7 @@ describe("issues", function() {
 
 	function _run(params) {
 		var func;
-		var request = params.request || sinon.stub(), response = { send: sinon.stub() };
+		var request = params.request || sinon.stub(), response = { send: sinon.stub(), contentType: sinon.stub() };
 		var app = {
 			get: function(route, b, c) {
 				if (params.verb == "get" && route == params.route)
