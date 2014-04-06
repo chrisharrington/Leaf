@@ -43,6 +43,14 @@ describe("issues", function() {
 		});
 
 		it("should create a new object id and assign to issueId of the rendered html", function() {
+			var objectId = "the object id";
+			sinon.stub(mongoose.Types, "ObjectId").returns(objectId);
+
+			return _runGetIssueCreate({
+				assert: function(result) {
+					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, { issueId: objectId }));
+				}
+			});
 		});
 
 		function _runGetIssueCreate(params) {
