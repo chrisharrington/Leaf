@@ -88,7 +88,11 @@ module.exports = function(app) {
 
 	app.post("/issues/update", authenticate, function(request, response) {
 		var issue = mapper.map("issue-view-model", "issue", request.body);
-		repositories.Issue.update(issue, request.user).then(function() {
+		if (!issue) {
+			response.send("Error while mapping issue.", 500);
+			return;
+		}
+		return repositories.Issue.update(issue, request.user).then(function() {
 			if (request.user._id.toString() != issue.developerId.toString()) {
 				repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId });
 				repositories.User.details(issue.developerId).then(function(user) {
@@ -99,9 +103,7 @@ module.exports = function(app) {
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
-			var message = "Error while updating issue: " + e;
-			console.log(message);
-			response.send(message, 500);
+			response.send("Error while updating issue: " + e, 500);
 		});
 	});
 

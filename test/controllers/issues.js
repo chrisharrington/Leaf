@@ -6,11 +6,44 @@ var mapper = require("../../data/mapper");
 var mustache = require("mustache");
 var mongoose = require("mongoose");
 var storage = require("../../storage/storage");
+var notificationEmailer = require("../../email/notificationEmailer");
 
 var sut = require("../../controllers/issues");
 
 describe("issues", function() {
-	describe("get-download-attached-file", function() {
+	describe("post /issues/update", function() {
+		function _runUpdateIssue(params) {
+			params = params || {};
+			params.stubs = {
+				mapperMap: params.mapperMap || sinon.stub(mapper, "map").returns(params.mapperMapResult || {}),
+				issueUpdate: params.issueUpdate || sinon.stub(repositories.Issue, "update").resolves(),
+				notificationCreate: params.notificationCreate || sinon.stub(repositories.Notification, "create").resolves(),
+				userDetails: params.userDetails || sinon.stub(repositories.User, "details").resolves(),
+				notificationEmailerIssueUpdated: params.notificationEmailerIssueUpdated || sinon.stub(notificationEmailer, "issueUpdated").resolves()
+			};
+
+			params.verb = "post";
+			params.route = "/issues/update";
+			params.request = params.request || {
+				user: params.query || {
+					_id: "the user id"
+				}
+			};
+
+			return _run(params).finally(function() {
+				for (var name in params.stubs)
+					params.stubs[name].restore();
+			});
+		}
+	});
+
+	describe("get /issues/download-attached-file", function() {
+		it("should set get /issues/download-attached-file route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.get.calledWith("/issues/download-attached-file", sinon.match.func, sinon.match.func));
+		});
+
 		it("should write retrieved storage value to response", function() {
 			var file = {
 				container: "the container",
@@ -83,7 +116,13 @@ describe("issues", function() {
 		}
 	});
 
-	describe("get-issue-create", function() {
+	describe("get issues/create", function() {
+		it("should set get /issues/create route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.get.calledWith("/issues/create", sinon.match.func, sinon.match.func));
+		});
+
 		it("should write rendered html from createIssue.html to response", function() {
 			var html = "the html";
 			var rendered = "the rendered html";
@@ -144,7 +183,13 @@ describe("issues", function() {
 		}
 	});
 
-	describe("issue-details", function() {
+	describe("get /issues/details", function() {
+		it("should set get /issues/details route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.get.calledWith("/issues/details", sinon.match.func, sinon.match.func));
+		});
+
 		it("should get issue details", function() {
 			return _runIssueDetails({});
 		});
@@ -295,7 +340,7 @@ describe("issues", function() {
 		}
 	});
 
-	describe("search-issues", function() {
+	describe("get issues/list", function() {
 		it("should set get /issues/list route", function() {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
@@ -448,7 +493,7 @@ describe("issues", function() {
 		}
 	});
 
-	describe("get-issues", function() {
+	describe("get /issues", function() {
 		it("should set get /issues route", function() {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
