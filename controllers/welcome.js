@@ -38,11 +38,16 @@ module.exports = function(app) {
 					user.session = csprng(512, 36);
 				user.expiration = staySignedIn ? Date.now() + 1000*60*60*24*7*2 : null;
 				response.cookie("session", user.session, staySignedIn ? { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 } : { expires: false });
-				response.send({
-					user: mapper.map("user", "user-view-model", user),
-					project: mapper.map("project", "project-view-model", user.project)
-				}, 200);
-				return Promise.promisifyAll(user).saveAsync();
+				return Promise.all([
+					mapper.map("user", "user-view-model", user),
+					mapper.map("project", "project-view-model", user.project)
+				]).then(function(user, project) {
+					response.send({
+						user: user,
+						project: project
+					}, 200);
+					return Promise.promisifyAll(user).saveAsync();
+				});
 			} else
 				response.send(401);
 		}).catch(function(e) {
