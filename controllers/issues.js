@@ -49,14 +49,12 @@ module.exports = function(app) {
 		return Promise.all([
 			fs.readFileAsync("public/views/issueDetails.html"),
 			repositories.Issue.number(request.query.projectId, request.query.number)
-		]).spread(function(h, i) {
-			if (!i) {
+		]).spread(function(html, issue) {
+			if (!issue) {
 				response.send(404);
 				return;
 			}
 
-			html = h;
-			issue = i;
 			return Promise.all([repositories.Transition.status(issue.statusId), repositories.Comment.issue(issue._id), repositories.IssueFile.issue(issue._id)]).spread(function(transitions, comments, files) {
 				return Promise.all([
 					mapper.map("issue", "issue-view-model", issue),
@@ -69,7 +67,7 @@ module.exports = function(app) {
 				model.transitions = transitions;
 				model.history = comments;
 				model.files = files;
-				response.send(!issue ? 404 : mustache.render(html.toString(), { issue: JSON.stringify(model) }));
+				response.send(mustache.render(html.toString(), { issue: JSON.stringify(model) }));
 			});
 		}).catch(function(e) {
 			response.send("Error while rendering issue details for issue #" + request.query.number + ": " + e, 500);
