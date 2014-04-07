@@ -114,28 +114,25 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/add-comment", authenticate, function(request, response) {
-		var issue;
 		return mapper.map("issue-history-view-model", "comment", request.body).then(function(comment) {
 			comment.date = new Date();
 			comment.user = request.user._id;
-			return repositories.Issue.details(request.body.issueId);
-		}).then(function (i) {
-			issue = i;
-			comment.issue = issue._id;
-			return repositories.Comment.create(comment);
-		}).then(function () {
-			if (request.user._id.toString() != issue.developerId.toString())
-				repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });
-			repositories.User.details(issue.developerId).then(function (user) {
-				if (user.emailNotificationForNewCommentForAssignedIssue)
-					notificationEmailer.newComment(user, issue);
+			return repositories.Issue.details(request.body.issueId).then(function (issue) {
+				comment.issue = issue._id;
+				return repositories.Comment.create(comment).then(function () {
+					return repositories.User.details(issue.developerId).then(function (user) {
+						if (user.emailNotificationForNewCommentForAssignedIssue)
+							return notificationEmailer.newComment(user, issue);
+					}).then(function() {
+						if (request.user._id.toString() != issue.developerId.toString())
+							return repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });
+					});
+				});
 			});
 		}).then(function () {
 			response.send(200);
 		}).catch(function (e) {
-			var message = "Error adding comment: " + e;
-			console.log(message);
-			response.send(message, 500);
+			response.send("Error adding comment: " + e, 500);
 		});
 	});
 

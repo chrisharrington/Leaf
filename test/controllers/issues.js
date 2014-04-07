@@ -11,6 +11,118 @@ var notificationEmailer = require("../../email/notificationEmailer");
 var sut = require("../../controllers/issues");
 
 describe("issues", function() {
+	describe("post /issues/add-comment", function() {
+		it("should send 200", function() {
+			return _runAddComment({
+				assert: function(result) {
+					assert(result.response.send.calledOnce);
+				}
+			})
+		});
+
+		it("should send 500 when failing to map", function() {
+			return _runAddComment({
+				mapperMap: sinon.stub(mapper, "map").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get issue details", function() {
+			return _runAddComment({
+				issueDetails: sinon.stub(repositories.Issue, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to create a comment", function() {
+			return _runAddComment({
+				commentCreate: sinon.stub(repositories.Comment, "create").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get user details", function() {
+			return _runAddComment({
+				userDetails: sinon.stub(repositories.User, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to send a notification email", function() {
+			return _runAddComment({
+				notificationEmailerNewComment: sinon.stub(notificationEmailer, "newComment").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to create a notification", function() {
+			return _runAddComment({
+				notificationCreate: sinon.stub(repositories.Notification, "create").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should not send notification email when user's email notifications are disabled", function() {
+			return _runAddComment({
+				emailNotificationForNewCommentForAssignedIssue: false,
+				assert: function(result) {
+					assert(result.stubs.notificationEmailerNewComment.notCalled);
+				}
+			});
+		});
+
+		it("should not create notification if user performing the add has the same ID as the assigned developer", function() {
+			var id = "the id";
+			return _runAddComment({
+				userId: id,
+				developerId: id,
+				assert: function(result) {
+					assert(result.stubs.notificationCreate.notCalled);
+				}
+			});
+		});
+
+		function _runAddComment(params) {
+			params = params || {};
+			params.stubs = {
+				mapperMap: params.mapperMap || sinon.stub(mapper, "map").resolves(params.mapperMapResult || { date: new Date(), user: "the user id" }),
+				issueDetails: params.issueDetails || sinon.stub(repositories.Issue, "details").resolves(params.issueDetailsResult || { _id: "the id", developerId: params.developerId || "the developer id" }),
+				commentCreate: params.commentCreate || sinon.stub(repositories.Comment, "create").resolves(params.commentCreateResult || {}),
+				userDetails: params.userDetails || sinon.stub(repositories.User, "details").resolves(params.userDetailsResult || { emailNotificationForNewCommentForAssignedIssue: params.emailNotificationForNewCommentForAssignedIssue == undefined ? true : params.emailNotificationForNewCommentForAssignedIssue }),
+				notificationEmailerNewComment: params.notificationEmailerNewComment || sinon.stub(notificationEmailer, "newComment").resolves(params.notificationEmailerNewCommentResult || {}),
+				notificationCreate: params.notificationCreate || sinon.stub(repositories.Notification, "create").resolves(params.notificationCreateResult || {})
+			};
+
+			params.verb = "post";
+			params.route = "/issues/add-comment";
+			params.request = params.request || {
+				user: params.query || {
+					_id: params.userId || "the user id"
+				},
+				body: {
+					issueId: params.issueId || "the issue id"
+				}
+			};
+
+			return _run(params).finally(function() {
+				for (var name in params.stubs)
+					params.stubs[name].restore();
+			});
+		}
+	});
+
 	describe("post /issues/update", function() {
 		it("should send 200", function() {
 			return _runUpdateIssue({
