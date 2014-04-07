@@ -11,7 +11,302 @@ var notificationEmailer = require("../../email/notificationEmailer");
 var sut = require("../../controllers/issues");
 
 describe("issues", function() {
+	describe("post /issues/create", function() {
+		it("should set post /issues/create route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/issues/create", sinon.match.func, sinon.match.func));
+		});
+
+		it("should send 200", function() {
+			return _runCreate({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			})
+		});
+
+		it("should send 500 when failing to map", function() {
+			return _runCreate({
+				mapperMap: sinon.stub(mapper, "map").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get next issue number", function() {
+			return _runCreate({
+				issueNextNumber: sinon.stub(repositories.Issue, "getNextNumber").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get milestone details", function() {
+			return _runCreate({
+				milestoneDetails: sinon.stub(repositories.Milestone, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get priority details", function() {
+			return _runCreate({
+				priorityDetails: sinon.stub(repositories.Priority, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get status details", function() {
+			return _runCreate({
+				statusDetails: sinon.stub(repositories.Status, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get user details", function() {
+			return _runCreate({
+				userDetails: sinon.stub(repositories.User, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get issue type details", function() {
+			return _runCreate({
+				issueTypeDetails: sinon.stub(repositories.IssueType, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to create the issue", function() {
+			return _runCreate({
+				createIssue: sinon.stub(repositories.Issue, "create").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to create the notification", function() {
+			return _runCreate({
+				createNotification: sinon.stub(repositories.Notification, "create").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to sending the notification email", function() {
+			return _runCreate({
+				notificationEmailerIssueAssigned: sinon.stub(notificationEmailer, "issueAssigned").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should get next number from project specified in request", function() {
+			var project = {
+				_id: "12345"
+			};
+			return _runCreate({
+				request: {
+					project: project
+				},
+				assert: function(result) {
+					assert(result.stubs.issueNextNumber.calledWith(project))
+				}
+			})
+		});
+
+		it("should get milestone details using milestone ID from issue in request.body", function() {
+			var issue = { milestoneId: "12345" };
+			return _runCreate({
+				mapperMapResult: issue,
+				assert: function(result) {
+					assert(result.stubs.milestoneDetails.calledWith(issue.milestoneId))
+				}
+			})
+		});
+
+		it("should get milestone details using priority ID from issue in request.body", function() {
+			var issue = { priorityId: "12345" };
+			return _runCreate({
+				mapperMapResult: issue,
+				assert: function(result) {
+					assert(result.stubs.priorityDetails.calledWith(issue.priorityId))
+				}
+			})
+		});
+
+		it("should get status details using status ID from issue in request.body", function() {
+			var issue = { statusId: "12345" };
+			return _runCreate({
+				mapperMapResult: issue,
+				assert: function(result) {
+					assert(result.stubs.statusDetails.calledWith(issue.statusId))
+				}
+			})
+		});
+
+		it("should get developer details using developer ID from issue in request.body", function() {
+			var issue = { developerId: "12345" };
+			return _runCreate({
+				mapperMapResult: issue,
+				assert: function(result) {
+					assert(result.stubs.userDetails.calledWith(issue.developerId))
+				}
+			})
+		});
+
+		it("should get tester details using tester ID from issue in request.body", function() {
+			var issue = { testerId: "12345" };
+			return _runCreate({
+				mapperMapResult: issue,
+				assert: function(result) {
+					assert(result.stubs.userDetails.calledWith(issue.testerId))
+				}
+			})
+		});
+
+		it("should get issue type details using issue type ID from issue in request.body", function() {
+			var issue = { developerId: "12345" };
+			return _runCreate({
+				mapperMapResult: issue,
+				assert: function(result) {
+					assert(result.stubs.userDetails.calledWith(issue.issueTypeId))
+				}
+			})
+		});
+
+		it("should set model parameters based on retrieved data", function() {
+			var model = {
+				number: "the old number",
+				milestone: "the old milestone name",
+				priority: "the old priority name",
+				priorityOrder: "the old priority order",
+				status: "the old status name",
+				statusOrder: "the old status order",
+				developer: "the old developer name",
+				tester: "the old tester name",
+				type: "the old type",
+				opened: "the old opened",
+				updated: "the old updated",
+				updatedBy: "the old updated by",
+				project: "the old project",
+				developerId: "the developer id",
+				testerId: "the tester id"
+			};
+			var date = Date.now();
+			var userId = "the new user id";
+			var projectId = "the new project id";
+			return _runCreate({
+				issueNextNumberResult: 2,
+				milestoneDetailsResult: { name: "the new milestone name" },
+				priorityDetailsResult: { name: "the new priority name", order: "the new priority order" },
+				statusDetailsResult: { name: "the new status name", order: "the new status order" },
+				developerName: "the new developer name",
+				testerName: "the new tester name",
+				issueTypeDetailsResult: { name: "the new type name" },
+				mapperMapResult: model,
+				date: date,
+				userId: userId,
+				projectId: projectId,
+				assert: function(result) {
+					assert(model.number == 2);
+					assert(model.milestone == "the new milestone name");
+					assert(model.priority == "the new priority name");
+					assert(model.priorityOrder == "the new priority order");
+					assert(model.status == "the new status name");
+					assert(model.statusOrder == "the new status order");
+					assert(model.developer == "the new developer name");
+					assert(model.tester == "the new tester name");
+					assert(model.type == "the new type name");
+					assert(model.opened == date);
+					assert(model.updated == date);
+					assert(model.updatedBy == userId);
+					assert(model.project == projectId);
+				}
+			})
+		});
+
+		it("should not send notification email if the user has email notification disabled", function() {
+			return _runCreate({
+				emailNotificationForIssueAssigned: false,
+				assert: function(result) {
+					assert(result.stubs.notificationEmailerIssueAssigned.notCalled);
+				}
+			})
+		});
+
+		it("should not create a notification if the developer and creating user are the same", function() {
+			var id = "12345";
+			return _runCreate({
+				developerId: id,
+				userId: id,
+				assert: function(result) {
+					assert(result.stubs.createNotification.notCalled);
+				}
+			});
+		});
+
+		function _runCreate(params) {
+			params = params || {};
+			params.stubs = {
+				mapperMap: params.mapperMap || sinon.stub(mapper, "map").resolves(params.mapperMapResult || { date: new Date(), user: "the user id", developerId: params.developerId || "the developer id", testerId: params.testerId || "the tester id" }),
+				issueNextNumber: params.issueNextNumber || sinon.stub(repositories.Issue, "getNextNumber").resolves(params.issueNextNumberResult || 10),
+				milestoneDetails: params.milestoneDetails || sinon.stub(repositories.Milestone, "details").resolves(params.milestoneDetailsResult || { name: "the milestone name" }),
+				priorityDetails: params.priorityDetails || sinon.stub(repositories.Priority, "details").resolves(params.priorityDetailsResult || { name: "the priority name", order: 1 }),
+				statusDetails: params.statusDetails || sinon.stub(repositories.Status, "details").resolves(params.statusDetailsResult || { name: "the status name", order: 2 }),
+				userDetails: params.userDetails || sinon.stub(repositories.User, "details"),
+				issueTypeDetails: params.issueTypeDetails || sinon.stub(repositories.IssueType, "details").resolves(params.issueTypeDetailsResult || { name: "the issue type name" }),
+				createIssue: params.createIssue || sinon.stub(repositories.Issue, "create").resolves({ developerId: params.developerId || "the developer id" }),
+				createNotification: params.createNotification || sinon.stub(repositories.Notification, "create").resolves({}),
+				notificationEmailerIssueAssigned: params.notificationEmailerIssueAssigned || sinon.stub(notificationEmailer, "issueAssigned").resolves({}),
+				dateNow: params.dateNow || sinon.stub(Date, "now").returns(params.date || new Date())
+			};
+
+			if (!params.userDetails) {
+				params.stubs.userDetails.withArgs(params.developerId || "the developer id").resolves({ name: params.developerName || "the developer name", _id: params.developerId || "the developer id", emailNotificationForIssueAssigned: params.emailNotificationForIssueAssigned == undefined ? true : params.emailNotificationForIssueAssigned });
+				params.stubs.userDetails.withArgs(params.testerId || "the tester id").resolves({ name: params.testerName || "the tester name", _id: params.testerId || "the tester id" });
+			}
+
+			params.verb = "post";
+			params.route = "/issues/create";
+			params.request = params.request || {
+				user: {
+					_id: params.userId || "the user id"
+				},
+				project: {
+					_id: params.projectId || "the project id"
+				}
+			};
+
+			return _run(params).finally(function() {
+				for (var name in params.stubs)
+					params.stubs[name].restore();
+			});
+		}
+	});
+
 	describe("post /issues/add-comment", function() {
+		it("should set post /issues/add-comment route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/issues/add-comment", sinon.match.func, sinon.match.func));
+		});
+
 		it("should send 200", function() {
 			return _runAddComment({
 				assert: function(result) {
@@ -124,6 +419,12 @@ describe("issues", function() {
 	});
 
 	describe("post /issues/update", function() {
+		it("should set post /issues/update route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/issues/update", sinon.match.func, sinon.match.func));
+		});
+
 		it("should send 200", function() {
 			return _runUpdateIssue({
 				assert: function(result) {

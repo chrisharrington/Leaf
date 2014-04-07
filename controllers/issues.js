@@ -146,36 +146,34 @@ module.exports = function(app) {
 				repositories.User.details(model.developerId),
 				repositories.User.details(model.testerId),
 				repositories.IssueType.details(model.typeId)
-			]);
-		}).spread(function (number, milestone, priority, status, developer, tester, type) {
-			model.number = number;
-			model.milestone = milestone.name;
-			model.priority = priority.name;
-			model.priorityOrder = priority.order;
-			model.status = status.name;
-			model.statusOrder = status.order;
-			model.developer = developer.name;
-			model.tester = tester.name;
-			model.type = type.name;
-			model.opened = new Date();
-			model.updated = new Date();
-			model.updatedBy = request.user._id;
-			model.project = request.project._id;
-			return repositories.Issue.create(model);
+			]).spread(function (number, milestone, priority, status, developer, tester, type) {
+				model.number = number;
+				model.milestone = milestone.name;
+				model.priority = priority.name;
+				model.priorityOrder = priority.order;
+				model.status = status.name;
+				model.statusOrder = status.order;
+				model.developer = developer.name;
+				model.tester = tester.name;
+				model.type = type.name;
+				model.opened = Date.now();
+				model.updated = Date.now();
+				model.updatedBy = request.user._id;
+				model.project = request.project._id;
+				return repositories.Issue.create(model);
+			});
 		}).then(function (issue) {
-			if (request.user._id.toString() != issue.developerId.toString()) {
-				repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: issue.developerId });
-				repositories.User.details(issue.developerId).then(function (user) {
-					if (user.emailNotificationForIssueAssigned)
-						notificationEmailer.issueAssigned(user, issue);
-				});
-			}
+			return repositories.User.details(issue.developerId).then(function (user) {
+				if (user.emailNotificationForIssueAssigned)
+					return notificationEmailer.issueAssigned(user, issue);
+			}).then(function() {
+				if (request.user._id.toString() != issue.developerId.toString())
+					return repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: issue.developerId });
+			});
 		}).then(function () {
 			response.send(200);
 		}).catch(function (e) {
-			var message = "Error while creating issue: " + e;
-			console.log(message);
-			response.send(message, 500);
+			response.send("Error while creating issue: " + e, 500);
 		});
 	});
 
