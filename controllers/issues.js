@@ -35,7 +35,9 @@ module.exports = function(app) {
 			milestones: request.query.milestones.split(","),
 			types: request.query.types.split(",")
 		}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
-			response.send(mapper.mapAll("issue", "issue-view-model", issues), 200);
+			return mapper.mapAll("issue", "issue-view-model", issues);
+		}).then(function (mapped) {
+			response.send(mapped, 200);
 			return issues;
 		}).catch(function(e) {
 			response.send("Error retrieving issues: " + e, 500);
@@ -56,10 +58,17 @@ module.exports = function(app) {
 			html = h;
 			issue = i;
 			return Promise.all([repositories.Transition.status(issue.statusId), repositories.Comment.issue(issue._id), repositories.IssueFile.issue(issue._id)]).spread(function(transitions, comments, files) {
-				var model = mapper.map("issue", "issue-view-model", issue);
-				model.transitions = mapper.mapAll("transition", "transition-view-model", transitions);
-				model.history = mapper.mapAll("comment", "issue-history-view-model", comments);
-				model.files = mapper.mapAll("issue-file", "issue-file-view-model", files);
+				return Promise.all([
+					mapper.map("issue", "issue-view-model", issue),
+					mapper.mapAll("transition", "transition-view-model", transitions),
+					mapper.mapAll("comment", "issue-history-view-model", comments),
+					mapper.mapAll("issue-file", "issue-file-view-model", files)
+				]);
+			}).spread(function(issue, transitions, comments, files) {
+				var model = issue;
+				model.transitions = transitions;
+				model.history = comments;
+				model.files = files;
 				response.send(!issue ? 404 : mustache.render(html.toString(), { issue: JSON.stringify(model) }));
 			});
 		}).catch(function(e) {
@@ -87,45 +96,48 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/update", authenticate, function(request, response) {
-		var issue = mapper.map("issue-view-model", "issue", request.body);
-		if (!issue || !issue.number) {
-			response.send("Error while mapping issue.", 500);
-			return;
-		}
-		return repositories.Issue.update(issue, request.user).then(function() {
+		return mapper.map("issue-view-model", "issue", request.body).then(function(issue) {
+			if (!issue || !issue.number)
+				throw new Error("Error while mapping issue.");
+
+			return repositories.Issue.update(issue, request.user);
+		}).then(function () {
 			if (request.user._id.toString() != issue.developerId.toString()) {
-				repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId });
-				return repositories.User.details(issue.developerId).then(function(user) {
+				return Promise.all([
+					repositories.User.details(issue.developerId),
+					repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId })
+				]).then(function (user) {
 					if (user.emailNotificationForIssueUpdated)
 						return notificationEmailer.issueUpdated(user, issue);
 				});
 			}
-		}).then(function() {
+		}).then(function () {
 			response.send(200);
-		}).catch(function(e) {
+		}).catch(function (e) {
 			response.send("Error while updating issue: " + e, 500);
 		});
 	});
 
 	app.post("/issues/add-comment", authenticate, function(request, response) {
-		var issue, comment = mapper.map("issue-history-view-model", "comment", request.body);
-		comment.date = new Date();
-		comment.user = request.user._id;
-		repositories.Issue.details(request.body.issueId).then(function(i) {
+		var issue;
+		return mapper.map("issue-history-view-model", "comment", request.body).then(function(comment) {
+			comment.date = new Date();
+			comment.user = request.user._id;
+			return repositories.Issue.details(request.body.issueId);
+		}).then(function (i) {
 			issue = i;
 			comment.issue = issue._id;
-		}).then(function() {
 			return repositories.Comment.create(comment);
-		}).then(function() {
+		}).then(function () {
 			if (request.user._id.toString() != issue.developerId.toString())
-            	repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });
-				repositories.User.details(issue.developerId).then(function(user) {
-					if (user.emailNotificationForNewCommentForAssignedIssue)
-						notificationEmailer.newComment(user, issue);
-				});
-        }).then(function() {
+				repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });
+			repositories.User.details(issue.developerId).then(function (user) {
+				if (user.emailNotificationForNewCommentForAssignedIssue)
+					notificationEmailer.newComment(user, issue);
+			});
+		}).then(function () {
 			response.send(200);
-		}).catch(function(e) {
+		}).catch(function (e) {
 			var message = "Error adding comment: " + e;
 			console.log(message);
 			response.send(message, 500);
@@ -133,16 +145,17 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/create", authenticate, function(request, response) {
-		var model = mapper.map("issue-view-model", "issue", request.body);
-		Promise.all([
-			repositories.Issue.getNextNumber(request.project),
-			repositories.Milestone.details(model.milestoneId),
-			repositories.Priority.details(model.priorityId),
-			repositories.Status.details(model.statusId),
-			repositories.User.details(model.developerId),
-			repositories.User.details(model.testerId),
-			repositories.IssueType.details(model.typeId)
-		]).spread(function(number, milestone, priority, status, developer, tester, type) {
+		return mapper.map("issue-view-model", "issue", request.body).then(function(model) {
+			return Promise.all([
+				repositories.Issue.getNextNumber(request.project),
+				repositories.Milestone.details(model.milestoneId),
+				repositories.Priority.details(model.priorityId),
+				repositories.Status.details(model.statusId),
+				repositories.User.details(model.developerId),
+				repositories.User.details(model.testerId),
+				repositories.IssueType.details(model.typeId)
+			]);
+		}).spread(function (number, milestone, priority, status, developer, tester, type) {
 			model.number = number;
 			model.milestone = milestone.name;
 			model.priority = priority.name;
@@ -157,17 +170,17 @@ module.exports = function(app) {
 			model.updatedBy = request.user._id;
 			model.project = request.project._id;
 			return repositories.Issue.create(model);
-        }).then(function(issue) {
+		}).then(function (issue) {
 			if (request.user._id.toString() != issue.developerId.toString()) {
 				repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: issue.developerId });
-				repositories.User.details(issue.developerId).then(function(user) {
+				repositories.User.details(issue.developerId).then(function (user) {
 					if (user.emailNotificationForIssueAssigned)
 						notificationEmailer.issueAssigned(user, issue);
 				});
 			}
-		}).then(function() {
+		}).then(function () {
 			response.send(200);
-		}).catch(function(e) {
+		}).catch(function (e) {
 			var message = "Error while creating issue: " + e;
 			console.log(message);
 			response.send(message, 500);

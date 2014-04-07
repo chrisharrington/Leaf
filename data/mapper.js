@@ -8,37 +8,36 @@ exports.define = function(sourceKey, destinationKey, definition) {
 };
 
 exports.map = function(sourceKey, destinationKey, source) {
-	try {
+	return new Promise(function(resolve, reject) {
 		if (source == null)
-			return null;
-
-		var key = _getCombinedKey(sourceKey, destinationKey);
-		if (!_maps || !_maps[key])
-			return source;
-
-		var definition = _maps[key];
-		var result = {};
-		for (var name in definition) {
-			var prop = definition[name];
-			var type = typeof(prop);
-			if (type == "function")
-				prop = prop(source);
-			else
-				prop = source[prop];
-			result[name] = prop;
+			resolve(null);
+		else {
+			var key = _getCombinedKey(sourceKey, destinationKey);
+			if (!_maps || !_maps[key])
+				resolve(source);
+			else {
+				var definition = _maps[key];
+				var result = {};
+				for (var name in definition) {
+					var prop = definition[name];
+					var type = typeof(prop);
+					if (type == "function")
+						prop = prop(source);
+					else
+						prop = source[prop];
+					result[name] = prop;
+				}
+				resolve(result);
+			}
 		}
-		return result;
-	} catch (error) {
-		console.log("Error during mapping: " + error);
-		return source;
-	}
+	});
 };
 
 exports.mapAll = function(sourceKey, destinationKey, sourceList) {
 	var resultList = [];
 	for (var i = 0; i < sourceList.length; i++)
 		resultList.push(exports.map(sourceKey, destinationKey, sourceList[i]));
-	return resultList;
+	return Promise.all(resultList);
 };
 
 exports.init = function() {
