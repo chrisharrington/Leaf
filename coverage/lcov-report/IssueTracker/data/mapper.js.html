@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">IssueTracker/data/mapper.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">18.97% <small>(11 / 58)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">21.05% <small>(12 / 57)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Branches: <span class="metric">0% <small>(0 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">5.56% <small>(1 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">5.26% <small>(1 / 19)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">19.3% <small>(11 / 57)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">21.43% <small>(12 / 56)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -335,10 +335,11 @@
 117
 118</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -364,8 +365,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -452,6 +452,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var moment = require("moment");
 var config = require("../config");
+var Promise = require("bluebird");
 &nbsp;
 var _maps = {};
 &nbsp;
@@ -460,37 +461,36 @@ exports.define = <span class="fstat-no" title="function not covered" >function(s
 };
 &nbsp;
 exports.map = <span class="fstat-no" title="function not covered" >function(sourceKey, destinationKey, source) {</span>
-<span class="cstat-no" title="statement not covered" >	try {</span>
+<span class="cstat-no" title="statement not covered" >	return new Promise(<span class="fstat-no" title="function not covered" >function(resolve, reject) {</span></span>
 <span class="cstat-no" title="statement not covered" >		if (source == null)</span>
-<span class="cstat-no" title="statement not covered" >			return null;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >		var key = _getCombinedKey(sourceKey, destinationKey);</span>
-<span class="cstat-no" title="statement not covered" >		if (!_maps || !_maps[key])</span>
-<span class="cstat-no" title="statement not covered" >			return source;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >		var definition = _maps[key];</span>
-<span class="cstat-no" title="statement not covered" >		var result = {};</span>
-<span class="cstat-no" title="statement not covered" >		for (var name in definition) {</span>
-<span class="cstat-no" title="statement not covered" >			var prop = definition[name];</span>
-<span class="cstat-no" title="statement not covered" >			var type = typeof(prop);</span>
-<span class="cstat-no" title="statement not covered" >			if (type == "function")</span>
-<span class="cstat-no" title="statement not covered" >				prop = prop(source);</span>
-			else
-<span class="cstat-no" title="statement not covered" >				prop = source[prop];</span>
-<span class="cstat-no" title="statement not covered" >			result[name] = prop;</span>
+<span class="cstat-no" title="statement not covered" >			reject("Missing source while mapping.");</span>
+		else {
+<span class="cstat-no" title="statement not covered" >			var key = _getCombinedKey(sourceKey, destinationKey);</span>
+<span class="cstat-no" title="statement not covered" >			if (!_maps || !_maps[key])</span>
+<span class="cstat-no" title="statement not covered" >				reject("No such mapping definition for \"" + key + "\"");</span>
+			else {
+<span class="cstat-no" title="statement not covered" >				var definition = _maps[key];</span>
+<span class="cstat-no" title="statement not covered" >				var result = {};</span>
+<span class="cstat-no" title="statement not covered" >				for (var name in definition) {</span>
+<span class="cstat-no" title="statement not covered" >					var prop = definition[name];</span>
+<span class="cstat-no" title="statement not covered" >					var type = typeof(prop);</span>
+<span class="cstat-no" title="statement not covered" >					if (type == "function")</span>
+<span class="cstat-no" title="statement not covered" >						prop = prop(source);</span>
+					else
+<span class="cstat-no" title="statement not covered" >						prop = source[prop];</span>
+<span class="cstat-no" title="statement not covered" >					result[name] = prop;</span>
+				}
+<span class="cstat-no" title="statement not covered" >				resolve(result);</span>
+			}
 		}
-<span class="cstat-no" title="statement not covered" >		return result;</span>
-	} catch (error) {
-<span class="cstat-no" title="statement not covered" >		console.log("Error during mapping: " + error);</span>
-<span class="cstat-no" title="statement not covered" >		return source;</span>
-	}
+	});
 };
 &nbsp;
 exports.mapAll = function(sourceKey, destinationKey, sourceList) {
 	var resultList = [];
 	for (var i = 0; i &lt; sourceList.length; i++)
 <span class="cstat-no" title="statement not covered" >		resultList.push(exports.map(sourceKey, destinationKey, sourceList[i]));</span>
-	return resultList;
+	return Promise.all(resultList);
 };
 &nbsp;
 exports.init = <span class="fstat-no" title="function not covered" >function() {</span>
@@ -572,7 +572,7 @@ exports.init = <span class="fstat-no" title="function not covered" >function() {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 06 2014 21:12:43 GMT-0600 (MDT)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 07 2014 08:29:06 GMT-0600 (MDT)</div>
 </div>
 
 <script src="../../prettify.js"></script>

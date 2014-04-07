@@ -97,20 +97,17 @@ module.exports = function(app) {
 
 	app.post("/issues/update", authenticate, function(request, response) {
 		return mapper.map("issue-view-model", "issue", request.body).then(function(issue) {
-			if (!issue || !issue.number)
-				throw new Error("Error while mapping issue.");
-
-			return repositories.Issue.update(issue, request.user);
-		}).then(function () {
-			if (request.user._id.toString() != issue.developerId.toString()) {
-				return Promise.all([
-					repositories.User.details(issue.developerId),
-					repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId })
-				]).then(function (user) {
-					if (user.emailNotificationForIssueUpdated)
-						return notificationEmailer.issueUpdated(user, issue);
-				});
-			}
+			return repositories.Issue.update(issue, request.user).then(function () {
+				if (request.user._id.toString() != issue.developerId.toString()) {
+					return Promise.all([
+						repositories.User.details(issue.developerId),
+						repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId })
+					]).spread(function (user) {
+						if (user.emailNotificationForIssueUpdated)
+							return notificationEmailer.issueUpdated(user, issue);
+					});
+				}
+			});
 		}).then(function () {
 			response.send(200);
 		}).catch(function (e) {

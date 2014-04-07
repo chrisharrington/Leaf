@@ -12,48 +12,86 @@ var sut = require("../../controllers/issues");
 
 describe("issues", function() {
 	describe("post /issues/update", function() {
-//		it("should update", function() {
-//			return _runUpdateIssue({
-//				assert: function(result) {
-//					assert(result.response.send.calledWith(200));
-//				}
-//			});
-//		});
-//
-//		it("should send 500 when failing to map issue view model", function() {
-//			return _runUpdateIssue({
-//				mapperMap: sinon.stub(mapper, "map").returns({}),
-//				assert: function(result) {
-//					assert(result.response.send.calledWith(sinon.match.string, 500));
-//				}
-//			})
-//		});
+		it("should send 200", function() {
+			return _runUpdateIssue({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
 
-//		it("should send 500 when failing to update", function() {
-//			return _runUpdateIssue({
-//				issueUpdate: sinon.stub(repositories.Issue, "update").rejects(),
-//				assert: function(result) {
-//					assert(result.response.send.calledWith(sinon.match.string, 500));
-//				}
-//			});
-//		});
+		it("should not create notification if developer is the same as the updating user", function() {
+			var id = "the user id";
+			return _runUpdateIssue({
+				userId: id,
+				developerId: id,
+				assert: function(results) {
+					assert(results.stubs.notificationCreate.notCalled);
+				}
+			});
+		});
 
-//		it("should send 500 when failing to get user details", function() {
-//			return _runUpdateIssue({
-//				//userDetails: sinon.stub(repositories.User, "details").reject(),
-//				assert: function(result) {
-//					assert(result.response.send.calledWith(sinon.match.string, 500));
-//				}
-//			});
-//		});
+		it("should not send notification email when user has email notification disabled", function() {
+			return _runUpdateIssue({
+				emailNotificationForIssueUpdated: false,
+				assert: function(result) {
+					assert(result.stubs.notificationEmailerIssueUpdated.notCalled);
+				}
+			});
+		});
+
+		it("should send 500 when failing to map issue view model", function() {
+			return _runUpdateIssue({
+				mapperMap: sinon.stub(mapper, "map").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should send 500 when failing to update", function() {
+			return _runUpdateIssue({
+				issueUpdate: sinon.stub(repositories.Issue, "update").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get user details", function() {
+			return _runUpdateIssue({
+				userDetails: sinon.stub(repositories.User, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to create notification", function() {
+			return _runUpdateIssue({
+				notificationCreate: sinon.stub(repositories.Notification, "create").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to send email notification", function() {
+			return _runUpdateIssue({
+				notificationEmailerIssueUpdated: sinon.stub(notificationEmailer, "issueUpdated").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
 
 		function _runUpdateIssue(params) {
 			params = params || {};
 			params.stubs = {
-				mapperMap: params.mapperMap || sinon.stub(mapper, "map").returns(params.mapperMapResult || { developerId: params.developerId || "the developer id" }),
+				mapperMap: params.mapperMap || sinon.stub(mapper, "map").resolves(params.mapperMapResult || { developerId: params.developerId || "the developer id" }),
 				issueUpdate: params.issueUpdate || sinon.stub(repositories.Issue, "update").resolves(),
 				notificationCreate: params.notificationCreate || sinon.stub(repositories.Notification, "create").resolves(),
-				userDetails: params.userDetails || sinon.stub(repositories.User, "details").resolves({ user: params.user || { emailNotificationForIssueUpdated: params.emailNotificationForIssueUpdated || true }}),
+				userDetails: params.userDetails || sinon.stub(repositories.User, "details").resolves(params.user || { emailNotificationForIssueUpdated: params.emailNotificationForIssueUpdated == undefined ? true : false }),
 				notificationEmailerIssueUpdated: params.notificationEmailerIssueUpdated || sinon.stub(notificationEmailer, "issueUpdated").resolves()
 			};
 
@@ -61,7 +99,7 @@ describe("issues", function() {
 			params.route = "/issues/update";
 			params.request = params.request || {
 				user: params.query || {
-					_id: "the user id"
+					_id: params.userId || "the user id"
 				}
 			};
 

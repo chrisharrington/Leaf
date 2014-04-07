@@ -1,5 +1,6 @@
 var moment = require("moment");
 var config = require("../config");
+var Promise = require("bluebird");
 
 var _maps = {};
 
@@ -10,11 +11,11 @@ exports.define = function(sourceKey, destinationKey, definition) {
 exports.map = function(sourceKey, destinationKey, source) {
 	return new Promise(function(resolve, reject) {
 		if (source == null)
-			resolve(null);
+			reject("Missing source while mapping.");
 		else {
 			var key = _getCombinedKey(sourceKey, destinationKey);
 			if (!_maps || !_maps[key])
-				resolve(source);
+				reject("No such mapping definition for \"" + key + "\"");
 			else {
 				var definition = _maps[key];
 				var result = {};
