@@ -10,7 +10,168 @@ var notificationEmailer = require("../../email/notificationEmailer");
 
 var sut = require("../../controllers/issues");
 
+function _restoreStubs(stubs) {
+	for (var name in stubs)
+		stubs[name].restore();
+}
+
 describe("issues", function() {
+	describe("post /issues/delete", function() {
+		it("should set post /issues/delete route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/issues/delete", sinon.match.func, sinon.match.func));
+		});
+
+		it("should send 200", function() {
+			return _runDelete({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 when failing to get issue details", function() {
+			return _runDelete({
+				issueDetails: sinon.stub(repositories.Issue, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should send 500 when failing to remove notifications for the deleted issue", function() {
+			return _runDelete({
+				notificationRemoveForIssue: sinon.stub(repositories.Notification, "removeForIssue").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should send 500 when failing to delete issue", function() {
+			return _runDelete({
+				issueRemove: sinon.stub(repositories.Issue, "remove").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should send 500 when failing to get user details", function() {
+			return _runDelete({
+				userDetails: sinon.stub(repositories.User, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should send 500 when failing to send a notification email", function() {
+			return _runDelete({
+				notificationEmailerIssueDeleted: sinon.stub(notificationEmailer, "issueDeleted").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should send 500 when failing to get issue details", function() {
+			return _runDelete({
+				notificationCreate: sinon.stub(repositories.Notification, "create").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should remove issue as specified with the issue ID in the request body", function() {
+			var id = "this is the id of the issue to delete";
+			return _runDelete({
+				request: {
+					body: {
+						id: id
+					}
+				},
+				assert: function(request) {
+					assert(request.stubs.issueRemove.calledWith(id));
+				}
+			})
+		});
+
+		it("should remove notifications for the issue that's slated for deletion", function() {
+			var id = "this is the id of the issue to delete";
+			return _runDelete({
+				request: {
+					body: {
+						id: id
+					}
+				},
+				assert: function(request) {
+					assert(request.stubs.notificationRemoveForIssue.calledWith(id));
+				}
+			})
+		});
+
+		it("should not create notification if user ID matches the developer ID of the issue being deleted", function() {
+			var id = "the matching user and developer id";
+			return _runDelete({
+				userId: id,
+				developerId: id,
+				assert: function(result) {
+					assert(result.stubs.notificationCreate.notCalled);
+				}
+			})
+		});
+
+		it("should not get user details if user ID matches the developer ID of the issue being deleted", function() {
+			var id = "the matching user and developer id";
+			return _runDelete({
+				userId: id,
+				developerId: id,
+				assert: function(result) {
+					assert(result.stubs.userDetails.notCalled);
+				}
+			})
+		});
+
+		it("should not send user notification email if the user's email notifications are disabled", function() {
+			return _runDelete({
+				emailNotificationForIssueDeleted: false,
+				assert: function(result) {
+					assert(result.stubs.notificationEmailerIssueDeleted.notCalled);
+				}
+			})
+		});
+
+		function _runDelete(params) {
+			params = params || {};
+			params.stubs = {
+				issueDetails: params.issueDetails || sinon.stub(repositories.Issue, "details").resolves(params.issueDetailsResult || { _id: params.issueId || "the issue id", developerId: params.developerId || "the developer id" }),
+				notificationRemoveForIssue: params.notificationRemoveForIssue || sinon.stub(repositories.Notification, "removeForIssue").resolves(),
+				issueRemove: params.issueRemove || sinon.stub(repositories.Issue, "remove").resolves(),
+				userDetails: params.userDetails || sinon.stub(repositories.User, "details").resolves({ emailNotificationForIssueDeleted: params.emailNotificationForIssueDeleted == undefined ? true : params.emailNotificationForIssueDeleted }),
+				notificationEmailerIssueDeleted: params.notificationEmailerIssueDeleted || sinon.stub(notificationEmailer, "issueDeleted").resolves(),
+				notificationCreate: params.notificationCreate || sinon.stub(repositories.Notification, "create").resolves()
+			};
+
+			params.verb = "post";
+			params.route = "/issues/delete";
+			params.request = params.request || {
+				body: {
+					id: params.id || "the id"
+				},
+				user: {
+					_id: params.userId || "the user id"
+				}
+			};
+
+			return _run(params).finally(function () {
+				_restoreStubs(params.stubs);
+			});
+		}
+	});
+
 	describe("post /issues/create", function() {
 		it("should set post /issues/create route", function() {
 			var app = { get: sinon.stub(), post: sinon.stub() };

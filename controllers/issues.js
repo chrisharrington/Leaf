@@ -179,25 +179,24 @@ module.exports = function(app) {
 
 	app.post("/issues/delete", authenticate, function(request, response) {
 		var issue;
-		repositories.Issue.details(request.body.id).then(function(i) {
-			issue = i;
-			return repositories.Notification.removeForIssue(issue._id);
-		}).then(function() {
-			return repositories.Issue.remove(request.body.id)
-		}).then(function() {
+		return Promise.all([
+			repositories.Issue.details(request.body.id),
+			repositories.Issue.remove(request.body.id),
+			repositories.Notification.removeForIssue(request.body.id)
+		]).spread(function(issue) {
 			if (request.user._id.toString() != issue.developerId.toString()) {
-				repositories.Notification.create({ type: "issue-deleted", issue: issue._id, user: issue.developerId });
-				repositories.User.details(issue.developerId).then(function(user) {
+				return Promise.all([
+					repositories.User.details(issue.developerId),
+					repositories.Notification.create({ type: "issue-deleted", issue: issue._id, user: issue.developerId })
+				]).spread(function (user) {
 					if (user.emailNotificationForIssueDeleted)
-						notificationEmailer.issueDeleted(user, issue);
+						return notificationEmailer.issueDeleted(user, issue);
 				});
 			}
-		}).then(function() {
+		}).then(function () {
 			response.send(200);
-		}).catch(function(e) {
-			var message = "Error while deleting issue: " + e;
-			console.log(e);
-			response.send(message, 500);
+		}).catch(function (e) {
+			response.send("Error while deleting issue: " + e, 500);
 		});
 	});
 
