@@ -5,14 +5,12 @@ var Promise = require("bluebird");
 
 module.exports = function(app) {
 	app.get("/notifications", authenticate, function(request, response) {
-		repositories.Notification.user(request.user).then(function(notifications) {
+		return repositories.Notification.user(request.user).then(function(notifications) {
 			return mapper.mapAll("notification", "notification-view-model", notifications);
 		}).then(function(mapped) {
-			response.send(mapped);
+			response.send(mapped, 200);
 		}).catch(function(e) {
-			var message = "Error while retrieving notifications: " + e;
-			console.log(e);
-			response.send(message, 500);
+			response.send("Error while retrieving notifications: " + e, 500);
 		});
 	});
 

@@ -1,5 +1,5 @@
 require("../setup");
-var should = require("should"), assert = require("assert"), sinon = require("sinon"), Promise = require("bluebird")
+var should = require("should"), assert = require("assert"), sinon = require("sinon"), Promise = require("bluebird");
 var fs = Promise.promisifyAll(require("fs"));
 var repositories = require("../../data/repositories");
 var mapper = require("../../data/mapper");
@@ -18,6 +18,12 @@ function _restoreStubs(stubs) {
 
 describe("issues", function() {
 	describe("post /issues/attach-file", function() {
+		it("should set post /issues/attach-file route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/issues/attach-file", sinon.match.func, sinon.match.func));
+		});
+
 		it("should send 200", function() {
 			return _runAttachFile({
 				assert: function(result) {
@@ -70,7 +76,7 @@ describe("issues", function() {
 				}
 			})
 		});
-//
+
 		it("should set appropriate data to storage", function() {
 			var projectId = "the id of the project";
 			var objectId = "the generated object id";
