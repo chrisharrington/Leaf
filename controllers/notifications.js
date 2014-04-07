@@ -33,13 +33,11 @@ module.exports = function(app) {
 			user.emailNotificationForIssueDeleted = request.body.emailNotificationForIssueDeleted;
 			user.emailNotificationForIssueUpdated = request.body.emailNotificationForIssueUpdated;
 			user.emailNotificationForNewCommentForAssignedIssue = request.body.emailNotificationForNewCommentForAssignedIssue;
-			return Promise.promisifyAll(user).saveAsync();
+			return repositories.User.update(user);
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
-			var message = "Error while updating email notification settings: " + e;
-			console.log(message);
-			response.send(message, 500);
+			response.send("Error while updating email notification settings: " + e, 500);
 		})
 	});
 };

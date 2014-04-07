@@ -1,4 +1,9 @@
-module.exports = Object.spawn(require("./baseRepository"), {
-	model: require("../models").User,
-	sort: { name: 1 }
+var repository = Object.spawn(require("./baseRepository"), {
+	model: require("../models").Issue
 });
+
+repository.update = function(user) {
+	return Promise.promisifyAll(user).saveAsync();
+};
+
+module.exports = repository;

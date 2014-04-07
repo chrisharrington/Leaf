@@ -7,7 +7,89 @@ var mapper = require("../../data/mapper");
 var sut = require("../../controllers/notifications");
 
 describe("notifications", function() {
-	describe("post /mark-as-viewed", function() {
+	describe("post /notifications/email", function() {
+		it("should set post /notifications/email route", function() {
+			base.testRouteExists(sut, "post", "/notifications/email");
+		});
+
+		it("should send 200", function() {
+			return _testRoute({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			})
+		});
+
+		it("should send 500 when failing to retrieve user details", function() {
+			return _testRoute({
+				userDetails: sinon.stub(repositories.User, "details").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should send 500 when failing to update user", function() {
+			return _testRoute({
+				userUpdate: sinon.stub(repositories.User, "update").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should set user values as per data in request.body", function() {
+			var user = {
+				emailNotificationForIssueAssigned: "first",
+				emailNotificationForIssueDeleted: "second",
+				emailNotificationForIssueUpdated: "third",
+				emailNotificationForNewCommentForAssignedIssue: "fourth"
+			};
+			var body = {
+				emailNotificationForIssueAssigned: "new first",
+				emailNotificationForIssueDeleted: "new second",
+				emailNotificationForIssueUpdated: "new third",
+				emailNotificationForNewCommentForAssignedIssue: "new fourth"
+			};
+			return _testRoute({
+				userDetailsResult: user,
+				body: body,
+				assert: function(result) {
+					assert(result.stubs.userUpdate.calledWith({
+						emailNotificationForIssueAssigned: "new first",
+						emailNotificationForIssueDeleted: "new second",
+						emailNotificationForIssueUpdated: "new third",
+						emailNotificationForNewCommentForAssignedIssue: "new fourth"
+					}));
+				}
+			})
+		});
+
+		function _testRoute(params) {
+			return base.testRoute(extend(params, {
+				request: {
+					user: {
+						id: params.userId || "the user id"
+					},
+					body: params.body || {
+						emailNotificationForIssueAssigned: params.emailNotificationForIssueAssigned || "enfia",
+						emailNotificationForIssueDeleted: params.emailNotificationForIssueDeleted || "enfid",
+						emailNotificationForIssueUpdated: params.emailNotificationForIssueUpdated || "enfiu",
+						emailNotificationForNewCommentForAssignedIssue: params.emailNotificationForNewCommentForAssignedIssue || "enfncfai"
+					}
+				},
+				stubs: {
+					userDetails: params.userDetails || sinon.stub(repositories.User, "details").resolves(params.userDetailsResult || {}),
+					userUpdate: params.userUpdate || sinon.stub(repositories.User, "update").resolves()
+				},
+				sut: sut,
+				verb: "post",
+				route: "/notifications/email"
+			}));
+		}
+	});
+
+	describe("post /notifications/mark-as-viewed", function() {
 		it("should set post /notifications/mark-as-viewed route", function() {
 			base.testRouteExists(sut, "post", "/notifications/mark-as-viewed");
 		});
@@ -40,8 +122,6 @@ describe("notifications", function() {
 				}
 			});
 		});
-
-		
 
 		function _testRoute(params) {
 			return base.testRoute(extend(params, {
