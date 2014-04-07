@@ -88,16 +88,16 @@ module.exports = function(app) {
 
 	app.post("/issues/update", authenticate, function(request, response) {
 		var issue = mapper.map("issue-view-model", "issue", request.body);
-		if (!issue) {
+		if (!issue || issue == {}) {
 			response.send("Error while mapping issue.", 500);
 			return;
 		}
 		return repositories.Issue.update(issue, request.user).then(function() {
 			if (request.user._id.toString() != issue.developerId.toString()) {
 				repositories.Notification.create({ type: "issue-updated", issue: issue._id, user: issue.developerId });
-				repositories.User.details(issue.developerId).then(function(user) {
+				return repositories.User.details(issue.developerId).then(function(user) {
 					if (user.emailNotificationForIssueUpdated)
-						notificationEmailer.issueUpdated(user, issue);
+						return notificationEmailer.issueUpdated(user, issue);
 				});
 			}
 		}).then(function() {

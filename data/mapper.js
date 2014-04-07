@@ -30,7 +30,7 @@ exports.map = function(sourceKey, destinationKey, source) {
 		return result;
 	} catch (error) {
 		console.log("Error during mapping: " + error);
-		return undefined;
+		return source;
 	}
 };
 
