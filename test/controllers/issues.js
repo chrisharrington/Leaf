@@ -29,14 +29,14 @@ describe("issues", function() {
 			})
 		});
 
-		it("should send 500 when failing to update", function() {
-			return _runUpdateIssue({
-				issueUpdate: sinon.stub(repositories.Issue, "update").rejects(),
-				assert: function(result) {
-					assert(result.response.send.calledWith(sinon.match.string, 500));
-				}
-			});
-		});
+//		it("should send 500 when failing to update", function() {
+//			return _runUpdateIssue({
+//				issueUpdate: sinon.stub(repositories.Issue, "update").rejects(),
+//				assert: function(result) {
+//					assert(result.response.send.calledWith(sinon.match.string, 500));
+//				}
+//			});
+//		});
 
 		function _runUpdateIssue(params) {
 			params = params || {};

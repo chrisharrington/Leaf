@@ -88,7 +88,7 @@ module.exports = function(app) {
 
 	app.post("/issues/update", authenticate, function(request, response) {
 		var issue = mapper.map("issue-view-model", "issue", request.body);
-		if (!issue || issue == {}) {
+		if (!issue || !issue.number) {
 			response.send("Error while mapping issue.", 500);
 			return;
 		}
