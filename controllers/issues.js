@@ -201,11 +201,9 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/attach-file", authenticate, function(request, response) {
-		var files;
-		var paths;
-		_readFilesFromRequest(request).then(function(f) {
-			files = [];
-			paths = [];
+		var files = [];
+		var paths = [];
+		return _readFilesFromRequest(request).then(function(f) {
 			for (var name in f) {
 				files.push(storage.set(request.project._id.toString(), mongoose.Types.ObjectId().toString(), f[name].name, f[name].path, f[name].size));
 				paths.push(f[name].path);
@@ -220,12 +218,10 @@ module.exports = function(app) {
 			return created;
 		}).spread(function() {
 			response.send(200);
-			_cleanUpFiles(paths);
+			return _cleanUpFiles(paths);
 		}).catch(function(err) {
-			var message = "Error while attaching file: " + err;
-			console.log(message);
-			response.send(message, 500);
-			_cleanUpFiles(paths);
+			response.send("Error while attaching file: " + err, 500);
+			return _cleanUpFiles(paths);
 		});
 	});
 
@@ -239,10 +235,9 @@ module.exports = function(app) {
 	}
 
 	function _cleanUpFiles(paths) {
+		var unlinks = [];
 		for (var i = 0; i < paths.length; i++)
-			fs.unlink(paths[i], function(err) {
-				if (err)
-					console.log("Error removing file " + paths[i] + ": " + err);
-			});
+			unlinks.push(fs.unlinkAsync(paths[i]));
+		return Promise.all(unlinks);
 	}
 };

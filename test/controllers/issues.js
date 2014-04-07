@@ -7,6 +7,7 @@ var mustache = require("mustache");
 var mongoose = require("mongoose");
 var storage = require("../../storage/storage");
 var notificationEmailer = require("../../email/notificationEmailer");
+var formidable = require("formidable");
 
 var sut = require("../../controllers/issues");
 
@@ -16,6 +17,118 @@ function _restoreStubs(stubs) {
 }
 
 describe("issues", function() {
+	describe("post /issues/attach-file", function() {
+		it("should send 200", function() {
+			return _runAttachFile({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 when parsing fails", function() {
+			return _runAttachFile({
+				parse: function(request, callback) { callback("oh noes! an error!"); },
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should send 500 when setting storage values fails", function() {
+			return _runAttachFile({
+				storageSet: sinon.stub(storage, "set").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+
+		it("should send 500 when creating the file fails", function() {
+			return _runAttachFile({
+				issueFileCreate: sinon.stub(repositories.IssueFile, "create").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when cleaning up temp files fails", function() {
+			return _runAttachFile({
+				fsUnlink: sinon.stub(fs, "unlinkAsync").rejects(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 when failing to create an object id", function() {
+			return _runAttachFile({
+				mongooseObjectId: sinon.stub(mongoose.Types, "ObjectId").throws(),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			})
+		});
+//
+		it("should set appropriate data to storage", function() {
+			var projectId = "the id of the project";
+			var objectId = "the generated object id";
+			var name = "the generated name";
+			var path = "the generated path";
+			var size = "the generated size";
+			return _runAttachFile({
+				projectId: projectId,
+				mongooseObjectIdResult: objectId,
+				files: { "file1.js": { container: "the generated container", name: name, path: path, size: size }},
+				assert: function(result) {
+					assert(result.stubs.storageSet.calledWith(projectId, objectId, name, path, size));
+				}
+			})
+		});
+
+		it("should insert issue files with data as inserted into storage", function() {
+			var storage = { container: "the generated storage container", id: "the generated storage id", name: "the generated storage name", file: "the generated storage contents", size: "the generated storage size" };
+			var issueId = "the generated issue id";
+			return _runAttachFile({
+				storageSetResult: storage,
+				issueId: issueId,
+				assert: function(result) {
+					assert(result.stubs.issueFileCreate.calledWith({ _id: storage.id, name: storage.name, container: storage.container, size: storage.size, issue: issueId }));
+				}
+			})
+		});
+
+		function _runAttachFile(params) {
+			params = params || {};
+			params.stubs = {
+				mongooseObjectId: params.mongooseObjectId || sinon.stub(mongoose.Types, "ObjectId").returns(params.mongooseObjectIdResult || "the object id"),
+				parse: sinon.stub(formidable, "IncomingForm").returns({ parse: params.parse || function(request, callback) { callback(null, null, params.files || { id: "the file id", name: "the file name", file: "the file contents", size: "the file size" }); } }),
+				storageSet: params.storageSet || sinon.stub(storage, "set").resolves(params.storageSetResult || { container: "the storage container", id: "the storage id", name: "the storage name", file: "the storage contents", size: "the storage size" }),
+				issueFileCreate: params.issueFileCreate || sinon.stub(repositories.IssueFile, "create").resolves(),
+				fsUnlink: params.fsUnlink || sinon.stub(fs, "unlinkAsync").resolves()
+			};
+
+			params.verb = "post";
+			params.route = "/issues/attach-file";
+			params.request = params.request || {
+				project: {
+					_id: params.projectId || "the project id"
+				},
+				user: {
+					_id: params.userId || "the user id"
+				},
+				query: {
+					issueId: params.issueId || "the issue id"
+				}
+			};
+
+			return _run(params).finally(function () {
+				_restoreStubs(params.stubs);
+			});
+		}
+	});
+
 	describe("post /issues/delete", function() {
 		it("should set post /issues/delete route", function() {
 			var app = { get: sinon.stub(), post: sinon.stub() };
