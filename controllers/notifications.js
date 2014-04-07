@@ -20,17 +20,15 @@ module.exports = function(app) {
         for (var i = 0; i < ids.length; i++)
             updates.push(repositories.Notification.markAsRead(ids[i]));
 
-        Promise.all(updates).then(function() {
+        return Promise.all(updates).then(function() {
             response.send(200);
         }).catch(function(err) {
-            var message = "Error while marking notifications as read: " + err;
-            console.log(message);
-            response.send(message, 500);
+            response.send("Error while marking notifications as read: " + err, 500);
         });
     });
 
 	app.post("/notifications/email", authenticate, function(request, response) {
-		repositories.User.details(request.user.id).then(function(user) {
+		return repositories.User.details(request.user.id).then(function(user) {
 			user.emailNotificationForIssueAssigned = request.body.emailNotificationForIssueAssigned;
 			user.emailNotificationForIssueDeleted = request.body.emailNotificationForIssueDeleted;
 			user.emailNotificationForIssueUpdated = request.body.emailNotificationForIssueUpdated;
