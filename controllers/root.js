@@ -13,7 +13,7 @@ module.exports = function(app) {
 		return _getAllUserData(request).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
 			return _mapAllUserData(priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
 		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
-			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, renderedScripts, renderedCss);
+			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
 		}).catch(function (e, a, b, c) {
 			response.send("Error loading root: " + e, 500);
 		});
@@ -49,7 +49,7 @@ module.exports = function(app) {
 		]);
 	}
 
-	function _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, renderedScripts, renderedCss) {
+	function _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
 		return response.send(mustache.render(html.toString(), {
 			priorities: JSON.stringify(priorities),
 			statuses: JSON.stringify(statuses),
@@ -59,7 +59,7 @@ module.exports = function(app) {
 			milestones: JSON.stringify(milestones),
 			issueTypes: JSON.stringify(issueTypes),
 			signedInUser: JSON.stringify(user),
-			selectedProject: JSON.stringify(user ? user.Project : null),
+			selectedProject: JSON.stringify(project),
 			renderedScripts: renderedScripts,
 			renderedCss: renderedCss
 		}), 200);

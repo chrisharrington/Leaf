@@ -318,7 +318,7 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					noMappedUser: true
+					userGetOne: sinon.stub(repositories.User, "getOne").resolves()
 				}),
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, {
@@ -443,7 +443,7 @@ describe("root", function() {
 				mustacheRender: sinon.stub(mustache, "render").returns("")
 			};
 			stubs.mapperMap.withArgs("user", "user-view-model", sinon.match.any).resolves(params.noMappedUser ? undefined : {});
-			stubs.mapperMap.withArgs("project", "project-view-model", sinon.match.any).resolves({});
+			stubs.mapperMap.withArgs("project", "project-view-model", sinon.match.any).resolves(params.noMappedProject ? undefined : {});
 			return stubs;
 		}
 	});
