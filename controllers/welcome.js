@@ -18,36 +18,34 @@ module.exports = function(app) {
 	});
 
 	app.post("/sign-in", function(request, response) {
-		var email = request.body.email;
-		var password = request.body.password;
-		var staySignedIn = request.body.staySignedIn == "true";
-
+		var email = request.body.email, password = request.body.password, staySignedIn = request.body.staySignedIn == "true";
 		return repositories.User.getOne({ emailAddress: email }, "project").then(function(user) {
-			if (!user) {
-				response.send(401);
-				return;
-			}
-
-			if (crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password) {
-				if (!user.session)
-					user.session = csprng(512, 36);
-				user.expiration = staySignedIn ? Date.now() + 1000*60*60*24*7*2 : null;
-				response.cookie("session", user.session, staySignedIn ? { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 } : { expires: false });
-				return Promise.all([
-					mapper.map("user", "user-view-model", user),
-					mapper.map("project", "project-view-model", user.project)
-				]).spread(function(user, project) {
-					return repositories.User.update(user).then(function() {
-						response.send({
-							user: user,
-							project: project
-						}, 200);
-					});
-				});
-			} else
-				response.send(401);
+			if (!user)
+				return response.send(401);
+			if (crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password)
+				return _retrieveUserDetails(user, staySignedIn, response);
+			return response.send(401);
 		}).catch(function(e) {
 			response.send("Error signing in: " + e, 500);
 		});
+
+		function _retrieveUserDetails(user, staySignedIn, response) {
+			if (!user.session)
+				user.session = csprng(512, 36);
+			user.expiration = staySignedIn ? Date.now() + 1000 * 60 * 60 * 24 * 7 * 2 : null;
+			response.cookie("session", user.session, staySignedIn ? { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 } : { expires: false });
+			return _deriveUserView(user, response);
+		}
+
+		function _deriveUserView(user, response) {
+			return Promise.all([
+				mapper.map("user", "user-view-model", user),
+				mapper.map("project", "project-view-model", user.project)
+			]).spread(function (user, project) {
+				return repositories.User.update(user).then(function () {
+					response.send({ user: user, project: project }, 200);
+				});
+			});
+		}
 	});
 };

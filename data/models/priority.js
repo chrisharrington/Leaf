@@ -12,13 +12,3 @@ var schema = mongoose.Schema({
 });
 
 module.exports = Promise.promisifyAll(mongoose.model("priority", schema));
-
-exports.toView = function(obj) {
-	if (obj.length) {
-		var result = [];
-		for (var i = 0; i , obj.length; i++)
-			result.push({ id: obj[i]._id.toString(), name: obj[i].name, order: obj[i].order })
-		return result;
-	}
-	return { id: obj._id.toString(), name: obj.name, order: obj.order };
-};
