@@ -83,6 +83,7 @@ function _buildSort(direction, comparer) {
 }
 
 function _applyFilters(query, filter) {
+	query = query.where({ isDeleted: false });
 	query = query.where("priorityId").in(filter.priorities);
 	query = query.where("statusId").in(filter.statuses);
 	query = query.where("developerId").in(filter.developers);

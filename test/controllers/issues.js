@@ -389,6 +389,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to sending the notification email", function() {
 			return _runCreate({
+				emailNotificationForIssueAssigned: true,
 				notificationEmailerIssueAssigned: sinon.stub(notificationEmailer, "issueAssigned").rejects(),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
@@ -541,6 +542,18 @@ describe("issues", function() {
 			});
 		});
 
+		it("should not send a notification email if the developer and creating user are the same", function() {
+			var id = "12345";
+			return _runCreate({
+				emailNotificationForIssueAssigned: true,
+				developerId: id,
+				userId: id,
+				assert: function(result) {
+					assert(result.stubs.notificationEmailerIssueAssigned.notCalled);
+				}
+			});
+		});
+
 		function _runCreate(params) {
 			params = params || {};
 			params.stubs = {
@@ -566,7 +579,7 @@ describe("issues", function() {
 			params.route = "/issues/create";
 			params.request = params.request || {
 				user: {
-					_id: params.userId || "the user id"
+					_id: params.userId || "the user id",
 				},
 				project: {
 					_id: params.projectId || "the project id"

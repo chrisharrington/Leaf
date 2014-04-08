@@ -162,12 +162,12 @@ module.exports = function(app) {
 				return repositories.Issue.create(model);
 			});
 		}).then(function (issue) {
-			return repositories.User.details(issue.developerId).then(function (user) {
-				if (user.emailNotificationForIssueAssigned)
-					return notificationEmailer.issueAssigned(user, issue);
-			}).then(function() {
+			return repositories.User.details(issue.developerId).then(function(user) {
 				if (request.user._id.toString() != issue.developerId.toString())
-					return repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: issue.developerId });
+					return repositories.Notification.create({ type: "issue-assigned", issue: issue._id, user: issue.developerId }).then(function () {
+						if (user.emailNotificationForIssueAssigned)
+							return notificationEmailer.issueAssigned(user, issue);
+					});
 			});
 		}).then(function () {
 			response.send(200);
