@@ -14,7 +14,7 @@ module.exports = function(app) {
 			return _mapAllUserData(priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
 		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
 			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, renderedScripts, renderedCss);
-		}).catch(function (e) {
+		}).catch(function (e, a, b, c) {
 			response.send("Error loading root: " + e, 500);
 		});
 	});
@@ -42,8 +42,8 @@ module.exports = function(app) {
 			mapper.mapAll("project", "project-view-model", projects),
 			mapper.mapAll("milestone", "milestone-view-model", milestones),
 			mapper.mapAll("issue-type", "issue-type-view-model", issueTypes),
-			mapper.map("user", "user-view-model", !user || (user.expiration != null && user.expiration < Date.now()) ? null : user),
-			mapper.map("project", "project-view-model", user ? user.project : null),
+			!user || (user.expiration != null && user.expiration < Date.now()) ? null : mapper.map("user", "user-view-model", user),
+			!user ? null : mapper.map("project", "project-view-model", user.project),
 			require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app),
 			require("../bundling/styleBundler").render(require("../bundling/assets").styles(), app)
 		]);

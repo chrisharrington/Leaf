@@ -38,7 +38,7 @@ module.exports = {
 	},
 
 	getOne: function(conditions, populate) {
-		return module.exports.get(conditions, populate).then(function(data) {
+		return this.get(conditions, populate).then(function(data) {
 			return data[0];
 		});
 	},

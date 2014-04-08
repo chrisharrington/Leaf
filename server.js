@@ -44,7 +44,6 @@ function _registerControllers() {
 }
 
 function _launchServer() {
-	var user;
 	require("./data/connection").open().then(function() {
 		app.listen(config.serverPort);
 	}).then(function() {
