@@ -144,7 +144,9 @@ describe("root", function() {
 				request: {
 					cookies: { session: "the session" }
 				},
-				stubs: _buildStubs(),
+				stubs: _buildStubs({
+					user: "a user"
+				}),
 				assert: function(result) {
 					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", sinon.match.any));
 				}
@@ -159,7 +161,9 @@ describe("root", function() {
 				request: {
 					cookies: { session: "the session" }
 				},
-				stubs: _buildStubs(),
+				stubs: _buildStubs({
+					user: "a user"
+				}),
 				assert: function(result) {
 					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", sinon.match.any));
 				}
@@ -259,7 +263,19 @@ describe("root", function() {
 					}
 				}),
 				assert: function(result) {
-					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", null));
+					assert(result.stubs.mustacheRender.calledWith(sinon.match.any, {
+						priorities: sinon.match.any,
+						statuses: sinon.match.any,
+						users: sinon.match.any,
+						transitions: sinon.match.any,
+						projects: sinon.match.any,
+						milestones: sinon.match.any,
+						issueTypes: sinon.match.any,
+						signedInUser: "null",
+						selectedProject: sinon.match.any,
+						renderedScripts: sinon.match.any,
+						renderedCss: sinon.match.any
+					}));
 				}
 			});
 		});
@@ -272,9 +288,23 @@ describe("root", function() {
 				request: {
 					cookies: { session: "the session" }
 				},
-				stubs: _buildStubs(),
+				stubs: _buildStubs({
+					userGetOne: sinon.stub(repositories.User, "getOne").resolves()
+				}),
 				assert: function(result) {
-					assert(result.stubs.mapperMap.calledWith("project", "project-view-model", null));
+					assert(result.stubs.mustacheRender.calledWith(sinon.match.any, {
+						priorities: sinon.match.any,
+						statuses: sinon.match.any,
+						users: sinon.match.any,
+						transitions: sinon.match.any,
+						projects: sinon.match.any,
+						milestones: sinon.match.any,
+						issueTypes: sinon.match.any,
+						signedInUser: sinon.match.any,
+						selectedProject: "null",
+						renderedScripts: sinon.match.any,
+						renderedCss: sinon.match.any
+					}));
 				}
 			});
 		});
@@ -405,7 +435,7 @@ describe("root", function() {
 				project: sinon.stub(repositories.Project, "all").resolves([]),
 				milestones: sinon.stub(repositories.Milestone, "all").resolves([]),
 				types: sinon.stub(repositories.IssueType, "all").resolves([]),
-				signedInUser: sinon.stub(repositories.User, "getOne").resolves(params.user),
+				signedInUser: params.userGetOne || sinon.stub(repositories.User, "getOne").resolves(params.user || "a user"),
 				mapperMapAll: params.mapperMapAll || sinon.stub(mapper, "mapAll").resolves([]),
 				mapperMap: sinon.stub(mapper, "map"),
 				scriptBundler: params.scriptBundler || sinon.stub(scriptBundler, "render").resolves("the bundled scripts"),
