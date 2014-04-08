@@ -9,7 +9,9 @@ var sut = require("../../controllers/notifications");
 describe("notifications", function() {
 	describe("post /notifications/email", function() {
 		it("should set post /notifications/email route", function() {
-			base.testRouteExists(sut, "post", "/notifications/email");
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/notifications/email", sinon.match.func, sinon.match.func));
 		});
 
 		it("should send 200", function() {

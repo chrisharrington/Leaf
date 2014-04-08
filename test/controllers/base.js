@@ -24,8 +24,11 @@ exports.testRoute = function(params) {
 	});
 };
 
-exports.testRouteExists = function(sut, verb, route) {
+exports.testRouteExists = function(sut, verb, route, isAnonymous) {
 	var app = { get: sinon.stub(), post: sinon.stub() };
 	sut(app);
-	assert(app[verb].calledWith(route, sinon.match.func, sinon.match.func));
+	if (isAnonymous)
+		assert(app[verb].calledWith(route, sinon.match.func));
+	else
+		assert(app[verb].calledWith(route, sinon.match.func, sinon.match.func));
 };

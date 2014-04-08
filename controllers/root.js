@@ -10,7 +10,7 @@ var bundler = require("../bundling/bundler");
 
 module.exports = function(app) {
 	app.get("/", function (request, response) {
-		Promise.all([
+		return Promise.all([
 			repositories.Priority.all(),
 			repositories.Status.all(),
 			repositories.User.all(),
@@ -18,7 +18,7 @@ module.exports = function(app) {
 			repositories.Project.all(),
 			repositories.Milestone.all(),
 			repositories.IssueType.all(),
-			_getSignedInUser(request)
+			repositories.User.getOne({ session: request.cookies.session }, "project")
 		]).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
 			return Promise.all([
 				fs.readFileAsync("public/views/root.html"),
@@ -46,22 +46,10 @@ module.exports = function(app) {
 					selectedProject: JSON.stringify(user ? user.Project : null),
 					renderedScripts: renderedScripts,
 					renderedCss: renderedCss
-				}));
+				}), 200);
 			}).catch(function (e) {
 				response.send("Error loading root: " + e, 500);
 			});
 		});
 	});
-
-	function _getSignedInUser(request) {
-		return new Promise(function (resolve, reject) {
-			if (!request.cookies.session)
-				resolve(null);
-
-			models.User.findOne({ session: request.cookies.session }).populate("project").exec(function (err, user) {
-				if (err) reject(err);
-				else resolve(user);
-			});
-		})
-	}
 };
