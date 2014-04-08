@@ -5,7 +5,7 @@ var repository = Object.spawn(require("./baseRepository"), {
 });
 
 repository.update = function(user) {
-	return Promise.promisifyAll(user)saveAsync();
+	return Promise.promisifyAll(user).saveAsync();
 };
 
 module.exports = repository;
