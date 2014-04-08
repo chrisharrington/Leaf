@@ -33,7 +33,7 @@ module.exports = function(app) {
 				mapper.map("project", "project-view-model", user ? user.project : null),
 				require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app),
 				require("../bundling/styleBundler").render(require("../bundling/assets").styles(), app)
-			]).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
+			]).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
 				response.send(mustache.render(html.toString(), {
 					priorities: JSON.stringify(priorities),
 					statuses: JSON.stringify(statuses),

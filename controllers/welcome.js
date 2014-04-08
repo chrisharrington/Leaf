@@ -41,12 +41,12 @@ module.exports = function(app) {
 				return Promise.all([
 					mapper.map("user", "user-view-model", user),
 					mapper.map("project", "project-view-model", user.project)
-				]).then(function(user, project) {
+				]).spread(function(user, project) {
 					response.send({
 						user: user,
 						project: project
 					}, 200);
-					return Promise.promisifyAll(user).saveAsync();
+					return repositories.User.update(user);
 				});
 			} else
 				response.send(401);

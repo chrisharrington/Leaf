@@ -1,5 +1,5 @@
 var repository = Object.spawn(require("./baseRepository"), {
-	model: require("../models").Issue
+	model: require("../models").User
 });
 
 repository.update = function(user) {

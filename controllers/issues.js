@@ -38,7 +38,6 @@ module.exports = function(app) {
 			return mapper.mapAll("issue", "issue-view-model", issues);
 		}).then(function (mapped) {
 			response.send(mapped, 200);
-			return issues;
 		}).catch(function(e) {
 			response.send("Error retrieving issues: " + e, 500);
 		});

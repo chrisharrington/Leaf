@@ -28,7 +28,7 @@ function _configureApplication() {
 	});
 
 	app.configure("development", function() {
-		app.set("env", "production");
+		app.set("env", "development");
 	});
 
 	app.configure("production", function() {
