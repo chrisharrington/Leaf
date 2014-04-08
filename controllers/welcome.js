@@ -41,9 +41,9 @@ module.exports = function(app) {
 			return Promise.all([
 				mapper.map("user", "user-view-model", user),
 				mapper.map("project", "project-view-model", user.project)
-			]).spread(function (user, project) {
+			]).spread(function (mappedUser, mappedProject) {
 				return repositories.User.update(user).then(function () {
-					response.send({ user: user, project: project }, 200);
+					response.send({ user: mappedUser, project: mappedProject }, 200);
 				});
 			});
 		}
