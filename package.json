@@ -35,6 +35,7 @@
     "sinon": "^1.9.0",
     "sinon-as-promised": "0.0.3",
     "yuicompressor": "^2.4.8",
-    "istanbul": "^0.2.7"
+    "istanbul": "^0.2.7",
+    "proxyquire": "^0.6.0"
   }
 }

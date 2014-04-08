@@ -1,6 +1,6 @@
 var fs = require("fs");
-var crypto = require("crypto");
 var models = require("../data/models");
+var crypto = require("crypto");
 var config = require("../config");
 var csprng = require("csprng");
 var mapper = require("../data/mapper");
@@ -10,8 +10,10 @@ var Promise = require("bluebird");
 
 module.exports = function(app) {
 	app.get("/welcome", function(request, response) {
-		fs.readFile("public/views/welcome.html", function(err, content) {
-			response.send(content);
+		return fs.readFileAsync("public/views/welcome.html").then(function(content) {
+			response.send(content, 200);
+		}).catch(function(e) {
+			response.send("Error while reading public/views/welcome.html: " + e, 500);
 		});
 	});
 
@@ -20,16 +22,9 @@ module.exports = function(app) {
 		var password = request.body.password;
 		var staySignedIn = request.body.staySignedIn == "true";
 
-		new Promise(function(resolve, reject) {
-			models.User.findOne({ emailAddress: email }).populate("project").exec(function(err, user) {
-				if (err)
-					reject(err);
-				else
-					resolve(user);
-			});
-		}).then(function(user) {
+		return repositories.User.getOne({ emailAddress: email }, "project").then(function(user) {
 			if (!user) {
-				response.send(404);
+				response.send(401);
 				return;
 			}
 
@@ -42,18 +37,17 @@ module.exports = function(app) {
 					mapper.map("user", "user-view-model", user),
 					mapper.map("project", "project-view-model", user.project)
 				]).spread(function(user, project) {
-					response.send({
-						user: user,
-						project: project
-					}, 200);
-					return repositories.User.update(user);
+					return repositories.User.update(user).then(function() {
+						response.send({
+							user: user,
+							project: project
+						}, 200);
+					});
 				});
 			} else
 				response.send(401);
 		}).catch(function(e) {
-			var message = "Error signing in: " + e;
-			console.log(message);
-			response.send(message, 500);
+			response.send("Error signing in: " + e, 500);
 		});
 	});
 };

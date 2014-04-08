@@ -2,7 +2,7 @@ var sinon = require("sinon"), assert = require("assert");
 
 exports.testRoute = function(params) {
 	var func;
-	var request = params.request || sinon.stub(), response = { send: sinon.stub(), contentType: sinon.stub() };
+	var request = params.request || sinon.stub(), response = { send: sinon.stub(), contentType: sinon.stub(), cookie: sinon.stub() };
 	var app = {
 		get: function(route, b, c) {
 			if (params.verb == "get" && route == params.route)
@@ -14,13 +14,14 @@ exports.testRoute = function(params) {
 		}
 	};
 
-	params.sut(app);
+		params.sut(app);
 	return func(request, response).finally(function() {
 		if (params.assert)
 			params.assert({ request: request, response: response, stubs: params.stubs });
 
 		for (var name in params.stubs)
-			params.stubs[name].restore();
+			if (params.stubs[name].restore)
+				params.stubs[name].restore();
 	});
 };
 
