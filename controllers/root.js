@@ -33,23 +33,23 @@ module.exports = function(app) {
 				mapper.map("project", "project-view-model", user ? user.project : null),
 				require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app),
 				require("../bundling/styleBundler").render(require("../bundling/assets").styles(), app)
-			]).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
-				response.send(mustache.render(html.toString(), {
-					priorities: JSON.stringify(priorities),
-					statuses: JSON.stringify(statuses),
-					users: JSON.stringify(users),
-					transitions: JSON.stringify(transitions),
-					projects: JSON.stringify(projects),
-					milestones: JSON.stringify(milestones),
-					issueTypes: JSON.stringify(issueTypes),
-					signedInUser: JSON.stringify(user),
-					selectedProject: JSON.stringify(user ? user.Project : null),
-					renderedScripts: renderedScripts,
-					renderedCss: renderedCss
-				}), 200);
-			}).catch(function (e) {
-				response.send("Error loading root: " + e, 500);
-			});
+			]);
+		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
+			response.send(mustache.render(html.toString(), {
+				priorities: JSON.stringify(priorities),
+				statuses: JSON.stringify(statuses),
+				users: JSON.stringify(users),
+				transitions: JSON.stringify(transitions),
+				projects: JSON.stringify(projects),
+				milestones: JSON.stringify(milestones),
+				issueTypes: JSON.stringify(issueTypes),
+				signedInUser: JSON.stringify(user),
+				selectedProject: JSON.stringify(user ? user.Project : null),
+				renderedScripts: renderedScripts,
+				renderedCss: renderedCss
+			}), 200);
+		}).catch(function (e) {
+			response.send("Error loading root: " + e, 500);
 		});
 	});
 };

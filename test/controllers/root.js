@@ -5,9 +5,11 @@ var repositories = require("../../data/repositories");
 var mapper = require("../../data/mapper");
 var scriptBundler = require("../../bundling/scriptBundler");
 var styleBundler = require("../../bundling/styleBundler");
+var mustache = require("mustache");
+
+var fs = Promise.promisifyAll(require("fs"));
 
 var sut = require("../../controllers/root");
-
 describe("root", function() {
 	describe("get /", function() {
 		it("should set the get / route", function() {
@@ -44,21 +46,375 @@ describe("root", function() {
 			})
 		});
 
-		function _buildStubs() {
-			return {
-				priorities: sinon.stub(repositories.Priority, "all").resolves([]),
+		it("should map statuses to status view models", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMapAll.calledWith("status", "status-view-model", sinon.match.any));
+				}
+			})
+		});
+
+		it("should map users to user view models", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMapAll.calledWith("user", "user-view-model", sinon.match.any));
+				}
+			})
+		});
+
+		it("should map transitions to transition view models", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMapAll.calledWith("transition", "transition-view-model", sinon.match.any));
+				}
+			})
+		});
+
+		it("should map projects to project view models", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMapAll.calledWith("project", "project-view-model", sinon.match.any));
+				}
+			})
+		});
+
+		it("should map milestones to milestone view models", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMapAll.calledWith("milestone", "milestone-view-model", sinon.match.any));
+				}
+			})
+		});
+
+		it("should map issue types to issue type view models", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMapAll.calledWith("issue-type", "issue-type-view-model", sinon.match.any));
+				}
+			})
+		});
+
+		it("should map signed in user to user view model", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", sinon.match.any));
+				}
+			})
+		});
+
+		it("should map signed in user to user view model", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", sinon.match.any));
+				}
+			})
+		});
+
+		it("should map signed in user's project to project view model", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.calledWith("project", "project-view-model", sinon.match.any));
+				}
+			})
+		});
+
+		it("should map signed in user's project to project view model", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.calledWith("project", "project-view-model", sinon.match.any));
+				}
+			});
+		});
+
+		it("should render html with mustache before sending", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mustacheRender.calledWith("the html", {
+						priorities: sinon.match.string,
+						statuses: sinon.match.string,
+						users: sinon.match.string,
+						transitions: sinon.match.string,
+						projects: sinon.match.string,
+						milestones: sinon.match.string,
+						issueTypes: sinon.match.string,
+						signedInUser: sinon.match.string,
+						selectedProject: sinon.match.any,
+						renderedScripts: sinon.match.string,
+						renderedCss: sinon.match.string
+					}));
+				}
+			});
+		});
+
+		it("should set user when not expired", function() {
+			var user = {
+				blah: "boo"
+			};
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs({
+					user: user
+				}),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", user));
+				}
+			});
+		});
+
+		it("should set user null when expired", function() {
+			var date = Date.now();
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs({
+					date: date,
+					user: {
+						expiration: date - 1000
+					}
+				}),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", null));
+				}
+			});
+		});
+
+		it("should set null project when no user", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.calledWith("project", "project-view-model", null));
+				}
+			});
+		});
+
+		it("should set selectedProject to null when no user", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs({
+					noMappedUser: true
+				}),
+				assert: function(result) {
+					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, {
+						priorities: sinon.match.string,
+						statuses: sinon.match.string,
+						users: sinon.match.string,
+						transitions: sinon.match.string,
+						projects: sinon.match.string,
+						milestones: sinon.match.string,
+						issueTypes: sinon.match.string,
+						signedInUser: sinon.match.any,
+						selectedProject: "null",
+						renderedScripts: sinon.match.string,
+						renderedCss: sinon.match.string
+					}))
+				}
+			});
+		});
+
+		it("should send 500 on failed repository all call", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs({
+					priorities: sinon.stub(repositories.Priority, "all").rejects()
+				}),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on failed mapping", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs({
+					mapperMapAll: sinon.stub(mapper, "mapAll").rejects()
+				}),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on failed file read", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs({
+					readFile: sinon.stub(fs, "readFileAsync").rejects()
+				}),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on failed script bundle", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs({
+					scriptBundler: sinon.stub(scriptBundler, "render").rejects()
+				}),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		it("should send 500 on failed style bundle", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs({
+					styleBundler: sinon.stub(styleBundler, "render").rejects()
+				}),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.string, 500));
+				}
+			});
+		});
+
+		function _buildStubs(params) {
+			params = params || {};
+			var stubs = {
+				date: sinon.stub(Date, "now").returns(params.date || Date.now()),
+				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves("the html"),
+				priorities: params.priorities || sinon.stub(repositories.Priority, "all").resolves([]),
 				statuses: sinon.stub(repositories.Status, "all").resolves([]),
 				users: sinon.stub(repositories.User, "all").resolves([]),
 				transition: sinon.stub(repositories.Transition, "all").resolves([]),
 				project: sinon.stub(repositories.Project, "all").resolves([]),
 				milestones: sinon.stub(repositories.Milestone, "all").resolves([]),
 				types: sinon.stub(repositories.IssueType, "all").resolves([]),
-				signedInUser: sinon.stub(repositories.User, "getOne").resolves({}),
-				mapperMapAll: sinon.stub(mapper, "mapAll").resolves([]),
-				mapperMap: sinon.stub(mapper, "map").resolves({}),
-				scriptBundler: sinon.stub(scriptBundler, "render").resolves("the bundled scripts"),
-				styleBundler: sinon.stub(styleBundler, "render").resolves("the bundled styles")
+				signedInUser: sinon.stub(repositories.User, "getOne").resolves(params.user),
+				mapperMapAll: params.mapperMapAll || sinon.stub(mapper, "mapAll").resolves([]),
+				mapperMap: sinon.stub(mapper, "map"),
+				scriptBundler: params.scriptBundler || sinon.stub(scriptBundler, "render").resolves("the bundled scripts"),
+				styleBundler: params.styleBundler || sinon.stub(styleBundler, "render").resolves("the bundled styles"),
+				mustacheRender: sinon.stub(mustache, "render").returns("")
 			};
+			stubs.mapperMap.withArgs("user", "user-view-model", sinon.match.any).resolves(params.noMappedUser ? undefined : {});
+			stubs.mapperMap.withArgs("project", "project-view-model", sinon.match.any).resolves({});
+			return stubs;
 		}
 	});
 });
