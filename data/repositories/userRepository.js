@@ -1,3 +1,5 @@
+var Promise = require("bluebird");
+
 var repository = Object.spawn(require("./baseRepository"), {
 	model: require("../models").User
 });
