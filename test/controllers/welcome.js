@@ -197,6 +197,26 @@ describe("welcome controller", function() {
 			});
 		});
 
+		it("should send mapped user", function() {
+			var mappedUser = "the mapped user";
+			return _run({
+				mapperMap: sinon.stub(mapper, "map").resolves(mappedUser),
+				assert: function(result) {
+					assert(result.response.send.calledWith({ user: mappedUser, project: sinon.match.any }, 200));
+				}
+			})
+		});
+
+		it("should send mapped project", function() {
+			var mappedProject = "the mapped project";
+			return _run({
+				mapperMap: sinon.stub(mapper, "map").resolves(mappedProject),
+				assert: function(result) {
+					assert(result.response.send.calledWith({ user: sinon.match.any, project: mappedProject }, 200));
+				}
+			})
+		});
+
 		function _run(params) {
 			params = params || {};
 			var hash = {
