@@ -59,13 +59,13 @@ exports.init = function() {
             return x.issue == null ? null : { name: x.issue.name, number: x.issue.number, priority: x.issue.priority }		}
 	});
 	exports.define("comment", "issue-history-view-model", {
-		date: function(x) { return moment(x.date).format(config.dateFormat);},
+		date: function(x) { return moment(x.date).format(config("dateFormat"));},
 		text: "text",
 		user: function(x) { return x.user.name; },
 		issueId: function(x) { return x.issue._id; }
 	});
 	exports.define("issue-history-view-model", "comment", {
-		date: function(x) { return moment(x.date, config.dateFormat); },
+		date: function(x) { return moment(x.date, config("dateFormat")); },
 		text: "text"
 	});
 	exports.define("issue", "issue-view-model", {
@@ -86,9 +86,9 @@ exports.init = function() {
 		type: "type",
 		typeId: "typeId",
 		priorityStyle: function(x) { return x.priority.toLowerCase(); },
-		opened: function(x) { return moment(x.opened).format(config.dateFormat); },
-		closed: function(x) { return x.closed ? moment(x.closed).format(config.dateFormat) : ""; },
-		lastUpdated: function(x) { return moment(x.updated).format(config.dateFormat); },
+		opened: function(x) { return moment(x.opened).format(config("dateFormat")); },
+		closed: function(x) { return x.closed ? moment(x.closed).format(config("dateFormat")) : ""; },
+		lastUpdated: function(x) { return moment(x.updated).format(config("dateFormat")); },
 		updatedBy: "updatedBy"
 	});
 	exports.define("issue-view-model", "issue", {
@@ -108,8 +108,8 @@ exports.init = function() {
 		developerId: "developerId",
 		type: "type",
 		typeId: "typeId",
-		opened: function(x) { return moment(x.opened, config.dateFormat); },
-		closed: function(x) { return x.closed == "" || x.closed == null ? null : moment(x.closed, config.dateFormat); }
+		opened: function(x) { return moment(x.opened, config("dateFormat")); },
+		closed: function(x) { return x.closed == "" || x.closed == null ? null : moment(x.closed, config("dateFormat")); }
 	});
 };
 

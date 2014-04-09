@@ -5,8 +5,8 @@
     "start": "node server.js",
     "test": "mocha --recursive",
     "coverage": "istanbul cover _mocha -- --recursive && open coverage/lcov-report/index.html",
-	"encrypt": "encrypt config.js config.js.cast5",
-	"decrypt": "decrypt config.js.cast5 config.js"
+	"encrypt": "encrypt localConfig.json localConfig.json.cast5",
+	"decrypt": "decrypt localConfig.json.cast5 localConfig.json"
   },
   "version": "0.0.0-10",
   "engines": {

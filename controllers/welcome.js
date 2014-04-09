@@ -22,7 +22,7 @@ module.exports = function(app) {
 		return repositories.User.getOne({ emailAddress: email }, "project").then(function(user) {
 			if (!user)
 				return response.send(401);
-			if (crypto.createHash(config.hashAlgorithm).update(user.salt + password).digest("hex") === user.password)
+			if (crypto.createHash(config("hashAlgorithm")).update(user.salt + password).digest("hex") === user.password)
 				return _retrieveUserDetails(user, staySignedIn, response);
 			return response.send(401);
 		}).catch(function(e) {

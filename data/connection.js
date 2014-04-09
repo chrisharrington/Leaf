@@ -4,7 +4,7 @@ var config = require("../config");
 
 exports.open = function() {
 	return new Promise(function(resolve, reject) {
-		mongoose.connect(config.databaseConnectionString, {
+		mongoose.connect(config("databaseConnectionString"), {
 			server: {
 				poolSize: 5,
 				socketOptions: {

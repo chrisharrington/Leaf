@@ -8,7 +8,7 @@ var Promise = require("bluebird");
 
 var _connection;
 var _project;
-_openDatabaseConnection(config.databaseConnectionString).then(function(connection) {
+_openDatabaseConnection(config("databaseConnectionString")).then(function(connection) {
 	_connection = connection;
 	return _createProject();
 }).then(function(project) {
@@ -121,7 +121,7 @@ function _createMilestones(project) {
 
 function _openDatabaseConnection(connectionString, callback) {
 	return new Promise(function(resolve, reject) {
-		mongoose.connect(config.databaseConnectionString);
+		mongoose.connect(config("databaseConnectionString"));
 		var connection = mongoose.connection;
 		connection.on("error", function(error) { console.log("Error opening connection: " + error); reject(error); });
 		connection.once("open", function() { console.log("Database connection established."); resolve(connection); });

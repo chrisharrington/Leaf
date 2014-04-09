@@ -111,4 +111,6 @@ Generated_Code #added for RIA/Silverlight projects
 _UpgradeReport_Files/
 Backup*/
 UpgradeLog*.XMLconfig.js
-config.js
+localConfig.json
+coverage/
+coverage

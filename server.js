@@ -45,9 +45,9 @@ function _registerControllers() {
 
 function _launchServer() {
 	require("./data/connection").open().then(function() {
-		app.listen(config.serverPort);
+		app.listen(config("serverPort"));
 	}).then(function() {
-		console.log("Server listening on port " + config.serverPort + " in " + app.get("env") + " mode.");
+		console.log("Server listening on port " + config("serverPort") + " in " + app.get("env") + " mode.");
 	}).catch(function(e) {
 		console.log("Server failed to start: " + e);
 	});

@@ -1,5 +1,5 @@
 var config = require("../config");
-var sendgrid  = require('sendgrid')(config.sendgridUsername, config.sendgridPassword);
+var sendgrid  = require('sendgrid')(config("sendgridUsername"), config("sendgridPassword"));
 var Promise = require("bluebird");
 
 exports.issueAssigned = function(user, issue) {
@@ -10,12 +10,12 @@ exports.issueAssigned = function(user, issue) {
 		if (issue.details)
 			text += issue.details + "<br><br>";
 		text += "To view this issue, click the link below.<br><br>";
-		text += config.domain + "/#/" + issue.project.name.formatForUrl() + "/issues/" + issue.number + "<br><br>";
+		text += config("domain") + "/#/" + issue.project.name.formatForUrl() + "/issues/" + issue.number + "<br><br>";
 		text += "Thanks!<br>Leaf";
 
 		sendgrid.send({
 			to: user.emailAddress,
-			from: config.fromAddress,
+			from: config("fromAddress"),
 			subject: "Leaf - Issue Assigned to You",
 			html: text
 		}, function (err) {
@@ -33,12 +33,12 @@ exports.issueUpdated = function(user, issue) {
 		if (issue.details)
 			text += issue.details + "<br><br>";
 		text += "To view this issue, click the link below.<br><br>";
-		text += config.domain + "/#/" + issue.project.name.formatForUrl() + "/issues/" + issue.number + "<br><br>";
+		text += config("domain") + "/#/" + issue.project.name.formatForUrl() + "/issues/" + issue.number + "<br><br>";
 		text += "Thanks!<br>Leaf";
 
 		sendgrid.send({
 			to: user.emailAddress,
-			from: config.fromAddress,
+			from: config("fromAddress"),
 			subject: "Leaf - Issue Updated",
 			html: text
 		}, function (err) {
@@ -56,12 +56,12 @@ exports.issueDeleted = function(user, issue) {
 		if (issue.details)
 			text += issue.details + "<br><br>";
 		text += "To view this issue, click the link below.<br><br>";
-		text += config.domain + "/#/" + issue.project.name.formatForUrl() + "/issues/" + issue.number + "<br><br>";
+		text += config("domain") + "/#/" + issue.project.name.formatForUrl() + "/issues/" + issue.number + "<br><br>";
 		text += "Thanks!<br>Leaf";
 
 		sendgrid.send({
 			to: user.emailAddress,
-			from: config.fromAddress,
+			from: config("fromAddress"),
 			subject: "Leaf - Issue Deleted",
 			html: text
 		}, function (err) {
@@ -79,12 +79,12 @@ exports.newComment = function(user, issue) {
 		if (issue.details)
 			text += issue.details + "<br><br>";
 		text += "To view this issue, click the link below.<br><br>";
-		text += config.domain + "/#/" + issue.project.name.formatForUrl() + "/issues/" + issue.number + "<br><br>";
+		text += config("domain") + "/#/" + issue.project.name.formatForUrl() + "/issues/" + issue.number + "<br><br>";
 		text += "Thanks!<br>Leaf";
 
 		sendgrid.send({
 			to: user.emailAddress,
-			from: config.fromAddress,
+			from: config("fromAddress"),
 			subject: "Leaf - Issue Assigned to You",
 			html: text
 		}, function (err) {
