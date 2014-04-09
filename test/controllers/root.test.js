@@ -1,6 +1,6 @@
 require("../setup");
 var should = require("should"), assert = require("assert"), sinon = require("sinon"), Promise = require("bluebird"), extend = require('node.extend');
-var base = require("./base");
+var base = require("./base.test");
 var repositories = require("../../data/repositories");
 var mapper = require("../../data/mapper");
 var scriptBundler = require("../../bundling/scriptBundler");

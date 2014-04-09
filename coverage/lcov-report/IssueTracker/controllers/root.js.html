@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">IssueTracker/controllers/root.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(20 / 20)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">100% <small>(9 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(7 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(5 / 5)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(8 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(20 / 20)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -270,7 +270,19 @@
 52
 53
 54
-55</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -283,6 +295,16 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">23</span>
 <span class="cline-any cline-yes">22</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">22</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -292,6 +314,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">21</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -307,6 +332,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">17</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -321,9 +348,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var Promise = require("bluebird");
 &nbsp;
 var mongoose = require("mongoose");
@@ -336,6 +360,16 @@ var bundler = require("../bundling/bundler");
 &nbsp;
 module.exports = function(app) {
 	app.get("/", function (request, response) {
+		return _getAllUserData(request).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
+			return _mapAllUserData(priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
+		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
+			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
+		}).catch(function (e, a, b, c) {
+			response.send("Error loading root: " + e, 500);
+		});
+	});
+&nbsp;
+	function _getAllUserData(request) {
 		return Promise.all([
 			repositories.Priority.all(),
 			repositories.Status.all(),
@@ -345,45 +379,47 @@ module.exports = function(app) {
 			repositories.Milestone.all(),
 			repositories.IssueType.all(),
 			repositories.User.getOne({ session: request.cookies.session }, "project")
-		]).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
-			return Promise.all([
-				fs.readFileAsync("public/views/root.html"),
-				mapper.mapAll("priority", "priority-view-model", priorities),
-				mapper.mapAll("status", "status-view-model", statuses),
-				mapper.mapAll("user", "user-view-model", users),
-				mapper.mapAll("transition", "transition-view-model", transitions),
-				mapper.mapAll("project", "project-view-model", projects),
-				mapper.mapAll("milestone", "milestone-view-model", milestones),
-				mapper.mapAll("issue-type", "issue-type-view-model", issueTypes),
-				mapper.map("user", "user-view-model", !user || (user.expiration != null &amp;&amp; user.expiration &lt; Date.now()) ? null : user),
-				mapper.map("project", "project-view-model", user ? user.project : null),
-				require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app),
-				require("../bundling/styleBundler").render(require("../bundling/assets").styles(), app)
-			]);
-		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
-			response.send(mustache.render(html.toString(), {
-				priorities: JSON.stringify(priorities),
-				statuses: JSON.stringify(statuses),
-				users: JSON.stringify(users),
-				transitions: JSON.stringify(transitions),
-				projects: JSON.stringify(projects),
-				milestones: JSON.stringify(milestones),
-				issueTypes: JSON.stringify(issueTypes),
-				signedInUser: JSON.stringify(user),
-				selectedProject: JSON.stringify(user ? user.Project : null),
-				renderedScripts: renderedScripts,
-				renderedCss: renderedCss
-			}), 200);
-		}).catch(function (e) {
-			response.send("Error loading root: " + e, 500);
-		});
-	});
+		]);
+	}
+&nbsp;
+	function _mapAllUserData(priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
+		return Promise.all([
+			fs.readFileAsync("public/views/root.html"),
+			mapper.mapAll("priority", "priority-view-model", priorities),
+			mapper.mapAll("status", "status-view-model", statuses),
+			mapper.mapAll("user", "user-view-model", users),
+			mapper.mapAll("transition", "transition-view-model", transitions),
+			mapper.mapAll("project", "project-view-model", projects),
+			mapper.mapAll("milestone", "milestone-view-model", milestones),
+			mapper.mapAll("issue-type", "issue-type-view-model", issueTypes),
+			!user || (user.expiration != null &amp;&amp; user.expiration &lt; Date.now()) ? null : mapper.map("user", "user-view-model", user),
+			!user ? null : mapper.map("project", "project-view-model", user.project),
+			require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app),
+			require("../bundling/styleBundler").render(require("../bundling/assets").styles(), app)
+		]);
+	}
+&nbsp;
+	function _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
+		return response.send(mustache.render(html.toString(), {
+			priorities: JSON.stringify(priorities),
+			statuses: JSON.stringify(statuses),
+			users: JSON.stringify(users),
+			transitions: JSON.stringify(transitions),
+			projects: JSON.stringify(projects),
+			milestones: JSON.stringify(milestones),
+			issueTypes: JSON.stringify(issueTypes),
+			signedInUser: JSON.stringify(user),
+			selectedProject: JSON.stringify(project),
+			renderedScripts: renderedScripts,
+			renderedCss: renderedCss
+		}), 200);
+	}
 };</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 08 2014 14:46:21 GMT-0600 (MDT)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 08 2014 19:24:40 GMT-0600 (MDT)</div>
 </div>
 
 <script src="../../prettify.js"></script>
