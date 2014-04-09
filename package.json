@@ -4,7 +4,9 @@
   "scripts": {
     "start": "node server.js",
     "test": "mocha --recursive",
-    "coverage": "istanbul cover _mocha -- --recursive && open coverage/lcov-report/index.html"
+    "coverage": "istanbul cover _mocha -- --recursive && open coverage/lcov-report/index.html",
+	"encrypt": "encrypt config.js config.js.cast5",
+	"decrypt": "decrypt config.js.cast5 config.js"
   },
   "version": "0.0.0-10",
   "engines": {
@@ -36,6 +38,7 @@
     "sinon-as-promised": "0.0.3",
     "yuicompressor": "^2.4.8",
     "istanbul": "^0.2.7",
-    "proxyquire": "^0.6.0"
+    "proxyquire": "^0.6.0",
+    "config-leaf": "^0.1.0"
   }
 }
