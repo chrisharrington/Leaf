@@ -1,9 +1,11 @@
 language: node_js
 node_js:
-  - "0.11"
-  - "0.10"
-
+- '0.11'
+- '0.10'
 deploy:
   provider: heroku
-  api_key: "6513c4c8-3986-4bf3-8978-987a8d60b499"
-  app: "leaf-issue-tracker"
+  api_key:
+    secure: G7TTwLccn5Zld/XwdlOG62XpiwhDMiGiS879tRF8DWD6sbIUv21tpkdGevpxO64Qx4IZNskBSGZcYu/fOcTrnVRwB6eWZFj/T3RekBhfsjWYE/pC6Je/dk0/jj2URhz3hgi+HcxgC7a25SLNAnveZCOJaC0ZM+IdxChXfsCMymM=
+  app: leaf-issue-tracker
+  on:
+    repo: chrisharrington/IssueTracker
