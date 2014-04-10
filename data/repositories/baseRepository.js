@@ -35,20 +35,10 @@ module.exports = {
 	},
 
 	details: function(id, populate) {
-		var model = this.model;
-		return new Promise(function(resolve, reject) {
-			var query = model.findOne({ "_id": id });
-			if (populate && populate != "")
-				query = query.populate(populate);
-			query.exec(function(err, data) {
-				if (err) reject(err);
-				else resolve(data);
-			});
-		});
-	},
+		return this.one({ _id: id }, populate);	},
 
 	remove: function(id) {
-		return this.model.findOneAsync({ "_id": id }).then(function (model) {
+		return this.details(id).then(function(model) {
 			model.isDeleted = true;
 			return Promise.promisifyAll(model).saveAsync();
 		});

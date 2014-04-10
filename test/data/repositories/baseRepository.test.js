@@ -6,6 +6,59 @@ require("../../setup");
 var sut = require("../../../data/repositories/baseRepository");
 
 describe("baseRepository", function() {
+	describe("remove", function() {
+		it("should set found model's isDeleted property to true", function() {
+			var model = { isDeleted: false, saveAsync: sinon.stub() };
+			var details = sinon.stub(sut, "details").resolves(model);
+			return sut.remove("the id").then(function() {
+				assert(model.isDeleted);
+			})
+		});
+
+		it("should call save on retrieved model", function() {
+			var model = { saveAsync: sinon.stub() };
+			var details = sinon.stub(sut, "details").resolves(model);
+			return sut.remove("the id").then(function() {
+				assert(model.saveAsync.calledOnce);
+			});
+		});
+
+		it("should find details using given id", function() {
+			var id = "the id";
+			var model = { saveAsync: sinon.stub() };
+			var details = sinon.stub(sut, "details").resolves(model);
+			return sut.remove(id).then(function() {
+				assert(details.calledWith(id));
+			});
+		});
+
+		afterEach(function() {
+			sut.details.restore();
+		});
+	});
+
+	describe("details", function() {
+		it("should call 'one' method with given id", function() {
+			var id = "the id";
+			var one = sinon.stub(sut, "one").resolves();
+			return sut.details(id).then(function() {
+				assert(one.calledWith({ _id: id }, sinon.match.any));
+			});
+		});
+
+		it("should call 'one' method with given populate", function() {
+			var populate = "the populate";
+			var one = sinon.stub(sut, "one").resolves();
+			return sut.details(null, populate).then(function() {
+				assert(one.calledWith(sinon.match.any, populate));
+			});
+		});
+
+		afterEach(function() {
+			sut.one.restore();
+		});
+	});
+
 	describe("create", function() {
 		it("should call model's 'createAsync' method with given parameters", function() {
 			var model = "the model";
