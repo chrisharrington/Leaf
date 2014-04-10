@@ -24,9 +24,9 @@ module.exports = {
 		});
 	},
 
-	getOne: function(conditions, populate) {
+	one: function(conditions, populate) {
 		return this.get(conditions, populate).then(function(data) {
-			return data[0];
+			return data.length == 0 ? null : data[0];
 		});
 	},
 

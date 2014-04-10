@@ -28,7 +28,7 @@ module.exports = function(app) {
 			repositories.Project.get(),
 			repositories.Milestone.get(),
 			repositories.IssueType.get(),
-			repositories.User.getOne({ session: request.cookies.session }, "project")
+			repositories.User.one({ session: request.cookies.session }, "project")
 		]);
 	}
 

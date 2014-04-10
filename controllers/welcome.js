@@ -19,7 +19,7 @@ module.exports = function(app) {
 
 	app.post("/sign-in", function(request, response) {
 		var email = request.body.email, password = request.body.password, staySignedIn = request.body.staySignedIn == "true";
-		return repositories.User.getOne({ emailAddress: email }, "project").then(function(user) {
+		return repositories.User.one({ emailAddress: email }, "project").then(function(user) {
 			if (!user)
 				return response.send(401);
 			if (crypto.createHash(config("hashAlgorithm")).update(user.salt + password).digest("hex") === user.password)

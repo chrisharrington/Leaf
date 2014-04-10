@@ -105,7 +105,7 @@ describe("welcome controller", function() {
 
 		it("should send 500 when failing to retrieve user", function() {
 			return _run({
-				userGetOne: sinon.stub(repositories.User, "getOne").rejects(),
+				userGetOne: sinon.stub(repositories.User, "one").rejects(),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -238,7 +238,7 @@ describe("welcome controller", function() {
 					}
 				},
 				stubs: {
-					userGetOne: params.userGetOne || sinon.stub(repositories.User, "getOne").resolves(params.noUserFound ? undefined : params.userGetOneResult || { password: params.password || "the password", session: params.session == undefined || params.session != "" ? "the session" : undefined, expiration: params.expiration || "the expiration", project: params.project || {}}),
+					userGetOne: params.userGetOne || sinon.stub(repositories.User, "one").resolves(params.noUserFound ? undefined : params.userGetOneResult || { password: params.password || "the password", session: params.session == undefined || params.session != "" ? "the session" : undefined, expiration: params.expiration || "the expiration", project: params.project || {}}),
 					cryptoCreateHash: params.cryptoCreateHash || sinon.stub(crypto, "createHash").returns(params.hash || hash),
 					dateNow: params.dateNow || sinon.stub(Date, "now").returns(params.date || Date.now()),
 					mapperMap: params.mapperMap || sinon.stub(mapper, "map"),

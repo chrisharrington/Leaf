@@ -289,7 +289,7 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					userGetOne: sinon.stub(repositories.User, "getOne").resolves()
+					userGetOne: sinon.stub(repositories.User, "one").resolves()
 				}),
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith(sinon.match.any, {
@@ -318,7 +318,7 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					userGetOne: sinon.stub(repositories.User, "getOne").resolves()
+					userGetOne: sinon.stub(repositories.User, "one").resolves()
 				}),
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, {
@@ -465,7 +465,7 @@ describe("root", function() {
 				project: sinon.stub(repositories.Project, "get").resolves([]),
 				milestones: sinon.stub(repositories.Milestone, "get").resolves([]),
 				types: sinon.stub(repositories.IssueType, "get").resolves([]),
-				signedInUser: params.userGetOne || sinon.stub(repositories.User, "getOne").resolves(params.user || "a user"),
+				signedInUser: params.userGetOne || sinon.stub(repositories.User, "one").resolves(params.user || "a user"),
 				mapperMapAll: params.mapperMapAll || sinon.stub(mapper, "mapAll").resolves([]),
 				mapperMap: sinon.stub(mapper, "map"),
 				scriptBundler: params.scriptBundler || sinon.stub(scriptBundler, "render").resolves("the bundled scripts"),

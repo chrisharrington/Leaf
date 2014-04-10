@@ -6,6 +6,55 @@ require("../../setup");
 var sut = require("../../../data/repositories/baseRepository");
 
 describe("baseRepository", function() {
+	describe("create", function() {
+		it("should call model's 'createAsync' method with given parameters", function() {
+			var model = "the model";
+			sut.model = { createAsync: sinon.stub().resolves() };
+			return sut.create(model).then(function() {
+				assert(sut.model.createAsync.calledWith(model));
+			});
+		});
+	});
+
+	describe("one", function() {
+		it("should call 'get' with given conditions", function() {
+			var conditions = "the conditions";
+			var result = ["woo"];
+			var get = sinon.stub(sut, "get").resolves(result);
+			return sut.one(conditions).then(function () {
+				assert(sut.get.calledWith(conditions, sinon.match.any));
+			});
+		});
+
+		it("should call 'get' with given populate", function() {
+			var populate = "the populate";
+			var result = ["woo"];
+			var get = sinon.stub(sut, "get").resolves(result);
+			return sut.one(null, populate).then(function () {
+				assert(sut.get.calledWith(sinon.match.any, populate));
+			});
+		});
+
+		it("should return null when 'get' returns an empty list", function() {
+			var get = sinon.stub(sut, "get").resolves([]);
+			return sut.one().then(function (result) {
+				assert(result == null);
+			});
+		});
+
+		it("should return first element when 'get' returns a multiple-element array", function() {
+			var first = "the first result";
+			var get = sinon.stub(sut, "get").resolves([first, "the second result", "the third result"]);
+			return sut.one().then(function (result) {
+				assert(result == first);
+			});
+		});
+
+		afterEach(function() {
+			sut.get.restore();
+		})
+	});
+
 	describe("get", function() {
 		it("should execute query", function() {
 			var completed = false;
