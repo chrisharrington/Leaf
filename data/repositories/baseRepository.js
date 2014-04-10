@@ -1,43 +1,22 @@
 var Promise = require("bluebird");
 
 module.exports = {
-	all: function() {
-		var me = this;
-		return new Promise(function(resolve, reject) {
-			try {
-				var query = me.model.find();
-				if (me.sort)
-					query = query.sort(me.sort);
-				if (me.where)
-					query = _applyFilter(query, me.where);
-				if (me.limit)
-					query = query.limit(me.limit);
-				if (me.skip)
-					query = query.skip(me.skip);
-				query.exec(function (err, result) {
-					if (err) reject(err);
-					else resolve(result);
-				});
-			} catch (e) {
-				reject(e);
-			}
-		});
+	get: function(conditions, options) {
+		options = options || {};
+		if (typeof(options) === "string")
+			options = { populate: options };
 
-		function _applyFilter(query, wheres) {
-			if (typeof wheres === "string")
-				wheres = [wheres];
-			for (var i = 0; i < wheres.length; i++)
-				query = query.where(wheres[i]);
-			return query;
-		}
-	},
-
-	get: function(conditions, populate) {
 		var model = this.model;
 		return new Promise(function(resolve, reject) {
 			var query = model.find(conditions);
-			if (populate && populate != "")
-				query = query.populate(populate);
+			if (options.sort)
+				query = query.sort(options.sort);
+			if (options.limit)
+				query = query.limit(options.limit);
+			if (options.skip)
+				query = query.skip(options.skip);
+			if (options.populate && options.populate != "")
+				query = query.populate(options.populate);
 			query.exec(function(err, data) {
 				if (err) reject(err);
 				else resolve(data);

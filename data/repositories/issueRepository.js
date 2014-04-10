@@ -5,17 +5,31 @@ var repository = Object.spawn(require("./baseRepository"), {
 });
 
 repository.search = function(filter, sortDirection, sortComparer, start, end) {
-	var model = this.model;
-	return new Promise(function(resolve, reject) {
-		_applyFilters(model.find(), filter)
-			.sort(_buildSort(sortDirection, sortComparer))
-			.skip(start-1)
-			.limit(end-start+1)
-			.exec(function(err, issues) {
-				if (err) reject(err);
-				else resolve(issues);
-			});
+	return repository.get({
+		isDeleted: false,
+		priorityId: { $in: filter.priorities },
+		statusId: { $in: filter.statuses },
+		developerId: { $in: filter.developers },
+		testerId: { $in: filter.testers },
+		milestoneId: { $in: filter.milestones},
+		typeId: { $in: filter.types },
+	}, {
+		//where: _buildFilters(filter),
+		sort: _buildSort(sortDirection, sortComparer),
+		skip: start - 1,
+		limit: end - start + 1
 	});
+
+	function _buildSort(direction, comparer) {
+		if (comparer == "priority")
+			comparer = "priorityOrder";
+		else if (comparer == "status")
+			comparer = "statusOrder";
+		var sort = {};
+		sort[comparer] = direction == "ascending" ? 1 : -1;
+		sort.opened = 1;
+		return sort;
+	}
 };
 
 repository.number = function(projectId, number) {
@@ -36,27 +50,27 @@ repository.update = function(model, user) {
 		repositories.User.details(model.developerId),
 		repositories.User.details(model.testerId)
 	]).spread(function(issue, milestone, priority, status, type, developer, tester) {
-        issue.name = model.name;
-        issue.number = model.number;
-        issue.details = model.details;
-        issue.updatedById = user._id;
-        issue.updatedBy = user.name;
-        issue.milestoneId = milestone._id;
+		issue.name = model.name;
+		issue.number = model.number;
+		issue.details = model.details;
+		issue.updatedById = user._id;
+		issue.updatedBy = user.name;
+		issue.milestoneId = milestone._id;
 		issue.milestone = milestone.name;
-        issue.priorityId = priority._id;
+		issue.priorityId = priority._id;
 		issue.priority = priority.name;
-        issue.priorityOrder = priority.order;
-        issue.statusId = status._id;
+		issue.priorityOrder = priority.order;
+		issue.statusId = status._id;
 		issue.status = status.name;
-        issue.statusOrder = status.order;
-        issue.typeId = type._id;
+		issue.statusOrder = status.order;
+		issue.typeId = type._id;
 		issue.type = type.name;
-        issue.developerId = developer._id;
+		issue.developerId = developer._id;
 		issue.developer = developer.name;
-        issue.testerId = tester._id;
+		issue.testerId = tester._id;
 		issue.tester = tester.name;
-        if (!issue.closed && issue.status.toLowerCase() == "closed")
-            issue.closed = new Date();
+		if (!issue.closed && issue.status.toLowerCase() == "closed")
+			issue.closed = new Date();
 		Promise.promisifyAll(issue).saveAsync();
 	});
 };
@@ -70,27 +84,5 @@ repository.getNextNumber = function(project) {
 		});
 	});
 };
-
-function _buildSort(direction, comparer) {
-	if (comparer == "priority")
-		comparer = "priorityOrder";
-	else if (comparer == "status")
-		comparer = "statusOrder";
-	var sort = {};
-	sort[comparer] = direction == "ascending" ? 1 : -1;
-	sort.opened = 1;
-	return sort;
-}
-
-function _applyFilters(query, filter) {
-	query = query.where({ isDeleted: false });
-	query = query.where("priorityId").in(filter.priorities);
-	query = query.where("statusId").in(filter.statuses);
-	query = query.where("developerId").in(filter.developers);
-	query = query.where("testerId").in(filter.testers);
-	query = query.where("milestoneId").in(filter.milestones);
-	query = query.where("typeId").in(filter.types);
-	return query;
-}
 
 module.exports = repository;

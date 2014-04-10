@@ -21,13 +21,13 @@ module.exports = function(app) {
 
 	function _getAllUserData(request) {
 		return Promise.all([
-			repositories.Priority.all(),
-			repositories.Status.all(),
-			repositories.User.all(),
-			repositories.Transition.all(),
-			repositories.Project.all(),
-			repositories.Milestone.all(),
-			repositories.IssueType.all(),
+			repositories.Priority.get(null, { sort: { order: -1 }}),
+			repositories.Status.get(null, { sort: { order: 1 }}),
+			repositories.User.get(),
+			repositories.Transition.get(),
+			repositories.Project.get(),
+			repositories.Milestone.get(),
+			repositories.IssueType.get(),
 			repositories.User.getOne({ session: request.cookies.session }, "project")
 		]);
 	}

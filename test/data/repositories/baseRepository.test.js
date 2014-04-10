@@ -6,7 +6,7 @@ require("../../setup");
 var sut = require("../../../data/repositories/baseRepository");
 
 describe("baseRepository", function() {
-	describe("all", function() {
+	describe("get", function() {
 		it("should execute query", function() {
 			var completed = false;
 			return _run().then(function() {
@@ -44,66 +44,119 @@ describe("baseRepository", function() {
 		});
 
 		it("should apply sort if sort given", function() {
+			var sort = "the new sort";
 			return _run({
-				sort: "the sort"
+				sort: sort
 			}).then(function(result) {
-				assert(result.query.sort.calledWith("the sort"));
+				assert(result.query.sort.calledWith(sort));
 			});
 		});
 
-		it("should apply where clause if given", function() {
+		it("should not apply sort with no sort", function() {
 			return _run({
-				where: "the where clause"
 			}).then(function(result) {
-				assert(result.query.where.calledWith("the where clause"));
-			});
-		});
-
-		it("should apply multiple where clauses if given", function() {
-			return _run({
-				where: ["first", "second", "third"]
-			}).then(function(result) {
-				assert(result.query.where.calledWith("first"));
-				assert(result.query.where.calledWith("second"));
-				assert(result.query.where.calledWith("third"));
+				assert(result.query.sort.notCalled);
 			});
 		});
 
 		it("should apply limit if given", function() {
+			var limit = "the new limit";
 			return _run({
-				limit: "the limit"
+				limit: limit
 			}).then(function(result) {
-				assert(result.query.limit.calledWith("the limit"));
+				assert(result.query.limit.calledWith(limit));
+			});
+		});
+
+		it("should not apply limit with no limit", function() {
+			return _run({
+			}).then(function(result) {
+				assert(result.query.limit.notCalled);
 			});
 		});
 
 		it("should apply skip if given", function() {
+			var skip = "the new skip";
 			return _run({
-				skip: "the skip"
+				skip: skip
 			}).then(function(result) {
-				assert(result.query.skip.calledWith("the skip"));
+				assert(result.query.skip.calledWith(skip));
+			});
+		});
+
+		it("should not apply skip with no skip", function() {
+			return _run({
+			}).then(function(result) {
+				assert(result.query.skip.notCalled);
+			});
+		});
+
+		it("should apply populate if given", function() {
+			var populate = "the new populate";
+			return _run({
+				populate: populate
+			}).then(function(result) {
+				assert(result.query.populate.calledWith(populate));
+			});
+		});
+
+		it("should not apply populate with no populate", function() {
+			return _run({
+			}).then(function(result) {
+				assert(result.query.populate.notCalled);
+			});
+		});
+
+		it("should call find with given conditions", function() {
+			var conditions = "the conditions";
+			return _run({
+				conditions: conditions
+			}).then(function(result) {
+				assert(result.model.find.calledWith(conditions));
+			});
+		});
+
+		it("should build empty options object when no options specified", function() {
+			return _run({
+				options: false
+			}).then(function(result) {
+				assert(result.data == "the result");
+			});
+		});
+
+		it("should treat options as populate when options is string", function() {
+			var populate = "sneaky populate";
+			return _run({
+				options: populate
+			}).then(function(result) {
+				assert(result.query.populate.calledWith(populate));
 			});
 		});
 
 		function _run(params) {
 			params = params || {};
-			var query = { sort: sinon.stub(), where: sinon.stub(), limit: sinon.stub(), skip: sinon.stub(), exec: function(callback) { callback(params.error || null, params.result || {}); } };
-			for (var name in query)
-				if (query[name].returns)
-					query[name].returns(query);
+			var query = {};
+			query.sort = sinon.stub().returns(query);
+			query.limit = sinon.stub().returns(query);
+			query.skip = sinon.stub().returns(query);
+			query.populate = sinon.stub().returns(query);
+			query.exec = function(callback) {
+				if (params.error)
+					callback(params.error);
+				else if (params.result || (!params.error && !params.result))
+					callback(null, params.result || "the result");
+			};
+			var options = {
+				sort: params.sort,
+				limit: params.limit,
+				skip: params.skip,
+				populate: params.populate
+			};
 			sut.model = { find: params.find || sinon.stub() };
 			sut.model.find.returns(query);
-			if (params.sort)
-				sut.sort = params.sort;
-			if (params.where)
-				sut.where = params.where;
-			if (params.limit)
-				sut.limit = params.limit;
-			if (params.skip)
-				sut.skip = params.skip;
 
-			return sut.all().then(function(data) {
-				return { data: data, query: query };
+			return sut.get(params.conditions, params.options == false ? undefined : params.options || options).then(function(data) {
+				return { data: data, query: query, model: sut.model };
 			});
 		}
 	});

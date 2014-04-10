@@ -14,14 +14,14 @@ exports.testRoute = function(params) {
 		}
 	};
 
-		params.sut(app);
+	params.sut(app);
 	return func(request, response).finally(function() {
-		if (params.assert)
-			params.assert({ request: request, response: response, stubs: params.stubs });
-
 		for (var name in params.stubs)
 			if (params.stubs[name].restore)
 				params.stubs[name].restore();
+
+		if (params.assert)
+			params.assert({ request: request, response: response, stubs: params.stubs });
 	});
 };
 

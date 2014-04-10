@@ -338,7 +338,7 @@ describe("root", function() {
 			});
 		});
 
-		it("should send 500 on failed repository all call", function() {
+		it("should send 500 on failed repository get call", function() {
 			return base.testRoute({
 				sut: sut,
 				verb: "get",
@@ -347,7 +347,7 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					priorities: sinon.stub(repositories.Priority, "all").rejects()
+					priorities: sinon.stub(repositories.Priority, "get").rejects()
 				}),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
@@ -423,18 +423,48 @@ describe("root", function() {
 			});
 		});
 
+		it("should get priorities in descending 'order' order", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.priorities.calledWith(null, { sort: { order: -1 }}));
+				}
+			});
+		});
+
+		it("should get statuses in ascending 'order' order", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.statuses.calledWith(null, { sort: { order: 1 }}));
+				}
+			});
+		});
+
 		function _buildStubs(params) {
 			params = params || {};
 			var stubs = {
 				date: sinon.stub(Date, "now").returns(params.date || Date.now()),
 				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves("the html"),
-				priorities: params.priorities || sinon.stub(repositories.Priority, "all").resolves([]),
-				statuses: sinon.stub(repositories.Status, "all").resolves([]),
-				users: sinon.stub(repositories.User, "all").resolves([]),
-				transition: sinon.stub(repositories.Transition, "all").resolves([]),
-				project: sinon.stub(repositories.Project, "all").resolves([]),
-				milestones: sinon.stub(repositories.Milestone, "all").resolves([]),
-				types: sinon.stub(repositories.IssueType, "all").resolves([]),
+				priorities: params.priorities || sinon.stub(repositories.Priority, "get").resolves([]),
+				statuses: sinon.stub(repositories.Status, "get").resolves([]),
+				users: sinon.stub(repositories.User, "get").resolves([]),
+				transition: sinon.stub(repositories.Transition, "get").resolves([]),
+				project: sinon.stub(repositories.Project, "get").resolves([]),
+				milestones: sinon.stub(repositories.Milestone, "get").resolves([]),
+				types: sinon.stub(repositories.IssueType, "get").resolves([]),
 				signedInUser: params.userGetOne || sinon.stub(repositories.User, "getOne").resolves(params.user || "a user"),
 				mapperMapAll: params.mapperMapAll || sinon.stub(mapper, "mapAll").resolves([]),
 				mapperMap: sinon.stub(mapper, "map"),
