@@ -1,11 +1,5 @@
-var Promise = require("bluebird");
-
-var repository = Object.spawn(require("./baseRepository"), {
-	model: require("../models").Comment
+module.exports = Object.spawn(require("./baseIssueRepository"), {
+	model: require("../models").Comment,
+	sort: { name: 1 },
+	populate: "issue user"
 });
-
-repository.issue = function(issueId) {
-	return this.one({ "issue": issueId }, "issue user");
-};
-
-module.exports = repository;
