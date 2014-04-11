@@ -11,5 +11,9 @@ describe("milestoneRepository", function() {
 		it("should set Milestone model for base repository", function() {
 			assert(sut.model == models.Milestone);
 		});
+
+		it("should set sort to be name ascending", function() {
+			assert(sut.sort.name == 1);
+		});
 	});
 });

@@ -12,9 +12,8 @@ repository.search = function(filter, sortDirection, sortComparer, start, end) {
 		developerId: { $in: filter.developers },
 		testerId: { $in: filter.testers },
 		milestoneId: { $in: filter.milestones},
-		typeId: { $in: filter.types },
+		typeId: { $in: filter.types }
 	}, {
-		//where: _buildFilters(filter),
 		sort: _buildSort(sortDirection, sortComparer),
 		skip: start - 1,
 		limit: end - start + 1

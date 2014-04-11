@@ -11,5 +11,9 @@ describe("issueTypeRepository", function() {
 		it("should set IssueType model for base repository", function() {
 			assert(sut.model == models.IssueType);
 		});
+
+		it("should set sort to be name ascending", function() {
+			assert(sut.sort.name == 1);
+		});
 	});
 });

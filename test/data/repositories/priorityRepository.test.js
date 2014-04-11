@@ -11,5 +11,9 @@ describe("priorityRepository", function() {
 		it("should set Priority model for base repository", function() {
 			assert(sut.model == models.Priority);
 		});
+
+		it("should set sort to be order ascending", function() {
+			assert(sut.sort.order == 1);
+		});
 	});
 });
