@@ -1,29 +1,23 @@
 var assert = require("assert"),
 	sinon = require("sinon"),
-	Promise = require("bluebird");
+	Promise = require("bluebird"),
+	models = require("../../../data/models");
 require("../../setup");
 
 var sut = require("../../../data/repositories/commentRepository");
 
 describe("commentRepository", function() {
-	describe("issue", function() {
-		it("should call 'one' with issue id condition", function() {
-			var id = "the id";
-			var one = sinon.stub(sut, "one").resolves();
-			return sut.issue(id).then(function() {
-				assert(one.calledWith({ "issue": id }));
-			});
+	describe("construction", function() {
+		it("should set Comment model for base repository", function() {
+			assert(sut.model == models.Comment);
 		});
 
-		it("should call 'one' with 'issue user' populate", function() {
-			var one = sinon.stub(sut, "one").resolves();
-			return sut.issue("the id").then(function() {
-				assert(one.calledWith(sinon.match.any, "issue user"));
-			});
+		it("should set sort to be by name ascending", function() {
+			assert(sut.sort.name == 1);
 		});
 
-		afterEach(function() {
-			sut.one.restore();
+		it("should have populate set to 'issue user'", function() {
+			assert(sut.populate == "issue user");
 		});
 	});
 });

@@ -1,11 +1,3 @@
-var repository = Object.spawn(require("./baseRepository"), {
+module.exports = Object.spawn(require("./baseIssueRepository"), {
 	model: require("../models").IssueAudit
 });
-
-repository.issue = function(issueId) {
-	return this.model.find({ "issue._id": issueId }).catch(function(e) {
-		console.log("Error during issueAuditRepository.issue: " + e);
-	})
-};
-
-module.exports = repository;
