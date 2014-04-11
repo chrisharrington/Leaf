@@ -32,10 +32,7 @@ repository.search = function(filter, sortDirection, sortComparer, start, end) {
 };
 
 repository.number = function(projectId, number) {
-	var me = this;
-	return me.model.findOneAsync({ project: projectId, number: number }).catch(function(e) {
-		console.log("Error in issueRepository.number: " + e);
-	});
+	return this.one({ projectId: projectId, number: number });
 };
 
 repository.update = function(model, user) {
@@ -68,8 +65,8 @@ repository.update = function(model, user) {
 		issue.developer = developer.name;
 		issue.testerId = tester._id;
 		issue.tester = tester.name;
-		if (!issue.closed && issue.status.toLowerCase() == "closed")
-			issue.closed = new Date();
+		if (!issue.closed && issue.status && issue.status.toLowerCase() == "closed")
+			issue.closed = Date.now();
 		Promise.promisifyAll(issue).saveAsync();
 	});
 };

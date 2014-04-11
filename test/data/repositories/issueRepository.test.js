@@ -1,7 +1,8 @@
 var assert = require("assert"),
 	sinon = require("sinon"),
 	Promise = require("bluebird"),
-	models = require("../../../data/models");
+	models = require("../../../data/models"),
+	repositories = require("../../../data/repositories");
 require("../../setup");
 
 var sut = require("../../../data/repositories/issueRepository");
@@ -221,5 +222,223 @@ describe("issueRepository", function() {
 				params.end || 10
 			)
 		}
-	})
+	});
+
+	describe("number", function() {
+		beforeEach(function() {
+			sinon.stub(sut, "one").resolves();
+		});
+
+		it("should call one with given number", function() {
+			var number = 123;
+			return sut.number("the project id", number).then(function() {
+				assert(sut.one.calledWith({ projectId: sinon.match.any, number: number }));
+			});
+		});
+
+		it("should call one with given project id", function() {
+			var projectId = "the project id";
+			return sut.number(projectId, 123).then(function() {
+				assert(sut.one.calledWith({ projectId: projectId, number: sinon.match.any }));
+			});
+		});
+
+		afterEach(function() {
+			sut.one.restore();
+		})
+	});
+
+	describe("update", function() {
+		var _stubs = {};
+
+		it("should save", function() {
+			return _run().then(function() {
+				assert(_stubs.save.calledOnce);
+			});
+		});
+
+		it("should call repository.details with model._id", function() {
+			var id = "the model id";
+			return _run({
+				id: id
+			}).then(function() {
+				assert(_stubs.issueDetails.calledWith(id));
+			});
+		});
+
+		it("should get milestone details with model.milestoneId", function() {
+			var milestoneId = "the model's milestone id";
+			return _run({
+				milestoneId: milestoneId
+			}).then(function() {
+				assert(_stubs.milestoneDetails.calledWith(milestoneId));
+			});
+		});
+
+		it("should get priority details with model.priorityId", function() {
+			var priorityId = "the model's priority id";
+			return _run({
+				priorityId: priorityId
+			}).then(function() {
+				assert(_stubs.priorityDetails.calledWith(priorityId));
+			});
+		});
+
+		it("should get status details with model.statusId", function() {
+			var statusId = "the model's status id";
+			return _run({
+				statusId: statusId
+			}).then(function() {
+				assert(_stubs.statusDetails.calledWith(statusId));
+			});
+		});
+
+		it("should get issue type details with model.issueTypeId", function() {
+			var typeId = "the model's type id";
+			return _run({
+				typeId: typeId
+			}).then(function() {
+				assert(_stubs.issueTypeDetails.calledWith(typeId));
+			});
+		});
+
+		it("should get developer details with model.developerId", function() {
+			var developerId = "the model's developer id";
+			return _run({
+				developerId: developerId
+			}).then(function() {
+				assert(_stubs.userDetails.calledWith(developerId));
+			});
+		});
+
+		it("should get tester details with model.testerId", function() {
+			var testerId = "the model's tester id";
+			return _run({
+				testerId: testerId
+			}).then(function() {
+				assert(_stubs.userDetails.calledWith(testerId));
+			});
+		});
+
+		it("should set basic data to issue as retrieved before saving", function() {
+			var name = "the new name", number = 12345, details = "the new details", issue = { saveAsync: sinon.stub().resolves() };
+			return _run({ name: name, number: number, details: details, issueDetailsResult: issue }).then(function() {
+				assert(issue.name == name);
+				assert(issue.number == number);
+				assert(issue.details == details);
+			});
+		});
+
+		it("should set priority data to issue as retrieved before saving", function() {
+			var issue = { saveAsync: sinon.stub().resolves() };
+			var priority = { _id: "the priority id", name: "the priority name", order: 123 };
+			return _run({ priorityDetailsResult: priority, issueDetailsResult: issue }).then(function() {
+				assert(issue.priorityId == priority._id);
+				assert(issue.priority == priority.name);
+				assert(issue.priorityOrder == priority.order);
+			});
+		});
+
+		it("should set status data to issue as retrieved before saving", function() {
+			var issue = { saveAsync: sinon.stub().resolves() };
+			var status = { _id: "the status id", name: "the status name", order: 123 };
+			return _run({ statusDetailsResult: status, issueDetailsResult: issue }).then(function() {
+				assert(issue.statusId == status._id);
+				assert(issue.status == status.name);
+				assert(issue.statusOrder == status.order);
+			});
+		});
+
+		it("should set updated by info using given user", function() {
+			var issue = { saveAsync: sinon.stub().resolves() };
+			var user = { _id: "the user id", name: "the user name" };
+			return _run({ user: user, issueDetailsResult: issue }).then(function() {
+				assert(issue.updatedById == user._id);
+				assert(issue.updatedBy == user.name);
+			});
+		});
+
+		it("should set milestone data to issue as retrieved before saving", function() {
+			var issue = { saveAsync: sinon.stub().resolves() };
+			var milestone = { _id: "the milestone id", name: "the milestone name" };
+			return _run({ milestoneDetailsResult: milestone, issueDetailsResult: issue }).then(function() {
+				assert(issue.milestoneId == milestone._id);
+				assert(issue.milestone == milestone.name);
+			});
+		});
+
+		it("should set type data to issue as retrieved before saving", function() {
+			var issue = { saveAsync: sinon.stub().resolves() };
+			var type = { _id: "the type id", name: "the type name" };
+			return _run({ issueTypeDetailsResult: type, issueDetailsResult: issue }).then(function() {
+				assert(issue.typeId == type._id);
+				assert(issue.type == type.name);
+			});
+		});
+
+		it("should set developer data to issue as retrieved before saving", function() {
+			var issue = { saveAsync: sinon.stub().resolves() };
+			var developer = { _id: "the developer id", name: "the developer name" };
+			return _run({ developerDetailsResult: developer, issueDetailsResult: issue }).then(function() {
+				assert(issue.developerId == developer._id);
+				assert(issue.developer == developer.name);
+			});
+		});
+
+		it("should set tester data to issue as retrieved before saving", function() {
+			var issue = { saveAsync: sinon.stub().resolves() };
+			var tester = { _id: "the tester id", name: "the tester name" };
+			return _run({ testerDetailsResult: tester, issueDetailsResult: issue }).then(function() {
+				assert(issue.testerId == tester._id);
+				assert(issue.tester == tester.name);
+			});
+		});
+
+		it("should set closed date to now if new status is 'closed'", function() {
+			var issue = { saveAsync: sinon.stub().resolves() };
+			var date = "the closed date";
+			return _run({
+				statusDetailsResult: { name: "closed" },
+				issueDetailsResult: issue,
+				date: sinon.stub(Date, "now").returns(date)
+			}).then(function() {
+				assert(issue.closed == date);
+			})
+		});
+
+		afterEach(function() {
+			for (var name in _stubs)
+				if (_stubs[name].restore)
+					_stubs[name].restore();
+		});
+
+		function _run(params) {
+			params = params || {};
+			_stubs.issueDetails = params.issueDetails || sinon.stub(sut, "details").resolves(params.issueDetailsResult || { saveAsync: _stubs.save = sinon.stub().resolves() });
+			_stubs.milestoneDetails = params.milestoneDetails || sinon.stub(repositories.Milestone, "details").resolves(params.milestoneDetailsResult || {});
+			_stubs.priorityDetails = params.priorityDetails || sinon.stub(repositories.Priority, "details").resolves(params.priorityDetailsResult || {});
+			_stubs.statusDetails = params.statusDetails || sinon.stub(repositories.Status, "details").resolves(params.statusDetailsResult || {});
+			_stubs.issueTypeDetails = params.issueTypeDetails || sinon.stub(repositories.IssueType, "details").resolves(params.issueTypeDetailsResult || {});
+			_stubs.userDetails = params.userDetails || sinon.stub(repositories.User, "details");
+			_stubs.userDetails.withArgs(params.developerId || "the developer id").resolves(params.developerDetailsResult || {});
+			_stubs.userDetails.withArgs(params.testerId || "the tester id").resolves(params.testerDetailsResult || {});
+			_stubs.date = params.date || sinon.stub(Date, "now");
+
+			return sut.update(params.model || {
+				_id: params.id || "the id",
+				milestoneId: params.milestoneId || "the milestone id",
+				priorityId: params.priorityId || "the priority id",
+				statusId: params.statusId || "the status id",
+				typeId: params.typeId || "the type id",
+				developerId: params.developerId || "the developer id",
+				testerId: params.testerId || "the tester id",
+				name: params.name || "the name",
+				number: params.number || 1,
+				details: params.details || "the details"
+			}, params.user || {
+				_id: params.userId || "the user id",
+				name: params.name || "the user name"
+			});
+		}
+	});
 });
