@@ -3,7 +3,7 @@ var async = require("async");
 
 var data = { name: "the name", PartitionKey: "the partition key", details: "the details", description: "the description" };
 
-require("http").globalAgent.maxSockets = 10000;
+require("http").globalAgent.maxSockets = 20;
 
 var iterations = 100;
 tableStorageInsertParallel(iterations); // 100 -> 12778ms
