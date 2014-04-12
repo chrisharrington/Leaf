@@ -80,4 +80,45 @@ describe("notificationRepository", function() {
 			return sut.markAsRead(params.notificationId || "the notification id");
 		}
 	});
+
+	describe("removeForIssue", function() {
+		var _stubs;
+
+		beforeEach(function() {
+			_stubs = {};
+		});
+
+		it("should call repository.get with given issue id", function() {
+			var issueId = "the issue id to call repository.get with";
+			return _run({
+				issueId: issueId
+			}).then(function() {
+				assert(_stubs.get.calledWith({ issue: issueId }));
+			});
+		});
+
+		it("should call removeAsync for every notification returned from repository.get", function() {
+			var first, second, third;
+			var notifications = [{ removeAsync: first = sinon.stub()}, { removeAsync: second = sinon.stub()}, { removeAsync: third = sinon.stub()}];
+			return _run({
+				notifications: notifications
+			}).then(function() {
+				assert(first.calledOnce);
+				assert(second.calledOnce);
+				assert(third.calledOnce);
+			});
+		});
+
+		afterEach(function() {
+			for (var name in _stubs)
+				if (_stubs[name].restore)
+					_stubs[name].restore();
+		});
+
+		function _run(params) {
+			params = params || {};
+			_stubs.get = sinon.stub(sut, "get").resolves(params.notifications || []);
+			return sut.removeForIssue(params.issueId || "the issue id");
+		}
+	});
 });

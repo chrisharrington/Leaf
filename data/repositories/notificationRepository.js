@@ -16,12 +16,10 @@ repository.markAsRead = function(notificationId) {
 };
 
 repository.removeForIssue = function(issueId) {
-	var me = this;
-	return this.model.findAsync({ issue: issueId }).then(function(notifications) {
-		var all = [];
-		for (var i = 0; i < notifications.length; i++)
-			all.push(Promise.promisifyAll(notifications[i]).removeAsync());
-		return Promise.all(all);
+	return repository.get({ issue: issueId }).then(function(notifications) {
+		return Promise.map(notifications, function(notification) {
+			return Promise.promisifyAll(notification).removeAsync();
+		});
 	});
 };
 
