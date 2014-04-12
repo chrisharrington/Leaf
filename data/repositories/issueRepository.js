@@ -71,13 +71,9 @@ repository.update = function(model, user) {
 	});
 };
 
-repository.getNextNumber = function(project) {
-	var me = this;
-	return new Promise(function(resolve, reject) {
-		me.model.findOne().sort({ number: -1 }).exec(function(err, issue) {
-			if (err) reject(err);
-			else (resolve(issue.number+1));
-		});
+repository.getNextNumber = function(projectId) {
+	return repository.one({ project: projectId }, { sort: { number: -1 }}).then(function(issue) {
+		return issue.number + 1;
 	});
 };
 

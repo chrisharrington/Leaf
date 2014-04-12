@@ -441,4 +441,35 @@ describe("issueRepository", function() {
 			});
 		}
 	});
+
+	describe("getNextNumber", function() {
+		it("should return the next available issue number for the project", function() {
+			var issue = { number: 10 };
+			var get = sinon.stub(sut, "one").resolves(issue);
+			return sut.getNextNumber("the project id").then(function(number) {
+				assert(number == issue.number+1);
+			}).finally(function() {
+				sut.one.restore();
+			});
+		});
+
+		it("should retrieve issue using the given project id", function() {
+			var projectId = "the project id";
+			var get = sinon.stub(sut, "one").resolves({ number: 10 });
+			return sut.getNextNumber(projectId).then(function() {
+				assert(get.calledWith({ project: projectId }));
+			}).finally(function() {
+				sut.one.restore();
+			});
+		});
+
+		it("should sort by number descending when getting issue", function() {
+			var get = sinon.stub(sut, "one").resolves({ number: 10 });
+			return sut.getNextNumber("the project id").then(function() {
+				assert(get.calledWith(sinon.match.any, { sort: { number: -1 }}));
+			}).finally(function() {
+				sut.one.restore();
+			});
+		});
+	});
 });
