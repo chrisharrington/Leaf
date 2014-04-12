@@ -3,9 +3,7 @@ var repository = Object.spawn(require("./baseRepository"), {
 });
 
 repository.status = function(statusId) {
-	return this.model.findAsync({ "from._id": statusId }).catch(function(e) {
-		console.log("Error during transitionRepository.status: " + e);
-	})
+	return repository.get({ "from._id": statusId });
 };
 
 module.exports = repository;

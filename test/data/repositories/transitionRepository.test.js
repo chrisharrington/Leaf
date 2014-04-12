@@ -12,4 +12,14 @@ describe("transitionRepository", function() {
 			assert(sut.model == models.Transition);
 		});
 	});
+
+	describe("status", function() {
+		it("should call repository.get with given status id", function() {
+			var statusId = "the status id";
+			var get = sinon.stub(sut, "get").resolves();
+			return sut.status(statusId).then(function() {
+				assert(get.calledWith({ "from._id": statusId }));
+			});
+		});
+	});
 });
