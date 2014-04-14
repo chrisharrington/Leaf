@@ -1,38 +1,12 @@
-var config = require("../config");
-var Promise = require("bluebird");
-var sendgrid  = require("sendgrid").call((this, config("sendgridUsername"), config("sendgridPassword")));
-var fs = Promise.promisifyAll(require("fs"));
-var mustache = require("mustache");
+var emailer = require("./emailer");
 
 exports.issueAssigned = function(user, issue) {
-	return _render("./templates/issueAssigned.html", {
+	return emailer.send("./templates/issueAssigned.html", {
 		user: user,
 		issue: issue,
 		formattedProjectName: issue.project.name.formatForUrl()
-	}).then(function(rendered) {
-		return _send(user.emailAddress, "Leaf - Issue Assigned to You", rendered);
-	});
+	}, user.emailAddress, "Leaf - Issue Assigned");
 };
-
-function _render(file, model) {
-	return fs.readFileAsync(file).then(function(html) {
-		return mustache.render(html, model);
-	});
-}
-
-function _send(emailAddress, subject, html) {
-	return new Promise(function(resolve, reject) {
-		sendgrid.send({
-			to: emailAddress,
-			from: config.fromAddress,
-			subject: subject,
-			html: html
-		}, function(err) {
-			if (err) reject(err);
-			else resolve();
-		});
-	});
-}
 
 exports.issueUpdated = function(user, issue) {
 	return new Promise(function(resolve, reject) {
