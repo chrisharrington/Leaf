@@ -4,7 +4,7 @@ require("./extensions/number");
 var express = require("express");
 var app = express();
 var config = require("./config");
-var mapper = require("./data/mapper");
+var mapper = require("./data/mapping/mapper");
 var bundler = require("./bundling/bundler");
 
 require("./inheritance");

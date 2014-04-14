@@ -2,7 +2,7 @@ require("../setup");
 var should = require("should"), assert = require("assert"), sinon = require("sinon"), Promise = require("bluebird"), base = require("./base.test"), extend = require("node.extend");
 var fs = Promise.promisifyAll(require("fs"));
 var repositories = require("../../data/repositories");
-var mapper = require("../../data/mapper");
+var mapper = require("../../data/mapping/mapper");
 var mustache = require("mustache");
 var mongoose = require("mongoose");
 var crypto = require("crypto");

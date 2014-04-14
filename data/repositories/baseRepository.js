@@ -30,6 +30,10 @@ module.exports = {
 		});
 	},
 
+	update: function(model) {
+		return Promise.promisifyAll(model).saveAsync();
+	},
+
 	create: function(model) {
 		return this.model.createAsync(model);
 	},

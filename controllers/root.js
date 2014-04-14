@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 var fs = Promise.promisifyAll(require("fs"));
 var mustache = require("mustache");
 var models = require("../data/models");
-var mapper = require("../data/mapper");
+var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
 var bundler = require("../bundling/bundler");
 

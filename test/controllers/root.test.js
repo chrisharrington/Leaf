@@ -2,7 +2,7 @@ require("../setup");
 var should = require("should"), assert = require("assert"), sinon = require("sinon"), Promise = require("bluebird"), extend = require('node.extend');
 var base = require("./base.test");
 var repositories = require("../../data/repositories");
-var mapper = require("../../data/mapper");
+var mapper = require("../../data/mapping/mapper");
 var scriptBundler = require("../../bundling/scriptBundler");
 var styleBundler = require("../../bundling/styleBundler");
 var mustache = require("mustache");

@@ -1,7 +1,7 @@
 var fs = require("fs");
 var authenticate = require("../authentication/authenticate");
 var models = require("../data/models");
-var mapper = require("../data/mapper");
+var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
 var mustache = require("mustache");
 var Promise = require("bluebird");
@@ -121,7 +121,7 @@ module.exports = function(app) {
 				return repositories.Comment.create(comment).then(function () {
 					return repositories.User.details(issue.developerId).then(function (user) {
 						if (user.emailNotificationForNewCommentForAssignedIssue)
-							return notificationEmailer.newComment(user, issue);
+							return notificationEmailer.newComment(user, issue, comment.text);
 					}).then(function() {
 						if (request.user._id.toString() != issue.developerId.toString())
 							return repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });

@@ -1,6 +1,6 @@
 var repositories = require("../data/repositories");
 var authenticate = require("../authentication/authenticate");
-var mapper = require("../data/mapper");
+var mapper = require("../data/mapping/mapper");
 var Promise = require("bluebird");
 
 module.exports = function(app) {

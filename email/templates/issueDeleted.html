@@ -1,0 +1,10 @@
+Hi {{user.name}}!<br><br>
+An issue that's assigned to you has been deleted. Here are the details:<br><br>
+#{{issue.number}} - {{issue.name}}<br><br>
+{{#issue.details}}
+{{issue.details}}<br><br>
+{{/issue.details}}
+To view this issue, click the link below.<br><br>
+{{domain}}/#/{{formattedProjectName}}/issues/{{issue.number}}<br><br>
+Thanks!<br>
+Leaf

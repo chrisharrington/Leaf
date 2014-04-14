@@ -59,6 +59,15 @@ describe("baseRepository", function() {
 		});
 	});
 
+	describe("update", function() {
+		it("should call 'saveAsync' of promisified model", function() {
+			var model = { saveAsync: sinon.stub().resolves() };
+			return sut.update(model).then(function() {
+				assert(model.saveAsync.calledOnce);
+			});
+		});
+	});
+
 	describe("create", function() {
 		it("should call model's 'createAsync' method with given parameters", function() {
 			var model = "the model";

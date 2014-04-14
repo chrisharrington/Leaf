@@ -2,7 +2,7 @@ require("../setup");
 var should = require("should"), assert = require("assert"), sinon = require("sinon"), Promise = require("bluebird");
 var fs = Promise.promisifyAll(require("fs"));
 var repositories = require("../../data/repositories");
-var mapper = require("../../data/mapper");
+var mapper = require("../../data/mapping/mapper");
 var mustache = require("mustache");
 var mongoose = require("mongoose");
 var storage = require("../../storage/storage");
@@ -680,6 +680,22 @@ describe("issues", function() {
 					assert(result.stubs.notificationCreate.notCalled);
 				}
 			});
+		});
+
+		it("should send new comment email notification when user settings say so", function() {
+			var user = { name: "blah", emailNotificationForNewCommentForAssignedIssue: true };
+			var issue = { number: 10, name: "boo" };
+			var commentText = "the comment text";
+			return _runAddComment({
+				userDetailsResult: user,
+				issueDetailsResult: issue,
+				mapperMapResult: {
+					text: commentText
+				},
+				assert: function(result) {
+					assert(result.stubs.notificationEmailerNewComment.calledWith(user, issue, commentText));
+				}
+			})
 		});
 
 		function _runAddComment(params) {

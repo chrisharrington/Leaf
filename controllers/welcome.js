@@ -3,7 +3,7 @@ var models = require("../data/models");
 var crypto = require("crypto");
 var config = require("../config");
 var csprng = require("csprng");
-var mapper = require("../data/mapper");
+var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
 
 var Promise = require("bluebird");
