@@ -1,4 +1,4 @@
-require("mapper").define("user", "user-view-model", {
+require("../mapper").define("user", "user-view-model", {
 	"id": "_id",
 	name: "name",
 	emailAddress: "emailAddress",

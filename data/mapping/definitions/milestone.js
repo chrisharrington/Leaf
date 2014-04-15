@@ -1,4 +1,4 @@
-require("mapper").define("milestone", "milestone-view-model", {
+require("../mapper").define("milestone", "milestone-view-model", {
 	"id": "_id",
 	name: "name"
 });

@@ -1,4 +1,4 @@
-require("mapper").define("notification", "notification-view-model", {
+require("../mapper").define("notification", "notification-view-model", {
 	id: "_id",
 	type: "type",
 	isViewed: "isViewed",

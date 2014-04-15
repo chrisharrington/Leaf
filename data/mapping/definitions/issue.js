@@ -1,7 +1,7 @@
-var config = require("config");
+var config = require("../../../config");
 var moment = require("moment");
 
-require("mapper").define("issue", "issue-view-model", {
+require("../mapper").define("issue", "issue-view-model", {
 	id: "_id",
 	description: "name",
 	details: "details",
@@ -25,7 +25,7 @@ require("mapper").define("issue", "issue-view-model", {
 	updatedBy: "updatedBy"
 });
 
-require("mapper").define("issue-view-model", "issue", {
+require("../mapper").define("issue-view-model", "issue", {
 	"_id": "id",
 	name: "description",
 	details: "details",

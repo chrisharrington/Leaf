@@ -1,5 +1,5 @@
 var Promise = require("bluebird");
-var requireDirectory = require("require-directory");
+var fs = Promise.promisifyAll(require("fs"));
 
 exports.maps = {};
 
@@ -35,7 +35,12 @@ exports.mapAll = function(sourceKey, destinationKey, sourceList) {
 };
 
 exports.init = function() {
-	requireDirectory.call(this, "./definitions");
+	var path = process.cwd() + "/data/mapping/definitions";
+	return fs.readdirAsync(path).then(function(files) {
+		return Promise.map(files, function(file) {
+			require(path + "/" + file);
+		});
+	});
 };
 
 function _getCombinedKey(source, destination) {
