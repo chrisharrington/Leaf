@@ -2,15 +2,15 @@ language: node_js
 node_js:
 - '0.11'
 - '0.10'
-deploy:
-  provider: heroku
-  api_key:
-    secure: G7TTwLccn5Zld/XwdlOG62XpiwhDMiGiS879tRF8DWD6sbIUv21tpkdGevpxO64Qx4IZNskBSGZcYu/fOcTrnVRwB6eWZFj/T3RekBhfsjWYE/pC6Je/dk0/jj2URhz3hgi+HcxgC7a25SLNAnveZCOJaC0ZM+IdxChXfsCMymM=
-  app: leaf-issue-tracker
-  on:
-    repo: chrisharrington/Leaf
 env:
   global:
   - secure: NF11l3g3JG1vfRurqYDptVHuQZtRCI9z4/9qCnNop6t5rLnAUXNjpiV7TddAnx3srKen1k1gCWfprYAnIel5jylwEyjeNgByjy/VoE4/FH7BehRQ1qalHhI9YAcBWSyoDmYlYRUHY4GUQDHyH+kTlp6FA5pXEn9v+rMgmTnP8vs=
   - secure: LafvQPT8oOJ++NoOnzFxGzIanBW4llt3Z0I3Gq76DTZV7Pw5vLJ/AMSJf/Rqs0TJlpVSDd4oIe9DVH9MxkKN7T/EYtTefgcNh5A3GhRBJ1fHwdHrH/ukJmMNY6W52dcvPvoCqFGHF6jlR6XHJ+ZqfC7qilh935oTtfpxXfnRBz0=
   - secure: Ohr9p2fIKJjZcv4qVergwQaOPhhWIAM06Efw0T8J5uKgUVqWrqY9YbPoSpCDVKHDLRC3/yBQEloY4WcMtrvr2+QntG3x3NwZlozzzhAqVm9yQg/PHH0Lb3N6My+aiTidzwGo/nMg6LnCwbGDh2ZeLXdA8aHxsKMwrxohx5xctU4=
+deploy:
+  provider: heroku
+  api_key:
+    secure: TWIGmEB6n4eXI2esQuQRItHp9w1qlT+RPCvxULuJryKWnWpM9//1iYhgjfk5D9oNKOzdqHehRQf2FsLjw/EFap0SF0nEZt9BMzlx+RQ7TTEJGUgcPIzMSm08R8y5S37+P7MlscMEbhARy+3+06HhyLhZ24ntLgZGHMyDMJPMEFo=
+  app: leaf-issue-tracker
+  on:
+    repo: chrisharrington/Leaf
