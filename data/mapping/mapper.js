@@ -1,6 +1,5 @@
-var config = require("../../config");
 var Promise = require("bluebird");
-var fs = Promise.promisifyAll(require("fs"));
+var requireDirectory = require("require-directory");
 
 exports.maps = {};
 
@@ -30,19 +29,13 @@ exports.map = function(sourceKey, destinationKey, source) {
 };
 
 exports.mapAll = function(sourceKey, destinationKey, sourceList) {
-	var resultList = [];
-	for (var i = 0; i < sourceList.length; i++)
-		resultList.push(exports.map(sourceKey, destinationKey, sourceList[i]));
-	return Promise.all(resultList);
+	return Promise.map(sourceList, function(source) {
+		return exports.map(sourceKey, destinationKey, source);
+	});
 };
 
-exports.init = function(maps) {
-	var path = "./definitions";
-	return fs.readdirAsync(path).then(function(files) {
-		files.forEach(function(file) {
-			require(path + "/" + file);
-		});
-	});
+exports.init = function() {
+	requireDirectory.call(this, "./definitions");
 };
 
 function _getCombinedKey(source, destination) {

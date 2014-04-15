@@ -2,6 +2,7 @@ var assert = require("assert"),
 	sinon = require("sinon"),
 	Promise = require("bluebird");
 require("../../setup");
+var requireDirectory = require("require-directory");
 
 var sut = require("../../../data/mapping/mapper");
 
@@ -54,9 +55,60 @@ describe("mapper", function() {
 			});
 		});
 
+		it("should map all properties", function() {
+			sut.maps = { "source|destination": { id: "the-id", name: "the-name" } };
+			var source = { "the-id": 12345, "the-name": "boogity!" };
+
+			return sut.map("source", "destination", source).then(function(mapped) {
+				assert(mapped.id == source["the-id"]);
+				assert(mapped.name == source["the-name"]);
+			});
+		});
+
+		it("should execute defined functions", function() {
+			sut.maps = { "source|destination": { id: "the-id", name: "the-name", formattedName: function(m) { return m["the-name"].toUpperCase(); } } };
+			var source = { "the-id": 12345, "the-name": "boogity!" };
+
+			return sut.map("source", "destination", source).then(function(mapped) {
+				assert(mapped.formattedName == source["the-name"].toUpperCase());
+			});
+		});
+
 		function _run(params) {
 			params = params || {};
 			return sut.map(params.sourceKey || "", params.destinationKey || "", params.source);
 		}
+	});
+
+	describe("mapAll", function() {
+		it("should call 'map' for every object given", function() {
+			var sourceKey = "the source key";
+			var destinationKey = "the destination key";
+			var first = { name: "the first" };
+			var second = { name: "the second" };
+
+			var map = sinon.stub(sut, "map").resolves();
+			return sut.mapAll(sourceKey, destinationKey, [first, second]).then(function() {
+				assert(map.calledWith(sourceKey, destinationKey, first));
+				assert(map.calledWith(sourceKey, destinationKey, second));
+			}).finally(function() {
+				map.restore();
+			});
+		});
+	});
+
+	describe("init", function() {
+		it("should require the ./definitions directory", function() {
+			var reqDir = sinon.stub(requireDirectory, "call");
+
+			try {
+				sut.init();
+				assert(reqDir.calledWith(sinon.match.any, "./definitions"));
+			} catch (e) {
+				assert(false);
+			} finally {
+				reqDir.restore();
+			}
+		});
 	});
 });

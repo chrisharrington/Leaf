@@ -35,6 +35,7 @@
     "mustache": "^0.8.1",
     "node.extend": "^1.0.10",
     "proxyquire": "^0.6.0",
+    "require-directory": "^1.2.0",
     "sendgrid": "^1.0.2",
     "sendgrid-mustache": "0.0.1",
     "should": "^3.2.0",
