@@ -18,7 +18,6 @@ require("../mapper").define("issue", "issue-view-model", {
 	developerId: "developerId",
 	type: "type",
 	typeId: "typeId",
-	image: "image",
 	priorityStyle: function(x) { return x.priority.toLowerCase(); },
 	opened: function(x) { return moment(x.opened).format(config("dateFormat")); },
 	closed: function(x) { return x.closed ? moment(x.closed).format(config("dateFormat")) : ""; },
