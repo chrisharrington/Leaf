@@ -8,7 +8,7 @@ deploy:
     secure: G7TTwLccn5Zld/XwdlOG62XpiwhDMiGiS879tRF8DWD6sbIUv21tpkdGevpxO64Qx4IZNskBSGZcYu/fOcTrnVRwB6eWZFj/T3RekBhfsjWYE/pC6Je/dk0/jj2URhz3hgi+HcxgC7a25SLNAnveZCOJaC0ZM+IdxChXfsCMymM=
   app: leaf-issue-tracker
   on:
-    repo: chrisharrington/IssueTracker
+    repo: chrisharrington/Leaf
 env:
   global:
   - secure: NF11l3g3JG1vfRurqYDptVHuQZtRCI9z4/9qCnNop6t5rLnAUXNjpiV7TddAnx3srKen1k1gCWfprYAnIel5jylwEyjeNgByjy/VoE4/FH7BehRQ1qalHhI9YAcBWSyoDmYlYRUHY4GUQDHyH+kTlp6FA5pXEn9v+rMgmTnP8vs=
