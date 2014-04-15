@@ -1,4 +1,3 @@
-
 Number.prototype.toSizeString = function() {
 	if (this < 1000)
 		return this + " b";
