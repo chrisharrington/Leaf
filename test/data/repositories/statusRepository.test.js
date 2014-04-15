@@ -11,9 +11,5 @@ describe("statusRepository", function() {
 		it("should set Status model for base repository", function() {
 			assert(sut.model == models.Status);
 		});
-
-		it("should set sort to be order ascending", function() {
-			assert(sut.sort.order == 1);
-		});
 	});
 });

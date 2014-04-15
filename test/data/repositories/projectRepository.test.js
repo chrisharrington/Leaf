@@ -11,9 +11,5 @@ describe("projectRepository", function() {
 		it("should set Project model for base repository", function() {
 			assert(sut.model == models.Project);
 		});
-
-		it("should set sort to be name ascending", function() {
-			assert(sut.sort.name == 1);
-		});
 	});
 });

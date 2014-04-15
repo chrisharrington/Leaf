@@ -453,6 +453,36 @@ describe("root", function() {
 			});
 		});
 
+		it("should get milestones in ascending 'name' order", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.milestones.calledWith(null, { sort: { name: 1 }}));
+				}
+			});
+		});
+
+		it("should get issue types in ascending 'name' order", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.types.calledWith(null, { sort: { name: 1 }}));
+				}
+			});
+		});
+
 		function _buildStubs(params) {
 			params = params || {};
 			var stubs = {
