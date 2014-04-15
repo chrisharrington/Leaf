@@ -47,6 +47,15 @@
 	root.reset = function () {
 		_resetIssueList();
 	};
+
+	root.getUserProfileImageLocation = function(userId) {
+		var email;
+		$.each(IssueTracker.users(), function(i, user) {
+			if (user.id == userId)
+				email = user.emailAddress;
+		});
+		return CryptoJS.MD5(email);
+	};
 	
 	function _setupLoadingMoreIssues() {
 		$(window).scroll(function () {

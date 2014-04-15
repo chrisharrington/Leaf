@@ -23,8 +23,7 @@
                             <span class="details" data-bind="text: details"></span>
                         </div>
                         <div class="details">
-                            <span class="assignee" data-bind="text: developer"></span>
-                            <span class="date" data-bind="text: opened"></span>
+                            <img data-bind="attr: { title: developer, src: 'http://gravatar.com/avatar/' + $root.getUserProfileImageLocation(developerId) + '?s=35&d=mm' }" alt="" />
                         </div>
 					</div>
 				</div>
