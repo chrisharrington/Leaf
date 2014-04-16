@@ -29,7 +29,7 @@ describe("comment mapping", function() {
 
 		it("should map date using dateFormat from config", function() {
 			var func = _define.firstCall.args[2].date, date = Date.now();
-			assert(func({ date: date }) == moment(date).format(config("dateFormat")));
+			assert(func({ date: date }) == moment(date).format(config("dateTimeFormat")));
 		});
 
 		it("should map user using user's name", function() {
@@ -65,7 +65,7 @@ describe("comment mapping", function() {
 
 		it("should map date using dateFormat from config", function() {
 			var func = _define.secondCall.args[2].date, date = Date.now();
-			assert(func({ date: date }).toDate().getTime() == moment(date, config("dateFormat")).toDate().getTime());
+			assert(func({ date: date }).toDate().getTime() == moment(date, config("dateTimeFormat")).toDate().getTime());
 		});
 
 		afterEach(function () {

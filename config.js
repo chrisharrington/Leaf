@@ -7,6 +7,7 @@ module.exports = function(key) {
 		"databaseUser": "IssueTrackerApp",
 		"hashAlgorithm": "sha512",
 		"dateFormat": "YYYY-MM-DD",
+		"dateTimeFormat": "YYYY-MM-DD HH:mm:ss",
 		"storageName" : "leaf",
 		"sendgridUsername": "LeafIssueTracker",
 		"fromAddress": "no-reply@leafissuetracker.com",
