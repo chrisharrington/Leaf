@@ -38,7 +38,6 @@
 
 <div class="container name-and-number-wrapper">
 	<div class="name-container" data-bind="attr: { class: 'name-container perspective ' + IssueTracker.selectedIssue.priority().toLowerCase() }">
-		<h1 class="number" data-bind="text: '#' + IssueTracker.selectedIssue.number()"></h1>
 		<div class="description">
 			<input type="text" class="description no-focus" data-bind="value: IssueTracker.selectedIssue.description" />
 		</div>

@@ -25,8 +25,6 @@
 	};
 
 	root.load = function () {
-		_setNumberWidth();
-
 		_detailsFlipper = new IssueTracker.Controls.Flipper("#choices-container");
 		_oldName = IssueTracker.selectedIssue.description();
 		root.Comments.load(IssueTracker.selectedIssue.history());
@@ -191,13 +189,6 @@
 			opened: issue.opened(),
 			closed: issue.closed()
 		};
-	}
-
-	function _setNumberWidth() {
-		var number = _container.find("h1.number");
-		var padding = parseInt(number.css("padding-left").replace("px", "")) * 2;
-		var width = 13 + IssueTracker.selectedIssue.number().toString().length * 20;
-		number.width(width).parent().find("div.description").css({ "padding-left": width + padding + 1 });
 	}
 
 	function _updateRequired() {
