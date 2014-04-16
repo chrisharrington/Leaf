@@ -2,9 +2,11 @@ var sinon = require("sinon"), assert = require("assert");
 
 exports.testRoute = function(params) {
 	var func;
-	var request = params.request || sinon.stub(), response = { send: sinon.stub(), contentType: sinon.stub(), cookie: sinon.stub() };
+	var request = params.request || sinon.stub(), response = { send: sinon.stub(), header: sinon.stub(), contentType: sinon.stub(), cookie: sinon.stub() };
 	var app = {
 		get: function(route, b, c) {
+			if (!b && !c)
+				return params.env;
 			if (params.verb == "get" && route == params.route)
 				if (c) func = c; else func = b;
 		},
@@ -17,7 +19,7 @@ exports.testRoute = function(params) {
 	params.sut(app);
 	return func(request, response).finally(function() {
 		for (var name in params.stubs)
-			if (params.stubs[name].restore)
+			if (params.stubs[name] && params.stubs[name].restore)
 				params.stubs[name].restore();
 
 		if (params.assert)

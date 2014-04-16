@@ -79,6 +79,23 @@ describe("scriptBundler", function() {
 			});
 		});
 
+		it("should set cache control header to 'public, maxAge=2592000000' in production", function() {
+			var response = { send: sinon.stub(), header: sinon.stub() };
+			var app = { get: function(route, func) {
+				if (route == "env")
+					return "production";
+				if (route == "/script")
+					func({}, response, "var blah = 5;");
+			} };
+
+			return _run({
+				files: ["file1.js", "file2.js"],
+				app: app
+			}).then(function() {
+				assert(response.header.calledWith("Cache-Control", "public, max-age=2592000000"));
+			});
+		});
+
 		function _run(params) {
 			params = params || {};
 			var assets = ["file1.js", "file2.js"];

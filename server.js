@@ -41,6 +41,7 @@ function _registerControllers() {
 	require("./controllers/welcome")(app);
 	require("./controllers/issues")(app);
 	require("./controllers/notifications")(app);
+	require("./controllers/style")(app);
 }
 
 function _launchServer() {

@@ -3,7 +3,6 @@ var should = require("should"), assert = require("assert"), sinon = require("sin
 var fs = Promise.promisifyAll(require("fs"));
 var repositories = require("../../data/repositories");
 var mapper = require("../../data/mapping/mapper");
-var mustache = require("mustache");
 var mongoose = require("mongoose");
 var crypto = require("crypto");
 var config = require("../../config");

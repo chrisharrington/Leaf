@@ -4,7 +4,6 @@ var base = require("./base.test");
 var repositories = require("../../data/repositories");
 var mapper = require("../../data/mapping/mapper");
 var scriptBundler = require("../../bundling/scriptBundler");
-var styleBundler = require("../../bundling/styleBundler");
 var mustache = require("mustache");
 
 var fs = Promise.promisifyAll(require("fs"));
@@ -220,8 +219,7 @@ describe("root", function() {
 						issueTypes: sinon.match.string,
 						signedInUser: sinon.match.string,
 						selectedProject: sinon.match.any,
-						renderedScripts: sinon.match.string,
-						renderedCss: sinon.match.string
+						renderedScripts: sinon.match.string
 					}));
 				}
 			});
@@ -273,8 +271,7 @@ describe("root", function() {
 						issueTypes: sinon.match.any,
 						signedInUser: "null",
 						selectedProject: sinon.match.any,
-						renderedScripts: sinon.match.any,
-						renderedCss: sinon.match.any
+						renderedScripts: sinon.match.any
 					}));
 				}
 			});
@@ -302,8 +299,7 @@ describe("root", function() {
 						issueTypes: sinon.match.any,
 						signedInUser: sinon.match.any,
 						selectedProject: "null",
-						renderedScripts: sinon.match.any,
-						renderedCss: sinon.match.any
+						renderedScripts: sinon.match.any
 					}));
 				}
 			});
@@ -331,8 +327,7 @@ describe("root", function() {
 						issueTypes: sinon.match.string,
 						signedInUser: sinon.match.any,
 						selectedProject: "null",
-						renderedScripts: sinon.match.string,
-						renderedCss: sinon.match.string
+						renderedScripts: sinon.match.string
 					}))
 				}
 			});
@@ -399,23 +394,6 @@ describe("root", function() {
 				},
 				stubs: _buildStubs({
 					scriptBundler: sinon.stub(scriptBundler, "render").rejects()
-				}),
-				assert: function(result) {
-					assert(result.response.send.calledWith(sinon.match.string, 500));
-				}
-			});
-		});
-
-		it("should send 500 on failed style bundle", function() {
-			return base.testRoute({
-				sut: sut,
-				verb: "get",
-				route: "/",
-				request: {
-					cookies: { session: "the session" }
-				},
-				stubs: _buildStubs({
-					styleBundler: sinon.stub(styleBundler, "render").rejects()
 				}),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
@@ -499,7 +477,6 @@ describe("root", function() {
 				mapperMapAll: params.mapperMapAll || sinon.stub(mapper, "mapAll").resolves([]),
 				mapperMap: sinon.stub(mapper, "map"),
 				scriptBundler: params.scriptBundler || sinon.stub(scriptBundler, "render").resolves("the bundled scripts"),
-				styleBundler: params.styleBundler || sinon.stub(styleBundler, "render").resolves("the bundled styles"),
 				mustacheRender: sinon.stub(mustache, "render").returns("")
 			};
 			stubs.mapperMap.withArgs("user", "user-view-model", sinon.match.any).resolves(params.noMappedUser ? undefined : {});

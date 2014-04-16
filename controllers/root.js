@@ -14,7 +14,7 @@ module.exports = function(app) {
 			return _mapAllUserData(priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
 		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
 			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
-		}).catch(function (e, a, b, c) {
+		}).catch(function (e) {
 			response.send("Error loading root: " + e, 500);
 		});
 	});
@@ -44,12 +44,11 @@ module.exports = function(app) {
 			mapper.mapAll("issue-type", "issue-type-view-model", issueTypes),
 			!user || (user.expiration != null && user.expiration < Date.now()) ? null : mapper.map("user", "user-view-model", user),
 			!user ? null : mapper.map("project", "project-view-model", user.project),
-			require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app),
-			require("../bundling/styleBundler").render(require("../bundling/assets").styles(), app)
+			require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app)
 		]);
 	}
 
-	function _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
+	function _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
 		return response.send(mustache.render(html.toString(), {
 			priorities: JSON.stringify(priorities),
 			statuses: JSON.stringify(statuses),
@@ -60,8 +59,7 @@ module.exports = function(app) {
 			issueTypes: JSON.stringify(issueTypes),
 			signedInUser: JSON.stringify(user),
 			selectedProject: JSON.stringify(project),
-			renderedScripts: renderedScripts,
-			renderedCss: renderedCss
+			renderedScripts: renderedScripts
 		}), 200);
 	}
 };

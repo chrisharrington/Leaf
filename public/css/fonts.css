@@ -4,23 +4,19 @@
   font-weight: 400;
   src: local('Roboto Regular'), local('Roboto-Regular'), url(../fonts/Roboto-400.woff) format('woff');
 }
+
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   src: local('Roboto Bold'), local('Roboto-Bold'), url(../fonts/Roboto-700.woff) format('woff');
 }
+
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 400;
   src: local('Roboto Condensed Regular'), local('RobotoCondensed-Regular'), url(../fonts/Roboto-Condensed-400.woff) format('woff');
-}
-@font-face {
-  font-family: 'Roboto Condensed';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Roboto Condensed Bold'), local('RobotoCondensed-Bold'), url(../fonts/Roboto-Condensed-700.woff) format('woff');
 }
 
 @font-face {
@@ -28,4 +24,11 @@
     font-style: normal;
     font-weight: 400;
     src: local('Oswald'), local('Oswald'), url(../fonts/Oswald.woff) format('woff');
+}
+
+@font-face {
+	font-family: 'Bebas';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Bebas'), url(../fonts/Bebas.ttf);
 }

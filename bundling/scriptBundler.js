@@ -33,5 +33,5 @@ function _addScriptRoute(minified, app) {
 		response.header("Content-Type", "text/javascript");
 		response.header("Cache-Control", "public, max-age=2592000000");
 		response.send(minified);
-	})
+	});
 }
