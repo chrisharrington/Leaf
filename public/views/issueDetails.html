@@ -16,7 +16,7 @@
 	</div>
 
 	<div class="issue-buttons">
-		<img id="transition-loader" class="hidden" src="/images/ajax-loader.gif")" alt="" data-bind="css: { hidden: !IssueTracker.Transitioner.transitioning() }" />
+		<img id="transition-loader" class="hidden" src="/images/ajax-loader.gif" alt="" data-bind="css: { hidden: !IssueTracker.Transitioner.transitioning() }" />
 		<div class="transitions" data-bind="visible: IssueTracker.selectedIssue.transitions().length > 0, foreach: IssueTracker.selectedIssue.transitions">
             <button class="icon" data-bind="attr: { 'data-status-id': toId, disabled: IssueTracker.Transitioner.transitioning }">
                 <span data-bind="text: name"></span>

@@ -579,7 +579,7 @@ describe("issues", function() {
 			params.route = "/issues/create";
 			params.request = params.request || {
 				user: {
-					_id: params.userId || "the user id",
+					_id: params.userId || "the user id"
 				},
 				project: {
 					_id: params.projectId || "the project id"
@@ -987,6 +987,22 @@ describe("issues", function() {
 
 		it("should get issue details", function() {
 			return _runIssueDetails({});
+		});
+
+		it("should get comments with user populated", function() {
+			return _runIssueDetails({
+				assert: function(results) {
+					assert(results.stubs.commentIssue.calledWith(sinon.match.any, { populate: "user", sort: sinon.match.any }));
+				}
+			});
+		});
+
+		it("should get comments sorted by date descending", function() {
+			return _runIssueDetails({
+				assert: function(results) {
+					assert(results.stubs.commentIssue.calledWith(sinon.match.any, { populate: sinon.match.any, sort: { date: -1 } }));
+				}
+			});
 		});
 
 		it("should send 500 on when failing to read view", function() {

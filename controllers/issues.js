@@ -56,7 +56,7 @@ module.exports = function(app) {
 
 			return Promise.all([
 				repositories.Transition.status(issue.statusId),
-				repositories.Comment.issue(issue._id),
+				repositories.Comment.issue(issue._id, { populate: "user", sort: { date: -1 }}),
 				repositories.IssueFile.issue(issue._id)
 			]).spread(function(transitions, comments, files) {
 				return Promise.all([
