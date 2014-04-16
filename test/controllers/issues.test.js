@@ -682,9 +682,20 @@ describe("issues", function() {
 			});
 		});
 
+		it("should not send the notificatoin email if user performing the add has the same ID as the assigned developer", function() {
+			var id = "the id";
+			return _runAddComment({
+				userId: id,
+				developerId: id,
+				assert: function(result) {
+					assert(result.stubs.notificationEmailerNewComment.notCalled);
+				}
+			});
+		});
+
 		it("should send new comment email notification when user settings say so", function() {
 			var user = { name: "blah", emailNotificationForNewCommentForAssignedIssue: true };
-			var issue = { number: 10, name: "boo" };
+			var issue = { developerId: "the developer id", number: 10, name: "boo" };
 			var commentText = "the comment text";
 			return _runAddComment({
 				userDetailsResult: user,

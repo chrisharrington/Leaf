@@ -123,13 +123,13 @@ module.exports = function(app) {
 			return repositories.Issue.details(request.body.issueId).then(function (issue) {
 				comment.issue = issue._id;
 				return repositories.Comment.create(comment).then(function () {
-					return repositories.User.details(issue.developerId).then(function (user) {
-						if (user.emailNotificationForNewCommentForAssignedIssue)
-							return notificationEmailer.newComment(user, issue, comment.text);
-					}).then(function() {
-						if (request.user._id.toString() != issue.developerId.toString())
+					if (request.user._id.toString() != issue.developerId.toString())
+						return repositories.User.details(issue.developerId).then(function (user) {
+							if (user.emailNotificationForNewCommentForAssignedIssue)
+								return notificationEmailer.newComment(user, issue, comment.text);
+						}).then(function() {
 							return repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue._id, user: issue.developerId });
-					});
+						});
 				});
 			});
 		}).then(function () {

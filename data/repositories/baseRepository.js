@@ -39,7 +39,8 @@ module.exports = {
 	},
 
 	details: function(id, populate) {
-		return this.one({ _id: id }, populate);	},
+		return this.one({ _id: id }, populate);
+	},
 
 	remove: function(id) {
 		return this.details(id).then(function(model) {
