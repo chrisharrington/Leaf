@@ -4,7 +4,7 @@ var config = require("../config");
 
 exports.set = function(container, id, name, path, size) {
 	return new Promise(function(resolve, reject) {
-		var service = azure.createBlobService(config("storageName"), config("storageKey"));
+		var service = azure.createBlobService(config.call(this, "storageName"), config.call(this, "storageKey"));
 		service.createContainerIfNotExists(container, function (err) {
 			if (err)
 				reject("Error creating container: " + err);
@@ -22,7 +22,7 @@ exports.set = function(container, id, name, path, size) {
 
 exports.get = function(container, name, stream) {
 	return new Promise(function(resolve, reject) {
-		var service = azure.createBlobService(config("storageName"), config("storageKey"));
+		var service = azure.createBlobService(config.call(this, "storageName"), config.call(this, "storageKey"));
 		service.createContainerIfNotExists(container, function (err) {
 			if (err)
 				reject("Error creating container: " + err);

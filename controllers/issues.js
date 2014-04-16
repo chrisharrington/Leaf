@@ -44,17 +44,21 @@ module.exports = function(app) {
 	});
 
 	app.get("/issues/details", authenticate, function(request, response) {
-		var projectId = request.query.projectId, html, issue;
+		var html, issue;
 		return Promise.all([
 			fs.readFileAsync("public/views/issueDetails.html"),
-			repositories.Issue.number(request.query.projectId, request.query.number)
+			repositories.Issue.number(request.query.projectId, parseInt(request.query.number))
 		]).spread(function(html, issue) {
 			if (!issue) {
 				response.send(404);
 				return;
 			}
 
-			return Promise.all([repositories.Transition.status(issue.statusId), repositories.Comment.issue(issue._id), repositories.IssueFile.issue(issue._id)]).spread(function(transitions, comments, files) {
+			return Promise.all([
+				repositories.Transition.status(issue.statusId),
+				repositories.Comment.issue(issue._id),
+				repositories.IssueFile.issue(issue._id)
+			]).spread(function(transitions, comments, files) {
 				return Promise.all([
 					mapper.map("issue", "issue-view-model", issue),
 					mapper.mapAll("transition", "transition-view-model", transitions),

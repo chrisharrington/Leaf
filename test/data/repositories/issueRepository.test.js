@@ -232,14 +232,14 @@ describe("issueRepository", function() {
 		it("should call one with given number", function() {
 			var number = 123;
 			return sut.number("the project id", number).then(function() {
-				assert(sut.one.calledWith({ projectId: sinon.match.any, number: number }));
+				assert(sut.one.calledWith({ project: sinon.match.any, number: number }));
 			});
 		});
 
-		it("should call one with given project id", function() {
+		it("should call get with given project id", function() {
 			var projectId = "the project id";
 			return sut.number(projectId, 123).then(function() {
-				assert(sut.one.calledWith({ projectId: projectId, number: sinon.match.any }));
+				assert(sut.one.calledWith({ project: projectId, number: sinon.match.any }));
 			});
 		});
 
