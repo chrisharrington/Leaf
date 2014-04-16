@@ -196,7 +196,7 @@
 	function _setNumberWidth() {
 		var number = _container.find("h1.number");
 		var padding = parseInt(number.css("padding-left").replace("px", "")) * 2;
-		var width = 13 + IssueTracker.selectedIssue.number().toString().length * 12;
+		var width = 13 + IssueTracker.selectedIssue.number().toString().length * 20;
 		number.width(width).parent().find("div.description").css({ "padding-left": width + padding + 1 });
 	}
 
