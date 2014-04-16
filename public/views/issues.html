@@ -31,14 +31,14 @@
 		</div>
 	</div>
     <div class="sidebar">
-        <div class="filter shadow">
+        <div class="filter">
             <div>
                 <h3>Milestones</h3>
                 <!-- ko foreach: { data: IssueTracker.milestones } -->
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedMilestones, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedMilestones, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
                     <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square"></i>
+                    <i class="fa fa-square-o"></i>
                 </div>
                 <!-- /ko -->
             </div>
@@ -48,7 +48,7 @@
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedPriorities, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedPriorities, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
                     <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square"></i>
+                    <i class="fa fa-square-o"></i>
                 </div>
                 <!-- /ko -->
             </div>
@@ -58,7 +58,7 @@
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedStatuses, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedStatuses, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
                     <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square"></i>
+                    <i class="fa fa-square-o"></i>
                 </div>
                 <!-- /ko -->
             </div>
@@ -68,7 +68,7 @@
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTypes, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedTypes, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
                     <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square"></i>
+                    <i class="fa fa-square-o"></i>
                 </div>
                 <!-- /ko -->
             </div>
@@ -78,7 +78,7 @@
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedDevelopers, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedDevelopers, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
                     <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square"></i>
+                    <i class="fa fa-square-o"></i>
                 </div>
                 <!-- /ko -->
             </div>
@@ -88,7 +88,7 @@
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTesters, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedTesters, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
                     <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square"></i>
+                    <i class="fa fa-square-o"></i>
                 </div>
                 <!-- /ko -->
             </div>
