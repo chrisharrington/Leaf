@@ -60,11 +60,13 @@
 
 	div.sidebar { float:left; margin-left:@sidebar-width*-1; width:@sidebar-width; position:relative; z-index:2;
 		>div.choices { height:@sidebar-height; margin-top:@spacing;
-			div.details { padding:0; 
-				>div { float:left; width:100%; padding:@small-spacing @spacing; .border-box; border-top:solid 1px @border-colour;
+			div.details { padding:0;
+				@item-height:36px;
+				>div { float:left; width:100%; padding:0 @spacing; .border-box; border-top:solid 1px @border-colour; height:@item-height;
+					>* { display:inline-block !important; line-height:@item-height; height:100%; vertical-align:middle; }
 					>span.title { float:left; color:@primary-font-colour; }
-					>span.info { float:right; color:@secondary-font-colour; font-weight:bold; }
-					>i { float:right; margin-left:@small-spacing; margin-top:3px; font-size:1.125em; font-weight:bold; }
+					>span.info { float:right; color:@secondary-font-colour; }
+					>i { float:right; margin-left:@spacing; font-size:1.125em; font-weight:bold; }
 				}
 				>div:first-child { border-top:none; }
 				>div.selectable { cursor:pointer; }
@@ -81,7 +83,7 @@
 						}
 					}
 					>div:hover { .hover; }
-					>div.selected { color:@secondary-font-colour !important; font-weight:bold; background:@hover-colour;
+					>div.selected { color:@secondary-font-colour !important; background:@hover-colour;
 						i { display:inline-block; }
 					}
 				}
