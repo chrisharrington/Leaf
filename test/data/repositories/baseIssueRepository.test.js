@@ -11,7 +11,14 @@ describe("commentRepository", function() {
 			var id = "the id";
 			var get = sinon.stub(sut, "get").resolves();
 			return sut.issue(id).then(function() {
-				assert(get.calledWith({ "issue": id }));
+				assert(get.calledWith({ "issue": id, isDeleted: sinon.match.any }));
+			});
+		});
+
+		it("should call 'get' with isDeleted false condition", function() {
+			var get = sinon.stub(sut, "get").resolves();
+			return sut.issue("the id").then(function() {
+				assert(get.calledWith({ "issue": sinon.match.any, isDeleted: false }));
 			});
 		});
 

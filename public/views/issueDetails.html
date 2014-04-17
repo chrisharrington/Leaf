@@ -68,6 +68,7 @@
                     </div>
                     <span class="name" data-bind="text: user"></span>
                     <span class="date" data-bind="text: date"></span>
+                    <i class="fa fa-trash-o" title="Delete Comment" data-bind="click: $root.Comments.remove"></i>
                 </div>
 				<div class="text" data-bind="html: text"></div>
 			</div>
@@ -220,4 +221,18 @@
 			<button id="cancel-delete">Cancel</button>
 		</div>
 	</div>
+</script>
+
+<script type="text/html" id="confirm-delete-comment-template">
+    <div class="confirm-delete confirmation-dialog">
+        <h1>Delete this comment?</h1>
+        <span class="warning"><b>WARNING:</b> This action is irreversible.</span>
+        <span>Once deleted, the comment will be removed from our databases. Are you sure you want to continue?</span>
+        <div class="confirm-container">
+            <button id="confirm-delete-comment" data-bind="css: { loading: loading }, click: confirm">Delete Comment</button>
+        </div>
+        <div>
+            <button id="cancel-delete-comment" data-bind="click: cancel">Cancel</button>
+        </div>
+    </div>
 </script>

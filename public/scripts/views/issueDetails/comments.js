@@ -24,6 +24,14 @@
 		return _save();
 	};
 
+	root.remove = function(comment) {
+		IssueTracker.Dialog.load("#confirm-delete-comment-template", {
+			loading: root.loading,
+			cancel: function() { IssueTracker.Dialog.hide(); },
+			confirm: function() { _removeConfirmed(comment); }
+		});
+	};
+
 	root.slideDown = function (element) {
 		if (_isAdd)
 			$(element).hide().slideDown(200);
@@ -31,6 +39,19 @@
 
 	function _hookupEvents() {
 		_container.on("click", "#add-comment", _add);
+	}
+
+	function _removeConfirmed(comment) {
+		root.loading(true);
+		$.post(IssueTracker.virtualDirectory() + "issues/delete-comment", { comment: comment }).done(function() {
+			IssueTracker.Dialog.hide();
+			root.list.remove(function(c) { return c.id == comment.id; });
+			IssueTracker.Feedback.success("The comment has been deleted.");
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error occurred while removing your comment. Please try again later.");
+		}).always(function() {
+			root.loading(false);
+		});
 	}
 
 	function _add() {
@@ -47,9 +68,11 @@
 			return new ResolvedDeferred();
 
 		root.loading(true);
-		return $.post(IssueTracker.virtualDirectory() + "issues/add-comment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function () {
+		return $.post(IssueTracker.virtualDirectory() + "issues/add-comment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function (saved) {
+			debugger;
 			_isAdd = true;
-			root.list.splice(0, 0, { date: new Date().toApplicationString(), user: IssueTracker.signedInUser().name(), text: root.text() });
+			var user = IssueTracker.signedInUser();
+			root.list.splice(0, 0, saved);
 			root.text("");
 			IssueTracker.Notifications.refresh();
 		}).fail(function () {

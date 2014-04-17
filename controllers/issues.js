@@ -118,11 +118,13 @@ module.exports = function(app) {
 
 	app.post("/issues/add-comment", authenticate, function(request, response) {
 		return mapper.map("issue-history-view-model", "comment", request.body).then(function(comment) {
-			comment.date = new Date();
-			comment.user = request.user._id;
+			comment.date = request.body.date = new Date();
+			comment.user = request.body.userId = request.user._id;
+			request.body.user = request.user.name;
 			return repositories.Issue.details(request.body.issueId).then(function (issue) {
 				comment.issue = issue._id;
-				return repositories.Comment.create(comment).then(function () {
+				return repositories.Comment.create(comment).then(function (created) {
+					request.body.id = created._id;
 					if (request.user._id.toString() != issue.developerId.toString())
 						return repositories.User.details(issue.developerId).then(function (user) {
 							if (user.emailNotificationForNewCommentForAssignedIssue)
@@ -133,9 +135,17 @@ module.exports = function(app) {
 				});
 			});
 		}).then(function () {
-			response.send(200);
+			response.send(request.body, 200);
 		}).catch(function (e) {
 			response.send("Error adding comment: " + e, 500);
+		});
+	});
+
+	app.post("/issues/delete-comment", authenticate, function(request, response) {
+		return repositories.Comment.remove(request.body.comment.id).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e, 500);
 		});
 	});
 
