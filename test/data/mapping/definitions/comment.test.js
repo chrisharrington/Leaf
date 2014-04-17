@@ -23,6 +23,7 @@ describe("comment mapping", function() {
 				date: sinon.match.func,
 				text: "text",
 				user: sinon.match.func,
+				userId: sinon.match.func,
 				issueId: sinon.match.func
 			}));
 		});
@@ -35,6 +36,11 @@ describe("comment mapping", function() {
 		it("should map user using user's name", function() {
 			var func = _define.firstCall.args[2].user, name = "the name";
 			assert(func({ user: { name: name }}) == name);
+		});
+
+		it("should map user using user's id", function() {
+			var func = _define.firstCall.args[2].userId, id = "the id";
+			assert(func({ user: { _id: id }}) == id);
 		});
 
 		it("should map issueId to issue._id", function() {

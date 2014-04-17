@@ -10,7 +10,7 @@ IssueTracker.SlideMenu = function(container, trigger) {
 	var me = this;
 	trigger.on("click", function() { me.show(); });
 	$(document).on("click", function (e) {
-		if (!me._container.is(":hidden") && !me._wasTriggerClicked($(e.target)))
+		if (me._container.is(":visible") && !me._wasTriggerClicked($(e.target)))
 			me.hide();
 	});
 };

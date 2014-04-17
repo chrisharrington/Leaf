@@ -49,18 +49,26 @@
 	<div class="comments">
 		<div class="new-comment">
 			<div>
-				<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
+                <div class="comment-header">
+                    <div class="upi">
+                        <img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(IssueTracker.signedInUser().id(), 25) }" alt="" />
+                        <span></span>
+                    </div>
+                    <span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
+                </div>
 				<textarea class="no-focus" placeholder="Add a comment..." data-bind="value: Comments.text"></textarea>
 			</div>
 		</div>
 		<div class="existing-comments" data-bind="foreach: { data: Comments.list, afterAdd: Comments.slideDown }">
 			<div>
-				<div class="upi">
-					<span></span>
-					<img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(userId, 28) }" alt="" />
-				</div>
-				<span class="name" data-bind="text: user"></span>
-				<span class="date" data-bind="text: date"></span>
+                <div class="comment-header">
+                    <div class="upi">
+                        <img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(userId, 25) }" alt="" />
+                        <span></span>
+                    </div>
+                    <span class="name" data-bind="text: user"></span>
+                    <span class="date" data-bind="text: date"></span>
+                </div>
 				<div class="text" data-bind="html: text"></div>
 			</div>
 		</div>
