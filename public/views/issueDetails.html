@@ -55,6 +55,10 @@
 		</div>
 		<div class="existing-comments" data-bind="foreach: { data: Comments.list, afterAdd: Comments.slideDown }">
 			<div>
+				<div class="upi">
+					<span></span>
+					<img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(userId, 28) }" alt="" />
+				</div>
 				<span class="name" data-bind="text: user"></span>
 				<span class="date" data-bind="text: date"></span>
 				<div class="text" data-bind="html: text"></div>

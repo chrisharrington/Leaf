@@ -45,7 +45,11 @@
 			>div { float:left; width:100%; }
 			>div.existing-comments, >div.new-comment {
 				>div { float:left; width:100%; .tile; padding:0; margin-top:@spacing;
-					>span { float:left; color:@primary-font-colour; padding:0 @spacing; .border-box; height:@header-size; display:inline-block; line-height:@header-size; vertical-align:middle; }
+					>div.upi { float:left; height:@header-size;
+						>* { height:@header-size; display:inline-block; vertical-align:middle; }
+						>img { vertical-align:middle; height:28px; width:28px; }
+					}
+					>span { float:left; height:@header-size; display:inline-block; line-height:@header-size; vertical-align:middle; color:@primary-font-colour; padding:0 @spacing; .border-box; }
 					>span.date { float:right; font-size:0.875em; color:@primary-font-colour-light; }
 					>span.name { font-size:1em; text-transform:none; color:@secondary-font-colour; font-weight:bold; }
 					>div.text { float:left; width:100%; padding:@spacing; .border-box; border-top:solid 1px @border-colour; border-left:none; border-right:none; border-bottom:none; .border-radius(0px); }

@@ -5,6 +5,7 @@ require("../mapper").define("comment", "issue-history-view-model", {
 	date: function(x) { return moment(x.date).format(config("dateTimeFormat")); },
 	text: "text",
 	user: function(x) { return x.user.name; },
+	userId: function(x) { return x.user._id; },
 	issueId: function(x) { return x.issue._id; }
 });
 
