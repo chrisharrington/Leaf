@@ -118,7 +118,7 @@ module.exports = function(app) {
 
 	app.post("/issues/add-comment", authenticate, function(request, response) {
 		return mapper.map("issue-history-view-model", "comment", request.body).then(function(comment) {
-			comment.date = request.body.date = new Date();
+			comment.date = request.body.date = Date.now();
 			comment.user = request.body.userId = request.user._id;
 			request.body.user = request.user.name;
 			return repositories.Issue.details(request.body.issueId).then(function (issue) {
@@ -145,7 +145,7 @@ module.exports = function(app) {
 		return repositories.Comment.remove(request.body.comment.id).then(function() {
 			response.send(200);
 		}).catch(function(e) {
-			response.send(e, 500);
+			response.send(e.toString(), 500);
 		});
 	});
 

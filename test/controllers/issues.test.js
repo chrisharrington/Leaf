@@ -605,7 +605,7 @@ describe("issues", function() {
 				assert: function(result) {
 					assert(result.response.send.calledOnce);
 				}
-			})
+			});
 		});
 
 		it("should send 500 when failing to map", function() {
@@ -706,6 +706,86 @@ describe("issues", function() {
 				assert: function(result) {
 					assert(result.stubs.notificationEmailerNewComment.calledWith(user, issue, commentText));
 				}
+			});
+		});
+
+		it("should send request.body with userId set to request.user.id", function() {
+			var id = "the user id";
+			return _runAddComment({
+				userId: id,
+				assert: function(result) {
+					assert(result.response.send.calledWith({
+						date: sinon.match.any,
+						id: sinon.match.any,
+						issueId: sinon.match.any,
+						user: sinon.match.any,
+						userId: id
+					}));
+				}
+			});
+		});
+
+		it("should send request.body with date set to nearly now", function() {
+			var date = Date.now();
+			return _runAddComment({
+				date: date,
+				assert: function(result) {
+					assert(result.response.send.calledWith({
+						date: date,
+						id: sinon.match.any,
+						issueId: sinon.match.any,
+						user: sinon.match.any,
+						userId: sinon.match.any
+					}));
+				}
+			});
+		});
+
+		it("should send request.body with user name set to request.user.name", function() {
+			var name = "the name";
+			return _runAddComment({
+				userName: name,
+				assert: function(result) {
+					assert(result.response.send.calledWith({
+						date: sinon.match.any,
+						id: sinon.match.any,
+						issueId: sinon.match.any,
+						user: name,
+						userId: sinon.match.any
+					}));
+				}
+			})
+		});
+
+		it("should send request.body with issue id unchanged", function() {
+			var issueId = "the issue id";
+			return _runAddComment({
+				issueId: issueId,
+				assert: function(result) {
+					assert(result.response.send.calledWith({
+						date: sinon.match.any,
+						id: sinon.match.any,
+						issueId: issueId,
+						user: sinon.match.any,
+						userId: sinon.match.any
+					}));
+				}
+			})
+		});
+
+		it("should send request.body with id set to created id", function() {
+			var id = "the newly created comment id";
+			return _runAddComment({
+				commentCreateResult: { _id: id },
+				assert: function(result) {
+					assert(result.response.send.calledWith({
+						date: sinon.match.any,
+						id: id,
+						issueId: sinon.match.any,
+						user: sinon.match.any,
+						userId: sinon.match.any
+					}));
+				}
 			})
 		});
 
@@ -717,14 +797,16 @@ describe("issues", function() {
 				commentCreate: params.commentCreate || sinon.stub(repositories.Comment, "create").resolves(params.commentCreateResult || {}),
 				userDetails: params.userDetails || sinon.stub(repositories.User, "details").resolves(params.userDetailsResult || { emailNotificationForNewCommentForAssignedIssue: params.emailNotificationForNewCommentForAssignedIssue == undefined ? true : params.emailNotificationForNewCommentForAssignedIssue }),
 				notificationEmailerNewComment: params.notificationEmailerNewComment || sinon.stub(notificationEmailer, "newComment").resolves(params.notificationEmailerNewCommentResult || {}),
-				notificationCreate: params.notificationCreate || sinon.stub(repositories.Notification, "create").resolves(params.notificationCreateResult || {})
+				notificationCreate: params.notificationCreate || sinon.stub(repositories.Notification, "create").resolves(params.notificationCreateResult || {}),
+				now: params.now || sinon.stub(Date, "now").returns(params.date || Date.now())
 			};
 
 			params.verb = "post";
 			params.route = "/issues/add-comment";
 			params.request = params.request || {
 				user: params.query || {
-					_id: params.userId || "the user id"
+					_id: params.userId || "the user id",
+					name: params.userName || "the user name"
 				},
 				body: {
 					issueId: params.issueId || "the issue id"
@@ -736,6 +818,60 @@ describe("issues", function() {
 					params.stubs[name].restore();
 			});
 		}
+	});
+
+	describe("post /issues/delete-comment", function() {
+		it("should set post /issues/delete-comment route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/issues/delete-comment", sinon.match.func, sinon.match.func));
+		});
+
+		it("should call commentRepository.remove with request.body.comment.id", function() {
+			var remove = sinon.stub(repositories.Comment, "remove").resolves();
+			var id = "the id of the comment to remove";
+
+			return _run({
+				request: { body: { comment: { id: id } } },
+				verb: "post",
+				route: "/issues/delete-comment",
+				assert: function() {
+					assert(remove.calledWith(id));
+				}
+			}).finally(function() {
+				remove.restore();
+			});
+		});
+
+		it("should send 200", function() {
+			var remove = sinon.stub(repositories.Comment, "remove").resolves();
+
+			return _run({
+				request: { body: { comment: { id: "the id" } } },
+				verb: "post",
+				route: "/issues/delete-comment",
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			}).finally(function() {
+				remove.restore();
+			});
+		});
+
+		it("should send 500 when failing to remove the comment", function() {
+			var remove = sinon.stub(repositories.Comment, "remove").rejects("oh noes!");
+
+			return _run({
+				request: { body: { comment: { id: "the id" } } },
+				verb: "post",
+				route: "/issues/delete-comment",
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			}).finally(function() {
+				remove.restore();
+			});
+		});
 	});
 
 	describe("post /issues/update", function() {
