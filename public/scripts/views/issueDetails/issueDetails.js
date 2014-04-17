@@ -22,9 +22,11 @@
 		IssueTracker.Transitioner.init();
 		root.Delete.init(container);
 		root.Comments.init(container);
+
+		container.find("textarea").autogrow();
 	};
 
-	root.load = function () {
+	root.load = function (container) {
 		_detailsFlipper = new IssueTracker.Controls.Flipper("#choices-container");
 		_oldName = IssueTracker.selectedIssue.description();
 		root.Comments.load(IssueTracker.selectedIssue.history());
@@ -38,6 +40,8 @@
 		IssueTracker.selectedIssue.typeId.subscribe(_updateRequired);
 		IssueTracker.selectedIssue.developerId.subscribe(_updateRequired);
 		IssueTracker.selectedIssue.testerId.subscribe(_updateRequired);
+
+		IssueTracker.selectedIssue.details.subscribe(function() { container.find("textarea").autogrow(); });
 	};
 
 	function _hookupEvents(container) {
