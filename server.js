@@ -46,6 +46,8 @@ function _registerControllers() {
 
 function _launchServer() {
 	require("./data/connection").open().then(function() {
+		return require("./data/caches").init();
+	}).then(function() {
 		app.listen(config("serverPort"));
 	}).then(function() {
 		console.log("Server listening on port " + config("serverPort") + " in " + app.get("env") + " mode.");
