@@ -68,7 +68,9 @@
                     </div>
                     <span class="name" data-bind="text: user"></span>
                     <span class="date" data-bind="text: date"></span>
-                    <i class="fa fa-trash-o" title="Delete Comment" data-bind="click: $root.Comments.remove"></i>
+					<!-- ko if: $root.Comments.isOwner($data) -->
+                    	<i class="fa fa-trash-o" title="Delete Comment" data-bind="click: $root.Comments.remove"></i>
+					<!-- /ko -->
                 </div>
 				<div class="text" data-bind="html: text"></div>
 			</div>

@@ -37,6 +37,10 @@
 			$(element).hide().slideDown(200);
 	};
 
+	root.isOwner = function(comment) {
+		return comment.userId == IssueTracker.signedInUser().id();
+	};
+
 	function _hookupEvents() {
 		_container.on("click", "#add-comment", _add);
 	}
