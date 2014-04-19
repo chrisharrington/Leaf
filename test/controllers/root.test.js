@@ -5,6 +5,7 @@ var repositories = require("../../data/repositories");
 var mapper = require("../../data/mapping/mapper");
 var scriptBundler = require("../../bundling/scriptBundler");
 var mustache = require("mustache");
+var caches = require("../../data/caches");
 
 var fs = Promise.promisifyAll(require("fs"));
 
@@ -342,7 +343,7 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					priorities: sinon.stub(repositories.Priority, "get").rejects()
+					users: sinon.stub(repositories.User, "get").rejects()
 				}),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
@@ -401,7 +402,7 @@ describe("root", function() {
 			});
 		});
 
-		it("should get priorities in descending 'order' order", function() {
+		it("should get cached priorities", function() {
 			return base.testRoute({
 				sut: sut,
 				verb: "get",
@@ -411,7 +412,7 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.priorities.calledWith(null, { sort: { order: -1 }}));
+					assert(result.stubs.priorities.calledOnce);
 				}
 			});
 		});
@@ -466,9 +467,9 @@ describe("root", function() {
 			var stubs = {
 				date: sinon.stub(Date, "now").returns(params.date || Date.now()),
 				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves("the html"),
-				priorities: params.priorities || sinon.stub(repositories.Priority, "get").resolves([]),
+				priorities: params.priorities || sinon.stub(caches.Priority, "all").resolves([]),
 				statuses: sinon.stub(repositories.Status, "get").resolves([]),
-				users: sinon.stub(repositories.User, "get").resolves([]),
+				users: params.users || sinon.stub(repositories.User, "get").resolves([]),
 				transition: sinon.stub(repositories.Transition, "get").resolves([]),
 				project: sinon.stub(repositories.Project, "get").resolves([]),
 				milestones: sinon.stub(repositories.Milestone, "get").resolves([]),
