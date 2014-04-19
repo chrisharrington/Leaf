@@ -2,11 +2,7 @@
 
 Object.spawn = function (parent, props) {
 	var defs = {}, key;
-	for (key in props) {
-		//if (props.hasOwnProperty(key)) {
-			defs[key] = {value: props[key], enumerable: true};
-		//}
-	}
-	var blah = Object.create(parent, defs);
+	for (key in props)
+		defs[key] = {value: props[key], enumerable: true};
 	return Object.create(parent, defs);
 };

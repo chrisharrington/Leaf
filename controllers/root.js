@@ -6,6 +6,7 @@ var mustache = require("mustache");
 var models = require("../data/models");
 var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
+var caches = require("../data/caches");
 var bundler = require("../bundling/bundler");
 
 module.exports = function(app) {
@@ -21,7 +22,7 @@ module.exports = function(app) {
 
 	function _getAllUserData(request) {
 		return Promise.all([
-			repositories.Priority.get(null, { sort: { order: -1 }}),
+			caches.Priority.all(),
 			repositories.Status.get(null, { sort: { order: 1 }}),
 			repositories.User.get(),
 			repositories.Transition.get(),

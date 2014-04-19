@@ -1,3 +1,4 @@
 module.exports = Object.spawn(require("./baseCache"), {
-	model: require("../models").Priority
+	repository: require("../repositories").Priority,
+	sort: { order: -1 }
 });
