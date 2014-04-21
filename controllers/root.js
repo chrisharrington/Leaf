@@ -14,7 +14,8 @@ module.exports = function(app) {
 		return _getAllUserData(request).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
 			return _mapAllUserData(priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
 		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
-			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
+			var result = _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
+			return result;
 		}).catch(function (e) {
 			response.send("Error loading root: " + e, 500);
 		});
@@ -23,12 +24,12 @@ module.exports = function(app) {
 	function _getAllUserData(request) {
 		return Promise.all([
 			caches.Priority.all(),
-			repositories.Status.get(null, { sort: { order: 1 }}),
+			caches.Status.all(),
 			repositories.User.get(),
-			repositories.Transition.get(),
+			caches.Transition.all(),
 			repositories.Project.get(),
 			repositories.Milestone.get(null, { sort: { name: 1 }}),
-			repositories.IssueType.get(null, { sort: { name: 1 }}),
+			caches.IssueType.all(),
 			repositories.User.one({ session: request.cookies.session }, "project")
 		]);
 	}

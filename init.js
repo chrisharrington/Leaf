@@ -15,9 +15,7 @@ module.exports = function() {
 	_configureApplication();
 	_registerControllers();
 
-	require("./data/connection").open().then(function () {
-		return require("./data/caches").init();
-	}).then(function() {
+	require("./data/connection").open().then(function() {
 		return Promise.all([
 			mapper.init(),
 			caches.init()

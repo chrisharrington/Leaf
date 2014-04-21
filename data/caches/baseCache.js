@@ -1,10 +1,8 @@
 var Promise = require("bluebird");
 
 module.exports = {
-	cache: {},
-
 	init: function() {
-		var cache = this.cache;
+		var cache = this.cache = {};
 		return this.repository.get(null, { sort: this.sort }).then(function(models) {
 			models.forEach(function(model) {
 				cache[model._id] = model;
