@@ -16,10 +16,10 @@ var MAX_AGE = 2592000000;
 
 module.exports = function() {
 	var app = express.call(this);
+	_configureApplication(app);
 	return connection.open().then(function () {
 		return Promise.all([
 			controllers.init(app),
-			_configureApplication(app),
 			mapper.init(),
 			caches.init()
 		]);
