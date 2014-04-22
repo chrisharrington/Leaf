@@ -412,7 +412,7 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.priorities.calledOnce);
+					assert(result.stubs.priorities.calledWith());
 				}
 			});
 		});
@@ -427,7 +427,7 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.statuses.calledWith(null, { sort: { order: 1 }}));
+					assert(result.stubs.statuses.calledWith());
 				}
 			});
 		});
@@ -457,7 +457,7 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.types.calledWith(null, { sort: { name: 1 }}));
+					assert(result.stubs.types.calledWith());
 				}
 			});
 		});
@@ -468,12 +468,12 @@ describe("root", function() {
 				date: sinon.stub(Date, "now").returns(params.date || Date.now()),
 				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves("the html"),
 				priorities: params.priorities || sinon.stub(caches.Priority, "all").resolves([]),
-				statuses: sinon.stub(repositories.Status, "get").resolves([]),
+				statuses: sinon.stub(caches.Status, "all").resolves([]),
 				users: params.users || sinon.stub(repositories.User, "get").resolves([]),
-				transition: sinon.stub(repositories.Transition, "get").resolves([]),
+				transition: sinon.stub(caches.Transition, "all").resolves([]),
 				project: sinon.stub(repositories.Project, "get").resolves([]),
 				milestones: sinon.stub(repositories.Milestone, "get").resolves([]),
-				types: sinon.stub(repositories.IssueType, "get").resolves([]),
+				types: sinon.stub(caches.IssueType, "all").resolves([]),
 				signedInUser: params.userGetOne || sinon.stub(repositories.User, "one").resolves(params.user || "a user"),
 				mapperMapAll: params.mapperMapAll || sinon.stub(mapper, "mapAll").resolves([]),
 				mapperMap: sinon.stub(mapper, "map"),

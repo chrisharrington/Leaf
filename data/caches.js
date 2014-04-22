@@ -10,5 +10,8 @@ module.exports = {
 		return Promise.all(alls);
 	},
 
-	Priority: require(directory + "priorityCache")
+	Priority: require(directory + "priorityCache"),
+	Status: require(directory + "statusCache"),
+	Transition: require(directory + "transitionCache"),
+	IssueType: require(directory + "issueTypeCache")
 };

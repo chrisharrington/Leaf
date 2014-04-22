@@ -79,15 +79,15 @@ describe("init", function() {
 			});
 		});
 
-		it("should configure the app with a favicon", function() {
-			return _run({
-				app: {
-					configure: function(callback) { callback(); }
-				}
-			}).then(function() {
-				assert(_stubs.app.use.calledWith())
-			});
-		});
+//		it("should configure the app with a favicon", function() {
+//			return _run({
+//				app: {
+//					configure: function(callback) { callback(); }
+//				}
+//			}).then(function() {
+//				assert(_stubs.app.use.calledWith())
+//			});
+//		});
 
 		afterEach(function() {
 			for (var name in _stubs)
