@@ -292,6 +292,42 @@ describe("init", function() {
 			});
 		});
 
+		it("should configure app for development environment", function() {
+			return _run({
+				configure: sinon.stub()
+			}).then(function() {
+				assert(_stubs.configure.calledWith("development", sinon.match.any));
+			});
+		});
+
+		it("should set app variable 'env' to 'development' with development configuration", function() {
+			return _run({
+				configure: function(env, callback) {
+					if (callback) callback();
+				}
+			}).then(function() {
+				assert(_stubs.set.calledWith("env", "development"));
+			});
+		});
+
+		it("should configure app for production environment", function() {
+			return _run({
+				configure: sinon.stub()
+			}).then(function() {
+				assert(_stubs.configure.calledWith("production", sinon.match.any));
+			});
+		});
+
+		it("should set app variable 'env' to 'production' with production configuration", function() {
+			return _run({
+				configure: function(env, callback) {
+					if (callback) callback();
+				}
+			}).then(function() {
+				assert(_stubs.set.calledWith("env", "production"));
+			});
+		});
+
 		afterEach(function() {
 			for (var name in _stubs)
 				if (_stubs[name].restore)
@@ -309,8 +345,9 @@ describe("init", function() {
 			_stubs.serverPort.withArgs(sinon.match.any, "serverPort").returns(params.port || 12345);
 			_stubs.express = sinon.stub(express, "call").returns(_stubs.app = params.app || {
 				listen: sinon.stub(),
-				configure: params.configure || sinon.stub(),
+				configure: _stubs.configure = params.configure || sinon.stub(),
 				get: sinon.stub().returns(params.env || "development"),
+				set: _stubs.set = sinon.stub(),
 				use: sinon.stub()
 			});
 			return sut();
