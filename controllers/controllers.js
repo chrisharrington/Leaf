@@ -8,6 +8,6 @@ module.exports = {
 	init: function(app) {
 		for (var name in this)
 			if (name != "init")
-				this[name](app);
+				this[name].call(this, app);
 	}
 };
