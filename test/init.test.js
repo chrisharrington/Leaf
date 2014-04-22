@@ -79,15 +79,218 @@ describe("init", function() {
 			});
 		});
 
-//		it("should configure the app with a favicon", function() {
-//			return _run({
-//				app: {
-//					configure: function(callback) { callback(); }
-//				}
-//			}).then(function() {
-//				assert(_stubs.app.use.calledWith())
-//			});
-//		});
+		it("should configure the app with a favicon", function() {
+			var orig = express.favicon;
+			var favicon = "the favicon";
+			Object.defineProperty(express, "favicon", {
+				get: function() {
+					return function() { return favicon; }
+				}
+			});
+			return _run({
+				configure: function(callback) { callback(); }
+			}).then(function() {
+				assert(_stubs.app.use.calledWith(favicon));
+			}).finally(function() {
+				Object.defineProperty(express, "favicon", {
+					get: function() {
+						return orig;
+					}
+				});
+			});
+		});
+
+		it("should set favicon to read from /public/images/favicon.ico", function() {
+			var orig = express.favicon, location, maxAge;
+			Object.defineProperty(express, "favicon", {
+				get: function() {
+					return function(l, ma) {
+						location = l;
+						maxAge = ma;
+					}
+				}
+			});
+			return _run({
+				configure: function(callback) { callback(); }
+			}).then(function() {
+				assert(location.endsWith("/public/images/favicon.ico"));
+			}).finally(function() {
+				Object.defineProperty(express, "favicon", {
+					get: function() {
+						return orig;
+					}
+				});
+			});
+		});
+
+		it("should set favicon with max age 2592000000", function() {
+			var orig = express.favicon, location, maxAge;
+			Object.defineProperty(express, "favicon", {
+				get: function() {
+					return function(l, ma) {
+						location = l;
+						maxAge = ma;
+					}
+				}
+			});
+			return _run({
+				configure: function(callback) { callback(); }
+			}).then(function() {
+				assert(maxAge.maxAge == 2592000000);
+			}).finally(function() {
+				Object.defineProperty(express, "favicon", {
+					get: function() {
+						return orig;
+					}
+				});
+			});
+		});
+
+		it("should configure the app with compression", function() {
+			var orig = express.compress, compression = false;
+			Object.defineProperty(express, "compress", {
+				get: function() {
+					return function() { compression = true; }
+				}
+			});
+			return _run({
+				configure: function(callback) { callback(); }
+			}).then(function() {
+				assert(compression);
+			}).finally(function() {
+				Object.defineProperty(express, "compress", {
+					get: function() {
+						return orig;
+					}
+				});
+			});
+		});
+
+		it("should configure the app with json", function() {
+			var orig = express.json, json = false;
+			Object.defineProperty(express, "json", {
+				get: function() {
+					return function() { json = true; }
+				}
+			});
+			return _run({
+				configure: function(callback) { callback(); }
+			}).then(function() {
+				assert(json);
+			}).finally(function() {
+				Object.defineProperty(express, "json", {
+					get: function() {
+						return orig;
+					}
+				});
+			});
+		});
+
+		it("should configure the app with urlencoded", function() {
+			var orig = express.urlencoded, urlencoded = false;
+			Object.defineProperty(express, "urlencoded", {
+				get: function() {
+					return function() { urlencoded = true; }
+				}
+			});
+			return _run({
+				configure: function(callback) { callback(); }
+			}).then(function() {
+				assert(urlencoded);
+			}).finally(function() {
+				Object.defineProperty(express, "urlencoded", {
+					get: function() {
+						return orig;
+					}
+				});
+			});
+		});
+
+		it("should configure the app with static", function() {
+			var orig = express.static, static = false;
+			Object.defineProperty(express, "static", {
+				get: function() {
+					return function() { static = true; }
+				}
+			});
+			return _run({
+				configure: function(callback) { callback(); }
+			}).then(function() {
+				assert(static);
+			}).finally(function() {
+				Object.defineProperty(express, "static", {
+					get: function() {
+						return orig;
+					}
+				});
+			});
+		});
+
+		it("should set static to read from /public", function() {
+			var orig = express.static, location, maxAge;
+			Object.defineProperty(express, "static", {
+				get: function() {
+					return function(l, ma) {
+						location = l;
+						maxAge = ma;
+					}
+				}
+			});
+			return _run({
+				configure: function(callback) { callback(); }
+			}).then(function() {
+				assert(location.endsWith("/public"));
+			}).finally(function() {
+				Object.defineProperty(express, "static", {
+					get: function() {
+						return orig;
+					}
+				});
+			});
+		});
+
+		it("should set static with max age 2592000000", function() {
+			var orig = express.static, location, maxAge;
+			Object.defineProperty(express, "static", {
+				get: function() {
+					return function(l, ma) {
+						location = l;
+						maxAge = ma;
+					}
+				}
+			});
+			return _run({
+				configure: function(callback) { callback(); }
+			}).then(function() {
+				assert(maxAge.maxAge == 2592000000);
+			}).finally(function() {
+				Object.defineProperty(express, "static", {
+					get: function() {
+						return orig;
+					}
+				});
+			});
+		});
+
+		it("should configure the app with cookieParser", function() {
+			var orig = express.cookieParser, cookieParser = false;
+			Object.defineProperty(express, "cookieParser", {
+				get: function() {
+					return function() { cookieParser = true; }
+				}
+			});
+			return _run({
+				configure: function(callback) { callback(); }
+			}).then(function() {
+				assert(cookieParser);
+			}).finally(function() {
+				Object.defineProperty(express, "cookieParser", {
+					get: function() {
+						return orig;
+					}
+				});
+			});
+		});
 
 		afterEach(function() {
 			for (var name in _stubs)
@@ -106,11 +309,10 @@ describe("init", function() {
 			_stubs.serverPort.withArgs(sinon.match.any, "serverPort").returns(params.port || 12345);
 			_stubs.express = sinon.stub(express, "call").returns(_stubs.app = params.app || {
 				listen: sinon.stub(),
-				configure: sinon.stub(),
+				configure: params.configure || sinon.stub(),
 				get: sinon.stub().returns(params.env || "development"),
 				use: sinon.stub()
 			});
-			//_stubs.favicon = sinon.stub(express, "favicon").returns(params.favicon || "the favicon");
 			return sut();
 		}
 	});
