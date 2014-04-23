@@ -88,7 +88,7 @@ describe("init", function() {
 				}
 			});
 			return _run({
-				configure: function(callback) { callback(); }
+				configure: function(callback) { if (typeof (callback) == "function") callback(); }
 			}).then(function() {
 				assert(_stubs.app.use.calledWith(favicon));
 			}).finally(function() {
@@ -111,7 +111,7 @@ describe("init", function() {
 				}
 			});
 			return _run({
-				configure: function(callback) { callback(); }
+				configure: function(callback) { if (typeof (callback) == "function") callback(); }
 			}).then(function() {
 				assert(location.endsWith("/public/images/favicon.ico"));
 			}).finally(function() {
@@ -134,7 +134,7 @@ describe("init", function() {
 				}
 			});
 			return _run({
-				configure: function(callback) { callback(); }
+				configure: function(callback) { if (typeof (callback) == "function") callback(); }
 			}).then(function() {
 				assert(maxAge.maxAge == 2592000000);
 			}).finally(function() {
@@ -154,7 +154,7 @@ describe("init", function() {
 				}
 			});
 			return _run({
-				configure: function(callback) { callback(); }
+				configure: function(callback) { if (typeof (callback) == "function") callback(); }
 			}).then(function() {
 				assert(compression);
 			}).finally(function() {
@@ -174,7 +174,7 @@ describe("init", function() {
 				}
 			});
 			return _run({
-				configure: function(callback) { callback(); }
+				configure: function(callback) { if (typeof (callback) == "function") callback(); }
 			}).then(function() {
 				assert(json);
 			}).finally(function() {
@@ -194,7 +194,7 @@ describe("init", function() {
 				}
 			});
 			return _run({
-				configure: function(callback) { callback(); }
+				configure: function(callback) { if (typeof (callback) == "function") callback(); }
 			}).then(function() {
 				assert(urlencoded);
 			}).finally(function() {
@@ -214,7 +214,7 @@ describe("init", function() {
 				}
 			});
 			return _run({
-				configure: function(callback) { callback(); }
+				configure: function(callback) { if (typeof (callback) == "function") callback(); }
 			}).then(function() {
 				assert(static);
 			}).finally(function() {
@@ -237,7 +237,7 @@ describe("init", function() {
 				}
 			});
 			return _run({
-				configure: function(callback) { callback(); }
+				configure: function(callback) { if (typeof (callback) == "function") callback(); }
 			}).then(function() {
 				assert(location.endsWith("/public"));
 			}).finally(function() {
@@ -260,7 +260,7 @@ describe("init", function() {
 				}
 			});
 			return _run({
-				configure: function(callback) { callback(); }
+				configure: function(callback) { if (typeof (callback) == "function") callback(); }
 			}).then(function() {
 				assert(maxAge.maxAge == 2592000000);
 			}).finally(function() {
@@ -280,7 +280,7 @@ describe("init", function() {
 				}
 			});
 			return _run({
-				configure: function(callback) { callback(); }
+				configure: function(callback) { if (typeof (callback) == "function") callback(); }
 			}).then(function() {
 				assert(cookieParser);
 			}).finally(function() {
