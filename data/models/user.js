@@ -16,8 +16,8 @@ var schema = mongoose.Schema({
 	emailNotificationForIssueDeleted: { type: Boolean, default: false },
 	emailNotificationForIssueUpdated: { type: Boolean, default: false },
 	emailNotificationForNewCommentForAssignedIssue: { type: Boolean, default: false },
-    
-    project: { type: objectId, ref: "project" }
+
+	projects: [{ type: objectId, ref: "project" }]
 });
 
 module.exports = require("bluebird").promisifyAll(mongoose.model("user", schema));

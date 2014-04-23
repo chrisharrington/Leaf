@@ -9,6 +9,7 @@ var bundler = require("./bundling/bundler");
 var caches = require("./data/caches");
 var controllers = require("./controllers/controllers");
 var connection = require("./data/connection");
+var repositories = require("./data/repositories");
 
 var Promise = require("bluebird");
 

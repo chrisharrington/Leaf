@@ -23,7 +23,7 @@ _openDatabaseConnection("mongodb://" + config("databaseUser") + ":" + config("da
 	];
 });
 
-function _createProject(callback) {
+function _createProject() {
 	return models.Project.removeAsync().then(function() {
 		return models.Project.createAsync({ name: "Unnamed Issue Tracker" });
 	}).then(function(project) {

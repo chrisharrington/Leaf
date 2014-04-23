@@ -3,7 +3,7 @@ var models = require("../data/models");
 var Promise = require("bluebird");
 
 module.exports = function(request, response, next) {
-	return repositories.User.get({ session: request.cookies.session }, "project").then(function(users) {
+	return repositories.User.get({ session: request.cookies.session }, "projects").then(function(users) {
 		request.user = users[0];
 		if (!request.user || (request.user.expiration != null && request.user.expiration < Date.now()))
 			response.send(401);
