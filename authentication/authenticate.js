@@ -13,6 +13,6 @@ module.exports = function(request, response, next) {
 			next();
 		}
 	}).catch(function (e) {
-		response.send("Error while authenticating: " + e, 401);
+		response.send(e.stack.formatStack(), 401);
 	});
 };

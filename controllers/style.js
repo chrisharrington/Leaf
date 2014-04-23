@@ -15,7 +15,7 @@ module.exports = function(app) {
 			response.header("Cache-Control", app.get("env") == "production" ? "public, max-age=2592000000" : "private, no-cache, max-age=0");
 			response.send(results[0], 200);
 		}).catch(function(e) {
-			response.send("Error while rendering style: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 };

@@ -86,7 +86,7 @@ describe("users", function() {
 
 		it("should send 500 when an error occurs", function() {
 			return _run({
-				readFile: sinon.stub(fs, "readFileAsync").rejects(),
+				readFile: sinon.stub(fs, "readFileAsync").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.any, 500));
 				}

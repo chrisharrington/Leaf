@@ -34,7 +34,7 @@ describe("issues", function() {
 
 		it("should send 500 when parsing fails", function() {
 			return _runAttachFile({
-				parse: function(request, callback) { callback("oh noes! an error!"); },
+				parse: function(request, callback) { callback(new Error("oh noes! an error!")); },
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -43,7 +43,7 @@ describe("issues", function() {
 
 		it("should send 500 when setting storage values fails", function() {
 			return _runAttachFile({
-				storageSet: sinon.stub(storage, "set").rejects(),
+				storageSet: sinon.stub(storage, "set").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -52,7 +52,7 @@ describe("issues", function() {
 
 		it("should send 500 when creating the file fails", function() {
 			return _runAttachFile({
-				issueFileCreate: sinon.stub(repositories.IssueFile, "create").rejects(),
+				issueFileCreate: sinon.stub(repositories.IssueFile, "create").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -61,7 +61,7 @@ describe("issues", function() {
 
 		it("should send 500 when cleaning up temp files fails", function() {
 			return _runAttachFile({
-				fsUnlink: sinon.stub(fs, "unlinkAsync").rejects(),
+				fsUnlink: sinon.stub(fs, "unlinkAsync").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -152,7 +152,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get issue details", function() {
 			return _runDelete({
-				issueDetails: sinon.stub(repositories.Issue, "details").rejects(),
+				issueDetails: sinon.stub(repositories.Issue, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -161,7 +161,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to remove notifications for the deleted issue", function() {
 			return _runDelete({
-				notificationRemoveForIssue: sinon.stub(repositories.Notification, "removeForIssue").rejects(),
+				notificationRemoveForIssue: sinon.stub(repositories.Notification, "removeForIssue").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -170,7 +170,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to delete issue", function() {
 			return _runDelete({
-				issueRemove: sinon.stub(repositories.Issue, "remove").rejects(),
+				issueRemove: sinon.stub(repositories.Issue, "remove").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -179,7 +179,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get user details", function() {
 			return _runDelete({
-				userDetails: sinon.stub(repositories.User, "details").rejects(),
+				userDetails: sinon.stub(repositories.User, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -188,7 +188,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to send a notification email", function() {
 			return _runDelete({
-				notificationEmailerIssueDeleted: sinon.stub(notificationEmailer, "issueDeleted").rejects(),
+				notificationEmailerIssueDeleted: sinon.stub(notificationEmailer, "issueDeleted").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -197,7 +197,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get issue details", function() {
 			return _runDelete({
-				notificationCreate: sinon.stub(repositories.Notification, "create").rejects(),
+				notificationCreate: sinon.stub(repositories.Notification, "create").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -308,7 +308,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to map", function() {
 			return _runCreate({
-				mapperMap: sinon.stub(mapper, "map").rejects(),
+				mapperMap: sinon.stub(mapper, "map").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -317,7 +317,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get next issue number", function() {
 			return _runCreate({
-				issueNextNumber: sinon.stub(repositories.Issue, "getNextNumber").rejects(),
+				issueNextNumber: sinon.stub(repositories.Issue, "getNextNumber").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -326,7 +326,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get milestone details", function() {
 			return _runCreate({
-				milestoneDetails: sinon.stub(repositories.Milestone, "details").rejects(),
+				milestoneDetails: sinon.stub(repositories.Milestone, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -335,7 +335,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get priority details", function() {
 			return _runCreate({
-				priorityDetails: sinon.stub(repositories.Priority, "details").rejects(),
+				priorityDetails: sinon.stub(repositories.Priority, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -344,7 +344,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get status details", function() {
 			return _runCreate({
-				statusDetails: sinon.stub(repositories.Status, "details").rejects(),
+				statusDetails: sinon.stub(repositories.Status, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -353,7 +353,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get user details", function() {
 			return _runCreate({
-				userDetails: sinon.stub(repositories.User, "details").rejects(),
+				userDetails: sinon.stub(repositories.User, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -362,7 +362,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get issue type details", function() {
 			return _runCreate({
-				issueTypeDetails: sinon.stub(repositories.IssueType, "details").rejects(),
+				issueTypeDetails: sinon.stub(repositories.IssueType, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -371,7 +371,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to create the issue", function() {
 			return _runCreate({
-				createIssue: sinon.stub(repositories.Issue, "create").rejects(),
+				createIssue: sinon.stub(repositories.Issue, "create").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -380,7 +380,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to create the notification", function() {
 			return _runCreate({
-				createNotification: sinon.stub(repositories.Notification, "create").rejects(),
+				createNotification: sinon.stub(repositories.Notification, "create").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -390,7 +390,7 @@ describe("issues", function() {
 		it("should send 500 when failing to sending the notification email", function() {
 			return _runCreate({
 				emailNotificationForIssueAssigned: true,
-				notificationEmailerIssueAssigned: sinon.stub(notificationEmailer, "issueAssigned").rejects(),
+				notificationEmailerIssueAssigned: sinon.stub(notificationEmailer, "issueAssigned").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -610,7 +610,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to map", function() {
 			return _runAddComment({
-				mapperMap: sinon.stub(mapper, "map").rejects(),
+				mapperMap: sinon.stub(mapper, "map").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -619,7 +619,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get issue details", function() {
 			return _runAddComment({
-				issueDetails: sinon.stub(repositories.Issue, "details").rejects(),
+				issueDetails: sinon.stub(repositories.Issue, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -628,7 +628,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to create a comment", function() {
 			return _runAddComment({
-				commentCreate: sinon.stub(repositories.Comment, "create").rejects(),
+				commentCreate: sinon.stub(repositories.Comment, "create").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -637,7 +637,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get user details", function() {
 			return _runAddComment({
-				userDetails: sinon.stub(repositories.User, "details").rejects(),
+				userDetails: sinon.stub(repositories.User, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -646,7 +646,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to send a notification email", function() {
 			return _runAddComment({
-				notificationEmailerNewComment: sinon.stub(notificationEmailer, "newComment").rejects(),
+				notificationEmailerNewComment: sinon.stub(notificationEmailer, "newComment").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -655,7 +655,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to create a notification", function() {
 			return _runAddComment({
-				notificationCreate: sinon.stub(repositories.Notification, "create").rejects(),
+				notificationCreate: sinon.stub(repositories.Notification, "create").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -911,7 +911,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to map issue view model", function() {
 			return _runUpdateIssue({
-				mapperMap: sinon.stub(mapper, "map").rejects(),
+				mapperMap: sinon.stub(mapper, "map").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -920,7 +920,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to update", function() {
 			return _runUpdateIssue({
-				issueUpdate: sinon.stub(repositories.Issue, "update").rejects(),
+				issueUpdate: sinon.stub(repositories.Issue, "update").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -929,7 +929,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get user details", function() {
 			return _runUpdateIssue({
-				userDetails: sinon.stub(repositories.User, "details").rejects(),
+				userDetails: sinon.stub(repositories.User, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -938,7 +938,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to create notification", function() {
 			return _runUpdateIssue({
-				notificationCreate: sinon.stub(repositories.Notification, "create").rejects(),
+				notificationCreate: sinon.stub(repositories.Notification, "create").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -947,7 +947,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to send email notification", function() {
 			return _runUpdateIssue({
-				notificationEmailerIssueUpdated: sinon.stub(notificationEmailer, "issueUpdated").rejects(),
+				notificationEmailerIssueUpdated: sinon.stub(notificationEmailer, "issueUpdated").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -1003,7 +1003,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get issue file details", function() {
 			return _runDownloadAttachedFile({
-				issueFileDetails: sinon.stub(repositories.IssueFile, "details").rejects(),
+				issueFileDetails: sinon.stub(repositories.IssueFile, "details").rejects(new Error("oh noes!")),
 				assert: function(results) {
 					assert(results.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -1012,7 +1012,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get file from storage", function() {
 			return _runDownloadAttachedFile({
-				storageGet: sinon.stub(storage, "get").rejects(),
+				storageGet: sinon.stub(storage, "get").rejects(new Error("oh noes!")),
 				assert: function(results) {
 					assert(results.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -1078,7 +1078,7 @@ describe("issues", function() {
 		});
 
 		it("should send 500 when failing to read createIssue.html", function() {
-			var readFile = sinon.stub(fs, "readFileAsync").rejects();
+			var readFile = sinon.stub(fs, "readFileAsync").rejects(new Error("oh noes!"));
 			return _runGetIssueCreate({
 				readFile: readFile,
 				assert: function(result) {
@@ -1154,7 +1154,7 @@ describe("issues", function() {
 
 		it("should send 500 on when failing to read view", function() {
 			return _runIssueDetails({
-				readFile: sinon.stub(fs, "readFileAsync").rejects(),
+				readFile: sinon.stub(fs, "readFileAsync").rejects(new Error("oh noes!")),
 				assert: function(results) {
 					assert(results.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -1163,7 +1163,7 @@ describe("issues", function() {
 
 		it("should send 500 on when failing to get issue by number", function() {
 			return _runIssueDetails({
-				issueNumber: sinon.stub(repositories.Issue, "number").rejects(),
+				issueNumber: sinon.stub(repositories.Issue, "number").rejects(new Error("oh noes!")),
 				assert: function(results) {
 					assert(results.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -1173,7 +1173,7 @@ describe("issues", function() {
 		it("should send 500 on when failing to get transitions", function() {
 			return _runIssueDetails({
 				issue: { number: 4 },
-				transitionStatus: sinon.stub(repositories.Transition, "status").rejects(),
+				transitionStatus: sinon.stub(repositories.Transition, "status").rejects(new Error("oh noes!")),
 				assert: function(results) {
 					assert(results.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -1182,7 +1182,7 @@ describe("issues", function() {
 
 		it("should send 500 on when failing to get comments", function() {
 			return _runIssueDetails({
-				commentIssue: sinon.stub(repositories.Comment, "issue").rejects(),
+				commentIssue: sinon.stub(repositories.Comment, "issue").rejects(new Error("oh noes!")),
 				assert: function(results) {
 					assert(results.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -1191,7 +1191,7 @@ describe("issues", function() {
 
 		it("should send 500 on when failing to get files", function() {
 			return _runIssueDetails({
-				fileIssue: sinon.stub(repositories.IssueFile, "issue").rejects(),
+				fileIssue: sinon.stub(repositories.IssueFile, "issue").rejects(new Error("oh noes!")),
 				assert: function(results) {
 					assert(results.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -1306,7 +1306,7 @@ describe("issues", function() {
 		});
 
 		it("should send 500 when failing to retrieve issues", function() {
-			sinon.stub(repositories.Issue, "search").rejects();
+			sinon.stub(repositories.Issue, "search").rejects(new Error("oh noes!"));
 
 			var request = _buildDefaultRequest();
 			return _run({
@@ -1485,13 +1485,12 @@ describe("issues", function() {
 		});
 
 		it("should send 500 and error message on error", function() {
-			var error = "oh noes! an error!";
-			sinon.stub(fs, "readFileAsync").rejects(error);
+			sinon.stub(fs, "readFileAsync").rejects(new Error("oh noes!"));
 
 			return _run({
 				verb: "get",
 				route: "/issues",
-				assert: function(stubs) { assert(stubs.response.send.calledWith("Error while reading issues view: Error: " + error, 500)); }
+				assert: function(stubs) { assert(stubs.response.send.calledWith(sinon.match.string, 500)); }
 			}).finally(function() {
 				fs.readFileAsync.restore();
 			});

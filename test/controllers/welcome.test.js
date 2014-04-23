@@ -84,7 +84,7 @@ describe("welcome controller", function() {
 				verb: "get",
 				route: "/welcome",
 				stubs: {
-					readFile: sinon.stub(fs, "readFileAsync").rejects()
+					readFile: sinon.stub(fs, "readFileAsync").rejects(new Error("oh noes!"))
 				},
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
@@ -104,7 +104,7 @@ describe("welcome controller", function() {
 
 		it("should send 500 when failing to retrieve user", function() {
 			return _run({
-				userGetOne: sinon.stub(repositories.User, "one").rejects(),
+				userGetOne: sinon.stub(repositories.User, "one").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -122,7 +122,7 @@ describe("welcome controller", function() {
 
 		it("should send 500 when failing to map", function() {
 			return _run({
-				mapperMap: sinon.stub(mapper, "map").rejects(),
+				mapperMap: sinon.stub(mapper, "map").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -131,7 +131,7 @@ describe("welcome controller", function() {
 
 		it("should send 500 when failing to update user", function() {
 			return _run({
-				userUpdate: sinon.stub(repositories.User, "update").rejects(),
+				userUpdate: sinon.stub(repositories.User, "update").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
