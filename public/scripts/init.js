@@ -14,6 +14,7 @@
 		IssueTracker.Header.init();
         IssueTracker.Notifications.init($("div.notifications"), $("#notifications"));
 		IssueTracker.UserSettings.init($("div.user-settings"), $("#user-settings"));
+		$(document).on("click", "#sign-out-trigger", _signOut);
 		ko.applyBindings(IssueTracker);
 	};
 	
@@ -53,6 +54,13 @@
 			if (IssueTracker.selectedProject())
 				options.data = $.param($.extend(original.data, { projectId: IssueTracker.selectedProject().id }));
 		});
+	}
+
+	function _signOut() {
+		document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+		IssueTracker.selectedProject(null);
+		IssueTracker.signedInUser(null);
+		IssueTracker.Welcome.navigate();
 	}
 
 })(root("IssueTracker.Init"));

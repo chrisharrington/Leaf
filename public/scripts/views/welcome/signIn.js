@@ -48,7 +48,8 @@
 			if (redirect)
 				window.location.hash = redirect;
 			else
-				IssueTracker.Issues.navigate({ "project-name": data.project.name.formatForUrl() });
+				IssueTracker.Projects.navigate();
+				//IssueTracker.Issues.navigate({ "project-name": data.project.name.formatForUrl() });
 		}).fail(function (response) {
 			if (response.status == 401)
 				IssueTracker.Feedback.error("Your credentials are invalid.");
