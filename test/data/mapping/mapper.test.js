@@ -39,7 +39,7 @@ describe("mapper", function() {
 			return _run().catch(function(e) {
 				message = e;
 			}).finally(function() {
-				assert(message == "Missing source while mapping.");
+				assert(message.toString() == "Error: Missing source while mapping.");
 			});
 		});
 
