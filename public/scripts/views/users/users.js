@@ -4,7 +4,7 @@
 	$(function() {
 		IssueTracker.Page.build({
 			root: root,
-			view: "Users",
+			view: "users",
 			title: "Leaf - Users",
 			route: "#/:project-name/users",
 			style: "users-container"

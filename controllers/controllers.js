@@ -4,6 +4,7 @@ module.exports = {
 	issues: require("./issues"),
 	notifications: require("./notifications"),
 	style: require("./style"),
+	users: require("./users"),
 
 	init: function(app) {
 		for (var name in this)

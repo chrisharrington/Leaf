@@ -7,13 +7,13 @@ var sut = require("../../controllers/controllers");
 
 describe("controllers", function() {
 	describe("init", function() {
-		it("should initialize exactly five controllers", function() {
+		it("should initialize exactly six controllers", function() {
 			var count = 0;
 			for (var name in sut)
 				if (name != "init")
 					count++;
 
-			assert.equal(count, 5);
+			assert.equal(count, 6);
 		});
 
 		it("should initialize root controller", function() {
@@ -34,6 +34,10 @@ describe("controllers", function() {
 
 		it("should initialize style controller", function() {
 			_run("style");
+		});
+
+		it("should initialize users controller", function() {
+			_run("users");
 		});
 
 		function _run(controller) {

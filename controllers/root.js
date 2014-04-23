@@ -14,8 +14,7 @@ module.exports = function(app) {
 		return _getAllUserData(request).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
 			return _mapAllUserData(priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
 		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
-			var result = _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
-			return result;
+			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
 		}).catch(function (e) {
 			response.send("Error loading root: " + e, 500);
 		});
