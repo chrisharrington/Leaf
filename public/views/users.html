@@ -18,6 +18,7 @@
 <!-- ko foreach: users -->
 <div class="user-container">
 	<div class="user">
+		<img class="user-profile-image" data-bind="attr: { title: name, src: IssueTracker.Utilities.getUserProfileImageLocation(id()) }" alt="" />
 		<h1 data-bind="text: name"></h1>
 		<div class="info">
 			<div>

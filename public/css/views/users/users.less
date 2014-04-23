@@ -6,9 +6,10 @@
 	div.user-container { float:left; width:50%; padding-right:@spacing; .border-box;
 		>div { float:left; width:100%; .tile; padding:0; }
 		>div.user { margin-bottom:@spacing;
-			>* { .border-box; padding:@small-spacing @spacing
-			}
-			>h1 { float:left; width:100%; }
+			@user-profile-image-width:35px;
+			>* { .border-box; padding:@small-spacing @spacing; }
+			>img { float:left; position:relative; width:@user-profile-image-width; height:@user-profile-image-width; padding:0; margin-left:@spacing; margin-top:@small-spacing; margin-bottom:@small-spacing; }
+			>h1 { float:left; width:100%; text-transform:none; position:relative; padding-left:2*@spacing+@user-profile-image-width; margin-top:-53px; }
 			>div.info, >div.actions { float:left; width:100%; border-top:solid 1px @border-colour; }
 			>div.info {
 				@info-height:19px;
