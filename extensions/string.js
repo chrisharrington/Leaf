@@ -11,3 +11,8 @@ String.prototype.endsWith = function(value) {
 	var end = this.substring(this.length - value.length);
 	return end === value;
 };
+
+
+String.prototype.formatStack = function() {
+	return this.replace(/\n/g, "<br>&nbsp;&nbsp;&nbsp;&nbsp;");
+};
