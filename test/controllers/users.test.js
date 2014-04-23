@@ -128,4 +128,12 @@ describe("users", function() {
 			});
 		}
 	});
+
+	describe("post /users/create", function() {
+		it("should set post /users/create route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/users/create", sinon.match.func));
+		});
+	});
 });
