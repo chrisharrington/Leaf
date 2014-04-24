@@ -14,7 +14,7 @@ module.exports = function(app) {
 		return _getAllUserData(request).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
 			return _mapAllUserData(request, priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
 		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
-			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
+			return _sendUserData(request, response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);
 		});
@@ -44,12 +44,12 @@ module.exports = function(app) {
 			mapper.mapAll("milestone", "milestone-view-model", milestones),
 			mapper.mapAll("issue-type", "issue-type-view-model", issueTypes),
 			!user || (user.expiration != null && user.expiration < Date.now()) ? null : mapper.map("user", "user-view-model", user),
-			!user ? null : mapper.map("project", "project-view-model", _getProjectFromHost(request, projects)),
+			!user ? null : mapper.map("project", "project-view-model", _getProjectFromHost(request, projects) || { name: "no such name", _id: "12345" }),
 			require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app)
 		]);
 	}
 
-	function _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
+	function _sendUserData(request, response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
 		return response.send(mustache.render(html.toString(), {
 			priorities: JSON.stringify(priorities),
 			statuses: JSON.stringify(statuses),
@@ -60,7 +60,8 @@ module.exports = function(app) {
 			issueTypes: JSON.stringify(issueTypes),
 			signedInUser: JSON.stringify(user),
 			selectedProject: JSON.stringify(project),
-			renderedScripts: renderedScripts
+			renderedScripts: renderedScripts,
+			host: request.host
 		}), 200);
 	}
 
