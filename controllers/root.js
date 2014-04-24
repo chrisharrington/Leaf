@@ -16,7 +16,7 @@ module.exports = function(app) {
 		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
 			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
 		}).catch(function (e) {
-			response.send(e.stack ? e.stack.formatStack() : e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
