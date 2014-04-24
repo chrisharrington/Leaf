@@ -20,13 +20,16 @@ module.exports = function(app) {
 	app.post("/sign-in", function(request, response) {
 		var email = request.body.email, password = request.body.password, staySignedIn = request.body.staySignedIn == "true";
 		return _getProjectFromHost(request).then(function(project) {
-			return repositories.User.one({ emailAddress: email, project: project._id }).then(function(user) {
-				if (!user)
+			if (!project)
+				response.send(404);
+			else
+				return repositories.User.one({ emailAddress: email, project: project._id }).then(function(user) {
+					if (!user)
+						return response.send(401);
+					if (crypto.createHash(config("hashAlgorithm")).update(user.salt + password).digest("hex") === user.password)
+						return _retrieveUserDetails(user, project, staySignedIn, response);
 					return response.send(401);
-				if (crypto.createHash(config("hashAlgorithm")).update(user.salt + password).digest("hex") === user.password)
-					return _retrieveUserDetails(user, project, staySignedIn, response);
-				return response.send(401);
-			});
+				});
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});

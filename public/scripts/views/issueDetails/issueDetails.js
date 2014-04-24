@@ -204,7 +204,7 @@
 			root: root,
 			view: function () { return "Issues/Details?number=:number"; },
 			title: function() { return "Leaf - " + IssueTracker.selectedIssue.number() + ": " + IssueTracker.selectedIssue.description(); },
-			route: "#/:project-name/issues/:number",
+			route: "#/issues/:number",
 			style: "issue-details-container",
 			unload: function() {
 				if (_container)

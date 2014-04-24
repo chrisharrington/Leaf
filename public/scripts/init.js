@@ -19,7 +19,7 @@
 	
 	function _setupPath() {
 		if (IssueTracker.selectedProject())
-			Path.root("#/" + IssueTracker.selectedProject().name.formatForUrl() + "/issues");
+			Path.root("#/issues");
 		else
 			Path.root("#/welcome");
 		Path.rescue(function () {

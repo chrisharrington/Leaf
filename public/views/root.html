@@ -17,10 +17,10 @@
                     <span>Leaf</span>
                 </div>
                 <div class="menu">
-                    <a data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/issues' }">
+                    <a data-bind="attr: { href: '#/issues' }">
                         <span>Issues</span>
                     </a>
-                    <a data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/users' }">
+                    <a data-bind="attr: { href: '#/users' }">
                         <span>Users</span>
                     </a>
                 </div>
@@ -34,7 +34,7 @@
                     <a id="user-settings">
 						<i class="fa fa-user"></i>
                     </a>
-                    <a id="create-issue" data-bind="attr: { href: '#/' + IssueTracker.selectedProject().name.formatForUrl() + '/new-issue' }">
+                    <a id="create-issue" data-bind="attr: { href: '#/new-issue' }">
                         <i class="fa fa-plus"></i>
                     </a>
                 </div>

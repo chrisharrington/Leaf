@@ -116,7 +116,7 @@
 			root: IssueTracker.Issues,
 			view: "issues",
 			title: "Leaf - Issues",
-			route: "#/:project-name/issues",
+			route: "#/issues",
 			style: "issues-container"
 		});
 	});

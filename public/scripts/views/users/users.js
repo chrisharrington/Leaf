@@ -6,7 +6,7 @@
 			root: root,
 			view: "users",
 			title: "Leaf - Users",
-			route: "#/:project-name/users",
+			route: "#/users",
 			style: "users-container"
 		});
 	});

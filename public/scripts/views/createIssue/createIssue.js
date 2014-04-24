@@ -116,7 +116,7 @@
 			root: root,
 			view: "issues/create",
 			title: "Leaf - Create Issue",
-			route: "#/:project-name/new-issue",
+			route: "#/new-issue",
 			style: "create-issue-container"
 		});
 	});

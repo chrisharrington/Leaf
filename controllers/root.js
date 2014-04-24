@@ -12,7 +12,7 @@ var bundler = require("../bundling/bundler");
 module.exports = function(app) {
 	app.get("/", function (request, response) {
 		return _getAllUserData(request).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
-			return _mapAllUserData(priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
+			return _mapAllUserData(request, priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
 		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
 			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
 		}).catch(function (e) {
@@ -29,11 +29,11 @@ module.exports = function(app) {
 			repositories.Project.get(),
 			repositories.Milestone.get(null, { sort: { name: 1 }}),
 			caches.IssueType.all(),
-			repositories.User.one({ session: request.cookies.session }, "project")
+			repositories.User.one({ session: request.cookies.session })
 		]);
 	}
 
-	function _mapAllUserData(priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
+	function _mapAllUserData(request, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
 		return Promise.all([
 			fs.readFileAsync("public/views/root.html"),
 			mapper.mapAll("priority", "priority-view-model", priorities),
@@ -44,7 +44,7 @@ module.exports = function(app) {
 			mapper.mapAll("milestone", "milestone-view-model", milestones),
 			mapper.mapAll("issue-type", "issue-type-view-model", issueTypes),
 			!user || (user.expiration != null && user.expiration < Date.now()) ? null : mapper.map("user", "user-view-model", user),
-			!user ? null : mapper.map("project", "project-view-model", user.project),
+			!user ? null : mapper.map("project", "project-view-model", _getProjectFromHost(request, projects)),
 			require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app)
 		]);
 	}
@@ -62,5 +62,14 @@ module.exports = function(app) {
 			selectedProject: JSON.stringify(project),
 			renderedScripts: renderedScripts
 		}), 200);
+	}
+
+	function _getProjectFromHost(request, projects) {
+		var projectName = (request.host == "localhost" ? "Leaf" : request.host.split(".")[0]).toLowerCase(), foundProject;
+		projects.forEach(function(project) {
+			if (project.name.toLowerCase() == projectName)
+				foundProject = project;
+		});
+		return foundProject;
 	}
 };
