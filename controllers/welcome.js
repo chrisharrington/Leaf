@@ -20,6 +20,7 @@ module.exports = function(app) {
 	app.post("/sign-in", function(request, response) {
 		var email = request.body.email, password = request.body.password, staySignedIn = request.body.staySignedIn == "true";
 		return _getProjectFromHost(request).then(function(project) {
+			console.log("Found project: " + project);
 			if (!project)
 				response.send(404);
 			else
@@ -54,8 +55,9 @@ module.exports = function(app) {
 		}
 
 		function _getProjectFromHost(request) {
-			var projectName = request.host == "localhost" ? "Leaf" : request.host.split(".")[0];
-			return repositories.Project.one({ name: projectName });
+			var projectName = request.host == "localhost" ? "leaf" : request.host.split(".")[0];
+			console.log("Signing in with project: " + projectName);
+			return repositories.Project.one({ name: { $regex: new RegExp(projectName, "i") } });
 		}
 	});
 };
