@@ -343,7 +343,7 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					users: sinon.stub(repositories.User, "get").rejects()
+					users: sinon.stub(repositories.User, "get").rejects(new Error("oh noes!"))
 				}),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
@@ -360,7 +360,7 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					mapperMapAll: sinon.stub(mapper, "mapAll").rejects()
+					mapperMapAll: sinon.stub(mapper, "mapAll").rejects(new Error("oh noes!"))
 				}),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
@@ -377,7 +377,7 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					readFile: sinon.stub(fs, "readFileAsync").rejects()
+					readFile: sinon.stub(fs, "readFileAsync").rejects(new Error("oh noes!"))
 				}),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
@@ -394,7 +394,7 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					scriptBundler: sinon.stub(scriptBundler, "render").rejects()
+					scriptBundler: sinon.stub(scriptBundler, "render").rejects(new Error("oh noes!"))
 				}),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));

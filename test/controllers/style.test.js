@@ -91,7 +91,7 @@ describe("style", function() {
 				route: "/style",
 				stubs: {
 					assets: sinon.stub(assets, "styles").returns(["first", "second"]),
-					bundler: sinon.stub(bundler, "concatenate").rejects(),
+					bundler: sinon.stub(bundler, "concatenate").rejects(new Error("oh noes!")),
 					less: sinon.stub(less, "renderAsync").resolves("the lessified string"),
 					minifier: sinon.stub(minifier, "compressAsync").resolves("the compressed string")
 				},

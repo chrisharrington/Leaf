@@ -10,7 +10,7 @@ module.exports = function(app) {
 		}).then(function(mapped) {
 			response.send(mapped, 200);
 		}).catch(function(e) {
-			response.send("Error while retrieving notifications: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -22,8 +22,8 @@ module.exports = function(app) {
 
         return Promise.all(updates).then(function() {
             response.send(200);
-        }).catch(function(err) {
-            response.send("Error while marking notifications as read: " + err, 500);
+        }).catch(function(e) {
+            response.send(e.stack.formatStack(), 500);
         });
     });
 
@@ -37,7 +37,7 @@ module.exports = function(app) {
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
-			response.send("Error while updating email notification settings: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		})
 	});
 };

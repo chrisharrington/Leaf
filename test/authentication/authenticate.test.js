@@ -30,7 +30,7 @@ describe("authenticate", function() {
 
 		it("should send error message when failing to retrieve user", function(done) {
 			var status, message, error = "oh noes! an error!";
-			sinon.stub(repositories.User, "get").rejects(error);
+			sinon.stub(repositories.User, "get").rejects(new Error(error));
 
 			var request = {
 				cookies: { session: "the session" }

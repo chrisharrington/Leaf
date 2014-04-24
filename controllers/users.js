@@ -24,7 +24,7 @@ module.exports = function(app) {
 				response.send(mustache.render(html.toString(), { users: JSON.stringify(mapped) }), 200);
 			});
 		}).catch(function (e) {
-			response.send("Error while reading public/views/users.html: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 
 		function _organizeIssuesByUser(issues) {

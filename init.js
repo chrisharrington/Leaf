@@ -41,6 +41,6 @@ function _configureApplication(app) {
 		app.use(express.cookieParser());
 	});
 
-	app.configure("development", function () { app.set("env", "development"); });
+	app.configure("development", function () { Promise.longStackTraces(); app.set("env", "development"); });
 	app.configure("production", function () { app.set("env", "production"); });
 }

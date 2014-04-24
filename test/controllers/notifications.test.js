@@ -24,7 +24,7 @@ describe("notifications", function() {
 
 		it("should send 500 when failing to retrieve user details", function() {
 			return _testRoute({
-				userDetails: sinon.stub(repositories.User, "details").rejects(),
+				userDetails: sinon.stub(repositories.User, "details").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -33,7 +33,7 @@ describe("notifications", function() {
 
 		it("should send 500 when failing to update user", function() {
 			return _testRoute({
-				userUpdate: sinon.stub(repositories.User, "update").rejects(),
+				userUpdate: sinon.stub(repositories.User, "update").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -106,7 +106,7 @@ describe("notifications", function() {
 
 		it("should send 500 when failing to mark as read", function() {
 			return _testRoute({
-				notificationMarkAsRead: sinon.stub(repositories.Notification, "markAsRead").rejects(),
+				notificationMarkAsRead: sinon.stub(repositories.Notification, "markAsRead").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -157,7 +157,7 @@ describe("notifications", function() {
 
 		it("should send 500 when failing to retrieve user notifications", function() {
 			return _testRoute({
-				notificationUser: sinon.stub(repositories.Notification, "user").rejects(),
+				notificationUser: sinon.stub(repositories.Notification, "user").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -166,7 +166,7 @@ describe("notifications", function() {
 
 		it("should send 500 when failing to map notifications", function() {
 			return _testRoute({
-				mapperMapAll: sinon.stub(mapper, "mapAll").rejects(),
+				mapperMapAll: sinon.stub(mapper, "mapAll").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}

@@ -15,7 +15,7 @@ module.exports = function(app) {
 		return fs.readFileAsync("public/views/issues.html").then(function(content) {
 			response.send(content);
 		}).catch(function(e) {
-			response.send("Error while reading issues view: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -39,7 +39,7 @@ module.exports = function(app) {
 		}).then(function (mapped) {
 			response.send(mapped, 200);
 		}).catch(function(e) {
-			response.send("Error retrieving issues: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -73,7 +73,7 @@ module.exports = function(app) {
 				response.send(mustache.render(html.toString(), { issue: JSON.stringify(model) }));
 			});
 		}).catch(function(e) {
-			response.send("Error while rendering issue details for issue #" + request.query.number + ": " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -83,7 +83,7 @@ module.exports = function(app) {
 				issueId: mongoose.Types.ObjectId()
 			}));
 		}).catch(function(e) {
-			response.send("Error while rendering create issue: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -92,7 +92,7 @@ module.exports = function(app) {
 			response.contentType(file.name);
 			return storage.get(file.container, file.id + "-" + file.name, response);
 		}).catch(function(e) {
-			response.send("Error while downloading attached file: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -112,7 +112,7 @@ module.exports = function(app) {
 		}).then(function () {
 			response.send(200);
 		}).catch(function (e) {
-			response.send("Error while updating issue: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -137,7 +137,7 @@ module.exports = function(app) {
 		}).then(function () {
 			response.send(request.body, 200);
 		}).catch(function (e) {
-			response.send("Error adding comment: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -145,7 +145,7 @@ module.exports = function(app) {
 		return repositories.Comment.remove(request.body.comment.id).then(function() {
 			response.send(200);
 		}).catch(function(e) {
-			response.send(e.toString(), 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -186,7 +186,7 @@ module.exports = function(app) {
 		}).then(function () {
 			response.send(200);
 		}).catch(function (e) {
-			response.send("Error while creating issue: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -209,7 +209,7 @@ module.exports = function(app) {
 		}).then(function () {
 			response.send(200);
 		}).catch(function (e) {
-			response.send("Error while deleting issue: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -232,9 +232,8 @@ module.exports = function(app) {
 		}).spread(function() {
 			response.send(200);
 			return _cleanUpFiles(paths);
-		}).catch(function(err) {
-			response.send("Error while attaching file: " + err, 500);
-			return _cleanUpFiles(paths);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 

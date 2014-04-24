@@ -20,6 +20,11 @@
 	<div class="user">
 		<img class="user-profile-image" data-bind="attr: { title: name, src: IssueTracker.Utilities.getUserProfileImageLocation(id()) }" alt="" />
 		<h1 data-bind="text: name"></h1>
+        <div class="icon-buttons">
+			<i class="fa fa-fw fa-key" title="Reset Password" data-bind="click: $parent.ResetPassword.reset"></i>
+			<i class="fa fa-fw fa-trash-o" title="Delete User" data-bind="click: $parent.DeleteUser.delete"></i>
+			<i class="fa fa-fw fa-pencil" title="Edit User" data-bind="click: $parent.EditUser.edit"></i>
+        </div>
 		<div class="info">
 			<div>
 				<i class="fa fa-fw fa-envelope-o"></i>
@@ -40,26 +45,6 @@
 				<i class="fa fa-fw fa-flask"></i>
 				<span class="label">Tester</span>
 				<span class="value" data-bind="text: testerIssueCount() + ' issue' + (testerIssueCount() == 1 ? '' : 's')"></span>
-			</div>
-		</div>
-		<div class="actions">
-			<div>
-				<button class="icon" data-bind="click: $parent.ResetPassword.reset">
-					<i class="fa fa-key"></i>
-					<span>Reset Password</span>
-				</button>
-			</div>
-			<div>
-				<button class="icon" data-bind="click: $parent.DeleteUser.delete">
-					<i class="fa fa-times"></i>
-					<span>Delete User</span>
-				</button>
-			</div>
-			<div>
-				<button class="icon" data-bind="click: $parent.EditUser.edit">
-					<i class="fa fa-pencil"></i>
-					<span>Edit User</span>
-				</button>
 			</div>
 		</div>
 	</div>

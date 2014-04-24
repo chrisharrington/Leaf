@@ -13,7 +13,7 @@ module.exports = function(app) {
 		return fs.readFileAsync("public/views/welcome.html").then(function(content) {
 			response.send(content, 200);
 		}).catch(function(e) {
-			response.send("Error while reading public/views/welcome.html: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
@@ -26,7 +26,7 @@ module.exports = function(app) {
 				return _retrieveUserDetails(user, staySignedIn, response);
 			return response.send(401);
 		}).catch(function(e) {
-			response.send("Error signing in: " + e, 500);
+			response.send(e.stack.formatStack(), 500);
 		});
 
 		function _retrieveUserDetails(user, staySignedIn, response) {

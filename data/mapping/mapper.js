@@ -10,7 +10,7 @@ exports.define = function(sourceKey, destinationKey, definition) {
 exports.map = function(sourceKey, destinationKey, source) {
 	return new Promise(function(resolve, reject) {
 		if (source == null)
-			reject("Missing source while mapping.");
+			reject(new Error("Missing source while mapping."));
 		else {
 			var key = _getCombinedKey(sourceKey, destinationKey);
 			if (!exports.maps[key])
