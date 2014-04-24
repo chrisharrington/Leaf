@@ -18,7 +18,7 @@ module.exports = function(app) {
 		]).spread(function(html, issues, users) {
 			var issuesByUser = _organizeIssuesByUser(issues);
 			return mapper.mapAll("user", "user-summary-view-model", users).map(function(user) {
-				user.developerIssueCount = issuesByUser[user.id];
+				user.developerIssueCount = issuesByUser[user.id] || 0;
 				user.testerIssueCount = 0;
 				return user;
 			}).then(function(mapped) {
@@ -52,13 +52,13 @@ module.exports = function(app) {
 			mapped.project = request.project._id;
 			mapped.activationToken = token;
 			mapped._id = mongoose.Types.ObjectId();
-			return repositories.User.create(mapped);
-		}).then(function() {
-			user.activationUrl = config("domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
-			user.projectName = request.project.name;
-			return emailer.send(process.cwd() + "/email/templates/newUser.html", { user: user }, user.emailAddress, "Welcome to Leaf!");
-		}).then(function() {
-			response.send(200);
+			return repositories.User.create(mapped).then(function() {
+				user.activationUrl = config("domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
+				user.projectName = request.project.name;
+				return emailer.send(process.cwd() + "/email/templates/newUser.html", { user: user }, user.emailAddress, "Welcome to Leaf!");
+			}).then(function() {
+				response.send(mapped._id, 200);
+			});
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});

@@ -2,8 +2,13 @@
 (function(root) {
 
 	root.user = ko.observable({
+		id: ko.observable(""),
 		name: ko.observable(""),
-		emailAddress: ko.observable("")
+		emailAddress: ko.observable(""),
+		isActivated: ko.observable(false),
+		isDeleted: ko.observable(false),
+		developerIssueCount: ko.observable(0),
+		testerIssueCount: ko.observable(0)
 	});
 	root.loading = ko.observable(false);
 
@@ -19,7 +24,9 @@
 		}
 
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "Users/Create", root.user()).done(function() {
+		$.post(IssueTracker.virtualDirectory() + "Users/Create", root.user()).done(function(id) {
+			alert(id);
+			root.user().id(id);
 			IssueTracker.Feedback.success(root.user().name() + " has been created.");
 			IssueTracker.Users.users.push(root.user());
 			IssueTracker.Dialog.hide();
