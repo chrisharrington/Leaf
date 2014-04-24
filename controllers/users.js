@@ -47,26 +47,27 @@ module.exports = function(app) {
 			return;
 		}
 
-		var token = csprng(128, 36);
 		return mapper.map("user-view-model", "user", user).then(function(mapped) {
+			var token = csprng.call(this, 128, 36);
 			mapped.project = request.project._id;
 			mapped.activationToken = token;
 			mapped._id = mongoose.Types.ObjectId();
 			return repositories.User.create(mapped).then(function() {
-				user.activationUrl = config("domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
+				user.activationUrl = config.call(this, "domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
 				user.projectName = request.project.name;
 				return emailer.send(process.cwd() + "/email/templates/newUser.html", { user: user }, user.emailAddress, "Welcome to Leaf!");
 			}).then(function() {
 				response.send(mapped._id, 200);
 			});
 		}).catch(function(e) {
+			var blah = e.stack.formatStack();
 			response.send(e.stack.formatStack(), 500);
 		});
 
 		function _validate(user) {
-			if (user.name == "")
+			if (!user.name || user.name == "")
 				return "The name is required.";
-			if (user.emailAddress == "")
+			if (!user.emailAddress || user.emailAddress == "")
 				return "The email address is required.";
 			if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(user.emailAddress))
 				return "The email address is invalid.";

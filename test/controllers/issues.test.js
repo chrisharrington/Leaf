@@ -1104,6 +1104,7 @@ describe("issues", function() {
 			return _runGetIssueCreate({
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, { issueId: objectId }));
+					mongoose.Types.ObjectId.restore();
 				}
 			});
 		});

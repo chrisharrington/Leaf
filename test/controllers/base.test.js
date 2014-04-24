@@ -17,14 +17,19 @@ exports.testRoute = function(params) {
 	};
 
 	params.sut(app);
-	return func(request, response).finally(function() {
+	var result = func(request, response);
+	if (result)
+		return result.finally(_finally);
+	_finally();
+
+	function _finally() {
 		for (var name in params.stubs)
 			if (params.stubs[name] && params.stubs[name].restore)
 				params.stubs[name].restore();
 
 		if (params.assert)
 			params.assert({ request: request, response: response, stubs: params.stubs });
-	});
+	}
 };
 
 exports.testRouteExists = function(sut, verb, route, isAnonymous) {
