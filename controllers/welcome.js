@@ -51,7 +51,7 @@ module.exports = function(app) {
 		}
 
 		function _getProjectFromHost(request) {
-			var projectName = request.host == "localhost" ? "leaf" : request.host.split(".")[0];
+			var projectName = request.host == "localhost" ? "Leaf" : request.host.split(".")[0];
 			return repositories.Project.one({ name: projectName });
 		}
 	});
