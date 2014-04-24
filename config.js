@@ -11,7 +11,7 @@ module.exports = function(key) {
 		"storageName" : "leaf",
 		"sendgridUsername": "LeafIssueTracker",
 		"fromAddress": "no-reply@leafissuetracker.com",
-		"domain": "http://leafissuetracker.com",
+		"domain": "http://www.leafissuetracker.com",
 		"serverPort": process.env.PORT || 8888
 	};
 

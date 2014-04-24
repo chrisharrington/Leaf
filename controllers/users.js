@@ -6,6 +6,7 @@ var repositories = require("../data/repositories");
 var authenticate = require("../authentication/authenticate");
 var emailer = require("../email/emailer");
 var config = require("../config");
+var csprng = require("csprng");
 
 module.exports = function(app) {
 	app.get("/users", authenticate, function (request, response) {
@@ -45,11 +46,19 @@ module.exports = function(app) {
 			return;
 		}
 
+		var token = csprng(128, 36);
 		return mapper.map("user-view-model", "user", user).then(function(mapped) {
+			mapped.project = request.project._id;
+			mapped.activationToken = token;
 			return repositories.User.create(mapped);
 		}).then(function() {
-			user.activationUrl = config("domain") +
+			user.activationUrl = config("domain").replace("www.", request.project.name.formatForUrl()) + "/users/activate/" + token;
+			user.projectName = request.project.name;
 			return emailer.send("../email/templates/newUser.html", user, user.emailAddress, "Welcome to Leaf!");
+		}).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
 		});
 
 		function _validate(user) {
