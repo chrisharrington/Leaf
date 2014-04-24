@@ -7,7 +7,7 @@ exports.open = function() {
 		mongoose.connect("mongodb://" + config.call(this, "databaseUser") + ":" + config.call(this, "databasePassword") + "@oceanic.mongohq.com:10038/issuetracker", { server: { socketOptions: { keepAlive: 1 } } });
 
 		var connection = mongoose.connection;
-		connection.on("error", function(error) { console.log("Error connecting to database: " + error); reject(error);	});
+		connection.on("error", function(error) { console.log("Error connecting to database: " + error); reject(new Error(error));	});
 		connection.on("open", function() { console.log("Database connection established."); resolve(connection); });
 	});
 };

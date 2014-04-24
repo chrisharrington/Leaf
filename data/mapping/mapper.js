@@ -14,7 +14,7 @@ exports.map = function(sourceKey, destinationKey, source) {
 		else {
 			var key = _getCombinedKey(sourceKey, destinationKey);
 			if (!exports.maps[key])
-				reject("No such mapping definition for \"" + key + "\"");
+				reject(new Error("No such mapping definition for \"" + key + "\""));
 			else {
 				var definition = exports.maps[key];
 				var result = {};

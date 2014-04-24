@@ -24,7 +24,7 @@ module.exports = {
 		var cache = this.cache;
 		return new Promise(function(resolve, reject) {
 			if (cache[id]) resolve(cache[id]);
-			else reject("No such entry for id \"" + id + "\".");
+			else reject(new Error("No such entry for id \"" + id + "\"."));
 		});
 	}
 };

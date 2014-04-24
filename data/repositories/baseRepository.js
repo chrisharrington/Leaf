@@ -18,7 +18,7 @@ module.exports = {
 			if (options.populate && options.populate != "")
 				query = query.populate(options.populate);
 			query.exec(function(err, data) {
-				if (err) reject(err);
+				if (err) reject(new Error(err));
 				else resolve(data);
 			});
 		});

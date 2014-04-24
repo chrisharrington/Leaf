@@ -7,3 +7,9 @@ require("../mapper").define("user", "user-view-model", {
 	emailNotificationForIssueDeleted: "emailNotificationForIssueDeleted",
 	emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue"
 });
+
+require("../mapper").define("user-view-model", "user", {
+	"_id": "id",
+	name: "name",
+	emailAddress: "emailAddress"
+});

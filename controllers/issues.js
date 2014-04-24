@@ -240,7 +240,7 @@ module.exports = function(app) {
 	function _readFilesFromRequest(request) {
 		return new Promise(function(resolve, reject) {
 			new formidable.IncomingForm().parse(request, function(err, fields, files) {
-				if (err) reject(err);
+				if (err) reject(new Error(err));
 				else resolve(files);
 			});
 		});

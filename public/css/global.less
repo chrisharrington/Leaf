@@ -1,4 +1,8 @@
-﻿@header-height:60px;
+﻿@dialog-z-index:10;
+@header-z-index:8;
+@feedback-z-index:@dialog-z-index;
+
+@header-height:60px;
 @application-width:1680px;
 @spacing:15px;
 @small-spacing:8px;
@@ -147,7 +151,7 @@ div.selector.dark { .dark-gradient; height:100%;
 	}
 }
 
-div.global-feedback { position:fixed; width:100%; z-index:3; bottom:0; .border-box; padding:@small-spacing @spacing; color:white; box-shadow:0 -2px 8px rgba(0, 0, 0, 0.5); display:none;
+div.global-feedback { position:fixed; width:100%; z-index:@feedback-z-index; bottom:0; .border-box; padding:@small-spacing @spacing; color:white; box-shadow:0 -2px 8px rgba(0, 0, 0, 0.5); display:none;
 	@icon-width:28px;
 	@height:28px;
 	>i { float:left; position:relative; font-size:1.5em; width:@icon-width; vertical-align:middle; line-height:@height; }

@@ -16,7 +16,7 @@ exports.send = function(file, model, recipients, subject) {
 
 function _render(file, model) {
 	return fs.readFileAsync(file).then(function(html) {
-		return mustache.render(html, model);
+		return mustache.render(html.toString(), model);
 	});
 }
 
@@ -29,7 +29,7 @@ function _send(emailAddress, subject, html) {
 			subject: subject,
 			html: html
 		}, function(err) {
-			if (err) reject(err);
+			if (err) reject(new Error(err));
 			else resolve();
 		});
 	});
