@@ -19,33 +19,40 @@ module.exports = function(app) {
 
 	app.post("/sign-in", function(request, response) {
 		var email = request.body.email, password = request.body.password, staySignedIn = request.body.staySignedIn == "true";
-		return repositories.User.one({ emailAddress: email }, "project").then(function(user) {
-			if (!user)
+		return _getProjectFromHost(request).then(function(project) {
+			return repositories.User.one({ emailAddress: email, project: project._id }).then(function(user) {
+				if (!user)
+					return response.send(401);
+				if (crypto.createHash(config("hashAlgorithm")).update(user.salt + password).digest("hex") === user.password)
+					return _retrieveUserDetails(user, project, staySignedIn, response);
 				return response.send(401);
-			if (crypto.createHash(config("hashAlgorithm")).update(user.salt + password).digest("hex") === user.password)
-				return _retrieveUserDetails(user, staySignedIn, response);
-			return response.send(401);
+			});
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});
 
-		function _retrieveUserDetails(user, staySignedIn, response) {
+		function _retrieveUserDetails(user, project, staySignedIn, response) {
 			if (!user.session)
 				user.session = csprng(512, 36);
 			user.expiration = staySignedIn ? Date.now() + 1000 * 60 * 60 * 24 * 7 * 2 : null;
 			response.cookie("session", user.session, staySignedIn ? { maxAge: 1000 * 60 * 60 * 24 * 7 * 2 } : { expires: false });
-			return _deriveUserView(user, response);
+			return _deriveUserView(user, project, response);
 		}
 
-		function _deriveUserView(user, response) {
+		function _deriveUserView(user, project, response) {
 			return Promise.all([
 				mapper.map("user", "user-view-model", user),
-				mapper.map("project", "project-view-model", user.project)
+				mapper.map("project", "project-view-model", project)
 			]).spread(function (mappedUser, mappedProject) {
 				return repositories.User.update(user).then(function () {
 					response.send({ user: mappedUser, project: mappedProject }, 200);
 				});
 			});
+		}
+
+		function _getProjectFromHost(request) {
+			var projectName = request.host == "localhost" ? "leaf" : request.host.split(".")[0];
+			return repositories.Project.one({ name: projectName });
 		}
 	});
 };
