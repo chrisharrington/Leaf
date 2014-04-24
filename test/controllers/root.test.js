@@ -220,7 +220,8 @@ describe("root", function() {
 						issueTypes: sinon.match.string,
 						signedInUser: sinon.match.string,
 						selectedProject: sinon.match.any,
-						renderedScripts: sinon.match.string
+						renderedScripts: sinon.match.string,
+						host: sinon.match.string
 					}));
 				}
 			});
@@ -272,7 +273,8 @@ describe("root", function() {
 						issueTypes: sinon.match.any,
 						signedInUser: "null",
 						selectedProject: sinon.match.any,
-						renderedScripts: sinon.match.any
+						renderedScripts: sinon.match.any,
+						host: sinon.match.string
 					}));
 				}
 			});
@@ -300,7 +302,8 @@ describe("root", function() {
 						issueTypes: sinon.match.any,
 						signedInUser: sinon.match.any,
 						selectedProject: "null",
-						renderedScripts: sinon.match.any
+						renderedScripts: sinon.match.any,
+						host: sinon.match.string
 					}));
 				}
 			});
@@ -328,7 +331,8 @@ describe("root", function() {
 						issueTypes: sinon.match.string,
 						signedInUser: sinon.match.any,
 						selectedProject: "null",
-						renderedScripts: sinon.match.string
+						renderedScripts: sinon.match.string,
+						host: sinon.match.string
 					}))
 				}
 			});

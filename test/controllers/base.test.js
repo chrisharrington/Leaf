@@ -2,7 +2,8 @@ var sinon = require("sinon"), assert = require("assert");
 
 exports.testRoute = function(params) {
 	var func;
-	var request = params.request || sinon.stub(), response = { send: sinon.stub(), header: sinon.stub(), contentType: sinon.stub(), cookie: sinon.stub() };
+	var request = params.request || {}, response = { send: sinon.stub(), header: sinon.stub(), contentType: sinon.stub(), cookie: sinon.stub() };
+	request.host = params.host || "the host";
 	var app = {
 		get: function(route, b, c) {
 			if (!b && !c)

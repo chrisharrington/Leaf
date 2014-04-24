@@ -241,7 +241,8 @@ describe("welcome controller", function() {
 					cryptoCreateHash: params.cryptoCreateHash || sinon.stub(crypto, "createHash").returns(params.hash || hash),
 					dateNow: params.dateNow || sinon.stub(Date, "now").returns(params.date || Date.now()),
 					mapperMap: params.mapperMap || sinon.stub(mapper, "map"),
-					userUpdate: params.userUpdate || sinon.stub(repositories.User, "update").resolves()
+					userUpdate: params.userUpdate || sinon.stub(repositories.User, "update").resolves(),
+					getProject: params.getProject || sinon.stub(repositories.Project, "one").resolves({})
 				}
 			}, params));
 		}
