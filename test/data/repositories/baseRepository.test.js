@@ -139,7 +139,7 @@ describe("baseRepository", function() {
 			return _run({
 				error: "oh noes!"
 			}).catch(function(e) {
-				assert(e == "oh noes!");
+				assert(e == "Error: oh noes!");
 			});
 		});
 

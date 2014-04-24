@@ -52,7 +52,7 @@ describe("mapper", function() {
 			}).catch(function(e) {
 				message = e;
 			}).finally(function() {
-				assert(message == "No such mapping definition for \"source|destination\"");
+				assert(message == "Error: No such mapping definition for \"source|destination\"");
 			});
 		});
 

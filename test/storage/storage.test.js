@@ -53,7 +53,7 @@ describe("storage", function() {
 			}).catch(function(e) {
 				error = e;
 			}).finally(function() {
-				assert(error == "Error creating container: uh oh");
+				assert(error == "Error: Error creating container: uh oh");
 			});
 		});
 
@@ -65,7 +65,7 @@ describe("storage", function() {
 			}).catch(function(e) {
 				error = e;
 			}).finally(function() {
-				assert(error == "Error while creating block blob from stream: oh noes!");
+				assert(error == "Error: Error while creating block blob from stream: oh noes!");
 			});
 		});
 
@@ -154,7 +154,7 @@ describe("storage", function() {
 			}).catch(function(e) {
 				error = e;
 			}).finally(function() {
-				assert(error == "Error creating container: uh oh");
+				assert(error == "Error: Error creating container: uh oh");
 			});
 		});
 
@@ -177,7 +177,7 @@ describe("storage", function() {
 			}).catch(function(e) {
 				error = e;
 			}).finally(function() {
-				assert(error == "Error while creating block blob from stream: uh oh");
+				assert(error == "Error: Error while creating block blob from stream: uh oh");
 			});
 		});
 
