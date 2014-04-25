@@ -9,6 +9,8 @@ var mongoose = require("mongoose");
 var formidable = require("formidable");
 var storage = require("../storage/storage");
 var notificationEmailer = require("../email/notificationEmailer");
+var moment = require("moment");
+var config = require("../config");
 
 module.exports = function(app) {
 	app.get("/issues", authenticate, function(request, response) {
@@ -135,6 +137,7 @@ module.exports = function(app) {
 				});
 			});
 		}).then(function () {
+			request.body.date = moment.call(this, request.body.date).format(config.call(this, "dateTimeFormat"));
 			response.send(request.body, 200);
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);

@@ -8,6 +8,8 @@ var mongoose = require("mongoose");
 var storage = require("../../storage/storage");
 var notificationEmailer = require("../../email/notificationEmailer");
 var formidable = require("formidable");
+var moment = require("moment");
+var config = require("../../config");
 
 var sut = require("../../controllers/issues");
 
@@ -729,9 +731,10 @@ describe("issues", function() {
 			var date = Date.now();
 			return _runAddComment({
 				date: date,
+				formattedDate: "the formatted date",
 				assert: function(result) {
 					assert(result.response.send.calledWith({
-						date: date,
+						date: "the formatted date",
 						id: sinon.match.any,
 						issueId: sinon.match.any,
 						user: sinon.match.any,
@@ -792,6 +795,8 @@ describe("issues", function() {
 		function _runAddComment(params) {
 			params = params || {};
 			params.stubs = {
+				config: params.config || sinon.stub(config, "call").returns(params.dateFormat || "the date format"),
+				moment: params.moment || sinon.stub(moment, "call").returns({ format: params.format = sinon.stub().returns("the formatted date") }),
 				mapperMap: params.mapperMap || sinon.stub(mapper, "map").resolves(params.mapperMapResult || { date: new Date(), user: "the user id" }),
 				issueDetails: params.issueDetails || sinon.stub(repositories.Issue, "details").resolves(params.issueDetailsResult || { _id: "the id", developerId: params.developerId || "the developer id" }),
 				commentCreate: params.commentCreate || sinon.stub(repositories.Comment, "create").resolves(params.commentCreateResult || {}),

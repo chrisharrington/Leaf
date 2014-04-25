@@ -73,7 +73,6 @@
 
 		root.loading(true);
 		return $.post(IssueTracker.virtualDirectory() + "issues/add-comment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function (saved) {
-			debugger;
 			_isAdd = true;
 			var user = IssueTracker.signedInUser();
 			root.list.splice(0, 0, saved);

@@ -60,7 +60,6 @@ module.exports = function(app) {
 				response.send(mapped._id, 200);
 			});
 		}).catch(function(e) {
-			var blah = e.stack.formatStack();
 			response.send(e.stack.formatStack(), 500);
 		});
 
