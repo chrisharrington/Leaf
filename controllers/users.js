@@ -72,4 +72,18 @@ module.exports = function(app) {
 				return "The email address is invalid.";
 		}
 	});
+
+	app.post("/users/delete", authenticate, function(request, response) {
+		var id = request.body.id;
+		if (!id) {
+			response.send("Unable to delete user; no ID was provided.", 400);
+			return;
+		}
+
+		return repositories.User.remove(id).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
+	});
 };
