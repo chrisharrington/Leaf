@@ -462,6 +462,42 @@ describe("root", function() {
 			});
 		});
 
+		it("should set project to 'Leaf' when host is localhost", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				host: "localhost",
+				stubs: _buildStubs({
+					projects: [{ name: "Leaf" }]
+				}),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.calledWith("project", "project-view-model", { name: "Leaf" }));
+				}
+			});
+		});
+
+		it("should set project to subdomain", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				host: "blah.boo.com",
+				stubs: _buildStubs({
+					projects: [{ name: "not the project i'm looking for" }, { name: "blah" }]
+				}),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.calledWith("project", "project-view-model", { name: "blah" }));
+				}
+			});
+		});
+
 		function _buildStubs(params) {
 			params = params || {};
 			var stubs = {
@@ -471,7 +507,7 @@ describe("root", function() {
 				statuses: sinon.stub(caches.Status, "all").resolves([]),
 				users: params.users || sinon.stub(repositories.User, "get").resolves([]),
 				transition: sinon.stub(caches.Transition, "all").resolves([]),
-				project: sinon.stub(repositories.Project, "get").resolves([]),
+				project: sinon.stub(repositories.Project, "get").resolves(params.projects || []),
 				milestones: sinon.stub(repositories.Milestone, "get").resolves([]),
 				types: sinon.stub(caches.IssueType, "all").resolves([]),
 				signedInUser: params.userGetOne || sinon.stub(repositories.User, "one").resolves(params.user || "a user"),

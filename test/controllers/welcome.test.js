@@ -213,6 +213,26 @@ describe("welcome controller", function() {
 				assert: function(result) {
 					assert(result.response.send.calledWith({ user: sinon.match.any, project: mappedProject }, 200));
 				}
+			});
+		});
+
+		it("should send 404 when no project found", function() {
+			return _run({
+				noProject: true,
+				assert: function(result) {
+					assert(result.response.send.calledWith(404));
+				}
+			});
+		});
+
+		it("should select leaf project when host is localhost", function() {
+			var projects = [{ name: "not the project i'm looking for" }, { name: "Leaf", _id: 12345 }];
+			return _run({
+				host: "localhost",
+				projects: projects,
+				assert: function(result) {
+					assert(result.stubs.getProject.calledWith({ formattedName: "leaf" }))
+				}
 			})
 		});
 
@@ -234,7 +254,8 @@ describe("welcome controller", function() {
 						email: params.email || "the email",
 						password: params.password || "the password",
 						staySignedIn: params.staySignedIn == undefined ? "true" : params.staySignedIn
-					}
+					},
+					host: params.host || "the host"
 				},
 				stubs: {
 					userGetOne: params.userGetOne || sinon.stub(repositories.User, "one").resolves(params.noUserFound ? undefined : params.userGetOneResult || { password: params.password || "the password", session: params.session == undefined || params.session != "" ? "the session" : undefined, expiration: params.expiration || "the expiration", project: params.project || {}}),
@@ -242,7 +263,7 @@ describe("welcome controller", function() {
 					dateNow: params.dateNow || sinon.stub(Date, "now").returns(params.date || Date.now()),
 					mapperMap: params.mapperMap || sinon.stub(mapper, "map"),
 					userUpdate: params.userUpdate || sinon.stub(repositories.User, "update").resolves(),
-					getProject: params.getProject || sinon.stub(repositories.Project, "one").resolves({})
+					getProject: params.getProject || sinon.stub(repositories.Project, "one").resolves(params.noProject ? undefined : {})
 				}
 			}, params));
 		}

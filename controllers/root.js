@@ -65,11 +65,10 @@ module.exports = function(app) {
 	}
 
 	function _getProjectFromHost(request, projects) {
-		var projectName = (request.host == "localhost" ? "Leaf" : request.host.split(".")[0]).toLowerCase(), foundProject;
-		projects.forEach(function(project) {
-			if (project.name.toLowerCase() == projectName)
-				foundProject = project;
-		});
-		return foundProject || {};
+		var projectName = (request.host == "localhost" ? "Leaf" : request.host.split(".")[0]).toLowerCase();
+		for (var i = 0; i < projects.length; i++)
+			if (projects[i].name.toLowerCase() == projectName)
+				return projects[i];
+		return {};
 	}
 };
