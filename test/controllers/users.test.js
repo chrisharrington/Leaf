@@ -148,7 +148,7 @@ describe("users", function() {
 				assert: function(result) {
 					assert(result.response.send.calledWith("The name is required.", 400));
 				}
-			})
+			});
 		});
 
 		it("should send 400 with empty name", function() {
@@ -160,7 +160,7 @@ describe("users", function() {
 				assert: function(result) {
 					assert(result.response.send.calledWith("The name is required.", 400));
 				}
-			})
+			});
 		});
 
 		it("should send 400 with missing email address", function() {
@@ -171,7 +171,7 @@ describe("users", function() {
 				assert: function(result) {
 					assert(result.response.send.calledWith("The email address is required.", 400));
 				}
-			})
+			});
 		});
 
 		it("should send 400 with empty email address", function() {
@@ -305,6 +305,77 @@ describe("users", function() {
 					email: sinon.stub(emailer, "send").resolves(),
 					objectId: sinon.stub(mongoose.Types, "ObjectId").returns(params.id || "the id"),
 					config: sinon.stub(config, "call").returns(params.domain || "the domain")
+				},
+				assert: params.assert
+			});
+		}
+	});
+
+	describe("post /users/delete", function() {
+		it("should set post /users/delete route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/users/delete", sinon.match.func));
+		});
+
+		it("should send 400 with missing id", function() {
+			_run({
+				idMissing: true,
+				assert: function(result) {
+					assert(result.response.send.calledWith("Unable to delete user; no ID was provided.", 400));
+				}
+			});
+		});
+
+		it("should call remove with the given id", function() {
+			var id = "the id";
+			return _run({
+				id: id,
+				assert: function(result) {
+					assert(result.stubs.remove.calledWith(id));
+				}
+			});
+		});
+
+		it("should send 200 on success", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 on failure", function() {
+			return _run({
+				remove: sinon.stub(repositories.User, "remove").rejects(new Error("oh noes!")),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
+		it("should not call remove when no id is found", function() {
+			_run({
+				idMissing: true,
+				assert: function(result) {
+					assert(result.stubs.remove.notCalled);
+				}
+			});
+		});
+
+		function _run(params) {
+			params || {};
+			return base.testRoute({
+				sut: sut,
+				verb: "post",
+				route: "/users/delete",
+				request: {
+					body: {
+						id: params.idMissing ? undefined : params.id || "the id"
+					}
+				},
+				stubs: {
+					remove: params.remove || sinon.stub(repositories.User, "remove").resolves()
 				},
 				assert: params.assert
 			});
