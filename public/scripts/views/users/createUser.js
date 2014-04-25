@@ -25,10 +25,9 @@
 
 		root.loading(true);
 		$.post(IssueTracker.virtualDirectory() + "Users/Create", root.user()).done(function(id) {
-			alert(id);
 			root.user().id(id);
 			IssueTracker.Feedback.success(root.user().name() + " has been created.");
-			IssueTracker.Users.users.push(root.user());
+			IssueTracker.Users.users.push(_clone(root.user()));
 			IssueTracker.Dialog.hide();
 		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while creating the user. Please try again later.");
@@ -40,6 +39,18 @@
 	root.cancel = function() {
 		IssueTracker.Dialog.hide();
 	};
+
+	function _clone(user) {
+		return ko.observable({
+			id: ko.observable(user.id()),
+			name: ko.observable(user.name()),
+			emailAddress: ko.observable(user.emailAddress()),
+			isActivated: ko.observable(false),
+			isDeleted: ko.observable(false),
+			developerIssueCount: ko.observable(0),
+			testerIssueCount: ko.observable(0)
+		});
+	}
 
 	function _validate() {
 		var user = root.user();

@@ -3,32 +3,27 @@
 		button.create-user-trigger { float:left; }
 	}
 
-	div.user-container { float:left; width:33.3333%; padding-right:@spacing; .border-box;
-		>div { float:left; width:100%; .tile; padding:0; }
-		>div.user { margin-bottom:@spacing;
-			@user-profile-image-width:35px;
-			@icon-button-width:105px;
-			@height:53px;
-			>* { .border-box; padding:@small-spacing @spacing; }
-			>img { float:left; position:relative; width:@user-profile-image-width; height:@user-profile-image-width; padding:0; margin-left:@spacing; margin-top:@small-spacing; margin-bottom:@small-spacing; }
-			>h1 { float:left; width:100%; text-transform:none; letter-spacing:-1px; position:relative; padding-left:2*@spacing+@user-profile-image-width; margin-left:(@spacing+@user-profile-image-width)*-1; padding-right:@icon-button-width+@spacing; }
-			>div.icon-buttons { float:right; position:relative; width:@icon-button-width; margin-left:@icon-button-width*-1; height:@height; padding:0;
-				>i { float:right; vertical-align:middle; line-height:@height; height:@height; padding:0 @small-spacing; cursor:pointer; }
-				>i:hover { .hover; }
-			}
-			>div.info { float:left; width:100%; border-top:solid 1px @border-colour; padding:@spacing;
-				@info-height:19px;
-				>div { float:left; width:100%; margin-top:@small-spacing; height:@info-height;
-					>* { line-height:@info-height; height:100%; display:inline-block; vertical-align:middle; }
-					>i { float:left; margin-right:@small-spacing; }
-					>span.label { float:left; }
-					>span.value { float:right; font-weight:bold; color:@secondary-font-colour; }
+	div.users-container { float:left; width:100%; .border-box; position:relative;
+		@height:46px;
+		>a { float:left; width:100%; margin-top:@small-spacing; padding:0; height:@height;
+			>* { float:left; padding:@spacing; border-left:solid 1px @border-colour; color:@primary-font-colour-light; }
+			>*:first-child { border-left:none; }
+			>img { padding:0; height:100%; width:@height; .border-radius(0); }
+			>span.name { width:200px; color:black; border-left:none; }
+			>span.email { width:300px; }
+			>div.counts { float:right; padding:0; border-left:none;
+				>div { float:left; padding:0 @spacing; border-left:solid 1px @border-colour; width:48px; text-align:center;
+					>* { padding:0; vertical-align:middle; display:inline-block; line-height:@height; height:@height; }
+					>span { margin-left:2px; }
 				}
-				>div:first-child { margin-top:0; }
+			}
+			>div.actions { float:right; padding:0;
+				>i { float:right; vertical-align:middle; line-height:@height; height:@height; padding:0 @small-spacing; cursor:pointer; }
+				>i:hover { .hover; color:black; }
 			}
 		}
+		>a:first-child { margin-top:0; }
 	}
-	div.user-container:nth-child(4n) { padding-right:0; }
 }
 
 div.edit-user, div.create-user { float:left; width:600px;

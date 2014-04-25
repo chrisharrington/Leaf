@@ -53,7 +53,7 @@ module.exports = function(app) {
 			mapped.activationToken = token;
 			mapped._id = mongoose.Types.ObjectId();
 			return repositories.User.create(mapped).then(function() {
-				user.activationUrl = config.call(this, "domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
+				    user.activationUrl = config.call(this, "domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
 				user.projectName = request.project.name;
 				return emailer.send(process.cwd() + "/email/templates/newUser.html", { user: user }, user.emailAddress, "Welcome to Leaf!");
 			}).then(function() {
