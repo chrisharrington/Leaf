@@ -80,7 +80,7 @@
 	}
 	
 	function _buildParameters(count) {
-		return $.toDictionary({
+		return {
 			start: _start + 1,
 			end: _start + count,
 			project: IssueTracker.selectedProject(),
@@ -93,7 +93,7 @@
 			types: _joinFilterIds(_filter.selectedTypes(), IssueTracker.issueTypes()),
 			developers: _joinFilterIds(_filter.selectedDevelopers(), IssueTracker.users()),
 			testers: _joinFilterIds(_filter.selectedTesters(), IssueTracker.users())
-		});
+		};
 	}
 	
 	function _joinFilterIds(filterCollection, masterCollection) {
