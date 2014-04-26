@@ -11,6 +11,11 @@
 		}
 		>div.menu { float:left; margin-left:@spacing; }
 		>div.account { float:right; }
+		>div.search { float:right; height:100%; .border-box; padding:@spacing;
+			>* { float:left; height:100%; }
+			>input { box-shadow:none !important; border:none; border-top-right-radius:0px; border-bottom-right-radius:0px; width:250px; }
+			>i { line-height:30px; background:white; padding:0 @small-spacing; cursor:pointer; border-top-right-radius:3px; border-bottom-right-radius:3px; color:black; }
+		}
 
 		>div { height:100%;
 			>a { float:left; height:100%; color:inherit; padding:0 @spacing; cursor:pointer; .condensed-font;
