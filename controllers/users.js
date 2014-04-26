@@ -53,7 +53,7 @@ module.exports = function(app) {
 			mapped.activationToken = token;
 			mapped._id = mongoose.Types.ObjectId();
 			return repositories.User.create(mapped).then(function() {
-				user.activationUrl = config.call(this, "domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
+				    user.activationUrl = config.call(this, "domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
 				user.projectName = request.project.name;
 				return emailer.send(process.cwd() + "/email/templates/newUser.html", { user: user }, user.emailAddress, "Welcome to Leaf!");
 			}).then(function() {
@@ -71,5 +71,19 @@ module.exports = function(app) {
 			if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(user.emailAddress))
 				return "The email address is invalid.";
 		}
+	});
+
+	app.post("/users/delete", authenticate, function(request, response) {
+		var id = request.body.id;
+		if (!id) {
+			response.send("Unable to delete user; no ID was provided.", 400);
+			return;
+		}
+
+		return repositories.User.remove(id).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
 	});
 };

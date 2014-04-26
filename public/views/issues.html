@@ -75,21 +75,25 @@
             <div>
                 <h3>Developers</h3>
                 <!-- ko foreach: { data: IssueTracker.users } -->
+                <!-- ko if: !isDeleted -->
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedDevelopers, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedDevelopers, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
                     <i class="fa fa-check-square"></i>
                     <i class="fa fa-square-o"></i>
                 </div>
                 <!-- /ko -->
+                <!-- /ko -->
             </div>
             <div>
                 <h3>Testers</h3>
                 <!-- ko foreach: { data: IssueTracker.users } -->
+                <!-- ko if: !isDeleted -->
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTesters, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedTesters, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
                     <i class="fa fa-check-square"></i>
                     <i class="fa fa-square-o"></i>
                 </div>
+                <!-- /ko -->
                 <!-- /ko -->
             </div>
         </div>

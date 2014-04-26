@@ -24,7 +24,8 @@ describe("user mapping", function() {
 				emailNotificationForIssueAssigned: "emailNotificationForIssueAssigned",
 				emailNotificationForIssueUpdated: "emailNotificationForIssueUpdated",
 				emailNotificationForIssueDeleted: "emailNotificationForIssueDeleted",
-				emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue"
+				emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue",
+				isDeleted: "isDeleted"
 			}));
 		});
 
@@ -69,7 +70,8 @@ describe("user mapping", function() {
 				"id": "_id",
 				name: "name",
 				emailAddress: "emailAddress",
-				isActivated: sinon.match.func
+				isActivated: sinon.match.func,
+				isDeleted: "isDeleted"
 			}));
 		});
 
