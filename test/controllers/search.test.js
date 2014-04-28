@@ -5,6 +5,7 @@ var assert = require("assert"),
 require("../setup");
 
 var models = require("../../data/models");
+var mapper = require("../../data/mapping/mapper");
 
 var sut = require("../../controllers/search");
 
@@ -24,12 +25,12 @@ describe("users", function() {
 			});
 		});
 
-		it("should send retrieved issues", function() {
-			var issues = [{ number: 1 }, { number: 2 }];
+		it("should send mapped issues", function() {
+			var mapped = [{ number: 1 }, { number: 2 }];
 			return _run({
-				issues: issues
+				mapped: mapped
 			}).then(function() {
-				assert(_stubs.response.send.calledWith({ issues: issues }, sinon.match.any));
+				assert(_stubs.response.send.calledWith({ issues: mapped }, sinon.match.any));
 			});
 		});
 
@@ -69,6 +70,7 @@ describe("users", function() {
 			params = params || {};
 			_stubs = {};
 			_stubs.find = sinon.stub(models.Issue, "find").returns({ or: _stubs.or = sinon.stub().returns({ exec: _stubs.exec = params.exec || sinon.stub().yields(null, params.issues || ["the data"]) }) });
+			_stubs.map = sinon.stub(mapper, "mapAll").returns(params.mapped || [{ number: 10 }, { number: 11 }]);
 			params.request = _stubs.request = { query: { text: params.text || "the text" }};
 			params.response = _stubs.response = { send: sinon.stub() };
 

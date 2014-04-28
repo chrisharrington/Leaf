@@ -32,6 +32,8 @@ module.exports = function(app) {
 				if (err) reject(err);
 				else resolve(data);
 			});
+		}).then(function(issues) {
+			return mapper.mapAll("issue", "issue-view-model", issues);
 		});
 	}
 };
