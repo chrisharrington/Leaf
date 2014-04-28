@@ -3,8 +3,8 @@
 	root.text = ko.observable("");
 
 	root.search = function() {
-		_getSearchResults(root.text()).done(function() {
-			alert("done");
+		_getSearchResults(root.text()).done(function(results) {
+			alert(results.issues);
 		});
 	};
 

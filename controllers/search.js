@@ -19,10 +19,20 @@ module.exports = function(app) {
 	});
 
 	function _searchForIssues(text) {
-		var regex = new RegExp("text", "ig");
-		return repositories.Issues.get({
-			name: regex,
-			description: regex
+		var regex = new RegExp(text, "i");
+		var models = require("../data/models");
+//		return new Promise(function(resolve, reject) {
+//			models.Issue.find({
+//				name: { $regex: regex }
+//			}, function(err, data) {
+//				if (err) reject(err);
+//				else resolve(data);
+//			})
+//		});
+		return repositories.Issue.get({
+			name: { $regex: regex }
+		}, {
+			or: true
 		});
 	}
 };
