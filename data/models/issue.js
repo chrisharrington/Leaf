@@ -9,7 +9,6 @@ var schema = mongoose.Schema({
     opened: { type: Date, default: Date.now },
     closed: Date,
     updated: { type: Date, default: Date.now },
-    description: String,
 	priorityId: objectId,
 	priority: String,
 	priorityOrder: Number,

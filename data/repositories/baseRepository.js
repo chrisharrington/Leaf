@@ -8,7 +8,7 @@ module.exports = {
 
 		var model = this.model;
 		return new Promise(function(resolve, reject) {
-			var query = options.or ? model.or(conditions) : model.find(conditions);
+			var query = model.find(conditions);
 			if (options.sort)
 				query = query.sort(options.sort);
 			if (options.limit)
