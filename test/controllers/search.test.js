@@ -4,19 +4,41 @@ var assert = require("assert"),
 	base = require("./base.test");
 require("../setup");
 
+var controller = require("../../controllers/baseController");
 var models = require("../../data/models");
 var mapper = require("../../data/mapping/mapper");
 
 var sut = require("../../controllers/search");
 
 describe("users", function() {
-	describe("get /search", function () {
-		var _stubs;
-
+	describe("get /search", function() {
 		it("should set get /search route", function () {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
 			assert(app.get.calledWith("/search", sinon.match.func));
+		});
+
+		it("should call base.view with public/views/searchResults.html", function() {
+			var view = sinon.stub(controller, "view");
+			return base.testRoute({
+				verb: "get",
+				route: "/search",
+				sut: sut,
+				assert: function() {
+					assert(view.calledWith("public/views/searchResults.html", sinon.match.any));
+					view.restore();
+				}
+			});
+		});
+	});
+
+	describe("get /search/all", function () {
+		var _stubs;
+
+		it("should set get /search/all route", function () {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.get.calledWith("/search/all", sinon.match.func));
 		});
 
 		it("should send 200", function() {
@@ -76,7 +98,7 @@ describe("users", function() {
 
 			var func, app = {
 				get: function(route, b, c) {
-					if (route == "/search")
+					if (route == "/search/all")
 						func = c;
 				},
 				post: function() {}

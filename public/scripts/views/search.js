@@ -14,4 +14,13 @@
 		});
 	}
 
+	$(function() {
+		IssueTracker.Page.build({
+			root: root,
+			view: "search",
+			route: "#/search",
+			style: "search-container"
+		});
+	});
+
 })(root("IssueTracker.Search"));
