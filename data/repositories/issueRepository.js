@@ -4,8 +4,9 @@ var repository = Object.spawn(require("./baseRepository"), {
 	model: require("../models").Issue
 });
 
-repository.search = function(filter, sortDirection, sortComparer, start, end) {
+repository.search = function(projectId, filter, sortDirection, sortComparer, start, end) {
 	return repository.get({
+		project: projectId,
 		isDeleted: false,
 		priorityId: { $in: filter.priorities },
 		statusId: { $in: filter.statuses },

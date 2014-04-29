@@ -29,7 +29,7 @@ module.exports = function(app) {
 		if (isNaN(end))
 			end = 50;
 
-		return repositories.Issue.search({
+		return repositories.Issue.search(request.project._id, {
 			priorities: request.query.priorities.split(","),
 			statuses: request.query.statuses.split(","),
 			developers: request.query.developers.split(","),

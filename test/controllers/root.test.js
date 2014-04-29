@@ -219,7 +219,8 @@ describe("root", function() {
 						milestones: sinon.match.string,
 						issueTypes: sinon.match.string,
 						signedInUser: sinon.match.string,
-						selectedProject: sinon.match.any,
+						projectId: sinon.match.any,
+						projectName: sinon.match.any,
 						renderedScripts: sinon.match.string
 					}));
 				}
@@ -271,7 +272,8 @@ describe("root", function() {
 						milestones: sinon.match.any,
 						issueTypes: sinon.match.any,
 						signedInUser: "null",
-						selectedProject: sinon.match.any,
+						projectId: sinon.match.any,
+						projectName: sinon.match.any,
 						renderedScripts: sinon.match.any
 					}));
 				}
@@ -299,7 +301,8 @@ describe("root", function() {
 						milestones: sinon.match.any,
 						issueTypes: sinon.match.any,
 						signedInUser: sinon.match.any,
-						selectedProject: "null",
+						projectId: "null",
+						projectName: "null",
 						renderedScripts: sinon.match.any
 					}));
 				}
@@ -327,7 +330,8 @@ describe("root", function() {
 						milestones: sinon.match.string,
 						issueTypes: sinon.match.string,
 						signedInUser: sinon.match.any,
-						selectedProject: "null",
+						projectId: "null",
+						projectName: "null",
 						renderedScripts: sinon.match.string
 					}))
 				}

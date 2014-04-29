@@ -14,10 +14,9 @@
 	root.init = function (container, getRedirect) {
 		_container = container;
 		_getRedirect = getRedirect;
-		container.on("click", "button", _signIn);
 	};
 
-	function _signIn() {
+	root.signIn = function() {
 		var error = _validate();
 		if (error) {
 			IssueTracker.Feedback.error(error);
@@ -25,7 +24,7 @@
 		}
 
 		_submit();
-	}
+	};
 
 	function _validate() {
 		var model = root.model;
@@ -41,7 +40,8 @@
 		root.loading(true);
 		$.post(IssueTracker.virtualDirectory() + "sign-in", IssueTracker.Utilities.extractPropertyObservableValues(root.model)).done(function (data) {
 			IssueTracker.Utilities.setObservableProperties(data.user, IssueTracker.signedInUser());
-			IssueTracker.selectedProject(data.project);
+			IssueTracker.projectId(data.project.id);
+			IssueTracker.projectName(data.project.name);
 			IssueTracker.signedInUser(IssueTracker.Utilities.createPropertyObservables(data.user));
 
 			var redirect = _getRedirect();

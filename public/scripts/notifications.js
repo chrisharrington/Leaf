@@ -36,7 +36,7 @@
 
 	root.navigateToIssue = function(issueNumber, notificationId) {
 		_markAsViewed([notificationId]);
-        IssueTracker.IssueDetails.navigate({ "project-name": IssueTracker.selectedProject().name.formatForUrl(), number: issueNumber });
+        IssueTracker.IssueDetails.navigate({ number: issueNumber });
     };
 
 	function _loadNotifications() {

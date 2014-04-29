@@ -1,5 +1,5 @@
 @slide-menu-width:400px;
-div.slide-menu { position:fixed; z-index:@slide-menu-z-index; top:-10000px; right:0; background-color:@dark-gradient-bottom-colour; width:@slide-menu-width; .shadow;
+div.slide-menu { position:fixed; display:none; z-index:@slide-menu-z-index; top:-10000px; right:0; background-color:@dark-gradient-bottom-colour; width:@slide-menu-width; .shadow;
 	>div { float:left; width:100%; padding:@small-spacing @spacing; .border-box; border-top:solid 1px @border-colour-dark; cursor:pointer; }
 	>div:hover { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); }
 }

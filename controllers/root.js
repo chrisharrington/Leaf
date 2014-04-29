@@ -64,7 +64,8 @@ module.exports = function(app) {
 			milestones: JSON.stringify(milestones),
 			issueTypes: JSON.stringify(issueTypes),
 			signedInUser: JSON.stringify(user),
-			selectedProject: JSON.stringify(project),
+			projectId: JSON.stringify(project ? project.id : null),
+			projectName: JSON.stringify(project ? project.name : null),
 			renderedScripts: renderedScripts
 		}), 200);
 	}

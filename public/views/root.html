@@ -9,7 +9,7 @@
 	<body>
         <header>
             <div>
-                <!-- ko if: IssueTracker.selectedProject() -->
+                <!-- ko if: IssueTracker.projectId() -->
                 <div class="logo">
                     <div>
                         <img src="images/leaf.png" alt="logo" />
@@ -31,7 +31,7 @@
                             <span data-bind="visible: IssueTracker.Notifications.unviewedNotifications() > 0, text: IssueTracker.Notifications.unviewedNotifications()"></span>
                         </div>
                     </a>
-                    <a id="user-settings">
+                    <a data-bind="click: IssueTracker.UserSettings.show">
 						<i class="fa fa-user"></i>
                     </a>
                     <a id="create-issue" data-bind="attr: { href: '#/new-issue' }">
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 
-			<section class="content-container" data-bind="remoteTemplate: view"></section>
+			<section class="content-container"></section>
 		</section>
 		
 		<div class="popup">
@@ -96,7 +96,7 @@
 				<i class="fa fa-key"></i>
 				<span>Change Password</span>
 			</div>
-			<div>
+			<div id="sign-out">
 				<i class="fa fa-sign-out"></i>
 				<span>Sign Out</span>
 			</div>
@@ -200,13 +200,13 @@
 				root.projects = ko.observableArray({{{projects}}});
 				root.milestones = ko.observableArray({{{milestones}}});
 				root.issueTypes = ko.observableArray({{{issueTypes}}});
-				root.selectedProject = ko.observable({{{selectedProject}}});
+                root.projectName = ko.observable({{{projectName}}});
+                root.projectId = ko.observable({{{projectId}}});
 				root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables({{{signedInUser}}}));
 				root.selectedIssue = ko.observable();
 
 				IssueTracker.error = ko.observable("");
 				IssueTracker.success = ko.observable("");
-				IssueTracker.view = ko.observable();
 				IssueTracker.title = ko.observable();
 				IssueTracker.dialog = ko.observable();
 				IssueTracker.popup = ko.observable();
