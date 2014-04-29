@@ -498,6 +498,42 @@ describe("root", function() {
 			});
 		});
 
+		it("should return null user with no session", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: undefined }
+				},
+				host: "blah.boo.com",
+				stubs: _buildStubs({
+					projects: [{ name: "not the project i'm looking for" }, { name: "blah" }]
+				}),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.neverCalledWith("user", "user-view-model", sinon.match.any));
+				}
+			});
+		});
+
+		it("should return null project with no session", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: undefined }
+				},
+				host: "blah.boo.com",
+				stubs: _buildStubs({
+					projects: [{ name: "not the project i'm looking for" }, { name: "blah" }]
+				}),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.neverCalledWith("project", "project-view-model", sinon.match.any));
+				}
+			});
+		});
+
 		function _buildStubs(params) {
 			params = params || {};
 			var stubs = {

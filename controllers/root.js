@@ -29,8 +29,13 @@ module.exports = function(app) {
 			repositories.Project.get(),
 			repositories.Milestone.get(null, { sort: { name: 1 }}),
 			caches.IssueType.all(),
-			repositories.User.one({ session: request.cookies.session })
+			_getSignedInUser(request)
 		]);
+	}
+
+	function _getSignedInUser(request) {
+		var session = request.cookies.session;
+		return session ? repositories.User.one({ session: session }) : null;
 	}
 
 	function _mapAllUserData(request, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
