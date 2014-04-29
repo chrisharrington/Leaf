@@ -20,12 +20,11 @@ describe("authenticate", function() {
 				}
 			};
 
-			sut(request, response).then(function() {
-				assert.equal(status, 401);
-				done();
-			});
+			sut(request, response);
+			assert.equal(status, 401);
 
 			repositories.User.get.restore();
+			done();
 		});
 
 		it("should send error message when failing to retrieve user", function(done) {

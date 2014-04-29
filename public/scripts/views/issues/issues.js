@@ -37,7 +37,7 @@
 
 	root.load = function () {
 		_resetIssueList();
-		$(window).on("focus", _resetIssueList);
+		//$(window).on("focus", _resetIssueList);
 	};
 
 	root.unload = function () {
@@ -83,7 +83,6 @@
 		return {
 			start: _start + 1,
 			end: _start + count,
-			project: IssueTracker.selectedProject(),
 			direction: _sort.direction(),
 			comparer: _sort.property(),
 			filter: "",

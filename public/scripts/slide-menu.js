@@ -1,36 +1,32 @@
 var IssueTracker = window.IssueTracker || {};
 
-IssueTracker.SlideMenu = function(container, trigger) {
+IssueTracker.SlideMenu = function(container) {
 	this.HEADER_HEIGHT = 60;
 	this.ANIMATION_SPEED = 350;
 
 	this._container = container;
-	this._trigger = trigger;
 
 	var me = this;
-	trigger.on("click", function() { me.show(); });
-	$(document).on("click", function (e) {
-		if (me._container.is(":visible") && !me._wasTriggerClicked($(e.target)))
+	$(document).on("click", function () {
+		if (me._container.is(":visible"))
 			me.hide();
 	});
 };
 
-IssueTracker.SlideMenu.build = function(container, trigger) {
-	return new IssueTracker.SlideMenu(container, trigger);
+IssueTracker.SlideMenu.build = function(container) {
+	return new IssueTracker.SlideMenu(container);
 };
 
 IssueTracker.SlideMenu.prototype.show = function() {
-	this._container.css({ top: "-" + (this._container.outerHeight()-this.HEADER_HEIGHT+10) + "px" }).transition({ y: this._container.outerHeight() + 10 }, this.ANIMATION_SPEED, "ease");
+	var me = this;
+	setTimeout(function() {
+		me._container.show().css({ top: "-" + (me._container.outerHeight() - me.HEADER_HEIGHT + 10) + "px" }).transition({ y: me._container.outerHeight() + 10 }, me.ANIMATION_SPEED, "ease");
+	}, 5);
 };
 
 IssueTracker.SlideMenu.prototype.hide = function() {
-	this._container.transition({ y: 0 }, this.ANIMATION_SPEED, "ease");
-};
-
-IssueTracker.SlideMenu.prototype._wasTriggerClicked = function(context) {
-	for (var i = 0; i < this._trigger.length; i++) {
-		if ($(this._trigger[i]).attr("id") == context.attr("id") || context.parents().filter("#" + $(this._trigger[i]).attr("id")).length > 0)
-			return true;
-	}
-	return false;
+	var me = this;
+	this._container.transition({ y: 0 }, this.ANIMATION_SPEED, "ease", function() {
+		me._container.hide();
+	});
 };

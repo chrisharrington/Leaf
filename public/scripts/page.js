@@ -55,8 +55,13 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 	for (var name in routeArguments)
 		url = url.replace(":" + name, routeArguments[name].replace(/-/g, " "));
 
-	IssueTracker.view({ url: url, style: params.style, data: params.root, load: function() {
-		var container = $(".content-container");
+	$.get(url).then(function(html) {
+		var container = $(".content-container")
+			.attr("class", "content-container " + params.style)
+			.empty()
+			.append($("<div></div>").addClass("binding-container").html(html));
+		ko.applyBindings(params.root, container.find(">div.binding-container")[0]);
+
 		if (me.init && !me._initFired) {
 			me.init(container);
 			me._initFired = true;
@@ -65,8 +70,7 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 			me.load(container, routeArguments);
 		me._setTitle(params.title);
 		$(document).scrollTop();
-	} });
-	IssueTracker.title(params.title);
+	});
 };
 
 IssueTracker.Page.prototype._loadData = function() {
@@ -94,4 +98,5 @@ IssueTracker.Page.prototype._setTitle = function(title) {
 	if (typeof(title) == "function")
 		title = title();
 	document.title = title;
+	IssueTracker.title(title);
 };

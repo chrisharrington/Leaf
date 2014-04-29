@@ -219,7 +219,8 @@ describe("root", function() {
 						milestones: sinon.match.string,
 						issueTypes: sinon.match.string,
 						signedInUser: sinon.match.string,
-						selectedProject: sinon.match.any,
+						projectId: sinon.match.any,
+						projectName: sinon.match.any,
 						renderedScripts: sinon.match.string
 					}));
 				}
@@ -271,7 +272,8 @@ describe("root", function() {
 						milestones: sinon.match.any,
 						issueTypes: sinon.match.any,
 						signedInUser: "null",
-						selectedProject: sinon.match.any,
+						projectId: sinon.match.any,
+						projectName: sinon.match.any,
 						renderedScripts: sinon.match.any
 					}));
 				}
@@ -299,7 +301,8 @@ describe("root", function() {
 						milestones: sinon.match.any,
 						issueTypes: sinon.match.any,
 						signedInUser: sinon.match.any,
-						selectedProject: "null",
+						projectId: "null",
+						projectName: "null",
 						renderedScripts: sinon.match.any
 					}));
 				}
@@ -327,7 +330,8 @@ describe("root", function() {
 						milestones: sinon.match.string,
 						issueTypes: sinon.match.string,
 						signedInUser: sinon.match.any,
-						selectedProject: "null",
+						projectId: "null",
+						projectName: "null",
 						renderedScripts: sinon.match.string
 					}))
 				}
@@ -494,6 +498,42 @@ describe("root", function() {
 				}),
 				assert: function(result) {
 					assert(result.stubs.mapperMap.calledWith("project", "project-view-model", { name: "blah" }));
+				}
+			});
+		});
+
+		it("should return null user with no session", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: undefined }
+				},
+				host: "blah.boo.com",
+				stubs: _buildStubs({
+					projects: [{ name: "not the project i'm looking for" }, { name: "blah" }]
+				}),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.neverCalledWith("user", "user-view-model", sinon.match.any));
+				}
+			});
+		});
+
+		it("should return null project with no session", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: undefined }
+				},
+				host: "blah.boo.com",
+				stubs: _buildStubs({
+					projects: [{ name: "not the project i'm looking for" }, { name: "blah" }]
+				}),
+				assert: function(result) {
+					assert(result.stubs.mapperMap.neverCalledWith("project", "project-view-model", sinon.match.any));
 				}
 			});
 		});

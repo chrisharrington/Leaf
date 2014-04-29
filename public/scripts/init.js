@@ -4,21 +4,20 @@
 	var _bar;
 
 	root.init = function () {
-		_setupPath();
 		_setupHighcharts();
 		_setupNanobar();
 		_setupAjaxPrefilters();
+		_setupPath();
 
 		document.cookie = "timezoneOffset=" + new Date().getTimezoneOffset();
 
-		IssueTracker.Header.init();
         IssueTracker.Notifications.init($("div.notifications"), $("#notifications"));
-		IssueTracker.UserSettings.init($("div.user-settings"), $("#user-settings"));
+		IssueTracker.UserSettings.init($("div.user-settings"));
 		ko.applyBindings(IssueTracker);
 	};
 	
 	function _setupPath() {
-		if (IssueTracker.selectedProject())
+		if (IssueTracker.projectId())
 			Path.root("#/issues");
 		else
 			Path.root("#/welcome");
@@ -50,8 +49,8 @@
 
 	function _setupAjaxPrefilters() {
 		$.ajaxPrefilter(function (options, original) {
-			if (IssueTracker.selectedProject())
-				options.data = $.param($.extend(original.data, { projectId: IssueTracker.selectedProject().id }));
+			if (IssueTracker.projectId())
+				options.data = $.param($.extend(original.data, { projectId: IssueTracker.projectId() }));
 		});
 	}
 

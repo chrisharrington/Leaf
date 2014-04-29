@@ -1356,7 +1356,7 @@ describe("issues", function() {
 				verb: "get",
 				route: "/issues/list",
 				assert: function(result) {
-					assert(repositories.Issue.search.calledWith({
+					assert(repositories.Issue.search.calledWith(sinon.match.string, {
 						priorities: request.query.priorities.split(","),
 						statuses: request.query.statuses.split(","),
 						milestones: request.query.milestones.split(","),
@@ -1381,7 +1381,7 @@ describe("issues", function() {
 				verb: "get",
 				route: "/issues/list",
 				assert: function(result) {
-					assert(repositories.Issue.search.calledWith({
+					assert(repositories.Issue.search.calledWith(sinon.match.string, {
 						priorities: request.query.priorities.split(","),
 						statuses: request.query.statuses.split(","),
 						milestones: request.query.milestones.split(","),
@@ -1424,7 +1424,7 @@ describe("issues", function() {
 				verb: "get",
 				route: "/issues/list",
 				assert: function(result) {
-					assert(repositories.Issue.search.calledWith({
+					assert(repositories.Issue.search.calledWith(sinon.match.string, {
 						priorities: request.query.priorities.split(","),
 						statuses: request.query.statuses.split(","),
 						milestones: request.query.milestones.split(","),
@@ -1439,8 +1439,27 @@ describe("issues", function() {
 			});
 		});
 
+		it("should search for issues using given project id", function() {
+			sinon.stub(repositories.Issue, "search").resolves([]);
+
+			var request = _buildDefaultRequest();
+			return _run({
+				request: request,
+				verb: "get",
+				route: "/issues/list",
+				assert: function(result) {
+					assert(repositories.Issue.search.calledWith("the project id", sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any));
+				}
+			}).finally(function() {
+				repositories.Issue.search.restore();
+			});
+		});
+
 		function _buildDefaultRequest() {
 			return {
+				project: {
+					_id: "the project id"
+				},
 				query: {
 					start: "1",
 					end: "50",

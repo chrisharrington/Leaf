@@ -19,9 +19,28 @@ describe("issueRepository", function() {
 			sinon.stub(sut, "get").resolves();
 		});
 
+		it("should call get with given project id", function() {
+			var projectId = "the project id";
+			return _run({
+				projectId: projectId
+			}).then(function() {
+				assert(sut.get.calledWith({
+					project: projectId,
+					isDeleted: sinon.match.any,
+					priorityId: sinon.match.any,
+					statusId: sinon.match.any,
+					developerId: sinon.match.any,
+					testerId: sinon.match.any,
+					milestoneId: sinon.match.any,
+					typeId: sinon.match.any
+				}, sinon.match.any));
+			});
+		});
+
 		it("should call get with isDeleted false", function() {
 			return _run().then(function() {
 				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
 					isDeleted: false,
 					priorityId: sinon.match.any,
 					statusId: sinon.match.any,
@@ -37,6 +56,7 @@ describe("issueRepository", function() {
 			var priorities = ["first"];
 			return _run({ priorities: priorities }).then(function() {
 				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
 					isDeleted: sinon.match.any,
 					priorityId: { $in: priorities },
 					statusId: sinon.match.any,
@@ -52,6 +72,7 @@ describe("issueRepository", function() {
 			var statuses = ["first"];
 			return _run({ statuses: statuses }).then(function() {
 				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
 					isDeleted: sinon.match.any,
 					priorityId: sinon.match.any,
 					statusId: { $in: statuses },
@@ -67,6 +88,7 @@ describe("issueRepository", function() {
 			var developers = ["first"];
 			return _run({ developers: developers }).then(function() {
 				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
 					isDeleted: sinon.match.any,
 					priorityId: sinon.match.any,
 					statusId: sinon.match.any,
@@ -82,6 +104,7 @@ describe("issueRepository", function() {
 			var testers = ["first"];
 			return _run({ testers: testers }).then(function() {
 				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
 					isDeleted: sinon.match.any,
 					priorityId: sinon.match.any,
 					statusId: sinon.match.any,
@@ -97,6 +120,7 @@ describe("issueRepository", function() {
 			var milestones = ["first"];
 			return _run({ milestones: milestones }).then(function() {
 				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
 					isDeleted: sinon.match.any,
 					priorityId: sinon.match.any,
 					statusId: sinon.match.any,
@@ -112,6 +136,7 @@ describe("issueRepository", function() {
 			var types = ["first"];
 			return _run({ types: types }).then(function() {
 				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
 					isDeleted: sinon.match.any,
 					priorityId: sinon.match.any,
 					statusId: sinon.match.any,
@@ -207,7 +232,7 @@ describe("issueRepository", function() {
 
 		function _run(params) {
 			params = params || {};
-			return sut.search(
+			return sut.search(params.projectId || "the project id",
 				params.filter || {
 					priorities: params.priorities || [],
 					statuses: params.statuses || [],

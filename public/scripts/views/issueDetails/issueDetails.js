@@ -202,7 +202,7 @@
 	$(function() {
 		IssueTracker.Page.build({
 			root: root,
-			view: function () { return "Issues/Details?number=:number"; },
+			view: function () { return "issues/details?number=:number"; },
 			title: function() { return "Leaf - " + IssueTracker.selectedIssue.number() + ": " + IssueTracker.selectedIssue.description(); },
 			route: "#/issues/:number",
 			style: "issue-details-container",
