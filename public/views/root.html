@@ -25,7 +25,7 @@
                     </a>
                 </div>
                 <div class="account">
-                    <a id="notifications">
+                    <a data-bind="click: IssueTracker.Notifications.show" style="display:none;">
                         <i data-bind="attr: { class: 'fa ' + (IssueTracker.Notifications.unviewedNotifications() == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
                         <div>
                             <span data-bind="visible: IssueTracker.Notifications.unviewedNotifications() > 0, text: IssueTracker.Notifications.unviewedNotifications()"></span>

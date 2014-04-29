@@ -5,7 +5,7 @@
     var HEADER_HEIGHT = 60;
 
     var _container;
-    var _trigger;
+    var _menu;
 
 	root.loading = ko.observable(false);
 	root.notifications = ko.observableArray();
@@ -19,16 +19,19 @@
         return count;
     }, root, { deferEvaluation: true });
 
-    root.init = function(container, trigger) {
-		IssueTracker.SlideMenu.build(container, trigger);
+    root.init = function(container) {
+		_menu = IssueTracker.SlideMenu.build(container);
         _container = container;
-        _trigger = trigger;
 		_loadNotifications();
 
 		setInterval(_loadNotifications, NOTIFICATION_LOAD_INTERVAL);
 
         _container.on("click", ".mark-as-viewed", _markAllAsViewed);
     };
+
+	root.show = function() {
+		_menu.show();
+	};
 
 	root.refresh = function() {
 		_loadNotifications();
