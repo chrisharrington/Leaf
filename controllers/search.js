@@ -11,10 +11,10 @@ var base = Object.spawn(require("./baseController"));
 
 module.exports = function(app) {
 	app.get("/search", authenticate, function(request, response) {
-		return base.view("public/views/searchResults.html", response);
+		return base.view("public/views/search.html", response);
 	});
 
-	app.get("/search/all", authenticate, function (request, response) {
+	app.get("/search/query", authenticate, function (request, response) {
 		var text = request.query.text;
 		return Promise.all([
 			_searchForIssues(text)

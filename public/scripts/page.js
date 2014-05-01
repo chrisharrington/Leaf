@@ -8,6 +8,7 @@ IssueTracker.Page = function(params) {
 	params.root.navigate = function(routeParameters) { me.navigate(params.route[0], routeParameters || {}); };
 	this.load = params.root.load;
 	this.init = params.root.init;
+	this.preload = params.root.preload;
 
 	if (!(params.route instanceof Array))
 		params.route = [params.route];
@@ -54,6 +55,9 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 		url = url();
 	for (var name in routeArguments)
 		url = url.replace(":" + name, routeArguments[name].replace(/-/g, " "));
+
+	if (me.preload)
+		me.preload(routeArguments);
 
 	$.get(url).then(function(html) {
 		var container = $(".content-container")

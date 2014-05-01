@@ -18,27 +18,27 @@ describe("users", function() {
 			assert(app.get.calledWith("/search", sinon.match.func));
 		});
 
-		it("should call base.view with public/views/searchResults.html", function() {
+		it("should call base.view with public/views/search.html", function() {
 			var view = sinon.stub(controller, "view");
 			return base.testRoute({
 				verb: "get",
 				route: "/search",
 				sut: sut,
 				assert: function() {
-					assert(view.calledWith("public/views/searchResults.html", sinon.match.any));
+					assert(view.calledWith("public/views/search.html", sinon.match.any));
 					view.restore();
 				}
 			});
 		});
 	});
 
-	describe("get /search/all", function () {
+	describe("get /search/query", function () {
 		var _stubs;
 
-		it("should set get /search/all route", function () {
+		it("should set get /search/query route", function () {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
-			assert(app.get.calledWith("/search/all", sinon.match.func));
+			assert(app.get.calledWith("/search/query", sinon.match.func));
 		});
 
 		it("should send 200", function() {
@@ -98,7 +98,7 @@ describe("users", function() {
 
 			var func, app = {
 				get: function(route, b, c) {
-					if (route == "/search/all")
+					if (route == "/search/query")
 						func = c;
 				},
 				post: function() {}
