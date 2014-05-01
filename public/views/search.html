@@ -4,8 +4,8 @@
             <div class="info">
                 <span class="number" data-bind="text: number"></span>
                 <div class="name">
-                    <span class="name" data-bind="text: description"></span>
-                    <span class="details" data-bind="text: details"></span>
+                    <span class="name" data-bind="html: description"></span>
+                    <span class="details" data-bind="html: details"></span>
                 </div>
                 <div class="details">
                     <img class="user-profile-image" data-bind="attr: { title: developer, src: IssueTracker.Utilities.getUserProfileImageLocation(developerId) }" alt="" />

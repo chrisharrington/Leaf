@@ -28,18 +28,33 @@ module.exports = function(app) {
 	});
 
 	function _searchForIssues(text) {
-		var regex = new RegExp(text, "i");
-		var properties = [{ name: regex }, { details: regex }];
+		var split = text.split(" "), properties = [];
+		for (var i = 0; i < split.length; i++) {
+			var regex = new RegExp(split[i], "i");
+			properties.push({ name: regex });
+			properties.push({ details: regex });
+		}
 		if (!isNaN(parseInt(text)))
 			properties.push({ number: parseInt(text) });
 
 		return new Promise(function(resolve, reject) {
-			require("../data/models").Issue.find().or(properties).exec(function (err, data) {
+			require("../data/models").Issue.find().or(properties).sort({ number: 1 }).exec(function (err, data) {
 				if (err) reject(err);
 				else resolve(data);
 			});
 		}).then(function(issues) {
-			return mapper.mapAll("issue", "issue-view-model", issues);
+			return mapper.mapAll("issue", "issue-view-model", issues).map(function(mapped) {
+				for (var i = 0; i < split.length; i++) {
+					var value = split[i];
+					mapped.description = mapped.description.replace(new RegExp(value, "ig"), _replacer);
+					mapped.details = mapped.details.replace(new RegExp(value, "ig"), _replacer);
+				}
+				return mapped;
+			});
 		});
+	}
+
+	function _replacer(match) {
+		return "<b>" + match + "</b>";
 	}
 };
