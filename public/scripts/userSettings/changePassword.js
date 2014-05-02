@@ -50,6 +50,10 @@
 		}).done(function() {
 			IssueTracker.Feedback.success("Your password has been changed.");
 			IssueTracker.Dialog.hide();
+
+			root.currentPassword("");
+			root.newPassword("");
+			root.confirmedPassword("");
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while changing your password. Please try again later.");
 		}).always(function() {

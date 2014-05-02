@@ -7,6 +7,7 @@ var authenticate = require("../authentication/authenticate");
 var emailer = require("../email/emailer");
 var config = require("../config");
 var csprng = require("csprng");
+var crypto = require("crypto");
 var mongoose = require("mongoose");
 
 module.exports = function(app) {
@@ -85,5 +86,38 @@ module.exports = function(app) {
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});
+	});
+
+	app.post("/users/change-password", authenticate, function(request, response) {
+		var error = _validate(request);
+		if (error) {
+			response.send(error, 400);
+			return;
+		}
+
+		request.user.salt = csprng.call(this, 512, 36);
+		request.user.password = _hash(request.user.salt + request.body.password);
+		return repositories.User.update(request.user).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
+
+		function _validate(request) {
+			if (!request.body.current)
+				return "The current password is missing.";
+			if (!request.body.password)
+				return "The new password is missing.";
+			if (!request.body.confirmed)
+				return "The confirmed password is missing.";
+			if (request.body.password !== request.body.confirmed)
+				return "The new and confirmed passwords don't match.";
+			if (_hash(request.user.salt + request.body.current) !== request.user.password)
+				return "The current password is incorrect.";
+		}
+
+		function _hash(text) {
+			return crypto.createHash(config.call(this, "hashAlgorithm")).update(text).digest("hex");
+		}
 	});
 };

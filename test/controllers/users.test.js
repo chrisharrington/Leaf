@@ -10,6 +10,7 @@ var mapper = require("../../data/mapping/mapper");
 var mustache = require("mustache");
 var emailer = require("../../email/emailer");
 var csprng = require("csprng");
+var crypto = require("crypto");
 var config = require("../../config");
 var mongoose = require("mongoose");
 
@@ -377,6 +378,153 @@ describe("users", function() {
 				stubs: {
 					remove: params.remove || sinon.stub(repositories.User, "remove").resolves()
 				},
+				assert: params.assert
+			});
+		}
+	});
+
+	describe("post /users/change-password", function() {
+		it("should set post /users/change-password route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/users/change-password", sinon.match.func));
+		});
+
+//		it("should send 400 with missing current password", function() {
+//			_run({
+//				password: "the password",
+//				confirmed: "the confirmed password",
+//				assert: function(result) {
+//					assert(result.response.send.calledWith("The current password is missing.", 400));
+//				}
+//			});
+//		});
+//
+//		it("should send 400 with missing new password", function() {
+//			_run({
+//				current: "the current password",
+//				confirmed: "the confirmed password",
+//				assert: function(result) {
+//					assert(result.response.send.calledWith("The new password is missing.", 400));
+//				}
+//			});
+//		});
+//
+//		it("should send 400 with missing confirmed password", function() {
+//			_run({
+//				current: "the current password",
+//				password: "the password",
+//				assert: function(result) {
+//					assert(result.response.send.calledWith("The confirmed password is missing.", 400));
+//				}
+//			});
+//		});
+//
+//		it("should send 400 when new and confirmed passwords don't match", function() {
+//			_run({
+//				current: "the current password",
+//				password: "the password",
+//				confirmed: "the confirmed password",
+//				assert: function(result) {
+//					assert(result.response.send.calledWith("The new and confirmed passwords don't match.", 400));
+//				}
+//			});
+//		});
+//
+//		it("should send 400 when given current password doesn't match stored current password", function() {
+//			_run({
+//				current: "the current password",
+//				password: "the password",
+//				confirmed: "the password",
+//				hash: "the hash",
+//				assert: function(result) {
+//					assert(result.response.send.calledWith("The current password is incorrect.", 400));
+//				}
+//			});
+//		});
+
+		it("should calculate hash using salt and given current password", function() {
+			_run({
+				current: "the current password",
+				password: "the password",
+				confirmed: "the password",
+				salt: "the salt",
+				stored: "the stored password",
+				hash: "the hash",
+				assert: function(result) {
+					assert(result.stubs.update.calledWith("the saltthe current password"));
+				}
+			});
+		});
+
+//		it("should calculate hash using algorithm read from config", function() {
+//			_run({
+//				current: "the current password",
+//				password: "the password",
+//				confirmed: "the password",
+//				salt: "the salt",
+//				stored: "the stored password",
+//				hash: "the hash",
+//				algorithm: "the algorithm",
+//				assert: function(result) {
+//					assert(result.stubs.crypto.calledWith("the algorithm"));
+//				}
+//			});
+//		});
+//
+//		it("should calculate hash using a hex digest", function() {
+//			_run({
+//				current: "the current password",
+//				password: "the password",
+//				confirmed: "the password",
+//				salt: "the salt",
+//				stored: "the stored password",
+//				hash: "the hash",
+//				algorithm: "the algorithm",
+//				assert: function(result) {
+//					assert(result.stubs.digest.calledWith("hex"));
+//				}
+//			});
+//		});
+//
+//		it("should send 200", function() {
+//			return _run({
+//				current: "the current password",
+//				password: "the password",
+//				confirmed: "the password",
+//				salt: "the salt",
+//				stored: "the stored password",
+//				hash: "the hash",
+//				algorithm: "the algorithm",
+//				assert: function(result) {
+//					assert(result.response.send.calledWith(200));
+//				}
+//			});
+//		});
+
+		function _run(params) {
+			params || {};
+
+			var stubs = {};
+			stubs.config = sinon.stub(config, "call").returns(params.algorithm || "the hash algorithm");
+			stubs.crypto = sinon.stub(crypto, "createHash").returns({ update: stubs.update = sinon.stub().returns({ digest: stubs.digest = sinon.stub().returns(params.hash) }) });
+			stubs.update = sinon.stub(repositories.User, "update").resolves();
+			return base.testRoute({
+				sut: sut,
+				verb: "post",
+				route: "/users/change-password",
+				request: {
+					body: {
+						current: params.current,
+						password: params.password,
+						confirmed: params.confirmed
+					},
+					user: {
+						password: params.stored,
+						salt: params.salt
+					}
+				},
+				stubs: stubs,
 				assert: params.assert
 			});
 		}
