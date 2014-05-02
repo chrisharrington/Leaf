@@ -42,15 +42,16 @@ section.user-information { float:left; width:100%; height:@user-information-heig
 		>div.info { float:left; height:100%;
 			>div.user { float:left; height:100%;
 				>* { .vertical-centre(@user-information-height); }
-				>i { float:left; font-size:1.125em; margin-right:@small-spacing; }
-				>span { float:left; color:inherit !important; font-size:1em; }
+				>img { float:left; margin-right:@spacing; height:((@user-information-height)-12px); margin-top:6px; .border-radius(3px); }
+				>span { float:left; color:inherit; }
+				>span.email { color:darken(@primary-font-colour-dark-background, 10%); margin-left:@spacing; }
 			}
 		}
 		>div.actions { float:right; height:100%;
 			>div { float:left; padding:0 @spacing; cursor:pointer;
 				>* { .vertical-centre(@user-information-height); }
 				>i { float:left; font-size:1.125em; margin-right:@small-spacing; }
-				>span { float:left; color:inherit !important; font-size:1em; }
+				>span { float:left; color:inherit; font-size:0.875em; }
 			}
 			>div:hover { .gradient(lighten(@user-information-background, 5%), lighten(@user-information-background, 15%)); }
 		}

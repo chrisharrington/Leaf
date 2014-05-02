@@ -52,8 +52,9 @@
                 <div>
                     <div class="info">
                         <div class="user">
-                            <i class="fa fa-user"></i>
+                            <img data-bind="attr: { src: Utilities.getUserProfileImageLocation(signedInUser().id()) }" alt="user-profile-image" />
                             <span data-bind="text: signedInUser().name"></span>
+							<span class="email" data-bind="text: signedInUser().emailAddress"></span>
                         </div>
                     </div>
 					<div class="actions">
