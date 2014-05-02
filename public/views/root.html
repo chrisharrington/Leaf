@@ -8,7 +8,7 @@
 </head>
 	<body>
         <header>
-            <div>
+            <div class="header-wrapper">
                 <!-- ko if: IssueTracker.projectId() -->
                 <div class="logo">
 					<a href="#/issues">
@@ -89,26 +89,26 @@
 			</div>
 		</div>
 
-		<div class="user-settings slide-menu">
-			<div id="email-notification-settings-trigger">
-				<i class="fa fa-envelope"></i>
-				<span>Email Notifications</span>
-			</div>
-			<div>
-				<i class="fa fa-user"></i>
-				<span>Profile</span>
-			</div>
-			<div>
-				<i class="fa fa-key"></i>
-				<span>Change Password</span>
-			</div>
-			<div id="sign-out">
-				<i class="fa fa-sign-out"></i>
-				<span>Sign Out</span>
-			</div>
-		</div>
+        <div class="user-settings slide-menu">
+            <div id="email-notification-settings-trigger">
+                <i class="fa fa-envelope"></i>
+                <span>Email Notifications</span>
+            </div>
+            <div>
+                <i class="fa fa-user"></i>
+                <span>Profile</span>
+            </div>
+            <div>
+                <i class="fa fa-key"></i>
+                <span>Change Password</span>
+            </div>
+            <div id="sign-out">
+                <i class="fa fa-sign-out"></i>
+                <span>Sign Out</span>
+            </div>
+        </div>
 
-		<div class="notifications slide-menu">
+        <div class="notifications slide-menu">
             <div class="mark-as-viewed">
                 <i class="fa fa-check"></i>
                 <span>Mark all notifications as read</span>
@@ -152,7 +152,7 @@
             </div>
             <!-- /ko -->
             <!-- /ko -->
-		</div>
+        </div>
 
 		<script type="text/html" id="email-notification-settings-template">
 			<div class="email-notifications-dialog">

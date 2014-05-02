@@ -20,7 +20,11 @@ IssueTracker.SlideMenu.build = function(container) {
 IssueTracker.SlideMenu.prototype.show = function() {
 	var me = this;
 	setTimeout(function() {
-		me._container.show().css({ top: "-" + (me._container.outerHeight() - me.HEADER_HEIGHT + 10) + "px" }).transition({ y: me._container.outerHeight() + 10 }, me.ANIMATION_SPEED, "ease");
+		var contentContainer = $(".content-container");
+		me._container.show().css({
+			top: "-" + (me._container.outerHeight() - me.HEADER_HEIGHT + 10) + "px",
+			left: (contentContainer.outerWidth() + contentContainer.position().left - me._container.outerWidth()) + "px"
+		}).transition({ y: me._container.outerHeight() + 10 }, me.ANIMATION_SPEED, "ease");
 	}, 5);
 };
 
