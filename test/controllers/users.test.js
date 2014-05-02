@@ -40,10 +40,10 @@ describe("users", function() {
 			});
 		});
 
-		it("should get users", function() {
+		it("should get users sorted by name ascending", function() {
 			return _run({
 				assert: function(result) {
-					assert(result.stubs.getUsers.calledWith());
+					assert(result.stubs.getUsers.calledWith(null, { sort: { name: 1 }}));
 				}
 			});
 		});

@@ -24,7 +24,7 @@ module.exports = function(app) {
 		return Promise.all([
 			caches.Priority.all(),
 			caches.Status.all(),
-			repositories.User.get(),
+			repositories.User.get(null, { sort: { name: 1 }}),
 			caches.Transition.all(),
 			repositories.Project.get(),
 			repositories.Milestone.get(null, { sort: { name: 1 }}),

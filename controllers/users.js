@@ -14,7 +14,7 @@ module.exports = function(app) {
 		return Promise.all([
 			fs.readFileAsync("public/views/users.html"),
 			repositories.Issue.get({ project: request.project._id }),
-			repositories.User.get()
+			repositories.User.get(null, { sort: { name: 1 }})
 		]).spread(function(html, issues, users) {
 			var issuesByUser = _organizeIssuesByUser(issues);
 			return mapper.mapAll("user", "user-summary-view-model", users).map(function(user) {

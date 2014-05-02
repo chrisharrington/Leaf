@@ -421,7 +421,7 @@ describe("root", function() {
 			});
 		});
 
-		it("should get statuses in ascending 'order' order", function() {
+		it("should get cached statuses", function() {
 			return base.testRoute({
 				sut: sut,
 				verb: "get",
@@ -432,6 +432,36 @@ describe("root", function() {
 				stubs: _buildStubs(),
 				assert: function(result) {
 					assert(result.stubs.statuses.calledWith());
+				}
+			});
+		});
+
+		it("should get cached transitions", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.transitions.calledWith());
+				}
+			});
+		});
+
+		it("should get cached issue types", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.types.calledWith());
 				}
 			});
 		});
@@ -451,7 +481,7 @@ describe("root", function() {
 			});
 		});
 
-		it("should get issue types in ascending 'name' order", function() {
+		it("should get users in ascending 'name' order", function() {
 			return base.testRoute({
 				sut: sut,
 				verb: "get",
@@ -461,7 +491,7 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.types.calledWith());
+					assert(result.stubs.users.calledWith(null, { sort: { name: 1 }}));
 				}
 			});
 		});
@@ -546,7 +576,7 @@ describe("root", function() {
 				priorities: params.priorities || sinon.stub(caches.Priority, "all").resolves([]),
 				statuses: sinon.stub(caches.Status, "all").resolves([]),
 				users: params.users || sinon.stub(repositories.User, "get").resolves([]),
-				transition: sinon.stub(caches.Transition, "all").resolves([]),
+				transitions: sinon.stub(caches.Transition, "all").resolves([]),
 				project: sinon.stub(repositories.Project, "get").resolves(params.projects || []),
 				milestones: sinon.stub(repositories.Milestone, "get").resolves([]),
 				types: sinon.stub(caches.IssueType, "all").resolves([]),
