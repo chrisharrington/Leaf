@@ -33,7 +33,7 @@
                             <span data-bind="visible: IssueTracker.Notifications.unviewedNotifications() > 0, text: IssueTracker.Notifications.unviewedNotifications()"></span>
                         </div>
                     </a>
-                    <a data-bind="click: IssueTracker.UserSettings.show">
+                    <a id="user-information" data-bind="click: UserSettings.show, css: { selected: UserSettings.visible() }">
 						<i class="fa fa-user"></i>
                     </a>
                     <a id="create-issue" data-bind="attr: { href: '#/new-issue' }">
@@ -41,11 +41,42 @@
                     </a>
                 </div>
 				<div class="search">
-					<input type="text" data-bind="value: Search.text, enter: Search.go" />
+					<input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
 					<i class="fa fa-search" data-bind="click: Search.go"></i>
 				</div>
                 <!-- /ko -->
             </div>
+
+            <!-- ko if: signedInUser() != null -->
+            <section class="user-information" data-bind="slideVisible: UserSettings.visible">
+                <div>
+                    <div class="info">
+                        <div class="user">
+                            <i class="fa fa-user"></i>
+                            <span data-bind="text: signedInUser().name"></span>
+                        </div>
+                    </div>
+					<div class="actions">
+						<div data-bind="click: UserSettings.EmailNotifications.show">
+							<i class="fa fa-envelope"></i>
+							<span>Email Notifications</span>
+						</div>
+						<div>
+							<i class="fa fa-user"></i>
+							<span>Profile</span>
+						</div>
+						<div>
+							<i class="fa fa-key"></i>
+							<span>Change Password</span>
+						</div>
+						<div data-bind="click: UserSettings.signOut">
+							<i class="fa fa-sign-out"></i>
+							<span>Sign Out</span>
+						</div>
+					</div>
+                </div>
+            </section>
+            <!-- /ko -->
         </header>
 
         <div class="bar-container"></div>
@@ -88,25 +119,6 @@
 				<i class="fa fa-times"></i>
 			</div>
 		</div>
-
-        <div class="user-settings slide-menu">
-            <div id="email-notification-settings-trigger">
-                <i class="fa fa-envelope"></i>
-                <span>Email Notifications</span>
-            </div>
-            <div>
-                <i class="fa fa-user"></i>
-                <span>Profile</span>
-            </div>
-            <div>
-                <i class="fa fa-key"></i>
-                <span>Change Password</span>
-            </div>
-            <div id="sign-out">
-                <i class="fa fa-sign-out"></i>
-                <span>Sign Out</span>
-            </div>
-        </div>
 
         <div class="notifications slide-menu">
             <div class="mark-as-viewed">
@@ -178,8 +190,8 @@
                     <span class="more-info">When a comment is added to an issue you're assigned to and you have this option checked, you'll receive an email.</span>
 				</div>
 				<div class="button-container">
-					<button class="cancel">Cancel</button>
-					<button class="save">Save</button>
+					<button class="cancel" data-bind="click: cancel">Cancel</button>
+					<button class="save" data-bind="click: save">Save</button>
 				</div>
 			</div>
 		</script>

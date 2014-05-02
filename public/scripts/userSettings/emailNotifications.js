@@ -4,13 +4,8 @@
 
 	root.saving = ko.observable(false);
 
-	root.init = function(template, trigger) {
+	root.init = function(template) {
 		_template = template;
-
-		$(trigger).on("click", _load);
-
-		$(document).on("click", "div.email-notifications-dialog button.save", _save);
-		$(document).on("click", "div.email-notifications-dialog button.cancel", function() { IssueTracker.Dialog.hide(); });
 	};
 
 	root.toggle = function(setting) {
@@ -18,11 +13,15 @@
 		IssueTracker.signedInUser()[setting](!on);
 	};
 
-	function _load() {
-		IssueTracker.Dialog.load(_template);
-	}
+	root.show = function() {
+		IssueTracker.Dialog.load(_template, root);
+	};
 
-	function _save() {
+	root.cancel = function() {
+		IssueTracker.Dialog.hide();
+	};
+
+	root.save = function() {
 		root.saving(true);
 		$.post(IssueTracker.virtualDirectory() + "notifications/email", {
 			emailNotificationForIssueAssigned: IssueTracker.signedInUser().emailNotificationForIssueAssigned(),
@@ -37,6 +36,6 @@
 		}).always(function() {
 			root.saving(false);
 		});
-	}
+	};
 
 })(root("IssueTracker.UserSettings.EmailNotifications"));

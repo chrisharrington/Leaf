@@ -12,7 +12,7 @@
 		document.cookie = "timezoneOffset=" + new Date().getTimezoneOffset();
 
         IssueTracker.Notifications.init($("div.notifications"), $("#notifications"));
-		IssueTracker.UserSettings.init($("div.user-settings"));
+		IssueTracker.UserSettings.init($("div.user-information"));
 		ko.applyBindings(IssueTracker);
 	};
 	

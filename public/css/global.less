@@ -75,6 +75,7 @@
 @hover-colour:rgba(255, 255, 255, 0.8);
 
 .gradient (@top, @bottom) { background:linear-gradient(to bottom, @top, @bottom); }
+.vertical-centre (@height) { height:@height; line-height:@height; display:inline-block; vertical-align:middle; }
 .dark-gradient { background: linear-gradient(@dark-gradient-light-colour, @dark-gradient-dark-colour); }
 .horizontal-gradient (@left, @right, @start: 0%) { background: linear-gradient(to right, @left @start, @right); }
 .secondary-gradient { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); }
