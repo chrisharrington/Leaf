@@ -3,7 +3,8 @@
 	root.visible = ko.observable(false);
 
 	root.init = function() {
-		IssueTracker.UserSettings.EmailNotifications.init("#email-notification-settings-template", "#email-notification-settings-trigger");
+		IssueTracker.UserSettings.EmailNotifications.init("#email-notification-settings-template");
+		IssueTracker.UserSettings.ChangePassword.init("#change-password-template");
 
 		$(document).on("click", function () {
 			if (root.visible())

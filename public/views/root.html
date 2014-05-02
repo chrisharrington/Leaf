@@ -66,7 +66,7 @@
 							<i class="fa fa-user"></i>
 							<span>Profile</span>
 						</div>
-						<div>
+						<div data-bind="click: UserSettings.ChangePassword.show">
 							<i class="fa fa-key"></i>
 							<span>Change Password</span>
 						</div>
@@ -193,6 +193,21 @@
 				<div class="button-container">
 					<button class="cancel" data-bind="click: cancel">Cancel</button>
 					<button class="save" data-bind="click: save">Save</button>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/html" id="change-password-template">
+			<div class="change-password form two-button">
+				<h1>Change Password</h1>
+				<input type="password" placeholder="Current password..." data-bind="value: currentPassword" />
+				<input type="password" placeholder="New password..." data-bind="value: newPassword" />
+				<input type="password" placeholder="Confirmed password..." data-bind="value: confirmedPassword" />
+				<div class="button-container first">
+					<button data-bind="click: save, css: { loading: loading }">Change Password</button>
+				</div>
+				<div class="button-container">
+					<button data-bind="click: cancel">Cancel</button>
 				</div>
 			</div>
 		</script>

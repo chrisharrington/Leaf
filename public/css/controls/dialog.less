@@ -9,6 +9,13 @@
 	.form {
 		>input, >select, >textarea, >button { margin-top:@dialog-spacing; }
 	}
+
+	.two-button.form {
+		div.button-container { float:left; width:50%; padding-left:@dialog-spacing; .border-box; margin-top:@dialog-spacing;
+			>button { width:100%; }
+		}
+		div.button-container.first { padding-left:0; }
+	}
 }
 
 .overlay { position:fixed; z-index:@overlay-z-index; top:0; right:0; bottom:0; left:0; display:none; background-color:#eeeeee; opacity:0.8; }
