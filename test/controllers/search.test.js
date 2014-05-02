@@ -127,6 +127,14 @@ describe("users", function() {
 			});
 		});
 
+		it("should sort issue results by number", function() {
+			return _run({
+				exec: sinon.stub().yields(new Error("oh noes!"), null)
+			}).then(function() {
+				assert(_stubs.sort.calledWith({ number: 1 }));
+			});
+		});
+
 		it("should send 500 on error", function() {
 			return _run({
 				exec: sinon.stub().yields(new Error("oh noes!"), null)
