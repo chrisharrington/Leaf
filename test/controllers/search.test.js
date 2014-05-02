@@ -48,7 +48,7 @@ describe("users", function() {
 		});
 
 		it("should send mapped issues", function() {
-			var mapped = [{ number: 1 }, { number: 2 }];
+			var mapped = [{ details: "the first details", description: "the first description", number: 10 }, { details: "the second details", description: "the second description", number: 11 }];
 			return _run({
 				mapped: mapped
 			}).then(function() {
@@ -57,7 +57,7 @@ describe("users", function() {
 		});
 
 		it("should find issues with name or details with non-number text", function() {
-			var text = "not a number", regex = new RegExp(text, "i");
+			var text = "not-a-number", regex = new RegExp(text, "i");
 			return _run({
 				text: text
 			}).then(function() {
@@ -71,6 +71,59 @@ describe("users", function() {
 				text: text
 			}).then(function() {
 				assert(_stubs.or.calledWith([{ name: regex }, { details: regex }, { number: parseInt(text) }]))
+			});
+		});
+
+		it("should split search term using ' '", function() {
+			var text = "first second";
+			var first = new RegExp("first", "i");
+			var second = new RegExp("second", "i");
+			return _run({
+				text: text
+			}).then(function() {
+				assert(_stubs.or.calledWith([{ name: first }, { details: first }, { name: second }, { details: second }]))
+			});
+		});
+
+		it("should highlight found text values in details", function() {
+			var text = "text";
+			var mapped = [{
+				details: "texty text",
+				description: "blah blah blah"
+			}];
+			return _run({
+				mapped: mapped,
+				text: text
+			}).then(function() {
+				assert(_stubs.response.send.calledWith({ issues: [{ details: "<b>text</b>y <b>text</b>", description: "blah blah blah" }] }, sinon.match.any));
+			});
+		});
+
+		it("should highlight found text values in description", function() {
+			var text = "text";
+			var mapped = [{
+				description: "texty text",
+				details: "blah blah blah"
+			}];
+			return _run({
+				mapped: mapped,
+				text: text
+			}).then(function() {
+				assert(_stubs.response.send.calledWith({ issues: [{ description: "<b>text</b>y <b>text</b>", details: "blah blah blah" }] }, sinon.match.any));
+			});
+		});
+
+		it("should highlight nothing when no search values are found", function() {
+			var text = "text";
+			var mapped = [{
+				description: "boo boo boo",
+				details: "blah blah blah"
+			}];
+			return _run({
+				mapped: mapped,
+				text: text
+			}).then(function() {
+				assert(_stubs.response.send.calledWith({ issues: [{ description: "boo boo boo", details: "blah blah blah" }] }, sinon.match.any));
 			});
 		});
 
@@ -91,8 +144,12 @@ describe("users", function() {
 		function _run(params) {
 			params = params || {};
 			_stubs = {};
-			_stubs.find = sinon.stub(models.Issue, "find").returns({ or: _stubs.or = sinon.stub().returns({ exec: _stubs.exec = params.exec || sinon.stub().yields(null, params.issues || ["the data"]) }) });
-			_stubs.map = sinon.stub(mapper, "mapAll").returns(params.mapped || [{ number: 10 }, { number: 11 }]);
+			_stubs.find = sinon.stub(models.Issue, "find")
+				.returns({ or: _stubs.or = sinon.stub()
+				.returns({ sort: _stubs.sort = params.sort || sinon.stub()
+				.returns({ exec: _stubs.exec = params.exec || sinon.stub()
+				.yields(null, params.issues || ["the data"]) }) }) });
+			_stubs.map = sinon.stub(mapper, "mapAll").returns(params.mapped || [{ details: "the first details", description: "the first description", number: 10 }, { details: "the second details", description: "the second description", number: 11 }]);
 			params.request = _stubs.request = { query: { text: params.text || "the text" }};
 			params.response = _stubs.response = { send: sinon.stub() };
 
