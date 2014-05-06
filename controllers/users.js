@@ -28,16 +28,6 @@ module.exports = function(app) {
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);
 		});
-
-		function _organizeIssuesByUser(issues) {
-			var organized = {};
-			issues.forEach(function(issue) {
-				if (!organized[issue.developerId])
-					organized[issue.developerId] = 0;
-				organized[issue.developerId]++;
-			});
-			return organized;
-		}
 	});
 
 	app.post("/users/create", authenticate, function(request, response) {
@@ -120,4 +110,14 @@ module.exports = function(app) {
 			return crypto.createHash(config.call(this, "hashAlgorithm")).update(text).digest("hex");
 		}
 	});
+
+	function _organizeIssuesByUser(issues) {
+		var organized = {};
+		issues.forEach(function(issue) {
+			if (!organized[issue.developerId])
+				organized[issue.developerId] = 0;
+			organized[issue.developerId]++;
+		});
+		return organized;
+	}
 };

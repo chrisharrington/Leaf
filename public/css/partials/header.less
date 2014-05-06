@@ -37,14 +37,14 @@ header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-grad
 }
 
 @user-information-height:40px;
-section.user-information { float:left; width:100%; height:@user-information-height; .gradient(@user-information-background, lighten(@user-information-background, 10%)); position:fixed; box-shadow:0 4px 2px -2px rgba(0, 0, 0, 0.5);
+section.user-information { float:left; width:100%; height:@user-information-height; .gradient(@user-information-background, lighten(@user-information-background, 5%)); position:fixed; box-shadow:0 4px 2px -2px rgba(0, 0, 0, 0.5);
 	>div { margin:auto; padding:0 @spacing; .border-box; max-width:@application-width; height:100%; color:@primary-font-colour-dark-background; height:100%;
 		>div.info { float:left; height:100%;
 			>div.user { float:left; height:100%;
-				>* { .vertical-centre(@user-information-height); }
+				>* { float:left; .vertical-centre(@user-information-height); }
 				>img { float:left; margin-right:@spacing; height:((@user-information-height)-12px); margin-top:6px; .border-radius(3px); }
 				>span { float:left; color:inherit; }
-				>span.email { color:darken(@primary-font-colour-dark-background, 10%); margin-left:@spacing; }
+				>a { color:@primary-font-colour-dark-background; font-size:0.875em; cursor:pointer; text-decoration:underline; margin-left:@spacing;}
 			}
 		}
 		>div.actions { float:right; height:100%;
@@ -53,7 +53,7 @@ section.user-information { float:left; width:100%; height:@user-information-heig
 				>i { float:left; font-size:1.125em; margin-right:@small-spacing; }
 				>span { float:left; color:inherit; }
 			}
-			>div:hover { .gradient(lighten(@user-information-background, 5%), lighten(@user-information-background, 15%)); }
+			>div:hover { .gradient(lighten(@user-information-background, 5%), lighten(@user-information-background, 10%)); }
 		}
 	}
 }

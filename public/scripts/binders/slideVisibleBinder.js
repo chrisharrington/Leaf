@@ -7,7 +7,7 @@ ko.bindingHandlers.slideVisible = {
 	update: function(element, valueAccessor) {
 		// Whenever the value subsequently changes, slowly fade the element in or out
 		var value = valueAccessor();
-		var speed = 300;
+		var speed = 250;
 		ko.unwrap(value) ? $(element).slideDown(speed) : $(element).slideUp(speed);
 	}
 };

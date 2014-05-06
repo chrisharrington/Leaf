@@ -54,7 +54,7 @@
                         <div class="user">
                             <img data-bind="attr: { src: Utilities.getUserProfileImageLocation(signedInUser().id()) }" alt="user-profile-image" />
                             <span data-bind="text: signedInUser().name"></span>
-							<span class="email" data-bind="text: signedInUser().emailAddress"></span>
+							<a data-bind="click: UserSettings.signOut">Sign Out</a>
                         </div>
                     </div>
 					<div class="actions">
@@ -62,17 +62,9 @@
 							<i class="fa fa-envelope"></i>
 							<span>Email Notifications</span>
 						</div>
-						<div>
-							<i class="fa fa-user"></i>
-							<span>Profile</span>
-						</div>
 						<div data-bind="click: UserSettings.ChangePassword.show">
-							<i class="fa fa-key"></i>
+							<i class="fa fa-lock"></i>
 							<span>Change Password</span>
-						</div>
-						<div data-bind="click: UserSettings.signOut">
-							<i class="fa fa-sign-out"></i>
-							<span>Sign Out</span>
 						</div>
 					</div>
                 </div>
