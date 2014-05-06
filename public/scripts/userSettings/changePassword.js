@@ -13,7 +13,7 @@
 	};
 
 	root.show = function() {
-		IssueTracker.Dialog.load(_template, root);
+		IssueTracker.Dialog.load(_template, root).find("input:first").focus();
 	};
 
 	root.cancel = function() {

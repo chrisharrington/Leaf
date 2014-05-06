@@ -2,7 +2,7 @@
 
 	var _template;
 
-	root.saving = ko.observable(false);
+	root.loading = ko.observable(false);
 
 	root.init = function(template) {
 		_template = template;
@@ -22,7 +22,7 @@
 	};
 
 	root.save = function() {
-		root.saving(true);
+		root.loading(true);
 		$.post(IssueTracker.virtualDirectory() + "notifications/email", {
 			emailNotificationForIssueAssigned: IssueTracker.signedInUser().emailNotificationForIssueAssigned(),
 			emailNotificationForIssueDeleted: IssueTracker.signedInUser().emailNotificationForIssueDeleted(),
@@ -34,7 +34,7 @@
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while updating your email notification settings. Please try again later.");
 		}).always(function() {
-			root.saving(false);
+			root.loading(false);
 		});
 	};
 

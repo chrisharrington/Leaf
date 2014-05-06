@@ -1,16 +1,16 @@
-.email-notifications-dialog { .border-box; width:500px; padding:0 !important;
+.email-notifications-dialog { .border-box; width:600px; padding:0 !important;
 	@setting-height:19px;
-	>h2 { float:left; width:100%; padding:@small-spacing @spacing; }
-	>div { float:left; width:100%; padding:@small-spacing @spacing; border-top:solid 1px @border-colour; .border-box; }
-	>div.setting { cursor:pointer;
-		>span.title { float:left; font-weight:bold; }
-		>span.more-info { float:left; font-size:0.875em; width:100%; margin-top:@tiny-spacing; color:@primary-font-colour-lightest; }
-		>i { float:right; margin-top:1px; }
+	@checkbox-width:18px;
+	>h1 { float:left; width:100%; padding:@small-spacing @spacing; }
+	>div { float:left; width:100%; padding:@small-spacing @spacing; .border-box; }
+	>div.setting { cursor:pointer; font-size:1.125em;
+		>i { float:left; margin-top:1px; margin-right:@small-spacing; font-size:0.875em; width:13px; }
 		>i.fa-square { color:#E5E5E5; }
 		>i.fa-check-square { font-weight:bold; color:@secondary-font-colour-light; }
+		>span.title { float:left; font-weight:bold; color:@primary-font-colour-dark-background; }
+		>span.more-info { float:left; padding-right:@checkbox-width+@spacing; .border-box; font-size:0.875em; width:100%; margin-top:@tiny-spacing; color:@primary-font-colour-lightest; }
 	}
-	>div.setting:hover { .hover-light-background; }
-	>div.button-container {
-		>button { float:right; margin-left:@small-spacing; }
-	}
+	>div.setting:hover { background:lighten(@dialog-background, 10%); }
+	>div.button-container { padding:0 @spacing @spacing @spacing; }
+	>div.button-container.first { padding-left:@spacing !important; padding-right:0; }
 }

@@ -160,31 +160,33 @@
         </div>
 
 		<script type="text/html" id="email-notification-settings-template">
-			<div class="email-notifications-dialog">
-				<h2>Email Notification Settings</h2>
+			<div class="email-notifications-dialog form two-button">
+				<h1>Email Notification Settings</h1>
 				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueAssigned'); }">
-					<span class="title">Issue Assigned</span>
 					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueAssigned() ? 'fa-check-square' : 'fa-square') }"></i>
+					<span class="title">Issue Assigned</span>
                     <span class="more-info">If you have this notification enabled, you'll receive an email when an issue is assigned to you as either developer or tester.</span>
 				</div>
 				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueUpdated'); }">
-					<span class="title">Issue Updated</span>
 					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueUpdated() ? 'fa-check-square' : 'fa-square') }"></i>
+					<span class="title">Issue Updated</span>
                     <span class="more-info">You'll be notified by email if you have this option checked when an issue you're assigned to is changed in any way.</span>
 				</div>
 				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueDeleted'); }">
-					<span class="title">Issue Deleted</span>
 					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueDeleted() ? 'fa-check-square' : 'fa-square') }"></i>
+					<span class="title">Issue Deleted</span>
                     <span class="more-info">If an issue you're assigned to as either developer or tester is deleted and you have this option checked, you'll get an email.</span>
 				</div>
 				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForNewCommentForAssignedIssue'); }">
-					<span class="title">New Comment on Assigned Issue</span>
 					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForNewCommentForAssignedIssue() ? 'fa-check-square' : 'fa-square') }"></i>
+					<span class="title">New Comment on Assigned Issue</span>
                     <span class="more-info">When a comment is added to an issue you're assigned to and you have this option checked, you'll receive an email.</span>
 				</div>
+				<div class="button-container first">
+					<button data-bind="click: save, css: { loading: loading }">Save Email Notifications</button>
+				</div>
 				<div class="button-container">
-					<button class="cancel" data-bind="click: cancel">Cancel</button>
-					<button class="save" data-bind="click: save">Save</button>
+					<button data-bind="click: cancel">Cancel</button>
 				</div>
 			</div>
 		</script>
