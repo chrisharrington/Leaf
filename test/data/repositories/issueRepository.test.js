@@ -3,9 +3,8 @@ var assert = require("assert"),
 	sinon = require("sinon"),
 	Promise = require("bluebird"),
 	models = require("../../../data/models"),
-	repositories = require("../../../data/repositories");
-
-
+	repositories = require("../../../data/repositories"),
+	base = require("../../base");
 
 var sut = require("../../../data/repositories/issueRepository");
 
@@ -501,8 +500,92 @@ describe("issueRepository", function() {
 	});
 
 	describe("issueCountsPerUser", function() {
-		it("should retrieve counts for every user", function() {
+		var _stubs;
 
+		it("should retrieve counts for developers", function() {
+			return _run().then(function() {
+				assert(_stubs.aggregate.calledWith({ $match: { project: sinon.match.any }}, { $group: { _id: "$developerId", count: { $sum: 1 }}}));
+			});
 		});
+
+		it("should retrieve counts for testers", function() {
+			return _run().then(function() {
+				assert(_stubs.aggregate.calledWith({ $match: { project: sinon.match.any }}, { $group: { _id: "$testerId", count: { $sum: 1 }}}));
+			});
+		});
+
+		it("should set developer counts", function() {
+			var count = 10, userId = "the user id";
+			var developer = { _id: userId, count: count };
+			return _run({
+				developerCounts: [developer]
+			}).then(function(result) {
+				assert(result[userId].developer == count);
+			});
+		});
+
+		it("should set tester counts to 0 with no tester users found", function() {
+			var count = 10, userId = "the user id";
+			var developer = { _id: userId, count: count };
+			return _run({
+				developerCounts: [developer]
+			}).then(function(result) {
+				assert(result[userId].tester == 0);
+			});
+		});
+
+		it("should set tester counts", function() {
+			var count = 10, userId = "the user id";
+			var tester = { _id: userId, count: count };
+			return _run({
+				testerCounts: [tester]
+			}).then(function(result) {
+				assert(result[userId].tester == count);
+			});
+		});
+
+		it("should set developer counts to 0 with no developer users found", function() {
+			var count = 10, userId = "the user id";
+			var tester = { _id: userId, count: count };
+			return _run({
+				testerCounts: [tester]
+			}).then(function(result) {
+				assert.equal(result[userId].developer, 0);
+			});
+		});
+
+		it("should set both developer and tester counts", function() {
+			var developerCount = 10, testerCount = 20, userId = "the user id";
+			var developer = { _id: userId, count: developerCount };
+			var tester = { _id: userId, count: testerCount };
+			return _run({
+				developerCounts: [developer],
+				testerCounts: [tester]
+			}).then(function(result) {
+				assert.equal(result[userId].developer, developerCount);
+				assert.equal(result[userId].tester, testerCount);
+			});
+		});
+
+		it("should return empty object with no counts", function() {
+			return _run().then(function(result) {
+				assert.deepEqual(result, {});
+			});
+		});
+
+		afterEach(function() {
+			base.restoreStubs(_stubs);
+		});
+
+		function _run(params) {
+			params = params || {};
+
+			_stubs = {};
+			_stubs.aggregate = sinon.stub(models.Issue, "aggregateAsync");
+			_stubs.aggregate.withArgs({ $match: { project: sinon.match.any }}, { $group: { _id: "$developerId", count: { $sum: 1 }}}).resolves(params.developerCounts || []);
+			_stubs.aggregate.withArgs({ $match: { project: sinon.match.any }}, { $group: { _id: "$testerId", count: { $sum: 1 }}}).resolves(params.testerCounts || []);
+
+			return sut.issueCountsPerUser(params.projectId || "the project id");
+		}
 	});
 });
