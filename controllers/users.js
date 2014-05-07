@@ -110,14 +110,4 @@ module.exports = function(app) {
 			return crypto.createHash(config.call(this, "hashAlgorithm")).update(text).digest("hex");
 		}
 	});
-
-	function _organizeIssuesByUser(issues) {
-		var organized = {};
-		issues.forEach(function(issue) {
-			if (!organized[issue.developerId])
-				organized[issue.developerId] = 0;
-			organized[issue.developerId]++;
-		});
-		return organized;
-	}
 };

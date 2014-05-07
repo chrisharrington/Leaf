@@ -503,13 +503,29 @@ describe("users", function() {
 			});
 		});
 
+		it("should send 500 on error", function() {
+			return _run({
+				userUpdate: sinon.stub(repositories.User, "update").rejects(new Error("oh noes!")),
+				current: "the current password",
+				password: "the password",
+				confirmed: "the password",
+				salt: "the salt",
+				stored: "the stored password",
+				hash: "the stored password",
+				algorithm: "the algorithm",
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
 		function _run(params) {
 			params || {};
 
 			var stubs = {};
 			stubs.config = sinon.stub(config, "call").returns(params.algorithm || "the hash algorithm");
 			stubs.crypto = sinon.stub(crypto, "createHash").returns({ update: stubs.update = sinon.stub().returns({ digest: stubs.digest = sinon.stub().returns(params.hash) }) });
-			stubs.userUpdate = sinon.stub(repositories.User, "update").resolves();
+			stubs.userUpdate = params.userUpdate || sinon.stub(repositories.User, "update").resolves();
 			return base.testRoute({
 				sut: sut,
 				verb: "post",
