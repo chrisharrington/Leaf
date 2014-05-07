@@ -78,4 +78,16 @@ repository.getNextNumber = function(projectId) {
 	});
 };
 
+repository.issueCountsPerUser = function(projectId) {
+	var model = this.model;
+	var date = Date.now();
+	return new Promise(function(resolve, reject) {
+		model.aggregate({ $group: { _id: "$number", count: { $sum: 1 }}}).exec(function(err, result) {
+
+			if (err) reject(err);
+			else resolve(result);
+		});
+	});
+};
+
 module.exports = repository;

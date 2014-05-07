@@ -10,20 +10,26 @@ var controllers = require("./controllers/controllers");
 var connection = require("./data/connection");
 var repositories = require("./data/repositories");
 var ObjectId = require("mongoose").Types.ObjectId;
+var models = require("./data/models");
 
 var Promise = require("bluebird");
 
 var ISSUE_COUNT = 10000;
 
 return connection.open().then(function () {
-	return Promise.all(_removeIssues());
-	//return Promise.all(_buildIssues(ISSUE_COUNT));
+	//return _removeIssues();
+	return Promise.all(_buildIssues(ISSUE_COUNT));
 }).then(function () {
 	console.log("Done.");
 });
 
 function _removeIssues() {
-
+	return new Promise(function(resolve, reject) {
+		models.Issue.find({ type: "Load Testing" }).remove(function(err) {
+			if (err) reject(err);
+			else resolve();
+		});
+	});
 }
 
 function _buildIssues(count) {
@@ -31,7 +37,7 @@ function _buildIssues(count) {
 	for (var i = 0; i < count; i++) {
 		promises.push(repositories.Issue.create({
 			name: "load testing issue name",
-			number: 10,
+			number: Math.round(Math.random()*10)%3,
 			closed: Date.now(),
 			developer: "Chris Harrington",
 			tester: "Chris Harrington",
@@ -54,8 +60,6 @@ function _buildIssues(count) {
 			updated: Date.now(),
 			opened: Date.now(),
 			isDeleted: false
-		}).then(function () {
-			console.log("Issue created.");
 		}));
 		console.log("Pushed at " + i);
 	}

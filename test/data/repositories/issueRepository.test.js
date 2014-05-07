@@ -1,9 +1,11 @@
+require("../../setup");
 var assert = require("assert"),
 	sinon = require("sinon"),
 	Promise = require("bluebird"),
 	models = require("../../../data/models"),
 	repositories = require("../../../data/repositories");
-require("../../setup");
+
+
 
 var sut = require("../../../data/repositories/issueRepository");
 
@@ -495,6 +497,19 @@ describe("issueRepository", function() {
 			}).finally(function() {
 				sut.one.restore();
 			});
+		});
+	});
+
+	describe("issueCountsPerUser", function() {
+		it("should retrieve counts for every user", function() {
+//			var projectId = "the project id", blah;
+//			return require("../../../data/connection").open().then(function() {
+//				return sut.issueCountsPerUser(projectId);
+//			}).then(function(result) {
+//				blah = result;
+//			}).catch(function(e) {
+//				console.log(e);
+//			});
 		});
 	});
 });
