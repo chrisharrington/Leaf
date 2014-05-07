@@ -79,15 +79,19 @@ repository.getNextNumber = function(projectId) {
 };
 
 repository.issueCountsPerUser = function(projectId) {
-	var model = this.model;
-	var date = Date.now();
-	return new Promise(function(resolve, reject) {
-		model.aggregate({ $group: { _id: "$number", count: { $sum: 1 }}}).exec(function(err, result) {
-
-			if (err) reject(err);
-			else resolve(result);
-		});
+	var model = Promise.promisifyAll(this.model);
+	return Promise.all([
+		model.aggregateAsync({ $group: { _id: "$developerId", count: { $sum: 1 }}})
+	]).spread(function(developers, testers) {
+		return developers;
 	});
+//
+//	return new Promise(function(resolve, reject) {
+//		model.aggregate({ $group: { _id: "$developerId", count: { $sum: 1 }}}, function(err, result) {
+//			if (err) reject(err);
+//			else resolve(result);
+//		});
+//	});
 };
 
 module.exports = repository;
