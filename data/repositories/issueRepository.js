@@ -81,9 +81,22 @@ repository.getNextNumber = function(projectId) {
 repository.issueCountsPerUser = function(projectId) {
 	var model = Promise.promisifyAll(this.model);
 	return Promise.all([
-		model.aggregateAsync({ $group: { _id: "$developerId", count: { $sum: 1 }}})
+		model.aggregateAsync({ $group: { _id: "$developerId", count: { $sum: 1 }}}),
+		model.aggregateAsync({ $group: { _id: "$testerId", count: { $sum: 1 }}})
 	]).spread(function(developers, testers) {
-		return developers;
+		var result = {};
+		developers.forEach(function(developerCount) {
+			result[developerCount._id] = {
+				developer: developerCount.count,
+				tester: 0
+			};
+		});
+		testers.forEach(function(testerCount) {
+			if (!result[testerCount._id])
+				result[testerCount._id] = { developer: 0 };
+			result[testerCount._id].tester = testerCount.count;
+		});
+		return result;
 	});
 //
 //	return new Promise(function(resolve, reject) {

@@ -14,13 +14,13 @@ module.exports = function(app) {
 	app.get("/users", authenticate, function (request, response) {
 		return Promise.all([
 			fs.readFileAsync("public/views/users.html"),
-			repositories.Issue.get({ project: request.project._id }),
+			repositories.Issue.issueCountsPerUser(request.project._id),
 			repositories.User.get(null, { sort: { name: 1 }})
-		]).spread(function(html, issues, users) {
-			var issuesByUser = _organizeIssuesByUser(issues);
+		]).spread(function(html, issueCounts, users) {
 			return mapper.mapAll("user", "user-summary-view-model", users).map(function(user) {
-				user.developerIssueCount = issuesByUser[user.id] || 0;
-				user.testerIssueCount = 0;
+				var counts = issueCounts[user.id] || { developer: 0, tester: 0 };
+				user.developerIssueCount = counts.developer;
+				user.testerIssueCount = counts.tester;
 				return user;
 			}).then(function(mapped) {
 				response.send(mustache.render(html.toString(), { users: JSON.stringify(mapped) }), 200);

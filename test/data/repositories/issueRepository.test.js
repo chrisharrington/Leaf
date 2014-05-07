@@ -502,14 +502,16 @@ describe("issueRepository", function() {
 
 	describe("issueCountsPerUser", function() {
 		it("should retrieve counts for every user", function() {
-//			var projectId = "the project id", blah;
-//			return require("../../../data/connection").open().then(function() {
-//				return sut.issueCountsPerUser(projectId);
-//			}).then(function(result) {
-//				blah = result;
-//			}).catch(function(e) {
-//				console.log(e);
-//			});
+			var projectId = "the project id", blah;
+			var date = Date.now();
+			return require("../../../data/connection").open().then(function() {
+				return sut.issueCountsPerUser(projectId);
+			}).then(function(result) {
+				console.log(Date.now() - date);
+				blah = result;
+			}).catch(function(e) {
+				console.log(e);
+			});
 		});
 	});
 });
