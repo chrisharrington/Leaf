@@ -1,13 +1,14 @@
 ko.bindingHandlers.slideVisible = {
 	init: function(element, valueAccessor) {
-		// Initially set the element to be instantly visible/hidden depending on the value
 		var value = valueAccessor();
-		$(element).toggle(ko.unwrap(value)); // Use "unwrapObservable" so we can handle values that may or may not be observable
+		$(element).toggle(ko.unwrap(value.bool));
 	},
 	update: function(element, valueAccessor) {
-		// Whenever the value subsequently changes, slowly fade the element in or out
 		var value = valueAccessor();
-		var speed = 250;
-		ko.unwrap(value) ? $(element).slideDown(speed) : $(element).slideUp(speed);
+		var speed = value.speed || 250;
+		if (ko.unwrap(value.bool))
+			$(element).height(0).css("overflow", "hidden").show().velocity({ height: value.height }, speed);
+		else
+			$(element).velocity({ height: 0 }, speed);
 	}
 };

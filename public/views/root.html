@@ -48,7 +48,7 @@
             </div>
 
             <!-- ko if: signedInUser() != null -->
-            <section class="user-information" data-bind="slideVisible: UserSettings.visible">
+            <section class="user-information" data-bind="slideVisible: { speed: 250, height: 40, bool: UserSettings.visible }">
                 <div>
                     <div class="info">
                         <div class="user">
