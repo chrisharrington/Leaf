@@ -36,7 +36,7 @@ describe("users", function() {
 			var projectId = "the project id";
 			return _run({
 				assert: function(result) {
-					assert(result.stubs.getIssues.calledWith({ project: projectId }));
+					assert(result.stubs.getIssues.calledWith(projectId));
 				}
 			});
 		});
@@ -98,16 +98,17 @@ describe("users", function() {
 			});
 		});
 
-		it("should set developer issue count", function() {
+		it("should set developer and tester issue count", function() {
 			var userId = "the user id";
 			var users = [{ _id: userId }];
-			var issues = [{ developerId: userId }, { developerId: userId }];
+			var issueCounts = {};
+			issueCounts[userId] = { developer: 10, tester: 20 };
 			return _run({
 				users: users,
 				mapped: [{ name: "blah", id: userId }],
-				issues: issues,
+				issueCounts: issueCounts,
 				assert: function(result) {
-					assert(result.stubs.mustache.calledWith(sinon.match.any, { users: JSON.stringify([{ name: "blah", id: userId, developerIssueCount: issues.length, testerIssueCount: 0 }]) }));
+					assert(result.stubs.mustache.calledWith(sinon.match.any, { users: JSON.stringify([{ name: "blah", id: userId, developerIssueCount: 10, testerIssueCount: 20 }]) }));
 				}
 			});
 		});
@@ -124,7 +125,7 @@ describe("users", function() {
 				},
 				stubs: {
 					readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves(params.html || "the html"),
-					getIssues: sinon.stub(repositories.Issue, "get").resolves(params.issues || []),
+					getIssues: sinon.stub(repositories.Issue, "issueCountsPerUser").resolves(params.issueCounts || []),
 					getUsers: sinon.stub(repositories.User, "get").resolves(params.users || []),
 					mapAll: sinon.stub(mapper, "mapAll").resolves(params.mapped || []),
 					mustache: sinon.stub(mustache, "render").returns(params.rendered || "the rendered html")
