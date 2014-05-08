@@ -34,6 +34,9 @@
 	};
 
 	root.getUserProfileImageLocation = function(userId, size) {
+		if (!userId)
+			userId = IssueTracker.signedInUser().id();
+
 		var email;
 		$.each(IssueTracker.users(), function(i, user) {
 			if (user.id == userId)

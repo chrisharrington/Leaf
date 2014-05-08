@@ -26,20 +26,32 @@
                         <span>Users</span>
                     </a>
                 </div>
-                <div class="account">
-                    <a data-bind="click: IssueTracker.Notifications.show" style="display:none;">
-                        <i data-bind="attr: { class: 'fa ' + (IssueTracker.Notifications.unviewedNotifications() == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
-                        <div>
-                            <span data-bind="visible: IssueTracker.Notifications.unviewedNotifications() > 0, text: IssueTracker.Notifications.unviewedNotifications()"></span>
-                        </div>
-                    </a>
-                    <a id="user-information" href="#/profile">
-						<i class="fa fa-user"></i>
-                    </a>
+                <div class="actions">
+					<a data-bind="click: UserSettings.signOut">
+						<i class="fa fa-sign-out"></i>
+					</a>
+					<a data-bind="click: IssueTracker.Notifications.show" style="display:none;">
+						<i data-bind="attr: { class: 'fa ' + (IssueTracker.Notifications.unviewedNotifications() == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
+						<div>
+							<span data-bind="visible: IssueTracker.Notifications.unviewedNotifications() > 0, text: IssueTracker.Notifications.unviewedNotifications()"></span>
+						</div>
+					</a>
                     <a id="create-issue" data-bind="attr: { href: '#/new-issue' }">
                         <i class="fa fa-plus"></i>
                     </a>
                 </div>
+				<!-- ko if: IssueTracker.signedInUser() -->
+				<a class="account" href="#/profile">
+					<div class="image">
+						<img data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation() }" alt="user-profile" />
+					</div>
+					<div class="labels">
+						<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
+						<br />
+						<span class="email" data-bind="text: IssueTracker.signedInUser().emailAddress"></span>
+					</div>
+				</a>
+				<!-- /ko -->
 				<div class="search">
 					<input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
 					<i class="fa fa-search" data-bind="click: Search.go"></i>
