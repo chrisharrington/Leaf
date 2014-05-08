@@ -1,8 +1,7 @@
 .profile-container {
-  	@container-height:427px;
-	.inner-profile-container { float:left; width:100%; height:@container-height; padding:0;
+	.inner-profile-container { float:left; width:100%; padding:0;
 	  	>div { float:left; width:50%; height:100%; padding:@spacing; .border-box; }
-	  	>div.user-information {
+	  	>div.user-information { border-right:solid 1px @border-colour;
 			>h1 { float:left; width:100%; }
 		 	>div { float:left; width:100%; margin-top:@spacing;
 				>* { float:left; width:100%; margin-top:@tiny-spacing; }
@@ -15,7 +14,7 @@
 			 	>input.right { float:right; }
 			}
 		}
-	  	>div.email-notifications { border-left:solid 1px @border-colour; padding:@spacing 0;
+	  	>div.email-notifications { padding:@spacing 0;
 		  	>h1 { padding:0 @spacing; margin-bottom:@spacing; }
 		  	>div.setting { float:left; width:100%; .border-box; margin-top:@tiny-spacing; cursor:pointer; padding:@small-spacing @spacing;
 			  	>* { float:left; }

@@ -3,6 +3,7 @@ var assert = require("assert"),
 	Promise = require("bluebird");
 require("../setup");
 
+var mustache = require("mustache");
 var fs = Promise.promisifyAll(require("fs"));
 var base = require("../base");
 
@@ -47,6 +48,27 @@ describe("baseController", function() {
 			});
 		});
 
+		it("should render model when model is given", function() {
+			var html = "the html", model = "the modeL";
+			return _run({
+				html: html,
+				model: model
+			}).then(function() {
+				assert(_stubs.render.calledWith(html.toString(), model));
+			});
+		});
+
+		it("should send rendered html when model is given", function() {
+			var html = "the html", model = "the modeL", rendered = "the rendered html";
+			return _run({
+				html: html,
+				model: model,
+				rendered: rendered
+			}).then(function() {
+				assert(_stubs.send.calledWith(rendered, 200));
+			});
+		});
+
 		afterEach(function() {
 			base.restoreStubs(_stubs);
 		});
@@ -55,9 +77,10 @@ describe("baseController", function() {
 			params = params || {};
 			_stubs = {};
 			_stubs.readFile = params.readFile || sinon.stub(fs, "readFileAsync").resolves(params.html);
+			_stubs.render = params.render || sinon.stub(mustache, "render").returns(params.rendered);
 			return sut.view(params.location || "the location", params.response || {
 				send: _stubs.send = sinon.stub()
-			});
+			}, params.model);
 		}
 	});
 });
