@@ -271,4 +271,26 @@ describe("baseRepository", function() {
 			});
 		}
 	});
+
+	describe("save", function() {
+		it("should filter update by object's id", function() {
+			sut.model = { updateAsync: sinon.stub().resolves() };
+
+			var object = { _id: "the id", name: "the name" };
+			return sut.save(object).then(function() {
+				assert(sut.model.updateAsync.calledWith({ _id: "the id" }, sinon.match.any));
+			});
+		});
+
+		it("should call update without object's id", function() {
+			sut.model = { updateAsync: sinon.stub().resolves() };
+
+			var object = { _id: "the id", name: "the name" };
+			return sut.save(object).then(function() {
+				assert(sut.model.updateAsync.calledWith(sinon.match.any, { name: "the name" }));
+			});
+		});
+
+
+	});
 });

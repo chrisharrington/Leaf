@@ -13,6 +13,8 @@ var csprng = require("csprng");
 var crypto = require("crypto");
 var config = require("../../config");
 var mongoose = require("mongoose");
+var baseController = require("../../controllers/baseController");
+var hash = require("../../authentication/hash");
 
 var sut = require("../../controllers/users");
 
@@ -129,6 +131,154 @@ describe("users", function() {
 					getUsers: sinon.stub(repositories.User, "get").resolves(params.users || []),
 					mapAll: sinon.stub(mapper, "mapAll").resolves(params.mapped || []),
 					mustache: sinon.stub(mustache, "render").returns(params.rendered || "the rendered html")
+				},
+				assert: params.assert
+			});
+		}
+	});
+
+	describe("get /users/profile", function() {
+		it("should set get /users/profile route", function () {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.get.calledWith("/users/profile", sinon.match.func));
+		});
+
+		it("should call base.view with 'public/views/profile.html'", function() {
+			var view = sinon.stub(baseController, "view");
+			return base.testRoute({
+				verb: "get",
+				route: "/users/profile",
+				sut: sut,
+				stubs: { base: view },
+				assert: function(result) {
+					assert(view.calledWith("public/views/profile.html", sinon.match.any));
+				}
+			})
+		});
+
+		it("should call base.view with response", function() {
+			var view = sinon.stub(baseController, "view");
+			return base.testRoute({
+				verb: "get",
+				route: "/users/profile",
+				sut: sut,
+				stubs: { base: view },
+				assert: function(result) {
+					assert(view.calledWith(sinon.match.any, result.response));
+				}
+			})
+		});
+	});
+
+	describe("post /users/profile", function() {
+		it("should set post /users/profile route", function () {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/users/profile", sinon.match.func));
+		});
+
+		it("should map user from request.body", function() {
+			var body = { name: "the incoming user's name" };
+			return _run({
+				body: body,
+				assert: function(result) {
+					assert(result.stubs.mapper.calledWith("user-view-model", "user", body));
+				}
+			});
+		});
+
+		it("should save mapped user", function() {
+			var mapped = { name: "the mapped name" };
+			return _run({
+				mapped: mapped,
+				assert: function(result) {
+					assert(result.stubs.save.calledWith(mapped));
+				}
+			});
+		});
+
+		it("should send 200", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 with error", function() {
+			return _run({
+				mapper: sinon.stub(mapper, "map").rejects(new Error("oh noes!")),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
+		it("should not generate new password when no password is given", function() {
+			var mapped = { name: "the mapped name", password: undefined };
+			return _run({
+				mapped: mapped,
+				assert: function(result) {
+					assert(result.stubs.hash.notCalled);
+				}
+			});
+		});
+
+		it("should generate new salt when password is given", function() {
+			return _run({
+				password: "not undefined",
+				assert: function(result) {
+					assert(result.stubs.csprng.calledWith(sinon.match.any, 512, 36));
+				}
+			});
+		});
+
+		it("should generate new password when password is given", function() {
+			var salt = "the salt", password = "secret password";
+			return _run({
+				salt: salt,
+				password: password,
+				assert: function(result) {
+					assert(result.stubs.hash.calledWith(sinon.match.any, salt + password));
+				}
+			});
+		});
+
+		it("should save user with generated password when password is given", function() {
+			var salt = "the salt", password = "secret password", hash = "the hash";
+			return _run({
+				salt: salt,
+				password: password,
+				hash: hash,
+				assert: function(result) {
+					assert(result.stubs.save.calledWith({ salt: salt, password: hash }));
+				}
+			});
+		});
+
+		function _run(params) {
+			params = params || {};
+			return base.testRoute({
+				sut: sut,
+				verb: "post",
+				route: "/users/profile",
+				request: {
+					project: {
+						name: params.projectName,
+						_id: params.projectId || "the project id"
+					},
+					body: params.body || {
+						password: params.password,
+						name: "the name",
+						emailAddress: "blah@blah.com"
+					}
+				},
+				stubs: {
+					mapper: params.mapper || sinon.stub(mapper, "map").resolves(params.mapped || {}),
+					csprng: params.csprng || sinon.stub(csprng, "call").returns(params.salt || "the salt"),
+					hash: sinon.stub(hash, "call").returns(params.hash || "the hash"),
+					save: sinon.stub(repositories.User, "save").resolves()
 				},
 				assert: params.assert
 			});
