@@ -5,6 +5,11 @@
 	root.password = ko.observable("");
 	root.confirmed = ko.observable("");
 
+	root.load = function() {
+		root.password("");
+		root.confirmed("");
+	};
+
 	root.save = function() {
 		var error = _validate();
 		if (error)
