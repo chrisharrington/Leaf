@@ -124,7 +124,7 @@
 	</div>
 
     <div class="attached-files shadow" data-bind="foreach: IssueTracker.selectedIssue.files">
-        <a class="tile" data-bind="attr: { href: IssueTracker.virtualDirectory() + 'issues/download-attached-file?id=' + $data.id }" target="_blank">
+        <a class="tile" data-bind="attr: { href: IssueTracker.virtualDirectory + 'issues/download-attached-file?id=' + $data.id }" target="_blank">
             <i class="fa fa-paperclip"></i>
             <span class="name" data-bind="text: name"></span>
             <span class="size" data-bind="text: size"></span>

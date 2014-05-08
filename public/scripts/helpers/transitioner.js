@@ -38,7 +38,7 @@
 	
 	function _pushTransition(issueId, statusId) {
 		root.transitioning(true);
-		$.post(IssueTracker.virtualDirectory() + "Issues/ExecuteTransition", { issueId: issueId, statusId: statusId }).fail(function() {
+		$.post(IssueTracker.virtualDirectory + "Issues/ExecuteTransition", { issueId: issueId, statusId: statusId }).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while performing the transition. Please try again later.");
 		}).always(function() {
 			root.transitioning(false);

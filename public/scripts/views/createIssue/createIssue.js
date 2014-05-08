@@ -88,7 +88,7 @@
 	}
 
 	function _send() {
-		return $.post(IssueTracker.virtualDirectory() + "issues/create", IssueTracker.Utilities.extractPropertyObservableValues(root.createModel));
+		return $.post(IssueTracker.virtualDirectory + "issues/create", IssueTracker.Utilities.extractPropertyObservableValues(root.createModel));
 	}
 
 	function _toggleSelectedChoice() {

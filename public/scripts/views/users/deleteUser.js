@@ -11,7 +11,7 @@
 
 	root.confirm = function () {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "users/delete", root.user()).done(function() {
+		$.post(IssueTracker.virtualDirectory + "users/delete", root.user()).done(function() {
 			IssueTracker.Feedback.success(root.user().name() + " has been deleted.");
 			IssueTracker.Dialog.hide();
 			_removeUserFromList();

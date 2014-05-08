@@ -19,10 +19,10 @@
 					</a>
                 </div>
                 <div class="menu">
-                    <a data-bind="attr: { href: '#/issues' }">
+                    <a href="#/issues">
                         <span>Issues</span>
                     </a>
-                    <a data-bind="attr: { href: '#/users' }">
+                    <a href="#/users">
                         <span>Users</span>
                     </a>
                 </div>
@@ -33,7 +33,7 @@
                             <span data-bind="visible: IssueTracker.Notifications.unviewedNotifications() > 0, text: IssueTracker.Notifications.unviewedNotifications()"></span>
                         </div>
                     </a>
-                    <a id="user-information" data-bind="click: UserSettings.show, css: { selected: UserSettings.visible() }">
+                    <a id="user-information" href="#/profile">
 						<i class="fa fa-user"></i>
                     </a>
                     <a id="create-issue" data-bind="attr: { href: '#/new-issue' }">
@@ -46,30 +46,6 @@
 				</div>
                 <!-- /ko -->
             </div>
-
-            <!-- ko if: signedInUser() != null -->
-            <section class="user-information" data-bind="slideVisible: { speed: 250, bool: UserSettings.visible }">
-                <div>
-                    <div class="info">
-                        <div class="user">
-                            <img data-bind="attr: { src: Utilities.getUserProfileImageLocation(signedInUser().id()) }" alt="user-profile-image" />
-                            <span data-bind="text: signedInUser().name"></span>
-							<a data-bind="click: UserSettings.signOut">Sign Out</a>
-                        </div>
-                    </div>
-					<div class="actions">
-						<div data-bind="click: UserSettings.EmailNotifications.show">
-							<i class="fa fa-envelope"></i>
-							<span>Email Notifications</span>
-						</div>
-						<div data-bind="click: UserSettings.ChangePassword.show">
-							<i class="fa fa-lock"></i>
-							<span>Change Password</span>
-						</div>
-					</div>
-                </div>
-            </section>
-            <!-- /ko -->
         </header>
 
         <div class="bar-container"></div>
@@ -220,7 +196,7 @@
 
             $(function () {
                 var root = window.IssueTracker || (window.IssueTracker = {});
-                root.virtualDirectory = ko.observable("/");
+                root.virtualDirectory = "/";
                 root.priorities = ko.observableArray({{{priorities}}});
 				root.statuses = ko.observableArray({{{statuses}}});
 				root.users = ko.observableArray({{{users}}});

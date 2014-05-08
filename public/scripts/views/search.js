@@ -27,7 +27,7 @@
 
 	function _getSearchResults(text) {
 		return $.ajax({
-			url: IssueTracker.virtualDirectory() + "search/query",
+			url: IssueTracker.virtualDirectory + "search/query",
 			data: { text: text },
 			global: false
 		}).fail(function() {

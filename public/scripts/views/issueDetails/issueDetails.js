@@ -172,7 +172,7 @@
 
 	function _save() {
 		if (_updateNeeded)
-			return $.post(IssueTracker.virtualDirectory() + "issues/update", _buildIssueParameters())
+			return $.post(IssueTracker.virtualDirectory + "issues/update", _buildIssueParameters())
 		else
 			return new ResolvedDeferred();
 	}

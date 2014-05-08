@@ -38,7 +38,7 @@
 
 	function _submit() {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "sign-in", IssueTracker.Utilities.extractPropertyObservableValues(root.model)).done(function (data) {
+		$.post(IssueTracker.virtualDirectory + "sign-in", IssueTracker.Utilities.extractPropertyObservableValues(root.model)).done(function (data) {
 			IssueTracker.Utilities.setObservableProperties(data.user, IssueTracker.signedInUser());
 			IssueTracker.projectId(data.project.id);
 			IssueTracker.projectName(data.project.name);

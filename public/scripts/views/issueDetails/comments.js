@@ -47,7 +47,7 @@
 
 	function _removeConfirmed(comment) {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "issues/delete-comment", { comment: comment }).done(function() {
+		$.post(IssueTracker.virtualDirectory + "issues/delete-comment", { comment: comment }).done(function() {
 			IssueTracker.Dialog.hide();
 			root.list.remove(function(c) { return c.id == comment.id; });
 			IssueTracker.Feedback.success("The comment has been deleted.");
@@ -72,7 +72,7 @@
 			return new ResolvedDeferred();
 
 		root.loading(true);
-		return $.post(IssueTracker.virtualDirectory() + "issues/add-comment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function (saved) {
+		return $.post(IssueTracker.virtualDirectory + "issues/add-comment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function (saved) {
 			_isAdd = true;
 			var user = IssueTracker.signedInUser();
 			root.list.splice(0, 0, saved);

@@ -21,6 +21,7 @@ describe("user mapping", function() {
 				"id": "_id",
 				name: "name",
 				emailAddress: "emailAddress",
+				phone: "phone",
 				emailNotificationForIssueAssigned: "emailNotificationForIssueAssigned",
 				emailNotificationForIssueUpdated: "emailNotificationForIssueUpdated",
 				emailNotificationForIssueDeleted: "emailNotificationForIssueDeleted",
@@ -47,7 +48,8 @@ describe("user mapping", function() {
 			assert(_define.calledWith("user-view-model", "user", {
 				"_id": "id",
 				name: "name",
-				emailAddress: "emailAddress"
+				emailAddress: "emailAddress",
+				phone: "phone"
 			}));
 		});
 
@@ -70,6 +72,7 @@ describe("user mapping", function() {
 				"id": "_id",
 				name: "name",
 				emailAddress: "emailAddress",
+				phone: "phone",
 				isActivated: sinon.match.func,
 				isDeleted: "isDeleted"
 			}));

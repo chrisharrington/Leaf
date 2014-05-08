@@ -23,7 +23,7 @@
 
 	root.save = function() {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "notifications/email", {
+		$.post(IssueTracker.virtualDirectory + "notifications/email", {
 			emailNotificationForIssueAssigned: IssueTracker.signedInUser().emailNotificationForIssueAssigned(),
 			emailNotificationForIssueDeleted: IssueTracker.signedInUser().emailNotificationForIssueDeleted(),
 			emailNotificationForIssueUpdated: IssueTracker.signedInUser().emailNotificationForIssueUpdated(),

@@ -45,7 +45,7 @@
 	function _loadNotifications() {
 		root.loading(true);
         $.ajax({
-            url: IssueTracker.virtualDirectory() + "notifications",
+            url: IssueTracker.virtualDirectory + "notifications",
             global: false
         }).done(function(notifications) {
 			root.notifications.removeAll();
@@ -74,7 +74,7 @@
     }
 
 	function _markAsViewed(notificationIds) {
-		return $.post(IssueTracker.virtualDirectory() + "notifications/mark-as-viewed", { notificationIds: notificationIds.join(",") }).done(function() {
+		return $.post(IssueTracker.virtualDirectory + "notifications/mark-as-viewed", { notificationIds: notificationIds.join(",") }).done(function() {
 			$(root.notifications()).each(function() {
 				this.isViewed(true);
 			});

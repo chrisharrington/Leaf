@@ -43,7 +43,7 @@
 
 	function _save() {
 		root.saving(true);
-		$.post(IssueTracker.virtualDirectory() + "users/change-password", {
+		$.post(IssueTracker.virtualDirectory + "users/change-password", {
 			current: root.currentPassword(),
 			password: root.newPassword(),
 			confirmed: root.confirmedPassword()

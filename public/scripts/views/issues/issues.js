@@ -61,7 +61,7 @@
 
 		_nextIssuesRunning = true;
 		$.ajax({
-			url: IssueTracker.virtualDirectory() + "issues/list",
+			url: IssueTracker.virtualDirectory + "issues/list",
 			data: _buildParameters(count),
 			global: false
 		}).done(function (issues) {

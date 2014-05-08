@@ -11,7 +11,7 @@
 
 	root.confirm = function () {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory() + "Users/ResetPassword", root.user()).done(function() {
+		$.post(IssueTracker.virtualDirectory + "Users/ResetPassword", root.user()).done(function() {
 			IssueTracker.Feedback.success(root.user().name + " has been sent a password reset email.");
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while sending the password reset email. Please try again later.");

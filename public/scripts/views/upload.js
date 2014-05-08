@@ -49,7 +49,7 @@
 				deferred.reject();
 			}, false);
 
-			xhr.open("POST", IssueTracker.virtualDirectory() + "issues/attach-file?issueId=" + _issueId);
+			xhr.open("POST", IssueTracker.virtualDirectory + "issues/attach-file?issueId=" + _issueId);
 			xhr.send(fd);
 		});
 		return deferred.promise();

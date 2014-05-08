@@ -1,3 +1,21 @@
+<div class="breadcrumbs">
+	<a class="clickable" data-bind="attr: { href: '#/issues' }">
+		<i class="fa fa-home"></i>
+		<span data-bind="text: IssueTracker.projectName"></span>
+	</a>
+	<i class="fa fa-angle-right"></i>
+	<a>
+		<span>Profile</span>
+	</a>
+</div>
+
+<div class="buttons">
+	<button class="icon" data-bind="click: save, css: { loading: loading }">
+		<i class="fa fa-check"></i>
+		<span>Save Changes</span>
+	</button>
+</div>
+
 <div class="inner-profile-container tile">
 	<div class="user-information">
 		<h1>Your User Information</h1>
@@ -47,6 +65,3 @@
 	</div>
 </div>
 
-<div class="buttons">
-	<button data-bind="click: save, css: { loading: loading }">Save Changes</button>
-</div>

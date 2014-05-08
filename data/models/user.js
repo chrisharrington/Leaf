@@ -5,7 +5,7 @@ var schema = mongoose.Schema({
     name: String,
     isDeleted: { type: Boolean, default: false },
     emailAddress: String,
-	phone: String,
+	phone: { type: String, default: "" },
     activationToken: String,
 	salt: String,
 	password: String,
