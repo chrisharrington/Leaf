@@ -1,6 +1,8 @@
 .profile-container {
-	.inner-profile-container { width:600px; margin:auto;
-	  	>div { float:left; width:100%;
+  	@container-height:427px;
+	.inner-profile-container { float:left; width:100%; height:@container-height; padding:0;
+	  	>div { float:left; width:50%; height:100%; padding:@spacing; .border-box; }
+	  	>div.user-information {
 			>h1 { float:left; width:100%; }
 		 	>div { float:left; width:100%; margin-top:@spacing;
 				>* { float:left; width:100%; margin-top:@tiny-spacing; }
@@ -13,5 +15,19 @@
 			 	>input.right { float:right; }
 			}
 		}
+	  	>div.email-notifications { border-left:solid 1px @border-colour; padding:@spacing 0;
+		  	>h1 { padding:0 @spacing; margin-bottom:@spacing; }
+		  	>div.setting { float:left; width:100%; .border-box; margin-top:@tiny-spacing; cursor:pointer; padding:@small-spacing @spacing;
+			  	>* { float:left; }
+			  	>i { margin-right:@small-spacing; font-size:1.125em; color:@primary-font-colour-lightest; }
+			  	>i.fa-check-square { color:@secondary-font-colour; }
+			  	>span.title { font-weight:bold; }
+			  	>span.more-info { width:100%; margin-top:@small-spacing; color:@primary-font-colour-light; font-size:0.875em; }
+			}
+		  	>div.setting:first-child { margin-top:0; }
+		  	>div.setting:hover { .hover; }
+		}
 	}
+
+  	div.buttons { float:right; margin-top:@spacing; }
 }

@@ -1,8 +1,13 @@
 
 (function (root) {
 
+	root.loading = ko.observable(false);
 	root.password = ko.observable("");
 	root.confirmed = ko.observable("");
+
+	root.save = function() {
+		alert("save");
+	};
 
 	$(function() {
 		IssueTracker.Page.build({
