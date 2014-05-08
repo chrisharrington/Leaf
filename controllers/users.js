@@ -9,6 +9,7 @@ var config = require("../config");
 var csprng = require("csprng");
 var crypto = require("crypto");
 var mongoose = require("mongoose");
+var hash = require("../authentication/hash");
 
 var base = Object.spawn(require("./baseController"));
 
@@ -72,6 +73,10 @@ module.exports = function(app) {
 
 	app.post("/users/profile", authenticate, function(request, response) {
 		return mapper.map("user-view-model", "user", request.body).then(function(user) {
+			if (request.body.password) {
+				user.salt = csprng.call(this, 512, 36);
+				user.password = hash.call(this, user.salt + request.body.password);
+			}
 			return repositories.User.save(user);
 		}).then(function() {
 			response.send(200);
