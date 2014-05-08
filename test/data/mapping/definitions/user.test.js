@@ -49,7 +49,11 @@ describe("user mapping", function() {
 				"_id": "id",
 				name: "name",
 				emailAddress: "emailAddress",
-				phone: "phone"
+				phone: "phone",
+				emailNotificationForIssueAssigned: "emailNotificationForIssueAssigned",
+				emailNotificationForIssueUpdated: "emailNotificationForIssueUpdated",
+				emailNotificationForIssueDeleted: "emailNotificationForIssueDeleted",
+				emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue"
 			}));
 		});
 
