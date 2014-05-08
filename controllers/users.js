@@ -70,6 +70,16 @@ module.exports = function(app) {
 		}
 	});
 
+	app.post("/users/profile", authenticate, function(request, response) {
+		return mapper.map("user-view-model", "user", request.body).then(function(user) {
+			return repositories.User.save(user);
+		}).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
+	});
+
 	app.post("/users/delete", authenticate, function(request, response) {
 		var id = request.body.id;
 		if (!id) {

@@ -34,6 +34,12 @@ module.exports = {
 		return Promise.promisifyAll(model).saveAsync();
 	},
 
+	save: function(obj) {
+		var id = obj._id;
+		delete obj._id;
+		return Promise.promisifyAll(this.model).updateAsync({ _id: id }, obj);
+	},
+
 	create: function(model) {
 		return this.model.createAsync(model);
 	},

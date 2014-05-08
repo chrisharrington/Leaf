@@ -15,7 +15,10 @@ require("../mapper").define("user-view-model", "user", {
 	name: "name",
 	emailAddress: "emailAddress",
 	phone: "phone",
-	password: "password"
+	emailNotificationForIssueAssigned: "emailNotificationForIssueAssigned",
+	emailNotificationForIssueUpdated: "emailNotificationForIssueUpdated",
+	emailNotificationForIssueDeleted: "emailNotificationForIssueDeleted",
+	emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue"
 });
 
 require("../mapper").define("user", "user-summary-view-model", {

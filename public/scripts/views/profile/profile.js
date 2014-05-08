@@ -13,8 +13,7 @@
 			var user = IssueTracker.Utilities.extractPropertyObservableValues(IssueTracker.signedInUser());
 			if (root.password() != "")
 				user.password = root.password();
-
-			_send();
+			_send(user);
 		}
 	};
 
