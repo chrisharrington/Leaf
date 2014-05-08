@@ -10,6 +10,8 @@ var csprng = require("csprng");
 var crypto = require("crypto");
 var mongoose = require("mongoose");
 
+var base = Object.spawn(require("./baseController"));
+
 module.exports = function(app) {
 	app.get("/users", authenticate, function (request, response) {
 		return Promise.all([
@@ -28,6 +30,10 @@ module.exports = function(app) {
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);
 		});
+	});
+
+	app.get("/users/profile", authenticate, function(request, response) {
+		return base.view("public/views/profile.html", response);
 	});
 
 	app.post("/users/create", authenticate, function(request, response) {
