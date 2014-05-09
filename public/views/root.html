@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 	<title data-bind="text: 'Leaf' + (IssueTracker.selectedIssue() ? ' - ' + IssueTracker.selectedIssue().number : '')">Leaf</title>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="/style" type="text/css" />
 </head>
 	<body>
@@ -146,53 +147,6 @@
             <!-- /ko -->
             <!-- /ko -->
         </div>
-
-		<script type="text/html" id="email-notification-settings-template">
-			<div class="email-notifications-dialog form two-button">
-				<h1>Email Notification Settings</h1>
-				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueAssigned'); }">
-					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueAssigned() ? 'fa-check-square' : 'fa-square') }"></i>
-					<span class="title">Issue Assigned</span>
-                    <span class="more-info">If you have this notification enabled, you'll receive an email when an issue is assigned to you as either developer or tester.</span>
-				</div>
-				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueUpdated'); }">
-					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueUpdated() ? 'fa-check-square' : 'fa-square') }"></i>
-					<span class="title">Issue Updated</span>
-                    <span class="more-info">You'll be notified by email if you have this option checked when an issue you're assigned to is changed in any way.</span>
-				</div>
-				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueDeleted'); }">
-					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueDeleted() ? 'fa-check-square' : 'fa-square') }"></i>
-					<span class="title">Issue Deleted</span>
-                    <span class="more-info">If an issue you're assigned to as either developer or tester is deleted and you have this option checked, you'll get an email.</span>
-				</div>
-				<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForNewCommentForAssignedIssue'); }">
-					<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForNewCommentForAssignedIssue() ? 'fa-check-square' : 'fa-square') }"></i>
-					<span class="title">New Comment on Assigned Issue</span>
-                    <span class="more-info">When a comment is added to an issue you're assigned to and you have this option checked, you'll receive an email.</span>
-				</div>
-				<div class="button-container first">
-					<button data-bind="click: save, css: { loading: loading }">Save Email Notifications</button>
-				</div>
-				<div class="button-container">
-					<button data-bind="click: cancel">Cancel</button>
-				</div>
-			</div>
-		</script>
-
-		<script type="text/html" id="change-password-template">
-			<div class="change-password form two-button">
-				<h1>Change Password</h1>
-				<input type="password" placeholder="Current password..." data-bind="value: currentPassword" />
-				<input type="password" placeholder="New password..." data-bind="value: newPassword" />
-				<input type="password" placeholder="Confirmed password..." data-bind="value: confirmedPassword" />
-				<div class="button-container first">
-					<button data-bind="click: save, css: { loading: loading }">Change Password</button>
-				</div>
-				<div class="button-container">
-					<button data-bind="click: cancel">Cancel</button>
-				</div>
-			</div>
-		</script>
 
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.0.0/knockout-min.js"></script>

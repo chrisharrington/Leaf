@@ -110,17 +110,26 @@ input[type='text'], input[type='password'], select, textarea, input[type='date']
 input:focus, textarea:focus, select:focus, .focus { outline:none; border-color:@active-highlight; box-shadow:0 0 10px @active-highlight; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
 button { padding:@small-spacing @spacing; margin:0; .secondary-gradient; color:white; .border-radius; .regular-font; font-size:1em; .border-box; border:none; cursor:pointer; .border-radius(3px); }
 button[disabled] { .gradient(#AAAAAA, #777777); cursor:default; }
-button.icon { display:table;
-	>* { .table-cell-vertically-aligned; line-height:19px; }
+button.icon {
+	>* { float:left; .vertical-centre(18px); }
 	>i { font-size:1.25em; }
+  	>img { display:none; width:18px; height:18px; }
 	>span { padding-left:@small-spacing; }
 }
 button.right>span { padding-left:0; padding-right:@small-spacing; }
-button.loading { background:@secondary-background-colour-top url("../Images/button-loader.gif"); }
+button.loading { background:#777;
+	>i { display:none; }
+  	>img { display:inline-block; -webkit-animation:spin 1250ms linear infinite; -moz-animation:spin 1250ms linear infinite; animation:spin 1250ms linear infinite; }
+  	>span { color:@primary-font-colour-dark-background; }
+}
 button.positive { .gradient(@positive-colour, @positive-colour-dark); }
 button.negative { .gradient(@negative-colour, @negative-colour-dark); }
 i.loading { background:url("../Images/ajax-loader.gif") center no-repeat; color:transparent !important; }
 img.user-profile-image { .border-radius(3px); }
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 .tile button { .secondary-gradient; }
 

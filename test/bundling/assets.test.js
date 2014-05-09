@@ -40,7 +40,6 @@ describe("assets", function() {
 				"./public/css/controls",
 				"./public/css/partials",
 				"./public/css/templates",
-				"./public/css/thirdParty",
 				"./public/css/views"
 			];
 
