@@ -31,13 +31,16 @@
 					<a data-bind="click: UserSettings.signOut">
 						<i class="fa fa-sign-out"></i>
 					</a>
+					<a href="#/project/settings">
+						<i class="fa fa-gears"></i>
+					</a>
 					<a data-bind="click: IssueTracker.Notifications.show" style="display:none;">
 						<i data-bind="attr: { class: 'fa ' + (IssueTracker.Notifications.unviewedNotifications() == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
 						<div>
 							<span data-bind="visible: IssueTracker.Notifications.unviewedNotifications() > 0, text: IssueTracker.Notifications.unviewedNotifications()"></span>
 						</div>
 					</a>
-                    <a id="create-issue" data-bind="attr: { href: '#/new-issue' }">
+                    <a href="#/new-issue">
                         <i class="fa fa-plus"></i>
                     </a>
                 </div>
