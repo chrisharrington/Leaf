@@ -22,7 +22,8 @@ require("../mapper").define("issue", "issue-view-model", {
 	opened: function(x) { return moment(x.opened).format(config("dateFormat")); },
 	closed: function(x) { return x.closed ? moment(x.closed).format(config("dateFormat")) : ""; },
 	lastUpdated: function(x) { return moment(x.updated).format(config("dateFormat")); },
-	updatedBy: "updatedBy"
+	updatedBy: "updatedBy",
+	isDeleted: "isDeleted"
 });
 
 require("../mapper").define("issue-view-model", "issue", {

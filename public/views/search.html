@@ -1,5 +1,5 @@
 <div class="results" data-bind="foreach: results">
-    <a class="tile" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/issues/' + number }">
+    <a class="tile" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/issues/' + number }, css: { deleted: isDeleted }">
         <div data-bind="attr: { class: priorityStyle }">
             <div class="info">
                 <span class="number" data-bind="text: number"></span>

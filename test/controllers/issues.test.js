@@ -319,7 +319,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to get next issue number", function() {
 			return _runCreate({
-				issueNextNumber: sinon.stub(repositories.Issue, "getNextNumber").rejects(new Error("oh noes!")),
+				issueNextNumber: sinon.stub(repositories.Sequence, "next").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -408,7 +408,7 @@ describe("issues", function() {
 					project: project
 				},
 				assert: function(result) {
-					assert(result.stubs.issueNextNumber.calledWith(project))
+					assert(result.stubs.issueNextNumber.calledWith(project._id + "issues"))
 				}
 			})
 		});
@@ -560,7 +560,7 @@ describe("issues", function() {
 			params = params || {};
 			params.stubs = {
 				mapperMap: params.mapperMap || sinon.stub(mapper, "map").resolves(params.mapperMapResult || { date: new Date(), user: "the user id", developerId: params.developerId || "the developer id", testerId: params.testerId || "the tester id" }),
-				issueNextNumber: params.issueNextNumber || sinon.stub(repositories.Issue, "getNextNumber").resolves(params.issueNextNumberResult || 10),
+				issueNextNumber: params.issueNextNumber || sinon.stub(repositories.Sequence, "next").resolves(params.issueNextNumberResult || 10),
 				milestoneDetails: params.milestoneDetails || sinon.stub(repositories.Milestone, "details").resolves(params.milestoneDetailsResult || { name: "the milestone name" }),
 				priorityDetails: params.priorityDetails || sinon.stub(repositories.Priority, "details").resolves(params.priorityDetailsResult || { name: "the priority name", order: 1 }),
 				statusDetails: params.statusDetails || sinon.stub(repositories.Status, "details").resolves(params.statusDetailsResult || { name: "the status name", order: 2 }),
