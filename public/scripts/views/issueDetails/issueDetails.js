@@ -22,8 +22,6 @@
 		IssueTracker.Transitioner.init();
 		root.Delete.init(container);
 		root.Comments.init(container);
-
-		container.find("textarea").autogrow();
 	};
 
 	root.load = function (container) {
@@ -42,6 +40,7 @@
 		IssueTracker.selectedIssue.testerId.subscribe(_updateRequired);
 
 		IssueTracker.selectedIssue.details.subscribe(function() { container.find("textarea").autogrow(); });
+		container.find("textarea").autogrow();
 	};
 
 	function _hookupEvents(container) {
