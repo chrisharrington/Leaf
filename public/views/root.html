@@ -44,7 +44,7 @@
 				<!-- ko if: IssueTracker.signedInUser() -->
 				<a class="account" href="#/profile">
 					<div class="image">
-						<img data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation() }" alt="user-profile" />
+						<img data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 44) }" alt="user-profile" />
 					</div>
 					<div class="labels">
 						<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
