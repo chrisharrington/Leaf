@@ -49,6 +49,8 @@ IssueTracker.Page.prototype._isAuthorized = function (params) {
 };
 
 IssueTracker.Page.prototype._setView = function (params, routeArguments) {
+	this._resetErrorPanels();
+
 	var me = this;
 	var url = params.view;
 	if (url instanceof Function)
@@ -104,3 +106,8 @@ IssueTracker.Page.prototype._setTitle = function(title) {
 	document.title = title;
 	IssueTracker.title(title);
 };
+
+IssueTracker.Page.prototype._resetErrorPanels = function() {
+	$("div.error-code").hide();
+	$("section.content-container").show();
+}
