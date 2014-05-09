@@ -18,17 +18,6 @@ header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-grad
 			>input { box-shadow:none !important; border:none; border-top-right-radius:0px; border-bottom-right-radius:0px; width:250px; }
 			>i { line-height:30px; background:white; padding:0 @small-spacing; cursor:pointer; border-top-right-radius:3px; border-bottom-right-radius:3px; color:black; }
 		}
-		>a.account { float:right; height:100%; padding:0 @spacing; cursor:pointer;
-			>div.image { float:left; padding:@small-spacing 0; margin-right:@small-spacing; height:100%; .border-box;
-				>img { float:left; height:100%; width:44px; border:solid 1px @border-colour-darkest; }
-			}
-			>div.labels { float:left; height:32px; padding:14px 0;
-				>span { float:left; }
-				>span.name { font-weight:bold; color:@primary-font-colour-dark-background; }
-				>span.email { color:@primary-font-colour-lightest; margin-top:2px; font-size:0.875em; }
-			}
-		}
-		>a.account:hover { .gradient(lighten(@dark-gradient-top-colour, 5%), lighten(@dark-gradient-bottom-colour, 5%)); color:white; }
 
 		>div { height:100%;
 			>a { float:left; height:100%; color:inherit; padding:0 @spacing; cursor:pointer; .condensed-font;

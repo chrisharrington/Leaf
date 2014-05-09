@@ -12,7 +12,7 @@ describe("assets", function() {
 				"./public/scripts/global.js",
 				"./public/scripts/notifications.js",
 				"./public/scripts/page.js",
-				"./public/scripts/slide-menu.js",
+				"./public/scripts/slideMenu.js",
 				"./public/scripts/utilities.js",
 				"./public/scripts/binders",
 				"./public/scripts/controls",

@@ -28,34 +28,19 @@
                     </a>
                 </div>
                 <div class="actions">
-					<a data-bind="click: UserSettings.signOut">
-						<i class="fa fa-sign-out"></i>
-					</a>
-					<a href="#/project/settings">
+					<a data-bind="click: Settings.show">
 						<i class="fa fa-gears"></i>
 					</a>
-					<a data-bind="click: IssueTracker.Notifications.show" style="display:none;">
-						<i data-bind="attr: { class: 'fa ' + (IssueTracker.Notifications.unviewedNotifications() == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
+					<a data-bind="click: Notifications.show" style="display:none;">
+						<i data-bind="attr: { class: 'fa ' + (Notifications.unviewedNotifications() == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
 						<div>
-							<span data-bind="visible: IssueTracker.Notifications.unviewedNotifications() > 0, text: IssueTracker.Notifications.unviewedNotifications()"></span>
+							<span data-bind="visible: Notifications.unviewedNotifications() > 0, text: Notifications.unviewedNotifications()"></span>
 						</div>
 					</a>
                     <a href="#/new-issue">
                         <i class="fa fa-plus"></i>
                     </a>
                 </div>
-				<!-- ko if: IssueTracker.signedInUser() -->
-				<a class="account" href="#/profile">
-					<div class="image">
-						<img data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation() }" alt="user-profile" />
-					</div>
-					<div class="labels">
-						<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
-						<br />
-						<span class="email" data-bind="text: IssueTracker.signedInUser().emailAddress"></span>
-					</div>
-				</a>
-				<!-- /ko -->
 				<div class="search">
 					<input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
 					<i class="fa fa-search" data-bind="click: Search.go"></i>
@@ -105,14 +90,47 @@
 			</div>
 		</div>
 
+		<div class="settings slide-menu">
+			<!-- ko if: IssueTracker.signedInUser() -->
+			<a class="account" href="#/profile">
+				<div class="image">
+					<img data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 32) }" alt="user-profile" />
+				</div>
+				<div class="labels">
+					<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
+					<br />
+					<span class="email sub" data-bind="text: IssueTracker.signedInUser().emailAddress"></span>
+				</div>
+				<i class="fa fa-angle-right"></i>
+			</a>
+			<!-- /ko -->
+			<a href="#/project/settings">
+				<div>
+					<span class="title">Project Settings</span>
+					<span class="description sub">Name, milestones, priorities, statuses and integrations.</span>
+				</div>
+				<i class="fa fa-angle-right"></i>
+			</a>
+			<a>
+				<div>
+					<span class="title">Account Settings</span>
+					<span class="description sub">Plan settings, billing information, and payment history.</span>
+				</div>
+				<i class="fa fa-angle-right"></i>
+			</a>
+			<a class="sign-out">
+				<span class="title" data-bind="click: UserSettings.signOut">Sign Out</span>
+			</a>
+		</div>
+
         <div class="notifications slide-menu">
             <div class="mark-as-viewed">
                 <i class="fa fa-check"></i>
                 <span>Mark all notifications as read</span>
             </div>
-            <!-- ko foreach: IssueTracker.Notifications.notifications -->
+            <!-- ko foreach: Notifications.notifications -->
             <!-- ko if: type() === 'issue-assigned' -->
-            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number, id()); }">
+            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { Notifications.navigateToIssue(issue().number, id()); }">
                 <div>
                     <h3>Issue Assigned</h3>
                     <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
@@ -121,7 +139,7 @@
             </div>
             <!-- /ko -->
             <!-- ko if: type() === 'issue-updated' -->
-            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number, id()); }">
+            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { Notifications.navigateToIssue(issue().number, id()); }">
                 <div>
                     <h3>Issue Updated</h3>
                     <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
@@ -130,7 +148,7 @@
             </div>
             <!-- /ko -->
             <!-- ko if: type() === 'comment-added' -->
-            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { IssueTracker.Notifications.navigateToIssue(issue().number, id()); }">
+            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { Notifications.navigateToIssue(issue().number, id()); }">
                 <div>
                     <h3>Comment Added</h3>
                     <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>

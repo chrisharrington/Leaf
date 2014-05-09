@@ -19,6 +19,9 @@ IssueTracker.SlideMenu.build = function(container) {
 
 IssueTracker.SlideMenu.prototype.show = function() {
 	var me = this;
+	if (me._container.is(":visible"))
+		return;
+
 	setTimeout(function() {
 		var contentContainer = $(".content-container");
 		me._container.show().css({
