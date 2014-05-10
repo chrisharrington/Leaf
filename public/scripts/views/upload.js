@@ -22,6 +22,12 @@
 		_uploadAllFiles();
 	};
 
+	root.remove = function(file) {
+		root.attachedFiles.remove(function(f) {
+			return f.id == file.id;
+		});
+	};
+
 	function _attach() {
 		$.each(_uniqueFiles(_container.find("input[type='file']")[0].files), function() {
 			root.attachedFiles.push({ id: guid(), file: this, name: this.name, size: this.size.toSizeString(), progress: ko.observable(0) });

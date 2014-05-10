@@ -119,7 +119,7 @@
                     <span class="size" data-bind="text: size"></span>
                 </div>
                 <div class="status">
-                    <i class="fa fa-times"></i>
+                    <i class="fa fa-times" data-bind="click: function() { $root.Upload.remove($data); }"></i>
                     <img src="/images/ajax-loader.gif" data-bind="visible: $root.Upload.uploading" />
                 </div>
             </div>
