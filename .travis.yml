@@ -15,4 +15,5 @@ deploy:
   on:
     repo: chrisharrington/Leaf
 after_deploy:
-  - heroku config:set BUILD_NUMBER=$TRAVIS_BUILD_NUMBER
+  - heroku config:set BUILD_NUMBER=$TRAVIS_BUILD_NUMBER --app leaf-issue-tracker
+  - echo "Done."
