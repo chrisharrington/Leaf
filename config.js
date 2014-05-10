@@ -12,7 +12,8 @@ module.exports = function(key) {
 		"sendgridUsername": "LeafIssueTracker",
 		"fromAddress": "no-reply@leafissuetracker.com",
 		"domain": "http://www.leafissuetracker.com",
-		"serverPort": process.env.PORT || 8888
+		"serverPort": process.env.PORT || 8888,
+		"buildNumber": process.env.BUILD_NUMBER
 	};
 
 	if (!_initialized) {
@@ -25,5 +26,6 @@ module.exports = function(key) {
 		_initialized = true;
 	}
 
-	return process.env["leaf." + key];
+	var value = process.env["leaf." + key];
+	return value == "undefined" ? undefined : value;
 };
