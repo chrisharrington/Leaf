@@ -14,6 +14,7 @@ module.exports = {
 	Transition: require(directory + "transition"),
 	User: require(directory + "user"),
 	IssueFile: require(directory + "issueFile"),
-    Notification: require(directory + "notification")
+    Notification: require(directory + "notification"),
+	Sequence: require(directory + "sequence")
 };
 

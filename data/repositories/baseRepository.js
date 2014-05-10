@@ -25,7 +25,7 @@ module.exports = {
 	},
 
 	one: function(conditions, populate) {
-		return this.get(conditions, populate).then(function(data) {
+		return this.get(conditions, { populate: populate, limit: 1 }).then(function(data) {
 			return data.length == 0 ? null : data[0];
 		});
 	},

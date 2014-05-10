@@ -155,7 +155,7 @@ module.exports = function(app) {
 	app.post("/issues/create", authenticate, function(request, response) {
 		return mapper.map("issue-view-model", "issue", request.body).then(function(model) {
 			return Promise.all([
-				repositories.Issue.getNextNumber(request.project),
+				repositories.Sequence.next(request.project._id + "issues"),
 				repositories.Milestone.details(model.milestoneId),
 				repositories.Priority.details(model.priorityId),
 				repositories.Status.details(model.statusId),

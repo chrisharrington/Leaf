@@ -40,7 +40,8 @@ describe("issue mapping", function() {
 				opened: sinon.match.func,
 				closed: sinon.match.func,
 				lastUpdated: sinon.match.func,
-				updatedBy: "updatedBy"
+				updatedBy: "updatedBy",
+				isDeleted: "isDeleted"
 			}));
 		});
 

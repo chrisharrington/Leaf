@@ -93,7 +93,15 @@ describe("baseRepository", function() {
 			var result = ["woo"];
 			var get = sinon.stub(sut, "get").resolves(result);
 			return sut.one(null, populate).then(function () {
-				assert(sut.get.calledWith(sinon.match.any, populate));
+				assert(sut.get.calledWith(sinon.match.any, { populate: populate, limit: sinon.match.any }));
+			});
+		});
+
+		it("should call 'get' with a limit of one", function() {
+			var result = ["woo"];
+			var get = sinon.stub(sut, "get").resolves(result);
+			return sut.one().then(function () {
+				assert(sut.get.calledWith(sinon.match.any, { populate: sinon.match.any, limit: 1 }));
 			});
 		});
 
