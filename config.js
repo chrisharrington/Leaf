@@ -1,9 +1,16 @@
 var extend = require("node.extend");
 
-var _initialized = false;
+var _config;
 
 module.exports = function(key) {
-	var config = {
+	if (!_config)
+		_buildConfig();
+
+	return _config[key];
+};
+
+function _buildConfig() {
+	_config = {
 		"databaseUser": "IssueTrackerApp",
 		"hashAlgorithm": "sha512",
 		"dateFormat": "YYYY-MM-DD",
@@ -16,16 +23,7 @@ module.exports = function(key) {
 		"buildNumber": process.env.BUILD_NUMBER
 	};
 
-	if (!_initialized) {
-		try {
-			extend(config, require("./secureConfig.json"));
-		} catch (e) {}
-
-		for (var name in config)
-			process.env["leaf." + name] = config[name];
-		_initialized = true;
-	}
-
-	var value = process.env["leaf." + key];
-	return value == "undefined" ? undefined : value;
-};
+	try {
+		extend(_config, require("./secureConfig.json"));
+	} catch (e) {}
+}
