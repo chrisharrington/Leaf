@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-- '0.11'
 - '0.10'
+- '0.11'
 env:
   global:
   - secure: NF11l3g3JG1vfRurqYDptVHuQZtRCI9z4/9qCnNop6t5rLnAUXNjpiV7TddAnx3srKen1k1gCWfprYAnIel5jylwEyjeNgByjy/VoE4/FH7BehRQ1qalHhI9YAcBWSyoDmYlYRUHY4GUQDHyH+kTlp6FA5pXEn9v+rMgmTnP8vs=
@@ -16,4 +16,4 @@ deploy:
   on:
     repo: chrisharrington/Leaf
 after_deploy:
-  - sh updateBuildNumber.sh
+  - ./updateBuildNumber.sh
