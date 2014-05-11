@@ -16,4 +16,4 @@ deploy:
   on:
     repo: chrisharrington/Leaf
 after_deploy:
-  - ./updateBuildNumber.sh
+  - sh updateBuildNumber.sh
