@@ -10,21 +10,19 @@
 	};
 
 	root.confirm = function () {
-		_removeUserFromList();
-		IssueTracker.Dialog.hide();
-//		root.loading(true);
-//		$.post(IssueTracker.virtualDirectory + "users/delete", root.user()).done(function() {
-//			IssueTracker.Feedback.success(root.user().name() + " has been deleted.");
-//			IssueTracker.Dialog.hide();
-//			_removeUserFromList();
-//		}).fail(function (response) {
-//			if (response.status == 403)
-//				IssueTracker.Feedback.error("You can't delete the last user.");
-//			else
-//				IssueTracker.Feedback.error("An error has occurred while deleting the user. Please try again later.");
-//		}).always(function() {
-//			root.loading(false);
-//		});
+		root.loading(true);
+		$.post(IssueTracker.virtualDirectory + "users/delete", root.user()).done(function() {
+			IssueTracker.Feedback.success(root.user().name() + " has been deleted.");
+			IssueTracker.Dialog.hide();
+			_removeUserFromList();
+		}).fail(function (response) {
+			if (response.status == 403)
+				IssueTracker.Feedback.error("You can't delete the last user.");
+			else
+				IssueTracker.Feedback.error("An error has occurred while deleting the user. Please try again later.");
+		}).always(function() {
+			root.loading(false);
+		});
 	};
 
 	root.cancel = function() {

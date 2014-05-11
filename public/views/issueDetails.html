@@ -189,7 +189,7 @@
 <script type="text/html" id="developer-chooser">
 	<div class="developer-chooser chooser" data-bind="foreach: users">
         <!-- ko if: !isDeleted() -->
-		<div data-bind="attr: { 'data-developer': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.developerId() }">
+		<div data-bind="attr: { 'data-developer': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.developerId() }">
 			<div>
 				<div>
 					<span class="name" data-bind="text: name"></span>
@@ -204,7 +204,7 @@
 <script type="text/html" id="tester-chooser">
 	<div class="tester-chooser chooser" data-bind="foreach: users">
         <!-- ko if: !isDeleted() -->
-		<div data-bind="attr: { 'data-tester': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.testerId() }">
+		<div data-bind="attr: { 'data-tester': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.testerId() }">
 			<div>
 				<div>
 					<span class="name" data-bind="text: name"></span>

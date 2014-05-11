@@ -100,8 +100,8 @@
 		$(this).addClass("selected");
 
 		var developer = $.parseJSON($(this).attr("data-developer"));
-		IssueTracker.selectedIssue.developerId(developer.id());
-		IssueTracker.selectedIssue.developer(developer.name());
+		IssueTracker.selectedIssue.developerId(developer.id);
+		IssueTracker.selectedIssue.developer(developer.name);
 	}
 	
 	function _setTester() {
@@ -110,8 +110,8 @@
 		$(this).addClass("selected");
 
 		var tester = $.parseJSON($(this).attr("data-tester"));
-		IssueTracker.selectedIssue.testerId(tester.id());
-		IssueTracker.selectedIssue.tester(tester.name());
+		IssueTracker.selectedIssue.testerId(tester.id);
+		IssueTracker.selectedIssue.tester(tester.name);
 	}
 
 	function _executeTransition() {
