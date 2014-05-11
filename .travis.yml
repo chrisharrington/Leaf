@@ -8,6 +8,7 @@ env:
   - secure: LafvQPT8oOJ++NoOnzFxGzIanBW4llt3Z0I3Gq76DTZV7Pw5vLJ/AMSJf/Rqs0TJlpVSDd4oIe9DVH9MxkKN7T/EYtTefgcNh5A3GhRBJ1fHwdHrH/ukJmMNY6W52dcvPvoCqFGHF6jlR6XHJ+ZqfC7qilh935oTtfpxXfnRBz0=
   - secure: Ohr9p2fIKJjZcv4qVergwQaOPhhWIAM06Efw0T8J5uKgUVqWrqY9YbPoSpCDVKHDLRC3/yBQEloY4WcMtrvr2+QntG3x3NwZlozzzhAqVm9yQg/PHH0Lb3N6My+aiTidzwGo/nMg6LnCwbGDh2ZeLXdA8aHxsKMwrxohx5xctU4=
   - secure: er5VnNTXt0Erknntx8S9hPN/yn6EhYsErKV7s1uDpCkqBpc5sY0MhbzyRrCeDsMisrjfrnXjrH2+2ZtKK3QJTmOCgON502i48SKTxAsStfPkFZtLPDuS/TkhjBp7nX63u7z33axJOUvyCG/JIFaCsRS11aVmGN4EcACAuaJXeJY=
+  - secure: ZoWav1JkdxR7rSnaT2ARNj81Luyvj1ZJW65uXOUfGC9GomVvZ5/3APcf+q61jJVbIeRGVglPSpA9HGtGDqxE8b+NcSQ/z9HN0KUHX4tUV6Hj+Q6ZYCrm3U3fXhvq68FweUmVe2TJhtD2VEN+4M6s68bPmVtdAuEOdTX7IHVHX90=
 deploy:
   provider: heroku
   api_key:
@@ -16,4 +17,4 @@ deploy:
   on:
     repo: chrisharrington/Leaf
 after_deploy:
-  - sh updateBuildNumber.sh
+- sh updateBuildNumber.sh
