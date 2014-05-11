@@ -165,7 +165,6 @@
                 root.virtualDirectory = "/";
                 root.priorities = ko.observableArray({{{priorities}}});
 				root.statuses = ko.observableArray({{{statuses}}});
-				root.users = ko.observableArray({{{users}}});
 				root.transitions = ko.observableArray({{{transitions}}});
 				root.projects = ko.observableArray({{{projects}}});
 				root.milestones = ko.observableArray({{{milestones}}});
@@ -174,6 +173,11 @@
                 root.projectId = ko.observable({{{projectId}}});
 				root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables({{{signedInUser}}}));
 				root.selectedIssue = ko.observable();
+
+				root.users = ko.observableArray();
+				$.each({{{users}}}, function(i, user) {
+					root.users.push(IssueTracker.Utilities.createPropertyObservables(user));
+				});
 
 				IssueTracker.error = ko.observable("");
 				IssueTracker.success = ko.observable("");

@@ -82,7 +82,7 @@
         <div class="tile choice-tile">
             <h2>Developer</h2>
             <!-- ko foreach: IssueTracker.users -->
-            <!-- ko if: !isDeleted -->
+            <!-- ko if: !isDeleted() -->
             <div data-bind="attr: { 'data-id': id }">
                 <span data-bind="text: name"></span>
                 <i class="fa fa-check"></i>
@@ -95,7 +95,7 @@
         <div class="tile choice-tile">
             <h2>Tester</h2>
             <!-- ko foreach: IssueTracker.users -->
-            <!-- ko if: !isDeleted -->
+            <!-- ko if: !isDeleted() -->
             <div data-bind="attr: { 'data-id': id }">
                 <span data-bind="text: name"></span>
                 <i class="fa fa-check"></i>
