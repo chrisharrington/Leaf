@@ -158,6 +158,7 @@
 	function _updateIssue() {
 		root.saving(true);
 		$.when(root.Comments.save(), _save()).done(function () {
+			IssueTracker.selectedIssue.closed(_issueIsClosed(IssueTracker.selectedIssue.statusId()) ? new Date().toShortDateString() : null);
 			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.description().formatForUrl());
 			IssueTracker.Feedback.success("Your issue has been updated.");
 			IssueTracker.Notifications.refresh();
@@ -166,6 +167,15 @@
 		}).always(function () {
 			root.saving(false);
 		});
+	}
+
+	function _issueIsClosed(statusId) {
+		var closed = false;
+		$.each(IssueTracker.statuses(), function(i, status) {
+			if (status.isClosedStatus && status.id == statusId)
+				closed = true;
+		});
+		return closed;
 	}
 
 	function _save() {
@@ -188,8 +198,7 @@
 			typeId: issue.typeId(),
 			developerId: issue.developerId(),
 			testerId: issue.testerId(),
-			opened: issue.opened(),
-			closed: issue.closed()
+			opened: issue.opened()
 		};
 	}
 

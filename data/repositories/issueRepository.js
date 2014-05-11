@@ -66,8 +66,7 @@ repository.update = function(model, user) {
 		issue.developer = developer.name;
 		issue.testerId = tester._id;
 		issue.tester = tester.name;
-		if (!issue.closed && issue.status && issue.status.toLowerCase() == "closed")
-			issue.closed = Date.now();
+		issue.closed = model.closed;
 		Promise.promisifyAll(issue).saveAsync();
 	});
 };

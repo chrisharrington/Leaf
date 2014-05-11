@@ -3,6 +3,7 @@ var authenticate = require("../authentication/authenticate");
 var models = require("../data/models");
 var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
+var caches = require("../data/caches");
 var mustache = require("mustache");
 var Promise = require("bluebird");
 var mongoose = require("mongoose");
@@ -99,7 +100,14 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/update", authenticate, function(request, response) {
-		return mapper.map("issue-view-model", "issue", request.body).then(function(issue) {
+		return Promise.all([
+			mapper.map("issue-view-model", "issue", request.body),
+			caches.Status.all()
+		]).spread(function(issue, statuses) {
+			if (_issueIsClosed(issue.statusId, statuses))
+				issue.closed = Date.now();
+			else if (issue.closed)
+				issue.closed = null;
 			return repositories.Issue.update(issue, request.user).then(function () {
 				if (request.user._id.toString() != issue.developerId.toString()) {
 					return Promise.all([
@@ -116,6 +124,15 @@ module.exports = function(app) {
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);
 		});
+
+		function _issueIsClosed(statusId, statuses) {
+			var closed = false;
+			statuses.forEach(function(status) {
+				if (status.id == statusId && status.isClosedStatus)
+					closed = true;
+			});
+			return closed;
+		}
 	});
 
 	app.post("/issues/add-comment", authenticate, function(request, response) {
