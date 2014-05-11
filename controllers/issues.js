@@ -216,6 +216,14 @@ module.exports = function(app) {
 		});
 	});
 
+	app.post("/issues/undelete", authenticate, function(request, response) {
+		return repositories.Issue.restore(request.body.id).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
+	});
+
 	app.post("/issues/attach-file", authenticate, function(request, response) {
 		var files = [];
 		var paths = [];

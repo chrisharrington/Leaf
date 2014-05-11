@@ -29,7 +29,12 @@
 				<img src="../images/light-spinner.png" alt="" />
                 <span>Save Changes</span>
             </button>
-            <button class="icon" id="delete-issue">
+			<button class="icon" data-bind="click: Delete.restore, visible: IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
+				<i class="fa fa-undo"></i>
+				<img src="../images/light-spinner.png" alt="" />
+				<span>Undelete Issue</span>
+			</button>
+			<button class="icon" data-bind="click: Delete.remove, visible: !IssueTracker.selectedIssue.isDeleted()">
                 <i class="fa fa-trash-o"></i>
                 <span>Delete Issue</span>
             </button>
@@ -73,7 +78,7 @@
                     	<i class="fa fa-trash-o" title="Delete Comment" data-bind="click: $root.Comments.remove"></i>
 					<!-- /ko -->
                 </div>
-				<pre class="text" data-bind="html: text"></pre>
+				<div class="text" data-bind="html: text"></div>
 			</div>
 		</div>
 	</div>
@@ -219,13 +224,12 @@
 <script type="text/html" id="confirm-delete">
 	<div class="confirm-delete confirmation-dialog">
 		<h1>Delete this issue?</h1>
-		<span class="warning"><b>WARNING:</b> This action is irreversible.</span>
-		<span>Once deleted, all comments, history and attached files will be removed. Are you sure you want to continue?</span>
+		<span>Deleting an issue is 100% reversible; we only mark it as deleted. In the event you delete this issue by mistake or need to restore it later, no problem; you can search for the issue and undelete it that way. Are you sure you want to continue?</span>
 		<div class="confirm-container">
-			<button id="confirm-delete" data-bind="css: { loading: loading }">Delete Issue</button>
+			<button data-bind="click: IssueTracker.IssueDetails.Delete.confirm, css: { loading: loading }">Delete Issue</button>
 		</div>
 		<div>
-			<button id="cancel-delete">Cancel</button>
+			<button data-bind="click: IssueTracker.IssueDetails.Delete.cancel">Cancel</button>
 		</div>
 	</div>
 </script>

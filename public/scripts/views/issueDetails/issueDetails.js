@@ -20,7 +20,6 @@
 		_hookupEvents(container);
 
 		IssueTracker.Transitioner.init();
-		root.Delete.init(container);
 		root.Comments.init(container);
 	};
 
