@@ -27,6 +27,5 @@ module.exports = function(key) {
 		_initialized = true;
 	}
 
-	var value = process.env["leaf." + key];
-	return value == "undefined" ? undefined : value;
+	return process.env["leaf." + key];
 };

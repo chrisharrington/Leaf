@@ -66,5 +66,9 @@ describe("config", function() {
 			assert.equal(sut("buildNumber"), 11);
 			process.env = orig;
 		});
+
+		it("should return undefined with no such key", function() {
+			assert.equal(undefined, sut("boogity"));
+		});
 	});
 });
