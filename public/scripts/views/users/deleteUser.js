@@ -34,6 +34,11 @@
 			if (user.id() == root.user().id())
 				user.isDeleted(true);
 		});
+
+		$.each(IssueTracker.users(), function(i, user) {
+			if (user.id() == root.user().id())
+				user.isDeleted(true);
+		});
 	}
 
 })(root("IssueTracker.Users.DeleteUser"));

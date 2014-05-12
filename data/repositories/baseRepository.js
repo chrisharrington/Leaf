@@ -53,5 +53,12 @@ module.exports = {
 			model.isDeleted = true;
 			return Promise.promisifyAll(model).saveAsync();
 		});
+	},
+
+	restore: function(id) {
+		return this.details(id).then(function(model) {
+			model.isDeleted = false;
+			return Promise.promisifyAll(model).saveAsync();
+		});
 	}
 };

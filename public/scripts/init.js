@@ -15,6 +15,11 @@
 		IssueTracker.UserSettings.init($("div.user-information"));
 		IssueTracker.Settings.init($("div.settings.slide-menu"));
 		ko.applyBindings(IssueTracker);
+
+		$(document).on("keyup", function(e) {
+			if (e.keyCode == 27)
+				IssueTracker.Dialog.hide();
+		});
 	};
 	
 	function _setupPath() {

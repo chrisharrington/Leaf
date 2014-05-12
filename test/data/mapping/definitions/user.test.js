@@ -53,7 +53,8 @@ describe("user mapping", function() {
 				emailNotificationForIssueAssigned: "emailNotificationForIssueAssigned",
 				emailNotificationForIssueUpdated: "emailNotificationForIssueUpdated",
 				emailNotificationForIssueDeleted: "emailNotificationForIssueDeleted",
-				emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue"
+				emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue",
+				isDeleted: "isDeleted"
 			}));
 		});
 

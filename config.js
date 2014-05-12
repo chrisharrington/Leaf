@@ -1,6 +1,7 @@
 var extend = require("node.extend");
 
 var _initialized = false;
+var _config;
 
 module.exports = function(key) {
 	var config = {
@@ -12,7 +13,8 @@ module.exports = function(key) {
 		"sendgridUsername": "LeafIssueTracker",
 		"fromAddress": "no-reply@leafissuetracker.com",
 		"domain": "http://www.leafissuetracker.com",
-		"serverPort": process.env.PORT || 8888
+		"serverPort": process.env.PORT || 8888,
+		"buildNumber": process.env.BUILD_NUMBER
 	};
 
 	if (!_initialized) {

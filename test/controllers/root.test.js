@@ -6,6 +6,7 @@ var mapper = require("../../data/mapping/mapper");
 var scriptBundler = require("../../bundling/scriptBundler");
 var mustache = require("mustache");
 var caches = require("../../data/caches");
+var config = require("../../config");
 
 var fs = Promise.promisifyAll(require("fs"));
 
@@ -221,7 +222,8 @@ describe("root", function() {
 						signedInUser: sinon.match.string,
 						projectId: sinon.match.any,
 						projectName: sinon.match.any,
-						renderedScripts: sinon.match.string
+						renderedScripts: sinon.match.string,
+						styleLocation: sinon.match.any
 					}));
 				}
 			});
@@ -274,7 +276,8 @@ describe("root", function() {
 						signedInUser: "null",
 						projectId: sinon.match.any,
 						projectName: sinon.match.any,
-						renderedScripts: sinon.match.any
+						renderedScripts: sinon.match.any,
+						styleLocation: sinon.match.any
 					}));
 				}
 			});
@@ -303,7 +306,8 @@ describe("root", function() {
 						signedInUser: sinon.match.any,
 						projectId: "null",
 						projectName: "null",
-						renderedScripts: sinon.match.any
+						renderedScripts: sinon.match.any,
+						styleLocation: sinon.match.any
 					}));
 				}
 			});
@@ -332,7 +336,69 @@ describe("root", function() {
 						signedInUser: sinon.match.any,
 						projectId: "null",
 						projectName: "null",
-						renderedScripts: sinon.match.string
+						renderedScripts: sinon.match.string,
+						styleLocation: sinon.match.any
+					}))
+				}
+			});
+		});
+
+		it("should set styleLocation to '/style' with no build number", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs({
+					userGetOne: sinon.stub(repositories.User, "one").resolves(),
+				}),
+				assert: function(result) {
+					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, {
+						priorities: sinon.match.string,
+						statuses: sinon.match.string,
+						users: sinon.match.string,
+						transitions: sinon.match.string,
+						projects: sinon.match.string,
+						milestones: sinon.match.string,
+						issueTypes: sinon.match.string,
+						signedInUser: sinon.match.any,
+						projectId: sinon.match.any,
+						projectName: sinon.match.any,
+						renderedScripts: sinon.match.string,
+						styleLocation: "/style"
+					}))
+				}
+			});
+		});
+
+		it("should set styleLocation to '/style' and build number", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs({
+					userGetOne: sinon.stub(repositories.User, "one").resolves(),
+					buildNumber: 123
+				}),
+				assert: function(result) {
+					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, {
+						priorities: sinon.match.string,
+						statuses: sinon.match.string,
+						users: sinon.match.string,
+						transitions: sinon.match.string,
+						projects: sinon.match.string,
+						milestones: sinon.match.string,
+						issueTypes: sinon.match.string,
+						signedInUser: sinon.match.any,
+						projectId: sinon.match.any,
+						projectName: sinon.match.any,
+						renderedScripts: sinon.match.string,
+						styleLocation: "/style?v=123"
 					}))
 				}
 			});
@@ -584,7 +650,8 @@ describe("root", function() {
 				mapperMapAll: params.mapperMapAll || sinon.stub(mapper, "mapAll").resolves([]),
 				mapperMap: sinon.stub(mapper, "map"),
 				scriptBundler: params.scriptBundler || sinon.stub(scriptBundler, "render").resolves("the bundled scripts"),
-				mustacheRender: sinon.stub(mustache, "render").returns("")
+				mustacheRender: sinon.stub(mustache, "render").returns(""),
+				config: sinon.stub(config, "call").returns(params.buildNumber)
 			};
 			stubs.mapperMap.withArgs("user", "user-view-model", sinon.match.any).resolves(params.noMappedUser ? undefined : {});
 			stubs.mapperMap.withArgs("project", "project-view-model", sinon.match.any).resolves(params.noMappedProject ? undefined : {});

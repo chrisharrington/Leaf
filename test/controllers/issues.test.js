@@ -10,6 +10,7 @@ var notificationEmailer = require("../../email/notificationEmailer");
 var formidable = require("formidable");
 var moment = require("moment");
 var config = require("../../config");
+var caches = require("../../data/caches");
 
 var sut = require("../../controllers/issues");
 
@@ -959,6 +960,37 @@ describe("issues", function() {
 			});
 		});
 
+		it("should retrieve statuses from the cache", function() {
+			return _runUpdateIssue({
+				assert: function(result) {
+					assert(result.stubs.cache.calledOnce);
+				}
+			});
+		});
+
+		it("should set closed date to null if issue's status isn't a closed status", function() {
+			var issue = { number: "the number" };
+			return _runUpdateIssue({
+				mapperMapResult: issue,
+				statuses: [],
+				assert: function(result) {
+					assert(result.stubs.issueUpdate.calledWith({ number: "the number", closed: null }, sinon.match.any));
+				}
+			});
+		});
+
+		it("should set closed date to now if issue's status is a closed status", function() {
+			var issue = { number: "the number", statusId: "the status id" }, now = Date.now();
+			return _runUpdateIssue({
+				mapperMapResult: issue,
+				now: now,
+				statuses: [{ _id: "the status id", isClosedStatus: true }, { _id: "some other id", isClosedStatus: false }],
+				assert: function(result) {
+					assert(result.stubs.issueUpdate.calledWith({ number: sinon.match.any, statusId: sinon.match.any, closed: now }, sinon.match.any));
+				}
+			});
+		});
+
 		function _runUpdateIssue(params) {
 			params = params || {};
 			params.stubs = {
@@ -966,7 +998,9 @@ describe("issues", function() {
 				issueUpdate: params.issueUpdate || sinon.stub(repositories.Issue, "update").resolves(),
 				notificationCreate: params.notificationCreate || sinon.stub(repositories.Notification, "create").resolves(),
 				userDetails: params.userDetails || sinon.stub(repositories.User, "details").resolves(params.user || { emailNotificationForIssueUpdated: params.emailNotificationForIssueUpdated == undefined ? true : false }),
-				notificationEmailerIssueUpdated: params.notificationEmailerIssueUpdated || sinon.stub(notificationEmailer, "issueUpdated").resolves()
+				notificationEmailerIssueUpdated: params.notificationEmailerIssueUpdated || sinon.stub(notificationEmailer, "issueUpdated").resolves(),
+				cache: params.cache|| sinon.stub(caches.Status, "all").resolves(params.statuses || []),
+				date: sinon.stub(Date, "now").returns(params.now || Date.now())
 			};
 
 			params.verb = "post";
@@ -1522,6 +1556,68 @@ describe("issues", function() {
 		});
 	});
 
+	describe("post /issues/undelete", function() {
+		it("should set get /issues/undelete route", function () {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/issues/undelete", sinon.match.func, sinon.match.func));
+		});
+
+		it("should call restore with issue id as read from request.body", function() {
+			return _run({
+				verb: "post",
+				route: "/issues/undelete",
+				stubs: {
+					restore: sinon.stub(repositories.Issue, "restore").resolves()
+				},
+				request: {
+					body: {
+						id: "the id"
+					}
+				},
+				assert: function(result) {
+					assert(result.stubs.restore.calledWith("the id"));
+				}
+			});
+		});
+
+		it("should send 200", function() {
+			return _run({
+				verb: "post",
+				route: "/issues/undelete",
+				stubs: {
+					restore: sinon.stub(repositories.Issue, "restore").resolves()
+				},
+				request: {
+					body: {
+						id: "the id"
+					}
+				},
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 on error", function() {
+			return _run({
+				verb: "post",
+				route: "/issues/undelete",
+				stubs: {
+					restore: sinon.stub(repositories.Issue, "restore").rejects(new Error("oh noes!"))
+				},
+				request: {
+					body: {
+						id: "the id"
+					}
+				},
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+	});
+
 	function _run(params) {
 		var func;
 		var request = params.request || sinon.stub(), response = { send: sinon.stub(), contentType: sinon.stub() };
@@ -1540,6 +1636,10 @@ describe("issues", function() {
 		return func(request, response).finally(function() {
 			if (params.assert)
 				params.assert({ request: request, response: response, stubs: params.stubs });
+
+			for (var name in params.stubs)
+				if (params.stubs[name].restore)
+					params.stubs[name].restore();
 		});
 	}
 });

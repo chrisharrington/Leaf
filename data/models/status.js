@@ -5,6 +5,9 @@ var schema = mongoose.Schema({
     name: String,
     isDeleted: { type: Boolean, default: false },
     order: Number,
+	isClosedStatus: { type: Boolean, default: false },
+	isDeveloperStatus: { type: Boolean, default: false },
+	isTesterStatus: { type: Boolean, default: false },
     
     project: { type: objectId, ref: "project" },
 });

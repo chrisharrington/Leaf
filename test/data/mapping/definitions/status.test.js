@@ -20,7 +20,10 @@ describe("status mapping", function() {
 			assert(_define.calledWith("status", "status-view-model", {
 				"id": "_id",
 				name: "name",
-				order: "order"
+				order: "order",
+				isClosedStatus: "isClosedStatus",
+				isDeveloperStatus: "isDeveloperStatus",
+				isTesterStatus: "isTesterStatus"
 			}));
 		});
 

@@ -2,10 +2,15 @@ require("../setup");
 var assert = require("assert"), should = require("should"), sinon = require("sinon"), repositories = require("../../data/repositories"), Promise = require("bluebird")
 var minifier = Promise.promisifyAll(require("yuicompressor"));
 var bundler = require("../../bundling/bundler");
+var config = require("../../config");
+var base = require("../base");
+
 var sut = require("../../bundling/scriptBundler");
 
 describe("scriptBundler", function() {
 	describe("render", function() {
+		var _stubs;
+
 		it("should return promise", function() {
 			assert(_run().then);
 		});
@@ -27,25 +32,27 @@ describe("scriptBundler", function() {
 		});
 
 		it("should render single script tag in production env", function() {
+			var timestamp = Date.now();
 			return _run({
 				env: "production",
 				files: ["file1.js", "file2.js"],
-				timestamp: 12345
+				timestamp: timestamp
 			}).then(function(result) {
-				assert(result.should.equal("<script type=\"text/javascript\" src=\"/script?v=12345\"></script>"));
+				assert.equal(result, "<script type=\"text/javascript\" src=\"/script?v=" + timestamp + "\"></script>");
 			});
 		});
 
 		it("should add script route in production env", function() {
+			var buildNumber = 45;
 			return _run({
 				env: "production",
 				files: ["file1.js", "file2.js"],
-				timestamp: 12345,
+				buildNumber: 45,
 				assert: function(app) {
 					assert(app.get.calledWith("/script", sinon.match.func));
 				}
 			}).then(function(result) {
-				assert(result.should.equal("<script type=\"text/javascript\" src=\"/script?v=12345\"></script>"));
+				assert.equal(result, "<script type=\"text/javascript\" src=\"/script?v=" + buildNumber + "\"></script>");
 			});
 		});
 
@@ -96,14 +103,21 @@ describe("scriptBundler", function() {
 			});
 		});
 
+		afterEach(function() {
+			base.restoreStubs(_stubs);
+		});
+
 		function _run(params) {
 			params = params || {};
 			var assets = ["file1.js", "file2.js"];
 			var app = params.app || { get: sinon.stub().returns(params.env || "development") };
 
-			sinon.stub(bundler, "concatenate").resolves(params.concatenated || "");
-			sinon.stub(bundler, "files").resolves(params.files || []);
-			sinon.stub(minifier, "compressAsync").resolves(params.minified || ["minified", ""]);
+			_stubs = {};
+			_stubs.concatenate = sinon.stub(bundler, "concatenate").resolves(params.concatenated || "");
+			_stubs.files = sinon.stub(bundler, "files").resolves(params.files || []);
+			_stubs.compress = sinon.stub(minifier, "compressAsync").resolves(params.minified || ["minified", ""]);
+			_stubs.config = sinon.stub(config, "call").returns(params.buildNumber);
+			_stubs.date = sinon.stub(Date, "now").returns(params.timestamp);
 
 			return sut.render(assets, app, params.timestamp).finally(function() {
 				bundler.concatenate.restore();

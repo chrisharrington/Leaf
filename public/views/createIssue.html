@@ -82,7 +82,7 @@
         <div class="tile choice-tile">
             <h2>Developer</h2>
             <!-- ko foreach: IssueTracker.users -->
-            <!-- ko if: !isDeleted -->
+            <!-- ko if: !isDeleted() -->
             <div data-bind="attr: { 'data-id': id }">
                 <span data-bind="text: name"></span>
                 <i class="fa fa-check"></i>
@@ -95,7 +95,7 @@
         <div class="tile choice-tile">
             <h2>Tester</h2>
             <!-- ko foreach: IssueTracker.users -->
-            <!-- ko if: !isDeleted -->
+            <!-- ko if: !isDeleted() -->
             <div data-bind="attr: { 'data-id': id }">
                 <span data-bind="text: name"></span>
                 <i class="fa fa-check"></i>
@@ -119,7 +119,7 @@
                     <span class="size" data-bind="text: size"></span>
                 </div>
                 <div class="status">
-                    <i class="fa fa-times"></i>
+                    <i class="fa fa-times" data-bind="click: function() { $root.Upload.remove($data); }"></i>
                     <img src="/images/ajax-loader.gif" data-bind="visible: $root.Upload.uploading" />
                 </div>
             </div>
