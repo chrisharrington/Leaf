@@ -18,7 +18,8 @@ require("../mapper").define("user-view-model", "user", {
 	emailNotificationForIssueAssigned: "emailNotificationForIssueAssigned",
 	emailNotificationForIssueUpdated: "emailNotificationForIssueUpdated",
 	emailNotificationForIssueDeleted: "emailNotificationForIssueDeleted",
-	emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue"
+	emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue",
+	isDeleted: "isDeleted"
 });
 
 require("../mapper").define("user", "user-summary-view-model", {

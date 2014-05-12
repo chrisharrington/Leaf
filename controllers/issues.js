@@ -3,6 +3,7 @@ var authenticate = require("../authentication/authenticate");
 var models = require("../data/models");
 var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
+var caches = require("../data/caches");
 var mustache = require("mustache");
 var Promise = require("bluebird");
 var mongoose = require("mongoose");
@@ -99,7 +100,14 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/update", authenticate, function(request, response) {
-		return mapper.map("issue-view-model", "issue", request.body).then(function(issue) {
+		return Promise.all([
+			mapper.map("issue-view-model", "issue", request.body),
+			caches.Status.all()
+		]).spread(function(issue, statuses) {
+			if (_issueIsClosed(issue.statusId, statuses))
+				issue.closed = Date.now();
+			else
+				issue.closed = null;
 			return repositories.Issue.update(issue, request.user).then(function () {
 				if (request.user._id.toString() != issue.developerId.toString()) {
 					return Promise.all([
@@ -116,6 +124,15 @@ module.exports = function(app) {
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);
 		});
+
+		function _issueIsClosed(statusId, statuses) {
+			var closed = false;
+			statuses.forEach(function(status) {
+				if (status.isClosedStatus && status._id == statusId)
+					closed = true;
+			});
+			return closed;
+		}
 	});
 
 	app.post("/issues/add-comment", authenticate, function(request, response) {
@@ -216,9 +233,16 @@ module.exports = function(app) {
 		});
 	});
 
+	app.post("/issues/undelete", authenticate, function(request, response) {
+		return repositories.Issue.restore(request.body.id).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
+	});
+
 	app.post("/issues/attach-file", authenticate, function(request, response) {
-		var files = [];
-		var paths = [];
+		var files = [], paths = [];
 		return _readFilesFromRequest(request).then(function(f) {
 			for (var name in f) {
 				files.push(storage.set(request.project._id.toString(), mongoose.Types.ObjectId().toString(), f[name].name, f[name].path, f[name].size));

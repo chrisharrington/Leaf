@@ -29,7 +29,12 @@
 				<img src="../images/light-spinner.png" alt="" />
                 <span>Save Changes</span>
             </button>
-            <button class="icon" id="delete-issue">
+			<button class="icon" data-bind="click: Delete.restore, visible: IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
+				<i class="fa fa-undo"></i>
+				<img src="../images/light-spinner.png" alt="" />
+				<span>Undelete Issue</span>
+			</button>
+			<button class="icon" data-bind="click: Delete.remove, visible: !IssueTracker.selectedIssue.isDeleted()">
                 <i class="fa fa-trash-o"></i>
                 <span>Delete Issue</span>
             </button>
@@ -188,8 +193,8 @@
 
 <script type="text/html" id="developer-chooser">
 	<div class="developer-chooser chooser" data-bind="foreach: users">
-        <!-- ko if: !isDeleted -->
-		<div data-bind="attr: { 'data-developer': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.developerId() }">
+        <!-- ko if: !isDeleted() -->
+		<div data-bind="attr: { 'data-developer': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.developerId() }">
 			<div>
 				<div>
 					<span class="name" data-bind="text: name"></span>
@@ -203,8 +208,8 @@
 
 <script type="text/html" id="tester-chooser">
 	<div class="tester-chooser chooser" data-bind="foreach: users">
-        <!-- ko if: !isDeleted -->
-		<div data-bind="attr: { 'data-tester': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.testerId() }">
+        <!-- ko if: !isDeleted() -->
+		<div data-bind="attr: { 'data-tester': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.testerId() }">
 			<div>
 				<div>
 					<span class="name" data-bind="text: name"></span>
@@ -219,13 +224,12 @@
 <script type="text/html" id="confirm-delete">
 	<div class="confirm-delete confirmation-dialog">
 		<h1>Delete this issue?</h1>
-		<span class="warning"><b>WARNING:</b> This action is irreversible.</span>
-		<span>Once deleted, all comments, history and attached files will be removed. Are you sure you want to continue?</span>
+		<span>Deleting an issue is 100% reversible; we only mark it as deleted. In the event you delete this issue by mistake or need to restore it later, no problem; you can search for the issue and undelete it that way. Are you sure you want to continue?</span>
 		<div class="confirm-container">
-			<button id="confirm-delete" data-bind="css: { loading: loading }">Delete Issue</button>
+			<button data-bind="click: IssueTracker.IssueDetails.Delete.confirm, css: { loading: loading }">Delete Issue</button>
 		</div>
 		<div>
-			<button id="cancel-delete">Cancel</button>
+			<button data-bind="click: IssueTracker.IssueDetails.Delete.cancel">Cancel</button>
 		</div>
 	</div>
 </script>

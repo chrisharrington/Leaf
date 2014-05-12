@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width" />
 	<title data-bind="text: 'Leaf' + (IssueTracker.selectedIssue() ? ' - ' + IssueTracker.selectedIssue().number : '')">Leaf</title>
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="/style" type="text/css" />
+    <link rel="stylesheet" href="{{{styleLocation}}}" type="text/css" />
 </head>
 	<body>
         <header>
@@ -41,6 +41,18 @@
                         <i class="fa fa-plus"></i>
                     </a>
                 </div>
+				<!-- ko if: IssueTracker.signedInUser() -->
+				<a class="account" href="#/profile">
+					<div class="image">
+						<img data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 44) }" alt="user-profile" />
+					</div>
+					<div class="labels">
+						<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
+						<br />
+						<span class="email" data-bind="text: IssueTracker.signedInUser().emailAddress"></span>
+					</div>
+				</a>
+				<!-- /ko -->
 				<div class="search">
 					<input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
 					<i class="fa fa-search" data-bind="click: Search.go"></i>
@@ -186,7 +198,6 @@
                 root.virtualDirectory = "/";
                 root.priorities = ko.observableArray({{{priorities}}});
 				root.statuses = ko.observableArray({{{statuses}}});
-				root.users = ko.observableArray({{{users}}});
 				root.transitions = ko.observableArray({{{transitions}}});
 				root.projects = ko.observableArray({{{projects}}});
 				root.milestones = ko.observableArray({{{milestones}}});
@@ -195,6 +206,11 @@
                 root.projectId = ko.observable({{{projectId}}});
 				root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables({{{signedInUser}}}));
 				root.selectedIssue = ko.observable();
+
+				root.users = ko.observableArray();
+				$.each({{{users}}}, function(i, user) {
+					root.users.push(IssueTracker.Utilities.createPropertyObservables(user));
+				});
 
 				IssueTracker.error = ko.observable("");
 				IssueTracker.success = ko.observable("");

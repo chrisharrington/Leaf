@@ -99,7 +99,7 @@
 		var ids = [];
 		var collection = filterCollection.length == 0 ? masterCollection : filterCollection; 
 		$.each(collection, function(i, filterItem) {
-			ids.push(filterItem.id);
+			ids.push(typeof(filterItem.id) == "Function" ? filterItem.id() : filterItem.id);
 		});
 		return ids.join(",");
 	}

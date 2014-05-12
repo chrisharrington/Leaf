@@ -37,6 +37,37 @@ describe("baseRepository", function() {
 		});
 	});
 
+	describe("restore", function() {
+		it("should set found model's isDeleted property to false", function() {
+			var model = { isDeleted: false, saveAsync: sinon.stub() };
+			var details = sinon.stub(sut, "details").resolves(model);
+			return sut.restore("the id").then(function() {
+				assert(!model.isDeleted);
+			})
+		});
+
+		it("should call save on retrieved model", function() {
+			var model = { saveAsync: sinon.stub() };
+			var details = sinon.stub(sut, "details").resolves(model);
+			return sut.restore("the id").then(function() {
+				assert(model.saveAsync.calledOnce);
+			});
+		});
+
+		it("should find details using given id", function() {
+			var id = "the id";
+			var model = { saveAsync: sinon.stub() };
+			var details = sinon.stub(sut, "details").resolves(model);
+			return sut.restore(id).then(function() {
+				assert(details.calledWith(id));
+			});
+		});
+
+		afterEach(function() {
+			sut.details.restore();
+		});
+	});
+
 	describe("details", function() {
 		it("should call 'one' method with given id", function() {
 			var id = "the id";

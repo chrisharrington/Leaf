@@ -8,6 +8,7 @@ var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
 var caches = require("../data/caches");
 var bundler = require("../bundling/bundler");
+var config = require("../config");
 
 module.exports = function(app) {
 	app.get("/", function (request, response) {
@@ -55,6 +56,7 @@ module.exports = function(app) {
 	}
 
 	function _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
+		var buildNumber = config.call(this, "buildNumber");
 		return response.send(mustache.render(html.toString(), {
 			priorities: JSON.stringify(priorities),
 			statuses: JSON.stringify(statuses),
@@ -66,7 +68,8 @@ module.exports = function(app) {
 			signedInUser: JSON.stringify(user),
 			projectId: JSON.stringify(project ? project.id : null),
 			projectName: JSON.stringify(project ? project.name : null),
-			renderedScripts: renderedScripts
+			renderedScripts: renderedScripts,
+			styleLocation: buildNumber ? ("/style?v=" + buildNumber) : "/style"
 		}), 200);
 	}
 

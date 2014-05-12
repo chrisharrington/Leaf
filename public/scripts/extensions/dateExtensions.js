@@ -15,7 +15,7 @@ Date.prototype.toLongDateString = function () {
 };
 
 Date.prototype.toShortDateString = function () {
-	return this.getFullYear() + "-" + (this.getMonth() + 1) + "-" + this.getDate();
+	return this.getFullYear() + "-" + (this.getMonth() + 1).toString().padLeft("00") + "-" + this.getDate().toString().padLeft("00");
 };
 
 Date.prototype.toShortTimeString = function() {

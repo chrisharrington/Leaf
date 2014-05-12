@@ -3,17 +3,23 @@
 
 	root.loading = ko.observable(false);
 
-	root.init = function() {
-		$(document).on("click", "#delete-issue", _delete);
-		$(document).on("click", "#confirm-delete", _submit);
-		$(document).on("click", "#cancel-delete", IssueTracker.Dialog.hide);
-	};
-	
-	function _delete() {
+	root.remove = function() {
 		IssueTracker.Dialog.load("#confirm-delete", root);
-	}
-	
-	function _submit() {
+	};
+
+	root.restore = function() {
+		root.loading(true);
+		$.post(IssueTracker.virtualDirectory + "issues/undelete", { id: IssueTracker.selectedIssue.id }).done(function() {
+			IssueTracker.Feedback.success("The issue has been restored.");
+			IssueTracker.selectedIssue.isDeleted(false);
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error has occurred while undeleting this issue. Please try again later.");
+		}).always(function() {
+			root.loading(false);
+		});
+	};
+
+	root.confirm = function() {
 		root.loading(true);
 		$.post(IssueTracker.virtualDirectory + "issues/delete", { id: IssueTracker.selectedIssue.id }).done(function() {
 			IssueTracker.Issues.navigate();
@@ -24,6 +30,10 @@
 		}).always(function() {
 			root.loading(false);
 		});
-	}
+	};
+
+	root.cancel = function() {
+		IssueTracker.Dialog.hide();
+	};
 
 })(root("IssueTracker.IssueDetails.Delete"));

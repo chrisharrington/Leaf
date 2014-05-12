@@ -420,18 +420,6 @@ describe("issueRepository", function() {
 			});
 		});
 
-		it("should set closed date to now if new status is 'closed'", function() {
-			var issue = { saveAsync: sinon.stub().resolves() };
-			var date = "the closed date";
-			return _run({
-				statusDetailsResult: { name: "closed" },
-				issueDetailsResult: issue,
-				date: sinon.stub(Date, "now").returns(date)
-			}).then(function() {
-				assert(issue.closed == date);
-			})
-		});
-
 		afterEach(function() {
 			for (var name in _stubs)
 				if (_stubs[name].restore)
