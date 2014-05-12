@@ -1,6 +1,8 @@
 
 (function (root) {
 
+
+
 	$(function() {
 		IssueTracker.Page.build({
 			root: root,

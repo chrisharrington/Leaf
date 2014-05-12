@@ -1,3 +1,27 @@
 .project-container {
+	div.inner-project-container { width:1000px; margin:auto;
+		div.left, div.right { .border-box; width:50%;
+			>div { float:left; width:100%; margin-top:@spacing; }
+			>div:first-child { margin-top:0; }
+		}
+		div.left { float:left; padding-right:@small-spacing; }
+		div.right { float:right; padding-left:@small-spacing; }
 
+		div.data {
+			>h1 { float:left; width:100%; }
+			>div.new { float:left; width:100%; margin-top:@spacing;
+				@button-width:150px;
+				>div { float:left; width:100%; position:relative; padding-right:@button-width+@small-spacing; .border-box;
+					>input { float:left; width:100%; }
+				}
+				>button { float:left; margin-left:@button-width*-1; width:@button-width; position:relative; }
+			}
+			>table { float:left; width:100%; margin-top:@spacing; border:solid 1px @border-colour;
+				th, td { padding:@small-spacing; }
+				th { font-weight:bold; color:@secondary-font-colour; text-align:left; }
+				td { border-top:solid 1px @border-colour; text-align:left; cursor:move; }
+				td:hover { .hover; }
+			}
+		}
+	}
 }

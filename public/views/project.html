@@ -1,1 +1,80 @@
-﻿project
+﻿<script type="text/javascript">
+	IssueTracker.Project.domain = "{{{domain}}}";
+</script>
+
+<div class="inner-project-container">
+	<div class="left">
+		<div class="project-info tile description-form">
+			<h1>Project Information</h1>
+			<div class="project-name">
+				<label>Project Name</label>
+				<span>The name of the project. It's what will be used in email notifications and in references to your project throughout the application. Your project will be located here: <a target="_blank" data-bind="attr: { href: domain.replace('www', IssueTracker.projectName().formatForUrl()) }, text: domain.replace('www', IssueTracker.projectName().formatForUrl())"></a>.</span>
+				<input type="text" placeholder="Project name..." data-bind="value: IssueTracker.projectName, valueUpdate: 'keyup'" />
+			</div>
+		</div>
+
+		<div class="integrations tile">
+			<h1>Source Control Integration</h1>
+		</div>
+	</div>
+
+	<div class="right">
+		<div class="data tile">
+			<h1>Milestones</h1>
+			<div class="new">
+				<div>
+					<input type="text" placeholder="New milestone name..." />
+				</div>
+				<button>Create Milestone</button>
+			</div>
+			<table cellpadding="0" cellspacing="0">
+				<thead>
+					<th>Name</th>
+				</thead>
+				<tbody data-bind="foreach: IssueTracker.milestones">
+					<tr>
+						<td data-bind="text: name"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="data tile">
+			<h1>Priorities</h1>
+			<div class="new">
+				<div>
+					<input type="text" placeholder="New priority name..." />
+				</div>
+				<button>Create Priority</button>
+			</div>
+			<table cellpadding="0" cellspacing="0">
+				<thead>
+				<th>Name</th>
+				</thead>
+				<tbody data-bind="foreach: IssueTracker.priorities">
+				<tr>
+					<td data-bind="text: name"></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="data tile">
+			<h1>Statuses</h1>
+			<div class="new">
+				<div>
+					<input type="text" placeholder="New status name..." />
+				</div>
+				<button>Create Status</button>
+			</div>
+			<table cellpadding="0" cellspacing="0">
+				<thead>
+				<th>Name</th>
+				</thead>
+				<tbody data-bind="foreach: IssueTracker.statuses">
+				<tr>
+					<td data-bind="text: name"></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
