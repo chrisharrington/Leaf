@@ -21,7 +21,7 @@
 	<div class="right">
 		<div class="data tile">
 			<h1>Milestones</h1>
-			<i class="fa fa-plus" data-bind="click: Milestone.create"></i>
+			<i class="fa fa-plus" data-bind="click: function() { Base.create(Milestone.createOrUpdate); }"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
@@ -33,8 +33,8 @@
 					<tr>
 						<td data-bind="text: name"></td>
 						<td class="action">
-							<i class="fa fa-pencil" data-bind="click: $root.Milestone.edit"></i>
-							<i class="fa fa-trash-o" data-bind="click: $root.Milestone.remove"></i>
+							<i class="fa fa-pencil" data-bind="click: function() { $root.Base.edit($root.Milestone.createOrUpdate, $data); }"></i>
+							<i class="fa fa-trash-o" data-bind="click: function() { $root.Base.remove($root.Milestone.remove, $data); }"></i>
 						</td>
 					</tr>
 				</tbody>
@@ -42,7 +42,7 @@
 		</div>
 		<div class="data tile">
 			<h1>Priorities</h1>
-			<i class="fa fa-plus" data-bind="click: Priority.create"></i>
+			<i class="fa fa-plus" data-bind="click: function() { Base.create(Priority.createOrUpdate); }"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
@@ -54,8 +54,8 @@
 				<tr>
 					<td data-bind="text: name"></td>
 					<td class="action">
-						<i class="fa fa-pencil" data-bind="click: $root.Priority.edit"></i>
-						<i class="fa fa-trash-o" data-bind="click: $root.Priority.remove"></i>
+						<i class="fa fa-pencil" data-bind="click: function() { $root.Base.edit($root.Priority.createOrUpdate, $data); }"></i>
+						<i class="fa fa-trash-o" data-bind="click: function() { $root.Base.remove($root.Priority.remove, $data); }"></i>
 					</td>
 				</tr>
 				</tbody>
@@ -63,7 +63,7 @@
 		</div>
 		<div class="data tile statuses">
 			<h1>Statuses</h1>
-			<i class="fa fa-plus" data-bind="click: Status.create"></i>
+			<i class="fa fa-plus" data-bind="click: function() { Base.create(Status.createOrUpdate); }"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
@@ -90,8 +90,8 @@
 							<i class="fa fa-square-o" data-bind="visible: !isClosedStatus"></i>
 						</td>
 						<td class="action">
-							<i class="fa fa-pencil" data-bind="click: $root.Status.edit"></i>
-							<i class="fa fa-trash-o" data-bind="click: $root.Status.remove"></i>
+							<i class="fa fa-pencil" data-bind="click: function() { $root.Base.edit($root.Status.createOrUpdate, $data); }"></i>
+							<i class="fa fa-trash-o" data-bind="click: function() { $root.Base.remove($root.Status.remove, $data); }"></i>
 						</td>
 					</tr>
 				</tbody>
@@ -100,63 +100,37 @@
 	</div>
 </div>
 
-<script type="text/html" id="milestone-template">
-	<div class="form two-button milestone">
-		<h1 data-bind="text: create() ? 'Create Milestone' : 'Edit Milestone'">Create Milestone</h1>
-		<span>Once your milestone has been created, you can drag its location in the milestones table to set its order throughout the application.</span>
-		<input type="text" placeholder="Milestone name..." data-bind="value: name" />
-		<div class="button-container first">
-			<button data-bind="text: create() ? 'Create Milestone' : 'Edit Milestone', click: confirm, css: { loading: loading }">Create Milestone</button>
-		</div>
-		<div class="button-container">
-			<button data-bind="click: cancel">Cancel</button>
-		</div>
-	</div>
-</script>
-
-<script type="text/html" id="priority-template">
-	<div class="form two-button priority">
-		<h1>Create Priority</h1>
-		<span>Once your priority has been created, you can drag its location in the priorities table to set its order throughout the application.</span>
-		<input type="text" placeholder="Priority name..." data-bind="value: name" />
-		<div class="button-container first">
-			<button data-bind="click: confirm, css: { loading: loading }">Create Priority</button>
-		</div>
-		<div class="button-container">
-			<button data-bind="click: cancel">Cancel</button>
-		</div>
-	</div>
-</script>
-		
-<script type="text/html" id="status-template">
-	<div class="form two-button status">
-		<h1>Create Status</h1>
-		<span>Once your status has been created, you can drag its location in the statuses table to set its order throughout the application.</span>
+<script type="text/html" id="create-template">
+	<div data-bind="attr: { class: 'create-or-update form two-button ' + type }">
+		<h1 data-bind="text: (create() ? 'Create' : 'Edit') + ' ' + type.capitalize()"></h1>
+		<span data-bind="text: 'Once your ' + type + ' has been created, you can drag its location in the table to set its order throughout the application.'"></span>
 		<div class="input-container">
-			<input type="text" placeholder="Status name..." data-bind="value: name" />
+			<input type="text" data-bind="attr: { placeholder: type.capitalize() + ' name...' }, value: data.name" />
 		</div>
+		<!-- ko if: type == 'status' -->
 		<div class="options">
 			<div data-bind="click: toggleDeveloper">
-				<i class="fa fa-check-square" data-bind="visible: isDeveloperStatus()"></i>
-				<i class="fa fa-square-o" data-bind="visible: !isDeveloperStatus()"></i>
+				<i class="fa fa-check-square" data-bind="visible: data.isDeveloperStatus()"></i>
+				<i class="fa fa-square-o" data-bind="visible: !data.isDeveloperStatus()"></i>
 				<span class="name">Developer</span>
 				<span class="description">Marking a status as 'developer' indicates that the user assigned as a developer to the issue with this status needs to take action.</span>
 			</div>
 			<div data-bind="click: toggleTester">
-				<i class="fa fa-check-square" data-bind="visible: isTesterStatus()"></i>
-				<i class="fa fa-square-o" data-bind="visible: !isTesterStatus()"></i>
+				<i class="fa fa-check-square" data-bind="visible: data.isTesterStatus()"></i>
+				<i class="fa fa-square-o" data-bind="visible: !data.isTesterStatus()"></i>
 				<span class="name">Tester Status</span>
 				<span class="description">Marking a status as 'tester' indicates that the user assigned as a tester to the issue with this status needs to take action.</span>
 			</div>
 			<div data-bind="click: toggleClosed">
-				<i class="fa fa-check-square" data-bind="visible: isClosedStatus()"></i>
-				<i class="fa fa-square-o" data-bind="visible: !isClosedStatus()"></i>
+				<i class="fa fa-check-square" data-bind="visible: data.isClosedStatus()"></i>
+				<i class="fa fa-square-o" data-bind="visible: !data.isClosedStatus()"></i>
 				<span class="name">Closed Status</span>
 				<span class="description">Any issue with a 'closed' status indicates that the issue needs no more action by anybody and is considered complete.</span>
 			</div>
 		</div>
+		<!-- /ko -->
 		<div class="button-container first">
-			<button data-bind="click: confirm, css: { loading: loading }">Create Status</button>
+			<button data-bind="text: (create() ? 'Create ' : 'Save ') + ' ' + type.capitalize(), click: confirm, css: { loading: loading }"></button>
 		</div>
 		<div class="button-container">
 			<button data-bind="click: cancel">Cancel</button>
@@ -164,50 +138,16 @@
 	</div>
 </script>
 
-<script type="text/html" id="delete-milestone-template">
-	<div class="form two-button delete delete-milestone">
-		<h1>Delete Milestone?</h1>
+<script type="text/html" id="delete-template">
+	<div class="form two-button delete">
+		<h1 data-bind="text: 'Delete ' + type.capitalize() + '?'"></h1>
 		<span><b>WARNING:</b> This action is irreverisble.</span>
-		<span>Issues that have this milestone will need a new milestone. Where should they go?</span>
+		<span data-bind="text: 'Issues that have this ' + type + ' will need a new ' + type + '. Where should they go?'"></span>
 		<select data-bind="foreach: switchTo">
 			<option data-bind="value: id, text: name"></option>
 		</select>
 		<div class="button-container first">
-			<button data-bind="click: confirm">Delete Milestone</button>
-		</div>
-		<div class="button-container">
-			<button data-bind="click: cancel">Cancel</button>
-		</div>
-	</div>
-</script>
-
-<script type="text/html" id="delete-priority-template">
-	<div class="form two-button delete delete-priority">
-		<h1>Delete Priority?</h1>
-		<span><b>WARNING:</b> This action is irreverisble.</span>
-		<span>Issues that have this priority will need a new priority. Where should they go?</span>
-		<select data-bind="foreach: switchTo">
-			<option data-bind="value: id, text: name"></option>
-		</select>
-		<div class="button-container first">
-			<button data-bind="click: confirm">Delete Priority</button>
-		</div>
-		<div class="button-container">
-			<button data-bind="click: cancel">Cancel</button>
-		</div>
-	</div>
-</script>
-
-<script type="text/html" id="delete-status-template">
-	<div class="form two-button delete delete-status">
-		<h1>Delete Status?</h1>
-		<span><b>WARNING:</b> This action is irreverisble.</span>
-		<span>Issues that have this status will need a new status. Where should they go?</span>
-		<select data-bind="foreach: switchTo">
-			<option data-bind="value: id, text: name"></option>
-		</select>
-		<div class="button-container first">
-			<button data-bind="click: confirm">Delete Status</button>
+			<button data-bind="click: function() { $root.confirm($root.remove); }, text: 'Delete ' + type.capitalize()"></button>
 		</div>
 		<div class="button-container">
 			<button data-bind="click: cancel">Cancel</button>

@@ -2,43 +2,24 @@
 
 	var _base = IssueTracker.Project.Base;
 
-	root.milestone = {
+	root.createOrUpdate = {
+		type: "milestone",
 		create: ko.observable(true),
 		loading: ko.observable(false),
-		name: ko.observable(""),
-		confirm: function() { _base.confirm(root.milestone, "milestone"); },
-		cancel: function() { IssueTracker.Dialog.hide(); }
+		confirm: function() { _base.confirm(root.createOrUpdate); },
+		cancel: function() { IssueTracker.Dialog.hide(); },
+		data: {
+			name: ko.observable("")
+		}
 	};
 
-	root.removeMilestone = {
+	root.remove = {
+		type: "milestone",
 		loading: ko.observable(false),
 		milestone: null,
 		switchTo: [],
-		confirm: function() { _base.remove(root.removeMilestone, "milestone"); },
+		confirm: function() { _base.confirmRemove(root.remove); },
 		cancel: function() { IssueTracker.Dialog.hide(); }
-	};
-
-	root.create = function() {
-		root.milestone.create(true);
-		IssueTracker.Dialog.load("milestone-template", root.milestone);
-	};
-
-	root.edit = function(milestone) {
-		var model = root.milestone;
-		model.create(false);
-		model.name(milestone.name);
-		IssueTracker.Dialog.load("milestone-template", model);
-	};
-
-	root.remove = function(milestone) {
-		var model = root.removeMilestone;
-		model.milestone = milestone;
-		model.switchTo = [];
-		$.each(IssueTracker.milestones(), function(i, current) {
-			if (current.id != milestone.id)
-				model.switchTo.push(current);
-		});
-		IssueTracker.Dialog.load("delete-milestone-template", model);
 	};
 
 })(root("IssueTracker.Project.Milestone"));

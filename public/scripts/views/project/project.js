@@ -1,8 +1,6 @@
 
 (function (root) {
 
-	root.base = IssueTracker.Project.Base;
-
 	root.deleteMilestone = function() {
 		IssueTracker.Dialog.load("delete-milestone-template", root);
 	};

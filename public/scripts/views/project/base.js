@@ -1,41 +1,68 @@
 (function(root) {
 
-	root.confirm = function(model, type) {
+	root.confirm = function(model) {
 		var error = _validate(model);
 		if (error) {
 			IssueTracker.Feedback.error(error);
 			return;
 		}
 
-		_send(model, type);
+		_send(model);
 	};
 
-	root.remove = function(model, type) {
+	root.create = function(model) {
+		model.create(true);
+		model.data.name("");
+		IssueTracker.Dialog.load("create-template", model).find("input:first").focus();
+	};
+
+	root.edit = function(model, data) {
+		model.create(false);
+		model.data.name(data.name);
+		if (model.type == "status") {
+			model.data.isDeveloperStatus(data.isDeveloperStatus);
+			model.data.isTesterStatus(data.isTesterStatus);
+			model.data.isClosedStatus(data.isClosedStatus);
+		}
+		IssueTracker.Dialog.load("create-template", model).find("input:first").focus();
+	};
+
+	root.remove = function(model, data) {
+		model[model.type] = data;
+		model.switchTo = [];
+		$.each(_getCollection(model.type), function(i, current) {
+			if (current.id != data.id)
+				model.switchTo.push(current);
+		});
+		IssueTracker.Dialog.load("delete-template", model);
+	};
+
+	root.confirmRemove = function(model) {
 		model.loading(true);
-		$.post(IssueTracker.virtualDirectory + "project/" + type + "/delete", { id: model.id }).done(function() {
+		$.post(IssueTracker.virtualDirectory + "project/" + model.type + "/delete", { id: model.id }).done(function() {
 			IssueTracker.Dialog.hide();
-			_getCollection(type).remove(function(current) {
+			_getCollection(model.type).remove(function(current) {
 				return current.id == model.id;
 			});
 		}).fail(function() {
-			IssueTracker.Feedback.error("An error has occurred while deleting the " + type + ". Please try again later.");
+			IssueTracker.Feedback.error("An error has occurred while deleting the " + model.type + ". Please try again later.");
 		}).always(function() {
 			model.loading(false);
 		});
 	};
 
 	function _validate(model) {
-		if (model.name() == "")
+		if (model.data.name() == "")
 			return "The name is required.";
 	}
 
-	function _send(model, type) {
+	function _send(model) {
 		model.loading(true);
-		$.post(IssueTracker.virtualDirectory + "project/" + type, IssueTracker.Utilities.extractPropertyObservableValues(model)).done(function(created) {
+		$.post(IssueTracker.virtualDirectory + "project/" + model.type + "/modify", IssueTracker.Utilities.extractPropertyObservableValues(model.data)).done(function(created) {
 			IssueTracker.Dialog.hide();
-			_getCollection(type).push(created);
+			_getCollection(model.type).push(created);
 		}).fail(function() {
-			IssueTracker.Feedback.error("An error has occurred while creating the " + type + ". Please try again later.");
+			IssueTracker.Feedback.error("An error has occurred while " + (model.create() ? "creating" : "editing") + " the " + model.type + ". Please try again later.");
 		}).always(function() {
 			model.loading(false);
 		});
