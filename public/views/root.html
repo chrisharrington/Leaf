@@ -40,19 +40,7 @@
                     <a href="#/new-issue">
                         <i class="fa fa-plus"></i>
                     </a>
-                </div>
-				<!-- ko if: IssueTracker.signedInUser() -->
-				<a class="account" href="#/profile">
-					<div class="image">
-						<img data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 44) }" alt="user-profile" />
-					</div>
-					<div class="labels">
-						<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
-						<br />
-						<span class="email" data-bind="text: IssueTracker.signedInUser().emailAddress"></span>
-					</div>
-				</a>
-				<!-- /ko -->
+				</div>
 				<div class="search">
 					<input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
 					<i class="fa fa-search" data-bind="click: Search.go"></i>
@@ -181,14 +169,6 @@
             <!-- /ko -->
         </div>
 
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.0.0/knockout-min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/path.js/0.8.4/path.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highcharts/3.0.7/highcharts.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20130526/json2.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jStorage/0.4.4/jstorage.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
         {{{renderedScripts}}}
 
         <script type="text/javascript">
