@@ -30,6 +30,7 @@
 	root.hide = function() {
 		_container.hide();
 		_overlay.hide();
+		IssueTracker.dialog("");
 	};
 	
 	function _validateParams(params) {

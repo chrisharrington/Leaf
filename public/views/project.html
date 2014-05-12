@@ -14,67 +14,203 @@
 		</div>
 
 		<div class="integrations tile">
-			<h1>Source Control Integration</h1>
+			<h1>Source Control</h1>
 		</div>
 	</div>
 
 	<div class="right">
 		<div class="data tile">
 			<h1>Milestones</h1>
-			<div class="new">
-				<div>
-					<input type="text" placeholder="New milestone name..." />
-				</div>
-				<button>Create Milestone</button>
-			</div>
+			<i class="fa fa-plus" data-bind="click: Milestone.create"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
-					<th>Name</th>
+					<tr>
+						<th>Name</th>
+						<th class="action"></th>
+					</tr>
 				</thead>
 				<tbody data-bind="foreach: IssueTracker.milestones">
 					<tr>
 						<td data-bind="text: name"></td>
+						<td class="action">
+							<i class="fa fa-pencil" data-bind="click: $root.Milestone.edit"></i>
+							<i class="fa fa-trash-o" data-bind="click: $root.Milestone.remove"></i>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="data tile">
 			<h1>Priorities</h1>
-			<div class="new">
-				<div>
-					<input type="text" placeholder="New priority name..." />
-				</div>
-				<button>Create Priority</button>
-			</div>
+			<i class="fa fa-plus" data-bind="click: Priority.create"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
-				<th>Name</th>
+					<tr>
+						<th>Name</th>
+						<th class="action"></th>
+					</tr>
 				</thead>
 				<tbody data-bind="foreach: IssueTracker.priorities">
 				<tr>
 					<td data-bind="text: name"></td>
+					<td class="action">
+						<i class="fa fa-pencil" data-bind="click: $root.Priority.edit"></i>
+						<i class="fa fa-trash-o" data-bind="click: $root.Priority.remove"></i>
+					</td>
 				</tr>
 				</tbody>
 			</table>
 		</div>
-		<div class="data tile">
+		<div class="data tile statuses">
 			<h1>Statuses</h1>
-			<div class="new">
-				<div>
-					<input type="text" placeholder="New status name..." />
-				</div>
-				<button>Create Status</button>
-			</div>
+			<i class="fa fa-plus" data-bind="click: Status.create"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
-				<th>Name</th>
+					<tr>
+						<th>Name</th>
+						<th class="icon"><i class="fa fa-code"></i></th>
+						<th class="icon"><i class="fa fa-flask"></i></th>
+						<th class="icon"><i class="fa fa-check-circle"></i></th>
+						<th class="action"></th>
+					</tr>
 				</thead>
 				<tbody data-bind="foreach: IssueTracker.statuses">
-				<tr>
-					<td data-bind="text: name"></td>
-				</tr>
+					<tr>
+						<td data-bind="text: name"></td>
+						<td class="icon">
+							<i class="fa fa-check-square" data-bind="visible: isDeveloperStatus"></i>
+							<i class="fa fa-square-o" data-bind="visible: !isDeveloperStatus"></i>
+						</td>
+						<td class="icon">
+							<i class="fa fa-check-square" data-bind="visible: isTesterStatus"></i>
+							<i class="fa fa-square-o" data-bind="visible: !isTesterStatus"></i>
+						</td>
+						<td class="icon">
+							<i class="fa fa-check-square" data-bind="visible: isClosedStatus"></i>
+							<i class="fa fa-square-o" data-bind="visible: !isClosedStatus"></i>
+						</td>
+						<td class="action">
+							<i class="fa fa-pencil" data-bind="click: $root.Status.edit"></i>
+							<i class="fa fa-trash-o" data-bind="click: $root.Status.remove"></i>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
 </div>
+
+<script type="text/html" id="milestone-template">
+	<div class="form two-button milestone">
+		<h1 data-bind="text: create() ? 'Create Milestone' : 'Edit Milestone'">Create Milestone</h1>
+		<span>Once your milestone has been created, you can drag its location in the milestones table to set its order throughout the application.</span>
+		<input type="text" placeholder="Milestone name..." data-bind="value: name" />
+		<div class="button-container first">
+			<button data-bind="text: create() ? 'Create Milestone' : 'Edit Milestone', click: confirm, css: { loading: loading }">Create Milestone</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="priority-template">
+	<div class="form two-button priority">
+		<h1>Create Priority</h1>
+		<span>Once your priority has been created, you can drag its location in the priorities table to set its order throughout the application.</span>
+		<input type="text" placeholder="Priority name..." data-bind="value: name" />
+		<div class="button-container first">
+			<button data-bind="click: confirm, css: { loading: loading }">Create Priority</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+		
+<script type="text/html" id="status-template">
+	<div class="form two-button status">
+		<h1>Create Status</h1>
+		<span>Once your status has been created, you can drag its location in the statuses table to set its order throughout the application.</span>
+		<div class="input-container">
+			<input type="text" placeholder="Status name..." data-bind="value: name" />
+		</div>
+		<div class="options">
+			<div data-bind="click: toggleDeveloper">
+				<i class="fa fa-check-square" data-bind="visible: isDeveloperStatus()"></i>
+				<i class="fa fa-square-o" data-bind="visible: !isDeveloperStatus()"></i>
+				<span class="name">Developer</span>
+				<span class="description">Marking a status as 'developer' indicates that the user assigned as a developer to the issue with this status needs to take action.</span>
+			</div>
+			<div data-bind="click: toggleTester">
+				<i class="fa fa-check-square" data-bind="visible: isTesterStatus()"></i>
+				<i class="fa fa-square-o" data-bind="visible: !isTesterStatus()"></i>
+				<span class="name">Tester Status</span>
+				<span class="description">Marking a status as 'tester' indicates that the user assigned as a tester to the issue with this status needs to take action.</span>
+			</div>
+			<div data-bind="click: toggleClosed">
+				<i class="fa fa-check-square" data-bind="visible: isClosedStatus()"></i>
+				<i class="fa fa-square-o" data-bind="visible: !isClosedStatus()"></i>
+				<span class="name">Closed Status</span>
+				<span class="description">Any issue with a 'closed' status indicates that the issue needs no more action by anybody and is considered complete.</span>
+			</div>
+		</div>
+		<div class="button-container first">
+			<button data-bind="click: confirm, css: { loading: loading }">Create Status</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="delete-milestone-template">
+	<div class="form two-button delete delete-milestone">
+		<h1>Delete Milestone?</h1>
+		<span><b>WARNING:</b> This action is irreverisble.</span>
+		<span>Issues that have this milestone will need a new milestone. Where should they go?</span>
+		<select data-bind="foreach: switchTo">
+			<option data-bind="value: id, text: name"></option>
+		</select>
+		<div class="button-container first">
+			<button data-bind="click: confirm">Delete Milestone</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="delete-priority-template">
+	<div class="form two-button delete delete-priority">
+		<h1>Delete Priority?</h1>
+		<span><b>WARNING:</b> This action is irreverisble.</span>
+		<span>Issues that have this priority will need a new priority. Where should they go?</span>
+		<select data-bind="foreach: switchTo">
+			<option data-bind="value: id, text: name"></option>
+		</select>
+		<div class="button-container first">
+			<button data-bind="click: confirm">Delete Priority</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="delete-status-template">
+	<div class="form two-button delete delete-status">
+		<h1>Delete Status?</h1>
+		<span><b>WARNING:</b> This action is irreverisble.</span>
+		<span>Issues that have this status will need a new status. Where should they go?</span>
+		<select data-bind="foreach: switchTo">
+			<option data-bind="value: id, text: name"></option>
+		</select>
+		<div class="button-container first">
+			<button data-bind="click: confirm">Delete Status</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>

@@ -8,8 +8,10 @@
 
 	root.extractPropertyObservableValues = function (obj) {
 		var values = {};
-		for (var name in obj)
-			values[name] = obj[name]();
+		for (var name in obj) {
+			if (typeof (obj[name]) !== "function")
+				values[name] = obj[name]();
+		}
 		return values;
 	};
 
