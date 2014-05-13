@@ -39,7 +39,7 @@
 
 	root.confirmRemove = function(model) {
 		model.loading(true);
-		$.post(IssueTracker.virtualDirectory + "project/" + model.type + "/delete", { id: model.id }).done(function() {
+		$.post(IssueTracker.virtualDirectory + model.type + "/delete", { type: model.type, id: model.id }).done(function() {
 			IssueTracker.Dialog.hide();
 			_getCollection(model.type).remove(function(current) {
 				return current.id == model.id;
@@ -58,7 +58,7 @@
 
 	function _send(model) {
 		model.loading(true);
-		$.post(IssueTracker.virtualDirectory + "project/" + model.type + "/modify", IssueTracker.Utilities.extractPropertyObservableValues(model.data)).done(function(created) {
+		$.post(IssueTracker.virtualDirectory + model.type + "/save", IssueTracker.Utilities.extractPropertyObservableValues(model.data)).done(function(created) {
 			IssueTracker.Dialog.hide();
 			_getCollection(model.type).push(created);
 		}).fail(function() {
@@ -71,11 +71,11 @@
 	function _getCollection(type) {
 		switch (type) {
 			case "milestone":
-				return IssueTracker.milestones();
+				return IssueTracker.milestones;
 			case "priority":
-				return IssueTracker.priorities();
+				return IssueTracker.priorities;
 			case "status":
-				return IssueTracker.statuses();
+				return IssueTracker.statuses;
 		}
 	}
 

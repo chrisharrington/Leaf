@@ -1,4 +1,5 @@
 var Promise = require("bluebird");
+var mongoose = require("mongoose");
 
 module.exports = {
 	get: function(conditions, options) {

@@ -13,7 +13,7 @@ describe("style", function() {
 		it("should set get /project/settings route", function() {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
-			assert(app.get.calledWith("/project/settings", sinon.match.func));
+			assert(app.get.calledWith("/project/settings", sinon.match.func, sinon.match.func));
 		});
 
 		it("should call base.view with 'public/views/project.html'", function() {
