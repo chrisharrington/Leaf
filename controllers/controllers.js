@@ -8,6 +8,7 @@ module.exports = {
 	search: require("./search"),
 	projects: require("./projects"),
 	milestones: require("./milestones"),
+	priorities: require("./priorities"),
 
 	init: function(app) {
 		for (var name in this)

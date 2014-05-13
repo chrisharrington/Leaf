@@ -166,8 +166,8 @@
 
 <script type="text/html" id="priority-chooser">
 	<div class="priority-chooser chooser" data-bind="foreach: priorities">
-		<div data-bind="attr: { 'data-priority': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.priorityId() }">
-			<span data-bind="attr: { class: 'colour ' + name.toLowerCase() }"></span>
+		<div data-bind="attr: { 'data-priority': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.priorityId() }">
+			<span data-bind="attr: { class: 'colour ' + name().toLowerCase() }"></span>
 			<div>
 				<div>
 					<span class="name" data-bind="text: name"></span>

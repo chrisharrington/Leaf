@@ -176,7 +176,7 @@
                 var root = window.IssueTracker || (window.IssueTracker = {});
                 root.virtualDirectory = "/";
 				root.users = IssueTracker.Utilities.buildObservableArray({{{users}}});
-                root.priorities = ko.observableArray({{{priorities}}});
+				root.priorities = IssueTracker.Utilities.buildObservableArray({{{priorities}}});
 				root.statuses = ko.observableArray({{{statuses}}});
 				root.transitions = ko.observableArray({{{transitions}}});
 				root.projects = ko.observableArray({{{projects}}});

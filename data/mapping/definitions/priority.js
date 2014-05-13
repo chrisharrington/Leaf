@@ -3,3 +3,9 @@ require("../mapper").define("priority", "priority-view-model", {
 	name: "name",
 	order: "order"
 });
+
+require("../mapper").define("priority-view-model", "priority", {
+	"_id": "id",
+	name: "name",
+	order: "order"
+});

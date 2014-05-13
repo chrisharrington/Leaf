@@ -45,8 +45,10 @@
 	};
 
 	root.confirmSave = function() {
-		if (root.saveModel.name() == "")
+		if (root.saveModel.name() == "") {
 			IssueTracker.Feedback.error("The name is required.");
+			return;
+		}
 
 		var create = root.saveModel.create;
 		root.loading(true);

@@ -109,7 +109,7 @@
 
 	function _load() {
 		_restoreCommaSeparatedListTo(root.selectedMilestones, _milestonesStorageKey, true);
-		_restoreCommaSeparatedListTo(root.selectedPriorities, _prioritiesStorageKey);
+		_restoreCommaSeparatedListTo(root.selectedPriorities, _prioritiesStorageKey, true);
 		_restoreCommaSeparatedListTo(root.selectedStatuses, _statusesStorageKey);
 		_restoreCommaSeparatedListTo(root.selectedTypes, _typesStorageKey);
 		_restoreCommaSeparatedListTo(root.selectedDevelopers, _developersStorageKey, true);
@@ -130,7 +130,7 @@
 
 	function _save() {
 		$.jStorage.set(_milestonesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedMilestones()));
-		$.jStorage.set(_prioritiesStorageKey, root.selectedPriorities());
+		$.jStorage.set(_prioritiesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedPriorities()));
 		$.jStorage.set(_statusesStorageKey, root.selectedStatuses());
 		$.jStorage.set(_typesStorageKey, root.selectedTypes());
 		$.jStorage.set(_developersStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedDevelopers()));

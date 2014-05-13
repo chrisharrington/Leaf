@@ -42,7 +42,7 @@
 		</div>
 		<div class="data tile">
 			<h1>Priorities</h1>
-			<i class="fa fa-plus" data-bind="click: function() { Base.create(Priority.createOrUpdate); }"></i>
+			<i class="fa fa-plus" data-bind="click: Priority.create"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
@@ -54,8 +54,8 @@
 				<tr>
 					<td data-bind="text: name"></td>
 					<td class="action">
-						<i class="fa fa-pencil" data-bind="click: function() { $root.Base.edit($root.Priority.createOrUpdate, $data); }"></i>
-						<i class="fa fa-trash-o" data-bind="click: function() { $root.Base.remove($root.Priority.remove, $data); }"></i>
+						<i class="fa fa-pencil" data-bind="click: $root.Priority.edit"></i>
+						<i class="fa fa-trash-o" data-bind="click: $root.Priority.remove"></i>
 					</td>
 				</tr>
 				</tbody>
@@ -116,6 +116,22 @@
 	</div>
 </script>
 
+<script type="text/html" id="create-or-update-priority-template">
+	<div class="create-or-update form two-button priority">
+		<h1 data-bind="text: (create ? 'Create' : 'Edit') + ' Priority'"></h1>
+		<span data-bind="text: 'Once your priority has been ' + (create ? 'created' : 'edited') + ', you can drag its location in the table to set its order throughout the application.'"></span>
+		<div class="input-container">
+			<input type="text" placeholder="Priority name..." data-bind="value: name" />
+		</div>
+		<div class="button-container first">
+			<button data-bind="text: (create ? 'Create ' : 'Save ') + ' Priority', click: IssueTracker.Project.Priority.confirmSave, css: { loading: IssueTracker.Project.Priority.loading }"></button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: IssueTracker.Project.Priority.cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
 <script type="text/html" id="create-template">
 	<div data-bind="attr: { class: 'create-or-update form two-button ' + type }">
 		<h1 data-bind="text: (create ? 'Create' : 'Edit') + ' ' + type.capitalize()"></h1>
@@ -163,10 +179,27 @@
 			<option data-bind="value: id, text: name"></option>
 		</select>
 		<div class="button-container first">
-			<button data-bind="click: function() { IssueTracker.Project.Milestone.confirmRemove($data); }">Delete Milestone</button>
+			<button data-bind="click: function() { IssueTracker.Project.Milestone.confirmRemove($data); }, css: { loading: IssueTracker.Project.Milestone.loading }">Delete Milestone</button>
 		</div>
 		<div class="button-container">
 			<button data-bind="click: IssueTracker.Project.Milestone.cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="delete-priority-template">
+	<div class="form two-button delete">
+		<h1>Delete Priority?</h1>
+		<span><b>WARNING:</b> This action is irreverisble.</span>
+		<span>Issues that have this priority will need a new priority. Where should they go?</span>
+		<select data-bind="value: newPriority, foreach: newPriorities">
+			<option data-bind="value: id, text: name"></option>
+		</select>
+		<div class="button-container first">
+			<button data-bind="click: function() { IssueTracker.Project.Priority.confirmRemove($data); }, css: { loading: IssueTracker.Project.Priority.loading }">Delete Priority</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: IssueTracker.Project.Priority.cancel">Cancel</button>
 		</div>
 	</div>
 </script>
