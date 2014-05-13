@@ -6,8 +6,8 @@ module.exports = {
 	style: require("./style"),
 	users: require("./users"),
 	search: require("./search"),
-	project: require("./project"),
-	milestone: require("./milestone"),
+	projects: require("./projects"),
+	milestones: require("./milestones"),
 
 	init: function(app) {
 		for (var name in this)

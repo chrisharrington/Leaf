@@ -37,7 +37,7 @@
 
 	root.load = function () {
 		_resetIssueList();
-		//$(window).on("focus", _resetIssueList);
+		$(window).on("focus", _resetIssueList);
 	};
 
 	root.unload = function () {
@@ -99,7 +99,10 @@
 		var ids = [];
 		var collection = filterCollection.length == 0 ? masterCollection : filterCollection; 
 		$.each(collection, function(i, filterItem) {
-			ids.push(typeof(filterItem.id) == "Function" ? filterItem.id() : filterItem.id);
+			if (filterItem.id) {
+				var type = typeof(filterItem.id);
+				ids.push(typeof(filterItem.id) == "function" ? filterItem.id() : filterItem.id);
+			}
 		});
 		return ids.join(",");
 	}

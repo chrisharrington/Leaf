@@ -38,17 +38,26 @@
 	};
 
 	root.contains = function(collection, data) {
-		for (var i = 0; i < collection().length; i++)
-			if (collection()[i].id === data.id)
+		collection = collection();
+		for (var i = 0; i < collection.length; i++) {
+			var id = typeof(data.id) == "function" ? data.id() : data.id;
+			var collectionId = typeof(collection[i].id) == "function" ? collection[i].id() : collection[i].id;
+			if (collectionId === id)
 				return true;
+		}
 		return false;
 	};
 
 	root.toggle = function (collection, data, element) {
-        if ($(element).hasClass("selected"))
-		    collection.remove(function (item) { return item.id == data.id; });
-        else
-            collection.push(data);
+        if ($(element).hasClass("selected")) {
+			collection.remove(function (item) {
+				var itemId = typeof(item.id) == "function" ? item.id() : item.id;
+				var dataId = typeof(data.id) == "function" ? data.id() : data.id;
+				return itemId == dataId;
+			});
+		} else {
+			collection.push(typeof(data.id) == "function" ? IssueTracker.Utilities.extractPropertyObservableValues(data) : data);
+		}
 
 		if (_filterSetTimeout)
 			clearTimeout(_filterSetTimeout);
@@ -99,30 +108,33 @@
 	}
 
 	function _load() {
-		_restoreCommaSeparatedListTo(root.selectedMilestones, _milestonesStorageKey);
+		_restoreCommaSeparatedListTo(root.selectedMilestones, _milestonesStorageKey, true);
 		_restoreCommaSeparatedListTo(root.selectedPriorities, _prioritiesStorageKey);
 		_restoreCommaSeparatedListTo(root.selectedStatuses, _statusesStorageKey);
 		_restoreCommaSeparatedListTo(root.selectedTypes, _typesStorageKey);
-		_restoreCommaSeparatedListTo(root.selectedDevelopers, _developersStorageKey);
-		_restoreCommaSeparatedListTo(root.selectedTesters, _testersStorageKey);
-
+		_restoreCommaSeparatedListTo(root.selectedDevelopers, _developersStorageKey, true);
+		_restoreCommaSeparatedListTo(root.selectedTesters, _testersStorageKey, true);
 	}
 
-	function _restoreCommaSeparatedListTo(collection, key) {
+	function _restoreCommaSeparatedListTo(collection, key, isObservable) {
 		var data = $.jStorage.get(key);
 		if (data) {
             collection.removeAll();
-			collection.pushAll(data);
+			if (isObservable) {
+				for (var i = 0; i < data.length; i++)
+					collection.push(IssueTracker.Utilities.createPropertyObservables(data[i]));
+			} else
+				collection.pushAll(data);
         }
 	}
 
 	function _save() {
-		$.jStorage.set(_milestonesStorageKey, root.selectedMilestones());
+		$.jStorage.set(_milestonesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedMilestones()));
 		$.jStorage.set(_prioritiesStorageKey, root.selectedPriorities());
 		$.jStorage.set(_statusesStorageKey, root.selectedStatuses());
 		$.jStorage.set(_typesStorageKey, root.selectedTypes());
-		$.jStorage.set(_developersStorageKey, root.selectedDevelopers());
-		$.jStorage.set(_testersStorageKey, root.selectedTesters());
+		$.jStorage.set(_developersStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedDevelopers()));
+		$.jStorage.set(_testersStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedTesters()));
 	}
 
 })(root("IssueTracker.Issues.Filter"));

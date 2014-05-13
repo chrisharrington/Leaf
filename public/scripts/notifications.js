@@ -24,7 +24,7 @@
         _container = container;
 		_loadNotifications();
 
-		setInterval(_loadNotifications, NOTIFICATION_LOAD_INTERVAL);
+		//setInterval(_loadNotifications, NOTIFICATION_LOAD_INTERVAL);
 
         _container.on("click", ".mark-as-viewed", _markAllAsViewed);
     };

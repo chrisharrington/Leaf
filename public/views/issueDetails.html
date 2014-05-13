@@ -153,7 +153,7 @@
 
 <script type="text/html" id="milestone-chooser">
 	<div class="milestone-chooser chooser" data-bind="foreach: milestones">
-		<div data-bind="attr: { 'data-milestone': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.milestoneId() }">
+		<div data-bind="attr: { 'data-milestone': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.milestoneId() }">
 			<div>
 				<div>
 					<span class="name" data-bind="text: name"></span>

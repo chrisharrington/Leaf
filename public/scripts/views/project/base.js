@@ -19,6 +19,7 @@
 	root.edit = function(model, data) {
 		model.create(false);
 		model.data.name(data.name);
+		model.data.id(data.id);
 		if (model.type == "status") {
 			model.data.isDeveloperStatus(data.isDeveloperStatus);
 			model.data.isTesterStatus(data.isTesterStatus);
@@ -60,7 +61,8 @@
 		model.loading(true);
 		$.post(IssueTracker.virtualDirectory + model.type + "/save", IssueTracker.Utilities.extractPropertyObservableValues(model.data)).done(function(created) {
 			IssueTracker.Dialog.hide();
-			_getCollection(model.type).push(created);
+			if (model.create())
+				_getCollection(model.type).push(created);
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while " + (model.create() ? "creating" : "editing") + " the " + model.type + ". Please try again later.");
 		}).always(function() {

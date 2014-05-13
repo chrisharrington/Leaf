@@ -15,6 +15,13 @@
 		return values;
 	};
 
+	root.extractPropertyObservableValuesFromArray = function (array) {
+		var result = [];
+		for (var i = 0; i < array.length; i++)
+			result.push(this.extractPropertyObservableValues(array[i]));
+		return result;
+	};
+
 	root.setObservableProperties = function(source, destination) {
 		if (!source || !destination)
 			return;
@@ -33,6 +40,14 @@
 				destination[name](typeof(source[name]) == typeof(Function) ? source[name]() : source[name]);
 		}
 		return destination;
+	};
+
+	root.buildObservableArray = function(array) {
+		var oa = ko.observableArray();
+		$.each(array, function(i, current) {
+			oa.push(root.createPropertyObservables(current));
+		});
+		return oa;
 	};
 
 	root.getUserProfileImageLocation = function(userId, size) {
