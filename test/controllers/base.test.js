@@ -1,8 +1,14 @@
-var sinon = require("sinon"), assert = require("assert");
+var sinon = require("sinon"), assert = require("assert"), Promise = require("bluebird");
 
 exports.testRoute = function(params) {
 	var func;
 	var request = params.request || {}, response = { send: sinon.stub(), header: sinon.stub(), contentType: sinon.stub(), cookie: sinon.stub() };
+	if (!request.getProject)
+		request.getProject = function() {
+			return new Promise(function(resolve) {
+				resolve({ _id: params.projectId || "the project id" });
+			});
+		};
 	request.host = params.host || "the host";
 	var app = {
 		get: function(route, b, c) {

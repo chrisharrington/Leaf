@@ -12,32 +12,33 @@ var config = require("../config");
 
 module.exports = function(app) {
 	app.get("/", function (request, response) {
-		return _getSignedInUser(request).then(function(user) {
-			return _getAllUserData(user, request).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes) {
-				return _mapAllUserData(request, priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
-			}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, mappedUser, project, renderedScripts, renderedCss) {
-				return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, mappedUser, project, renderedScripts, renderedCss);
-			}).catch(function (e) {
-				response.send(e.stack.formatStack(), 500);
-			});
+		return _getAllUserData(request).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
+			return _mapAllUserData(request, priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
+		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
+			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
+		}).catch(function (e) {
+			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
-	function _getAllUserData(user) {
-		return Promise.all([
-			caches.Priority.all(),
-			caches.Status.all(),
-			repositories.User.get({ project: user.project._id }, { sort: { name: 1 }}),
-			caches.Transition.all(),
-			repositories.Project.get(),
-			repositories.Milestone.get({ project: user.project._id, isDeleted: false }, { sort: { name: 1 }}),
-			caches.IssueType.all()
-		]);
+	function _getAllUserData(request) {
+		return request.getProject().then(function(project) {
+			return Promise.all([
+				repositories.Priority.get({ project: project._id, isDeleted: false }, { sort: { order: -1 }}),
+				repositories.Status.get({ project: project._id, isDeleted: false }, { sort: { order: 1 }}),
+				repositories.User.get({ project: project._id }, { sort: { name: 1 }}),
+				caches.Transition.all(),
+				repositories.Project.get(),
+				repositories.Milestone.get({ project: project._id, isDeleted: false }, { sort: { name: 1 }}),
+				caches.IssueType.all(),
+				_getSignedInUser(request)
+			]);
+		});
 	}
 
 	function _getSignedInUser(request) {
 		var session = request.cookies.session;
-		return session ? repositories.User.one({ session: session }, "project") : null;
+		return session ? repositories.User.one({ session: session }) : null;
 	}
 
 	function _mapAllUserData(request, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {

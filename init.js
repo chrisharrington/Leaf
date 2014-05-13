@@ -33,6 +33,7 @@ module.exports = function() {
 
 function _configureApplication(app) {
 	app.configure(function () {
+		app.use(require("./authentication/project"));
 		app.use(express.favicon(__dirname + "/public/images/favicon.ico", { maxAge: MAX_AGE }));
 		app.use(express.compress());
 		app.use(express.json());

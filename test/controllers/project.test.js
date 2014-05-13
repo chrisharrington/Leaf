@@ -6,7 +6,7 @@ var assets = require("../../bundling/assets");
 var controller = require("../../controllers/baseController");
 var config = require("../../config");
 
-var sut = require("../../controllers/project");
+var sut = require("../../controllers/projects");
 
 describe("style", function() {
 	describe("get /project/settings", function() {

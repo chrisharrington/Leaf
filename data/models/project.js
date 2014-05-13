@@ -3,6 +3,7 @@ var objectId = mongoose.Schema.Types.ObjectId;
 
 var schema = mongoose.Schema({
 	name: String,
+	formattedName: String,
     isDeleted: { type: Boolean, default: false }
 });
 

@@ -352,7 +352,7 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					userGetOne: sinon.stub(repositories.User, "one").resolves(),
+					userGetOne: sinon.stub(repositories.User, "one").resolves()
 				}),
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, {
@@ -472,7 +472,7 @@ describe("root", function() {
 			});
 		});
 
-		it("should get cached priorities", function() {
+		it("should get priorities filtered by project", function() {
 			return base.testRoute({
 				sut: sut,
 				verb: "get",
@@ -482,12 +482,12 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.priorities.calledWith());
+					assert(result.stubs.priorities.calledWith({ project: "the project id", isDeleted: sinon.match.any }, sinon.match.any));
 				}
 			});
 		});
 
-		it("should get cached statuses", function() {
+		it("should get non-deleted priorities", function() {
 			return base.testRoute({
 				sut: sut,
 				verb: "get",
@@ -497,7 +497,67 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.statuses.calledWith());
+					assert(result.stubs.priorities.calledWith({ project: sinon.match.any, isDeleted: false }, sinon.match.any));
+				}
+			});
+		});
+
+		it("should get priorities sorted by order descending", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.priorities.calledWith(sinon.match.any, { sort: { order: -1 }}));
+				}
+			});
+		});
+
+		it("should get statuses filtered by project", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.statuses.calledWith({ project: "the project id", isDeleted: sinon.match.any }, sinon.match.any));
+				}
+			});
+		});
+
+		it("should get non-deleted statuses", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.statuses.calledWith({ project: sinon.match.any, isDeleted: false }, sinon.match.any));
+				}
+			});
+		});
+
+		it("should get statuses sorted by order ascending", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.statuses.calledWith(sinon.match.any, { sort: { order: 1 }}));
 				}
 			});
 		});
@@ -542,7 +602,39 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.milestones.calledWith(null, { sort: { name: 1 }}));
+					assert(result.stubs.milestones.calledWith(sinon.match.any, { sort: { name: 1 }}));
+				}
+			});
+		});
+
+		it("should get milestones filtered by project", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					var first = result.stubs.milestones.firstCall;
+					assert(result.stubs.milestones.calledWith({ project: "the project id", isDeleted: sinon.match.any }, sinon.match.any));
+				}
+			});
+		});
+
+		it("should get non-deleted milestones", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					var first = result.stubs.milestones.firstCall;
+					assert(result.stubs.milestones.calledWith({ project: sinon.match.any, isDeleted: false }, sinon.match.any));
 				}
 			});
 		});
@@ -557,7 +649,22 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.users.calledWith(null, { sort: { name: 1 }}));
+					assert(result.stubs.users.calledWith(sinon.match.any, { sort: { name: 1 }}));
+				}
+			});
+		});
+
+		it("should get users filtered by project", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/",
+				request: {
+					cookies: { session: "the session" }
+				},
+				stubs: _buildStubs(),
+				assert: function(result) {
+					assert(result.stubs.users.calledWith({ project: "the project id" }, sinon.match.any));
 				}
 			});
 		});
@@ -639,8 +746,8 @@ describe("root", function() {
 			var stubs = {
 				date: sinon.stub(Date, "now").returns(params.date || Date.now()),
 				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves("the html"),
-				priorities: params.priorities || sinon.stub(caches.Priority, "all").resolves([]),
-				statuses: sinon.stub(caches.Status, "all").resolves([]),
+				priorities: params.priorities || sinon.stub(repositories.Priority, "get").resolves([]),
+				statuses: sinon.stub(repositories.Status, "get").resolves([]),
 				users: params.users || sinon.stub(repositories.User, "get").resolves([]),
 				transitions: sinon.stub(caches.Transition, "all").resolves([]),
 				project: sinon.stub(repositories.Project, "get").resolves(params.projects || []),
