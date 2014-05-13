@@ -50,7 +50,7 @@
 
 		var create = root.saveModel.create;
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory + "milestone/save", { id: root.saveModel.id(), name: root.saveModel.name() }).done(function(saved) {
+		$.post(IssueTracker.virtualDirectory + "milestones/save", { id: root.saveModel.id(), name: root.saveModel.name() }).done(function(saved) {
 			if (create)
 				IssueTracker.milestones.push(IssueTracker.Utilities.createPropertyObservables(saved));
 			else {
@@ -71,7 +71,7 @@
 	root.confirmRemove = function() {
 		var model = root.removeModel;
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory + "milestone/delete", { id: model.id, switchTo: model.newMilestone }).done(function() {
+		$.post(IssueTracker.virtualDirectory + "milestones/delete", { id: model.id, switchTo: model.newMilestone }).done(function() {
 			IssueTracker.milestones.remove(function(current) {
 				return current.id == model.id;
 			});

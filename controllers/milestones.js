@@ -7,7 +7,7 @@ var mongoose = require("mongoose");
 var base = Object.spawn(require("./baseController"));
 
 module.exports = function(app) {
-	app.post("/milestone/delete", authenticate, function(request, response) {
+	app.post("/milestones/delete", authenticate, function(request, response) {
 		return Promise.all([
 			repositories.Issue.get({ project: request.project._id, milestoneId: request.body.id }),
 			repositories.Milestone.one({ _id: request.body.switchTo })
@@ -26,7 +26,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post("/milestone/save", authenticate, function(request, response) {
+	app.post("/milestones/save", authenticate, function(request, response) {
 		return mapper.map("milestone-view-model", "milestone", request.body).then(function(milestone) {
 			milestone.project = request.project._id;
 			if (milestone._id) {
