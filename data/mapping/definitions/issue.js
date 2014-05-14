@@ -26,6 +26,17 @@ require("../mapper").define("issue", "issue-view-model", {
 	isDeleted: "isDeleted"
 });
 
+require("../mapper").define("issue", "issue-list-view-model", {
+	id: "_id",
+	description: "name",
+	details: "details",
+	number: "number",
+	priorityId: "priorityId",
+	developer: "developer",
+	developerId: "developerId",
+	testerId: "testerId"
+});
+
 require("../mapper").define("issue-view-model", "issue", {
 	"_id": "id",
 	name: "description",

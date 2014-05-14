@@ -3,10 +3,6 @@
 
 	var _container;
 	var _filter;
-	var _sort;
-	var _view;
-	var _details;
-	var _flipper;
 
 	var _startCount = 50;
 	var _issueCountToLoad = 15;
@@ -21,18 +17,11 @@
 
 	root.init = function (container) {
 		_filter = IssueTracker.Issues.Filter;
-		_sort = IssueTracker.Issues.Sort;
-		_view = IssueTracker.Issues.View;
-		_details = IssueTracker.Issues.Details;
-		
+
 		_container = container;
 		_setupLoadingMoreIssues();
 
-		_flipper = new IssueTracker.Controls.Flipper("div.sidebar .flipper");
-		_filter.init(container, _flipper, root.sidebar, _resetIssueList);
-		_sort.init(container, _flipper, root.sidebar, _resetIssueList);
-		_view.init(container, _flipper, root.sidebar);
-		_details.init(container);
+		_filter.init(container, root.sidebar, _resetIssueList);
 	};
 
 	root.load = function () {
@@ -59,6 +48,7 @@
 		if (_nextIssuesRunning === true || _allLoaded === true)
 			return;
 
+		var date = new Date();
 		_nextIssuesRunning = true;
 		$.ajax({
 			url: IssueTracker.virtualDirectory + "issues/list",
@@ -71,6 +61,7 @@
 			if (issues.length < count)
 				_allLoaded = true;
 			_start += count;
+			console.log("Issue retrieval: " + (new Date() - date) + "ms");
 		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while retrieving the next set of issues. Please try again later.");
 		}).always(function() {
@@ -83,8 +74,8 @@
 		return {
 			start: _start + 1,
 			end: _start + count,
-			direction: _sort.direction(),
-			comparer: _sort.property(),
+			direction: "descending",
+			comparer: "priority",
 			filter: "",
 			milestones: _joinFilterIds(_filter.selectedMilestones(), IssueTracker.milestones()),
 			priorities: _joinFilterIds(_filter.selectedPriorities(), IssueTracker.priorities()),

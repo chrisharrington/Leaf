@@ -20,7 +20,7 @@
 	root.selectedDevelopers = ko.observableArray();
 	root.selectedTesters = ko.observableArray();
 
-	root.init = function (container, flipper, template, onFilterSet) {
+	root.init = function (container, template, onFilterSet) {
 		_onFilterSet = onFilterSet;
 
         _initializeData();

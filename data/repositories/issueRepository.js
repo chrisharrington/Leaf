@@ -1,24 +1,46 @@
 var Promise = require("bluebird");
+var config = require("../../config");
+var mongojs = require("mongojs");
 
 var repository = Object.spawn(require("./baseRepository"), {
 	model: require("../models").Issue
 });
 
 repository.search = function(projectId, filter, sortDirection, sortComparer, start, end) {
-	return repository.get({
-		project: projectId,
-		isDeleted: false,
-		priorityId: { $in: filter.priorities },
-		statusId: { $in: filter.statuses },
-		developerId: { $in: filter.developers },
-		testerId: { $in: filter.testers },
-		milestoneId: { $in: filter.milestones},
-		typeId: { $in: filter.types }
-	}, {
-		sort: _buildSort(sortDirection, sortComparer),
-		skip: start - 1,
-		limit: end - start + 1
+	var db = mongojs(config.call(this, "databaseUser") + ":" + config.call(this, "databasePassword") + "@oceanic.mongohq.com:10038/issuetracker");
+	var collection = db.collection("issues");
+
+	return new Promise(function(resolve, reject) {
+		collection.find({
+			number: { $gte: 10 }
+//			project: projectId,
+//			isDeleted: false,
+//			priorityId: { $in: filter.priorities }
+//			statusId: { $in: filter.statuses },
+//			developerId: { $in: filter.developers },
+//			testerId: { $in: filter.testers },
+//			milestoneId: { $in: filter.milestones},
+//			typeId: { $in: filter.types }
+		}).sort(_buildSort(sortDirection, sortComparer)).skip(start - 1).limit(end - start + 1, function(err, docs) {
+			if (err) reject(err);
+			else resolve(docs);
+		});
 	});
+
+//	return repository.get({
+//		project: projectId,
+//		isDeleted: false,
+//		priorityId: { $in: filter.priorities },
+//		statusId: { $in: filter.statuses },
+//		developerId: { $in: filter.developers },
+//		testerId: { $in: filter.testers },
+//		milestoneId: { $in: filter.milestones},
+//		typeId: { $in: filter.types }
+//	}, {
+//		sort: _buildSort(sortDirection, sortComparer),
+//		skip: start - 1,
+//		limit: end - start + 1
+//	});
 
 	function _buildSort(direction, comparer) {
 		if (comparer == "priority")
@@ -27,7 +49,7 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 			comparer = "statusOrder";
 		var sort = {};
 		sort[comparer] = direction == "ascending" ? 1 : -1;
-		sort.opened = 1;
+		sort.number = 1;
 		return sort;
 	}
 };

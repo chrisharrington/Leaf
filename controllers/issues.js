@@ -38,7 +38,7 @@ module.exports = function(app) {
 			milestones: request.query.milestones.split(","),
 			types: request.query.types.split(",")
 		}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
-			return mapper.mapAll("issue", "issue-view-model", issues);
+			return mapper.mapAll("issue", "issue-list-view-model", issues);
 		}).then(function (mapped) {
 			response.send(mapped, 200);
 		}).catch(function(e) {
