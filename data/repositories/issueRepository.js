@@ -11,21 +11,34 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 	var collection = db.collection("issues");
 
 	return new Promise(function(resolve, reject) {
-		collection.find({
-			number: { $gte: 10 }
-//			project: projectId,
-//			isDeleted: false,
-//			priorityId: { $in: filter.priorities }
-//			statusId: { $in: filter.statuses },
-//			developerId: { $in: filter.developers },
-//			testerId: { $in: filter.testers },
-//			milestoneId: { $in: filter.milestones},
-//			typeId: { $in: filter.types }
-		}).sort(_buildSort(sortDirection, sortComparer)).skip(start - 1).limit(end - start + 1, function(err, docs) {
+		collection.find(_buildParameters(projectId, filter))
+			.sort(_buildSort(sortDirection, sortComparer))
+			.skip(start - 1)
+			.limit(end - start + 1, function(err, docs) {
 			if (err) reject(err);
 			else resolve(docs);
 		});
 	});
+
+	function _buildParameters(projectId, filter) {
+		var params = {
+			project: mongojs.ObjectId(projectId),
+			isDeleted: false
+		};
+		if (filter.priorities && filter.priorities.length > 0)
+			params.priorityId = { $in: filter.priorities.map(function(curr) { return mongojs.ObjectId(curr); }) };
+		if (filter.statuses && filter.statuses.length > 0)
+		return {
+			project: projectId,
+			isDeleted: false,
+			priorityId: { $in: filter.priorities.map(function(curr) { return mongojs.ObjectId(curr); }) },
+			statusId: { $in: filter.statuses.map(function(curr) { return mongojs.ObjectId(curr); }) },
+			developerId: { $in: filter.developers.map(function(curr) { return mongojs.ObjectId(curr); }) },
+			testerId: { $in: filter.testers.map(function(curr) { return mongojs.ObjectId(curr); }) },
+			milestoneId: { $in: filter.milestones.map(function(curr) { return mongojs.ObjectId(curr); }) },
+			typeId: { $in: filter.types.map(function(curr) { return mongojs.ObjectId(curr); }) }
+		};
+	}
 
 //	return repository.get({
 //		project: projectId,
