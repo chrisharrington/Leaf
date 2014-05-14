@@ -180,7 +180,7 @@
 
 <script type="text/html" id="status-chooser">
 	<div class="status-chooser chooser" data-bind="foreach: statuses">
-		<div data-bind="attr: { 'data-status': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.statusId() }">
+		<div data-bind="attr: { 'data-status': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.statusId() }">
 			<div>
 				<div>
 					<span class="name" data-bind="text: name"></span>

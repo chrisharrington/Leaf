@@ -63,7 +63,7 @@
 		</div>
 		<div class="data tile statuses">
 			<h1>Statuses</h1>
-			<i class="fa fa-plus" data-bind="click: function() { Base.create(Status.createOrUpdate); }"></i>
+			<i class="fa fa-plus" data-bind="click: Status.create"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
@@ -90,8 +90,8 @@
 							<i class="fa fa-square-o" data-bind="visible: !isClosedStatus"></i>
 						</td>
 						<td class="action">
-							<i class="fa fa-pencil" data-bind="click: function() { $root.Base.edit($root.Status.createOrUpdate, $data); }"></i>
-							<i class="fa fa-trash-o" data-bind="click: function() { $root.Base.remove($root.Status.remove, $data); }"></i>
+							<i class="fa fa-pencil" data-bind="click: $root.Status.edit"></i>
+							<i class="fa fa-trash-o" data-bind="click: $root.Status.remove"></i>
 						</td>
 					</tr>
 				</tbody>
@@ -136,40 +136,38 @@
 	</div>
 </script>
 
-<script type="text/html" id="create-template">
-	<div data-bind="attr: { class: 'create-or-update form two-button ' + type }">
-		<h1 data-bind="text: (create ? 'Create' : 'Edit') + ' ' + type.capitalize()"></h1>
-		<span data-bind="text: 'Once your ' + type + ' has been created, you can drag its location in the table to set its order throughout the application.'"></span>
+<script type="text/html" id="create-or-update-status-template">
+	<div class="create-or-update form two-button status">
+		<h1 data-bind="text: (create ? 'Create' : 'Edit') + ' Status'"></h1>
+		<span data-bind="text: 'Once your status has been ' + (create ? 'created' : 'edited') + ', you can drag its location in the table to set its order throughout the application.'"></span>
 		<div class="input-container">
-			<input type="text" data-bind="attr: { placeholder: type.capitalize() + ' name...' }, value: name" />
+			<input type="text" placeholder="Status name..." data-bind="value: name" />
 		</div>
-		<!-- ko if: type == 'status' -->
 		<div class="options">
-			<div data-bind="click: toggleDeveloper">
-				<i class="fa fa-check-square" data-bind="visible: data.isDeveloperStatus()"></i>
-				<i class="fa fa-square-o" data-bind="visible: !data.isDeveloperStatus()"></i>
+			<div data-bind="click: IssueTracker.Project.Status.toggleDeveloper">
+				<i class="fa fa-check-square" data-bind="visible: isDeveloperStatus()"></i>
+				<i class="fa fa-square-o" data-bind="visible: !isDeveloperStatus()"></i>
 				<span class="name">Developer</span>
 				<span class="description">Marking a status as 'developer' indicates that the user assigned as a developer to the issue with this status needs to take action.</span>
 			</div>
-			<div data-bind="click: toggleTester">
-				<i class="fa fa-check-square" data-bind="visible: data.isTesterStatus()"></i>
-				<i class="fa fa-square-o" data-bind="visible: !data.isTesterStatus()"></i>
+			<div data-bind="click: IssueTracker.Project.Status.toggleTester">
+				<i class="fa fa-check-square" data-bind="visible: isTesterStatus()"></i>
+				<i class="fa fa-square-o" data-bind="visible: !isTesterStatus()"></i>
 				<span class="name">Tester Status</span>
 				<span class="description">Marking a status as 'tester' indicates that the user assigned as a tester to the issue with this status needs to take action.</span>
 			</div>
-			<div data-bind="click: toggleClosed">
-				<i class="fa fa-check-square" data-bind="visible: data.isClosedStatus()"></i>
-				<i class="fa fa-square-o" data-bind="visible: !data.isClosedStatus()"></i>
+			<div data-bind="click: IssueTracker.Project.Status.toggleClosed">
+				<i class="fa fa-check-square" data-bind="visible: isClosedStatus()"></i>
+				<i class="fa fa-square-o" data-bind="visible: !isClosedStatus()"></i>
 				<span class="name">Closed Status</span>
 				<span class="description">Any issue with a 'closed' status indicates that the issue needs no more action by anybody and is considered complete.</span>
 			</div>
 		</div>
-		<!-- /ko -->
 		<div class="button-container first">
-			<button data-bind="text: (create ? 'Create ' : 'Save ') + ' ' + type.capitalize(), click: $root.confirm, css: { loading: $root.loading }"></button>
+			<button data-bind="text: (create ? 'Create ' : 'Save ') + ' Status', click: IssueTracker.Project.Status.confirmSave, css: { loading: IssueTracker.Project.Status.loading }"></button>
 		</div>
 		<div class="button-container">
-			<button data-bind="click: $root.cancel">Cancel</button>
+			<button data-bind="click: IssueTracker.Project.Status.cancel">Cancel</button>
 		</div>
 	</div>
 </script>
@@ -204,6 +202,23 @@
 		</div>
 		<div class="button-container">
 			<button data-bind="click: IssueTracker.Project.Priority.cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="delete-status-template">
+	<div class="form two-button delete">
+		<h1>Delete Status?</h1>
+		<span><b>WARNING:</b> This action is irreverisble.</span>
+		<span>Issues that have this status will need a new status. Where should they go?</span>
+		<select data-bind="value: newStatus, foreach: newStatuses">
+			<option data-bind="value: id, text: name"></option>
+		</select>
+		<div class="button-container first">
+			<button data-bind="click: function() { IssueTracker.Project.Status.confirmRemove($data); }, css: { loading: IssueTracker.Project.Status.loading }">Delete Status</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: IssueTracker.Project.Status.cancel">Cancel</button>
 		</div>
 	</div>
 </script>

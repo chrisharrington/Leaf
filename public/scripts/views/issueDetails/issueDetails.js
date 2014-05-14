@@ -19,7 +19,6 @@
 		_setUpFlipPanels(container);
 		_hookupEvents(container);
 
-		IssueTracker.Transitioner.init();
 		root.Comments.init(container);
 	};
 
@@ -29,7 +28,7 @@
 		root.Comments.load(IssueTracker.selectedIssue.history());
 
 		_updateNeeded = false;
-		IssueTracker.selectedIssue.statusId.subscribe(function (statusId) { _updateNeeded = true; IssueTracker.Transitioner.execute(statusId); });
+		IssueTracker.selectedIssue.statusId.subscribe(_updateRequired);
 		IssueTracker.selectedIssue.description.subscribe(_updateRequired);
 		IssueTracker.selectedIssue.details.subscribe(_updateRequired);
 		IssueTracker.selectedIssue.milestoneId.subscribe(_updateRequired);

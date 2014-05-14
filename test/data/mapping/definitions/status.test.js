@@ -33,3 +33,30 @@ describe("status mapping", function() {
 		});
 	});
 });
+
+describe("status mapping", function() {
+	describe("status-view-model --> status", function() {
+		var _define;
+
+		beforeEach(function () {
+			_define = sinon.stub(mapper, "define");
+			require("../../../../data/mapping/definitions/status");
+		});
+
+		it("should define status/status-view-model map", function () {
+			assert(_define.calledWith("status-view-model", "status", {
+				"_id": "id",
+				name: "name",
+				order: "order",
+				isClosedStatus: "isClosedStatus",
+				isDeveloperStatus: "isDeveloperStatus",
+				isTesterStatus: "isTesterStatus"
+			}));
+		});
+
+		afterEach(function() {
+			_define.restore();
+			require.cache[process.cwd() + "/data/mapping/definitions/status.js"] = null;
+		});
+	});
+});

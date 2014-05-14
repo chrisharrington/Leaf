@@ -37,7 +37,7 @@
 
 	root.load = function () {
 		_resetIssueList();
-		$(window).on("focus", _resetIssueList);
+		//$(window).on("focus", _resetIssueList);
 	};
 
 	root.unload = function () {

@@ -177,7 +177,7 @@
                 root.virtualDirectory = "/";
 				root.users = IssueTracker.Utilities.buildObservableArray({{{users}}});
 				root.priorities = IssueTracker.Utilities.buildObservableArray({{{priorities}}});
-				root.statuses = ko.observableArray({{{statuses}}});
+				root.statuses = IssueTracker.Utilities.buildObservableArray({{{statuses}}});
 				root.transitions = ko.observableArray({{{transitions}}});
 				root.projects = ko.observableArray({{{projects}}});
 				root.milestones = IssueTracker.Utilities.buildObservableArray({{{milestones}}});
