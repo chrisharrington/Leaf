@@ -19,7 +19,30 @@ describe("milestone mapping", function() {
 		it("should define milestone/milestone-view-model map", function () {
 			assert(_define.calledWith("milestone", "milestone-view-model", {
 				"id": "_id",
-				name: "name"
+				name: "name",
+				order: "order"
+			}));
+		});
+
+		afterEach(function() {
+			_define.restore();
+			require.cache[process.cwd() + "/data/mapping/definitions/milestone.js"] = null;
+		});
+	});
+
+	describe("milestone-view-model --> milestone", function() {
+		var _define;
+
+		beforeEach(function () {
+			_define = sinon.stub(mapper, "define");
+			require("../../../../data/mapping/definitions/milestone");
+		});
+
+		it("should define milestone/milestone-view-model map", function () {
+			assert(_define.calledWith("milestone-view-model", "milestone", {
+				"_id": "id",
+				name: "name",
+				order: "order"
 			}));
 		});
 

@@ -13,7 +13,7 @@ describe("controllers", function() {
 				if (name != "init")
 					count++;
 
-			assert.equal(count, 9);
+			assert.equal(count, 10);
 		});
 
 		it("should initialize root controller", function() {
@@ -50,6 +50,10 @@ describe("controllers", function() {
 
 		it("should initialize milestones controller", function() {
 			_run("milestones");
+		});
+
+		it("should initialize priorities controller", function() {
+			_run("priorities");
 		});
 
 		function _run(controller) {

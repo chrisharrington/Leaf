@@ -20,7 +20,31 @@ describe("priority mapping", function() {
 			assert(_define.calledWith("priority", "priority-view-model", {
 				"id": "_id",
 				name: "name",
-				order: "order"
+				order: "order",
+				colour: "colour"
+			}));
+		});
+
+		afterEach(function() {
+			_define.restore();
+			require.cache[process.cwd() + "/data/mapping/definitions/priority.js"] = null;
+		});
+	});
+
+	describe("priority-view-model --> priority", function() {
+		var _define;
+
+		beforeEach(function () {
+			_define = sinon.stub(mapper, "define");
+			require("../../../../data/mapping/definitions/priority");
+		});
+
+		it("should define priority-view-model/priority map", function () {
+			assert(_define.calledWith("priority-view-model", "priority", {
+				"_id": "id",
+				name: "name",
+				order: "order",
+				colour: "colour"
 			}));
 		});
 
