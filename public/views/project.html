@@ -123,6 +123,10 @@
 		<div class="input-container">
 			<input type="text" placeholder="Priority name..." data-bind="value: name" />
 		</div>
+		<div class="input-container colour">
+			<input type="text" placeholder="Colour..." data-bind="value: colour, valueUpdate: 'keyup'" />
+			<span data-bind="style: { background: colour }"></span>
+		</div>
 		<div class="button-container first">
 			<button data-bind="text: (create ? 'Create ' : 'Save ') + ' Priority', click: IssueTracker.Project.Priority.confirmSave, css: { loading: IssueTracker.Project.Priority.loading }"></button>
 		</div>

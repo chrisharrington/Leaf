@@ -43,7 +43,7 @@
 </div>
 
 <div class="container name-and-number-wrapper">
-	<div class="name-container" data-bind="attr: { class: 'name-container perspective ' + IssueTracker.selectedIssue.priority().toLowerCase() }">
+	<div class="name-container perspective" data-bind="style: { 'border-left-color': IssueTracker.Utilities.getPriorityColour(IssueTracker.selectedIssue.priorityId()) }">
 		<div class="description">
 			<input type="text" class="description no-focus" data-bind="value: IssueTracker.selectedIssue.description" />
 		</div>
@@ -167,7 +167,7 @@
 <script type="text/html" id="priority-chooser">
 	<div class="priority-chooser chooser" data-bind="foreach: priorities">
 		<div data-bind="attr: { 'data-priority': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.priorityId() }">
-			<span data-bind="attr: { class: 'colour ' + name().toLowerCase() }"></span>
+			<span class="colour" data-bind="style: { background: IssueTracker.Utilities.getPriorityColour(id()) }"></span>
 			<div>
 				<div>
 					<span class="name" data-bind="text: name"></span>

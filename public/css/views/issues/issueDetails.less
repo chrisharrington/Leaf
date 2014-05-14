@@ -1,9 +1,5 @@
 ﻿.issue-details-container {
 	div.priority-bar { float:left; width:100%; height:6px; margin-bottom:@spacing; .background-colour-transition; }
-	div.priority-bar.low { background-color:@low-priority-background; }
-	div.priority-bar.medium { background-color:@medium-priority-background; }
-	div.priority-bar.high { background-color:@high-priority-background; }
-	div.priority-bar.critical { background-color:@critical-priority-background; }
 
 	div.issue-buttons { float:right;
 		>* { float:left; }
@@ -27,10 +23,6 @@
 				>input { float:left; width:100%; padding:@spacing !important; height:100%; cursor:pointer; border:none; box-shadow:none; font-weight:bold; .condensed-font; margin:0; color:@primary-header-font-colour; font-size:1.75em; background:transparent; }
 			}
 		}
-		div.name-container.low { border-left-color:@low-priority-background; }
-		div.name-container.medium { border-left-color:@medium-priority-background; }
-		div.name-container.high { border-left-color:@high-priority-background; }
-		div.name-container.critical { border-left-color:@critical-priority-background; }
 	}
 
 	@comments-height:100px;
@@ -100,10 +92,6 @@
 				>div.priority-chooser {
 					>div {
 						>span.colour { float:left; width:8px; height:100%; }
-						>span.colour.low { background:@low-priority-background; }
-						>span.colour.medium { background:@medium-priority-background; }
-						>span.colour.high { background:@high-priority-background; }
-						>span.colour.critical { background:@critical-priority-background; }
 						>div { position:relative; margin-left:8px; height:100%; float:none; width:auto; }
 					}
 				}

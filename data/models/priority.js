@@ -7,6 +7,7 @@ var schema = mongoose.Schema({
     name: String,
     isDeleted: { type: Boolean, default: false },
     order: Number,
+	colour: String,
     
     project: { type: objectId, ref: "project" },
 });

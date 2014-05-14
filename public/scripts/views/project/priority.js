@@ -6,7 +6,9 @@
 	root.saveModel = {
 		type: "priority",
 		id: ko.observable(),
-		name: ko.observable("")
+		name: ko.observable(""),
+		colour: ko.observable(""),
+		order: ko.observable(0)
 	};
 
 	root.removeModel = {
@@ -16,8 +18,12 @@
 	};
 
 	root.create = function() {
-		root.saveModel.create = true;
-		IssueTracker.Dialog.load("create-or-update-priority-template", root.saveModel).find("input:first").focus();
+		var model = root.saveModel;
+		model.create = true;
+		model.id("");
+		model.name("");
+		model.colour("");
+		IssueTracker.Dialog.load("create-or-update-priority-template", model).find("input:first").focus();
 	};
 
 	root.edit = function(priority) {
@@ -25,7 +31,9 @@
 		model.create = false;
 		model.id(priority.id());
 		model.name(priority.name());
-		IssueTracker.Dialog.load("create-or-update-priority-template", root.saveModel).find("input:first").focus();
+		model.colour(priority.colour());
+		model.order(priority.order());
+		IssueTracker.Dialog.load("create-or-update-priority-template", model).find("input:first").focus();
 	};
 
 	root.remove = function(priority) {
@@ -52,14 +60,19 @@
 
 		var create = root.saveModel.create;
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory + "priorities/save", { id: root.saveModel.id(), name: root.saveModel.name(), order: _getHighestOrder()+1 }).done(function(saved) {
+		$.post(IssueTracker.virtualDirectory + "priorities/save", { id: root.saveModel.id(), name: root.saveModel.name(), colour: root.saveModel.colour(), order: create ? (_getHighestOrder()+1) : root.saveModel.order() }).done(function(saved) {
 			if (create)
 				IssueTracker.priorities.push(IssueTracker.Utilities.createPropertyObservables(saved));
 			else {
-				$.each(IssueTracker.priorities(), function(i, priority) {
-					if (priority.id() == saved.id)
+				for (var i = 0; i < IssueTracker.priorities().length; i++) {
+					var priority = IssueTracker.priorities()[i];
+					var priorityId = priority.id();
+					var savedId = saved.id;
+					if (priorityId == savedId) {
 						priority.name(saved.name);
-				});
+						priority.colour(saved.colour);
+					}
+				}
 			}
 			IssueTracker.Feedback.success("The priority has been saved.");
 			IssueTracker.Dialog.hide();

@@ -16,8 +16,11 @@
 	};
 
 	root.create = function() {
-		root.saveModel.create = true;
-		IssueTracker.Dialog.load("create-or-update-milestone-template", root.saveModel).find("input:first").focus();
+		var model = root.saveModel;
+		model.create = true;
+		model.id("");
+		model.name("");
+		IssueTracker.Dialog.load("create-or-update-milestone-template", model).find("input:first").focus();
 	};
 
 	root.edit = function(milestone) {
@@ -25,7 +28,7 @@
 		model.create = false;
 		model.id(milestone.id());
 		model.name(milestone.name());
-		IssueTracker.Dialog.load("create-or-update-milestone-template", root.saveModel).find("input:first").focus();
+		IssueTracker.Dialog.load("create-or-update-milestone-template", model).find("input:first").focus();
 	};
 
 	root.remove = function(milestone) {

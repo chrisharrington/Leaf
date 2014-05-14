@@ -64,4 +64,13 @@
 		return "http://gravatar.com/avatar/" + CryptoJS.MD5(email) + "?s=" + (size || 35) +"&d=mm";
 	};
 
+	root.getPriorityColour = function(priorityId) {
+		var colour;
+		$.each(IssueTracker.priorities(), function(i, priority) {
+			if (priority.id() == priorityId)
+				colour = priority.colour();
+		});
+		return colour;
+	}
+
 })(root("IssueTracker.Utilities"));

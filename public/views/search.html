@@ -1,6 +1,6 @@
 <div class="results" data-bind="foreach: results">
     <a class="tile" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/issues/' + number }, css: { deleted: isDeleted }">
-        <div data-bind="attr: { class: priorityStyle }">
+        <div data-bind="style: { 'border-left-color': IssueTracker.Utilities.getPriorityColour(priorityId) }">
             <div class="info">
                 <span class="number" data-bind="text: number"></span>
                 <div class="name">

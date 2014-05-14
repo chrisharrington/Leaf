@@ -64,7 +64,6 @@
 
 		_filterSetTimeout = setTimeout(function() {
 			_onFilterSet();
-			console.log("filter set");
 		}, SET_FILTER_TIMEOUT_DURATION);
 
 		_save();
