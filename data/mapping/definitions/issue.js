@@ -26,17 +26,6 @@ require("../mapper").define("issue", "issue-view-model", {
 	isDeleted: "isDeleted"
 });
 
-require("../mapper").define("issue", "issue-list-view-model", {
-	id: "_id",
-	description: "name",
-	details: "details",
-	number: "number",
-	priorityId: "priorityId",
-	developer: "developer",
-	developerId: "developerId",
-	testerId: "testerId"
-});
-
 require("../mapper").define("issue-view-model", "issue", {
 	"_id": "id",
 	name: "description",
@@ -56,4 +45,15 @@ require("../mapper").define("issue-view-model", "issue", {
 	typeId: "typeId",
 	opened: function(x) { return moment(x.opened, config("dateFormat")); },
 	closed: function(x) { return x.closed == "" || x.closed == null ? null : moment(x.closed, config("dateFormat")); }
+});
+
+require("../mapper").define("issue", "issue-list-view-model", {
+	id: "_id",
+	description: "name",
+	details: "details",
+	number: "number",
+	priorityId: "priorityId",
+	developer: "developer",
+	developerId: "developerId",
+	testerId: "testerId"
 });

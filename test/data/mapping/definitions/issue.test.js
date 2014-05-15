@@ -76,6 +76,34 @@ describe("issue mapping", function() {
 		});
 	});
 
+	describe("issue --> issue-list-view-model", function() {
+		var _define;
+
+		beforeEach(function () {
+			_define = sinon.stub(mapper, "define");
+			require("../../../../data/mapping/definitions/issue");
+		});
+
+		it("should define issue/issue-view-model map", function () {
+			require("../../../../data/mapping/definitions/comment");
+			assert(_define.calledWith("issue", "issue-list-view-model", {
+				id: "_id",
+				description: "name",
+				details: "details",
+				number: "number",
+				priorityId: "priorityId",
+				developer: "developer",
+				developerId: "developerId",
+				testerId: "testerId"
+			}));
+		});
+
+		afterEach(function() {
+			_define.restore();
+			require.cache[process.cwd() + "/data/mapping/definitions/issue.js"] = null;
+		});
+	});
+
 	describe("issue-view-model --> issue", function() {
 		var _define;
 

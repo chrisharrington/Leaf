@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 var config = require("../../config");
-var mongojs = require("mongojs");
+var repositories = require("../repositories");
 
 var repository = Object.spawn(require("./baseRepository"), {
 	model: require("../models").Issue
@@ -17,7 +17,7 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 
 	function _buildParameters(projectId, filter) {
 		var params = {
-			project: mongojs.ObjectId(projectId.toString()),
+			project: projectId,
 			isDeleted: false
 		};
 		_addFilter("priorityId", filter.priorities, params);
@@ -31,7 +31,7 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 
 	function _addFilter(idProperty, collection, params) {
 		if (collection.length > 0)
-			params[idProperty] = { $in: collection.map(function(curr) { return mongojs.ObjectId(curr); }) };
+			params[idProperty] = { $in: collection };
 	}
 
 	function _buildSort(direction, comparer) {

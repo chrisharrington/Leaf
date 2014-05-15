@@ -1440,7 +1440,7 @@ describe("issues", function() {
 				verb: "get",
 				route: "/issues/list",
 				assert: function(result) {
-					assert(mapper.mapAll.calledWith("issue", "issue-view-model", ["blah"]));
+					assert(mapper.mapAll.calledWith("issue", "issue-list-view-model", ["blah"]));
 					assert(result.response.send.calledWith(sinon.match.any, 200));
 				}
 			}).finally(function() {
@@ -1483,6 +1483,30 @@ describe("issues", function() {
 				route: "/issues/list",
 				assert: function(result) {
 					assert(repositories.Issue.search.calledWith("the project id", sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any));
+				}
+			}).finally(function() {
+				repositories.Issue.search.restore();
+			});
+		});
+
+		it("should set search criteria filter to empty array when missing", function() {
+			sinon.stub(repositories.Issue, "search").resolves([]);
+
+			var request = _buildDefaultRequest();
+			request.query.priorities = undefined;
+			return _run({
+				request: request,
+				verb: "get",
+				route: "/issues/list",
+				assert: function(result) {
+					assert(repositories.Issue.search.calledWith(sinon.match.any, {
+						priorities: [],
+						statuses: sinon.match.any,
+						developers: sinon.match.any,
+						testers: sinon.match.any,
+						milestones: sinon.match.any,
+						types: sinon.match.any
+					}, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any));
 				}
 			}).finally(function() {
 				repositories.Issue.search.restore();

@@ -154,7 +154,7 @@ describe("issueRepository", function() {
 				sortComparer: "priority"
 			}).then(function() {
 				assert(sut.get.calledWith(sinon.match.any, {
-					sort: { priorityOrder: -1, opened: 1 },
+					sort: { priorityOrder: -1, number: 1 },
 					skip: sinon.match.any,
 					limit: sinon.match.any
 				}));
@@ -166,7 +166,7 @@ describe("issueRepository", function() {
 				sortComparer: "status"
 			}).then(function() {
 				assert(sut.get.calledWith(sinon.match.any, {
-					sort: { statusOrder: -1, opened: 1 },
+					sort: { statusOrder: -1, number: 1 },
 					skip: sinon.match.any,
 					limit: sinon.match.any
 				}));
@@ -179,7 +179,7 @@ describe("issueRepository", function() {
 				sortComparer: comparer
 			}).then(function() {
 				assert(sut.get.calledWith(sinon.match.any, {
-					sort: { "the comparer": -1, opened: 1 },
+					sort: { "the comparer": -1, number: 1 },
 					skip: sinon.match.any,
 					limit: sinon.match.any
 				}));
@@ -192,7 +192,7 @@ describe("issueRepository", function() {
 				sortDirection: "ascending"
 			}).then(function() {
 				assert(sut.get.calledWith(sinon.match.any, {
-					sort: { "the comparer": 1, opened: 1 },
+					sort: { "the comparer": 1, number: 1 },
 					skip: sinon.match.any,
 					limit: sinon.match.any
 				}));
@@ -227,6 +227,102 @@ describe("issueRepository", function() {
 			});
 		});
 
+		it("should add no priorities filter when no priorities are given", function() {
+			return _run({
+				priorities: []
+			}).then(function() {
+				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
+					isDeleted: sinon.match.any,
+					statusId: sinon.match.any,
+					developerId: sinon.match.any,
+					testerId: sinon.match.any,
+					milestoneId: sinon.match.any,
+					typeId: sinon.match.any
+				}, sinon.match.any));
+			})
+		});
+
+		it("should add no statuses filter when no statuses are given", function() {
+			return _run({
+				priorities: []
+			}).then(function() {
+				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
+					isDeleted: sinon.match.any,
+					priorityId: sinon.match.any,
+					developerId: sinon.match.any,
+					testerId: sinon.match.any,
+					milestoneId: sinon.match.any,
+					typeId: sinon.match.any
+				}, sinon.match.any));
+			})
+		});
+
+		it("should add no developers filter when no developers are given", function() {
+			return _run({
+				priorities: []
+			}).then(function() {
+				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
+					isDeleted: sinon.match.any,
+					priorityId: sinon.match.any,
+					statusId: sinon.match.any,
+					testerId: sinon.match.any,
+					milestoneId: sinon.match.any,
+					typeId: sinon.match.any
+				}, sinon.match.any));
+			})
+		});
+
+		it("should add no testers filter when no testers are given", function() {
+			return _run({
+				priorities: []
+			}).then(function() {
+				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
+					isDeleted: sinon.match.any,
+					priorityId: sinon.match.any,
+					statusId: sinon.match.any,
+					developerId: sinon.match.any,
+					milestoneId: sinon.match.any,
+					typeId: sinon.match.any
+				}, sinon.match.any));
+			})
+		});
+
+		it("should add no milestones filter when no milestones are given", function() {
+			return _run({
+				priorities: []
+			}).then(function() {
+				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
+					isDeleted: sinon.match.any,
+					priorityId: sinon.match.any,
+					statusId: sinon.match.any,
+					developerId: sinon.match.any,
+					testerId: sinon.match.any,
+					typeId: sinon.match.any
+				}, sinon.match.any));
+			})
+		});
+
+		it("should add no types filter when no types are given", function() {
+			return _run({
+				priorities: []
+			}).then(function() {
+				assert(sut.get.calledWith({
+					projectId: sinon.match.any,
+					isDeleted: sinon.match.any,
+					priorityId: sinon.match.any,
+					statusId: sinon.match.any,
+					developerId: sinon.match.any,
+					testerId: sinon.match.any,
+					milestoneId: sinon.match.any
+				}, sinon.match.any));
+			})
+		});
+
 		afterEach(function() {
 			sut.get.restore();
 		});
@@ -235,12 +331,12 @@ describe("issueRepository", function() {
 			params = params || {};
 			return sut.search(params.projectId || "the project id",
 				params.filter || {
-					priorities: params.priorities || [],
-					statuses: params.statuses || [],
-					developers: params.developers || [],
-					testers: params.testers || [],
-					milestones: params.milestones || [],
-					types: params.types || []
+					priorities: params.priorities || ["the priority id"],
+					statuses: params.statuses || ["the status id"],
+					developers: params.developers || ["the developer id"],
+					testers: params.testers || ["the tester id"],
+					milestones: params.milestones || ["the milestone id"],
+					types: params.types || ["the type id"]
 				},
 				params.sortDirection || "the sort direction",
 				params.sortComparer || "the sort comparer",
@@ -490,74 +586,62 @@ describe("issueRepository", function() {
 	describe("issueCountsPerUser", function() {
 		var _stubs;
 
-		it("should retrieve counts for developers", function() {
-			return _run().then(function() {
-				assert(_stubs.aggregate.calledWith({ $match: { project: sinon.match.any }}, { $group: { _id: "$developerId", count: { $sum: 1 }}}));
-			});
-		});
-
-		it("should retrieve counts for testers", function() {
-			return _run().then(function() {
-				assert(_stubs.aggregate.calledWith({ $match: { project: sinon.match.any }}, { $group: { _id: "$testerId", count: { $sum: 1 }}}));
-			});
-		});
-
-		it("should set developer counts", function() {
-			var count = 10, userId = "the user id";
-			var developer = { _id: userId, count: count };
+		it("should retrieve users filtered by project", function() {
+			var projectId = "the project id to filter";
 			return _run({
-				developerCounts: [developer]
-			}).then(function(result) {
-				assert(result[userId].developer == count);
+				projectId: projectId
+			}).then(function() {
+				assert(_stubs.getUsers.calledWith({ project: projectId }));
 			});
 		});
 
-		it("should set tester counts to 0 with no tester users found", function() {
-			var count = 10, userId = "the user id";
-			var developer = { _id: userId, count: count };
+		it("should get developer counts for each user", function() {
+			var users = [{ _id: "first" }, { _id: "second" }];
 			return _run({
-				developerCounts: [developer]
-			}).then(function(result) {
-				assert(result[userId].tester == 0);
+				users: users
+			}).then(function() {
+				assert(_stubs.count.calledWith({ developerId: "first" }));
+				assert(_stubs.count.calledWith({ developerId: "second" }));
 			});
 		});
 
-		it("should set tester counts", function() {
-			var count = 10, userId = "the user id";
-			var tester = { _id: userId, count: count };
+		it("should get tester counts for each user", function() {
+			var users = [{ _id: "first" }, { _id: "second" }];
 			return _run({
-				testerCounts: [tester]
-			}).then(function(result) {
-				assert(result[userId].tester == count);
+				users: users
+			}).then(function() {
+				assert(_stubs.count.calledWith({ testerId: "first" }));
+				assert(_stubs.count.calledWith({ testerId: "second" }));
 			});
 		});
 
-		it("should set developer counts to 0 with no developer users found", function() {
-			var count = 10, userId = "the user id";
-			var tester = { _id: userId, count: count };
+		it("should return result keyed by user id", function() {
+			var users = [{ _id: "first" }, { _id: "second" }];
 			return _run({
-				testerCounts: [tester]
+				users: users
 			}).then(function(result) {
-				assert.equal(result[userId].developer, 0);
+				assert(result.first);
+				assert(result.second);
 			});
 		});
 
-		it("should set both developer and tester counts", function() {
-			var developerCount = 10, testerCount = 20, userId = "the user id";
-			var developer = { _id: userId, count: developerCount };
-			var tester = { _id: userId, count: testerCount };
+		it("should return developer counts in result", function() {
+			var users = [{ _id: "the user id" }], developerCount = 10;
 			return _run({
-				developerCounts: [developer],
-				testerCounts: [tester]
+				users: users,
+				developerCount: developerCount
 			}).then(function(result) {
-				assert.equal(result[userId].developer, developerCount);
-				assert.equal(result[userId].tester, testerCount);
+				assert(result["the user id"].developer == developerCount);
 			});
 		});
 
-		it("should return empty object with no counts", function() {
-			return _run().then(function(result) {
-				assert.deepEqual(result, {});
+		it("should return tester counts in result", function() {
+			var users = [{ _id: "the user id" }], testerCount = 10;
+			return _run({
+				users: users,
+				testerCount: testerCount
+			}).then(function(result) {
+				assert(result["the user id"].tester == testerCount);
 			});
 		});
 
@@ -569,9 +653,10 @@ describe("issueRepository", function() {
 			params = params || {};
 
 			_stubs = {};
-			_stubs.aggregate = sinon.stub(models.Issue, "aggregateAsync");
-			_stubs.aggregate.withArgs({ $match: { project: sinon.match.any }}, { $group: { _id: "$developerId", count: { $sum: 1 }}}).resolves(params.developerCounts || []);
-			_stubs.aggregate.withArgs({ $match: { project: sinon.match.any }}, { $group: { _id: "$testerId", count: { $sum: 1 }}}).resolves(params.testerCounts || []);
+			_stubs.getUsers = sinon.stub(repositories.User, "get").resolves(params.users || []);
+			_stubs.count = sinon.stub(models.Issue, "countAsync");
+			_stubs.count.withArgs({ developerId: params.users && params.users.length > 0 ? params.users[0]._id : sinon.match.any }).resolves(params.developerCount);
+			_stubs.count.withArgs({ testerId: sinon.match.any }).resolves(params.testerCount);
 
 			return sut.issueCountsPerUser(params.projectId || "the project id");
 		}

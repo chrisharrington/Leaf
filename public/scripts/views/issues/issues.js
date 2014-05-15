@@ -48,7 +48,6 @@
 		if (_nextIssuesRunning === true || _allLoaded === true)
 			return;
 
-		var date = new Date();
 		_nextIssuesRunning = true;
 		$.ajax({
 			url: IssueTracker.virtualDirectory + "issues/list",
@@ -61,7 +60,6 @@
 			if (issues.length < count)
 				_allLoaded = true;
 			_start += count;
-			console.log("Issue retrieval: " + (new Date() - date) + "ms");
 		}).fail(function () {
 			IssueTracker.Feedback.error("An error has occurred while retrieving the next set of issues. Please try again later.");
 		}).always(function() {
