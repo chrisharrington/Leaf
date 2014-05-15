@@ -31,12 +31,12 @@ module.exports = function(app) {
 			end = 50;
 
 		return repositories.Issue.search(request.project._id, {
-			priorities: request.query.priorities.split(","),
-			statuses: request.query.statuses.split(","),
-			developers: request.query.developers.split(","),
-			testers: request.query.testers.split(","),
-			milestones: request.query.milestones.split(","),
-			types: request.query.types.split(",")
+			priorities: _getIds(request.query.priorities),
+			statuses: _getIds(request.query.statuses),
+			developers: _getIds(request.query.developers),
+			testers: _getIds(request.query.testers),
+			milestones: _getIds(request.query.milestones),
+			types: _getIds(request.query.types)
 		}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
 			return mapper.mapAll("issue", "issue-list-view-model", issues);
 		}).then(function (mapped) {
@@ -44,6 +44,10 @@ module.exports = function(app) {
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});
+
+		function _getIds(query) {
+			return query ? query.split(",") : [];
+		}
 	});
 
 	app.get("/issues/details", authenticate, function(request, response) {

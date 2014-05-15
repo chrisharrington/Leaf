@@ -71,6 +71,9 @@
 	}
 	
 	function _buildParameters(count) {
+		var blah = _joinFilterIds(_filter.selectedDevelopers(), IssueTracker.users());
+		var selectedLength = _filter.selectedDevelopers().length;
+		var undeletedLength = _undeletedLength(IssueTracker.users());
 		return {
 			start: _start + 1,
 			end: _start + count,
@@ -88,6 +91,9 @@
 	
 	function _joinFilterIds(filterCollection, masterCollection) {
 		var ids = [];
+		if (filterCollection.length == _undeletedLength(masterCollection))
+			return "";
+
 		var collection = filterCollection.length == 0 ? masterCollection : filterCollection; 
 		$.each(collection, function(i, filterItem) {
 			if (filterItem.id) {
@@ -96,6 +102,14 @@
 			}
 		});
 		return ids.join(",");
+	}
+
+	function _undeletedLength(collection) {
+		var count = 0;
+		for (var i = 0; i < collection.length; i++)
+			if (collection[i].isDeleted == undefined || collection[i].isDeleted === false || (typeof(collection[i].isDeleted) == "function" && collection[i].isDeleted() === false))
+				count++;
+		return count;
 	}
 
 	function _resetIssueList() {

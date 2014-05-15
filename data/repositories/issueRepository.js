@@ -7,53 +7,32 @@ var repository = Object.spawn(require("./baseRepository"), {
 });
 
 repository.search = function(projectId, filter, sortDirection, sortComparer, start, end) {
-	var db = mongojs(config.call(this, "databaseUser") + ":" + config.call(this, "databasePassword") + "@oceanic.mongohq.com:10038/issuetracker");
-	var collection = db.collection("issues");
-
-	return new Promise(function(resolve, reject) {
-		collection.find(_buildParameters(projectId, filter))
-			.sort(_buildSort(sortDirection, sortComparer))
-			.skip(start - 1)
-			.limit(end - start + 1, function(err, docs) {
-			if (err) reject(err);
-			else resolve(docs);
-		});
+	return repository.get(_buildParameters(projectId, filter), {
+		sort: _buildSort(sortDirection, sortComparer),
+		skip: start - 1,
+		limit: end - start + 1
+	}).then(function(issues) {
+		return issues;
 	});
 
 	function _buildParameters(projectId, filter) {
 		var params = {
-			project: mongojs.ObjectId(projectId),
+			project: mongojs.ObjectId(projectId.toString()),
 			isDeleted: false
 		};
-		if (filter.priorities && filter.priorities.length > 0)
-			params.priorityId = { $in: filter.priorities.map(function(curr) { return mongojs.ObjectId(curr); }) };
-		if (filter.statuses && filter.statuses.length > 0)
-		return {
-			project: projectId,
-			isDeleted: false,
-			priorityId: { $in: filter.priorities.map(function(curr) { return mongojs.ObjectId(curr); }) },
-			statusId: { $in: filter.statuses.map(function(curr) { return mongojs.ObjectId(curr); }) },
-			developerId: { $in: filter.developers.map(function(curr) { return mongojs.ObjectId(curr); }) },
-			testerId: { $in: filter.testers.map(function(curr) { return mongojs.ObjectId(curr); }) },
-			milestoneId: { $in: filter.milestones.map(function(curr) { return mongojs.ObjectId(curr); }) },
-			typeId: { $in: filter.types.map(function(curr) { return mongojs.ObjectId(curr); }) }
-		};
+		_addFilter("priorityId", filter.priorities, params);
+		_addFilter("statusId", filter.statuses, params);
+		_addFilter("developerId", filter.developers, params);
+		_addFilter("testerId", filter.testers, params);
+		_addFilter("milestoneId", filter.milestones, params);
+		_addFilter("typeId", filter.types, params);
+		return params;
 	}
 
-//	return repository.get({
-//		project: projectId,
-//		isDeleted: false,
-//		priorityId: { $in: filter.priorities },
-//		statusId: { $in: filter.statuses },
-//		developerId: { $in: filter.developers },
-//		testerId: { $in: filter.testers },
-//		milestoneId: { $in: filter.milestones},
-//		typeId: { $in: filter.types }
-//	}, {
-//		sort: _buildSort(sortDirection, sortComparer),
-//		skip: start - 1,
-//		limit: end - start + 1
-//	});
+	function _addFilter(idProperty, collection, params) {
+		if (collection.length > 0)
+			params[idProperty] = { $in: collection.map(function(curr) { return mongojs.ObjectId(curr); }) };
+	}
 
 	function _buildSort(direction, comparer) {
 		if (comparer == "priority")
@@ -113,28 +92,26 @@ repository.getNextNumber = function(projectId) {
 };
 
 repository.issueCountsPerUser = function(projectId) {
-	var model = Promise.promisifyAll(this.model);
-	return Promise.all([
-		_getIssueCounts("$developerId", projectId, model),
-		_getIssueCounts("$testerId", projectId, model)
-	]).spread(function(developers, testers) {
-		var result = {};
-		developers.forEach(function(developerCount) {
-			result[developerCount._id] = {
-				developer: developerCount.count,
-				tester: 0
-			};
-		});
-		testers.forEach(function(testerCount) {
-			if (!result[testerCount._id])
-				result[testerCount._id] = { developer: 0 };
-			result[testerCount._id].tester = testerCount.count;
-		});
+	var result = {};
+	var model = this.model;
+	return require("./userRepository").get({ project: projectId }).then(function(users) {
+		return Promise.all(users.map(function(user) {
+			return _getCountsForUser(user, model).spread(function(developerCount, testerCount) {
+				result[user._id] = {
+					developer: developerCount,
+					tester: testerCount
+				};
+			});
+		}));
+	}).then(function() {
 		return result;
 	});
 
-	function _getIssueCounts(property, projectId, model) {
-		return model.aggregateAsync({ $match: { project: projectId }}, { $group: { _id: property, count: { $sum: 1 }}});
+	function _getCountsForUser(user, model) {
+		return Promise.all([
+			model.countAsync({ developerId: user._id }),
+			model.countAsync({ testerId: user._id })
+		]);
 	}
 };
 

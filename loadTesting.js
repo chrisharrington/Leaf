@@ -14,7 +14,7 @@ var models = require("./data/models");
 
 var Promise = require("bluebird");
 
-var ISSUE_COUNT = 10000;
+var ISSUE_COUNT = 50000;
 
 return connection.open().then(function () {
 	//return _removeIssues();
@@ -61,7 +61,6 @@ function _buildIssues(count) {
 			opened: Date.now(),
 			isDeleted: false
 		}));
-		console.log("Pushed at " + i);
 	}
 	return promises;
 }

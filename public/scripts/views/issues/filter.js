@@ -63,10 +63,18 @@
         root.selectedMilestones.pushAll(IssueTracker.milestones());
         root.selectedPriorities.pushAll(IssueTracker.priorities());
         root.selectedStatuses.pushAll(IssueTracker.statuses());
-        root.selectedDevelopers.pushAll(IssueTracker.users());
-        root.selectedTesters.pushAll(IssueTracker.users());
+        root.selectedDevelopers.pushAll(_getUndeletedObjects(IssueTracker.users()));
+        root.selectedTesters.pushAll(_getUndeletedObjects(IssueTracker.users()));
         root.selectedTypes.pushAll(IssueTracker.issueTypes());
     }
+
+	function _getUndeletedObjects(collection) {
+		var undeleted = [];
+		for (var i = 0; i < collection.length; i++)
+			if (collection[i].isDeleted() === false)
+				undeleted.push(collection[i]);
+		return undeleted;
+	}
 
 	function _saveFilter() {
 		_onFilterSet();
