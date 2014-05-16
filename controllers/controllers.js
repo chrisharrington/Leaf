@@ -10,6 +10,7 @@ module.exports = {
 	milestones: require("./milestones"),
 	priorities: require("./priorities"),
 	statuses: require("./statuses"),
+	hooks: require("./hooks"),
 
 	init: function(app) {
 		for (var name in this)
