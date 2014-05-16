@@ -110,4 +110,4 @@ IssueTracker.Page.prototype._setTitle = function(title) {
 IssueTracker.Page.prototype._resetErrorPanels = function() {
 	$("div.error-code").hide();
 	$("section.content-container").show();
-}
+};

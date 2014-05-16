@@ -40,8 +40,10 @@ function _configureApplication(app) {
 		app.use(express.urlencoded());
 		app.use(express.static(__dirname + "/public", { maxAge: MAX_AGE }));
 		app.use(express.cookieParser());
+
+		app.set("env", "production");
 	});
 
-	app.configure("development", function () { Promise.longStackTraces(); app.set("env", "development"); });
-	app.configure("production", function () { app.set("env", "production"); });
+//	app.configure("development", function () { Promise.longStackTraces(); app.set("env", "development"); });
+//	app.configure("production", function () { app.set("env", "production"); });
 }

@@ -71,6 +71,6 @@
 				colour = priority.colour();
 		});
 		return colour;
-	}
+	};
 
 })(root("IssueTracker.Utilities"));

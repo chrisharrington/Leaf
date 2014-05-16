@@ -1,7 +1,6 @@
 (function(root) {
 
 	root.loading = ko.observable(false);
-	root.switch = ko.observable();
 
 	root.saveModel = {
 		type: "priority",
