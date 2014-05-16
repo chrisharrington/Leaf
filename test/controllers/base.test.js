@@ -2,7 +2,7 @@ var sinon = require("sinon"), assert = require("assert"), Promise = require("blu
 
 exports.testRoute = function(params) {
 	var func;
-	var request = params.request || {}, response = { send: sinon.stub(), header: sinon.stub(), contentType: sinon.stub(), cookie: sinon.stub() };
+	var request = params.request || {}, response = params.response || { send: sinon.stub(), header: sinon.stub(), contentType: sinon.stub(), cookie: sinon.stub() };
 	if (!request.getProject)
 		request.getProject = function() {
 			return new Promise(function(resolve) {

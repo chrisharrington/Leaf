@@ -15,5 +15,6 @@ module.exports = {
 	User: require(directory + "userRepository"),
 	IssueFile: require(directory + "issueFileRepository"),
     Notification: require(directory + "notificationRepository"),
-	Sequence: require(directory + "sequenceRepository")
+	Sequence: require(directory + "sequenceRepository"),
+	Integration: require(directory + "integrationRepository")
 };
