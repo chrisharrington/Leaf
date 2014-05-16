@@ -1,5 +1,7 @@
 ﻿<script type="text/javascript">
-	IssueTracker.Project.domain = "{{{domain}}}";
+	var root = IssueTracker.Project;
+	root.domain = "{{{domain}}}";
+	root.integrations = IssueTracker.Utilities.buildObservableArray({{{integrations}}});
 </script>
 
 <div class="inner-project-container">
@@ -13,8 +15,18 @@
 			</div>
 		</div>
 
-		<div class="integrations tile">
+		<div class="integrations data tile">
 			<h1>Source Control</h1>
+			<div class="existing">
+				<i>You currently have no source control integration. Add one below!</i>
+			</div>
+			<div class="new">
+				<div data-bind="click: SourceControl.GitHub.create">
+					<img src="/images/github-logo.png" alt="github-logo" />
+					<span>GitHub</span>
+					<i class="fa fa-plus"></i>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -220,5 +232,11 @@
 		<div class="button-container">
 			<button data-bind="click: IssueTracker.Project.Status.cancel">Cancel</button>
 		</div>
+	</div>
+</script>
+
+<script type="text/html" id="create-github-integration">
+	<div class="form two-button create-integration">
+		<h1>Create GitHub Integration</h1>
 	</div>
 </script>

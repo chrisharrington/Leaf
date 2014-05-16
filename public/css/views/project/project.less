@@ -32,6 +32,25 @@
 		}
 
 		tr:hover>td.action>i { display:inline-block; }
+
+		div.integrations {
+			@integration-height:40px;
+			>div.existing, >div.new { float:left; width:100%; margin-top:@spacing; }
+			>div.existing {
+				>i { float:left; width:100%; font-size:0.875em; }
+			}
+			>div.new { border-top:solid 1px @border-colour; padding:0;
+				>div { float:left; width:100%; cursor:pointer;
+					>* { .vertical-centre(@integration-height); }
+					>img { float:left; .border-box; padding:@tiny-spacing; }
+					>span { float:left; }
+					>i { float:right; padding:0 @spacing; font-size:1.25em; cursor:pointer; color:@primary-font-colour-lightest; }
+				}
+				>div:hover { .hover;
+					>i { color:@primary-font-colour; }
+				}
+			}
+		}
 	}
 }
 

@@ -29,6 +29,10 @@ function inspect(o, isConsole) {
 		alert(string);
 }
 
+function callback(data, location, method) {
+	eval(location + "." + (method || "callback") + "(\"" + data + "\")");
+}
+
 function ResolvedDeferred(data) {
 	var deferred = new $.Deferred();
 	deferred.resolve(data);

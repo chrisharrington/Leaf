@@ -23,4 +23,10 @@ module.exports = function(app) {
 			response.send(e.stack.formatStack(), 500);
 		});
 	});
+
+	app.get("/hook/callback/:name", function(request, response) {
+		return base.view("public/views/hookCallback.html", response, {
+			name: request.params.name
+		});
+	});
 };

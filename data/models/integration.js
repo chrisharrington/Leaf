@@ -5,6 +5,7 @@ var schema = mongoose.Schema({
 	name: String,
 	isDeleted: { type: Boolean, default: false },
 	numberMatch: String,
+	authorizationToken: String,
 
 	project: { type: objectId, ref: "project" }
 });
