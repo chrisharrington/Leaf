@@ -38,7 +38,12 @@
 
 	function _submit() {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory + "sign-in", IssueTracker.Utilities.extractPropertyObservableValues(root.model)).done(function (data) {
+		$.ajax({
+			type: "POST",
+			url: IssueTracker.virtualDirectory + "sign-in",
+			data: IssueTracker.Utilities.extractPropertyObservableValues(root.model),
+			global: false
+		}).done(function (data) {
 			IssueTracker.Utilities.setObservableProperties(data.user, IssueTracker.signedInUser());
 			IssueTracker.projectId(data.project.id);
 			IssueTracker.projectName(data.project.name);

@@ -7,6 +7,7 @@
 <div class="sign-in">
     <div class="form tile">
         <h1>Sign in</h1>
+		<img src="images/ajax-loader.gif" alt="" data-bind="visible: SignIn.loading" />
         <input type="text" placeholder="Email address..." name="email" data-bind="value: SignIn.model.email" tabindex="1" />
         <input type="password" placeholder="Password..." name="password" data-bind="value: SignIn.model.password" tabindex="2" />
         <div class="stay-signed-in">
