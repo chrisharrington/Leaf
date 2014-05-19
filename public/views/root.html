@@ -96,9 +96,9 @@
 					<img data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 32) }" alt="user-profile" />
 				</div>
 				<div class="labels">
-					<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
+					<span class="name" data-bind="text: IssueTracker.signedInUser() ? IssueTracker.signedInUser().name : ''"></span>
 					<br />
-					<span class="email sub" data-bind="text: IssueTracker.signedInUser().emailAddress"></span>
+					<span class="email sub" data-bind="text: IssueTracker.signedInUser() ? IssueTracker.signedInUser().emailAddress : ''"></span>
 				</div>
 				<i class="fa fa-angle-right"></i>
 			</a>

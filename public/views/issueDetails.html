@@ -57,10 +57,10 @@
 			<div>
                 <div class="comment-header">
                     <div class="upi">
-                        <img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(IssueTracker.signedInUser().id(), 25) }" alt="" />
+                        <img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 25) }" alt="" />
                         <span></span>
                     </div>
-                    <span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
+                    <span class="name" data-bind="text: IssueTracker.signedInUser() ? IssueTracker.signedInUser().name : ''"></span>
                 </div>
 				<textarea class="no-focus" placeholder="Add a comment..." data-bind="value: Comments.text"></textarea>
 			</div>

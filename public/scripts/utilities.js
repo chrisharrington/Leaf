@@ -51,6 +51,8 @@
 	};
 
 	root.getUserProfileImageLocation = function(userId, size) {
+		if (!userId && !IssueTracker.signedInUser())
+			return;
 		if (!userId)
 			userId = IssueTracker.signedInUser().id();
 		if (typeof (userId) === "Function")
