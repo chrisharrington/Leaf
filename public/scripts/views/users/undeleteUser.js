@@ -8,9 +8,17 @@
 	};
 
 	root.confirm = function() {
-		root.user.isDeleted(false);
-		_findUserInCollection(root.user).isDeleted(false);
-		IssueTracker.Dialog.hide();
+		root.loading(true);
+		$.post(IssueTracker.virtualDirectory + "users/undelete", { id: root.user.id }).done(function() {
+			root.user.isDeleted(false);
+			_findUserInCollection(root.user).isDeleted(false);
+			IssueTracker.Dialog.hide();
+			IssueTracker.Feedback.success(root.user.name() + " has been restored.");
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error has occurred while restoring " + root.user.name() + ". Please try again later.");
+		}).always(function() {
+			root.loading(false);
+		});
 	};
 
 	root.cancel = function() {

@@ -99,6 +99,20 @@ module.exports = function(app) {
 		});
 	});
 
+	app.post("/users/undelete", authenticate, function(request, response) {
+		var id = request.body.id;
+		if (!id) {
+			response.send("Unable to restore user; no ID was provided.", 400);
+			return;
+		}
+
+		return repositories.User.restore(id).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
+	});
+
 	app.post("/users/change-password", authenticate, function(request, response) {
 		var error = _validate(request);
 		if (error) {

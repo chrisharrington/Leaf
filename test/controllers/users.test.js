@@ -534,6 +534,77 @@ describe("users", function() {
 		}
 	});
 
+	describe("post /users/undelete", function() {
+		it("should set post /users/undelete route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/users/undelete", sinon.match.func));
+		});
+
+		it("should send 400 with missing id", function() {
+			_run({
+				idMissing: true,
+				assert: function(result) {
+					assert(result.response.send.calledWith("Unable to restore user; no ID was provided.", 400));
+				}
+			});
+		});
+
+		it("should call remove with the given id", function() {
+			var id = "the id";
+			return _run({
+				id: id,
+				assert: function(result) {
+					assert(result.stubs.restore.calledWith(id));
+				}
+			});
+		});
+
+		it("should send 200 on success", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 on failure", function() {
+			return _run({
+				restore: sinon.stub(repositories.User, "restore").rejects(new Error("oh noes!")),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
+		it("should not call remove when no id is found", function() {
+			_run({
+				idMissing: true,
+				assert: function(result) {
+					assert(result.stubs.restore.notCalled);
+				}
+			});
+		});
+
+		function _run(params) {
+			params || {};
+			return base.testRoute({
+				sut: sut,
+				verb: "post",
+				route: "/users/undelete",
+				request: {
+					body: {
+						id: params.idMissing ? undefined : params.id || "the id"
+					}
+				},
+				stubs: {
+					restore: params.restore || sinon.stub(repositories.User, "restore").resolves()
+				},
+				assert: params.assert
+			});
+		}
+	});
+
 	describe("post /users/change-password", function() {
 		it("should set post /users/change-password route", function() {
 			var app = { get: sinon.stub(), post: sinon.stub() };
