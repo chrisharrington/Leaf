@@ -99,13 +99,13 @@
 .base-background { background:url(../images/retina_wood.png); }
 .deleted { opacity:0.6; }
 
-.condensed-font { font-family:'Roboto Condensed' !important; font-weight:normal; }
+.condensed-font { font-family:'Roboto Condensed' !important; font-weight:normal; letter-spacing:-1px; }
 .regular-font { font-family:'Helvetica', 'Arial', 'sans-serif' !important; }
 
-h1, h2, h3, h4 { .condensed-font; margin:0; padding:0; text-transform:uppercase; font-weight:normal; }
+h1, h2, h3, h4 { .condensed-font; margin:0; padding:0; font-weight:normal; }
 h1 { color:@primary-header-font-colour; font-size:2em; font-weight:bold; line-height:26px; }
 h2 { color:@primary-sub-header-font-colour; font-size:1.625em; font-weight:bold; }
-h3 { font-size:1.375em; font-weight:bold; color:@secondary-font-colour; text-transform:uppercase; }
+h3 { font-size:1.375em; color:@secondary-font-colour; letter-spacing:0px !important; }
 a { color:@secondary-font-colour; }
 input[type='text'], input[type='password'], select, textarea, input[type='date'] { .border; padding:@small-spacing; font-size:1em; .regular-font; .border-radius; .border-box; margin:0; }
 input:focus, textarea:focus, select:focus, .focus { outline:none; border-color:@active-highlight; box-shadow:0 0 10px @active-highlight; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
