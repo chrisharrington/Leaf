@@ -1,3 +1,17 @@
+<div class="issues-loading hidden" data-bind="css: { hidden: !loading() }">
+	<div class="spinner">
+		<div class="rect1"></div>
+		<div class="rect2"></div>
+		<div class="rect3"></div>
+		<div class="rect4"></div>
+		<div class="rect5"></div>
+	</div>
+</div>
+
+<div class="no-results" data-bind="visible: results().length == 0 && !loading()">
+	<span>The query "<b data-bind="text: text"></b>" returned no results.</span>
+</div>
+
 <div class="results" data-bind="foreach: results">
     <a class="tile" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/issues/' + number }, css: { deleted: isDeleted }">
         <div data-bind="style: { 'border-left-color': IssueTracker.Utilities.getPriorityColour(priorityId) }">
