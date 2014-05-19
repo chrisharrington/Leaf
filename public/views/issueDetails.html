@@ -65,7 +65,7 @@
 				<textarea class="no-focus" placeholder="Add a comment..." data-bind="value: Comments.text"></textarea>
 			</div>
 		</div>
-		<div class="existing-comments" data-bind="foreach: { data: Comments.list, afterAdd: Comments.slideDown }">
+		<div class="existing-comments" data-bind="foreach: { data: Comments.comments, afterAdd: Comments.slideDown }">
 			<div>
                 <div class="comment-header">
                     <div class="upi">

@@ -28,6 +28,9 @@
 	};
 
 	root.hide = function() {
+		if (!_container)
+			return;
+
 		_container.hide();
 		_overlay.hide();
 		IssueTracker.dialog("");

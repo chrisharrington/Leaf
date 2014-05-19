@@ -211,10 +211,7 @@
 			view: function () { return "issues/details?number=:number"; },
 			title: function() { return "Leaf - " + IssueTracker.selectedIssue.number() + ": " + IssueTracker.selectedIssue.description(); },
 			route: "#/issues/:number",
-			style: "issue-details-container",
-			unload: function() {
-				if (_container)
-					_container.find("div.existing-comments").empty(); }
+			style: "issue-details-container"
 		});
 	});
 

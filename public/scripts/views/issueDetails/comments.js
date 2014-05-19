@@ -6,9 +6,9 @@
 
 	root.loading = ko.observable(false);
 	root.text = ko.observable("");
-	root.list = ko.observableArray();
+	root.comments = ko.observableArray();
 
-	root.init = function(container, comments) {
+	root.init = function(container) {
 		_container = container;
 
 		_hookupEvents();
@@ -16,8 +16,8 @@
 
 	root.load = function (comments) {
 		_isAdd = false;
-		root.list.removeAll();
-		root.list.pushAll(comments);
+		root.comments.removeAll();
+		root.comments.pushAll(comments);
 	};
 
 	root.save = function() {
@@ -49,7 +49,7 @@
 		root.loading(true);
 		$.post(IssueTracker.virtualDirectory + "issues/delete-comment", { comment: comment }).done(function() {
 			IssueTracker.Dialog.hide();
-			root.list.remove(function(c) { return c.id == comment.id; });
+			root.comments.remove(function(c) { return c.id == comment.id; });
 			IssueTracker.Feedback.success("The comment has been deleted.");
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error occurred while removing your comment. Please try again later.");
@@ -75,7 +75,7 @@
 		return $.post(IssueTracker.virtualDirectory + "issues/add-comment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function (saved) {
 			_isAdd = true;
 			var user = IssueTracker.signedInUser();
-			root.list.splice(0, 0, saved);
+			root.comments.splice(0, 0, saved);
 			root.text("");
 			IssueTracker.Notifications.refresh();
 		}).fail(function () {
