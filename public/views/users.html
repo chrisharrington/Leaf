@@ -42,7 +42,7 @@
 
 <div class="users-container deleted" data-bind="foreach: users">
     <!-- ko if: isDeleted() -->
-    <a class="tile">
+    <a class="tile" data-bind="click: $root.Undelete.restore">
         <img class="user-profile-image" data-bind="attr: { title: name, src: IssueTracker.Utilities.getUserProfileImageLocation(id()) }" alt="" />
         <span class="name" data-bind="text: name"></span>
         <span class="email" data-bind="text: emailAddress"></span>
@@ -87,6 +87,19 @@
 		</div>
 		<div>
 			<button id="cancel-delete" data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="confirm-undelete-user-template">
+	<div class="confirm-undelete confirmation-dialog">
+		<h1>Restore User?</h1>
+		<span>Once restored, <b data-bind="text: user.name"></b> will be able to be assigned to new issues. Are you sure you want to continue?</span>
+		<div class="confirm-container">
+			<button data-bind="css: { loading: loading }, click: confirm">Restore User</button>
+		</div>
+		<div>
+			<button data-bind="click: cancel">Cancel</button>
 		</div>
 	</div>
 </script>
