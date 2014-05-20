@@ -329,7 +329,16 @@ describe("baseRepository", function() {
 				assert(sut.model.updateAsync.calledWith(sinon.match.any, { name: "the name" }));
 			});
 		});
+	});
 
+	describe("count", function() {
+		it("should call countAsync with given conditions", function() {
+			sut.model = { countAsync: sinon.stub().resolves() };
 
+			var conditions = { project: "the project id" };
+			return sut.count(conditions).then(function() {
+				assert(sut.model.countAsync.calledWith(conditions));
+			});
+		});
 	});
 });

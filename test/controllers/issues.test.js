@@ -1382,6 +1382,7 @@ describe("issues", function() {
 
 		it("should set start to 1 when invalid start given", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
+			sinon.stub(repositories.Issue, "count").resolves(0);
 
 			var request = _buildDefaultRequest();
 			request.query.start = "not a number";
@@ -1402,11 +1403,13 @@ describe("issues", function() {
 				}
 			}).finally(function() {
 				repositories.Issue.search.restore();
+				repositories.Issue.count.restore();
 			});
 		});
 
 		it("should set end to 50 when invalid start given", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
+			sinon.stub(repositories.Issue, "count").resolves(0);
 
 			var request = _buildDefaultRequest();
 			request.query.end = "not a number";
@@ -1427,11 +1430,13 @@ describe("issues", function() {
 				}
 			}).finally(function() {
 				repositories.Issue.search.restore();
+				repositories.Issue.count.restore();
 			});
 		});
 
 		it("should map issues to view models", function() {
 			sinon.stub(repositories.Issue, "search").resolves(["blah"]);
+			sinon.stub(repositories.Issue, "count").resolves(0);
 			sinon.stub(mapper, "mapAll").returns([]);
 
 			var request = _buildDefaultRequest();
@@ -1445,12 +1450,14 @@ describe("issues", function() {
 				}
 			}).finally(function() {
 				repositories.Issue.search.restore();
+				repositories.Issue.count.restore();
 				mapper.mapAll.restore();
 			});
 		});
 
 		it("should search for issues", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
+			sinon.stub(repositories.Issue, "count").resolves(0);
 
 			var request = _buildDefaultRequest();
 			return _run({
@@ -1470,6 +1477,25 @@ describe("issues", function() {
 				}
 			}).finally(function() {
 				repositories.Issue.search.restore();
+				repositories.Issue.count.restore();
+			});
+		});
+
+		it("should retrieve issue count using project id", function() {
+			sinon.stub(repositories.Issue, "search").resolves([]);
+			sinon.stub(repositories.Issue, "count").resolves(0);
+
+			var request = _buildDefaultRequest();
+			return _run({
+				request: request,
+				verb: "get",
+				route: "/issues/list",
+				assert: function(result) {
+					assert(repositories.Issue.count.calledWith({ project: "the project id" }));
+				}
+			}).finally(function() {
+				repositories.Issue.search.restore();
+				repositories.Issue.count.restore();
 			});
 		});
 
@@ -1510,6 +1536,46 @@ describe("issues", function() {
 				}
 			}).finally(function() {
 				repositories.Issue.search.restore();
+			});
+		});
+
+		it("should send issue count in response", function() {
+			var count = 123;
+			sinon.stub(repositories.Issue, "search").resolves([]);
+			sinon.stub(repositories.Issue, "count").resolves(count);
+
+			var request = _buildDefaultRequest();
+			return _run({
+				request: request,
+				verb: "get",
+				route: "/issues/list",
+				assert: function(result) {
+					assert(result.response.send.calledWith({ issues: sinon.match.any, total: count }, 200));
+				}
+			}).finally(function() {
+				repositories.Issue.search.restore();
+				repositories.Issue.count.restore();
+			});
+		});
+
+		it("should send mapped issue list in response", function() {
+			var issues = [{ number: 1 }, { number: 2 }];
+			sinon.stub(repositories.Issue, "search").resolves([]);
+			sinon.stub(repositories.Issue, "count").resolves(0);
+			sinon.stub(mapper, "mapAll").returns(issues);
+
+			var request = _buildDefaultRequest();
+			return _run({
+				request: request,
+				verb: "get",
+				route: "/issues/list",
+				assert: function(result) {
+					assert(result.response.send.calledWith({ issues: issues, total: sinon.match.any }, 200));
+				}
+			}).finally(function() {
+				repositories.Issue.search.restore();
+				repositories.Issue.count.restore();
+				mapper.mapAll.restore();
 			});
 		});
 
