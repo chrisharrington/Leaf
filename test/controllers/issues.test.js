@@ -30,7 +30,17 @@ describe("issues", function() {
 		it("should send 200", function() {
 			return _runAttachFile({
 				assert: function(result) {
-					assert(result.response.send.calledWith(200));
+					assert(result.response.send.calledWith(sinon.match.any, 200));
+				}
+			});
+		});
+
+		it("should send created id", function() {
+			var id = "the created id";
+			return _runAttachFile({
+				mongooseObjectIdResult: id,
+				assert: function(result) {
+					assert(result.response.send.calledWith(id, sinon.match.any));
 				}
 			});
 		});
@@ -108,6 +118,32 @@ describe("issues", function() {
 			})
 		});
 
+		it("should set storage name with request.query.name if given", function() {
+			var name = "the query name";
+			return _runAttachFile({
+				queryName: name,
+				assert: function(result) {
+					assert(result.stubs.storageSet.calledWith(sinon.match.any, sinon.match.any, name, sinon.match.any, sinon.match.any));
+				}
+			});
+		});
+
+		it("should create issue file with request.query.name if given", function() {
+			var name = "the query name";
+			return _runAttachFile({
+				queryName: name,
+				assert: function(result) {
+					assert(result.stubs.issueFileCreate.calledWith({
+						_id: sinon.match.any,
+						name: name,
+						container: sinon.match.any,
+						size: sinon.match.any,
+						issue: sinon.match.any
+					}));
+				}
+			});
+		});
+
 		function _runAttachFile(params) {
 			params = params || {};
 			params.stubs = {
@@ -128,7 +164,8 @@ describe("issues", function() {
 					_id: params.userId || "the user id"
 				},
 				query: {
-					issueId: params.issueId || "the issue id"
+					issueId: params.issueId || "the issue id",
+					name: params.queryName
 				}
 			};
 
@@ -1018,11 +1055,11 @@ describe("issues", function() {
 		}
 	});
 
-	describe("get /issues/download-attached-file", function() {
-		it("should set get /issues/download-attached-file route", function() {
+	describe("get /issues/download-attached-file/:filename", function() {
+		it("should set get /issues/download-attached-file/:filename route", function() {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
-			assert(app.get.calledWith("/issues/download-attached-file", sinon.match.func, sinon.match.func));
+			assert(app.get.calledWith("/issues/download-attached-file/:filename", sinon.match.func, sinon.match.func));
 		});
 
 		it("should write retrieved storage value to response", function() {
@@ -1083,7 +1120,7 @@ describe("issues", function() {
 			};
 
 			params.verb = "get";
-			params.route = "/issues/download-attached-file";
+			params.route = "/issues/download-attached-file/:filename";
 			params.request = params.request || {
 				query: params.query || {
 					id: params.id || "the id"
@@ -1491,7 +1528,25 @@ describe("issues", function() {
 				verb: "get",
 				route: "/issues/list",
 				assert: function(result) {
-					assert(repositories.Issue.count.calledWith({ project: "the project id" }));
+					assert(repositories.Issue.count.calledWith({ project: "the project id", isDeleted: sinon.match.any }));
+				}
+			}).finally(function() {
+				repositories.Issue.search.restore();
+				repositories.Issue.count.restore();
+			});
+		});
+
+		it("should retrieve non-deleted issue count", function() {
+			sinon.stub(repositories.Issue, "search").resolves([]);
+			sinon.stub(repositories.Issue, "count").resolves(0);
+
+			var request = _buildDefaultRequest();
+			return _run({
+				request: request,
+				verb: "get",
+				route: "/issues/list",
+				assert: function(result) {
+					assert(repositories.Issue.count.calledWith({ project: sinon.match.any, isDeleted: false }));
 				}
 			}).finally(function() {
 				repositories.Issue.search.restore();

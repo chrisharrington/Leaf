@@ -113,12 +113,12 @@ button { padding:@small-spacing @spacing; margin:0; .secondary-gradient; color:w
 button[disabled] { .gradient(#AAAAAA, #777777); cursor:default; }
 button.icon {
 	>* { float:left; .vertical-centre(18px); }
-	>i { font-size:1.25em; }
+	>i { font-size:1.25em; width:18px; }
   	>img { display:none; width:18px; height:18px; }
 	>span { padding-left:@small-spacing; }
 }
 button.right>span { padding-left:0; padding-right:@small-spacing; }
-button.loading { background:#777;
+button.loading { background:#777; cursor:default;
 	>i { display:none; }
   	>img { display:inline-block; -webkit-animation:spin 1250ms linear infinite; -moz-animation:spin 1250ms linear infinite; animation:spin 1250ms linear infinite; }
   	>span { color:@primary-font-colour-dark-background; }

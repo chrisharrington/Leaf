@@ -26,8 +26,8 @@ describe("config", function() {
 			assert.equal(sut("dateTimeFormat"), "YYYY-MM-DD HH:mm:ss");
 		});
 
-		it("should return 'leaf' with 'storageName'", function() {
-			assert.equal(sut("storageName"), "leaf");
+		it("should return 'leafissuetracker' with 'storageName'", function() {
+			assert.equal(sut("storageName"), "leafissuetracker");
 		});
 
 		it("should return 'LeafIssueTracker' with 'sendgridUsername'", function() {

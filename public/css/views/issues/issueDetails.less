@@ -100,10 +100,10 @@
 		>div.attached-files { float:left; width:100%; margin-top:@spacing;
 			>a.tile { float:left; display:block; width:100%; cursor:pointer; border-top:solid 1px @border-colour; padding:@small-spacing @spacing; box-shadow:none;
 				@attached-file-height:19px;
-				>* { display:inline-block; vertical-align:middle; height:@attached-file-height; line-height:@attached-file-height; }
+				>i, >span { display:inline-block; vertical-align:middle; height:@attached-file-height; line-height:@attached-file-height; }
 				>i { float:left; font-size:1.125em; color:@primary-font-colour-light; }
 				>span.name { float:left; margin-left:@small-spacing; color:@secondary-font-colour; font-weight:bold; width:190px; .ellipsis; }
-				>span.size { float:right; color:@primary-font-colour-lightest; font-size:0.75em; }
+				>span.size, >span.progress { float:right; color:@primary-font-colour-lightest; font-size:0.75em; }
 			}
 			>a.tile:first-child { border-top:none; }
 			>a:hover { .hover; }

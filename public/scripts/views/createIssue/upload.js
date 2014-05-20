@@ -15,6 +15,7 @@
 	};
 
 	root.load = function(issueId) {
+		root.attachedFiles([]);
 		_issueId = issueId;
 	};
 
@@ -35,30 +36,11 @@
 	}
 
 	function _uploadAllFiles() {
-		var deferred = new $.Deferred();
-		var pending = root.attachedFiles.length;
-		$(root.attachedFiles()).each(function() {
-			var observable = this;
-			var xhr = new XMLHttpRequest();
-			var fd = new FormData();
-			fd.append("file", observable.file);
-
-			xhr.upload.addEventListener("progress", function (e) {
-				observable.progress((e.position / e.totalSize).toFixed(2));
-			}, false);
-			xhr.addEventListener("load", function () {
-				observable.progress(100);
-				if (--pending == 0)
-					deferred.resolve();
-			}, false);
-			xhr.addEventListener("error", function() {
-				deferred.reject();
-			}, false);
-
-			xhr.open("POST", IssueTracker.virtualDirectory + "issues/attach-file?issueId=" + _issueId);
-			xhr.send(fd);
+		var files = [];
+		$(root.attachedFiles()).each(function(i, file) {
+			files.push(new UploaderFile(file.file, file.progress, IssueTracker.virtualDirectory + "issues/attach-file?issueId=" + _issueId));
 		});
-		return deferred.promise();
+		return IssueTracker.Uploader.upload(files);
 	}
 
 	function _uniqueFiles(files) {

@@ -9,7 +9,7 @@ module.exports = function(key) {
 		"hashAlgorithm": "sha512",
 		"dateFormat": "YYYY-MM-DD",
 		"dateTimeFormat": "YYYY-MM-DD HH:mm:ss",
-		"storageName" : "leaf",
+		"storageName" : "leafissuetracker",
 		"sendgridUsername": "LeafIssueTracker",
 		"fromAddress": "no-reply@leafissuetracker.com",
 		"domain": "http://www.leafissuetracker.com",

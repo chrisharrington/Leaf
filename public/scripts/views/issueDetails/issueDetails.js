@@ -20,12 +20,14 @@
 		_hookupEvents(container);
 
 		root.Comments.init(container);
+		root.Files.init(container.find("input[type='file']"));
 	};
 
 	root.load = function (container) {
 		_detailsFlipper = new IssueTracker.Controls.Flipper("#choices-container");
 		_oldName = IssueTracker.selectedIssue.description();
 		root.Comments.load(IssueTracker.selectedIssue.history());
+		root.Files.load(IssueTracker.selectedIssue.id(), IssueTracker.selectedIssue.files());
 
 		_updateNeeded = false;
 		IssueTracker.selectedIssue.statusId.subscribe(_updateRequired);

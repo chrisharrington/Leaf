@@ -41,7 +41,7 @@ module.exports = function(app) {
 			}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
 				return mapper.mapAll("issue", "issue-list-view-model", issues);
 			}),
-			repositories.Issue.count({ project: request.project._id })
+			repositories.Issue.count({ project: request.project._id, isDeleted: false })
 		]).spread(function(issues, total) {
 			response.send({ issues: issues, total: total }, 200);
 		}).catch(function(e) {
@@ -97,7 +97,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.get("/issues/download-attached-file", authenticate, function(request, response) {
+	app.get("/issues/download-attached-file/:filename", authenticate, function(request, response) {
 		return repositories.IssueFile.details(request.query.id).then(function(file) {
 			response.contentType(file.name);
 			return storage.get(file.container, file.id + "-" + file.name, response);
@@ -249,10 +249,10 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/attach-file", authenticate, function(request, response) {
-		var files = [], paths = [];
+		var files = [], paths = [], id = "";
 		return _readFilesFromRequest(request).then(function(f) {
 			for (var name in f) {
-				files.push(storage.set(request.project._id.toString(), mongoose.Types.ObjectId().toString(), f[name].name, f[name].path, f[name].size));
+				files.push(storage.set(request.project._id.toString(), id = mongoose.Types.ObjectId().toString(), request.query.name || f[name].name, f[name].path, f[name].size));
 				paths.push(f[name].path);
 			}
 			return Promise.all(files);
@@ -260,11 +260,11 @@ module.exports = function(app) {
 			var created = [];
 			for (var i = 0; i < arguments.length; i++) {
 				var curr = arguments[i];
-				created.push(repositories.IssueFile.create({ _id: curr.id, name: curr.name, container: curr.container, size: curr.size, issue: request.query.issueId }));
+				created.push(repositories.IssueFile.create({ _id: curr.id, name: request.query.name || curr.name, container: curr.container, size: curr.size, issue: request.query.issueId }));
 			}
 			return created;
 		}).spread(function() {
-			response.send(200);
+			response.send(id, 200);
 			return _cleanUpFiles(paths);
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
