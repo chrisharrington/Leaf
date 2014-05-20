@@ -39,6 +39,9 @@
 		}
 		@sidebar-background:#333333;
 		>div.sidebar { float:left; width:@filter-width; position:relative; margin-left:@filter-width*-1;
+			>div.counts { float:left; width:100%; margin-bottom:@spacing; .tile; height:46px;
+				>span { float:left; width:100%; height:100%; overflow:hidden; }
+			}
 			>div.filter { float:left; width:100%; color:@primary-font-colour-dark-background; .border-box;
 				@filter-item-height:24px;
 				>* { float:left; width:100%; }

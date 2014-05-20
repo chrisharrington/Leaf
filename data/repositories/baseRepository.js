@@ -61,5 +61,9 @@ module.exports = {
 			model.isDeleted = false;
 			return Promise.promisifyAll(model).saveAsync();
 		});
+	},
+
+	count: function(conditions) {
+		return this.model.countAsync(conditions);
 	}
 };

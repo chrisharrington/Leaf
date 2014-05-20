@@ -12,6 +12,7 @@
 	
 	root.loading = ko.observable(true);
 
+	root.total = ko.observable(0);
 	root.list = ko.observableArray();
 	root.sidebar = ko.observable();
 
@@ -53,11 +54,12 @@
 			url: IssueTracker.virtualDirectory + "issues/list",
 			data: _buildParameters(count),
 			global: false
-		}).done(function (issues) {
+		}).done(function (result) {
 			if (_start == 0)
 				root.list([]);
-			root.list.pushAll(issues);
-			if (issues.length < count)
+			root.total(result.total);
+			root.list.pushAll(result.issues);
+			if (result.issues.length < count)
 				_allLoaded = true;
 			_start += count;
 		}).fail(function () {
