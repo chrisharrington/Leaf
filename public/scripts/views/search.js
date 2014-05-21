@@ -5,7 +5,8 @@
 	root.results = ko.observableArray();
 
 	root.go = function() {
-		root.navigate({ text: root.text().replace(/ /g, "-") });
+		if (root.text() != "")
+			root.navigate({ text: root.text().replace(/ /g, "-") });
 	};
 
 	root.init = function() {
