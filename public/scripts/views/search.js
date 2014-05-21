@@ -6,7 +6,7 @@
 
 	root.go = function() {
 		if (root.text() != "")
-			root.navigate({ text: root.text().replace(/ /g, "-") });
+			root.navigate({ text: root.text().trim().replace(/ /g, "-") });
 	};
 
 	root.init = function() {
