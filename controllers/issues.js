@@ -30,20 +30,17 @@ module.exports = function(app) {
 		if (isNaN(end))
 			end = 50;
 
-		return Promise.all([
-			repositories.Issue.search(request.project._id, {
-				priorities: _getIds(request.query.priorities),
-				statuses: _getIds(request.query.statuses),
-				developers: _getIds(request.query.developers),
-				testers: _getIds(request.query.testers),
-				milestones: _getIds(request.query.milestones),
-				types: _getIds(request.query.types)
-			}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
-				return mapper.mapAll("issue", "issue-list-view-model", issues);
-			}),
-			repositories.Issue.count({ project: request.project._id, isDeleted: false })
-		]).spread(function(issues, total) {
-			response.send({ issues: issues, total: total }, 200);
+		return repositories.Issue.search(request.project._id, {
+			priorities: _getIds(request.query.priorities),
+			statuses: _getIds(request.query.statuses),
+			developers: _getIds(request.query.developers),
+			testers: _getIds(request.query.testers),
+			milestones: _getIds(request.query.milestones),
+			types: _getIds(request.query.types)
+		}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
+			return mapper.mapAll("issue", "issue-list-view-model", issues);
+		}).then(function(issues) {
+			response.send(issues, 200);
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});

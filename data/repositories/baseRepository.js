@@ -26,8 +26,15 @@ module.exports = {
 	},
 
 	one: function(conditions, populate) {
-		return this.get(conditions, { populate: populate, limit: 1 }).then(function(data) {
-			return data.length == 0 ? null : data[0];
+		var model = this.model;
+		return new Promise(function(resolve, reject) {
+			var query = model.findOne(conditions);
+			if (populate)
+				query.populate(populate);
+			query.exec(function(err, data) {
+				if (err) reject(err);
+				else resolve(data || null);
+			});
 		});
 	},
 

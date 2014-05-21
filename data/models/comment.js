@@ -10,4 +10,6 @@ var schema = mongoose.Schema({
     user: { type: objectId, ref: "user" }
 });
 
+schema.index({ issue: 1, isDeleted: 1 });
+
 module.exports = require("bluebird").promisifyAll(mongoose.model("comment", schema));

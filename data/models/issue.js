@@ -29,14 +29,6 @@ var schema = mongoose.Schema({
 });
 
 schema.index({ priorityOrder: -1, number: 1 });
+schema.index({ project: 1, number: 1 });
 
 module.exports = require("bluebird").promisifyAll(mongoose.model("issue", schema));
-
-//			project: projectId,
-//			isDeleted: false,
-//			priorityId: { $in: filter.priorities },
-//			statusId: { $in: filter.statuses },
-//			developerId: { $in: filter.developers },
-//			testerId: { $in: filter.testers },
-//			milestoneId: { $in: filter.milestones},
-//			typeId: { $in: filter.types }

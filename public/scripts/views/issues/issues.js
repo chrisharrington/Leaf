@@ -12,7 +12,6 @@
 	
 	root.loading = ko.observable(true);
 
-	root.total = ko.observable(0);
 	root.list = ko.observableArray();
 	root.sidebar = ko.observable();
 
@@ -23,11 +22,13 @@
 		_setupLoadingMoreIssues();
 
 		_filter.init(container, root.sidebar, _resetIssueList);
+
+		//$(window).on("focus", _resetIssueList);
 	};
 
 	root.load = function () {
-		_resetIssueList();
-		//$(window).on("focus", _resetIssueList);
+		//if (root.list().length == 0)
+			_resetIssueList();
 	};
 
 	root.unload = function () {
@@ -54,12 +55,11 @@
 			url: IssueTracker.virtualDirectory + "issues/list",
 			data: _buildParameters(count),
 			global: false
-		}).done(function (result) {
+		}).done(function (issues) {
 			if (_start == 0)
 				root.list([]);
-			root.total(result.total);
-			root.list.pushAll(result.issues);
-			if (result.issues.length < count)
+			root.list.pushAll(issues);
+			if (issues.length < count)
 				_allLoaded = true;
 			_start += count;
 		}).fail(function () {
