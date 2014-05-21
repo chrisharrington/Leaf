@@ -15,7 +15,7 @@ ko.bindingHandlers.animateVisible = {
 		var value = valueAccessor();
 		switch (value.animation) {
 			case "slide":
-				$(element).transition({ height: ko.unwrap(value.bool) ? value.height || 40 : 0 }, value.speed || 250);
+				$(element).transition({ height: ko.unwrap(value.bool) ? value.height || "auto" : "0px" }, value.speed || 250);
 				break;
 			case "fade":
 				$(element).transition({ opacity: ko.unwrap(value.bool) ? value.opacity || 100 : 0 }, value.speed || 250);

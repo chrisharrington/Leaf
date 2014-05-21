@@ -142,29 +142,6 @@ div.buttons {
 	button:first-child { margin-left:0; }
 }
 
-div.selector {
-	>div { float:left; width:100%; padding:@spacing; background:white; border-top:solid 1px @border-colour; cursor:pointer; .border-box;
-		>* { line-height:19px; display:inline-block; vertical-align:middle; }
-		>span { float:left; color:#DDDDDD; }
-		>i { float:right; display:none; }
-	}
-	>div:first-child { border-top:none; }
-	>div:hover { background-color:@hover-colour; }
-	>div.selected { color:@secondary-font-colour;
-		>i { display:inline-block; }
-		>span { font-weight:bold; }
-	}
-}
-div.selector.dark { .dark-gradient; height:100%;
-	>div { background:transparent; border-color:@border-colour-dark; }
-	>div:hover { background:#555555;
-		>span { color:white; }
-	}
-	>div.selected {
-		>* { color:@secondary-font-colour-dark-background !important; font-weight:bold; }
-	}
-}
-
 div.global-feedback { position:fixed; width:100%; z-index:@feedback-z-index; bottom:0; .border-box; padding:@small-spacing @spacing; color:white; box-shadow:0 -2px 8px rgba(0, 0, 0, 0.5); display:none;
 	@icon-width:28px;
 	@height:28px;

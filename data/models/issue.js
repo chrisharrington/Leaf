@@ -29,6 +29,7 @@ var schema = mongoose.Schema({
 });
 
 schema.index({ priorityOrder: -1, number: 1 });
+schema.index({ opened: -1, number: 1 });
 schema.index({ project: 1, number: 1 });
 
 module.exports = require("bluebird").promisifyAll(mongoose.model("issue", schema));

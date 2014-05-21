@@ -34,6 +34,18 @@
 		<div class="counts">
 			<span data-bind="animateVisible: { bool: !loading(), animation: 'fade', speed: 0, height: 150 }"><b data-bind="text: list().length"></b> issues shown</span>
 		</div>
+		<div class="sort" data-bind="click: Sort.toggle">
+			<div class="selector">
+				<span>Sort by <b data-bind="text: Sort.selected().label"></b></span>
+				<i data-bind="attr: { class: 'fa ' + (Sort.visible() ? 'fa-angle-up' : 'fa-angle-down') }"></i>
+			</div>
+			<div class="options choice-tile" data-bind="foreach: Sort.options, animateVisible: { animation: 'slide', bool: Sort.visible }">
+				<div data-bind="css: { selected: $root.Sort.selected().label == label }, click: function() { $root.Sort.select($data); }">
+					<span data-bind="text: display"></span>
+					<i class="fa fa-check"></i>
+				</div>
+			</div>
+		</div>
         <div class="filter">
             <div>
                 <h3>Milestones</h3>
