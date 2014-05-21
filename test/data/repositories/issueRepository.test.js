@@ -25,127 +25,55 @@ describe("issueRepository", function() {
 			return _run({
 				projectId: projectId
 			}).then(function() {
-				assert(sut.get.calledWith({
-					project: projectId,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					statusId: sinon.match.any,
-					developerId: sinon.match.any,
-					testerId: sinon.match.any,
-					milestoneId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
+				assert.equal(sut.get.firstCall.args[0].project, projectId);
 			});
 		});
 
 		it("should call get with isDeleted false", function() {
 			return _run().then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: false,
-					priorityId: sinon.match.any,
-					statusId: sinon.match.any,
-					developerId: sinon.match.any,
-					testerId: sinon.match.any,
-					milestoneId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
+				assert.equal(sut.get.firstCall.args[0].isDeleted, false);
 			});
 		});
 
 		it("should call get with priorityId as $in given priorities", function() {
 			var priorities = ["first"];
 			return _run({ priorities: priorities }).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: { $in: priorities },
-					statusId: sinon.match.any,
-					developerId: sinon.match.any,
-					testerId: sinon.match.any,
-					milestoneId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
+				assert.deepEqual(sut.get.firstCall.args[0].priorityId, { $in: priorities });
 			});
 		});
 
 		it("should call get with statusId as $in given statuses", function() {
 			var statuses = ["first"];
 			return _run({ statuses: statuses }).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					statusId: { $in: statuses },
-					developerId: sinon.match.any,
-					testerId: sinon.match.any,
-					milestoneId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
+				assert.deepEqual(sut.get.firstCall.args[0].statusId, { $in: statuses });
 			});
 		});
 
 		it("should call get with developerId as $in given developers", function() {
 			var developers = ["first"];
 			return _run({ developers: developers }).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					statusId: sinon.match.any,
-					developerId: { $in: developers },
-					testerId: sinon.match.any,
-					milestoneId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
+				assert.deepEqual(sut.get.firstCall.args[0].developerId, { $in: developers });
 			});
 		});
 
 		it("should call get with testerId as $in given testers", function() {
 			var testers = ["first"];
 			return _run({ testers: testers }).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					statusId: sinon.match.any,
-					developerId: sinon.match.any,
-					testerId: { $in: testers },
-					milestoneId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
+				assert.deepEqual(sut.get.firstCall.args[0].testerId, { $in: testers });
 			});
 		});
 
 		it("should call get with milestoneId as $in given milestones", function() {
 			var milestones = ["first"];
 			return _run({ milestones: milestones }).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					statusId: sinon.match.any,
-					developerId: sinon.match.any,
-					testerId: sinon.match.any,
-					milestoneId: { $in: milestones },
-					typeId: sinon.match.any
-				}, sinon.match.any));
+				assert.deepEqual(sut.get.firstCall.args[0].milestoneId, { $in: milestones });
 			});
 		});
 
 		it("should call get with typeId as $in given types", function() {
 			var types = ["first"];
 			return _run({ types: types }).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					statusId: sinon.match.any,
-					developerId: sinon.match.any,
-					testerId: sinon.match.any,
-					milestoneId: sinon.match.any,
-					typeId: { $in: types }
-				}, sinon.match.any));
+				assert.deepEqual(sut.get.firstCall.args[0].typeId, { $in: types });
 			});
 		});
 
@@ -204,11 +132,7 @@ describe("issueRepository", function() {
 			return _run({
 				start: start
 			}).then(function() {
-				assert(sut.get.calledWith(sinon.match.any, {
-					sort: sinon.match.any,
-					skip: start - 1,
-					end: sinon.match.any
-				}));
+				assert.equal(sut.get.firstCall.args[1].skip, start - 1);
 			});
 		});
 
@@ -219,11 +143,7 @@ describe("issueRepository", function() {
 				start: start,
 				end: end
 			}).then(function() {
-				assert(sut.get.calledWith(sinon.match.any, {
-					sort: sinon.match.any,
-					skip: sinon.match.any,
-					limit: end - start + 1
-				}));
+				assert.equal(sut.get.firstCall.args[1].limit, end - start + 1);
 			});
 		});
 
@@ -231,96 +151,48 @@ describe("issueRepository", function() {
 			return _run({
 				priorities: []
 			}).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					statusId: sinon.match.any,
-					developerId: sinon.match.any,
-					testerId: sinon.match.any,
-					milestoneId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
-			})
+				assert.equal(sut.get.firstCall.args[0].priorityId, undefined);
+			});
 		});
 
 		it("should add no statuses filter when no statuses are given", function() {
 			return _run({
-				priorities: []
+				statuses: []
 			}).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					developerId: sinon.match.any,
-					testerId: sinon.match.any,
-					milestoneId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
-			})
+				assert.equal(sut.get.firstCall.args[0].statusId, undefined);
+			});
 		});
 
 		it("should add no developers filter when no developers are given", function() {
 			return _run({
-				priorities: []
+				developers: []
 			}).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					statusId: sinon.match.any,
-					testerId: sinon.match.any,
-					milestoneId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
-			})
+				assert.equal(sut.get.firstCall.args[0].developerId, undefined);
+			});
 		});
 
 		it("should add no testers filter when no testers are given", function() {
 			return _run({
-				priorities: []
+				testers: []
 			}).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					statusId: sinon.match.any,
-					developerId: sinon.match.any,
-					milestoneId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
-			})
+				assert.equal(sut.get.firstCall.args[0].testerId, undefined);
+			});
 		});
 
 		it("should add no milestones filter when no milestones are given", function() {
 			return _run({
-				priorities: []
+				milestones: []
 			}).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					statusId: sinon.match.any,
-					developerId: sinon.match.any,
-					testerId: sinon.match.any,
-					typeId: sinon.match.any
-				}, sinon.match.any));
-			})
+				assert.equal(sut.get.firstCall.args[0].milestoneId, undefined);
+			});
 		});
 
 		it("should add no types filter when no types are given", function() {
 			return _run({
-				priorities: []
+				types: []
 			}).then(function() {
-				assert(sut.get.calledWith({
-					projectId: sinon.match.any,
-					isDeleted: sinon.match.any,
-					priorityId: sinon.match.any,
-					statusId: sinon.match.any,
-					developerId: sinon.match.any,
-					testerId: sinon.match.any,
-					milestoneId: sinon.match.any
-				}, sinon.match.any));
-			})
+				assert.equal(sut.get.firstCall.args[0].typeId, undefined);
+			});
 		});
 
 		afterEach(function() {
