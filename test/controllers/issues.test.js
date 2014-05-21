@@ -1518,42 +1518,6 @@ describe("issues", function() {
 			});
 		});
 
-		it("should retrieve issue count using project id", function() {
-			sinon.stub(repositories.Issue, "search").resolves([]);
-			sinon.stub(repositories.Issue, "count").resolves(0);
-
-			var request = _buildDefaultRequest();
-			return _run({
-				request: request,
-				verb: "get",
-				route: "/issues/list",
-				assert: function(result) {
-					assert(repositories.Issue.count.calledWith({ project: "the project id", isDeleted: sinon.match.any }));
-				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
-				repositories.Issue.count.restore();
-			});
-		});
-
-		it("should retrieve non-deleted issue count", function() {
-			sinon.stub(repositories.Issue, "search").resolves([]);
-			sinon.stub(repositories.Issue, "count").resolves(0);
-
-			var request = _buildDefaultRequest();
-			return _run({
-				request: request,
-				verb: "get",
-				route: "/issues/list",
-				assert: function(result) {
-					assert(repositories.Issue.count.calledWith({ project: sinon.match.any, isDeleted: false }));
-				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
-				repositories.Issue.count.restore();
-			});
-		});
-
 		it("should search for issues using given project id", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
 
@@ -1594,25 +1558,6 @@ describe("issues", function() {
 			});
 		});
 
-		it("should send issue count in response", function() {
-			var count = 123;
-			sinon.stub(repositories.Issue, "search").resolves([]);
-			sinon.stub(repositories.Issue, "count").resolves(count);
-
-			var request = _buildDefaultRequest();
-			return _run({
-				request: request,
-				verb: "get",
-				route: "/issues/list",
-				assert: function(result) {
-					assert(result.response.send.calledWith({ issues: sinon.match.any, total: count }, 200));
-				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
-				repositories.Issue.count.restore();
-			});
-		});
-
 		it("should send mapped issue list in response", function() {
 			var issues = [{ number: 1 }, { number: 2 }];
 			sinon.stub(repositories.Issue, "search").resolves([]);
@@ -1625,7 +1570,7 @@ describe("issues", function() {
 				verb: "get",
 				route: "/issues/list",
 				assert: function(result) {
-					assert(result.response.send.calledWith({ issues: issues, total: sinon.match.any }, 200));
+					assert(result.response.send.calledWith(issues, 200));
 				}
 			}).finally(function() {
 				repositories.Issue.search.restore();

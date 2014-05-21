@@ -110,50 +110,66 @@ describe("baseRepository", function() {
 	});
 
 	describe("one", function() {
-		it("should call 'get' with given conditions", function() {
+		it("should call find one with given conditions", function() {
 			var conditions = "the conditions";
-			var result = ["woo"];
-			var get = sinon.stub(sut, "get").resolves(result);
-			return sut.one(conditions).then(function () {
-				assert(sut.get.calledWith(conditions, sinon.match.any));
+			return _run({
+				conditions: conditions
+			}).then(function(result) {
+				assert(result.model.findOne.calledWith(conditions));
 			});
 		});
 
-		it("should call 'get' with given populate", function() {
+		it("should call populate if populate given", function() {
 			var populate = "the populate";
-			var result = ["woo"];
-			var get = sinon.stub(sut, "get").resolves(result);
-			return sut.one(null, populate).then(function () {
-				assert(sut.get.calledWith(sinon.match.any, { populate: populate, limit: sinon.match.any }));
+			return _run({
+				populate: populate
+			}).then(function(result) {
+				assert(result.query.populate.calledWith(populate));
 			});
 		});
 
-		it("should call 'get' with a limit of one", function() {
-			var result = ["woo"];
-			var get = sinon.stub(sut, "get").resolves(result);
-			return sut.one().then(function () {
-				assert(sut.get.calledWith(sinon.match.any, { populate: sinon.match.any, limit: 1 }));
+		it("should reject with error", function() {
+			var error = false;
+			return _run({
+				error: true
+			}).catch(function() {
+				error = true;
+			}).finally(function() {
+				assert(error);
 			});
 		});
 
-		it("should return null when 'get' returns an empty list", function() {
-			var get = sinon.stub(sut, "get").resolves([]);
-			return sut.one().then(function (result) {
-				assert(result == null);
+		it("should resolve with data", function() {
+			var data = "the data";
+			return _run({
+				result: data
+			}).then(function(result) {
+				assert.equal(result.data, data);
 			});
 		});
 
-		it("should return first element when 'get' returns a multiple-element array", function() {
-			var first = "the first result";
-			var get = sinon.stub(sut, "get").resolves([first, "the second result", "the third result"]);
-			return sut.one().then(function (result) {
-				assert(result == first);
+		it("should resolve with null when no data returned", function() {
+			return _run().then(function(result) {
+				assert.equal(result.data, null);
 			});
 		});
 
-		afterEach(function() {
-			sut.get.restore();
-		})
+		function _run(params) {
+			params = params || {};
+			var query = {};
+			query.populate = sinon.stub().returns(query);
+			query.exec = function(callback) {
+				if (params.error)
+					callback(params.error);
+				else if (params.result || (!params.error && !params.result))
+					callback(null, params.result);
+			};
+			sut.model = { findOne: params.findOne || sinon.stub().returns(query) };
+
+			return sut.one(params.conditions, params.populate).then(function(data) {
+				return { data: data, query: query, model: sut.model };
+			});
+		}
 	});
 
 	describe("get", function() {
