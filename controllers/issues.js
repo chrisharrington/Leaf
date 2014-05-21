@@ -55,10 +55,13 @@ module.exports = function(app) {
 
 	app.get("/issues/details", authenticate, function(request, response) {
 		var html, issue;
+		var date = Date.now();
 		return Promise.all([
 			fs.readFileAsync("public/views/issueDetails.html"),
 			repositories.Issue.number(request.query.projectId, parseInt(request.query.number))
 		]).spread(function(html, issue) {
+			console.log("first: " + (Date.now() - date) + "ms");
+			date = Date.now();
 			if (!issue) {
 				response.send(404);
 				return;
@@ -69,6 +72,7 @@ module.exports = function(app) {
 				repositories.Comment.issue(issue._id, { populate: "user", sort: { date: -1 }}),
 				repositories.IssueFile.issue(issue._id)
 			]).spread(function(transitions, comments, files) {
+				console.log("second: " + (Date.now() - date) + "ms");
 				return Promise.all([
 					mapper.map("issue", "issue-view-model", issue),
 					mapper.mapAll("transition", "transition-view-model", transitions),
