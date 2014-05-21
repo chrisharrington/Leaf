@@ -29,7 +29,8 @@ module.exports = function(app) {
 
 	function _searchForIssues(text) {
 		return new Promise(function(resolve, reject) {
-			require("../data/models").Issue.find().or(_buildRegexProperties(text)).sort({ number: 1 }).exec(function (err, data) {
+			require("../data/models").Issue.textSearch(text, function(err, data) {
+			//require("../data/models").Issue.find().or(_buildRegexProperties(text)).sort({ number: 1 }).exec(function (err, data) {
 				if (err) reject(err);
 				else resolve(data);
 			});

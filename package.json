@@ -41,6 +41,7 @@
     "sinon": "^1.9.0",
     "sinon-as-promised": "0.0.3",
     "yuicompressor": "^2.4.8",
-    "node-ironio": "^0.4.0"
+    "node-ironio": "^0.4.0",
+    "mongoose-text-search": "0.0.2"
   }
 }

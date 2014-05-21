@@ -28,9 +28,11 @@ var schema = mongoose.Schema({
     project: { type: objectId, ref: "project" }
 });
 
+schema.plugin(require("mongoose-text-search"));
+
 schema.index({ priorityOrder: -1, number: 1 });
 schema.index({ opened: -1, number: 1 });
 schema.index({ project: 1, number: 1 });
-schema.index({ name: 1, details: 1, number: 1 });
+schema.index({ name: "text", details: "text" });
 
 module.exports = require("bluebird").promisifyAll(mongoose.model("issue", schema));
