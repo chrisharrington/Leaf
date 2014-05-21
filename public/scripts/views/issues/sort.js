@@ -1,12 +1,15 @@
 (function(root) {
 
+	var SORT_STORAGE_KEY = "Sort.SelectedSort";
+
 	root.selected = ko.observable(new Sort());
 	root.visible = ko.observable(false);
 	root.options = ko.observableArray();
 
-	root.init = function(sort) {
+	root.init = function() {
 		_buildSortOptions();
-		root.select(sort || root.options()[0]);
+		_load();
+		root.selected.subscribe(_save);
 	};
 
 	root.toggle = function() {
@@ -20,6 +23,14 @@
 	function _buildSortOptions() {
 		root.options.push(new Sort("highest priority", "Highest Priority", "priority", "descending"));
 		root.options.push(new Sort("recently opened", "Recently Opened", "opened", "descending"));
+	}
+
+	function _save() {
+		amplify.store(SORT_STORAGE_KEY, root.selected());
+	}
+
+	function _load() {
+		root.selected(amplify.store(SORT_STORAGE_KEY) || root.options()[0]);
 	}
 
 })(root("IssueTracker.Issues.Sort"));

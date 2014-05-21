@@ -91,7 +91,7 @@
 	}
 
 	function _restoreCommaSeparatedListTo(collection, key, isObservable) {
-		var data = $.jStorage.get(key);
+		var data = amplify.store(key);
 		if (data) {
             collection.removeAll();
 			if (isObservable) {
@@ -103,12 +103,12 @@
 	}
 
 	function _save() {
-		$.jStorage.set(_milestonesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedMilestones()));
-		$.jStorage.set(_prioritiesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedPriorities()));
-		$.jStorage.set(_statusesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedStatuses()));
-		$.jStorage.set(_typesStorageKey, root.selectedTypes());
-		$.jStorage.set(_developersStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedDevelopers()));
-		$.jStorage.set(_testersStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedTesters()));
+		amplify.store(_milestonesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedMilestones()));
+		amplify.store(_prioritiesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedPriorities()));
+		amplify.store(_statusesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedStatuses()));
+		amplify.store(_typesStorageKey, root.selectedTypes());
+		amplify.store(_developersStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedDevelopers()));
+		amplify.store(_testersStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedTesters()));
 	}
 
 })(root("IssueTracker.Issues.Filter"));
