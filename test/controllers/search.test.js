@@ -41,47 +41,12 @@ describe("users", function() {
 			assert(app.get.calledWith("/search/query", sinon.match.func));
 		});
 
-		it("should send 200", function() {
-			return _run().then(function() {
-				assert(_stubs.response.send.calledWith(sinon.match.any, 200));
-			});
-		});
-
 		it("should send mapped issues", function() {
 			var mapped = [{ details: "the first details", description: "the first description", number: 10 }, { details: "the second details", description: "the second description", number: 11 }];
 			return _run({
 				mapped: mapped
 			}).then(function() {
 				assert(_stubs.response.send.calledWith({ issues: mapped }, sinon.match.any));
-			});
-		});
-
-		it("should find issues with name or details with non-number text", function() {
-			var text = "not-a-number", regex = new RegExp(text, "i");
-			return _run({
-				text: text
-			}).then(function() {
-				assert(_stubs.or.calledWith([{ name: regex }, { details: regex }]))
-			});
-		});
-
-		it("should find issues with name, number, or details with number text", function() {
-			var text = "12345", regex = new RegExp(text, "i");
-			return _run({
-				text: text
-			}).then(function() {
-				assert(_stubs.or.calledWith([{ name: regex }, { details: regex }, { number: parseInt(text) }]))
-			});
-		});
-
-		it("should split search term using ' '", function() {
-			var text = "first second";
-			var first = new RegExp("first", "i");
-			var second = new RegExp("second", "i");
-			return _run({
-				text: text
-			}).then(function() {
-				assert(_stubs.or.calledWith([{ name: first }, { details: first }, { name: second }, { details: second }]))
 			});
 		});
 
@@ -127,19 +92,20 @@ describe("users", function() {
 			});
 		});
 
-		it("should sort issue results by number", function() {
+		it("should send 500 on error", function() {
 			return _run({
-				exec: sinon.stub().yields(new Error("oh noes!"), null)
+				textSearch: sinon.stub(models.Issue, "textSearchAsync").rejects(new Error("oh noes!"))
 			}).then(function() {
-				assert(_stubs.sort.calledWith({ number: 1 }));
+				assert(_stubs.response.send.calledWith(sinon.match.any, 500));
 			});
 		});
 
-		it("should send 500 on error", function() {
+		it("should call text search with given text", function() {
+			var query = "the query text";
 			return _run({
-				exec: sinon.stub().yields(new Error("oh noes!"), null)
+				text: query
 			}).then(function() {
-				assert(_stubs.response.send.calledWith(sinon.match.any, 500));
+				assert(_stubs.textSearch.calledWith(query))
 			});
 		});
 
@@ -150,13 +116,13 @@ describe("users", function() {
 		});
 
 		function _run(params) {
+			var result = {
+			   	results: [{ score: 1, obj: { name: "the data" }}]
+			};
+
 			params = params || {};
 			_stubs = {};
-			_stubs.find = sinon.stub(models.Issue, "find")
-				.returns({ or: _stubs.or = sinon.stub()
-				.returns({ sort: _stubs.sort = params.sort || sinon.stub()
-				.returns({ exec: _stubs.exec = params.exec || sinon.stub()
-				.yields(null, params.issues || ["the data"]) }) }) });
+			_stubs.textSearch = params.textSearch || sinon.stub(models.Issue, "textSearchAsync").resolves(params.issues || result);
 			_stubs.map = sinon.stub(mapper, "mapAll").returns(params.mapped || [{ details: "the first details", description: "the first description", number: 10 }, { details: "the second details", description: "the second description", number: 11 }]);
 			params.request = _stubs.request = { query: { text: params.text || "the text" }};
 			params.response = _stubs.response = { send: sinon.stub() };

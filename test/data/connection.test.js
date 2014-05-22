@@ -30,7 +30,7 @@ describe("connection", function() {
 			_stubs.config.withArgs(sinon.match.any, "databasePassword").returns(password);
 
 			return _run().then(function() {
-				assert(_stubs.connect.calledWith("mongodb://" + user + ":" + password + "@oceanic.mongohq.com:10038/issuetracker", sinon.match.any));
+				assert(_stubs.connect.calledWith("mongodb://" + user + ":" + password + "@ds048487.mongolab.com:48487/leaf-experimental", sinon.match.any));
 			});
 		});
 
