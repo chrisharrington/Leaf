@@ -41,21 +41,6 @@ describe("users", function() {
 			assert(app.get.calledWith("/search/query", sinon.match.func));
 		});
 
-		it("should send 200", function() {
-			return _run().then(function() {
-				assert(_stubs.response.send.calledWith(sinon.match.any, 200));
-			});
-		});
-
-		it("should text search with text given from request", function() {
-			var query = "the query";
-			return _run({
-				text: query
-			}).then(function() {
-				assert(_stubs.textSearch.calledWith(query));
-			});
-		});
-
 		it("should send mapped issues", function() {
 			var mapped = [{ details: "the first details", description: "the first description", number: 10 }, { details: "the second details", description: "the second description", number: 11 }];
 			return _run({
@@ -115,6 +100,15 @@ describe("users", function() {
 			});
 		});
 
+		it("should call text search with given text", function() {
+			var query = "the query text";
+			return _run({
+				text: query
+			}).then(function() {
+				assert(_stubs.textSearch.calledWith(query))
+			});
+		});
+
 		afterEach(function() {
 			for (var name in _stubs)
 				if (_stubs[name].restore)
@@ -122,9 +116,13 @@ describe("users", function() {
 		});
 
 		function _run(params) {
+			var result = {
+				results: [{ score: 1, obj: { name: "the data" }}]
+			};
+
 			params = params || {};
 			_stubs = {};
-			_stubs.textSearch = params.textSearch || sinon.stub(models.Issue, "textSearchAsync").resolves();
+			_stubs.textSearch = params.textSearch || sinon.stub(models.Issue, "textSearchAsync").resolves(params.issues || result);
 			_stubs.map = sinon.stub(mapper, "mapAll").returns(params.mapped || [{ details: "the first details", description: "the first description", number: 10 }, { details: "the second details", description: "the second description", number: 11 }]);
 			params.request = _stubs.request = { query: { text: params.text || "the text" }};
 			params.response = _stubs.response = { send: sinon.stub() };

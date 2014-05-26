@@ -16,11 +16,9 @@ module.exports = function(app) {
 
 	app.get("/search/query", authenticate, function (request, response) {
 		var text = request.query.text;
-		return Promise.all([
-			_searchForIssues(text)
-		]).then(function(result) {
+		return _searchForIssues(text).then(function(issues) {
 			response.send({
-				issues: result[0]
+				issues: issues
 			}, 200);
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
@@ -28,8 +26,10 @@ module.exports = function(app) {
 	});
 
 	function _searchForIssues(text) {
-		return require("../data/models").Issue.textSearchAsync(text).then(function(issues) {
-			var split = text.split(" ");
+		return require("../data/models").Issue.textSearchAsync(text).then(function(result) {
+			var split = text.split(" "), issues = [], objects = result.results;
+				for (var i = 0; i < objects.length; i++)
+					issues.push(objects[i].obj);
 			return mapper.mapAll("issue", "issue-view-model", issues).map(function(mapped) {
 				return _highlightFoundValues(mapped, split);
 			});
