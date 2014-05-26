@@ -24,13 +24,14 @@ describe("connection", function() {
 		});
 
 		it("should open connection mongo database as specified from config", function() {
-			var user = "the database user", password = "the database password";
+			var user = "the database user", password = "the database password", location = "the database location";
 			_stubs.config = sinon.stub(config, "call");
 			_stubs.config.withArgs(sinon.match.any, "databaseUser").returns(user);
 			_stubs.config.withArgs(sinon.match.any, "databasePassword").returns(password);
+			_stubs.config.withArgs(sinon.match.any, "databaseLocation").returns(location);
 
 			return _run().then(function() {
-				assert(_stubs.connect.calledWith("mongodb://" + user + ":" + password + "@oceanic.mongohq.com:10038/issuetracker", sinon.match.any));
+				assert(_stubs.connect.calledWith("mongodb://" + user + ":" + password + "@" + location, sinon.match.any));
 			});
 		});
 

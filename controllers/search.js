@@ -28,13 +28,7 @@ module.exports = function(app) {
 	});
 
 	function _searchForIssues(text) {
-		return new Promise(function(resolve, reject) {
-			require("../data/models").Issue.textSearch(text, function(err, data) {
-			//require("../data/models").Issue.find().or(_buildRegexProperties(text)).sort({ number: 1 }).exec(function (err, data) {
-				if (err) reject(err);
-				else resolve(data);
-			});
-		}).then(function(issues) {
+		return require("../data/models").Issue.textSearchAsync(text).then(function(issues) {
 			var split = text.split(" ");
 			return mapper.mapAll("issue", "issue-view-model", issues).map(function(mapped) {
 				return _highlightFoundValues(mapped, split);
@@ -49,18 +43,6 @@ module.exports = function(app) {
 			mapped.details = mapped.details.replace(new RegExp(value, "ig"), _replacer);
 		}
 		return mapped;
-	}
-
-	function _buildRegexProperties(text) {
-		var split = text.split(" "), properties = [];
-		for (var i = 0; i < split.length; i++) {
-			var regex = new RegExp(split[i], "i");
-			properties.push({ name: regex });
-			properties.push({ details: regex });
-		}
-		if (!isNaN(parseInt(text)))
-			properties.push({ number: parseInt(text) });
-		return properties;
 	}
 
 	function _replacer(match) {
