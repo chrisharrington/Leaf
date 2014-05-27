@@ -25,6 +25,7 @@
             <i class="fa fa-fw fa-lock" title="Reset Password" data-bind="click: $parent.ResetPassword.reset"></i>
             <i class="fa fa-fw fa-trash-o" title="Delete User" data-bind="click: $parent.DeleteUser.remove"></i>
             <i class="fa fa-fw fa-pencil" title="Edit User" data-bind="click: $parent.EditUser.edit"></i>
+			<i class="fa fa-fw fa-key" title="User Permissions" data-bind="click: $parent.Permissions.load"></i>
         </div>
         <div class="counts">
             <div>
@@ -46,11 +47,6 @@
         <img class="user-profile-image" data-bind="attr: { title: name, src: IssueTracker.Utilities.getUserProfileImageLocation(id()) }" alt="" />
         <span class="name" data-bind="text: name"></span>
         <span class="email" data-bind="text: emailAddress"></span>
-        <div class="actions">
-            <i class="fa fa-fw fa-key" title="Reset Password" data-bind="click: $parent.ResetPassword.reset"></i>
-            <i class="fa fa-fw fa-trash-o" title="Delete User" data-bind="click: $parent.DeleteUser.remove"></i>
-            <i class="fa fa-fw fa-pencil" title="Edit User" data-bind="click: $parent.EditUser.edit"></i>
-        </div>
         <div class="counts">
             <div>
                 <i class="fa fa-code"></i>
@@ -126,6 +122,19 @@
 		<input type="text" placeholder="Email address..." data-bind="value: user().emailAddress" />
 		<div class="button-container first">
 			<button data-bind="click: save, css: { loading: loading }">Save</button>
+		</div>
+		<div class="button-container">
+			<button data-bind="click: cancel">Cancel</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="user-permissions">
+	<div class="user-permissions form two-button">
+		<h1>User Permissions</h1>
+		<span>Toggle permissions for <b data-bind="text: name"></b> by clicking the entries below. Note that some permissions are read-only, even for administrators; this is to prevent administrators from removing key permissions from users, such as the ability to remove the ability to set permissions...</span>
+		<div class="button-container first">
+			<button data-bind="click: save, css: { loading: loading }">Save User Permissions</button>
 		</div>
 		<div class="button-container">
 			<button data-bind="click: cancel">Cancel</button>
