@@ -14,8 +14,8 @@ describe("config", function() {
 			assert.equal(sut("databaseUser"), "IssueTrackerApp");
 		});
 
-		it("should return 'ds048537.mongolab.com:48537/leaf-experimental' with 'databaseLocation'", function() {
-			assert.equal(sut("databaseLocation"), "ds048537.mongolab.com:48537/leaf-experimental");
+		it("should return 'ds048487.mongolab.com:48487/leaf-experimental' with 'databaseLocation'", function() {
+			assert.equal(sut("databaseLocation"), "ds048487.mongolab.com:48487/leaf-experimental");
 		});
 
 		it("should return 'sha512' with 'hashAlgorithm'", function() {
