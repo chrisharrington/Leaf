@@ -170,10 +170,12 @@ describe("welcome controller", function() {
 				staySignedIn: false,
 				assert: function(result) {
 					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", {
+						_id: sinon.match.any,
 						expiration: null,
 						password: sinon.match.any,
 						project: sinon.match.any,
-						session: sinon.match.any
+						session: sinon.match.any,
+						permissions: sinon.match.any
 					}));
 				}
 			});
@@ -236,6 +238,33 @@ describe("welcome controller", function() {
 			})
 		});
 
+		it("should get permissions for signed in user", function() {
+			var userId = "the user id";
+			return _run({
+				userId: userId,
+				assert: function(result) {
+					assert(result.stubs.getUserPermissions.calledWith({ user: userId }));
+				}
+			});
+		});
+
+		it("should map permissions", function() {
+			var permissions = "the retrieved permissions";
+			return _run({
+				userPermissions: permissions,
+				assert: function(result) {
+					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", {
+						_id: sinon.match.any,
+						expiration: sinon.match.any,
+						password: sinon.match.any,
+						project: sinon.match.any,
+						session: sinon.match.any,
+						permissions: permissions
+					}));
+				}
+			});
+		});
+
 		function _run(params) {
 			params = params || {};
 			var hash = {
@@ -258,12 +287,13 @@ describe("welcome controller", function() {
 					host: params.host || "the host"
 				},
 				stubs: {
-					userGetOne: params.userGetOne || sinon.stub(repositories.User, "one").resolves(params.noUserFound ? undefined : params.userGetOneResult || { password: params.password || "the password", session: params.session == undefined || params.session != "" ? "the session" : undefined, expiration: params.expiration || "the expiration", project: params.project || {}}),
+					userGetOne: params.userGetOne || sinon.stub(repositories.User, "one").resolves(params.noUserFound ? undefined : params.userGetOneResult || { _id: params.userId, password: params.password || "the password", session: params.session == undefined || params.session != "" ? "the session" : undefined, expiration: params.expiration || "the expiration", project: params.project || {}}),
 					cryptoCreateHash: params.cryptoCreateHash || sinon.stub(crypto, "createHash").returns(params.hash || hash),
 					dateNow: params.dateNow || sinon.stub(Date, "now").returns(params.date || Date.now()),
 					mapperMap: params.mapperMap || sinon.stub(mapper, "map"),
 					userUpdate: params.userUpdate || sinon.stub(repositories.User, "update").resolves(),
-					getProject: params.getProject || sinon.stub(repositories.Project, "one").resolves(params.noProject ? undefined : {})
+					getProject: params.getProject || sinon.stub(repositories.Project, "one").resolves(params.noProject ? undefined : {}),
+					getUserPermissions: params.getUserPermissions || sinon.stub(repositories.UserPermission, "get").resolves(params.userPermissions || [])
 				}
 			}, params));
 		}

@@ -27,7 +27,7 @@ module.exports = function(app) {
 				repositories.Permission.get(null, { sort: { name: 1 }}),
 				repositories.Priority.get({ project: project._id, isDeleted: false }, { sort: { order: -1 }}),
 				repositories.Status.get({ project: project._id, isDeleted: false }, { sort: { order: 1 }}),
-				repositories.User.get({ project: project._id }, { sort: { name: 1 }}).then(_setPermissions),
+				repositories.User.get({ project: project._id }, { sort: { name: 1 }}),
 				caches.Transition.all(),
 				repositories.Project.get(),
 				repositories.Milestone.get({ project: project._id, isDeleted: false }, { sort: { name: 1 }}),
@@ -37,27 +37,19 @@ module.exports = function(app) {
 		});
 	}
 
-	function _setPermissions(users) {
-		var ids = users.map(function(current) {
-			return current._id;
-		});
-		return repositories.UserPermission.get({ user: { $in: ids }}).then(function(permissions) {
-			var dict = {};
-			permissions.forEach(function(permission) {
-				if (!dict[permission.user])
-					dict[permission.user] = [];
-				dict[permission.user].push(permission);
-			});
-			return users.map(function(user) {
-				user.permissions = dict[user._id] || [];
-				return user;
-			});
+	function _setPermissions(user) {
+		if (!user)
+			return;
+
+		return repositories.UserPermission.get({ user: user._id }).then(function(permissions) {
+			user.permissions = permissions;
+			return user;
 		});
 	}
 
 	function _getSignedInUser(request) {
 		var session = request.cookies.session;
-		return session ? repositories.User.one({ session: session }) : null;
+		return session ? repositories.User.one({ session: session }).then(_setPermissions) : null;
 	}
 
 	function _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {

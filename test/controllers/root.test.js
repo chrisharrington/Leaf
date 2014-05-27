@@ -154,7 +154,8 @@ describe("root", function() {
 			})
 		});
 
-		it("should map signed in user to user view model", function() {
+		it("should map signed in user to user view model with permissions set", function() {
+			var permissions = "the permissions";
 			return base.testRoute({
 				sut: sut,
 				verb: "get",
@@ -163,10 +164,13 @@ describe("root", function() {
 					cookies: { session: "the session" }
 				},
 				stubs: _buildStubs({
-					user: "a user"
+					user: {},
+					userPermissionsResult: permissions
 				}),
 				assert: function(result) {
-					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", sinon.match.any));
+					assert(result.stubs.mapperMap.calledWith("user", "user-view-model", {
+						permissions: permissions
+					}));
 				}
 			})
 		});
@@ -212,6 +216,7 @@ describe("root", function() {
 				stubs: _buildStubs(),
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith("the html", {
+						permissions: sinon.match.string,
 						priorities: sinon.match.string,
 						statuses: sinon.match.string,
 						users: sinon.match.string,
@@ -266,6 +271,7 @@ describe("root", function() {
 				}),
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith(sinon.match.any, {
+						permissions: sinon.match.any,
 						priorities: sinon.match.any,
 						statuses: sinon.match.any,
 						users: sinon.match.any,
@@ -296,6 +302,7 @@ describe("root", function() {
 				}),
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith(sinon.match.any, {
+						permissions: sinon.match.any,
 						priorities: sinon.match.any,
 						statuses: sinon.match.any,
 						users: sinon.match.any,
@@ -326,6 +333,7 @@ describe("root", function() {
 				}),
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, {
+						permissions: sinon.match.any,
 						priorities: sinon.match.string,
 						statuses: sinon.match.string,
 						users: sinon.match.string,
@@ -356,6 +364,7 @@ describe("root", function() {
 				}),
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, {
+						permissions: sinon.match.any,
 						priorities: sinon.match.string,
 						statuses: sinon.match.string,
 						users: sinon.match.string,
@@ -387,6 +396,7 @@ describe("root", function() {
 				}),
 				assert: function(result) {
 					assert(result.stubs.mustacheRender.calledWith(sinon.match.string, {
+						permissions: sinon.match.any,
 						priorities: sinon.match.string,
 						statuses: sinon.match.string,
 						users: sinon.match.string,
@@ -746,6 +756,8 @@ describe("root", function() {
 			var stubs = {
 				date: sinon.stub(Date, "now").returns(params.date || Date.now()),
 				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves("the html"),
+				permissions: params.permissions || sinon.stub(repositories.Permission, "get").resolves([]),
+				userPermissions: params.userPermissions || sinon.stub(repositories.UserPermission, "get").resolves(params.userPermissionsResult || []),
 				priorities: params.priorities || sinon.stub(repositories.Priority, "get").resolves([]),
 				statuses: sinon.stub(repositories.Status, "get").resolves([]),
 				users: params.users || sinon.stub(repositories.User, "get").resolves([]),

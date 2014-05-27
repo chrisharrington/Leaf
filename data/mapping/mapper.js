@@ -51,9 +51,13 @@ function _map(sourceKey, destinationKey, source, resolve, reject) {
 			throw error;
 	} else {
 		var key = _getCombinedKey(sourceKey, destinationKey);
-		if (!exports.maps[key])
-			reject(new Error("No such mapping definition for \"" + key + "\""));
-		else {
+		if (!exports.maps[key]) {
+			var error = new Error("No such mapping definition for \"" + key + "\"");
+			if (reject)
+				reject(error);
+			else
+				throw error;
+		} else {
 			var definition = exports.maps[key];
 			var result = {};
 			for (var name in definition) {

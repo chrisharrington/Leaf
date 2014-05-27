@@ -8,6 +8,10 @@ var fs = Promise.promisifyAll(require("fs"));
 var sut = require("../../../data/mapping/mapper");
 
 describe("mapper", function() {
+	afterEach(function() {
+		sut.maps = {}
+	});
+
 	describe("define", function() {
 		it("should add a definition", function() {
 			sut.define("source", "destination", "definition");
@@ -26,10 +30,6 @@ describe("mapper", function() {
 
 			var maps = sut.maps;
 			assert(maps[Object.keys(maps)] == definition);
-		});
-
-		afterEach(function() {
-			sut.maps = {};
 		});
 	});
 
@@ -95,6 +95,69 @@ describe("mapper", function() {
 			}).finally(function() {
 				map.restore();
 			});
+		});
+	});
+
+	describe("mapSynchronous", function() {
+		it("should throw error when no source given", function() {
+			var message;
+			try {
+				_run();
+			} catch (error) {
+				message = error;
+			}
+			assert.equal(message.toString(), "Error: Missing source while mapping.");
+		});
+
+		it("should throw error when no mapping definition found", function() {
+			var message;
+			try {
+				_run({
+					source: {},
+					sourceKey: "source",
+					destinationKey: "destination"
+				});
+			} catch (error) {
+				message = error;
+			}
+			assert.equal(message, "Error: No such mapping definition for \"source|destination\"");
+		});
+
+		it("should map all properties", function() {
+			sut.maps = { "source|destination": { id: "the-id", name: "the-name" } };
+			var source = { "the-id": 12345, "the-name": "boogity!" };
+
+			var mapped = sut.mapSynchronous("source", "destination", source);
+			assert.equal(mapped.id, source["the-id"]);
+			assert.equal(mapped.name, source["the-name"]);
+		});
+
+		it("should execute defined functions", function() {
+			sut.maps = { "source|destination": { id: "the-id", name: "the-name", formattedName: function(m) { return m["the-name"].toUpperCase(); } } };
+			var source = { "the-id": 12345, "the-name": "boogity!" };
+
+			var mapped = sut.mapSynchronous("source", "destination", source);
+			assert(mapped.formattedName == source["the-name"].toUpperCase());
+		});
+
+		function _run(params) {
+			params = params || {};
+			return sut.mapSynchronous(params.sourceKey || "", params.destinationKey || "", params.source);
+		}
+	});
+
+	describe("mapAllSynchronous", function() {
+		it("should call 'mapSynchronous' for every object given", function() {
+			var sourceKey = "the source key";
+			var destinationKey = "the destination key";
+			var first = { name: "the first" };
+			var second = { name: "the second" };
+
+			var map = sinon.stub(sut, "mapSynchronous").resolves();
+			sut.mapAllSynchronous(sourceKey, destinationKey, [first, second]);
+			assert(map.calledWith(sourceKey, destinationKey, first));
+			assert(map.calledWith(sourceKey, destinationKey, second));
+			map.restore();
 		});
 	});
 

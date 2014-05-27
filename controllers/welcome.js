@@ -23,7 +23,7 @@ module.exports = function(app) {
 			if (!project)
 				response.send(404);
 			else
-				return repositories.User.one({ emailAddress: email, project: project._id }).then(function(user) {
+				return repositories.User.one({ emailAddress: email, project: project._id }).then(_setPermissions).then(function(user) {
 					if (!user)
 						return response.send(401);
 					if (crypto.createHash(config("hashAlgorithm")).update(user.salt + password).digest("hex") === user.password)
@@ -56,6 +56,16 @@ module.exports = function(app) {
 		function _getProjectFromHost(request) {
 			var projectName = (request.host == "localhost" ? "leaf" : request.host.split(".")[0]).formatForUrl();
 			return repositories.Project.one({ formattedName: projectName });
+		}
+
+		function _setPermissions(user) {
+			if (!user)
+				return;
+
+			return repositories.UserPermission.get({ user: user._id }).then(function(permissions) {
+				user.permissions = permissions;
+				return user;
+			});
 		}
 	});
 };
