@@ -16,5 +16,6 @@ module.exports = {
 	IssueFile: require(directory + "issueFileRepository"),
     Notification: require(directory + "notificationRepository"),
 	Sequence: require(directory + "sequenceRepository"),
-	Permission: require(directory + "permissionRepository")
+	Permission: require(directory + "permissionRepository"),
+	UserPermission: require(directory + "userPermissionRepository")
 };

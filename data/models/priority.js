@@ -9,7 +9,7 @@ var schema = mongoose.Schema({
     order: Number,
 	colour: String,
     
-    project: { type: objectId, ref: "project" },
+    project: { type: objectId, ref: "project" }
 });
 
 module.exports = Promise.promisifyAll(mongoose.model("priority", schema));
