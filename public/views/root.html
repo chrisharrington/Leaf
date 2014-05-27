@@ -184,6 +184,7 @@
                 var root = window.IssueTracker || (window.IssueTracker = {});
                 root.virtualDirectory = "/";
 				root.users = IssueTracker.Utilities.buildObservableArray({{{users}}});
+				root.permissions = IssueTracker.Utilities.buildObservableArray({{{permissions}}});
 				root.priorities = IssueTracker.Utilities.buildObservableArray({{{priorities}}});
 				root.statuses = IssueTracker.Utilities.buildObservableArray({{{statuses}}});
 				root.transitions = ko.observableArray({{{transitions}}});

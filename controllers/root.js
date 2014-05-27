@@ -12,10 +12,10 @@ var config = require("../config");
 
 module.exports = function(app) {
 	app.get("/", function (request, response) {
-		return _getAllUserData(request).spread(function (priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
-			return _mapAllUserData(request, priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
-		}).spread(function (html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
-			return _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
+		return _getAllUserData(request).spread(function (permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
+			return _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
+		}).spread(function (html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
+			return _sendUserData(response, html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);
 		});
@@ -24,6 +24,7 @@ module.exports = function(app) {
 	function _getAllUserData(request) {
 		return request.getProject().then(function(project) {
 			return Promise.all([
+				repositories.Permission.get(null, { sort: { name: 1 }}),
 				repositories.Priority.get({ project: project._id, isDeleted: false }, { sort: { order: -1 }}),
 				repositories.Status.get({ project: project._id, isDeleted: false }, { sort: { order: 1 }}),
 				repositories.User.get({ project: project._id }, { sort: { name: 1 }}),
@@ -41,9 +42,10 @@ module.exports = function(app) {
 		return session ? repositories.User.one({ session: session }) : null;
 	}
 
-	function _mapAllUserData(request, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
+	function _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
 		return Promise.all([
 			fs.readFileAsync("public/views/root.html"),
+			mapper.mapAll("permission", "permission-view-model", permissions),
 			mapper.mapAll("priority", "priority-view-model", priorities),
 			mapper.mapAll("status", "status-view-model", statuses),
 			mapper.mapAll("user", "user-view-model", users),
@@ -57,9 +59,10 @@ module.exports = function(app) {
 		]);
 	}
 
-	function _sendUserData(response, html, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
+	function _sendUserData(response, html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
 		var buildNumber = config.call(this, "buildNumber");
 		return response.send(mustache.render(html.toString(), {
+			permissions: JSON.stringify(permissions),
 			priorities: JSON.stringify(priorities),
 			statuses: JSON.stringify(statuses),
 			users: JSON.stringify(users),
