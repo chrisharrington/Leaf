@@ -38,7 +38,7 @@ describe("user mapping", function() {
 			mapper.mapAllSynchronous.restore();
 		});
 
-		it("should map permissions to user-permission-view-models", function() {
+		it("should map undefined permissions to user-permission-view-models", function() {
 			var func = _define.firstCall.args[2].permissions, mapResult = "the map result";
 			var map = sinon.stub(mapper, "mapAllSynchronous").returns(mapResult);
 			func({ permissions: undefined });
@@ -95,7 +95,8 @@ describe("user mapping", function() {
 				emailAddress: "emailAddress",
 				phone: "phone",
 				isActivated: sinon.match.func,
-				isDeleted: "isDeleted"
+				isDeleted: "isDeleted",
+				permissions: sinon.match.func
 			}));
 		});
 
@@ -107,6 +108,21 @@ describe("user mapping", function() {
 		it("should map isActivated to true when activationToken doesn't exist", function() {
 			var func = _define.thirdCall.args[2].isActivated;
 			assert(func({ activationToken: null }));
+		});
+
+		it("should map permissions to user-permission-view-models", function() {
+			var func = _define.firstCall.args[2].permissions, permissions = "the permissions", mapResult = "the map result";
+			sinon.stub(mapper, "mapAllSynchronous").withArgs("user-permission", "user-permission-view-model", sinon.match.any).returns(mapResult);
+			assert.equal(func({ permissions: permissions }), mapResult);
+			mapper.mapAllSynchronous.restore();
+		});
+
+		it("should map undefined permissions to user-permission-view-models", function() {
+			var func = _define.firstCall.args[2].permissions, mapResult = "the map result";
+			var map = sinon.stub(mapper, "mapAllSynchronous").returns(mapResult);
+			func({ permissions: undefined });
+			assert(map.calledWith("user-permission", "user-permission-view-model", []));
+			map.restore();
 		});
 
 		afterEach(function() {

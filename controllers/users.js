@@ -18,7 +18,15 @@ module.exports = function(app) {
 		return Promise.all([
 			fs.readFileAsync("public/views/users.html"),
 			repositories.Issue.issueCountsPerUser(request.project._id),
-			repositories.User.get(null, { sort: { name: 1 }})
+			repositories.User.get(null, { sort: { name: 1 }}).then(function(users) {
+				return repositories.UserPermission.get({ user: { $in: users.map(function(x) { return x._id; }) }}).then(function(permissions) {
+					var dictionary = permissions.toDictionary(function(x) { return x.user; });
+					return users.map(function(user) {
+						user.permissions = dictionary[user._id];
+						return user;
+					});
+				});
+			})
 		]).spread(function(html, issueCounts, users) {
 			return mapper.mapAll("user", "user-summary-view-model", users).map(function(user) {
 				var counts = issueCounts[user.id] || { developer: 0, tester: 0 };

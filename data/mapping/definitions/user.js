@@ -29,5 +29,6 @@ require("../mapper").define("user", "user-summary-view-model", {
 	emailAddress: "emailAddress",
 	phone: "phone",
 	isActivated: function(x) { return x.activationToken == null; },
-	isDeleted: "isDeleted"
+	isDeleted: "isDeleted",
+	permissions: function(x) { return require("../mapper").mapAllSynchronous("user-permission", "user-permission-view-model", x.permissions || []); }
 });

@@ -1,5 +1,6 @@
 require("./extensions/string");
 require("./extensions/number");
+require("./extensions/array");
 require("./inheritance");
 
 var express = require("express");
