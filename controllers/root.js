@@ -14,8 +14,8 @@ module.exports = function(app) {
 	app.get("/", function (request, response) {
 		return _getAllUserData(request).spread(function (permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
 			return _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
-		}).spread(function (html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss) {
-			return _sendUserData(response, html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts, renderedCss);
+		}).spread(function (html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
+			return _sendUserData(response, html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts);
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);
 		});
@@ -27,13 +27,31 @@ module.exports = function(app) {
 				repositories.Permission.get(null, { sort: { name: 1 }}),
 				repositories.Priority.get({ project: project._id, isDeleted: false }, { sort: { order: -1 }}),
 				repositories.Status.get({ project: project._id, isDeleted: false }, { sort: { order: 1 }}),
-				repositories.User.get({ project: project._id }, { sort: { name: 1 }}),
+				repositories.User.get({ project: project._id }, { sort: { name: 1 }}).then(_setPermissions),
 				caches.Transition.all(),
 				repositories.Project.get(),
 				repositories.Milestone.get({ project: project._id, isDeleted: false }, { sort: { name: 1 }}),
 				caches.IssueType.all(),
 				_getSignedInUser(request)
 			]);
+		});
+	}
+
+	function _setPermissions(users) {
+		var ids = users.map(function(current) {
+			return current._id;
+		});
+		return repositories.UserPermission.get({ user: { $in: ids }}).then(function(permissions) {
+			var dict = {};
+			permissions.forEach(function(permission) {
+				if (!dict[permission.user])
+					dict[permission.user] = [];
+				dict[permission.user].push(permission);
+			});
+			return users.map(function(user) {
+				user.permissions = dict[user._id] || [];
+				return user;
+			});
 		});
 	}
 

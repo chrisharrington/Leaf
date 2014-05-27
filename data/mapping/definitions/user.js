@@ -7,7 +7,8 @@ require("../mapper").define("user", "user-view-model", {
 	emailNotificationForIssueUpdated: "emailNotificationForIssueUpdated",
 	emailNotificationForIssueDeleted: "emailNotificationForIssueDeleted",
 	emailNotificationForNewCommentForAssignedIssue: "emailNotificationForNewCommentForAssignedIssue",
-	isDeleted: "isDeleted"
+	isDeleted: "isDeleted",
+	permissions: function(x) { return require("../mapper").mapAllSynchronous("user-permission", "user-permission-view-model", x.permissions || []); }
 });
 
 require("../mapper").define("user-view-model", "user", {
