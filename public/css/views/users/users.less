@@ -40,6 +40,19 @@ div.edit-user, div.create-user { float:left; width:600px;
 	>div.button-container.first { padding-left:0; }
 }
 
-div.user-permissions { float:left; width:600px;
+div.user-permissions { float:left; width:600px; padding:0;
 	b { color:@primary-font-colour-dark-background; }
+	h1 { padding:@spacing @spacing 0 @spacing; .border-box; }
+	span { padding:0 @spacing; .border-box; }
+	div.permissions { float:left; width:100%; margin-top:@dialog-spacing;
+		>div { float:left; width:100%; .border-box; padding:@small-spacing @spacing; border-bottom:solid 1px @border-colour-darkest; cursor:pointer;
+			>i { float:left; width:11px; }
+			>i.fa-check-square { color:@secondary-font-colour; }
+			>span { float:left; margin-left:@tiny-spacing; }
+		}
+		>div:first-child { border-top:solid 1px @border-colour-darkest; }
+		>div:hover { background:@dialog-hover-background; }
+	}
+	div.button-container.first { padding-left:@spacing !important; padding-bottom:@spacing; }
+	div.button-container.last { padding-right:@spacing; padding-bottom:@spacing; }
 }

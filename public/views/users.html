@@ -133,10 +133,17 @@
 	<div class="user-permissions form two-button">
 		<h1>User Permissions</h1>
 		<span>Toggle permissions for <b data-bind="text: name"></b> by clicking the entries below. Note that some permissions are read-only, even for administrators; this is to prevent administrators from removing key permissions from users, such as the ability to remove the ability to set permissions...</span>
+		<div class="permissions" data-bind="foreach: IssueTracker.permissions">
+			<div>
+				<i class="fa fa-square"></i>
+				<i class="fa fa-check-square"></i>
+				<span data-bind="text: name"></span>
+			</div>
+		</div>
 		<div class="button-container first">
 			<button data-bind="click: save, css: { loading: loading }">Save User Permissions</button>
 		</div>
-		<div class="button-container">
+		<div class="button-container last">
 			<button data-bind="click: cancel">Cancel</button>
 		</div>
 	</div>
