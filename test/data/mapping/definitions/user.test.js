@@ -111,14 +111,14 @@ describe("user mapping", function() {
 		});
 
 		it("should map permissions to user-permission-view-models", function() {
-			var func = _define.firstCall.args[2].permissions, permissions = "the permissions", mapResult = "the map result";
+			var func = _define.thirdCall.args[2].permissions, permissions = "the permissions", mapResult = "the map result";
 			sinon.stub(mapper, "mapAllSynchronous").withArgs("user-permission", "user-permission-view-model", sinon.match.any).returns(mapResult);
 			assert.equal(func({ permissions: permissions }), mapResult);
 			mapper.mapAllSynchronous.restore();
 		});
 
 		it("should map undefined permissions to user-permission-view-models", function() {
-			var func = _define.firstCall.args[2].permissions, mapResult = "the map result";
+			var func = _define.thirdCall.args[2].permissions, mapResult = "the map result";
 			var map = sinon.stub(mapper, "mapAllSynchronous").returns(mapResult);
 			func({ permissions: undefined });
 			assert(map.calledWith("user-permission", "user-permission-view-model", []));

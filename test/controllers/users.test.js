@@ -20,110 +20,110 @@ var sut = require("../../controllers/users");
 
 describe("users", function() {
 	describe("get /users", function() {
-//		it("should set get /users route", function() {
-//			var app = { get: sinon.stub(), post: sinon.stub() };
-//			sut(app);
-//			assert(app.get.calledWith("/users", sinon.match.func));
-//		});
-//
-//		it("should read html from public/views/users.html", function() {
-//			return _run({
-//				assert: function(result) {
-//					assert(result.stubs.readFile.calledWith("public/views/users.html"));
-//				}
-//			});
-//		});
-//
-//		it("should get issues filtered by project id", function() {
-//			var projectId = "the project id";
-//			return _run({
-//				assert: function(result) {
-//					assert(result.stubs.getIssues.calledWith(projectId));
-//				}
-//			});
-//		});
-//
-//		it("should get users sorted by name ascending", function() {
-//			return _run({
-//				assert: function(result) {
-//					assert(result.stubs.getUsers.calledWith(null, { sort: { name: 1 }}));
-//				}
-//			});
-//		});
-//
-//		it("should map users", function() {
-//			var users = [{ name: "blah" }];
-//			return _run({
-//				users: users,
-//				assert: function(result) {
-//					assert(result.stubs.mapAll.calledWith("user", "user-summary-view-model", users));
-//				}
-//			})
-//		});
-//
-//		it("should render using html and mapped users", function() {
-//			var html = "the html";
-//			var mapped = ["the first mapped user", "the second mapper user"];
-//			return _run({
-//				html: html,
-//				mapped: mapped,
-//				assert: function(result) {
-//					assert(result.stubs.mustache.calledWith(html.toString(), { users: JSON.stringify(mapped) }));
-//				}
-//			});
-//		});
-//
-//		it("should send 200", function() {
-//			return _run({
-//				assert: function(result) {
-//					assert(result.response.send.calledWith(sinon.match.any, 200));
-//				}
-//			});
-//		});
-//
-//		it("should send rendered html", function() {
-//			var rendered = "the rendered html";
-//			return _run({
-//				rendered: rendered,
-//				assert: function(result) {
-//					assert(result.response.send.calledWith(rendered, sinon.match.any));
-//				}
-//			});
-//		});
-//
-//		it("should send 500 when an error occurs", function() {
-//			return _run({
-//				readFile: sinon.stub(fs, "readFileAsync").rejects(new Error("oh noes!")),
-//				assert: function(result) {
-//					assert(result.response.send.calledWith(sinon.match.any, 500));
-//				}
-//			});
-//		});
-//
-//		it("should set developer and tester issue count", function() {
-//			var userId = "the user id";
-//			var users = [{ _id: userId }];
-//			var issueCounts = {};
-//			issueCounts[userId] = { developer: 10, tester: 20 };
-//			return _run({
-//				users: users,
-//				mapped: [{ name: "blah", id: userId }],
-//				issueCounts: issueCounts,
-//				assert: function(result) {
-//					assert(result.stubs.mustache.calledWith(sinon.match.any, { users: JSON.stringify([{ name: "blah", id: userId, developerIssueCount: 10, testerIssueCount: 20 }]) }));
-//				}
-//			});
-//		});
-//
-//		it("should get user permissions using ids from given users", function() {
-//			var users = [{ _id: "first" }, { _id: "second" }];
-//			return _run({
-//				users: users,
-//				assert: function(result) {
-//					assert(result.stubs.getUserPermissions.calledWith({ user: { $in: ["first", "second"]}}))
-//				}
-//			});
-//		});
+		it("should set get /users route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.get.calledWith("/users", sinon.match.func));
+		});
+
+		it("should read html from public/views/users.html", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.stubs.readFile.calledWith("public/views/users.html"));
+				}
+			});
+		});
+
+		it("should get issues filtered by project id", function() {
+			var projectId = "the project id";
+			return _run({
+				assert: function(result) {
+					assert(result.stubs.getIssues.calledWith(projectId));
+				}
+			});
+		});
+
+		it("should get users sorted by name ascending", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.stubs.getUsers.calledWith(null, { sort: { name: 1 }}));
+				}
+			});
+		});
+
+		it("should map users", function() {
+			var users = [{ name: "blah" }];
+			return _run({
+				users: users,
+				assert: function(result) {
+					assert(result.stubs.mapAll.calledWith("user", "user-summary-view-model", users));
+				}
+			})
+		});
+
+		it("should render using html and mapped users", function() {
+			var html = "the html";
+			var mapped = ["the first mapped user", "the second mapper user"];
+			return _run({
+				html: html,
+				mapped: mapped,
+				assert: function(result) {
+					assert(result.stubs.mustache.calledWith(html.toString(), { users: JSON.stringify(mapped) }));
+				}
+			});
+		});
+
+		it("should send 200", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 200));
+				}
+			});
+		});
+
+		it("should send rendered html", function() {
+			var rendered = "the rendered html";
+			return _run({
+				rendered: rendered,
+				assert: function(result) {
+					assert(result.response.send.calledWith(rendered, sinon.match.any));
+				}
+			});
+		});
+
+		it("should send 500 when an error occurs", function() {
+			return _run({
+				readFile: sinon.stub(fs, "readFileAsync").rejects(new Error("oh noes!")),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
+		it("should set developer and tester issue count", function() {
+			var userId = "the user id";
+			var users = [{ _id: userId }];
+			var issueCounts = {};
+			issueCounts[userId] = { developer: 10, tester: 20 };
+			return _run({
+				users: users,
+				mapped: [{ name: "blah", id: userId }],
+				issueCounts: issueCounts,
+				assert: function(result) {
+					assert(result.stubs.mustache.calledWith(sinon.match.any, { users: JSON.stringify([{ name: "blah", id: userId, developerIssueCount: 10, testerIssueCount: 20 }]) }));
+				}
+			});
+		});
+
+		it("should get user permissions using ids from given users", function() {
+			var users = [{ _id: "first" }, { _id: "second" }];
+			return _run({
+				users: users,
+				assert: function(result) {
+					assert(result.stubs.getUserPermissions.calledWith({ user: { $in: ["first", "second"]}}))
+				}
+			});
+		});
 
 		it("should set permissions for each user", function() {
 			var users = [{ _id: "first" }, { _id: "second" }];
@@ -137,9 +137,10 @@ describe("users", function() {
 				users: users,
 				userPermissions: permissions,
 				assert: function(result) {
-					assert(result.stubs.mapper.mapAll.calledWith(sinon.match.any, sinon.match.any, {
-
-					}))
+					assert(result.stubs.mapAll.calledWith(sinon.match.any, sinon.match.any, [
+						{ _id: "first", permissions: [{ permission: "first permission", user: "first" }, { permission: "second permission", user: "first" }] },
+						{ _id: "second", permissions: [{ permission: "third permission", user: "second" }, { permission: "fourth permission", user: "second" }] },
+					]));
 				}
 			});
 		});
