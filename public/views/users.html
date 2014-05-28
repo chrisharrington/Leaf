@@ -134,9 +134,9 @@
 		<h1>User Permissions</h1>
 		<span>Toggle permissions for <b data-bind="text: name"></b> by clicking the entries below. Note that some permissions are read-only, even for administrators; this is to prevent administrators from removing key permissions from users, such as the ability to remove the ability to set permissions...</span>
 		<div class="permissions" data-bind="foreach: IssueTracker.permissions">
-			<div>
-				<i class="fa fa-square" data-bind="visible: !IssueTracker.Users.Permissions.isPermissionEnabled($data)"></i>
-				<i class="fa fa-check-square" data-bind="visible: IssueTracker.Users.Permissions.isPermissionEnabled($data)"></i>
+			<div data-bind="click: $root.togglePermission">
+				<i class="fa fa-square" data-bind="visible: !$root.userPermissions()[$data.id()]()"></i>
+				<i class="fa fa-check-square" data-bind="visible: $root.userPermissions()[$data.id()]"></i>
 				<span data-bind="text: name"></span>
 			</div>
 		</div>

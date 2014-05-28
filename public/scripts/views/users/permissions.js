@@ -1,23 +1,32 @@
 (function(root) {
 
-	var _permissions;
+	var _user;
 
 	root.loading = ko.observable(false);
 	root.name = ko.observable();
+	root.userPermissions = ko.observable();
 
 	root.load = function(user) {
+		_user = user;
 		_loadPermissions(user);
 
 		root.name(user.name());
 		IssueTracker.Dialog.load("user-permissions", root);
 	};
 
-	root.isPermissionEnabled = function(permission) {
-		return _permissions[permission.id()];
+	root.togglePermission = function(permission) {
+		var flag = root.userPermissions()[permission.id()]();
+		root.userPermissions()[permission.id()](!flag);
 	};
 
 	root.save = function() {
-		alert("save");
+		root.loading(true);
+
+		IssueTracker.Feedback.success("The user's permissions have been updated.");
+		IssueTracker.Dialog.hide();
+		_updateUserPermissions();
+
+		root.loading(false);
 	};
 
 	root.cancel = function() {
@@ -25,10 +34,27 @@
 	};
 
 	function _loadPermissions(user) {
-		_permissions = {};
-		$.each(user.permissions(), function(i, permission) {
-			_permissions[permission.permissionId] = true;
+		var permissions = {};
+		$.each(IssueTracker.permissions(), function(i, permission) {
+			permissions[permission.id()] = ko.observable(user.permissions().exists(function(x) { return x.permissionId == permission.id(); }) ? permission.id() : undefined)
 		});
+		root.userPermissions(permissions);
+	}
+
+	function _getEnabledPermissionIds() {
+		var ids = [];
+		for (var name in root.userPermissions())
+			if (root.userPermissions()[name]())
+				ids.push(name);
+		return ids;
+	}
+
+	function _updateUserPermissions() {
+		var permissions = [], user = IssueTracker.Users.users().where(function(x) { return x.id() == _user.id(); });
+		for (var name in root.userPermissions())
+			if (root.userPermissions()[name]())
+				permissions.push({ permissionId: name, userId: user.id() });
+		user.permissions(permissions);
 	}
 
 })(root("IssueTracker.Users.Permissions"));

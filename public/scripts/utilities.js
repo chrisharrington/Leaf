@@ -2,7 +2,7 @@
 
 	root.createPropertyObservables = function (obj) {
 		for (var name in obj)
-			obj[name] = ko.observable(obj[name]);
+			obj[name] = Object.prototype.toString.call(obj[name]) === "[object Array]" ? ko.observableArray(obj[name]) : ko.observable(obj[name]);
 		return obj;
 	};
 
