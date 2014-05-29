@@ -11,15 +11,15 @@ exports.testRoute = function(params) {
 		};
 	request.host = params.host || "the host";
 	var app = {
-		get: function(route, b, c) {
-			if (!b && !c)
+		get: function(route, b, c, d) {
+			if (!b && !c && !d)
 				return params.env;
 			if (params.verb == "get" && route == params.route)
-				if (c) func = c; else func = b;
+				if (d) func = d; else if (c) func = c; else func = b;
 		},
-		post: function(route, b, c) {
+		post: function(route, b, c, d) {
 			if (params.verb == "post" && route == params.route)
-				if (c) func = c; else func = b;
+				if (d) func = d; else if (c) func = c; else func = b;
 		}
 	};
 

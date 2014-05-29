@@ -1712,13 +1712,13 @@ describe("issues", function() {
 		var func;
 		var request = params.request || sinon.stub(), response = { send: sinon.stub(), contentType: sinon.stub() };
 		var app = {
-			get: function(route, b, c) {
+			get: function(route, b, c, d) {
 				if (params.verb == "get" && route == params.route)
-					if (c) func = c; else func = b;
+					if (d) func = d; else if (c) func = c; else func = b;
 			},
-			post: function(route, b, c) {
+			post: function(route, b, c, d) {
 				if (params.verb == "post" && route == params.route)
-					if (c) func = c; else func = b;
+					if (d) func = d; else if (c) func = c; else func = b;
 			}
 		};
 
