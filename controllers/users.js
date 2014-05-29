@@ -4,6 +4,7 @@ var mustache = require("mustache");
 var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
 var authenticate = require("../authentication/authenticate");
+var authorize = require("../authentication/authorize");
 var emailer = require("../email/emailer");
 var config = require("../config");
 var csprng = require("csprng");
@@ -45,7 +46,7 @@ module.exports = function(app) {
 		return base.view("public/views/profile.html", response);
 	});
 
-	app.post("/users/create", authenticate, function(request, response) {
+	app.post("/users/create", authenticate, authorize("create-user"), function(request, response) {
 		var user = { name: request.body.name, emailAddress: request.body.emailAddress };
 		var error = _validate(user);
 		if (error) {
@@ -93,7 +94,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post("/users/delete", authenticate, function(request, response) {
+	app.post("/users/delete", authenticate, authorize("delete-user"), function(request, response) {
 		var id = request.body.id;
 		if (!id) {
 			response.send("Unable to delete user; no ID was provided.", 400);
@@ -107,7 +108,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post("/users/undelete", authenticate, function(request, response) {
+	app.post("/users/undelete", authenticate, authorize("delete-user"), function(request, response) {
 		var id = request.body.id;
 		if (!id) {
 			response.send("Unable to restore user; no ID was provided.", 400);

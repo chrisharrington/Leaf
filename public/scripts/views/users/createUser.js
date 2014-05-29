@@ -24,7 +24,7 @@
 		}
 
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory + "Users/Create", root.user()).done(function(id) {
+		$.post(IssueTracker.virtualDirectory + "users/create", root.user()).done(function(id) {
 			root.user().id(id);
 			IssueTracker.Feedback.success(root.user().name() + " has been created.");
 			IssueTracker.Users.users.push(_clone(root.user()));

@@ -1,5 +1,6 @@
 var fs = require("fs");
 var authenticate = require("../authentication/authenticate");
+var authorize = require("../authentication/authorize");
 var models = require("../data/models");
 var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
@@ -105,7 +106,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post("/issues/update", authenticate, function(request, response) {
+	app.post("/issues/update", authenticate, authorize("edit-issue"), function(request, response) {
 		return Promise.all([
 			mapper.map("issue-view-model", "issue", request.body),
 			caches.Status.all()
@@ -141,7 +142,7 @@ module.exports = function(app) {
 		}
 	});
 
-	app.post("/issues/add-comment", authenticate, function(request, response) {
+	app.post("/issues/add-comment", authenticate, authorize("edit-issue"), function(request, response) {
 		return mapper.map("issue-history-view-model", "comment", request.body).then(function(comment) {
 			comment.date = request.body.date = Date.now();
 			comment.user = request.body.userId = request.user._id;
@@ -175,7 +176,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post("/issues/create", authenticate, function(request, response) {
+	app.post("/issues/create", authenticate, authorize("create-issue"), function(request, response) {
 		return mapper.map("issue-view-model", "issue", request.body).then(function(model) {
 			return Promise.all([
 				repositories.Sequence.next(request.project._id + "issues"),
@@ -216,7 +217,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post("/issues/delete", authenticate, function(request, response) {
+	app.post("/issues/delete", authenticate, authorize("delete-issue"), function(request, response) {
 		var issue;
 		return Promise.all([
 			repositories.Issue.details(request.body.id),
@@ -239,7 +240,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post("/issues/undelete", authenticate, function(request, response) {
+	app.post("/issues/undelete", authenticate, authorize("delete-issue"), function(request, response) {
 		return repositories.Issue.restore(request.body.id).then(function() {
 			response.send(200);
 		}).catch(function(e) {

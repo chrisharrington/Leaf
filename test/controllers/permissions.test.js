@@ -19,6 +19,7 @@ describe("permissions", function() {
 			var userId = "the user id";
 			return _run({
 				userId: userId,
+				permissionIds: [],
 				assert: function(result) {
 					assert(result.stubs.remove.calledWith(userId));
 				}
@@ -38,6 +39,7 @@ describe("permissions", function() {
 
 		it("should send 200", function() {
 			return _run({
+				permissionIds: [],
 				assert: function(result) {
 					assert(result.response.send.calledWith(200));
 				}
@@ -46,9 +48,18 @@ describe("permissions", function() {
 
 		it("should send 500 on error", function() {
 			return _run({
+				permissionIds: [],
 				remove: sinon.stub(repositories.UserPermission, "removeAllForUser").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
+		it("should add permissions with empty array with no permission ids given", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.stubs.add.calledWith(sinon.match.any, []));
 				}
 			});
 		});
@@ -67,7 +78,7 @@ describe("permissions", function() {
 				request: {
 					body: {
 						userId: params.userId,
-						permissionIds: params.permissionIds || []
+						permissionIds: params.permissionIds
 					}
 				},
 				assert: params.assert
