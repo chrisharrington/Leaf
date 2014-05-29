@@ -12,3 +12,7 @@ Array.prototype.where = function(func) {
 			result.push(this[i]);
 	return result;
 };
+
+Array.prototype.first = function(func) {
+	return this.where(func)[0];
+};

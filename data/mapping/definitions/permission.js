@@ -3,5 +3,6 @@ var config = require("../../../config");
 
 require("../mapper").define("permission", "permission-view-model", {
 	id: "_id",
-	name: "name"
+	name: "name",
+	tag: "tag"
 });

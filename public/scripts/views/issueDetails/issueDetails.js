@@ -41,6 +41,9 @@
 
 		IssueTracker.selectedIssue.details.subscribe(function() { container.find("textarea").autogrow(); });
 		container.find("textarea").autogrow();
+
+		if (!IssueTracker.isAuthorized("edit-issue"))
+			container.addClass("disabled");
 	};
 
 	function _hookupEvents(container) {
@@ -120,36 +123,54 @@
 
 	function _setUpFlipPanels(container) {
 		container.on("click", "#milestone", function () {
+			if (!IssueTracker.isAuthorized("edit-issue"))
+				return;
+
 			root.chooser.data({ milestones: IssueTracker.milestones() });
 			root.chooser.template("milestone-chooser");
 			_detailsFlipper.toggle();
 		});
 
 		container.on("click", "#priority", function () {
+			if (!IssueTracker.isAuthorized("edit-issue"))
+				return;
+
 			root.chooser.data({ priorities: IssueTracker.priorities() });
 			root.chooser.template("priority-chooser");
 			_detailsFlipper.toggle();
 		});
 
 		container.on("click", "#status", function() {
+			if (!IssueTracker.isAuthorized("edit-issue"))
+				return;
+
 			root.chooser.data({ statuses: IssueTracker.statuses() });
 			root.chooser.template("status-chooser");
 			_detailsFlipper.toggle();
 		});
 
 		container.on("click", "#issue-type", function () {
+			if (!IssueTracker.isAuthorized("edit-issue"))
+				return;
+
 			root.chooser.data({ issueTypes: IssueTracker.issueTypes() });
 			root.chooser.template("type-chooser");
 			_detailsFlipper.toggle();
 		});
 		
 		container.on("click", "#developer", function () {
+			if (!IssueTracker.isAuthorized("edit-issue"))
+				return;
+
 			root.chooser.data({ developers: IssueTracker.users() });
 			root.chooser.template("developer-chooser");
 			_detailsFlipper.toggle();
 		});
 		
 		container.on("click", "#tester", function () {
+			if (!IssueTracker.isAuthorized("edit-issue"))
+				return;
+
 			root.chooser.data({ testers: IssueTracker.users() });
 			root.chooser.template("tester-chooser");
 			_detailsFlipper.toggle();

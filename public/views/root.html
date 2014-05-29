@@ -36,7 +36,7 @@
 							<span data-bind="visible: Notifications.unviewedNotifications() > 0, text: Notifications.unviewedNotifications()"></span>
 						</div>
 					</a>
-                    <a href="#/new-issue">
+                    <a href="#/new-issue" data-bind="visible: IssueTracker.isAuthorized('create-issue')">
                         <i class="fa fa-plus"></i>
                     </a>
 				</div>

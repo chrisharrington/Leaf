@@ -24,7 +24,7 @@
             </button>
 		</div>
 		<div class="always">
-            <button class="icon" id="save-changes" data-bind="css: { loading: saving }">
+            <button class="icon" id="save-changes" data-bind="visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
                 <i class="fa fa-check"></i>
 				<img src="../images/light-spinner.png" alt="" />
                 <span>Save Changes</span>
@@ -34,12 +34,12 @@
 				<img src="../images/light-spinner.png" alt="" />
 				<span>Attach File</span>
 			</button>
-			<button class="icon" data-bind="click: Delete.restore, visible: IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
+			<button class="icon" data-bind="click: Delete.restore, visible: IssueTracker.isAuthorized('delete-issue') && IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
 				<i class="fa fa-undo"></i>
 				<img src="../images/light-spinner.png" alt="" />
 				<span>Undelete Issue</span>
 			</button>
-			<button class="icon" data-bind="click: Delete.remove, visible: !IssueTracker.selectedIssue.isDeleted()">
+			<button class="icon" data-bind="click: Delete.remove, visible: IssueTracker.isAuthorized('delete-issue') && !IssueTracker.selectedIssue.isDeleted()">
                 <i class="fa fa-trash-o"></i>
                 <span>Delete Issue</span>
             </button>
@@ -50,15 +50,15 @@
 <div class="container name-and-number-wrapper">
 	<div class="name-container perspective" data-bind="style: { 'border-left-color': IssueTracker.Utilities.getPriorityColour(IssueTracker.selectedIssue.priorityId()) }">
 		<div class="description">
-			<input type="text" class="description no-focus" data-bind="value: IssueTracker.selectedIssue.description" />
+			<input id="description" type="text" class="description no-focus" data-bind="enable: IssueTracker.isAuthorized('edit-issue'), value: IssueTracker.selectedIssue.description" />
 		</div>
 	</div>
 </div>
 	
 <div class="content">
-	<textarea placeholder="Details..." class="no-focus" data-bind="value: IssueTracker.selectedIssue.details"></textarea>
+	<textarea id="details" placeholder="Details..." class="no-focus" data-bind="enable: IssueTracker.isAuthorized('edit-issue'), value: IssueTracker.selectedIssue.details"></textarea>
 	<div class="comments">
-		<div class="new-comment">
+		<div class="new-comment" data-bind="visible: IssueTracker.isAuthorized('edit-issue')">
 			<div>
                 <div class="comment-header">
                     <div class="upi">

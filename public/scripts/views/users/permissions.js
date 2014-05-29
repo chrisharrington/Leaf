@@ -25,6 +25,8 @@
 			IssueTracker.Feedback.success("The user's permissions have been updated.");
 			IssueTracker.Dialog.hide();
 			_updateUserPermissions();
+			if (_user.id() == IssueTracker.signedInUser().id())
+				_updateSignedInUserPermissions();
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while updating the user permissions. Please try again later.");
 		}).always(function() {
@@ -53,11 +55,19 @@
 	}
 
 	function _updateUserPermissions() {
-		var permissions = [], user = IssueTracker.Users.users().where(function(x) { return x.id() == _user.id(); })[0];
+		var permissions = [], user = IssueTracker.Users.users().first(function(x) { return x.id() == _user.id(); });
 		for (var name in root.userPermissions())
 			if (root.userPermissions()[name]())
 				permissions.push({ permissionId: name, userId: user.id() });
 		user.permissions(permissions);
+	}
+
+	function _updateSignedInUserPermissions() {
+		var permissions = [];
+		for (var name in root.userPermissions())
+			if (root.userPermissions()[name]())
+				permissions.push({ permissionId: name, userId: IssueTracker.signedInUser().id() });
+		IssueTracker.signedInUser().permissions(permissions);
 	}
 
 })(root("IssueTracker.Users.Permissions"));
