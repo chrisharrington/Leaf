@@ -21,12 +21,15 @@
 
 	root.save = function() {
 		root.loading(true);
-
-		IssueTracker.Feedback.success("The user's permissions have been updated.");
-		IssueTracker.Dialog.hide();
-		_updateUserPermissions();
-
-		root.loading(false);
+		$.post(IssueTracker.virtualDirectory + "permissions", { userId: _user.id(), permissionIds: _getEnabledPermissionIds() }).then(function() {
+			IssueTracker.Feedback.success("The user's permissions have been updated.");
+			IssueTracker.Dialog.hide();
+			_updateUserPermissions();
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error has occurred while updating the user permissions. Please try again later.");
+		}).always(function() {
+			root.loading(false);
+		});
 	};
 
 	root.cancel = function() {
@@ -50,7 +53,7 @@
 	}
 
 	function _updateUserPermissions() {
-		var permissions = [], user = IssueTracker.Users.users().where(function(x) { return x.id() == _user.id(); });
+		var permissions = [], user = IssueTracker.Users.users().where(function(x) { return x.id() == _user.id(); })[0];
 		for (var name in root.userPermissions())
 			if (root.userPermissions()[name]())
 				permissions.push({ permissionId: name, userId: user.id() });
