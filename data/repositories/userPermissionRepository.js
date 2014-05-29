@@ -11,7 +11,7 @@ repository.removeAllForUser = function(userId) {
 repository.addPermissionsForUser = function(userId, permissionIds) {
 	var creates = [], model = this.model;
 	permissionIds.forEach(function(permissionId) {
-		creates.push(model.create(new model({ user: userId, permission: permissionId })));
+		creates.push(model.createAsync({ user: userId, permission: permissionId }));
 	});
 	return Promise.all(creates);
 };
