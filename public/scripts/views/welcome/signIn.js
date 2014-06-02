@@ -45,9 +45,9 @@
 			global: false
 		}).done(function (data) {
 			IssueTracker.Utilities.setObservableProperties(data.user, IssueTracker.signedInUser());
+			IssueTracker.signedInUser(IssueTracker.Utilities.createPropertyObservables(data.user));
 			IssueTracker.projectId(data.project.id);
 			IssueTracker.projectName(data.project.name);
-			IssueTracker.signedInUser(IssueTracker.Utilities.createPropertyObservables(data.user));
 
 			var redirect = _getRedirect();
 			if (redirect)
