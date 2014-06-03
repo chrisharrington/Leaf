@@ -54,7 +54,7 @@ module.exports = function(app) {
 			return;
 		}
 
-		return mapper.map("user-view-model", "user", user).then(function(mapped) {
+		return mapper.map("user-summary-view-model", "user", user).then(function(mapped) {
 			return repositories.User.one({ _id: mapped._id });
 		}).then(function(retrieved) {
 			var name = retrieved.name;
@@ -75,8 +75,8 @@ module.exports = function(app) {
 				return;
 
 			return Promise.all([
-				repositories.Issue.save({ developer: user }, { project: project, developer: retrieved }),
-				repositories.Issue.save({ tester: user }, { project: project, tester: retrieved })
+				repositories.Issue.save({ developer: user }, { project: project._id, developer: retrieved }),
+				repositories.Issue.save({ tester: user }, { project: project._id, tester: retrieved })
 			]);
 		}
 	});

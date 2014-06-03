@@ -88,7 +88,7 @@ describe("user mapping", function() {
 			require("../../../../data/mapping/definitions/user");
 		});
 
-		it("should define user-summary/user-summary-view-model map", function () {
+		it("should define user/user-summary-view-model map", function () {
 			assert(_define.calledWith("user", "user-summary-view-model", {
 				"id": "_id",
 				name: "name",
@@ -123,6 +123,30 @@ describe("user mapping", function() {
 			func({ permissions: undefined });
 			assert(map.calledWith("user-permission", "user-permission-view-model", []));
 			map.restore();
+		});
+
+		afterEach(function() {
+			_define.restore();
+			require.cache[process.cwd() + "/data/mapping/definitions/user.js"] = null;
+		});
+	});
+
+	describe("user-summary-view-model --> user", function() {
+		var _define;
+
+		beforeEach(function () {
+			_define = sinon.stub(mapper, "define");
+			require("../../../../data/mapping/definitions/user");
+		});
+
+		it("should define user-summary-view-model/user map", function () {
+			assert(_define.calledWith("user-summary-view-model", "user", {
+				"_id": "id",
+				name: "name",
+				emailAddress: "emailAddress",
+				phone: "phone",
+				isDeleted: "isDeleted"
+			}));
 		});
 
 		afterEach(function() {

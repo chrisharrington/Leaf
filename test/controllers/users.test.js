@@ -13,8 +13,8 @@ var csprng = require("csprng");
 var crypto = require("crypto");
 var config = require("../../config");
 var mongoose = require("mongoose");
-var baseController = require("../../controllers/baseController");
 var hash = require("../../authentication/hash");
+var baseController = require("../../controllers/baseController");
 
 var sut = require("../../controllers/users");
 
@@ -139,7 +139,7 @@ describe("users", function() {
 				assert: function(result) {
 					assert(result.stubs.mapAll.calledWith(sinon.match.any, sinon.match.any, [
 						{ _id: "first", permissions: [{ permission: "first permission", user: "first" }, { permission: "second permission", user: "first" }] },
-						{ _id: "second", permissions: [{ permission: "third permission", user: "second" }, { permission: "fourth permission", user: "second" }] },
+						{ _id: "second", permissions: [{ permission: "third permission", user: "second" }, { permission: "fourth permission", user: "second" }] }
 					]));
 				}
 			});
@@ -488,6 +488,164 @@ describe("users", function() {
 					email: sinon.stub(emailer, "send").resolves(),
 					objectId: sinon.stub(mongoose.Types, "ObjectId").returns(params.id || "the id"),
 					config: sinon.stub(config, "call").returns(params.domain || "the domain")
+				},
+				assert: params.assert
+			});
+		}
+	});
+
+	describe("post /users/edit", function() {
+		it("should set post /users/edit route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/users/edit", sinon.match.func));
+		});
+
+		it("should send 400 with missing name", function() {
+			_run({
+				body: {
+					emailAddress: "the email address"
+				},
+				assert: function(result) {
+					assert(result.response.send.calledWith("The name is required.", 400));
+				}
+			});
+		});
+
+		it("should send 400 with empty name", function() {
+			_run({
+				body: {
+					name: "",
+					emailAddress: "the email address"
+				},
+				assert: function(result) {
+					assert(result.response.send.calledWith("The name is required.", 400));
+				}
+			});
+		});
+
+		it("should send 400 with missing email address", function() {
+			_run({
+				body: {
+					name: "the name"
+				},
+				assert: function(result) {
+					assert(result.response.send.calledWith("The email address is required.", 400));
+				}
+			});
+		});
+
+		it("should send 400 with empty email address", function() {
+			_run({
+				body: {
+					name: "the name",
+					emailAddress: ""
+				},
+				assert: function(result) {
+					assert(result.response.send.calledWith("The email address is required.", 400));
+				}
+			});
+		});
+
+		it("should send 400 with invalid email address", function() {
+			_run({
+				body: {
+					name: "the name",
+					emailAddress: "faasdfasf"
+				},
+				assert: function(result) {
+					assert(result.response.send.calledWith("The email address is invalid.", 400));
+				}
+			});
+		});
+
+		it("should map from 'user-view-model' to 'user'", function() {
+			var body = { name: "the name", emailAddress: "email@blah.com" };
+			return _run({
+				body: body,
+				assert: function(result) {
+					assert(result.stubs.mapper.calledWith("user-summary-view-model", "user", body));
+				}
+			});
+		});
+
+		it("should update user with name and email address set from request.body", function() {
+			var body = { name: "the new name", emailAddress: "email@new.com" }, retrieved = { name: "the old name", phone: "the phone number" };
+			return _run({
+				user: retrieved,
+				body: body,
+				assert: function(result) {
+					assert(result.stubs.userUpdate.calledWith({ name: body.name, emailAddress: body.emailAddress, phone: retrieved.phone }));
+				}
+			});
+		});
+
+		it("should update developer names for affected issues", function() {
+			var body = { name: "the new name", emailAddress: "blah@blah.com" };
+			var retrieved = { name: "the old name" };
+			var projectId = "the project id to filter with";
+			return _run({
+				body: body,
+				user: retrieved,
+				projectId: projectId,
+				assert: function(result) {
+					assert(result.stubs.issueSave.calledWith({ developer: "the new name" }, { project: projectId, developer: "the old name" }));
+				}
+			});
+		});
+
+		it("should update tester names for affected issues", function() {
+			var body = { name: "the new name", emailAddress: "blah@blah.com" };
+			var retrieved = { name: "the old name" };
+			var projectId = "the project id to filter with";
+			return _run({
+				body: body,
+				user: retrieved,
+				projectId: projectId,
+				assert: function(result) {
+					assert(result.stubs.issueSave.calledWith({ tester: "the new name" }, { project: projectId, tester: "the old name" }));
+				}
+			});
+		});
+
+		it("should send 200", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 on error", function() {
+			return _run({
+				userOne: sinon.stub(repositories.User, "one").rejects(new Error("oh noes!")),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
+		function _run(params) {
+			params = params || {};
+			return base.testRoute({
+				sut: sut,
+				verb: "post",
+				route: "/users/edit",
+				request: {
+					project: {
+						name: params.projectName,
+						_id: params.projectId || "the project id"
+					},
+					body: params.body || {
+						name: "the name",
+						emailAddress: "blah@blah.com"
+					}
+				},
+				stubs: {
+					mapper: sinon.stub(mapper, "map").resolves(params.mapped || {}),
+					userOne: params.userOne || sinon.stub(repositories.User, "one").resolves(params.user || {}),
+					issueSave: sinon.stub(repositories.Issue, "save").resolves(),
+					userUpdate: sinon.stub(repositories.User, "update").resolves()
 				},
 				assert: params.assert
 			});

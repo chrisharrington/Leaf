@@ -32,3 +32,11 @@ require("../mapper").define("user", "user-summary-view-model", {
 	isDeleted: "isDeleted",
 	permissions: function(x) { return require("../mapper").mapAllSynchronous("user-permission", "user-permission-view-model", x.permissions || []); }
 });
+
+require("../mapper").define("user-summary-view-model", "user", {
+	"_id": "id",
+	name: "name",
+	emailAddress: "emailAddress",
+	phone: "phone",
+	isDeleted: "isDeleted"
+});
