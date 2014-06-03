@@ -406,7 +406,7 @@ describe("issueRepository", function() {
 			_stubs.userDetails.withArgs(params.testerId || "the tester id").resolves(params.testerDetailsResult || {});
 			_stubs.date = params.date || sinon.stub(Date, "now");
 
-			return sut.update(params.model || {
+			return sut.updateIssue(params.model || {
 				_id: params.id || "the id",
 				milestoneId: params.milestoneId || "the milestone id",
 				priorityId: params.priorityId || "the priority id",
