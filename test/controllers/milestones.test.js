@@ -118,7 +118,7 @@ describe("milestones", function() {
 			_stubs = {};
 			_stubs.getIssues = params.getIssues || sinon.stub(repositories.Issue, "get").resolves(params.issues || []);
 			_stubs.getMilestone = sinon.stub(repositories.Milestone, "one").resolves(params.milestone || {});
-			_stubs.updateIssue = sinon.stub(repositories.Issue, "update").resolves();
+			_stubs.updateIssue = sinon.stub(repositories.Issue, "updateIssue").resolves();
 			_stubs.removeMilestone = sinon.stub(repositories.Milestone, "remove").resolves();
 
 			return base.testRoute({
@@ -293,7 +293,7 @@ describe("milestones", function() {
 			_stubs.map = params.map || sinon.stub(mapper, "map").resolves(params.milestone || {});
 			_stubs.getIssue = sinon.stub(repositories.Issue, "get").resolves(params.issues || []);
 			_stubs.saveMilestone = sinon.stub(repositories.Milestone, "save").resolves();
-			_stubs.updateIssue = sinon.stub(repositories.Issue, "update").resolves();
+			_stubs.updateIssue = sinon.stub(repositories.Issue, "updateIssue").resolves();
 			_stubs.objectId = sinon.stub(mongoose.Types, "ObjectId").returns(params.objectId || "");
 			_stubs.createMilestone = sinon.stub(repositories.Milestone, "create").resolves();
 

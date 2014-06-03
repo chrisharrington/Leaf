@@ -28,9 +28,18 @@
 	};
 
 	function _updateUserInList() {
-		$.each(IssueTracker.Users.users, function(i, user) {
-			if (user.id() == root.user().id())
-				IssueTracker.Utilities.copyNestedObservableObject(root.user, user);
+		$.each(IssueTracker.Users.users(), function(i, user) {
+			if (user.id() == root.user().id()) {
+				user.name(root.user().name());
+				user.emailAddress(root.user().emailAddress());
+			}
+		});
+
+		$.each(IssueTracker.users(), function(i, user) {
+			if (user.id() == root.user().id()) {
+				user.name(root.user().name());
+				user.emailAddress(root.user().emailAddress());
+			}
 		});
 	}
 

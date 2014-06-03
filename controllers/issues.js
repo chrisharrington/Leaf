@@ -115,7 +115,7 @@ module.exports = function(app) {
 				issue.closed = Date.now();
 			else
 				issue.closed = null;
-			return repositories.Issue.update(issue, request.user).then(function () {
+			return repositories.Issue.updateIssue(issue, request.user).then(function () {
 				if (request.user._id.toString() != issue.developerId.toString()) {
 					return Promise.all([
 						repositories.User.details(issue.developerId),

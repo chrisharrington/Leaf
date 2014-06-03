@@ -118,7 +118,7 @@ describe("priorities", function() {
 			_stubs = {};
 			_stubs.getIssues = params.getIssues || sinon.stub(repositories.Issue, "get").resolves(params.issues || []);
 			_stubs.getPriority = sinon.stub(repositories.Priority, "one").resolves(params.priority || {});
-			_stubs.updateIssue = sinon.stub(repositories.Issue, "update").resolves();
+			_stubs.updateIssue = sinon.stub(repositories.Issue, "updateIssue").resolves();
 			_stubs.removePriority = sinon.stub(repositories.Priority, "remove").resolves();
 
 			return base.testRoute({
@@ -293,7 +293,7 @@ describe("priorities", function() {
 			_stubs.map = params.map || sinon.stub(mapper, "map").resolves(params.priority || {});
 			_stubs.getIssue = sinon.stub(repositories.Issue, "get").resolves(params.issues || []);
 			_stubs.savePriority = sinon.stub(repositories.Priority, "save").resolves();
-			_stubs.updateIssue = sinon.stub(repositories.Issue, "update").resolves();
+			_stubs.updateIssue = sinon.stub(repositories.Issue, "updateIssue").resolves();
 			_stubs.objectId = sinon.stub(mongoose.Types, "ObjectId").returns(params.objectId || "");
 			_stubs.createPriority = sinon.stub(repositories.Priority, "create").resolves();
 

@@ -51,7 +51,7 @@ repository.number = function(projectId, number) {
 	return this.one({ project: projectId, number: number });
 };
 
-repository.update = function(model, user) {
+repository.updateIssue = function(model, user) {
 	var repositories = require("../repositories");
 	return Promise.all([
 		repository.details(model._id),

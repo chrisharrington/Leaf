@@ -26,10 +26,19 @@ module.exports = function(app) {
 	});
 
 	function _searchForIssues(text) {
-		return require("../data/models").Issue.textSearchAsync(text).then(function(result) {
-			var split = text.split(" "), issues = [], objects = result.results;
+		var query;
+		if (text[0] == "#")
+			query = repositories.Issue.get({ number: parseInt(text.substring(1)) });
+		else
+			query = require("../data/models").Issue.textSearchAsync(text).then(function(result) {
+				var split = text.split(" "), issues = [], objects = result.results;
 				for (var i = 0; i < objects.length; i++)
 					issues.push(objects[i].obj);
+				return issues;
+			});
+
+		return query.then(function(issues) {
+			var split = text.split(" ");
 			return mapper.mapAll("issue", "issue-view-model", issues).map(function(mapped) {
 				return _highlightFoundValues(mapped, split);
 			});

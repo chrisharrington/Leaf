@@ -42,10 +42,10 @@ module.exports = {
 		return Promise.promisifyAll(model).saveAsync();
 	},
 
-	save: function(obj) {
+	save: function(obj, query) {
 		var id = obj._id;
 		delete obj._id;
-		return Promise.promisifyAll(this.model).updateAsync({ _id: id }, obj);
+		return Promise.promisifyAll(this.model).updateAsync(query || { _id: id }, obj, query ? { multi: true } : undefined);
 	},
 
 	create: function(model) {

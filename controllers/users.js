@@ -46,6 +46,41 @@ module.exports = function(app) {
 		return base.view("public/views/profile.html", response);
 	});
 
+	app.post("/users/edit", authenticate, authorize("edit-user"), function(request, response) {
+		var user = request.body;
+		var error = _validate(user);
+		if (error) {
+			response.send(error, 400);
+			return;
+		}
+
+		return mapper.map("user-view-model", "user", user).then(function(mapped) {
+			return repositories.User.one({ _id: mapped._id });
+		}).then(function(retrieved) {
+			var name = retrieved.name;
+			retrieved.name = user.name;
+			retrieved.emailAddress = user.emailAddress;
+			return Promise.all([
+				_updateIssueNames(name, user.name, request.project),
+				repositories.User.update(retrieved)
+			]);
+		}).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
+
+		function _updateIssueNames(retrieved, user, project) {
+			if (retrieved == user)
+				return;
+
+			return Promise.all([
+				repositories.Issue.save({ developer: user }, { project: project, developer: retrieved }),
+				repositories.Issue.save({ tester: user }, { project: project, tester: retrieved })
+			]);
+		}
+	});
+
 	app.post("/users/create", authenticate, authorize("create-user"), function(request, response) {
 		var user = { name: request.body.name, emailAddress: request.body.emailAddress };
 		var error = _validate(user);
@@ -69,15 +104,6 @@ module.exports = function(app) {
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});
-
-		function _validate(user) {
-			if (!user.name || user.name == "")
-				return "The name is required.";
-			if (!user.emailAddress || user.emailAddress == "")
-				return "The email address is required.";
-			if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(user.emailAddress))
-				return "The email address is invalid.";
-		}
 	});
 
 	app.post("/users/profile", authenticate, function(request, response) {
@@ -154,4 +180,13 @@ module.exports = function(app) {
 			return crypto.createHash(config.call(this, "hashAlgorithm")).update(text).digest("hex");
 		}
 	});
+
+	function _validate(user) {
+		if (!user.name || user.name == "")
+			return "The name is required.";
+		if (!user.emailAddress || user.emailAddress == "")
+			return "The email address is required.";
+		if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(user.emailAddress))
+			return "The email address is invalid.";
+	}
 };

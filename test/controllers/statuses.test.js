@@ -118,7 +118,7 @@ describe("statuses", function() {
 			_stubs = {};
 			_stubs.getIssues = params.getIssues || sinon.stub(repositories.Issue, "get").resolves(params.issues || []);
 			_stubs.getStatus = sinon.stub(repositories.Status, "one").resolves(params.status || {});
-			_stubs.updateIssue = sinon.stub(repositories.Issue, "update").resolves();
+			_stubs.updateIssue = sinon.stub(repositories.Issue, "updateIssue").resolves();
 			_stubs.removeStatus = sinon.stub(repositories.Status, "remove").resolves();
 
 			return base.testRoute({
@@ -293,7 +293,7 @@ describe("statuses", function() {
 			_stubs.map = params.map || sinon.stub(mapper, "map").resolves(params.status || {});
 			_stubs.getIssue = sinon.stub(repositories.Issue, "get").resolves(params.issues || []);
 			_stubs.saveStatus = sinon.stub(repositories.Status, "save").resolves();
-			_stubs.updateIssue = sinon.stub(repositories.Issue, "update").resolves();
+			_stubs.updateIssue = sinon.stub(repositories.Issue, "updateIssue").resolves();
 			_stubs.objectId = sinon.stub(mongoose.Types, "ObjectId").returns(params.objectId || "");
 			_stubs.createStatus = sinon.stub(repositories.Status, "create").resolves();
 

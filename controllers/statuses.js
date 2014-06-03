@@ -15,7 +15,7 @@ module.exports = function(app) {
 			return Promise.all(issues.map(function(i) {
 				i.statusId = status._id;
 				i.status = status.name;
-				return repositories.Issue.update(i, request.user);
+				return repositories.Issue.updateIssue(i, request.user);
 			}));
 		}).then(function() {
 			repositories.Status.remove(request.body.id);
@@ -35,7 +35,7 @@ module.exports = function(app) {
 						return Promise.all(issues.map(function (i) {
 							i.statusId = request.body.id;
 							i.status = status.name;
-							return repositories.Issue.update(i, request.user);
+							return repositories.Issue.updateIssue(i, request.user);
 						}));
 					});
 				});

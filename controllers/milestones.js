@@ -15,7 +15,7 @@ module.exports = function(app) {
 			return Promise.all(issues.map(function(i) {
 				i.milestoneId = milestone._id;
 				i.milestone = milestone.name;
-				return repositories.Issue.update(i, request.user);
+				return repositories.Issue.updateIssue(i, request.user);
 			}));
 		}).then(function() {
 			repositories.Milestone.remove(request.body.id);
@@ -35,7 +35,7 @@ module.exports = function(app) {
 						return Promise.all(issues.map(function (i) {
 							i.milestoneId = request.body.id;
 							i.milestone = milestone.name;
-							return repositories.Issue.update(i, request.user);
+							return repositories.Issue.updateIssue(i, request.user);
 						}));
 					});
 				});

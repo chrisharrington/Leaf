@@ -963,7 +963,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to update", function() {
 			return _runUpdateIssue({
-				issueUpdate: sinon.stub(repositories.Issue, "update").rejects(new Error("oh noes!")),
+				issueUpdate: sinon.stub(repositories.Issue, "updateIssue").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.string, 500));
 				}
@@ -1032,7 +1032,7 @@ describe("issues", function() {
 			params = params || {};
 			params.stubs = {
 				mapperMap: params.mapperMap || sinon.stub(mapper, "map").resolves(params.mapperMapResult || { developerId: params.developerId || "the developer id" }),
-				issueUpdate: params.issueUpdate || sinon.stub(repositories.Issue, "update").resolves(),
+				issueUpdate: params.issueUpdate || sinon.stub(repositories.Issue, "updateIssue").resolves(),
 				notificationCreate: params.notificationCreate || sinon.stub(repositories.Notification, "create").resolves(),
 				userDetails: params.userDetails || sinon.stub(repositories.User, "details").resolves(params.user || { emailNotificationForIssueUpdated: params.emailNotificationForIssueUpdated == undefined ? true : false }),
 				notificationEmailerIssueUpdated: params.notificationEmailerIssueUpdated || sinon.stub(notificationEmailer, "issueUpdated").resolves(),
