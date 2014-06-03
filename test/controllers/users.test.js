@@ -625,6 +625,20 @@ describe("users", function() {
 			});
 		});
 
+		it("should not update issues if retrieved and given names are the same", function() {
+			var body = { name: "the name", emailAddress: "blah@blah.com" };
+			var retrieved = { name: "the name" };
+			var projectId = "the project id to filter with";
+			return _run({
+				body: body,
+				user: retrieved,
+				projectId: projectId,
+				assert: function(result) {
+					assert(result.stubs.issueSave.notCalled);
+				}
+			});
+		});
+
 		function _run(params) {
 			params = params || {};
 			return base.testRoute({
