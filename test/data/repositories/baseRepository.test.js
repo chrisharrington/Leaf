@@ -328,11 +328,11 @@ describe("baseRepository", function() {
 	});
 
 	describe("save", function() {
-		it("should filter update by object's id", function() {
+		it("should filter update by object's id when no query is given", function() {
 			sut.model = { updateAsync: sinon.stub().resolves() };
 
 			var object = { _id: "the id", name: "the name" };
-			return sut.save(object).then(function() {
+			return sut.save(object, undefined).then(function() {
 				assert(sut.model.updateAsync.calledWith({ _id: "the id" }, sinon.match.any));
 			});
 		});
@@ -343,6 +343,33 @@ describe("baseRepository", function() {
 			var object = { _id: "the id", name: "the name" };
 			return sut.save(object).then(function() {
 				assert(sut.model.updateAsync.calledWith(sinon.match.any, { name: "the name" }));
+			});
+		});
+
+		it("should update with query when query is given", function() {
+			sut.model = { updateAsync: sinon.stub().resolves() };
+
+			var object = { _id: "the id", name: "the name" }, query = "the query";
+			return sut.save(object, query).then(function() {
+				assert(sut.model.updateAsync.calledWith(query, sinon.match.any));
+			});
+		});
+
+		it("should set update's multi option to true when query is given", function() {
+			sut.model = { updateAsync: sinon.stub().resolves() };
+
+			var object = { _id: "the id", name: "the name" }, query = "the query";
+			return sut.save(object, query).then(function() {
+				assert(sut.model.updateAsync.calledWith(query, sinon.match.any, { multi: true }));
+			});
+		});
+
+		it("should not set update's multi option when no query is given", function() {
+			sut.model = { updateAsync: sinon.stub().resolves() };
+
+			var object = { _id: "the id", name: "the name" };
+			return sut.save(object, undefined).then(function() {
+				assert(sut.model.updateAsync.calledWith(sinon.match.any, sinon.match.any, undefined));
 			});
 		});
 	});
