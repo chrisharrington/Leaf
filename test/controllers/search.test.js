@@ -7,6 +7,7 @@ require("../setup");
 var controller = require("../../controllers/baseController");
 var models = require("../../data/models");
 var mapper = require("../../data/mapping/mapper");
+var repositories = require("../../data/repositories");
 
 var sut = require("../../controllers/search");
 
@@ -109,6 +110,26 @@ describe("users", function() {
 			});
 		});
 
+		it("should find issues by number if text begins with '#'", function() {
+			var query = "#45";
+			return _run({
+				text: query
+			}).then(function() {
+				assert(_stubs.getIssue.calledWith({ number: parseInt(query.substring(1)) }));
+				assert(_stubs.textSearch.notCalled);
+			});
+		});
+
+		it("should perform text search if query doesn't begin with '#'", function() {
+			var query = "a text query";
+			return _run({
+				text: query
+			}).then(function() {
+				assert(_stubs.getIssue.notCalled);
+				assert(_stubs.textSearch.calledWith(query));
+			});
+		});
+
 		afterEach(function() {
 			for (var name in _stubs)
 				if (_stubs[name].restore)
@@ -124,6 +145,7 @@ describe("users", function() {
 			_stubs = {};
 			_stubs.textSearch = params.textSearch || sinon.stub(models.Issue, "textSearchAsync").resolves(params.issues || result);
 			_stubs.map = sinon.stub(mapper, "mapAll").returns(params.mapped || [{ details: "the first details", description: "the first description", number: 10 }, { details: "the second details", description: "the second description", number: 11 }]);
+			_stubs.getIssue = sinon.stub(repositories.Issue, "get").resolves([]);
 			params.request = _stubs.request = { query: { text: params.text || "the text" }};
 			params.response = _stubs.response = { send: sinon.stub() };
 
