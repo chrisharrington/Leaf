@@ -81,6 +81,16 @@ module.exports = function(app) {
 		}
 	});
 
+	app.post("/users/reset-password", authenticate, authorize("reset-password"), function(request, response) {
+		// set session, expiration to null
+		// set requiresNewPassword to true
+		// send email to user with a link to reset his or her password
+	});
+
+	app.post("/users/new-password", authenticate, function(request, response) {
+
+	});
+
 	app.post("/users/create", authenticate, authorize("create-user"), function(request, response) {
 		var user = { name: request.body.name, emailAddress: request.body.emailAddress };
 		var error = _validate(user);

@@ -11,6 +11,7 @@ var schema = mongoose.Schema({
 	password: String,
 	session: String,
 	expiration: Date,
+	requiresNewPassword: { type: Boolean, default: false },
 
 	emailNotificationForIssueAssigned: { type: Boolean, default: true },
 	emailNotificationForIssueDeleted: { type: Boolean, default: false },

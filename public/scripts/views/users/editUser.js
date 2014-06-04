@@ -11,7 +11,7 @@
 
 	root.save = function () {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory + "Users/Edit", root.user()).done(function() {
+		$.post(IssueTracker.virtualDirectory + "users/edit", root.user()).done(function() {
 			IssueTracker.Feedback.success(root.user().name() + " has been saved.");
 			IssueTracker.Dialog.hide();
 			_updateUserInList();

@@ -4,11 +4,18 @@
 	var _container;
 	var _redirect;
 
+	root.newPasswordVisible = ko.observable(false);
+
 	root.init = function(container) {
 		_container = container;
 
 		root.SignIn.init(container.find("div.sign-in"), function() {
 			return _redirect;
+		});
+
+		root.newPasswordVisible.subscribe(function() {
+			if (root.NewPassword.focusPassword)
+				root.NewPassword.focusPassword(true);
 		});
 	};
 

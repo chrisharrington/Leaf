@@ -26,6 +26,19 @@
 		_submit();
 	};
 
+	root.setSignInValues = function(user, project) {
+		IssueTracker.Utilities.setObservableProperties(user, IssueTracker.signedInUser());
+		IssueTracker.signedInUser(IssueTracker.Utilities.createPropertyObservables(user));
+		IssueTracker.projectId(project.id);
+		IssueTracker.projectName(project.name);
+
+		var redirect = _getRedirect();
+		if (redirect)
+			window.location.hash = redirect;
+		else
+			IssueTracker.Issues.navigate();
+	};
+
 	function _validate() {
 		var model = root.model;
 		if (model.email() == "")
@@ -44,16 +57,12 @@
 			data: IssueTracker.Utilities.extractPropertyObservableValues(root.model),
 			global: false
 		}).done(function (data) {
-			IssueTracker.Utilities.setObservableProperties(data.user, IssueTracker.signedInUser());
-			IssueTracker.signedInUser(IssueTracker.Utilities.createPropertyObservables(data.user));
-			IssueTracker.projectId(data.project.id);
-			IssueTracker.projectName(data.project.name);
-
-			var redirect = _getRedirect();
-			if (redirect)
-				window.location.hash = redirect;
-			else
-				IssueTracker.Issues.navigate();
+			if (data.newPasswordRequired) {
+				IssueTracker.Welcome.newPasswordVisible(true);
+				IssueTracker.Welcome.NewPassword.data = data;
+			} else {
+				root.setSignInValues(data.user, data.project);
+			}
 		}).fail(function (response) {
 			if (response.status == 401)
 				IssueTracker.Feedback.error("Your credentials are invalid.");

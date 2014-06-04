@@ -22,7 +22,7 @@
     root.init = function(container) {
 		_menu = IssueTracker.SlideMenu.build(container);
         _container = container;
-		_loadNotifications();
+		//_loadNotifications();
 
 		//setInterval(_loadNotifications, NOTIFICATION_LOAD_INTERVAL);
 

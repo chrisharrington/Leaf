@@ -48,7 +48,10 @@ module.exports = function(app) {
 				mapper.map("project", "project-view-model", project)
 			]).spread(function (mappedUser, mappedProject) {
 				return repositories.User.update(user).then(function () {
-					response.send({ user: mappedUser, project: mappedProject }, 200);
+					var result = { user: mappedUser, project: mappedProject };
+					if (user.requiresNewPassword)
+						result.newPasswordRequired = true;
+					response.send(result, 200);
 				});
 			});
 		}
