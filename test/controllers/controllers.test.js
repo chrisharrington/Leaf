@@ -13,7 +13,7 @@ describe("controllers", function() {
 				if (name != "init")
 					count++;
 
-			assert.equal(count, 12);
+			assert.equal(count, 13);
 		});
 
 		it("should initialize root controller", function() {
@@ -62,6 +62,10 @@ describe("controllers", function() {
 
 		it("should initialize permissions controller", function() {
 			_run("permissions");
+		});
+
+		it("should initialize newPassword controller", function() {
+			_run("newPassword");
 		});
 
 		function _run(controller) {

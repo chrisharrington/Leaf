@@ -8,7 +8,7 @@ var config = require("../../config");
 
 var sut = require("../../controllers/projects");
 
-describe("style", function() {
+describe("project", function() {
 	describe("get /project/settings", function() {
 		it("should set get /project/settings route", function() {
 			var app = { get: sinon.stub(), post: sinon.stub() };
