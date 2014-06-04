@@ -970,4 +970,101 @@ describe("users", function() {
 			});
 		}
 	});
+
+	describe("post /users/change-password", function() {
+		it("should set post /users/change-password route", function () {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/users/reset-password", sinon.match.func, sinon.match.func, sinon.match.func));
+		});
+
+		it("should retrieve user using user id given in request.body", function() {
+			var userId = "the user id from request.body";
+			return _run({
+				userId: userId,
+				assert: function(result) {
+					assert(result.stubs.userOne.calledWith({ _id: userId }));
+				}
+			});
+		});
+
+		it("should update user", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.stubs.userUpdate.calledOnce);
+				}
+			});
+		});
+
+		it("should update user with session set to null", function() {
+			var user = { name: "the user's name" };
+			return _run({
+				user: user,
+				assert: function(result) {
+					assert(result.stubs.userUpdate.calledWith({ name: "the user's name", session: null, expiration: sinon.match.any, requiresNewPassword: sinon.match.any }));
+				}
+			});
+		});
+
+		it("should update user with expiration set to null", function() {
+			var user = { name: "the user's name" };
+			return _run({
+				user: user,
+				assert: function(result) {
+					assert(result.stubs.userUpdate.calledWith({ name: "the user's name", session: sinon.match.any, expiration: null, requiresNewPassword: sinon.match.any }));
+				}
+			});
+		});
+
+		it("should update user with requiresNewPassword set to true", function() {
+			var user = { name: "the user's name" };
+			return _run({
+				user: user,
+				assert: function(result) {
+					assert(result.stubs.userUpdate.calledWith({ name: "the user's name", session: sinon.match.any, expiration: sinon.match.any, requiresNewPassword: true }));
+				}
+			});
+		});
+
+		it("should send 200", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 on error", function() {
+			return _run({
+				userOne: sinon.stub(repositories.User, "one").rejects(new Error("oh noes!")),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
+		function _run(params) {
+			params || {};
+
+			var stubs = {};
+			stubs.userOne = params.userOne || sinon.stub(repositories.User, "one").resolves(params.user || {});
+			stubs.userUpdate = params.userUpdate || sinon.stub(repositories.User, "update").resolves();
+			return base.testRoute({
+				sut: sut,
+				verb: "post",
+				route: "/users/reset-password",
+				request: {
+					body: {
+						userId: params.userId
+					},
+					user: {
+						password: params.stored,
+						salt: params.salt
+					}
+				},
+				stubs: stubs,
+				assert: params.assert
+			});
+		}
+	});
 });
