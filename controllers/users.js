@@ -88,7 +88,17 @@ module.exports = function(app) {
 	});
 
 	app.post("/users/new-password", authenticate, function(request, response) {
-
+		// request.body = { userId: 'the user id', password: 'the new password' }
+		return repositories.User.one({ _id: request.body.userId }).then(function(user) {
+			user.salt = csprng.call(this, 128, 36);
+			user.password = crypto.createHash(config("hashAlgorithm")).update(user.salt + request.body.password).digest("hex");
+			user.requiresNewPassword = false;
+			return repositories.User.update(user);
+		}).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
 	});
 
 	app.post("/users/create", authenticate, authorize("create-user"), function(request, response) {

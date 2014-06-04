@@ -27,9 +27,10 @@
 
 	function _submit() {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory + "users/new-password", { userId: root.user.id, password: root.password() }).done(function() {
+		$.post(IssueTracker.virtualDirectory + "users/new-password", { userId: root.data.user.id, password: root.password() }).done(function() {
 			IssueTracker.Feedback.success("Your password has been reset. Thanks!");
 			IssueTracker.Welcome.SignIn.setSignInValues(root.data.user, root.data.project);
+			IssueTracker.Welcome.newPasswordVisible(false);
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while resetting your password. Please try again later.");
 		}).always(function() {
