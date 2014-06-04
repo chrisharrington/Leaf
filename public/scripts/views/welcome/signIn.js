@@ -58,8 +58,8 @@
 			global: false
 		}).done(function (data) {
 			if (data.newPasswordRequired) {
-				IssueTracker.Welcome.newPasswordVisible(true);
-				IssueTracker.Welcome.NewPassword.data = data;
+				IssueTracker.NewPassword.data = data;
+				IssueTracker.NewPassword.navigate();
 			} else {
 				root.setSignInValues(data.user, data.project);
 			}

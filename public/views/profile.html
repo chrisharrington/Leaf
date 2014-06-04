@@ -24,7 +24,7 @@
 		<div>
 			<label>Email Address</label>
 			<span>This also serves as your sign in username.</span>
-			<input type="text" placeholder="Email address..." data-bind="value: IssueTracker.signedInUser()" />
+			<input type="text" placeholder="Email address..." data-bind="value: IssueTracker.signedInUser() ? IssueTracker.signedInUser().emailAddress : ''" />
 		</div>
 		<div>
 			<label>Full Name</label>

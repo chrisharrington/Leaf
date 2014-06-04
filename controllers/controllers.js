@@ -11,6 +11,7 @@ module.exports = {
 	priorities: require("./priorities"),
 	statuses: require("./statuses"),
 	permissions: require("./permissions"),
+	newPassword: require("./newPassword"),
 
 	init: function(app) {
 		for (var name in this)

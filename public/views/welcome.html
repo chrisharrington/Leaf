@@ -5,7 +5,7 @@
     </div>
 </div>
 
-<div class="sign-in" data-bind="visible: !newPasswordVisible()">
+<div class="sign-in">
     <div class="form tile">
         <h1>Sign In</h1>
 		<img src="images/ajax-loader.gif" alt="" data-bind="visible: SignIn.loading" />
@@ -18,14 +18,4 @@
         </div>
         <button data-bind="css: { loading: SignIn.loading }, click: SignIn.signIn" tabindex="4">Sign In</button>
     </div>
-</div>
-
-<div class="new-password" data-bind="visible: newPasswordVisible">
-	<div class="form tile">
-		<h1>New Password</h1>
-		<span>We've recently received a request to have your password reset. Please enter a new password below. You'll be able to sign in as soon as you do so. Thanks!</span>
-		<input type="password" placeholder="Password..." name="password" tabindex="1" data-bind="hasfocus: NewPassword.focusPassword, value: NewPassword.password" />
-		<input type="password" placeholder="Confirm password..." name="confirm-password" tabindex="2" data-bind="value: NewPassword.confirmPassword" />
-		<button tabindex="3" data-bind="css: { loading: NewPassword.loading }, click: NewPassword.go">Change Password</button>
-	</div>
 </div>

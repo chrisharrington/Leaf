@@ -30,7 +30,6 @@
 		$.post(IssueTracker.virtualDirectory + "users/new-password", { userId: root.data.user.id, password: root.password() }).done(function() {
 			IssueTracker.Feedback.success("Your password has been reset. Thanks!");
 			IssueTracker.Welcome.SignIn.setSignInValues(root.data.user, root.data.project);
-			IssueTracker.Welcome.newPasswordVisible(false);
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while resetting your password. Please try again later.");
 		}).always(function() {
@@ -38,4 +37,14 @@
 		});
 	}
 
-})(root("IssueTracker.Welcome.NewPassword"));
+	$(function() {
+		IssueTracker.Page.build({
+			root: root,
+			view: "new-password",
+			route: "#/new-password",
+			style: "new-password-container",
+			isAnonymous: true
+		});
+	});
+
+})(root("IssueTracker.NewPassword"));
