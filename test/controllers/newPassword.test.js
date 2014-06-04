@@ -29,4 +29,36 @@ describe("newPassword", function() {
 			});
 		});
 	});
+
+	describe("post /new-password", function() {
+		it("should set post /new-password route", function () {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/new-password", sinon.match.func, sinon.match.func));
+		});
+
+		function _run(params) {
+			params || {};
+
+			var stubs = {};
+			stubs.userOne = params.userOne || sinon.stub(repositories.User, "one").resolves(params.user || {});
+			stubs.userUpdate = params.userUpdate || sinon.stub(repositories.User, "update").resolves();
+			return base.testRoute({
+				sut: sut,
+				verb: "post",
+				route: "/new-password",
+				request: {
+					body: {
+						userId: params.userId
+					},
+					user: {
+						password: params.stored,
+						salt: params.salt
+					}
+				},
+				stubs: stubs,
+				assert: params.assert
+			});
+		}
+	});
 });

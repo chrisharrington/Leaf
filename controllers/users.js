@@ -83,22 +83,8 @@ module.exports = function(app) {
 
 	app.post("/users/reset-password", authenticate, authorize("reset-password"), function(request, response) {
 		return repositories.User.one({ _id: request.body.userId }).then(function(user) {
-			user.session = null;
-			user.expiration = null;
-			user.requiresNewPassword = true;
-			return repositories.User.update(user);
-		}).then(function() {
-			response.send(200);
-		}).catch(function(e) {
-			response.send(e.stack.formatStack(), 500);
-		});
-	});
-
-	app.post("/users/new-password", authenticate, function(request, response) {
-		return repositories.User.one({ _id: request.body.userId }).then(function(user) {
-			user.salt = csprng.call(this, 128, 36);
-			user.password = crypto.createHash(config("hashAlgorithm")).update(user.salt + request.body.password).digest("hex");
-			user.requiresNewPassword = false;
+			var token = csprng.call(this, 128, 36);
+			user.newPasswordToken = token;
 			return repositories.User.update(user);
 		}).then(function() {
 			response.send(200);

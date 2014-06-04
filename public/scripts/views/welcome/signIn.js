@@ -26,19 +26,6 @@
 		_submit();
 	};
 
-	root.setSignInValues = function(user, project) {
-		IssueTracker.Utilities.setObservableProperties(user, IssueTracker.signedInUser());
-		IssueTracker.signedInUser(IssueTracker.Utilities.createPropertyObservables(user));
-		IssueTracker.projectId(project.id);
-		IssueTracker.projectName(project.name);
-
-		var redirect = _getRedirect();
-		if (redirect)
-			window.location.hash = redirect;
-		else
-			IssueTracker.Issues.navigate();
-	};
-
 	function _validate() {
 		var model = root.model;
 		if (model.email() == "")
@@ -57,12 +44,7 @@
 			data: IssueTracker.Utilities.extractPropertyObservableValues(root.model),
 			global: false
 		}).done(function (data) {
-			if (data.newPasswordRequired) {
-				IssueTracker.NewPassword.data = data;
-				IssueTracker.NewPassword.navigate();
-			} else {
-				root.setSignInValues(data.user, data.project);
-			}
+			_setSignInValues(data.user, data.project);
 		}).fail(function (response) {
 			if (response.status == 401)
 				IssueTracker.Feedback.error("Your credentials are invalid.");
@@ -71,6 +53,19 @@
 		}).always(function() {
 			root.loading(false);
 		});
+	}
+
+	function _setSignInValues(user, project) {
+		IssueTracker.Utilities.setObservableProperties(user, IssueTracker.signedInUser());
+		IssueTracker.signedInUser(IssueTracker.Utilities.createPropertyObservables(user));
+		IssueTracker.projectId(project.id);
+		IssueTracker.projectName(project.name);
+
+		var redirect = _getRedirect();
+		if (redirect)
+			window.location.hash = redirect;
+		else
+			IssueTracker.Issues.navigate();
 	}
 
 })(root("IssueTracker.Welcome.SignIn"));

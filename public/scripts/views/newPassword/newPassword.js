@@ -1,9 +1,18 @@
 (function(root) {
 
+	var _token;
+
 	root.loading = ko.observable(false);
-	root.focusPassword = ko.observable(false);
+	root.focusEmail = ko.observable(false);
+	root.email = ko.observable("");
 	root.password = ko.observable("");
 	root.confirmPassword = ko.observable("");
+
+	root.load = function(container, routeArguments) {
+		_token = routeArguments["token"];
+
+		root.focusEmail(true);
+	};
 
 	root.go = function() {
 		var error = _validate();
@@ -27,9 +36,9 @@
 
 	function _submit() {
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory + "users/new-password", { userId: root.data.user.id, password: root.password() }).done(function() {
+		$.post(IssueTracker.virtualDirectory + "new-password", { email: root.email(), token: _token, password: root.password() }).done(function() {
 			IssueTracker.Feedback.success("Your password has been reset. Thanks!");
-			IssueTracker.Welcome.SignIn.setSignInValues(root.data.user, root.data.project);
+			IssueTracker.Issues.navigate();
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error has occurred while resetting your password. Please try again later.");
 		}).always(function() {
@@ -41,7 +50,7 @@
 		IssueTracker.Page.build({
 			root: root,
 			view: "new-password",
-			route: "#/new-password",
+			route: "#/new-password/:token",
 			style: "new-password-container",
 			isAnonymous: true
 		});
