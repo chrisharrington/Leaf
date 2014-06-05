@@ -19,7 +19,7 @@ module.exports = function(app) {
 
 	app.post("/sign-in", function(request, response) {
 		var email = request.body.email, password = request.body.password, staySignedIn = request.body.staySignedIn == "true";
-		return _getProjectFromHost(request).then(function(project) {
+		return request.getProject().then(function(project) {
 			if (!project)
 				response.send(404);
 			else
