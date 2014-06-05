@@ -1,0 +1,5 @@
+#!/bin/bash
+ 
+ssh \
+-i ./DefaultKeyPair.pem \
+ubuntu@ec2-54-187-130-104.us-west-2.compute.amazonaws.com
