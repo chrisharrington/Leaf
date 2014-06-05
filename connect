@@ -2,4 +2,4 @@
  
 ssh \
 -i ./DefaultKeyPair.pem \
-ubuntu@ec2-54-186-246-107.us-west-2.compute.amazonaws.com
+ubuntu@ec2-54-200-254-103.us-west-2.compute.amazonaws.com
