@@ -4,9 +4,9 @@ var minifier = Promise.promisifyAll(require("yuicompressor"));
 var config = require("../config");
 
 exports.render = function(assets, app) {
-	if (app.get("env") == "development")
+	//if (app.get("env") == "development")
 		return _handleDevelopment(assets);
-	return _handleProduction(assets, app);
+	//return _handleProduction(assets, app);
 };
 
 function _handleDevelopment(assets) {
