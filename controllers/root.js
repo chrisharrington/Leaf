@@ -12,8 +12,8 @@ var config = require("../config");
 
 module.exports = function(app) {
 	app.get("/", function (request, response) {
-		return _getAllUserData(request).spread(function (permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
-			return _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user);
+		return _getAllUserData(request).spread(function (permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, currentProject) {
+			return _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, currentProject);
 		}).spread(function (html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
 			return _sendUserData(response, html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts);
 		}).catch(function (e) {
@@ -32,7 +32,8 @@ module.exports = function(app) {
 				repositories.Project.get(),
 				repositories.Milestone.get({ project: project._id, isDeleted: false }, { sort: { name: 1 }}),
 				caches.IssueType.all(),
-				_getSignedInUser(request)
+				_getSignedInUser(request),
+				project
 			]);
 		});
 	}
@@ -52,7 +53,7 @@ module.exports = function(app) {
 		return session ? repositories.User.one({ session: session }).then(_setPermissions) : null;
 	}
 
-	function _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user) {
+	function _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, currentProject) {
 		return Promise.all([
 			fs.readFileAsync("public/views/root.html"),
 			mapper.mapAll("permission", "permission-view-model", permissions),
@@ -64,7 +65,7 @@ module.exports = function(app) {
 			mapper.mapAll("milestone", "milestone-view-model", milestones),
 			mapper.mapAll("issue-type", "issue-type-view-model", issueTypes),
 			!user || (user.expiration != null && user.expiration < Date.now()) ? null : mapper.map("user", "user-view-model", user),
-			!user ? null : mapper.map("project", "project-view-model", _getProjectFromHost(request, projects)),
+			!user ? null : mapper.map("project", "project-view-model", currentProject),
 			require("../bundling/scriptBundler").render(require("../bundling/assets").scripts(), app)
 		]);
 	}
@@ -86,13 +87,5 @@ module.exports = function(app) {
 			renderedScripts: renderedScripts,
 			styleLocation: buildNumber ? ("/style?v=" + buildNumber) : "/style"
 		}), 200);
-	}
-
-	function _getProjectFromHost(request, projects) {
-		var projectName = (request.host == "localhost" ? "Leaf" : request.host.split(".")[0]).toLowerCase();
-		for (var i = 0; i < projects.length; i++)
-			if (projects[i].name.toLowerCase() == projectName)
-				return projects[i];
-		return {};
 	}
 };
