@@ -16,7 +16,7 @@ function _concatenate(files) {
 	return Promise.reduce(files.map(function (file) {
 		return fs.readFileAsync(file);
 	}), function (result, rendered) {
-		return result + rendered;
+		return result + "\n\n\n" + rendered;
 	}, "");
 }
 
