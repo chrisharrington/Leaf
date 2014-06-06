@@ -72,7 +72,7 @@ module.exports = function(app) {
 
 	function _sendUserData(response, html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
 		var buildNumber = config.call(this, "buildNumber");
-		return response.send(mustache.render(html.toString(), {
+		response.send(mustache.render(html.toString(), {
 			permissions: JSON.stringify(permissions),
 			priorities: JSON.stringify(priorities),
 			statuses: JSON.stringify(statuses),
