@@ -1,5 +1,5 @@
 #!/bin/bash
  
 ssh \
--i ./DefaultKeyPair.pem \
+-i ./LeafWebServerKeyPair.pem \
 ubuntu@ec2-54-200-254-103.us-west-2.compute.amazonaws.com
