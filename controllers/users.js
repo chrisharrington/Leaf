@@ -11,6 +11,7 @@ var csprng = require("csprng");
 var crypto = require("crypto");
 var mongoose = require("mongoose");
 var hash = require("../authentication/hash");
+var emailer = require("../email/emailer");
 
 var base = Object.spawn(require("./baseController"));
 
@@ -83,9 +84,16 @@ module.exports = function(app) {
 
 	app.post("/users/reset-password", authenticate, authorize("reset-password"), function(request, response) {
 		return repositories.User.one({ _id: request.body.userId }).then(function(user) {
+			var port = request.app.settings.port;
 			var token = csprng.call(this, 128, 36);
 			user.newPasswordToken = token;
-			return repositories.User.update(user);
+			return Promise.all([
+				repositories.User.update(user),
+				emailer.send(process.cwd() + "/email/templates/resetPassword.html", {
+					name: user.name,
+					url: request.protocol + "://" + request.host + (app.settings.env == "production" ? "" : ":" + config.call(this, "serverPort")) + "/#/new-password/" + token
+				}, user.emailAddress, "Leaf - Reset Password")
+			]);
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {

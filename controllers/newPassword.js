@@ -29,11 +29,11 @@ module.exports = function(app) {
 			user.salt = csprng.call(this, 128, 36);
 			user.password = crypto.createHash(config("hashAlgorithm")).update(user.salt + request.body.password).digest("hex");
 			user.newPasswordToken = null;
-			return repositories.User.update(user);
-		}).then(function() {
-			response.send(200);
-		}).catch(function(e) {
-			response.send(e.stack.formatStack(), 500);
+			return repositories.User.update(user).then(function() {
+				response.send(200);
+			}).catch(function(e) {
+				response.send(e.stack.formatStack(), 500);
+			});
 		});
 	});
 };
