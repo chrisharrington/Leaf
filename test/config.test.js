@@ -46,15 +46,8 @@ describe("config", function() {
 			assert.equal(sut("domain"), "http://www.leafissuetracker.com");
 		});
 
-		it("should return '8888' with 'serverPort' when no port env is set", function() {
-			assert.equal(sut("serverPort"), "8888");
-		});
-
-		it("should return the env server port with 'serverPort'", function() {
-			var orig = process.env;
-			process.env = { PORT: 1234 };
-			assert.equal(sut("serverPort"), 1234);
-			process.env = orig;
+		it("should return '8080' with 'serverPort' when no port env is set", function() {
+			assert.equal(sut("serverPort"), "8080");
 		});
 
 		it("should return undefined for 'buildNumber'", function() {

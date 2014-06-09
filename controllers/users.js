@@ -84,7 +84,6 @@ module.exports = function(app) {
 
 	app.post("/users/reset-password", authenticate, authorize("reset-password"), function(request, response) {
 		return repositories.User.one({ _id: request.body.userId }).then(function(user) {
-			var port = request.app.settings.port;
 			var token = csprng.call(this, 128, 36);
 			user.newPasswordToken = token;
 			return Promise.all([

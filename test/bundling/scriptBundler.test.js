@@ -4,6 +4,8 @@ var minifier = Promise.promisifyAll(require("yuicompressor"));
 var bundler = require("../../bundling/bundler");
 var config = require("../../config");
 var base = require("../base");
+var jsp = require("uglify-js").parser;
+var pro = require("uglify-js").uglify;
 
 var sut = require("../../bundling/scriptBundler");
 
@@ -11,8 +13,8 @@ describe("scriptBundler", function() {
 	describe("render", function() {
 		var _stubs;
 
-		it("should return promise", function() {
-			assert(_run().then);
+		beforeEach(function() {
+			sut.cachedScript = null;
 		});
 
 		it("should render individual script tags for each file in development env", function() {
@@ -34,6 +36,7 @@ describe("scriptBundler", function() {
 		it("should render single script tag in production env", function() {
 			var timestamp = Date.now();
 			return _run({
+				generated: "the generated script",
 				env: "production",
 				files: ["file1.js", "file2.js"],
 				timestamp: timestamp
@@ -45,9 +48,10 @@ describe("scriptBundler", function() {
 		it("should add script route in production env", function() {
 			var buildNumber = 45;
 			return _run({
+				generated: "the generated script",
 				env: "production",
 				files: ["file1.js", "file2.js"],
-				buildNumber: 45,
+				buildNumber: buildNumber,
 				assert: function(app) {
 					assert(app.get.calledWith("/script", sinon.match.func));
 				}
@@ -66,23 +70,27 @@ describe("scriptBundler", function() {
 			} };
 
 			return _run({
+				generated: "the generated script",
 				env: "production",
 				files: ["file1.js", "file2.js"],
 				app: app
-			}).then(function(result) {
+			}).then(function() {
 				assert(response.header.calledWith("Content-Type", "text/javascript"));
-				assert(response.send.calledWith("minified"));
+				assert(response.send.calledWith("the generated script"));
 			});
 		});
 
 		it("should throw error when minification fails", function() {
+			var error = false;
 			return _run({
 				env: "production",
 				files: ["file1.js", "file2.js"],
 				timestamp: 12345,
-				minified: ["", "some sort of minification error"]
-			}).catch(function(error) {
-				assert(error.toString().indexOf("some sort of minification error") > -1);
+				generated: ""
+			}).catch(function() {
+				error = true;
+			}).finally(function() {
+				assert(error);
 			});
 		});
 
@@ -96,10 +104,20 @@ describe("scriptBundler", function() {
 			} };
 
 			return _run({
+				generated: "the generated script",
 				files: ["file1.js", "file2.js"],
 				app: app
 			}).then(function() {
 				assert(response.header.calledWith("Cache-Control", "public, max-age=2592000000"));
+			});
+		});
+
+		it("should read from script cache if it exists", function() {
+			sut.cachedScript = "the cached script";
+			return _run({
+				env: "production"
+			}).then(function() {
+				assert(_stubs.squeeze.notCalled);
 			});
 		});
 
@@ -113,6 +131,10 @@ describe("scriptBundler", function() {
 			var app = params.app || { get: sinon.stub().returns(params.env || "development") };
 
 			_stubs = {};
+			_stubs.jsp = sinon.stub(jsp, "parse").returns(params.parsed || "the parsed script");
+			_stubs.mangle = sinon.stub(pro, "ast_mangle").returns(params.mangled || "the mangled script");
+			_stubs.squeeze = sinon.stub(pro, "ast_squeeze").returns(params.squeezed || "the squeezed script");
+			_stubs.gen = sinon.stub(pro, "gen_code").returns(params.generated);
 			_stubs.concatenate = sinon.stub(bundler, "concatenate").resolves(params.concatenated || "");
 			_stubs.files = sinon.stub(bundler, "files").resolves(params.files || []);
 			_stubs.compress = sinon.stub(minifier, "compressAsync").resolves(params.minified || ["minified", ""]);

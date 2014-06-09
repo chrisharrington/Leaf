@@ -4,7 +4,7 @@ var config = require("../config");
 var jsp = require("uglify-js").parser;
 var pro = require("uglify-js").uglify;
 
-var _cachedScript;
+exports.cachedScript = null;
 
 exports.render = function(assets, app) {
 	if (app.get("env") == "development")
@@ -21,28 +21,29 @@ function _handleDevelopment(assets) {
 }
 
 function _handleProduction(assets, app) {
-	if (_cachedScript)
-		return _buildScript(_cachedScript, app);
+	if (exports.cachedScript)
+		return _buildScript(exports.cachedScript, app);
 	else {
 		return bundler.concatenate(assets).then(function (concatenated) {
 			var ast = jsp.parse(concatenated);
 			ast = pro.ast_mangle(ast);
 			ast = pro.ast_squeeze(ast);
-			return pro.gen_code(ast);
-		}).then(function (minified) {
+			var minified =  pro.gen_code(ast);
 			if (!minified || minified == "")
 				throw new Error("Error while minifying javascript: " + minified);
 
-			_cachedScript = minified;
+			exports.cachedScript = minified;
 			return _buildScript(minified, app);
 		});
 	}
 }
 
 function _buildScript(script, app) {
-	_addScriptRoute(script, app);
-	var buildNumber = config.call(this, "buildNumber");
-	return "<script type=\"text/javascript\" src=\"/script?v=" + (buildNumber ? buildNumber : Date.now()) + "\"></script>";
+	return new Promise(function(resolve) {
+		_addScriptRoute(script, app);
+		var buildNumber = config.call(this, "buildNumber");
+		resolve("<script type=\"text/javascript\" src=\"/script?v=" + (buildNumber ? buildNumber : Date.now()) + "\"></script>");
+	});
 }
 
 function _addScriptRoute(minified, app) {

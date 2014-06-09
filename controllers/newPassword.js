@@ -8,7 +8,7 @@ var authorize = require("../authentication/authorize");
 var emailer = require("../email/emailer");
 var config = require("../config");
 var csprng = require("csprng");
-var crypto = require("crypto");
+var crypto = require("../authentication/crypto");
 var mongoose = require("mongoose");
 var hash = require("../authentication/hash");
 
@@ -27,7 +27,7 @@ module.exports = function(app) {
 			}
 
 			user.salt = csprng.call(this, 128, 36);
-			user.password = crypto.createHash(config("hashAlgorithm")).update(user.salt + request.body.password).digest("hex");
+			user.password = crypto.hash(user.salt + request.body.password);
 			user.newPasswordToken = null;
 			return repositories.User.update(user).then(function() {
 				response.send(200);

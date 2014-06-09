@@ -685,12 +685,11 @@ describe("root", function() {
 				verb: "get",
 				route: "/",
 				request: {
-					cookies: { session: "the session" }
+					cookies: { session: "the session" },
+					getProject: sinon.stub().resolves({ name: "Leaf" })
 				},
 				host: "localhost",
-				stubs: _buildStubs({
-					projects: [{ name: "Leaf" }]
-				}),
+				stubs: _buildStubs(),
 				assert: function(result) {
 					assert(result.stubs.mapperMap.calledWith("project", "project-view-model", { name: "Leaf" }));
 				}
@@ -703,12 +702,11 @@ describe("root", function() {
 				verb: "get",
 				route: "/",
 				request: {
-					cookies: { session: "the session" }
+					cookies: { session: "the session" },
+					getProject: sinon.stub().resolves({ name: "blah" })
 				},
 				host: "blah.boo.com",
-				stubs: _buildStubs({
-					projects: [{ name: "not the project i'm looking for" }, { name: "blah" }]
-				}),
+				stubs: _buildStubs(),
 				assert: function(result) {
 					assert(result.stubs.mapperMap.calledWith("project", "project-view-model", { name: "blah" }));
 				}

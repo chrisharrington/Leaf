@@ -14,6 +14,7 @@ var crypto = require("crypto");
 var config = require("../../config");
 var mongoose = require("mongoose");
 var hash = require("../../authentication/hash");
+var emailer = require("../../email/emailer");
 var baseController = require("../../controllers/baseController");
 
 var sut = require("../../controllers/users");
@@ -971,7 +972,7 @@ describe("users", function() {
 		}
 	});
 
-	describe("post /users/change-password", function() {
+	describe("post /users/reset-password", function() {
 		it("should set post /users/change-password route", function () {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
@@ -996,32 +997,93 @@ describe("users", function() {
 			});
 		});
 
-		it("should update user with session set to null", function() {
-			var user = { name: "the user's name" };
+		it("should generate new password token", function() {
 			return _run({
-				user: user,
 				assert: function(result) {
-					assert(result.stubs.userUpdate.calledWith({ name: "the user's name", session: null, expiration: sinon.match.any, requiresNewPassword: sinon.match.any }));
+					assert(result.stubs.csprng.calledWith(sinon.match.any, 128, 36));
 				}
 			});
 		});
 
-		it("should update user with expiration set to null", function() {
-			var user = { name: "the user's name" };
+		it("should update user with new password token set", function() {
+			var user = { name: "the user's name" }, token = "the new password token";
 			return _run({
 				user: user,
 				assert: function(result) {
-					assert(result.stubs.userUpdate.calledWith({ name: "the user's name", session: sinon.match.any, expiration: null, requiresNewPassword: sinon.match.any }));
+					assert(result.stubs.userUpdate.calledWith({ name: "the user's name", newPasswordToken: token }));
 				}
 			});
 		});
 
-		it("should update user with requiresNewPassword set to true", function() {
+		it("should send email with the reset password template", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.stubs.email.calledWith(process.cwd() + "/email/templates/resetPassword.html", sinon.match.any, sinon.match.any, sinon.match.any));
+				}
+			});
+		});
+
+		it("should send email with the user's name", function() {
 			var user = { name: "the user's name" };
 			return _run({
 				user: user,
 				assert: function(result) {
-					assert(result.stubs.userUpdate.calledWith({ name: "the user's name", session: sinon.match.any, expiration: sinon.match.any, requiresNewPassword: true }));
+					assert(result.stubs.email.calledWith(sinon.match.any, {
+						name: user.name,
+						url: sinon.match.any
+					}, sinon.match.any, sinon.match.any));
+				}
+			});
+		});
+
+		it("should send email with the correct url", function() {
+			var protocol = "the protocol", host = "the host", port = 1234, token = "the token";
+			return _run({
+				protocol: protocol,
+				host: host,
+				port: port,
+				newPasswordToken: token,
+				assert: function(result) {
+					assert(result.stubs.email.calledWith(sinon.match.any, {
+						name: sinon.match.any,
+						url: protocol + "://" + host + ":" + port + "/#/new-password/" + token
+					}, sinon.match.any, sinon.match.any));
+				}
+			});
+		});
+
+		it("should send email with the correct url for the production environment", function() {
+			var protocol = "the protocol", host = "the host", token = "the token";
+			return _run({
+				env: "production",
+				protocol: protocol,
+				host: host,
+				newPasswordToken: token,
+				assert: function(result) {
+					assert(result.stubs.email.calledWith(sinon.match.any, {
+						name: sinon.match.any,
+						url: protocol + "://" + host + "/#/new-password/" + token
+					}, sinon.match.any, sinon.match.any));
+				}
+			});
+		});
+
+		it("should send email to the user's email address", function() {
+			var user = { emailAddress: "the user's email address" };
+			return _run({
+				user: user,
+				assert: function(result) {
+					assert(result.stubs.email.calledWith(sinon.match.any, sinon.match.any, user.emailAddress, sinon.match.any));
+				}
+			});
+		});
+
+		it("should send email with 'Leaf - Reset Password' as the subject", function() {
+			var user = { emailAddress: "the user's email address" };
+			return _run({
+				user: user,
+				assert: function(result) {
+					assert(result.stubs.email.calledWith(sinon.match.any, sinon.match.any, sinon.match.any, "Leaf - Reset Password"));
 				}
 			});
 		});
@@ -1049,12 +1111,23 @@ describe("users", function() {
 			var stubs = {};
 			stubs.userOne = params.userOne || sinon.stub(repositories.User, "one").resolves(params.user || {});
 			stubs.userUpdate = params.userUpdate || sinon.stub(repositories.User, "update").resolves();
+			stubs.csprng = params.csprng || sinon.stub(csprng, "call").returns(params.newPasswordToken || "the new password token");
+			stubs.email = params.email || sinon.stub(emailer, "send").resolves();
+			stubs.config = params.config || sinon.stub(config, "call").returns(params.port || 8080);
 			return base.testRoute({
 				sut: sut,
 				verb: "post",
 				route: "/users/reset-password",
+				app: {
+					settings: { env: params.env || "development" }
+				},
 				request: {
+					protocol: params.protocol || "http",
+					host: params.host || "localhost",
 					body: {
+						current: params.current || "the current password",
+						password: params.password || "the new password",
+						confirmed: params.confirmed || "the new password",
 						userId: params.userId
 					},
 					user: {

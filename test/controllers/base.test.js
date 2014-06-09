@@ -22,6 +22,8 @@ exports.testRoute = function(params) {
 				if (d) func = d; else if (c) func = c; else func = b;
 		}
 	};
+	if (params.app)
+		app = require("xtend")(app, params.app);
 
 	params.sut(app);
 	var result = func(request, response);

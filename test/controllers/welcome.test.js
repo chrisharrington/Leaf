@@ -227,17 +227,6 @@ describe("welcome controller", function() {
 			});
 		});
 
-		it("should select leaf project when host is localhost", function() {
-			var projects = [{ name: "not the project i'm looking for" }, { name: "Leaf", _id: 12345 }];
-			return _run({
-				host: "localhost",
-				projects: projects,
-				assert: function(result) {
-					assert(result.stubs.getProject.calledWith({ formattedName: "leaf" }))
-				}
-			})
-		});
-
 		it("should get permissions for signed in user", function() {
 			var userId = "the user id";
 			return _run({
@@ -284,7 +273,8 @@ describe("welcome controller", function() {
 						password: params.password || "the password",
 						staySignedIn: params.staySignedIn == undefined ? "true" : params.staySignedIn
 					},
-					host: params.host || "the host"
+					host: params.host || "the host",
+					getProject: sinon.stub().resolves(params.noProject ? undefined : {})
 				},
 				stubs: {
 					userGetOne: params.userGetOne || sinon.stub(repositories.User, "one").resolves(params.noUserFound ? undefined : params.userGetOneResult || { _id: params.userId, password: params.password || "the password", session: params.session == undefined || params.session != "" ? "the session" : undefined, expiration: params.expiration || "the expiration", project: params.project || {}}),
@@ -292,7 +282,6 @@ describe("welcome controller", function() {
 					dateNow: params.dateNow || sinon.stub(Date, "now").returns(params.date || Date.now()),
 					mapperMap: params.mapperMap || sinon.stub(mapper, "map"),
 					userUpdate: params.userUpdate || sinon.stub(repositories.User, "update").resolves(),
-					getProject: params.getProject || sinon.stub(repositories.Project, "one").resolves(params.noProject ? undefined : {}),
 					getUserPermissions: params.getUserPermissions || sinon.stub(repositories.UserPermission, "get").resolves(params.userPermissions || [])
 				}
 			}, params));
