@@ -43,6 +43,7 @@
     "mongoose-text-search": "0.0.2",
     "uglify-js": "^1.3.5",
     "xtend": "^3.0.0",
-    "yuicompressor": "^2.4.8"
+    "yuicompressor": "^2.4.8",
+    "forever": "^0.11.1"
   }
 }

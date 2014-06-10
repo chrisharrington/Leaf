@@ -117,3 +117,4 @@ coverage
 *.orig
 .DS_Store
 LeafWebServerKeyPair.pem
+leaf-key-pair.pem
