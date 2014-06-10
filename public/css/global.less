@@ -15,10 +15,6 @@
 
 @dark-gradient-top-colour:#222222;
 @dark-gradient-bottom-colour:#444444;
-@tile-gradient-light-colour:#444444;
-@tile-gradient-dark-colour:#222222;
-@dark-gradient-light-colour:#555555;
-@dark-gradient-dark-colour:#222222;
 @dialog-background:#222222;
 @dialog-hover-background:lighten(@dialog-background, 5%);
 
@@ -27,17 +23,11 @@
 @border-colour-semi-dark:#A0A0A0;
 @border-colour-dark:#707070;
 @border-colour-darkest:#505050;
-@dashed-border-colour:#E0E0E0;
 
 @low-priority:#0F7AD1;
 @medium-priority:#03AD1D;
 @high-priority:#E8E34F;
 @critical-priority:#BF0000;
-
-@low-priority-font-colour:#5295a5;
-@medium-priority-font-colour:#eeb838;
-@high-priority-font-colour:#f27b56;
-@critical-priority-font-colour:#CF3A3C;
 
 @low-priority-background:#5295a5;
 @medium-priority-background:#eeb838;
@@ -45,14 +35,11 @@
 @critical-priority-background:#CF3A3C;
 	
 @primary-header-font-colour:black;
-@primary-sub-header-font-colour:#444;
 @primary-font-colour:#444444;
 @primary-font-colour-light:#888;
 @primary-font-colour-lightest:#AAA;
 @primary-font-colour-dark:#444444;
 @primary-font-colour-dark-background:#DDDDDD;
-@primary-font-colour-icon:#BBBBBB;
-@primary-font-hover-colour:black;
 
 @secondary-font-colour-light:#67CF53;
 @secondary-font-colour:darken(@secondary-font-colour-light, 15%);
@@ -64,23 +51,17 @@
 @positive-colour-dark:@secondary-background-colour-bottom;
 @negative-colour:#D44E4E;
 @negative-colour-dark:#8C2626;
-@link-colour:@secondary-font-colour;
 
 @error-gradient-light-colour:#A61212;
 @error-gradient-dark-colour:#C23232;
-@error-font-colour:white;
-@warning-font-colour:black;
 
-@dark-tile-background-colour:#333333;
-@light-tile-background-colour:rgba(255, 255, 255, 0.6);
+@tile-background-colour:rgba(255, 255, 255, 0.6);
 
 @active-highlight:lighten(@secondary-font-colour, 28%);
 @hover-colour:rgba(255, 255, 255, 0.8);
 
 .gradient (@top, @bottom) { background:linear-gradient(to bottom, @top, @bottom); }
 .vertical-centre (@height) { height:@height; line-height:@height; display:inline-block; vertical-align:middle; }
-.dark-gradient { background: linear-gradient(@dark-gradient-light-colour, @dark-gradient-dark-colour); }
-.horizontal-gradient (@left, @right, @start: 0%) { background: linear-gradient(to right, @left @start, @right); }
 .secondary-gradient { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); }
 .shadow { box-shadow:0 2px 8px rgba(0, 0, 0, 0.3); }
 .dark-shadow { box-shadow:0 2px 8px rgba(0, 0, 0, 0.5); }
@@ -89,13 +70,10 @@
 .border-radius(@radius: 2px) { border-radius:@radius; }
 .border-box { box-sizing:border-box; -moz-box-sizing:border-box; }
 .ellipsis { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.table-cell-vertically-aligned { display:table-cell; height:100%; vertical-align:middle; }
 .hidden { display:none !important; }
 .hover { background:@hover-colour; }
 .select { background:darken(@hover-colour, 10%) !important; }
-.background-colour-transition { -webkit-transition: background-color 1000ms linear; -moz-transition: background-color 1000ms linear; -o-transition: background-color 1000ms linear; -ms-transition: background-color 1000ms linear; transition: background-color 1000ms linear; }
-.tile { padding:@spacing; .border-radius; background:@light-tile-background-colour; .border-box; .shadow; color:@primary-font-colour; }
-.tile.dark { background:@dark-tile-background-colour; }
+.tile { padding:@spacing; .border-radius; background:@tile-background-colour; .border-box; .shadow; color:@primary-font-colour; }
 .base-background { background:url(../images/retina_wood.png); }
 .deleted { opacity:0.6; }
 
@@ -104,7 +82,7 @@
 
 h1, h2, h3, h4 { .condensed-font; margin:0; padding:0; font-weight:normal; }
 h1 { color:@primary-header-font-colour; font-size:2em; font-weight:bold; line-height:26px; }
-h2 { color:@primary-sub-header-font-colour; font-size:1.625em; font-weight:bold; }
+h2 { color:#444; font-size:1.625em; font-weight:bold; }
 h3 { font-size:1.375em; color:@secondary-font-colour; letter-spacing:0px !important; }
 a { color:@secondary-font-colour; }
 input[type='text'], input[type='password'], input[type='email'], select, textarea, input[type='date'] { .border; padding:@small-spacing; font-size:1em; .regular-font; .border-radius; .border-box; margin:0; }

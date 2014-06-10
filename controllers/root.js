@@ -10,8 +10,11 @@ var caches = require("../data/caches");
 var bundler = require("../bundling/bundler");
 var config = require("../config");
 
+var date;
+
 module.exports = function(app) {
 	app.get("/", function (request, response) {
+		date = Date.now();
 		return _getAllUserData(request).spread(function (permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, currentProject) {
 			return _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, currentProject);
 		}).spread(function (html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
@@ -72,7 +75,7 @@ module.exports = function(app) {
 
 	function _sendUserData(response, html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
 		var buildNumber = config.call(this, "buildNumber");
-		response.send(mustache.render(html.toString(), {
+		var result = mustache.render(html.toString(), {
 			permissions: JSON.stringify(permissions),
 			priorities: JSON.stringify(priorities),
 			statuses: JSON.stringify(statuses),
@@ -86,6 +89,8 @@ module.exports = function(app) {
 			projectName: JSON.stringify(project ? project.name : null),
 			renderedScripts: renderedScripts,
 			styleLocation: buildNumber ? ("/style?v=" + buildNumber) : "/style"
-		}), 200);
+		});
+		console.log("Elapsed: " + (Date.now() - date));
+		response.send(result, 200);
 	}
 };
