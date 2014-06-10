@@ -24,25 +24,22 @@
             </button>
 		</div>
 		<div class="always">
-            <button class="icon" id="save-changes" data-bind="visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
-                <i class="fa fa-check"></i>
+			<button class="round" id="save-changes" data-bind="visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
+				<i class="fa fa-check"></i>
 				<img src="../images/light-spinner.png" alt="" />
-                <span>Save Changes</span>
-            </button>
-			<button class="icon" data-bind="click: Files.upload, css: { loading: Files.uploading }">
+			</button>
+			<button class="round" data-bind="click: Files.upload, css: { loading: Files.uploading }">
 				<i class="fa fa-paperclip"></i>
 				<img src="../images/light-spinner.png" alt="" />
-				<span>Attach File</span>
 			</button>
-			<button class="icon" data-bind="click: Delete.restore, visible: IssueTracker.isAuthorized('delete-issue') && IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
-				<i class="fa fa-undo"></i>
+			<button class="round" data-bind="click: Delete.restore, visible: IssueTracker.isAuthorized('delete-issue') && IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
+				<i class="fa fa-trash-o"></i>
 				<img src="../images/light-spinner.png" alt="" />
-				<span>Undelete Issue</span>
 			</button>
-			<button class="icon" data-bind="click: Delete.remove, visible: IssueTracker.isAuthorized('delete-issue') && !IssueTracker.selectedIssue.isDeleted()">
-                <i class="fa fa-trash-o"></i>
-                <span>Delete Issue</span>
-            </button>
+			<button class="round" data-bind="click: Delete.remove, visible: IssueTracker.isAuthorized('delete-issue') && !IssueTracker.selectedIssue.isDeleted()">
+				<i class="fa fa-trash-o"></i>
+				<img src="../images/light-spinner.png" alt="" />
+			</button>
 		</div>
 	</div>
 </div>
@@ -229,28 +226,34 @@
 </script>
 
 <script type="text/html" id="confirm-delete">
-	<div class="confirm-delete confirmation-dialog">
+	<div class="confirm-delete form">
 		<h1>Delete this issue?</h1>
 		<span>Deleting an issue is 100% reversible; we only mark it as deleted. In the event you delete this issue by mistake or need to restore it later, no problem; you can search for the issue and undelete it that way. Are you sure you want to continue?</span>
-		<div class="confirm-container">
-			<button data-bind="click: IssueTracker.IssueDetails.Delete.confirm, css: { loading: loading }">Delete Issue</button>
-		</div>
-		<div>
-			<button data-bind="click: IssueTracker.IssueDetails.Delete.cancel">Cancel</button>
+		<div class="button-container">
+			<button class="round" data-bind="click: IssueTracker.IssueDetails.Delete.cancel">
+				<i class="fa fa-times"></i>
+			</button>
+			<button class="round" data-bind="click: IssueTracker.IssueDetails.Delete.confirm, css: { loading: loading }">
+				<i class="fa fa-check"></i>
+				<img src="../images/light-spinner.png" alt="" />
+			</button>
 		</div>
 	</div>
 </script>
 
 <script type="text/html" id="confirm-delete-comment-template">
-    <div class="confirm-delete confirmation-dialog">
+    <div class="confirm-delete form">
         <h1>Delete this comment?</h1>
         <span class="warning"><b>WARNING:</b> This action is irreversible.</span>
         <span>Once deleted, the comment will be removed from our databases. Are you sure you want to continue?</span>
-        <div class="confirm-container">
-            <button id="confirm-delete-comment" data-bind="css: { loading: loading }, click: confirm">Delete Comment</button>
-        </div>
-        <div>
-            <button id="cancel-delete-comment" data-bind="click: cancel">Cancel</button>
+        <div class="button-container">
+			<button id="cancel-delete-comment" data-bind="click: cancel">
+				<i class="fa fa-times"></i>
+			</button>
+            <button id="confirm-delete-comment" data-bind="css: { loading: loading }, click: confirm">
+				<i class="fa fa-check"></i>
+				<img src="../images/light-spinner.png" alt="" />
+            </button>
         </div>
     </div>
 </script>

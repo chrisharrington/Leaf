@@ -1,0 +1,9 @@
+button.round { width:35px; height:35px; .border-radius(50%); text-align:center; outline:none; padding:0;
+	i, img { font-size:18px; margin:auto; display:block; }
+	img { height:18px; width:18px; display:none; }
+}
+button.round:active { .gradient(lighten(@secondary-background-colour-top, 10%), lighten(@secondary-background-colour-bottom, 10%)); }
+button.round.loading { background:#777; cursor:default;
+	>i { display:none; }
+	>img { display:block; margin-top:-1px; -webkit-animation:spin 1250ms linear infinite; -moz-animation:spin 1250ms linear infinite; animation:spin 1250ms linear infinite; }
+}

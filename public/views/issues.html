@@ -48,7 +48,6 @@
 		</div>
         <div class="filter">
             <div>
-                <h3>Milestones</h3>
                 <!-- ko foreach: { data: IssueTracker.milestones } -->
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedMilestones, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedMilestones, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
@@ -58,7 +57,6 @@
                 <!-- /ko -->
             </div>
             <div>
-                <h3>Priorities</h3>
                 <!-- ko foreach: { data: IssueTracker.priorities } -->
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedPriorities, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedPriorities, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
@@ -68,7 +66,6 @@
                 <!-- /ko -->
             </div>
             <div>
-                <h3>Statuses</h3>
                 <!-- ko foreach: { data: IssueTracker.statuses } -->
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedStatuses, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedStatuses, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
@@ -78,7 +75,6 @@
                 <!-- /ko -->
             </div>
             <div>
-                <h3>Issue Types</h3>
                 <!-- ko foreach: { data: IssueTracker.issueTypes } -->
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTypes, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedTypes, $data, $element); }">
                     <span class="value" data-bind="text: name"></span>
@@ -88,7 +84,6 @@
                 <!-- /ko -->
             </div>
             <div>
-                <h3>Developers</h3>
                 <!-- ko foreach: { data: IssueTracker.users } -->
                 <!-- ko if: !isDeleted() -->
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedDevelopers, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedDevelopers, $data, $element); }">
@@ -100,7 +95,6 @@
                 <!-- /ko -->
             </div>
             <div>
-                <h3>Testers</h3>
                 <!-- ko foreach: { data: IssueTracker.users } -->
                 <!-- ko if: !isDeleted() -->
                 <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTesters, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedTesters, $data, $element); }">

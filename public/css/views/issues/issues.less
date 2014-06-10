@@ -1,23 +1,23 @@
 ﻿.issues-container { padding:0 !important;
 	div.data-container { float:left; width:100%; overflow:hidden; padding:@spacing; .border-box;
-		@filter-width:250px;
-		>div.issues-list { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@filter-width+@spacing; padding-bottom:@spacing; position:relative; .border-box;
+		@sidebar-width:250px;
+		>div.issues-list { float:left; width:100%; min-height:1px; font-size:1em; padding-right:@sidebar-width+@spacing; padding-bottom:@spacing; position:relative; .border-box;
 			>div.issues-loading { float:left; width:100%; padding-top:@spacing; }
 			>div.no-issues { float:left; width:100%;
 				>* { float:left; width:100%; }
 				>span { margin-top:@spacing; color:@primary-font-colour-light; }
 			}
 			@priority-width:@small-spacing;
-			>div.data {
+			>div.data { float:left; width:100%; .shadow;
 				@info-height:35px;
-				>a { float:left; margin-top:@small-spacing; font-size:1em; width:100%; cursor:pointer; padding:@small-spacing; display:block; color:black;
+				>a { float:left; box-shadow:none; margin-top:1px; font-size:1em; width:100%; cursor:pointer; padding:@small-spacing; display:block; color:black;
 					>div { float:left; width:100%; height:100%; overflow:hidden; border-left:solid @priority-width; .border-box; line-height:@info-height; display:inline-block; vertical-align:middle;
 						>div.info { float:left; width:100%; .border-box; height:@info-height;
 							@number-width:50px;
 							@details-width:70px;
 							>* { .border-box; position:relative; }
-							>span.number { float:left; font-weight:bold; width:50px; text-align:center; border-right:solid 1px @border-colour; font-family:Oswald; font-size:1.125em; }
-							>div.name { float:left; .ellipsis; padding-left:@number-width+@spacing; margin-left:@number-width*-1; padding-right:@details-width; font-weight:normal; width:100%; white-space:nowrap;
+							>span.number { float:left; font-weight:bold; width:50px; text-align:center; font-family:"Oswald"; font-size:1.125em; }
+							>div.name { float:left; .ellipsis; padding-left:@number-width; margin-left:@number-width*-1; padding-right:@details-width; font-weight:normal; width:100%; white-space:nowrap;
                               >span.details { margin-left:@spacing; color:@primary-font-colour-light; }
                             }
                             >div.details { float:left; width:@details-width; margin-left:@details-width*-1; line-height:normal; padding-right:@tiny-spacing;
@@ -38,11 +38,13 @@
 			}
 		}
 		@sidebar-background:#333333;
-		>div.sidebar { float:left; width:@filter-width; position:relative; margin-left:@filter-width*-1;
-			>div.counts { float:left; width:100%; margin-bottom:@spacing; .tile; height:46px;
+		>div.sidebar { float:left; width:@sidebar-width; position:relative; margin-left:@sidebar-width*-1;
+			>div { margin-top:@small-spacing; }
+			>div:first-child { margin-top:0; }
+			>div.counts { float:left; width:100%; .tile; height:46px;
 				>span { float:left; width:100%; height:100%; overflow:hidden; }
 			}
-			>div.sort { float:left; width:100%; margin-bottom:@spacing; .tile; cursor:pointer; padding:0;
+			>div.sort { float:left; width:100%; .tile; cursor:pointer; padding:0;
 				@sort-height:46px;
 				>div.selector { cursor:pointer; padding:0 @spacing; height:@sort-height;
 					>* { .vertical-centre(@sort-height); }
@@ -56,10 +58,10 @@
 					>span.selected { }
 				}
 			}
-			>div.filter { float:left; width:100%; color:@primary-font-colour-dark-background; .border-box;
+			>div.filter { float:left; width:100%; color:@primary-font-colour-dark-background; .border-box; .shadow;
 				@filter-item-height:24px;
 				>* { float:left; width:100%; }
-				>div { .tile; padding:@small-spacing 0; margin-top:@spacing;
+				>div { .tile; box-shadow:none; padding:@small-spacing 0; margin-top:1px; .border-radius(0);
 					>* { float:left; width:100%; }
 					>h3 { padding:0 @small-spacing; .border-box; margin-bottom:@small-spacing; .condensed-font; }
 					>div { cursor:pointer; padding:0 @spacing; .border-box;
