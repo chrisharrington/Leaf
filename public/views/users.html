@@ -21,21 +21,21 @@
         <img class="user-profile-image" data-bind="attr: { title: name, src: IssueTracker.Utilities.getUserProfileImageLocation(id()) }" alt="" />
         <span class="name" data-bind="text: name"></span>
         <span class="email" data-bind="text: emailAddress"></span>
+		<div class="counts">
+			<div>
+				<i class="fa fa-code"></i>
+				<span data-bind="text: developerIssueCount"></span>
+			</div>
+			<div>
+				<i class="fa fa-flask"></i>
+				<span data-bind="text: testerIssueCount"></span>
+			</div>
+		</div>
         <div class="actions">
-            <i class="fa fa-fw fa-lock" title="Reset Password" data-bind="click: $parent.ResetPassword.reset, visible: IssueTracker.isAuthorized('reset-password')"></i>
-            <i class="fa fa-fw fa-trash-o" title="Delete User" data-bind="click: $parent.DeleteUser.remove, visible: IssueTracker.isAuthorized('delete-user')"></i>
-            <i class="fa fa-fw fa-pencil" title="Edit User" data-bind="click: $parent.EditUser.edit, visible: IssueTracker.isAuthorized('edit-user')"></i>
-			<i class="fa fa-fw fa-key" title="User Permissions" data-bind="click: $parent.Permissions.load, visible: IssueTracker.isAuthorized('modify-user-permissions')"></i>
-        </div>
-        <div class="counts">
-            <div>
-                <i class="fa fa-code"></i>
-                <span data-bind="text: developerIssueCount"></span>
-            </div>
-            <div>
-                <i class="fa fa-flask"></i>
-                <span data-bind="text: testerIssueCount"></span>
-            </div>
+            <i class="fa fa-lock" title="Reset Password" data-bind="click: $parent.ResetPassword.reset, visible: IssueTracker.isAuthorized('reset-password')"></i>
+            <i class="fa fa-trash-o" title="Delete User" data-bind="click: $parent.DeleteUser.remove, visible: IssueTracker.isAuthorized('delete-user')"></i>
+            <i class="fa fa-pencil" title="Edit User" data-bind="click: $parent.EditUser.edit, visible: IssueTracker.isAuthorized('edit-user')"></i>
+			<i class="fa fa-key" title="User Permissions" data-bind="click: $parent.Permissions.load, visible: IssueTracker.isAuthorized('modify-user-permissions')"></i>
         </div>
     </a>
     <!-- /ko -->

@@ -97,23 +97,26 @@
 </div>
 
 <script type="text/html" id="create-or-update-milestone-template">
-	<div class="create-or-update form two-button milestone">
+	<div class="create-or-update form milestone">
 		<h1 data-bind="text: (create ? 'Create' : 'Edit') + ' Milestone'"></h1>
 		<span data-bind="text: 'Once your milestone has been ' + (create ? 'created' : 'edited') + ', you can drag its location in the table to set its order throughout the application.'"></span>
 		<div class="input-container">
 			<input type="text" placeholder="Milestone name..." data-bind="value: name" />
 		</div>
-		<div class="button-container first">
-			<button data-bind="text: (create ? 'Create ' : 'Save ') + ' Milestone', click: IssueTracker.Project.Milestone.confirmSave, css: { loading: IssueTracker.Project.Milestone.loading }"></button>
-		</div>
 		<div class="button-container">
-			<button data-bind="click: IssueTracker.Project.Milestone.cancel">Cancel</button>
+			<button class="round" title="Cancel" data-bind="click: IssueTracker.Project.Milestone.cancel">
+				<i class="fa fa-times"></i>
+			</button>
+			<button class="round" data-bind="attr: { title: (create ? 'Create ' : 'Save ') + ' Milestone' }, click: IssueTracker.Project.Milestone.confirmSave, css: { loading: IssueTracker.Project.Milestone.loading }">
+				<i class="fa fa-check"></i>
+				<img src="../images/light-spinner.png" alt="" />
+			</button>
 		</div>
 	</div>
 </script>
 
 <script type="text/html" id="create-or-update-priority-template">
-	<div class="create-or-update form two-button priority">
+	<div class="create-or-update form priority">
 		<h1 data-bind="text: (create ? 'Create' : 'Edit') + ' Priority'"></h1>
 		<span data-bind="text: 'Once your priority has been ' + (create ? 'created' : 'edited') + ', you can drag its location in the table to set its order throughout the application.'"></span>
 		<div class="input-container">
@@ -123,17 +126,20 @@
 			<input type="text" placeholder="Colour..." data-bind="value: colour, valueUpdate: 'keyup'" />
 			<span data-bind="style: { background: colour }"></span>
 		</div>
-		<div class="button-container first">
-			<button data-bind="text: (create ? 'Create ' : 'Save ') + ' Priority', click: IssueTracker.Project.Priority.confirmSave, css: { loading: IssueTracker.Project.Priority.loading }"></button>
-		</div>
 		<div class="button-container">
-			<button data-bind="click: IssueTracker.Project.Priority.cancel">Cancel</button>
+			<button class="round" title="Cancel" data-bind="click: IssueTracker.Project.Priority.cancel">
+				<i class="fa fa-times"></i>
+			</button>
+			<button class="round" data-bind="attr: { title: (create ? 'Create ' : 'Save ') + ' Priority' }, click: IssueTracker.Project.Priority.confirmSave, css: { loading: IssueTracker.Project.Priority.loading }">
+				<i class="fa fa-check"></i>
+				<img src="../images/light-spinner.png" alt="" />
+			</button>
 		</div>
 	</div>
 </script>
 
 <script type="text/html" id="create-or-update-status-template">
-	<div class="create-or-update form two-button status">
+	<div class="create-or-update form status">
 		<h1 data-bind="text: (create ? 'Create' : 'Edit') + ' Status'"></h1>
 		<span data-bind="text: 'Once your status has been ' + (create ? 'created' : 'edited') + ', you can drag its location in the table to set its order throughout the application.'"></span>
 		<div class="input-container">
@@ -159,51 +165,60 @@
 				<span class="description">Any issue with a 'closed' status indicates that the issue needs no more action by anybody and is considered complete.</span>
 			</div>
 		</div>
-		<div class="button-container first">
-			<button data-bind="text: (create ? 'Create ' : 'Save ') + ' Status', click: IssueTracker.Project.Status.confirmSave, css: { loading: IssueTracker.Project.Status.loading }"></button>
-		</div>
 		<div class="button-container">
-			<button data-bind="click: IssueTracker.Project.Status.cancel">Cancel</button>
+			<button class="round" title=Cancel" data-bind="click: IssueTracker.Project.Status.cancel">
+				<i class="fa fa-times"></i>
+			</button>
+			<button class="round" data-bind="attr: { title: (create ? 'Create ' : 'Save ') + ' Status' }, click: IssueTracker.Project.Status.confirmSave, css: { loading: IssueTracker.Project.Status.loading }">
+				<i class="fa fa-check"></i>
+				<img src="../images/light-spinner.png" alt="" />
+			</button>
 		</div>
 	</div>
 </script>
 
 <script type="text/html" id="delete-milestone-template">
-	<div class="form two-button delete">
+	<div class="form delete">
 		<h1>Delete Milestone?</h1>
 		<span><b>WARNING:</b> This action is irreverisble.</span>
 		<span>Issues that have this milestone will need a new milestone. Where should they go?</span>
 		<select data-bind="value: newMilestone, foreach: newMilestones">
 			<option data-bind="value: id, text: name"></option>
 		</select>
-		<div class="button-container first">
-			<button data-bind="click: function() { IssueTracker.Project.Milestone.confirmRemove($data); }, css: { loading: IssueTracker.Project.Milestone.loading }">Delete Milestone</button>
-		</div>
 		<div class="button-container">
-			<button data-bind="click: IssueTracker.Project.Milestone.cancel">Cancel</button>
+			<button class="round" title="Cancel" data-bind="click: IssueTracker.Project.Milestone.cancel">
+				<i class="fa fa-times"></i>
+			</button>
+			<button class="round" title="Delete Milestone" data-bind="click: function() { IssueTracker.Project.Milestone.confirmRemove($data); }, css: { loading: IssueTracker.Project.Milestone.loading }">
+				<i class="fa fa-check"></i>
+				<img src="../images/light-spinner.png" alt="" />
+			</button>
 		</div>
 	</div>
 </script>
 
 <script type="text/html" id="delete-priority-template">
-	<div class="form two-button delete">
+	<div class="form delete">
 		<h1>Delete Priority?</h1>
 		<span><b>WARNING:</b> This action is irreverisble.</span>
 		<span>Issues that have this priority will need a new priority. Where should they go?</span>
 		<select data-bind="value: newPriority, foreach: newPriorities">
 			<option data-bind="value: id, text: name"></option>
 		</select>
-		<div class="button-container first">
-			<button data-bind="click: function() { IssueTracker.Project.Priority.confirmRemove($data); }, css: { loading: IssueTracker.Project.Priority.loading }">Delete Priority</button>
-		</div>
 		<div class="button-container">
-			<button data-bind="click: IssueTracker.Project.Priority.cancel">Cancel</button>
+			<button class="round" title="Cancel" data-bind="click: IssueTracker.Project.Priority.cancel">
+				<i class="fa fa-times"></i>
+			</button>
+			<button class="round" title="Delete Priority" data-bind="click: function() { IssueTracker.Project.Priority.confirmRemove($data); }, css: { loading: IssueTracker.Project.Priority.loading }">
+				<i class="fa fa-check"></i>
+				<img src="../images/light-spinner.png" />
+			</button>
 		</div>
 	</div>
 </script>
 
 <script type="text/html" id="delete-status-template">
-	<div class="form two-button delete">
+	<div class="form delete">
 		<h1>Delete Status?</h1>
 		<span><b>WARNING:</b> This action is irreverisble.</span>
 		<span>Issues that have this status will need a new status. Where should they go?</span>
@@ -211,10 +226,13 @@
 			<option data-bind="value: id, text: name"></option>
 		</select>
 		<div class="button-container first">
-			<button data-bind="click: function() { IssueTracker.Project.Status.confirmRemove($data); }, css: { loading: IssueTracker.Project.Status.loading }">Delete Status</button>
-		</div>
-		<div class="button-container">
-			<button data-bind="click: IssueTracker.Project.Status.cancel">Cancel</button>
+			<button class="round" title="Cancel" data-bind="click: IssueTracker.Project.Status.cancel">
+				<i class="fa fa-times"></i>
+			</button>
+			<button class="round" title="Delete Status" data-bind="click: function() { IssueTracker.Project.Status.confirmRemove($data); }, css: { loading: IssueTracker.Project.Status.loading }">
+				<i class="fa fa-check"></i>
+				<img src="../images/light-spinner.png">
+			</button>
 		</div>
 	</div>
 </script>

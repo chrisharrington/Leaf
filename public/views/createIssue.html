@@ -18,14 +18,12 @@
     </div>
 
     <div class="buttons">
-        <button class="icon" id="save" data-bind="css: { loading: loading }">
+        <button class="round" id="save" data-bind="css: { loading: loading }">
             <i class="fa fa-check"></i>
 			<img src="../images/light-spinner.png" alt="" />
-            <span>Save New Issue</span>
         </button>
-        <button class="icon" id="discard">
+        <button class="round" id="discard">
             <i class="fa fa-times"></i>
-            <span>Discard Issue</span>
         </button>
     </div>
 </section>
@@ -108,7 +106,10 @@
 
 <div class="attached-files tile container">
     <h2>Attach Files</h2>
-    <button id="browse">Browse...</button>
+    <button id="browse" class="round">
+		<i class="fa fa-search"></i>
+		<img src="../images/light-spinner.png" alt="" />
+    </button>
     <input type="file" multiple />
     <span>Attach files by either selecting them using the browse button above or dragging and dropping them into this container.</span>
     <div data-bind="foreach: Upload.attachedFiles">

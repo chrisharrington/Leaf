@@ -1,6 +1,9 @@
-button.round { width:35px; height:35px; .border-radius(50%); text-align:center; outline:none; padding:0;
-	i, img { font-size:18px; margin:auto; display:block; }
+button.round { width:@button-size; height:@button-size; .border-radius(50%); text-align:center; outline:none; padding:0 !important; box-sizing:content-box !important;
+	i, img { font-size:18px; margin:auto; .vertical-centre(@button-size); }
 	img { height:18px; width:18px; display:none; }
+}
+button.round.small { width:@button-size-small; height:@button-size-small;
+	i, img { font-size:20px; .vertical-centre(@button-size-small); }
 }
 button.round:active { .gradient(lighten(@secondary-background-colour-top, 10%), lighten(@secondary-background-colour-bottom, 10%)); }
 button.round.loading { background:#777; cursor:default;

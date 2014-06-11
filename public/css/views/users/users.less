@@ -11,14 +11,14 @@
 			>img { padding:0; height:100%; width:@height; .border-radius(0); }
 			>span.name { width:200px; color:black; border-left:none; }
 			>span.email { width:300px; }
-			>div.counts { float:right; padding:0; border-left:none;
+			>div.counts { float:left; padding:0; border-left:none;
 				>div { float:left; padding:0 @spacing; border-left:solid 1px @border-colour; width:65px; text-align:center;
 					>* { padding:0; vertical-align:middle; display:inline-block; line-height:@height; height:@height; }
 					>span { margin-left:2px; }
 				}
 			}
-			>div.actions { float:right; padding:0;
-				>i { float:right; vertical-align:middle; line-height:@height; height:@height; padding:0 @small-spacing; cursor:pointer; }
+			>div.actions { float:right; padding:0; .vertical-centre(46px); border-left:none;
+				>i { float:right; vertical-align:middle; line-height:@height; height:@height; padding:0 @small-spacing; cursor:pointer; color:@primary-font-colour; }
 				>i:hover { .hover; color:black; }
 			}
 		}
