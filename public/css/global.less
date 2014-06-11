@@ -46,7 +46,7 @@
 @primary-font-colour-dark:#444444;
 @primary-font-colour-dark-background:#DDDDDD;
 
-@secondary-font-colour-light:#6AAEEB;
+@secondary-font-colour-light:#6AAEEB;//67CF53
 @secondary-font-colour:darken(@secondary-font-colour-light, 15%);
 @secondary-font-colour-dark-background:darken(@secondary-font-colour-light, 5%);
 @secondary-background-colour-top:lighten(@secondary-font-colour, 5%);
@@ -60,7 +60,7 @@
 @error-gradient-light-colour:#A61212;
 @error-gradient-dark-colour:#C23232;
 
-@tile-background-colour:white;
+@tile-background-colour:rgba(255, 255, 255, 1);
 
 @active-highlight:lighten(@secondary-font-colour, 28%);
 @hover-colour:lighten(@base-background-colour, 8%);
@@ -116,7 +116,7 @@ img.user-profile-image { .border-radius(3px); }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
-body { margin:0; padding:0; overflow-x:hidden; font-size:14px; .regular-font; background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHCAIAAABPxRC5AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjExR/NCNwAAAENJREFUGFc1jFEOAEEEQ93/gL7sKol77DOTlWhVqb2nqiozu9voiADZMqwPgTPDibm7JPz7YpjQFeDqDfwjVz+n0JI+AkhbZm0c3pEAAAAASUVORK5CYII='); }
+body { margin:0; padding:0; overflow-x:hidden; font-size:14px; .regular-font; background:url(../images/background.png); }
 .content-wrapper { max-width:@application-width; margin:auto;
 	.content-container { float:left; width:100%; .border-box; padding:@spacing; margin-top:@header-height; }
 }
