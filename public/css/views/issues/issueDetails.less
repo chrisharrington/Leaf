@@ -24,11 +24,16 @@
 	}
 
 	@comments-height:100px;
-	@sidebar-width:300px;
-	@sidebar-height:288px;
-	div.content { float:left; width:100%; position:relative; margin-top:@spacing; .border-box; padding-right:@sidebar-width+@spacing;
+	div.content { float:left; width:100%; margin-top:@spacing; .border-box;
 		>textarea { .tile; float:left; width:100%; height:48px; cursor:pointer; color:black; }
-		
+
+		>div.detailed-info { float:left; width:100%; margin-top:@spacing;
+			>div { float:left; width:16.6667%; padding-left:@spacing; .border-box;
+				>div { float:left; width:100%; height:(46px+36px*6+1px); overflow-y:scroll; }
+			}
+			>div:first-child { padding-left:0; }
+		}
+
 		>div.comments { float:left; width:100%; padding:0; cursor:default;
 			@user-width:252px;
 			@comment-header-height:40px;
@@ -54,57 +59,6 @@
 			>div.new-comment i { float:right; padding:0 @spacing; height:@comment-header-height; cursor:pointer; line-height:@comment-header-height; vertical-align:middle; font-size:1.25em; color:@primary-font-colour-lightest; }
 			>div.new-comment i:hover { .hover; color:@primary-font-colour-light; }
 			>div.new-comment textarea { float:left; width:100%; padding:@spacing; .border-box; height:48px; border:none; border-top:solid 1px @border-colour; background:transparent; }
-		}
-	}
-
-	div.sidebar { float:left; margin-left:@sidebar-width*-1; width:@sidebar-width; position:relative; z-index:2;
-		>div.choices { height:@sidebar-height; margin-top:@spacing;
-			div.details { padding:0;
-				@item-height:36px;
-				>div { float:left; width:100%; padding:0 @spacing; .border-box; border-top:solid 1px @border-colour; height:@item-height;
-					>* { display:inline-block !important; line-height:@item-height; height:100%; vertical-align:middle; }
-					>span.title { float:left; color:@primary-font-colour; }
-					>span.info { float:right; color:@secondary-font-colour; }
-					>i { float:right; margin-left:@spacing; font-size:1.125em; font-weight:bold; }
-				}
-				>div:first-child { border-top:none; }
-				>div.selectable { cursor:pointer; }
-				>div.selectable:hover { .hover; }
-			}
-			div.back { padding:0; height:100%;
-				>div.chooser { float:left; width:100%; height:100%;
-					>div { float:left; width:100%; height:36px; cursor:pointer; border-bottom:solid 1px @border-colour; .border-box; color:@primary-font-colour-light;
-						>div { float:left; width:100%; height:100%;
-							>div { float:left; width:100%; height:100%; padding:0 @spacing; .border-box;
-								>span { float:left; height:100%; line-height:35px; vertical-align:middle; }
-								>i { float:right; height:100%; line-height:35px; vertical-align:middle; display:none; }
-							}
-						}
-					}
-					>div:hover { .hover; }
-					>div.selected { color:@secondary-font-colour !important; background:@hover-colour;
-						i { display:inline-block; }
-					}
-				}
-
-				>div.priority-chooser {
-					>div {
-						>span.colour { float:left; width:8px; height:100%; }
-						>div { position:relative; margin-left:8px; height:100%; float:none; width:auto; }
-					}
-				}
-			}
-		}
-		>div.attached-files { float:left; width:100%; margin-top:@spacing;
-			>a.tile { float:left; display:block; width:100%; cursor:pointer; border-top:solid 1px @border-colour; padding:@small-spacing @spacing; box-shadow:none;
-				@attached-file-height:19px;
-				>i, >span { display:inline-block; vertical-align:middle; height:@attached-file-height; line-height:@attached-file-height; }
-				>i { float:left; font-size:1.125em; color:@primary-font-colour-light; }
-				>span.name { float:left; margin-left:@small-spacing; color:@secondary-font-colour; font-weight:bold; width:190px; .ellipsis; }
-				>span.size, >span.progress { float:right; color:@primary-font-colour-lightest; font-size:0.75em; }
-			}
-			>a.tile:first-child { border-top:none; }
-			>a:hover { .hover; }
 		}
 	}
 }

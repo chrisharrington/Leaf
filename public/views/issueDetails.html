@@ -54,6 +54,80 @@
 	
 <div class="content">
 	<textarea id="details" placeholder="Details..." class="no-focus" data-bind="enable: IssueTracker.isAuthorized('edit-issue'), value: IssueTracker.selectedIssue.details"></textarea>
+
+	<div class="detailed-info">
+		<div class="milestone padded-tile-container">
+			<div class="tile choice-tile">
+				<h2>Milestone</h2>
+				<!-- ko foreach: IssueTracker.milestones -->
+				<div data-bind="attr: { 'data-id': id }">
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+				<!-- /ko -->
+			</div>
+		</div>
+		<div class="priority padded-tile-container">
+			<div class="tile choice-tile">
+				<h2>Priority</h2>
+				<!-- ko foreach: IssueTracker.priorities -->
+				<div data-bind="attr: { 'data-id': id }">
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+				<!-- /ko -->
+			</div>
+		</div>
+		<div class="status padded-tile-container">
+			<div class="tile choice-tile">
+				<h2>Status</h2>
+				<!-- ko foreach: IssueTracker.statuses -->
+				<div data-bind="attr: { 'data-id': id }">
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+				<!-- /ko -->
+			</div>
+		</div>
+		<div class="type padded-tile-container">
+			<div class="tile choice-tile">
+				<h2>Type</h2>
+				<!-- ko foreach: IssueTracker.issueTypes -->
+				<div data-bind="attr: { 'data-id': id }">
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+				<!-- /ko -->
+			</div>
+		</div>
+		<div class="developer padded-tile-container">
+			<div class="tile choice-tile">
+				<h2>Developer</h2>
+				<!-- ko foreach: IssueTracker.users -->
+				<!-- ko if: !isDeleted() -->
+				<div data-bind="attr: { 'data-id': id }">
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+				<!-- /ko -->
+				<!-- /ko -->
+			</div>
+		</div>
+		<div class="tester padded-tile-container">
+			<div class="tile choice-tile">
+				<h2>Tester</h2>
+				<!-- ko foreach: IssueTracker.users -->
+				<!-- ko if: !isDeleted() -->
+				<div data-bind="attr: { 'data-id': id }">
+					<span data-bind="text: name"></span>
+					<i class="fa fa-check"></i>
+				</div>
+				<!-- /ko -->
+				<!-- /ko -->
+			</div>
+		</div>
+	</div>
+
 	<div class="comments">
 		<div class="new-comment" data-bind="visible: IssueTracker.isAuthorized('edit-issue')">
 			<div>
@@ -85,145 +159,6 @@
 		</div>
 	</div>
 </div>
-
-<div class="sidebar perspective">
-	<div class="choices flipper transition horizontal" id="choices-container">
-		<div class="tile flip-tile front details">
-			<div class="selectable" id="milestone">
-				<span class="title">Milestone</span>
-				<i class="fa fa-angle-right"></i>
-				<span class="info" id="selected-milestone" data-bind="text: IssueTracker.selectedIssue.milestone"></span>
-			</div>
-			<div class="selectable" id="priority">
-				<span class="title">Priority</span>
-				<i class="fa fa-angle-right"></i>
-				<span class="info" id="selected-priority" data-bind="text: IssueTracker.selectedIssue.priority"></span>
-			</div>
-			<div class="selectable" id="status">
-				<span class="title">Status</span>
-				<i class="fa fa-angle-right"></i>
-				<span class="info" data-bind="text: IssueTracker.selectedIssue.status"></span>
-			</div>
-			<div class="selectable" id="issue-type">
-				<span class="title">Type</span>
-				<i class="fa fa-angle-right"></i>
-				<span class="info" data-bind="text: IssueTracker.selectedIssue.type"></span>
-			</div>
-			<div class="selectable" id="developer">
-				<span class="title">Developer</span>
-				<i class="fa fa-angle-right"></i>
-				<span class="info" data-bind="text: IssueTracker.selectedIssue.developer"></span>
-			</div>
-			<div class="selectable" id="tester">
-				<span class="title">Tester</span>
-				<i class="fa fa-angle-right"></i>
-				<span class="info" data-bind="text: IssueTracker.selectedIssue.tester"></span>
-			</div>
-			<div>
-				<span class="title">Date Opened</span>
-				<span class="info" data-bind="text: IssueTracker.selectedIssue.opened"></span>
-			</div>
-			<div>
-				<span class="title">Date Closed</span>
-				<span class="info" data-bind="text: IssueTracker.selectedIssue.closed"></span>
-			</div>
-		</div>
-		<div class="tile flip-tile back" data-bind="template: { name: IssueTracker.IssueDetails.chooser.template, data: IssueTracker }"></div>
-	</div>
-
-	<input type="file" id="new-file" class="hidden" />
-	<div class="attached-files shadow" data-bind="foreach: Files.files">
-        <a class="tile" data-bind="attr: { href: IssueTracker.virtualDirectory + 'issues/download-attached-file/' + $data.name + '?id=' + $data.id() }" target="_blank">
-            <i class="fa fa-paperclip"></i>
-            <span class="name" data-bind="text: name"></span>
-            <span class="size" data-bind="text: size, visible: progress() == 100"></span>
-			<span class="progress" data-bind="text: progress()*100 + '%', visible: progress() != 100"></span>
-        </a>
-    </div>
-</div>
-
-<script type="text/html" id="type-chooser">
-	<div class="type-chooser chooser" data-bind="foreach: issueTypes">
-		<div data-bind="attr: { 'data-type': JSON.stringify($data) }, css: { selected: $data.id == IssueTracker.selectedIssue.typeId() }">
-			<div>
-				<div>
-					<span class="name" data-bind="text: name"></span>
-					<i class="fa fa-check"></i>
-				</div>
-			</div>
-		</div>
-	</div>
-</script>
-
-<script type="text/html" id="milestone-chooser">
-	<div class="milestone-chooser chooser" data-bind="foreach: milestones">
-		<div data-bind="attr: { 'data-milestone': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.milestoneId() }">
-			<div>
-				<div>
-					<span class="name" data-bind="text: name"></span>
-					<i class="fa fa-check"></i>
-				</div>
-			</div>
-		</div>
-	</div>
-</script>
-
-<script type="text/html" id="priority-chooser">
-	<div class="priority-chooser chooser" data-bind="foreach: priorities">
-		<div data-bind="attr: { 'data-priority': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.priorityId() }">
-			<span class="colour" data-bind="style: { background: IssueTracker.Utilities.getPriorityColour(id()) }"></span>
-			<div>
-				<div>
-					<span class="name" data-bind="text: name"></span>
-					<i class="fa fa-check"></i>
-				</div>
-			</div>
-		</div>
-	</div>
-</script>
-
-<script type="text/html" id="status-chooser">
-	<div class="status-chooser chooser" data-bind="foreach: statuses">
-		<div data-bind="attr: { 'data-status': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.statusId() }">
-			<div>
-				<div>
-					<span class="name" data-bind="text: name"></span>
-					<i class="fa fa-check"></i>
-				</div>
-			</div>
-		</div>
-	</div>
-</script>
-
-<script type="text/html" id="developer-chooser">
-	<div class="developer-chooser chooser" data-bind="foreach: users">
-        <!-- ko if: !isDeleted() -->
-		<div data-bind="attr: { 'data-developer': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.developerId() }">
-			<div>
-				<div>
-					<span class="name" data-bind="text: name"></span>
-					<i class="fa fa-check"></i>
-				</div>
-			</div>
-		</div>
-        <!-- /ko -->
-	</div>
-</script>
-
-<script type="text/html" id="tester-chooser">
-	<div class="tester-chooser chooser" data-bind="foreach: users">
-        <!-- ko if: !isDeleted() -->
-		<div data-bind="attr: { 'data-tester': JSON.stringify(IssueTracker.Utilities.extractPropertyObservableValues($data)) }, css: { selected: $data.id() == IssueTracker.selectedIssue.testerId() }">
-			<div>
-				<div>
-					<span class="name" data-bind="text: name"></span>
-					<i class="fa fa-check"></i>
-				</div>
-			</div>
-		</div>
-        <!-- /ko -->
-	</div>
-</script>
 
 <script type="text/html" id="confirm-delete">
 	<div class="confirm-delete form">
