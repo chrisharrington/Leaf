@@ -190,7 +190,7 @@
 				root.transitions = ko.observableArray({{{transitions}}});
 				root.projects = ko.observableArray({{{projects}}});
 				root.milestones = IssueTracker.Utilities.buildObservableArray({{{milestones}}});
-				root.issueTypes = ko.observableArray({{{issueTypes}}});
+				root.issueTypes = IssueTracker.Utilities.buildObservableArray({{{issueTypes}}});
                 root.projectName = ko.observable({{{projectName}}});
                 root.projectId = ko.observable({{{projectId}}});
 				root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables({{{signedInUser}}}));

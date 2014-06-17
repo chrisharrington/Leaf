@@ -60,7 +60,7 @@
 			<div class="tile choice-tile scroll">
 				<h2>Milestone</h2>
 				<!-- ko foreach: IssueTracker.milestones -->
-				<div data-bind="attr: { 'data-id': id }">
+				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.milestoneId() == id() }, click: function() { IssueTracker.selectedIssue.milestoneId(id()); }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
@@ -71,7 +71,7 @@
 			<div class="tile choice-tile scroll">
 				<h2>Priority</h2>
 				<!-- ko foreach: IssueTracker.priorities -->
-				<div data-bind="attr: { 'data-id': id }">
+				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.priorityId() == id() }, click: function() { IssueTracker.selectedIssue.priorityId(id()); }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
@@ -82,7 +82,7 @@
 			<div class="tile choice-tile scroll">
 				<h2>Status</h2>
 				<!-- ko foreach: IssueTracker.statuses -->
-				<div data-bind="attr: { 'data-id': id }">
+				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.statusId() == id() }, click: function() { IssueTracker.selectedIssue.statusId(id()); }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
@@ -93,7 +93,7 @@
 			<div class="tile choice-tile scroll">
 				<h2>Type</h2>
 				<!-- ko foreach: IssueTracker.issueTypes -->
-				<div data-bind="attr: { 'data-id': id }">
+				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.typeId() == id() }, click: function() { IssueTracker.selectedIssue.typeId(id()); }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
@@ -105,7 +105,7 @@
 				<h2>Developer</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<!-- ko if: !isDeleted() -->
-				<div data-bind="attr: { 'data-id': id }">
+				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.developerId() == id() }, click: function() { IssueTracker.selectedIssue.developerId(id()); }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
@@ -118,7 +118,7 @@
 				<h2>Tester</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<!-- ko if: !isDeleted() -->
-				<div data-bind="attr: { 'data-id': id }">
+				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.testerId() == id() }, click: function() { IssueTracker.selectedIssue.testerId(id()); }">
 					<span data-bind="text: name"></span>
 					<i class="fa fa-check"></i>
 				</div>
