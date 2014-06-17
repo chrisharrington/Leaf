@@ -65,6 +65,9 @@
 @active-highlight:lighten(@secondary-font-colour, 28%);
 @hover-colour:lighten(@base-background-colour, 8%);
 
+@scrollbar-background:@border-colour;
+@scrollbar-foreground:@secondary-font-colour;
+
 .gradient (@top, @bottom) { background:linear-gradient(to bottom, @top, @bottom); }
 .vertical-centre (@height) { height:@height; line-height:@height; display:inline-block; vertical-align:middle; }
 .secondary-gradient { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); }

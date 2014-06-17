@@ -57,7 +57,7 @@
 
 	<div class="detailed-info">
 		<div class="milestone padded-tile-container">
-			<div class="tile choice-tile">
+			<div class="tile choice-tile scroll">
 				<h2>Milestone</h2>
 				<!-- ko foreach: IssueTracker.milestones -->
 				<div data-bind="attr: { 'data-id': id }">
@@ -68,7 +68,7 @@
 			</div>
 		</div>
 		<div class="priority padded-tile-container">
-			<div class="tile choice-tile">
+			<div class="tile choice-tile scroll">
 				<h2>Priority</h2>
 				<!-- ko foreach: IssueTracker.priorities -->
 				<div data-bind="attr: { 'data-id': id }">
@@ -79,7 +79,7 @@
 			</div>
 		</div>
 		<div class="status padded-tile-container">
-			<div class="tile choice-tile">
+			<div class="tile choice-tile scroll">
 				<h2>Status</h2>
 				<!-- ko foreach: IssueTracker.statuses -->
 				<div data-bind="attr: { 'data-id': id }">
@@ -90,7 +90,7 @@
 			</div>
 		</div>
 		<div class="type padded-tile-container">
-			<div class="tile choice-tile">
+			<div class="tile choice-tile scroll">
 				<h2>Type</h2>
 				<!-- ko foreach: IssueTracker.issueTypes -->
 				<div data-bind="attr: { 'data-id': id }">
@@ -101,7 +101,7 @@
 			</div>
 		</div>
 		<div class="developer padded-tile-container">
-			<div class="tile choice-tile">
+			<div class="tile choice-tile scroll">
 				<h2>Developer</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<!-- ko if: !isDeleted() -->
@@ -114,7 +114,7 @@
 			</div>
 		</div>
 		<div class="tester padded-tile-container">
-			<div class="tile choice-tile">
+			<div class="tile choice-tile scroll">
 				<h2>Tester</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<!-- ko if: !isDeleted() -->

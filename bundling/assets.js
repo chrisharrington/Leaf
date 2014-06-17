@@ -20,6 +20,7 @@ exports.styles = function() {
 	return [
 		"./public/css/global.less",
 		"./public/css/fonts.css",
+		"./public/css/scroll.less",
 		"./public/css/controls",
 		"./public/css/partials",
 		"./public/css/templates",
