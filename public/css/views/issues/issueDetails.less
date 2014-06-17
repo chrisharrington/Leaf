@@ -27,19 +27,24 @@
 	div.content { float:left; width:100%; margin-top:@spacing; .border-box;
 		>textarea { .tile; float:left; width:100%; height:48px; cursor:pointer; color:black; }
 
-		>div.detailed-info { float:left; width:100%; margin-top:@spacing;
-			>div { float:left; width:16.6667%; padding-left:@spacing; .border-box;
-				>div { float:left; width:100%; height:(46px+36px*6+1px); }
+		>div.detailed-info { float:left; width:100%;
+			>div { float:left; width:16.6667%; padding-left:@spacing; .border-box; margin-top:@spacing;
+				>div.label { float:left; width:100%; cursor:pointer;
+					>label { float:left; margin-right:@spacing; }
+					>span { float:left; color:@secondary-font-colour; font-weight:bold; }
+					>i { float:right; font-weight:bold; font-size:1.125em; }
+				}
+				>div.label:hover { .hover; }
+				>div.choice-tile { float:left; width:100%; height:(46px+36px*6+1px); display:none; }
 			}
 			>div:first-child { padding-left:0; }
 		}
 
-		>div.comments { float:left; width:100%; padding:0; cursor:default;
+		>div.comments { float:left; width:100%; .border-box; cursor:default;
 			@user-width:252px;
 			@comment-header-height:40px;
-			>div { float:left; width:100%; }
-			>div.existing-comments, >div.new-comment {
-				>div { float:left; width:100%; .tile; padding:0; margin-top:@spacing;
+			>div { float:left; width:100%; margin-top:@spacing; .border-box;
+				>div { float:left; width:100%; .tile; padding:0;
 					>div.comment-header { float:left; width:100%;
 						>div.upi { float:left; height:@comment-header-height;
 							>* { height:@comment-header-height; display:inline-block; vertical-align:middle; }
@@ -49,16 +54,18 @@
 						>span { float:left; }
 						>span.date { float:right; padding-top:1px; font-size:0.875em; color:@primary-font-colour-light; }
 						>span.name { font-size:1em; text-transform:none; color:@secondary-font-colour; padding-left:@small-spacing; }
-						>i { float:right; margin-right:@small-spacing; cursor:pointer; font-size:1em; display:none; font-size:1.125em; }
+						>i { float:right; margin-right:@small-spacing; cursor:pointer; display:none; font-size:1.125em; }
 						>i:hover { .hover; }
 					}
-					>.text { float:left; .regular-font; white-space:pre-wrap	; margin:0; width:100%; padding:@spacing; .border-box; border-top:solid 1px @border-colour; border-left:none; border-right:none; border-bottom:none; .border-radius(0px); }
+					>.text { float:left; width:100%; padding:@spacing; .border-box; border-top:solid 1px @border-colour; border-left:none; border-right:none; border-bottom:none; .border-radius(0px); overflow:hidden;
+						>div { float:left; .regular-font; white-space:pre-wrap; margin:0; width:100%; }
+					}
 				}
 				>div:hover>div.comment-header>i { display:inline-block; }
 			}
 			>div.new-comment i { float:right; padding:0 @spacing; height:@comment-header-height; cursor:pointer; line-height:@comment-header-height; vertical-align:middle; font-size:1.25em; color:@primary-font-colour-lightest; }
 			>div.new-comment i:hover { .hover; color:@primary-font-colour-light; }
-			>div.new-comment textarea { float:left; width:100%; padding:@spacing; .border-box; height:48px; border:none; border-top:solid 1px @border-colour; background:transparent; }
+			>div.new-comment textarea { float:left; width:100%; padding:@spacing; .border-box; border:none; height:48px; border-top:solid 1px @border-colour; background:transparent; }
 		}
 	}
 }

@@ -57,8 +57,12 @@
 
 	<div class="detailed-info">
 		<div class="milestone padded-tile-container">
+			<div class="tile label">
+				<label>Milestone</label>
+				<span data-bind="text: IssueTracker.selectedIssue.milestone"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
 			<div class="tile choice-tile scroll">
-				<h2>Milestone</h2>
 				<!-- ko foreach: IssueTracker.milestones -->
 				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.milestoneId() == id() }, click: function() { IssueTracker.selectedIssue.milestoneId(id()); }">
 					<span data-bind="text: name"></span>
@@ -68,8 +72,12 @@
 			</div>
 		</div>
 		<div class="priority padded-tile-container">
+			<div class="tile label">
+				<label>Priority</label>
+				<span data-bind="text: IssueTracker.selectedIssue.priority"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
 			<div class="tile choice-tile scroll">
-				<h2>Priority</h2>
 				<!-- ko foreach: IssueTracker.priorities -->
 				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.priorityId() == id() }, click: function() { IssueTracker.selectedIssue.priorityId(id()); }">
 					<span data-bind="text: name"></span>
@@ -79,8 +87,12 @@
 			</div>
 		</div>
 		<div class="status padded-tile-container">
+			<div class="tile label">
+				<label>Status</label>
+				<span data-bind="text: IssueTracker.selectedIssue.status"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
 			<div class="tile choice-tile scroll">
-				<h2>Status</h2>
 				<!-- ko foreach: IssueTracker.statuses -->
 				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.statusId() == id() }, click: function() { IssueTracker.selectedIssue.statusId(id()); }">
 					<span data-bind="text: name"></span>
@@ -90,8 +102,12 @@
 			</div>
 		</div>
 		<div class="type padded-tile-container">
+			<div class="tile label">
+				<label>Type</label>
+				<span data-bind="text: IssueTracker.selectedIssue.type"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
 			<div class="tile choice-tile scroll">
-				<h2>Type</h2>
 				<!-- ko foreach: IssueTracker.issueTypes -->
 				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.typeId() == id() }, click: function() { IssueTracker.selectedIssue.typeId(id()); }">
 					<span data-bind="text: name"></span>
@@ -101,8 +117,12 @@
 			</div>
 		</div>
 		<div class="developer padded-tile-container">
+			<div class="tile label">
+				<label>Developer</label>
+				<span data-bind="text: IssueTracker.selectedIssue.developer"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
 			<div class="tile choice-tile scroll">
-				<h2>Developer</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<!-- ko if: !isDeleted() -->
 				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.developerId() == id() }, click: function() { IssueTracker.selectedIssue.developerId(id()); }">
@@ -114,8 +134,12 @@
 			</div>
 		</div>
 		<div class="tester padded-tile-container">
+			<div class="tile label">
+				<label>Tester</label>
+				<span data-bind="text: IssueTracker.selectedIssue.tester"></span>
+				<i class="fa fa-angle-down"></i>
+			</div>
 			<div class="tile choice-tile scroll">
-				<h2>Tester</h2>
 				<!-- ko foreach: IssueTracker.users -->
 				<!-- ko if: !isDeleted() -->
 				<div data-bind="attr: { 'data-id': id }, css: { selected: IssueTracker.selectedIssue.testerId() == id() }, click: function() { IssueTracker.selectedIssue.testerId(id()); }">
@@ -141,22 +165,26 @@
 				<textarea class="no-focus" placeholder="Add a comment..." data-bind="value: Comments.text"></textarea>
 			</div>
 		</div>
-		<div class="existing-comments" data-bind="foreach: { data: Comments.comments, afterAdd: Comments.slideDown }">
+		<!-- ko foreach: { data: Comments.comments, afterAdd: Comments.slideDown } -->
 			<div>
-                <div class="comment-header">
-                    <div class="upi">
-                        <img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(userId, 25) }" alt="" />
-                        <span></span>
-                    </div>
-                    <span class="name" data-bind="text: user"></span>
-                    <span class="date" data-bind="text: date"></span>
-					<!-- ko if: $root.Comments.isOwner($data) -->
-                    	<i class="fa fa-trash-o" title="Delete Comment" data-bind="click: $root.Comments.remove"></i>
-					<!-- /ko -->
-                </div>
-				<div class="text" data-bind="html: text"></div>
+				<div>
+					<div class="comment-header">
+						<div class="upi">
+							<img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(userId, 25) }" alt="" />
+							<span></span>
+						</div>
+						<span class="name" data-bind="text: user"></span>
+						<span class="date" data-bind="text: date"></span>
+						<!-- ko if: $root.Comments.isOwner($data) -->
+						<i class="fa fa-trash-o" title="Delete Comment" data-bind="click: $root.Comments.remove"></i>
+						<!-- /ko -->
+					</div>
+					<div class="text">
+						<div class="scroll" data-bind="html: text"></div>
+					</div>
+				</div>
 			</div>
-		</div>
+		<!-- /ko -->
 	</div>
 </div>
 
