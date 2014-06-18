@@ -58,7 +58,7 @@
 	<div class="detailed-info">
 		<div class="milestone padded-tile-container">
 			<div class="tile label">
-				<label>Milestone</label>
+				<i class="fa fa-map-marker label"></i>
 				<span data-bind="text: IssueTracker.selectedIssue.milestone"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
@@ -73,7 +73,7 @@
 		</div>
 		<div class="priority padded-tile-container">
 			<div class="tile label">
-				<label>Priority</label>
+				<i class="fa fa-exclamation-circle label"></i>
 				<span data-bind="text: IssueTracker.selectedIssue.priority"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
@@ -88,7 +88,7 @@
 		</div>
 		<div class="status padded-tile-container">
 			<div class="tile label">
-				<label>Status</label>
+				<i class="fa fa-question-circle label"></i>
 				<span data-bind="text: IssueTracker.selectedIssue.status"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
@@ -103,7 +103,7 @@
 		</div>
 		<div class="type padded-tile-container">
 			<div class="tile label">
-				<label>Type</label>
+				<i class="fa fa-file-text label"></i>
 				<span data-bind="text: IssueTracker.selectedIssue.type"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
@@ -118,7 +118,7 @@
 		</div>
 		<div class="developer padded-tile-container">
 			<div class="tile label">
-				<label>Developer</label>
+				<i class="fa fa-code label"></i>
 				<span data-bind="text: IssueTracker.selectedIssue.developer"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
@@ -135,7 +135,7 @@
 		</div>
 		<div class="tester padded-tile-container">
 			<div class="tile label">
-				<label>Tester</label>
+				<i class="fa fa-flask label"></i>
 				<span data-bind="text: IssueTracker.selectedIssue.tester"></span>
 				<i class="fa fa-angle-down"></i>
 			</div>
@@ -148,6 +148,25 @@
 				</div>
 				<!-- /ko -->
 				<!-- /ko -->
+			</div>
+		</div>
+	</div>
+
+	<div class="speech-bubble-comments">
+		<div>
+			<div>
+				<div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+				<div class="arrow">
+					<div></div>
+					<i class="fa fa-caret-down"></i>
+				</div>
+				<div class="user">
+					<img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation() }" alt="" />
+					<div>
+						<span class="name">Chris Harrington</span>
+						<span class="ago">4 minutes ago</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
