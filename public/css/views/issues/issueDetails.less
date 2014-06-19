@@ -47,13 +47,18 @@
 				>div { float:left; width:100%;
 					@arrow-width:34px;
 					>div.text { float:left; width:100%; .tile; }
-					>div.arrow { float:left; margin-left:@small-spacing; margin-top:-5px;
+					>div.arrow { float:left; width:100%; margin-top:-5px;
 						>div { float:left; background:@tile-background-colour; position:relative; z-index:2; height:5px; width:100%; }
-						>i { float:left; line-height:16px; color:@tile-background-colour; margin-top:-2px; font-size:42px; display:inline-block; text-shadow:0 2px 8px rgba(100, 100, 100, 0.3); }
+						>i { float:right; margin-right:@spacing; line-height:16px; color:@tile-background-colour; margin-top:-2px; font-size:42px; display:inline-block; text-shadow:0 2px 8px rgba(100, 100, 100, 0.3); }
 					}
-					>div.user { float:left; width:100%;
-						>img { float:left; width:25px height:25px; }
-						>div { float:left; height:25px; }
+					>div.user { float:left; width:100%; margin-top:@tiny-spacing;
+					  	@image-size:36px;
+						>img { float:right; width:@image-size; height:@image-size; margin-right:((@spacing)-6px); }
+						>div { float:right; height:@image-size; margin-right:@small-spacing;
+							>span { float:left; text-align:right; width:200px; }
+						 	>span.name { font-size:1em; font-weight:bold; margin-top:1px; }
+						  	>span.ago { font-size:0.85em; font-style:italic; color:@primary-font-colour-light; margin-top:2px; }
+						}
 					}
 				}
 			}
