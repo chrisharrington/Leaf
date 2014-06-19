@@ -32,6 +32,9 @@
 				<i class="fa fa-paperclip"></i>
 				<img src="../images/light-spinner.png" alt="" />
 			</button>
+			<button class="round">
+				<i class="fa fa-comment"></i>
+			</button>
 			<button class="round" data-bind="click: Delete.restore, visible: IssueTracker.isAuthorized('delete-issue') && IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
 				<i class="fa fa-trash-o"></i>
 				<img src="../images/light-spinner.png" alt="" />
@@ -44,17 +47,18 @@
 	</div>
 </div>
 
-<div class="container name-and-number-wrapper">
-	<div class="name-container perspective" data-bind="style: { 'border-left-color': IssueTracker.Utilities.getPriorityColour(IssueTracker.selectedIssue.priorityId()) }">
-		<div class="description">
-			<input id="description" type="text" class="description no-focus" data-bind="enable: IssueTracker.isAuthorized('edit-issue'), value: IssueTracker.selectedIssue.description" />
-		</div>
+<div class="header">
+	<div class="description">
+		<input id="description" class="nofocus" type="text" class="description no-focus" data-bind="enable: IssueTracker.isAuthorized('edit-issue'), value: IssueTracker.selectedIssue.description" />
+		<i class="fa fa-pencil"></i>
+	</div>
+	<div class="details">
+		<textarea id="details" class="nofocus" placeholder="Details..." class="no-focus" data-bind="enable: IssueTracker.isAuthorized('edit-issue'), value: IssueTracker.selectedIssue.details"></textarea>
+		<i class="fa fa-pencil"></i>
 	</div>
 </div>
-	
-<div class="content">
-	<textarea id="details" placeholder="Details..." class="no-focus" data-bind="enable: IssueTracker.isAuthorized('edit-issue'), value: IssueTracker.selectedIssue.details"></textarea>
 
+<div class="content">
 	<div class="detailed-info">
 		<div class="milestone padded-tile-container">
 			<div class="label">

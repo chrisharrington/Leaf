@@ -14,20 +14,25 @@
 	div.container.notop { margin-top:0; }
 	div.container.table { display:table; }
 
-	@name-height:60px;
-	div.name-and-number-wrapper { height:@name-height; .border-box;
-		div.name-container { float:left; width:100%; height:100%; .border-box; border-left:solid @small-spacing; .tile; padding:0;
-			>div.description { float:left; width:100%; padding:0; height:100%;
-				>input { float:left; width:100%; padding:@spacing !important; height:100%; cursor:pointer; border:none; box-shadow:none; font-weight:bold; .condensed-font; margin:0; color:@header-font-colour; font-size:1.75em; background:transparent; }
-			}
+	div.header { float:left; width:100%; .tile; padding:0; margin-top:@spacing;
+		@description-height:64px;
+		@details-height:48px;
+		>div { float:left; width:100%;
+			@icon-width:14px;
+
+			>input, >textarea { float:left; width:100%; padding:@spacing; border:none; padding-right:@icon-width+@spacing; }
+			>input { height:@description-height; text-transform:uppercase; cursor:pointer; font-weight:bold; .condensed-font; color:@header-font-colour; font-size:1.875em; }
+			>textarea { height:@details-height; cursor:pointer; color:black; border-top:solid 1px @border-colour; }
+			>i { float:left; width:@icon-width; position:relative; margin-left:(@icon-width+@spacing)*-1; margin-right:@spacing; font-size:1.125em; color:@primary-font-colour-lightest; display:none !important; cursor:pointer; }
 		}
+		>div.description>i { .vertical-centre(@description-height); }
+		>div.details>i { .vertical-centre(@details-height); }
+		>div:hover>i { display:inline-block !important; }
 	}
 
 	@comments-height:100px;
 	div.content { float:left; width:100%; margin-top:@spacing; .border-box;
-		>textarea { .tile; float:left; width:100%; height:48px; cursor:pointer; color:black; }
-
-		>div.detailed-info { float:left; width:100%; .tile; padding:0; margin-top:@spacing;
+		>div.detailed-info { float:left; width:100%; .tile; padding:0;
 			>div { float:left; width:16.6667%; .border-box; padding:0; border-left:solid 1px @border-colour;
 				@label-height:16px;
 				>div.label { float:left; width:100%; cursor:pointer; padding:@spacing; .border-box;

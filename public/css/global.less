@@ -4,7 +4,7 @@
 @feedback-z-index:@dialog-z-index;
 @slide-menu-z-index:6;
 
-@button-size:36px;
+@button-size:40px;
 @button-size-small:28px;
 
 @header-height:60px;
@@ -96,6 +96,7 @@ h3 { font-size:1.375em; color:@secondary-font-colour; letter-spacing:0px !import
 a { color:@secondary-font-colour; }
 input[type='text'], input[type='password'], input[type='email'], select, textarea, input[type='date'] { .border; padding:@small-spacing; font-size:1em; .regular-font; .border-radius; .border-box; margin:0; }
 input:focus, textarea:focus, select:focus, .focus { outline:none; border-color:@active-highlight; box-shadow:0 0 10px @active-highlight; transition:box-shadow linear 125ms; -webkit-transition:box-shadow linear 125ms; }
+input.nofocus:focus, textarea.nofocus:focus, select.nofocus:focus { outline:none; border-color:@border-colour; box-shadow:none; }
 button { padding:@small-spacing @spacing; margin:0; .secondary-gradient; color:white; .border-radius; .regular-font; font-size:1em; .border-box; border:none; cursor:pointer; .border-radius(3px); }
 button[disabled] { .gradient(#AAAAAA, #777777); cursor:default; }
 button.icon {
@@ -148,7 +149,7 @@ div.global-feedback.success { .gradient(@positive-colour, @positive-colour-dark)
 	i.fa-warning { display:none; }
 }
 
-@breadcrumbs-height:35px;
+@breadcrumbs-height:@button-size;
 div.breadcrumbs { float:left; font-size:1.125em; .regular-font; height:@breadcrumbs-height;
 	>*, >a>i { height:100%; line-height:@breadcrumbs-height !important; vertical-align:middle; display:inline-block; }
 	>a { float:left; color:black;
