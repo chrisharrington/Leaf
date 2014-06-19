@@ -32,7 +32,7 @@
 				<i class="fa fa-paperclip"></i>
 				<img src="../images/light-spinner.png" alt="" />
 			</button>
-			<button class="round">
+			<button class="round" data-bind="click: AddComment.show">
 				<i class="fa fa-comment"></i>
 			</button>
 			<button class="round" data-bind="click: Delete.restore, visible: IssueTracker.isAuthorized('delete-issue') && IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
@@ -59,6 +59,32 @@
 </div>
 
 <div class="content">
+	<div class="speech-bubble-comments">
+		<!-- ko foreach: { data: Comments.comments, afterAdd: Comments.slideDown } -->
+		<div>
+			<div>
+				<div class="info-container">
+					<div class="user">
+						<img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 36) }" alt="" />
+						<div>
+							<span class="name" data-bind="text: user"></span>
+							<br />
+							<span class="ago" data-bind="timeago: date"></span>
+						</div>
+					</div>
+					<div class="arrow">
+						<i class="fa fa-caret-left"></i>
+						<div></div>
+					</div>
+				</div>
+				<div class="text-container">
+					<div class="text" data-bind="text: text"></div>
+				</div>
+			</div>
+		</div>
+		<!-- /ko -->
+	</div>
+
 	<div class="detailed-info">
 		<div class="milestone padded-tile-container">
 			<div class="label">
@@ -155,61 +181,6 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="speech-bubble-comments">
-		<div>
-			<div>
-				<div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-				<div class="arrow">
-					<div></div>
-					<i class="fa fa-caret-down"></i>
-				</div>
-				<div class="user">
-					<img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 36) }" alt="" />
-					<div>
-						<span class="name">Chris Harrington</span>
-						<br />
-						<span class="ago">4 minutes ago</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="comments">
-		<div class="new-comment" data-bind="visible: IssueTracker.isAuthorized('edit-issue')">
-			<div>
-                <div class="comment-header">
-                    <div class="upi">
-                        <img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 25) }" alt="" />
-                        <span></span>
-                    </div>
-                    <span class="name" data-bind="text: IssueTracker.signedInUser() ? IssueTracker.signedInUser().name : ''"></span>
-                </div>
-				<textarea class="no-focus" placeholder="Add a comment..." data-bind="value: Comments.text"></textarea>
-			</div>
-		</div>
-		<!-- ko foreach: { data: Comments.comments, afterAdd: Comments.slideDown } -->
-			<div>
-				<div>
-					<div class="comment-header">
-						<div class="upi">
-							<img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(userId, 25) }" alt="" />
-							<span></span>
-						</div>
-						<span class="name" data-bind="text: user"></span>
-						<span class="date" data-bind="text: date"></span>
-						<!-- ko if: $root.Comments.isOwner($data) -->
-						<i class="fa fa-trash-o" title="Delete Comment" data-bind="click: $root.Comments.remove"></i>
-						<!-- /ko -->
-					</div>
-					<div class="text">
-						<div class="scroll" data-bind="html: text"></div>
-					</div>
-				</div>
-			</div>
-		<!-- /ko -->
-	</div>
 </div>
 
 <script type="text/html" id="confirm-delete">
@@ -243,4 +214,20 @@
             </button>
         </div>
     </div>
+</script>
+
+<script type="text/html" id="add-comment-template">
+	<div class="add-comment form">
+		<h1>Add comment</h1>
+		<textarea placeholder="Comment..." data-bind="value: text"></textarea>
+		<div class="button-container">
+			<button class="round" data-bind="click: cancel">
+				<i class="fa fa-times"></i>
+			</button>
+			<button class="round" data-bind="css: { loading: loading }, click: confirm">
+				<i class="fa fa-check"></i>
+				<img src="../images/light-spinner.png" alt="" />
+			</button>
+		</div>
+	</div>
 </script>

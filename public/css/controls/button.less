@@ -1,10 +1,13 @@
-button.round { width:@button-size; height:@button-size; .border-radius(5px); text-align:center; outline:none; padding:0 !important; box-sizing:content-box !important;
-	i, img { font-size:18px; margin:auto; .vertical-centre(@button-size); }
-	img { height:18px; width:18px; display:none; }
+@inner-button-size:20px;
+
+button.round { width:@button-size; height:@button-size; .border-radius; text-align:center; outline:none; padding:0 !important; box-sizing:content-box !important;
+	i, img { font-size:@inner-button-size; margin:auto; .vertical-centre(@button-size); }
+	img { height:@inner-button-size; width:@inner-button-size; display:none; }
 }
 button.round.small { width:@button-size-small; height:@button-size-small;
 	i, img { font-size:20px; .vertical-centre(@button-size-small); }
 }
+button.round:hover { .gradient(lighten(@secondary-background-colour-top, 5%), lighten(@secondary-background-colour-bottom, 5%)); }
 button.round:active { .gradient(lighten(@secondary-background-colour-top, 10%), lighten(@secondary-background-colour-bottom, 10%)); }
 button.round.loading { background:#777; cursor:default;
 	>i { display:none; }

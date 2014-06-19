@@ -1,27 +1,23 @@
 
 (function(root) {
 
-	var _container;
-	var _isAdd;
-
 	root.loading = ko.observable(false);
 	root.text = ko.observable("");
 	root.comments = ko.observableArray();
 
 	root.init = function(container) {
-		_container = container;
-
-		_hookupEvents();
+		root.comments.subscribe(function() {
+			_setUserInfoWidths(container);
+		});
 	};
 
 	root.load = function (comments) {
-		_isAdd = false;
 		root.comments.removeAll();
 		root.comments.pushAll(comments);
 	};
 
-	root.save = function() {
-		return _save();
+	root.add = function(comment) {
+		root.comments.splice(0, 0, comment);
 	};
 
 	root.remove = function(comment) {
@@ -33,17 +29,12 @@
 	};
 
 	root.slideDown = function (element) {
-		if (_isAdd)
-			$(element).hide().slideDown(200);
+		$(element).hide().slideDown(200);
 	};
 
 	root.isOwner = function(comment) {
 		return comment.userId == IssueTracker.signedInUser().id();
 	};
-
-	function _hookupEvents() {
-		_container.on("click", "#add-comment", _add);
-	}
 
 	function _removeConfirmed(comment) {
 		root.loading(true);
@@ -58,30 +49,14 @@
 		});
 	}
 
-	function _add() {
-		if (root.text() == "") {
-			IssueTracker.Feedback.error("The comment text is required.");
+	function _setUserInfoWidths(container) {
+		if (root.comments().length == 0)
 			return;
-		}
 
-		_save();
-	}
-
-	function _save() {
-		if (root.text() == "")
-			return new ResolvedDeferred();
-
-		root.loading(true);
-		return $.post(IssueTracker.virtualDirectory + "issues/add-comment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function (saved) {
-			_isAdd = true;
-			var user = IssueTracker.signedInUser();
-			root.comments.splice(0, 0, saved);
-			root.text("");
-			IssueTracker.Notifications.refresh();
-		}).fail(function () {
-			IssueTracker.Feedback.error("An error has occurred while adding your comment. Please try again later.");
-		}).always(function () {
-			root.loading(false);
+		container.find("div.info-container").each(function() {
+			var width = $(this).find("div.user").width()+30;
+			$(this).width(width).css("margin-right", (width*-1) + "px");
+			$(this).parent().find("div.text-container").css("padding-left", width + "px");
 		});
 	}
 
