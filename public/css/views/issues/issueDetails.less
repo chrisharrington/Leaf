@@ -27,10 +27,10 @@
 	div.content { float:left; width:100%; margin-top:@spacing; .border-box;
 		>textarea { .tile; float:left; width:100%; height:48px; cursor:pointer; color:black; }
 
-		>div.detailed-info { float:left; width:100%;
-			>div { float:left; width:16.6667%; padding-left:@spacing; .border-box; margin-top:@spacing;
+		>div.detailed-info { float:left; width:100%; .tile; padding:0; margin-top:@spacing;
+			>div { float:left; width:16.6667%; .border-box; padding:0; border-left:solid 1px @border-colour;
 				@label-height:16px;
-				>div.label { float:left; width:100%; cursor:pointer;
+				>div.label { float:left; width:100%; cursor:pointer; padding:@spacing; .border-box;
 					>* { .vertical-centre(@label-height); .border-box; }
 					>i.label { float:left; margin-right:@spacing; font-size:1.25em; }
 					>span { float:left; color:@secondary-font-colour; font-weight:bold; }
@@ -39,7 +39,7 @@
 				>div.label:hover { .hover; }
 				>div.choice-tile { float:left; width:100%; height:(46px+36px*6+1px); display:none; }
 			}
-			>div:first-child { padding-left:0; }
+			>div:first-child { border-left:none; }
 		}
 
 		>div.speech-bubble-comments { float:left; width:100%;
