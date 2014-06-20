@@ -45,40 +45,42 @@
 				>div.label:hover { .hover; }
 				>div.list { float:left; width:100%; overflow:hidden;
 					>div { float:left; width:100%; padding:@small-spacing @spacing; cursor:pointer; .border-box; border-top:solid 1px @border-colour;
-					 	>span { float:left; }
-					  	>i { float:right; display:none; }
+						>span { float:left; }
+						>i { float:right; display:none; }
 					}
-				  	>div.selected { .hover; color:@secondary-font-colour;
+					>div.selected { .hover; color:@secondary-font-colour;
 						>i { display:inline-block; }
 					}
-				  	>div:hover { .hover; }
+					>div:hover { .hover; }
 				}
 			}
 			>div:first-child { border-top:none; }
 		}
 
-		>div.speech-bubble-comments { float:left; width:100%; padding-right:@detailed-info-width+@spacing; position:relative; .border-box;
-			>div { float:left; width:100%; border-top:solid 1px @border-colour;
-				>div { float:left; width:100%; .tile; padding:0;
-					@info-container-width:275px;
-					@text-container-height:46px;
-					>div.info-container { float:left; width:@info-container-width; margin-right:@info-container-width*-1; .border-box;
-						>div.user { float:left; padding:@spacing;
-							@image-size:36px;
-							>img { float:left; width:@image-size; height:@image-size; margin-right:((@spacing)-6px); }
-							>div { float:left; height:@image-size;
-								>span { float:left; text-align:left; width:100%; }
-								>span.name { font-size:1em; font-weight:bold; margin-top:1px; }
-								>span.ago { font-size:0.85em; font-style:italic; color:@primary-font-colour-light; margin-top:2px; }
+		>div.comments { float:left; width:100%; padding-right:@detailed-info-width+@spacing; position:relative; .border-box;
+			>div { float:left; width:100%; .shadow;
+				>div { float:left; width:100%; border-top:solid 1px @border-colour;
+					>div { float:left; width:100%; .tile; padding:0; box-shadow:none;
+						@info-container-width:275px;
+						@text-container-height:46px;
+						>div.info-container { float:left; width:@info-container-width; margin-right:@info-container-width*-1; .border-box;
+							>div.user { float:left; padding:@spacing;
+								@image-size:36px;
+								>img { float:left; width:@image-size; height:@image-size; margin-right:((@spacing)-6px); }
+								>div { float:left; height:@image-size;
+									>span { float:left; text-align:left; width:100%; }
+									>span.name { font-size:1em; font-weight:bold; margin-top:1px; }
+									>span.ago { font-size:0.85em; font-style:italic; color:@primary-font-colour-light; margin-top:2px; }
+								}
 							}
 						}
-					}
-					>div.text-container { float:left; width:100%; position:relative; padding-left:@info-container-width; .border-box; min-height:@text-container-height;
-						>div.text { float:left; width:100%; padding:@spacing; .border-box; }
+						>div.text-container { float:left; width:100%; position:relative; padding-left:@info-container-width; .border-box; min-height:@text-container-height;
+							>div.text { float:left; width:100%; padding:@spacing; .border-box; }
+						}
 					}
 				}
+				>div:first-child { border-top:none; }
 			}
-			>div:first-child { border-top:none; }
 		}
 	}
 }
