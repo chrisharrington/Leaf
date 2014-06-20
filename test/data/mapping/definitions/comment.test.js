@@ -31,7 +31,7 @@ describe("comment mapping", function() {
 
 		it("should map date using dateFormat from config", function() {
 			var func = _define.firstCall.args[2].date, date = Date.now();
-			assert(func({ date: date }) == moment(date).format(config("dateTimeFormat")));
+			assert(func({ date: date }) == moment(date).format("YYYY-MM-DDTHH:mm:ssZ"));
 		});
 
 		it("should map user using user's name", function() {
