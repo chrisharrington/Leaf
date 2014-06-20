@@ -43,7 +43,16 @@
 					>i.fa-angle-down { float:right; font-weight:bold; font-size:1.125em; }
 				}
 				>div.label:hover { .hover; }
-				>div.choice-tile { float:left; width:100%; height:(46px+36px*6+1px); display:none; }
+				>div.list { float:left; width:100%; overflow:hidden;
+					>div { float:left; width:100%; padding:@small-spacing @spacing; cursor:pointer; .border-box; border-top:solid 1px @border-colour;
+					 	>span { float:left; }
+					  	>i { float:right; display:none; }
+					}
+				  	>div.selected { .hover; color:@secondary-font-colour;
+						>i { display:inline-block; }
+					}
+				  	>div:hover { .hover; }
+				}
 			}
 			>div:first-child { border-top:none; }
 		}
