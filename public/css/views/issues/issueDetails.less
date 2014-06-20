@@ -20,7 +20,7 @@
 		>div { float:left; width:100%;
 			@icon-width:14px;
 
-			>input, >textarea { float:left; width:100%; padding:@spacing; border:none; padding-right:@icon-width+@spacing; }
+			>input, >textarea { float:left; width:100%; padding:@spacing; border:none; padding-right:@icon-width+@spacing; background:@tile-background-colour; }
 			>input { height:@description-height; text-transform:uppercase; cursor:pointer; font-weight:bold; .condensed-font; color:@header-font-colour; font-size:1.875em; }
 			>textarea { height:@details-height; cursor:pointer; color:black; border-top:solid 1px @border-colour; }
 			>i { float:left; width:@icon-width; position:relative; margin-left:(@icon-width+@spacing)*-1; margin-right:@spacing; font-size:1.125em; color:@primary-font-colour-lightest; display:none !important; cursor:pointer; }
@@ -38,7 +38,7 @@
 				@label-height:16px;
 				>div.label { float:left; width:100%; cursor:pointer; padding:@spacing; .border-box;
 					>* { .vertical-centre(@label-height); .border-box; }
-					>i.label { float:left; margin-right:@spacing; font-size:1.25em; }
+					>i.label { float:left; margin-right:@spacing; font-size:1.25em; width:22px; text-align:center; }
 					>span { float:left; color:@secondary-font-colour; font-weight:bold; }
 					>i.fa-angle-down { float:right; font-weight:bold; font-size:1.125em; }
 				}
