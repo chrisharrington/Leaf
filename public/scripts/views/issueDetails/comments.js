@@ -54,9 +54,10 @@
 			return;
 
 		container.find("div.info-container").each(function() {
-			var width = $(this).find("div.user").width()+30;
+			var width = $(this).find("div.user").width()+31;
+			var text = $(this).parent().find("div.text-container");
 			$(this).width(width).css("margin-right", (width*-1) + "px");
-			$(this).parent().find("div.text-container").css("padding-left", width + "px");
+			text.css("padding-left", width + "px");
 		});
 	}
 

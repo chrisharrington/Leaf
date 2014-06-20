@@ -49,17 +49,12 @@
 		}
 
 		>div.speech-bubble-comments { float:left; width:100%; padding-right:@detailed-info-width+@spacing; position:relative; .border-box;
-			>div { float:left; width:100%; margin-top:@spacing;
-				>div { float:left; width:100%;
-					@arrow-width:34px;
+			>div { float:left; width:100%; border-top:solid 1px @border-colour;
+				>div { float:left; width:100%; .tile; padding:0;
 					@info-container-width:275px;
 					@text-container-height:46px;
-					>div.info-container { float:left; width:@info-container-width; margin-right:@info-container-width*-1;
-						>div.arrow { float:right; position:relative; z-index:2; margin-left:@spacing; margin-right:-10px;
-							>div { float:left; background:@tile-background-colour; margin-left:0; position:relative; z-index:2; width:8px; height:24px; margin-top:10px; }
-							>i { float:left; color:@tile-background-colour; font-size:42px; display:inline-block; margin-left:-3px; text-shadow:0 2px 8px rgba(100, 100, 100, 0.3); .vertical-centre(@text-container-height); }
-						}
-						>div.user { float:left; margin-top:@tiny-spacing;
+					>div.info-container { float:left; width:@info-container-width; margin-right:@info-container-width*-1; .border-box;
+						>div.user { float:left; padding:@spacing;
 							@image-size:36px;
 							>img { float:left; width:@image-size; height:@image-size; margin-right:((@spacing)-6px); }
 							>div { float:left; height:@image-size;
@@ -70,11 +65,11 @@
 						}
 					}
 					>div.text-container { float:left; width:100%; position:relative; padding-left:@info-container-width; .border-box; min-height:@text-container-height;
-						>div.text { float:left; width:100%; .tile; }
+						>div.text { float:left; width:100%; padding:@spacing; .border-box; }
 					}
 				}
 			}
-			>div:first-child { margin-top:0; }
+			>div:first-child { border-top:none; }
 		}
 	}
 }

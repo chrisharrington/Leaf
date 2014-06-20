@@ -42,7 +42,7 @@
 
 	function _setupNanobar() {
 		_bar = new Nanobar({
-			bg: "#3d96e5",
+			bg: "#67CF53",
 			target: $("div.bar-container")[0]
 		});
 		
