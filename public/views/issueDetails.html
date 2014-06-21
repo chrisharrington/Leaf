@@ -32,9 +32,6 @@
 				<i class="fa fa-paperclip"></i>
 				<img src="../images/light-spinner.png" alt="" />
 			</button>
-			<button class="round" data-bind="click: AddComment.show">
-				<i class="fa fa-comment"></i>
-			</button>
 			<button class="round" data-bind="click: Delete.restore, visible: IssueTracker.isAuthorized('delete-issue') && IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
 				<i class="fa fa-trash-o"></i>
 				<img src="../images/light-spinner.png" alt="" />
@@ -61,6 +58,26 @@
 <div class="content">
 	<div class="comments">
 		<div>
+			<div class="new">
+				<div>
+					<div class="info-container">
+						<div class="user">
+							<img class="user-profile-image" data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 36) }" alt="" />
+							<div>
+								<span class="name" data-bind="text: IssueTracker.signedInUser().name"></span>
+								<br />
+								<span class="ago">Now</span>
+							</div>
+						</div>
+					</div>
+					<div class="text-container">
+						<div class="text">
+							<textarea placeholder="Comment..." data-bind="value: Comments.text"></textarea>
+						</div>
+						<i class="fa fa-check" data-bind="click: Comments.add"></i>
+					</div>
+				</div>
+			</div>
 			<!-- ko foreach: { data: Comments.comments, afterAdd: Comments.slideDown } -->
 			<div>
 				<div>
@@ -212,20 +229,4 @@
             </button>
         </div>
     </div>
-</script>
-
-<script type="text/html" id="add-comment-template">
-	<div class="add-comment form">
-		<h1>Add comment</h1>
-		<textarea placeholder="Comment..." data-bind="value: text"></textarea>
-		<div class="button-container">
-			<button class="round" data-bind="click: cancel">
-				<i class="fa fa-times"></i>
-			</button>
-			<button class="round" data-bind="css: { loading: loading }, click: confirm">
-				<i class="fa fa-check"></i>
-				<img src="../images/light-spinner.png" alt="" />
-			</button>
-		</div>
-	</div>
 </script>

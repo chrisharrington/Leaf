@@ -75,7 +75,12 @@
 							}
 						}
 						>div.text-container { float:left; width:100%; position:relative; padding-left:@info-container-width; .border-box; min-height:@text-container-height;
-							>div.text { float:left; width:100%; padding:@spacing; .border-box; }
+						  	@icon-width:20px;
+							>div.text { float:left; width:100%; padding:@spacing; .border-box; position:relative; padding-right:@icon-width+(@spacing*2);
+								>textarea { float:left; width:100%; }
+							}
+						  	>i { float:left; font-size:1.375em; padding:@spacing; .vertical-centre(50px); width:@icon-width; text-align:right; margin-left:(@icon-width+@spacing*2)*-1; position:relative; color:@primary-font-colour-light; cursor:pointer; }
+						  	>i:hover { color:@primary-font-colour; }
 						}
 					}
 				}
@@ -94,5 +99,4 @@
 	}
 }
 
-.confirm-delete, .add-comment { float:left; width:500px; }
-.add-comment textarea { height:96px; }
+.confirm-delete { float:left; width:500px; }

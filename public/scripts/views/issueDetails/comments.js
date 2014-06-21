@@ -16,8 +16,22 @@
 		root.comments.pushAll(comments);
 	};
 
-	root.add = function(comment) {
-		root.comments.splice(0, 0, comment);
+	root.add = function() {
+		if (root.text() == "") {
+			IssueTracker.Feedback.error("The comment text is required.");
+			return;
+		}
+
+		root.loading(true);
+		$.post(IssueTracker.virtualDirectory + "issues/add-comment", { text: root.text(), issueId: IssueTracker.selectedIssue.id() }).done(function(saved) {
+			IssueTracker.Feedback.success("Your comment has been added.");
+			root.text("");
+			root.comments.splice(0, 0, saved);
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error has occurred while saving your comment. Please try again later.");
+		}).always(function() {
+			root.loading(false);
+		});
 	};
 
 	root.remove = function(comment) {
