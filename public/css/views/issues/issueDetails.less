@@ -80,11 +80,16 @@
 								>textarea { float:left; width:100%; }
 							}
 						  	>i { float:left; font-size:1.375em; padding:@spacing; .vertical-centre(50px); width:@icon-width; text-align:right; margin-left:(@icon-width+@spacing*2)*-1; position:relative; color:@primary-font-colour-light; cursor:pointer; }
+						  	>i.remove { .vertical-centre(36px); display:none; }
 						  	>i:hover { color:@primary-font-colour; }
 						}
 					}
 				}
 				>div:first-child { border-top:none; }
+
+			  	>div.existing:hover {
+					i.remove { display:inline-block; }
+				}
 			}
 		}
 	}

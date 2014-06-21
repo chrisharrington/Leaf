@@ -179,7 +179,7 @@
 
 	function _updateIssue() {
 		root.saving(true);
-		$.when(root.Comments.save(), _save()).done(function () {
+		_save().done(function () {
 			IssueTracker.selectedIssue.closed(_issueIsClosed(IssueTracker.selectedIssue.statusId()) ? new Date().toShortDateString() : null);
 			window.location.hash = window.location.hash.replace(_oldName.formatForUrl(), IssueTracker.selectedIssue.description().formatForUrl());
 			IssueTracker.Feedback.success("Your issue has been updated.");
