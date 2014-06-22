@@ -93,7 +93,7 @@
 					</div>
 					<div class="text-container">
 						<div class="text" data-bind="text: text"></div>
-						<i class="fa fa-times remove" data-bind="click: $root.Comments.remove"></i>
+						<i class="fa fa-times remove" data-bind="css: { authorized: IssueTracker.signedInUser().id() == userId }, click: $root.Comments.remove"></i>
 					</div>
 				</div>
 			</div>
