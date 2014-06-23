@@ -18,10 +18,10 @@
     </div>
 
     <div class="buttons">
-        <button class="round" id="save" data-bind="css: { loading: loading }">
+        <button class="round" id="save" data-bind="css: { loading: loading }, tooltip: 'Create Issue'">
             <i class="fa fa-check"></i>
         </button>
-        <button class="round" id="discard">
+        <button class="round" id="discard" data-bind="tooltip: { text: 'Discard Issue', alignment: 'right' }">
             <i class="fa fa-times"></i>
         </button>
     </div>
@@ -105,7 +105,7 @@
 
 <div class="attached-files tile container">
     <h2>Attach Files</h2>
-    <button id="browse" class="round">
+    <button id="browse" class="round" data-bind="tooltip: 'Browse...'">
 		<i class="fa fa-search"></i>
 		<img src="../images/light-spinner.png" alt="" />
     </button>
