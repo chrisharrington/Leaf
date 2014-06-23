@@ -5,12 +5,12 @@
 
 	div.users-container { float:left; width:100%; .border-box; position:relative;
 		@height:46px;
-		>a { float:left; width:100%; margin-top:@small-spacing; padding:0; height:@height;
+		>div { float:left; width:100%; margin-top:@small-spacing; padding:0; height:@height;
 			>* { float:left; padding:@spacing; border-left:solid 1px @border-colour; color:@primary-font-colour-light; }
 			>*:first-child { border-left:none; }
 			>img { padding:0; height:100%; width:@height; .border-radius(0); }
 			>span.name { width:200px; color:black; border-left:none; }
-			>span.email { width:300px; }
+			>a.email { width:300px; }
 			>div.counts { float:left; padding:0; border-left:none;
 				>div { float:left; padding:0 @spacing; border-left:solid 1px @border-colour; width:65px; text-align:center;
 					>* { padding:0; vertical-align:middle; display:inline-block; line-height:@height; height:@height; }
@@ -18,8 +18,8 @@
 				}
 			}
 			>div.actions { float:right; padding:0; .vertical-centre(46px); border-left:none;
-				>i { float:right; vertical-align:middle; line-height:@height; height:@height; padding:0 @small-spacing; cursor:pointer; color:@primary-font-colour; }
-				>i:hover { .hover; color:black; }
+				>i { float:right; vertical-align:middle; line-height:@height; height:@height; padding:0 @spacing; cursor:pointer; color:@primary-font-colour-lightest; font-size:1.125em; }
+				>i:hover { color:@primary-font-colour; }
 			}
 		}
 		>a:first-child { margin-top:0; }

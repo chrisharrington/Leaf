@@ -9,54 +9,54 @@
 </script>
 
 <div class="page-actions" data-bind="visible: IssueTracker.isAuthorized('create-user')">
-	<button class="round create-user-trigger" data-bind="click: Create.create">
+	<button class="round create-user-trigger" data-bind="tooltip: { text: 'Create User', alignment: 'left' }, click: Create.create">
 		<i class="fa fa-plus"></i>
 	</button>
 </div>
 
 <div class="users-container" data-bind="foreach: users">
     <!-- ko if: !isDeleted() -->
-    <a class="tile">
+    <div class="tile">
         <img class="user-profile-image" data-bind="attr: { title: name, src: IssueTracker.Utilities.getUserProfileImageLocation(id()) }" alt="" />
         <span class="name" data-bind="text: name"></span>
-        <span class="email" data-bind="text: emailAddress"></span>
+		<a class="email" data-bind="text: emailAddress, attr: { href: 'mailto:' + emailAddress() }" target="_blank"></a>
 		<div class="counts">
-			<div>
+			<div data-bind="tooltip: 'Developer Issue Count'">
 				<i class="fa fa-code"></i>
 				<span data-bind="text: developerIssueCount"></span>
 			</div>
-			<div>
+			<div data-bind="tooltip: 'Tester Issue Count'">
 				<i class="fa fa-flask"></i>
 				<span data-bind="text: testerIssueCount"></span>
 			</div>
 		</div>
         <div class="actions">
-            <i class="fa fa-lock" title="Reset Password" data-bind="click: $parent.ResetPassword.reset, visible: IssueTracker.isAuthorized('reset-password')"></i>
-            <i class="fa fa-trash-o" title="Delete User" data-bind="click: $parent.DeleteUser.remove, visible: IssueTracker.isAuthorized('delete-user')"></i>
-            <i class="fa fa-pencil" title="Edit User" data-bind="click: $parent.EditUser.edit, visible: IssueTracker.isAuthorized('edit-user')"></i>
-			<i class="fa fa-key" title="User Permissions" data-bind="click: $parent.Permissions.load, visible: IssueTracker.isAuthorized('modify-user-permissions')"></i>
+            <i class="fa fa-lock" title="Reset Password" data-bind="tooltip: { text: 'Reset Password', alignment: 'right' }, click: $parent.ResetPassword.reset, visible: IssueTracker.isAuthorized('reset-password')"></i>
+            <i class="fa fa-trash-o" title="Delete User" data-bind="tooltip: 'Delete User', click: $parent.DeleteUser.remove, visible: IssueTracker.isAuthorized('delete-user')"></i>
+            <i class="fa fa-pencil" title="Edit User" data-bind="tooltip: 'Edit User', click: $parent.EditUser.edit, visible: IssueTracker.isAuthorized('edit-user')"></i>
+			<i class="fa fa-key" title="User Permissions" data-bind="tooltip: 'Change Permissions', click: $parent.Permissions.load, visible: IssueTracker.isAuthorized('modify-user-permissions')"></i>
         </div>
-    </a>
+    </div>
     <!-- /ko -->
 </div>
 
 <div class="users-container deleted" data-bind="foreach: users">
     <!-- ko if: isDeleted() -->
-    <a class="tile" data-bind="click: $root.Undelete.restore">
+    <div class="tile" data-bind="click: $root.Undelete.restore">
         <img class="user-profile-image" data-bind="attr: { title: name, src: IssueTracker.Utilities.getUserProfileImageLocation(id()) }" alt="" />
         <span class="name" data-bind="text: name"></span>
-        <span class="email" data-bind="text: emailAddress"></span>
+		<a class="email" data-bind="text: emailAddress, attr: { href: 'mailto:' + emailAddress() }" target="_blank"></a>
         <div class="counts">
-            <div>
-                <i class="fa fa-code"></i>
-                <span data-bind="text: developerIssueCount"></span>
-            </div>
-            <div>
-                <i class="fa fa-flask"></i>
-                <span data-bind="text: testerIssueCount"></span>
-            </div>
+			<div data-bind="tooltip: 'Developer Issue Count'">
+				<i class="fa fa-code"></i>
+				<span data-bind="text: developerIssueCount"></span>
+			</div>
+			<div data-bind="tooltip: 'Tester Issue Count'">
+				<i class="fa fa-flask"></i>
+				<span data-bind="text: testerIssueCount"></span>
+			</div>
         </div>
-    </a>
+    </div>
     <!-- /ko -->
 </div>
 
