@@ -1,6 +1,8 @@
 
 (function(root) {
 
+	var _isAdd;
+
 	root.loading = ko.observable(false);
 	root.text = ko.observable("");
 	root.comments = ko.observableArray();
@@ -12,11 +14,13 @@
 	};
 
 	root.load = function (comments) {
+		_isAdd = false;
 		root.comments.removeAll();
 		root.comments.pushAll(comments);
 	};
 
 	root.add = function() {
+		_isAdd = true;
 		if (root.text() == "") {
 			IssueTracker.Feedback.error("The comment text is required.");
 			return;
@@ -43,7 +47,8 @@
 	};
 
 	root.slideDown = function (element) {
-		$(element).hide().slideDown(200);
+		if (_isAdd)
+			$(element).hide().slideDown(200);
 	};
 
 	root.isOwner = function(comment) {
