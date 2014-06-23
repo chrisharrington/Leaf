@@ -24,16 +24,16 @@
             </button>
 		</div>
 		<div class="always">
-			<button class="round" title="Save Changes" data-bind="visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
+			<button class="round" data-bind="tooltip: 'Save Changes', visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
 				<i class="fa fa-check"></i>
 			</button>
-			<button class="round" data-bind="click: Files.upload, css: { loading: Files.uploading }">
+			<button class="round" data-bind="tooltip: 'Attach File', click: Files.upload, css: { loading: Files.uploading }">
 				<i class="fa fa-paperclip"></i>
 			</button>
-			<button class="round" data-bind="click: Delete.restore, visible: IssueTracker.isAuthorized('delete-issue') && IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
+			<button class="round" data-bind="tooltip: { text: 'Restore Issue', alignment: 'right' }, click: Delete.restore, visible: IssueTracker.isAuthorized('delete-issue') && IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
 				<i class="fa fa-trash-o"></i>
 			</button>
-			<button class="round" data-bind="click: Delete.remove, visible: IssueTracker.isAuthorized('delete-issue') && !IssueTracker.selectedIssue.isDeleted()">
+			<button class="round" data-bind="tooltip: { text: 'Delete Issue', alignment: 'right' }, click: Delete.remove, visible: IssueTracker.isAuthorized('delete-issue') && !IssueTracker.selectedIssue.isDeleted()">
 				<i class="fa fa-trash-o"></i>
 			</button>
 		</div>
@@ -43,11 +43,11 @@
 <div class="header">
 	<div class="description">
 		<input id="description" class="nofocus" type="text" class="description no-focus" data-bind="enable: IssueTracker.isAuthorized('edit-issue'), value: IssueTracker.selectedIssue.description" />
-		<i class="fa fa-pencil"></i>
+		<i class="fa fa-pencil" data-bind="visible: IssueTracker.isAuthorized('edit-issue'), click: selectDescription, tooltip: { text: 'Edit Description', alignment: 'right' }"></i>
 	</div>
 	<div class="details">
 		<textarea id="details" class="nofocus" placeholder="Details..." class="no-focus" data-bind="enable: IssueTracker.isAuthorized('edit-issue'), value: IssueTracker.selectedIssue.details"></textarea>
-		<i class="fa fa-pencil"></i>
+		<i class="fa fa-pencil" data-bind="visible: IssueTracker.isAuthorized('edit-issue'), click: selectDetails, tooltip: { text: 'Edit Details', alignment: 'right' }"></i>
 	</div>
 </div>
 
@@ -70,7 +70,7 @@
 						<div class="text">
 							<textarea placeholder="Comment..." data-bind="value: Comments.text"></textarea>
 						</div>
-						<i class="fa fa-check save" data-bind="click: Comments.add"></i>
+						<i class="fa fa-check save" data-bind="click: Comments.add, tooltip: { text: 'Add Comment' }"></i>
 					</div>
 				</div>
 			</div>
@@ -89,7 +89,7 @@
 					</div>
 					<div class="text-container">
 						<div class="text" data-bind="text: text"></div>
-						<i class="fa fa-times remove" data-bind="css: { authorized: IssueTracker.signedInUser().id() == userId }, click: $root.Comments.remove"></i>
+						<i class="fa fa-times remove" data-bind="tooltip: 'Remove Comment', css: { authorized: IssueTracker.signedInUser().id() == userId }, click: $root.Comments.remove"></i>
 					</div>
 				</div>
 			</div>

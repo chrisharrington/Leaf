@@ -27,7 +27,7 @@
                     </a>
                 </div>
                 <div class="actions">
-					<a data-bind="click: Settings.show">
+					<a data-bind="click: Settings.show, tooltip: 'Settings'">
 						<i class="fa fa-gears"></i>
 					</a>
 					<a data-bind="click: Notifications.show" style="display:none;">
@@ -36,7 +36,7 @@
 							<span data-bind="visible: Notifications.unviewedNotifications() > 0, text: Notifications.unviewedNotifications()"></span>
 						</div>
 					</a>
-                    <a href="#/new-issue" data-bind="visible: IssueTracker.isAuthorized('create-issue')">
+                    <a href="#/new-issue" data-bind="visible: IssueTracker.isAuthorized('create-issue'), tooltip: { text: 'Create Issue', alignment: 'right' }">
                         <i class="fa fa-plus"></i>
                     </a>
 				</div>
@@ -167,6 +167,11 @@
             <!-- /ko -->
             <!-- /ko -->
         </div>
+
+		<div id="tooltip-container" class="">
+			<div class="arrow"></div>
+			<span>Tooltip!</span>
+		</div>
 
 		<script type="text/javascript" src="/scripts/thirdParty/jquery.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/knockout-min.js"></script>

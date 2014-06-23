@@ -46,6 +46,14 @@
 			container.addClass("disabled");
 	};
 
+	root.selectDescription = function() {
+		_container.find("#description").select();
+	};
+
+	root.selectDetails = function() {
+		_container.find("#details").select();
+	};
+
 	function _hookupEvents(container) {
 		container.on("click", "#save-changes", _updateIssue);
 		container.on("click", "div.transitions button", _executeTransition);

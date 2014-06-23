@@ -20,10 +20,11 @@
 		>div { float:left; width:100%;
 			@icon-width:14px;
 
-			>input, >textarea { float:left; width:100%; padding:@spacing; border:none; padding-right:@icon-width+@spacing; background:@tile-background-colour; }
+			>input, >textarea { float:left; width:100%; padding:@spacing; border:none; padding-right:@icon-width+@spacing*2; background:@tile-background-colour; }
 			>input { height:@description-height; text-transform:uppercase; cursor:pointer; font-weight:bold; .condensed-font; color:@header-font-colour; font-size:1.875em; }
 			>textarea { height:@details-height; cursor:pointer; color:black; border-top:solid 1px @border-colour; }
-			>i { float:left; width:@icon-width; position:relative; margin-left:(@icon-width+@spacing)*-1; margin-right:@spacing; font-size:1.125em; color:@primary-font-colour-lightest; display:none !important; cursor:pointer; }
+			>i { float:left; width:@icon-width; position:relative; margin-left:(@icon-width+@spacing*2)*-1; padding:0 @spacing; font-size:1.125em; color:@primary-font-colour-lightest; cursor:pointer; display:none !important; }
+			>i:hover { color:@primary-font-colour; }
 		}
 		>div.description>i { .vertical-centre(@description-height); }
 		>div.details>i { .vertical-centre(@details-height); }
@@ -79,7 +80,7 @@
 							>div.text { float:left; width:100%; padding:@spacing; .border-box; position:relative; padding-right:@icon-width+(@spacing*2);
 								>textarea { float:left; width:100%; }
 							}
-						  	>i { float:left; font-size:1.375em; padding:@spacing; .vertical-centre(50px); width:@icon-width; text-align:right; margin-left:(@icon-width+@spacing*2)*-1; position:relative; color:@primary-font-colour-light; cursor:pointer; }
+						  	>i { float:left; font-size:1.375em; padding:@spacing; .vertical-centre(50px); width:@icon-width; text-align:center; margin-left:(@icon-width+@spacing*2)*-1; position:relative; color:@primary-font-colour-light; cursor:pointer; }
 						  	>i.remove { .vertical-centre(36px); display:none; }
 						  	>i:hover { color:@primary-font-colour; }
 						}
