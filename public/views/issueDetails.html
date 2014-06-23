@@ -24,7 +24,7 @@
             </button>
 		</div>
 		<div class="always">
-			<button class="round" id="save-changes" data-bind="visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
+			<button class="round" title="Save Changes" data-bind="visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
 				<i class="fa fa-check"></i>
 			</button>
 			<button class="round" data-bind="click: Files.upload, css: { loading: Files.uploading }">

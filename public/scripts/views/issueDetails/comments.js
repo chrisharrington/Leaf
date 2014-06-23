@@ -2,21 +2,21 @@
 (function(root) {
 
 	var _isAdd;
+	var _container;
 
 	root.loading = ko.observable(false);
 	root.text = ko.observable("");
 	root.comments = ko.observableArray();
 
 	root.init = function(container) {
-		root.comments.subscribe(function() {
-			_setUserInfoWidths(container);
-		});
+		_container = container;
 	};
 
 	root.load = function (comments) {
 		_isAdd = false;
 		root.comments.removeAll();
 		root.comments.pushAll(comments);
+		_setUserInfoWidths(_container);
 	};
 
 	root.add = function() {
