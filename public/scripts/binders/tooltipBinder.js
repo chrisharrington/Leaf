@@ -3,7 +3,7 @@
 
 	ko.bindingHandlers.tooltip = {
 		init: function(element, valueAccessor) {
-			var value = ko.unwrap(valueAccessor());
+			var value = ko.unwrap(typeof(valueAccessor) == "function" ? valueAccessor() : valueAccessor);
 			var params = {
 				text: value.text || value,
 				alignment: value.alignment || "centre",
