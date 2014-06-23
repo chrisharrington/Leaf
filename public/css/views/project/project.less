@@ -12,7 +12,7 @@
 			>* { padding:0 @spacing; .border-box; }
 			>h1 { float:left; .vertical-centre(@header-height); }
 			>i { float:right; padding:0 @spacing; font-size:1.25em; .vertical-centre(@header-height); cursor:pointer; color:@primary-font-colour-lightest; }
-			>i:hover { color:@primary-font-colour; .hover; }
+			>i:hover { color:@primary-font-colour; }
 			>table { float:left; width:100%; padding:0; border-top:solid 1px @border-colour;
 				th, td { padding:@small-spacing @spacing; }
 				th { font-weight:bold; color:@secondary-font-colour; text-align:left; }
@@ -28,7 +28,8 @@
 
 		th.action { width:60px; }
 		td.action { padding:0 !important;
-			>i { float:right; cursor:pointer; .vertical-centre(32px); padding:0 @small-spacing; }
+			>i { float:right; cursor:pointer; .vertical-centre(32px); padding:0 @small-spacing; color:@primary-font-colour-lightest; }
+			>i:hover { color:@primary-font-colour; }
 		}
 
 		tr:hover>td.action>i { display:inline-block; }

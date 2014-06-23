@@ -17,7 +17,7 @@
 	<div class="right">
 		<div class="data tile">
 			<h1>Milestones</h1>
-			<i class="fa fa-plus" data-bind="click: Milestone.create"></i>
+			<i class="fa fa-plus" data-bind="click: Milestone.create, tooltip: 'Create Milestone'"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
@@ -29,8 +29,8 @@
 					<tr>
 						<td data-bind="text: name"></td>
 						<td class="action">
-							<i class="fa fa-pencil" data-bind="click: $root.Milestone.edit"></i>
-							<i class="fa fa-trash-o" data-bind="click: $root.Milestone.remove"></i>
+							<i class="fa fa-pencil" data-bind="click: $root.Milestone.edit, tooltip: 'Edit Milestone'"></i>
+							<i class="fa fa-trash-o" data-bind="click: $root.Milestone.remove, tooltip: 'Remove Milestone'"></i>
 						</td>
 					</tr>
 				</tbody>
@@ -38,7 +38,7 @@
 		</div>
 		<div class="data tile">
 			<h1>Priorities</h1>
-			<i class="fa fa-plus" data-bind="click: Priority.create"></i>
+			<i class="fa fa-plus" data-bind="click: Priority.create, tooltip: 'Create Priority'"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
@@ -50,8 +50,8 @@
 				<tr>
 					<td data-bind="text: name"></td>
 					<td class="action">
-						<i class="fa fa-pencil" data-bind="click: $root.Priority.edit"></i>
-						<i class="fa fa-trash-o" data-bind="click: $root.Priority.remove"></i>
+						<i class="fa fa-pencil" data-bind="click: $root.Priority.edit, tooltip: 'Edit Priority'"></i>
+						<i class="fa fa-trash-o" data-bind="click: $root.Priority.remove, tooltip: 'Remove Priority'"></i>
 					</td>
 				</tr>
 				</tbody>
@@ -59,14 +59,14 @@
 		</div>
 		<div class="data tile statuses">
 			<h1>Statuses</h1>
-			<i class="fa fa-plus" data-bind="click: Status.create"></i>
+			<i class="fa fa-plus" data-bind="click: Status.create, tooltip: 'Create Status'"></i>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th class="icon"><i class="fa fa-code"></i></th>
-						<th class="icon"><i class="fa fa-flask"></i></th>
-						<th class="icon"><i class="fa fa-check-circle"></i></th>
+						<th class="icon"><i class="fa fa-code" data-bind="tooltip: 'Developer Status'"></i></th>
+						<th class="icon"><i class="fa fa-flask" data-bind="tooltip: 'Tester Status'"></i></th>
+						<th class="icon"><i class="fa fa-check-circle" data-bind="tooltip: 'Complete Status'"></i></th>
 						<th class="action"></th>
 					</tr>
 				</thead>
@@ -86,8 +86,8 @@
 							<i class="fa fa-square-o" data-bind="visible: !isClosedStatus"></i>
 						</td>
 						<td class="action">
-							<i class="fa fa-pencil" data-bind="click: $root.Status.edit"></i>
-							<i class="fa fa-trash-o" data-bind="click: $root.Status.remove"></i>
+							<i class="fa fa-pencil" data-bind="click: $root.Status.edit, tooltip: 'Edit Status'"></i>
+							<i class="fa fa-trash-o" data-bind="click: $root.Status.remove, tooltip: 'Remove Status'"></i>
 						</td>
 					</tr>
 				</tbody>
