@@ -13,3 +13,13 @@ button.round.loading { background:#777; cursor:default;
 	>i { display:none; }
 	>img { display:block; margin-top:-1px; -webkit-animation:spin 1250ms linear infinite; -moz-animation:spin 1250ms linear infinite; animation:spin 1250ms linear infinite; }
 }
+
+@spinner-spacing:6px;
+@inner-spinner-spacing:12px;
+button>div.spinner { display:none; }
+button>div.inner-spinner { display:none; }
+button.loading>div { float:left; display:block; .loading-borders; .border-box; }
+button.loading>div.spinner { width:((@button-size)-@spinner-spacing*2); height:((@button-size)-@spinner-spacing*2); margin:@spinner-spacing; .spin-clockwise; }
+button.loading>div.inner-spinner { width:((@button-size)-@inner-spinner-spacing*2); height:((@button-size)-@inner-spinner-spacing*2); margin:@inner-spinner-spacing; position:relative; margin-top:@button-size*-1+@inner-spinner-spacing; .spin-counter-clockwise; }
+
+.loading-borders { border-left:3px solid rgba(255, 255, 255, 0.35); border-right:3px solid rgba(255, 255, 255, 0.35); border-bottom:3px solid rgba(255, 255, 255, 0.35); border-top:3px solid rgba(255, 255, 255, 0.85); border-radius:100%; }

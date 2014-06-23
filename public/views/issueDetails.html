@@ -26,7 +26,8 @@
 		<div class="always">
 			<button class="round" id="save-changes" data-bind="visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
 				<i class="fa fa-check"></i>
-				<img src="../images/light-spinner.png" alt="" />
+				<div class="spinner"></div>
+				<div class="inner-spinner"></div>
 			</button>
 			<button class="round" data-bind="click: Files.upload, css: { loading: Files.uploading }">
 				<i class="fa fa-paperclip"></i>
