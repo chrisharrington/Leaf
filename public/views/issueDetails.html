@@ -26,20 +26,15 @@
 		<div class="always">
 			<button class="round" id="save-changes" data-bind="visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
 				<i class="fa fa-check"></i>
-				<div class="spinner"></div>
-				<div class="inner-spinner"></div>
 			</button>
 			<button class="round" data-bind="click: Files.upload, css: { loading: Files.uploading }">
 				<i class="fa fa-paperclip"></i>
-				<img src="../images/light-spinner.png" alt="" />
 			</button>
 			<button class="round" data-bind="click: Delete.restore, visible: IssueTracker.isAuthorized('delete-issue') && IssueTracker.selectedIssue.isDeleted(), css: { loading: Delete.loading }">
 				<i class="fa fa-trash-o"></i>
-				<img src="../images/light-spinner.png" alt="" />
 			</button>
 			<button class="round" data-bind="click: Delete.remove, visible: IssueTracker.isAuthorized('delete-issue') && !IssueTracker.selectedIssue.isDeleted()">
 				<i class="fa fa-trash-o"></i>
-				<img src="../images/light-spinner.png" alt="" />
 			</button>
 		</div>
 	</div>
@@ -210,7 +205,6 @@
 			</button>
 			<button class="round" data-bind="click: IssueTracker.IssueDetails.Delete.confirm, css: { loading: loading }">
 				<i class="fa fa-check"></i>
-				<img src="../images/light-spinner.png" alt="" />
 			</button>
 		</div>
 	</div>
