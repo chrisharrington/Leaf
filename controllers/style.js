@@ -8,7 +8,7 @@ module.exports = function(app) {
 	var _cachedStyle;
 
 	app.get("/style", function (request, response) {
-		if (_cachedStyle)
+		if (app.get("env") == "production" && _cachedStyle)
 			_sendStyle(response);
 		else {
 			return bundler.concatenate(assets.styles()).then(function (concatenated) {
