@@ -24,7 +24,7 @@
             </button>
 		</div>
 		<div class="always">
-			<button class="round" data-bind="tooltip: 'Save Changes', visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
+			<button class="round" data-bind="tooltip: 'Save Changes', click: update, visible: IssueTracker.isAuthorized('edit-issue'), css: { loading: saving }">
 				<i class="fa fa-check"></i>
 			</button>
 			<button class="round" data-bind="tooltip: 'Attach File', click: Files.upload, css: { loading: Files.uploading }">
