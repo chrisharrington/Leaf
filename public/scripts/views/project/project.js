@@ -1,11 +1,9 @@
 (function (root) {
 
-	var _container;
-
-	root.orderingMilestones = ko.observable(false);
-
 	root.init = function(container) {
 		root.Milestone.init(container);
+		root.Priority.init(container);
+		root.Status.init(container);
 	};
 
 	root.load = function(container) {

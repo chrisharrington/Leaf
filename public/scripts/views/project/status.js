@@ -1,6 +1,13 @@
 (function(root) {
 
+	var _container;
+
+	root.ordering = ko.observable(false);
 	root.loading = ko.observable(false);
+
+	root.init = function(container) {
+		_container = container;
+	};
 
 	root.saveModel = {
 		type: "status",
@@ -128,10 +135,22 @@
 		root.saveModel.isClosedStatus(!root.saveModel.isClosedStatus());
 	};
 
-	root.order = function(rows) {
+	root.order = function() {
+		root.ordering(true);
+		_container.find("#statuses tbody").sortable("enable");
+	};
+
+	root.cancelOrder = function() {
+		root.ordering(false);
+		_container.find("#statuses tbody").sortable("cancel").sortable("disable");
+	};
+
+	root.saveOrder = function() {
+		var rows = _container.find("#statuses tbody tr");
 		_setStatusesOrder(rows);
 		$.post(IssueTracker.virtualDirectory + "statuses/order", { statuses: IssueTracker.Utilities.extractPropertyObservableValuesFromArray(IssueTracker.statuses()) }).done(function() {
 			IssueTracker.Feedback.success("The new status order has been applied.");
+			root.ordering(false);
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error occurred while updating the status order. Please try again later.");
 		});

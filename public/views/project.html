@@ -41,8 +41,11 @@
 		</div>
 		<div class="data tile">
 			<h1>Priorities</h1>
-			<i class="fa fa-plus" data-bind="click: Priority.create, tooltip: 'Create Priority'"></i>
-			<table cellpadding="0" cellspacing="0" id="priorities">
+			<i class="fa fa-plus" data-bind="click: Priority.create, tooltip: 'Create Priority', visible: !Priority.ordering()"></i>
+			<i class="fa fa-sort" data-bind="click: Priority.order, tooltip: 'Order Priorities', visible: !Priority.ordering()"></i>
+			<i class="fa fa-times" data-bind="click: Priority.cancelOrder, visible: Priority.ordering, tooltip: 'Cancel Ordering'"></i>
+			<i class="fa fa-check" data-bind="click: Priority.saveOrder, visible: Priority.ordering, tooltip: 'Save Order'"></i>
+			<table cellpadding="0" cellspacing="0" id="priorities" data-bind="css: { ordering: Priority.ordering }">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -62,8 +65,11 @@
 		</div>
 		<div class="data tile statuses">
 			<h1>Statuses</h1>
-			<i class="fa fa-plus" data-bind="click: Status.create, tooltip: 'Create Status'"></i>
-			<table cellpadding="0" cellspacing="0" id="statuses">
+			<i class="fa fa-plus" data-bind="click: Status.create, tooltip: 'Create Status', visible: !Status.ordering()"></i>
+			<i class="fa fa-sort" data-bind="click: Status.order, tooltip: 'Order Statuses', visible: !Status.ordering()"></i>
+			<i class="fa fa-times" data-bind="click: Status.cancelOrder, visible: Status.ordering, tooltip: 'Cancel Ordering'"></i>
+			<i class="fa fa-check" data-bind="click: Status.saveOrder, visible: Status.ordering, tooltip: 'Save Order'"></i>
+			<table cellpadding="0" cellspacing="0" id="statuses" data-bind="css: { ordering: Status.ordering }">
 				<thead>
 					<tr>
 						<th>Name</th>

@@ -1,6 +1,13 @@
 (function(root) {
 
+	var _container;
+
+	root.ordering = ko.observable(false);
 	root.loading = ko.observable(false);
+
+	root.init = function(container) {
+		_container = container;
+	};
 
 	root.saveModel = {
 		type: "priority",
@@ -98,10 +105,22 @@
 		});
 	};
 
-	root.order = function(rows) {
+	root.order = function() {
+		root.ordering(true);
+		_container.find("#priorities tbody").sortable("enable");
+	};
+
+	root.cancelOrder = function() {
+		root.ordering(false);
+		_container.find("#priorities tbody").sortable("cancel").sortable("disable");
+	};
+
+	root.saveOrder = function() {
+		var rows = _container.find("#priorities tbody tr");
 		_setPrioritiesOrder(rows);
 		$.post(IssueTracker.virtualDirectory + "priorities/order", { priorities: IssueTracker.Utilities.extractPropertyObservableValuesFromArray(IssueTracker.priorities()) }).done(function() {
 			IssueTracker.Feedback.success("The new priority order has been applied.");
+			root.ordering(false);
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error occurred while updating the priority order. Please try again later.");
 		});
