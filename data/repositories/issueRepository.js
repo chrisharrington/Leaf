@@ -69,6 +69,7 @@ repository.updateIssue = function(model, user) {
 		issue.updatedBy = user.name;
 		issue.milestoneId = milestone._id;
 		issue.milestone = milestone.name;
+		issue.milestoneOrder = milestone.order;
 		issue.priorityId = priority._id;
 		issue.priority = priority.name;
 		issue.priorityOrder = priority.order;

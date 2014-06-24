@@ -45,7 +45,9 @@ module.exports = function(app) {
 	app.post("/statuses/order", authenticate, function(request, response) {
 		return mapper.mapAll("status-view-model", "status", request.body.statuses).then(function(statuses) {
 			return statuses.map(function(status) {
-				return repositories.Status.save(status);
+				return repositories.Status.updateIssues(status).then(function() {
+					return repositories.Status.save(status);
+				});
 			});
 		}).then(function() {
 			response.send(200);

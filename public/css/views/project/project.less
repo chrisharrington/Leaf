@@ -16,7 +16,10 @@
 			>table { float:left; width:100%; padding:0; border-top:solid 1px @border-colour;
 				th, td { padding:@small-spacing @spacing; }
 				th { font-weight:bold; color:@secondary-font-colour; text-align:left; }
-				td { border-top:solid 1px @border-colour; text-align:left; cursor:move; }
+				td { border-top:solid 1px @border-colour; text-align:left; cursor:default; }
+			}
+			>table.ordering {
+				td { cursor:move; }
 				tr:hover>td { .hover; }
 			}
 		}

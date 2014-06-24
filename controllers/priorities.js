@@ -45,7 +45,9 @@ module.exports = function(app) {
 	app.post("/priorities/order", authenticate, function(request, response) {
 		return mapper.mapAll("priority-view-model", "priority", request.body.priorities).then(function(priorities) {
 			return priorities.map(function(priority) {
-				return repositories.Priority.save(priority);
+				return repositories.Priority.updateIssues(priority).then(function() {
+					return repositories.Priority.save(priority);
+				});
 			});
 		}).then(function() {
 			response.send(200);

@@ -1,5 +1,8 @@
 (function(root) {
 
+	var _container;
+
+	root.ordering = ko.observable(false);
 	root.loading = ko.observable(false);
 
 	root.saveModel = {
@@ -8,21 +11,8 @@
 		name: ko.observable("")
 	};
 
-	root.sortable = function(container) {
-		container.find("#milestones tbody").sortable({
-			axis: "y",
-			helper: function(e, tr) {
-				var originals = tr.children();
-				var helper = tr.clone().addClass("dragging");
-				helper.children().each(function(index) {
-					$(this).width(originals.eq(index).width());
-				});
-				return helper;
-			},
-			update: function() {
-				_updateOrder(container.find("#milestones tbody tr"));
-			}
-		});
+	root.init = function(container) {
+		_container = container;
 	};
 
 	root.removeModel = {
@@ -105,10 +95,22 @@
 		});
 	};
 
-	root.order = function(rows) {
+	root.order = function() {
+		root.ordering(true);
+		_container.find("#milestones tbody").sortable("enable");
+	};
+
+	root.cancelOrder = function() {
+		root.ordering(false);
+		_container.find("#milestones tbody").sortable("cancel").sortable("disable");
+	};
+
+	root.saveOrder = function() {
+		var rows = _container.find("#milestones tbody tr");
 		_setMilestonesOrder(rows);
 		$.post(IssueTracker.virtualDirectory + "milestones/order", { milestones: IssueTracker.Utilities.extractPropertyObservableValuesFromArray(IssueTracker.milestones()) }).done(function() {
 			IssueTracker.Feedback.success("The new milestone order has been applied.");
+			root.ordering(false);
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error occurred while updating the milestone order. Please try again later.");
 		});

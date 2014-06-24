@@ -1,5 +1,13 @@
 (function (root) {
 
+	var _container;
+
+	root.orderingMilestones = ko.observable(false);
+
+	root.init = function(container) {
+		root.Milestone.init(container);
+	};
+
 	root.load = function(container) {
 		container.find("tbody").sortable({
 			axis: "y",
@@ -11,16 +19,7 @@
 				});
 				return helper;
 			},
-			update: function(e, ui) {
-				var table = $(e.target).closest("table");
-				var id = table.attr("id"), rows = table.find("tbody tr");
-				if (id == "milestones")
-					root.Milestone.order(rows);
-				else if (id == "priorities")
-					root.Priority.order(rows);
-				else if (id == "statuses")
-					root.Status.order(rows);
-			}
+			disabled: true
 		});
 	};
 

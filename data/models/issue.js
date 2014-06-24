@@ -21,6 +21,7 @@ var schema = mongoose.Schema({
 	statusOrder: Number,
 	milestoneId: objectId,
 	milestone: String,
+	milestoneOrder: Number,
 	typeId: objectId,
 	type: String,
 	updatedById: objectId,

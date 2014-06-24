@@ -17,8 +17,11 @@
 	<div class="right">
 		<div class="data tile">
 			<h1>Milestones</h1>
-			<i class="fa fa-plus" data-bind="click: Milestone.create, tooltip: 'Create Milestone'"></i>
-			<table cellpadding="0" cellspacing="0" id="milestones">
+			<i class="fa fa-plus" data-bind="click: Milestone.create, tooltip: 'Create Milestone', visible: !Milestone.ordering()"></i>
+			<i class="fa fa-sort" data-bind="click: Milestone.order, tooltip: 'Order Milestones', visible: !Milestone.ordering()"></i>
+			<i class="fa fa-times" data-bind="click: Milestone.cancelOrder, visible: Milestone.ordering, tooltip: 'Cancel Ordering'"></i>
+			<i class="fa fa-check" data-bind="click: Milestone.saveOrder, visible: Milestone.ordering, tooltip: 'Save Order'"></i>
+			<table cellpadding="0" cellspacing="0" id="milestones" data-bind="css: { ordering: Milestone.ordering }">
 				<thead>
 					<tr>
 						<th>Name</th>

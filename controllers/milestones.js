@@ -45,7 +45,9 @@ module.exports = function(app) {
 	app.post("/milestones/order", authenticate, function(request, response) {
 		return mapper.mapAll("milestone-view-model", "milestone", request.body.milestones).then(function(milestones) {
 			return milestones.map(function(milestone) {
-				return repositories.Milestone.save(milestone);
+				return repositories.Milestone.updateIssues(milestone).then(function() {
+					return repositories.Milestone.save(milestone);
+				});
 			});
 		}).then(function() {
 			response.send(200);
