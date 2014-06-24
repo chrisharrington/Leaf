@@ -1,0 +1,17 @@
+#!/bin/sh
+
+cd /home/ec2-user/Leaf
+unset GIT_DIR
+git pull
+
+npm install
+npm test
+if [ "$?" != 0 ]
+then
+        echo "Tests failed; rejecting push."
+        exit 1
+else
+        ./stop
+        pkill node
+        ./start
+fi
