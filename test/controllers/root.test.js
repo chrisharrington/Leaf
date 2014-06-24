@@ -602,7 +602,7 @@ describe("root", function() {
 			});
 		});
 
-		it("should get milestones in ascending 'name' order", function() {
+		it("should get milestones in ascending 'order' order", function() {
 			return base.testRoute({
 				sut: sut,
 				verb: "get",
@@ -612,7 +612,7 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.milestones.calledWith(sinon.match.any, { sort: { name: 1 }}));
+					assert(result.stubs.milestones.calledWith(sinon.match.any, { sort: { order: 1 }}));
 				}
 			});
 		});

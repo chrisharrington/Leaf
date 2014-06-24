@@ -15,7 +15,7 @@ describe("milestones", function() {
 	describe("post /milestones/delete", function() {
 		var _stubs;
 
-		it("should set get /milestones/delete route", function () {
+		it("should set post /milestones/delete route", function () {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
 			assert(app.post.calledWith("/milestones/delete", sinon.match.func));
@@ -139,7 +139,7 @@ describe("milestones", function() {
 	describe("post /milestones/save", function() {
 		var _stubs;
 
-		it("should set get /milestones/save route", function () {
+		it("should set post /milestones/save route", function () {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
 			assert(app.post.calledWith("/milestones/save", sinon.match.func));
@@ -273,6 +273,83 @@ describe("milestones", function() {
 				env: params.env,
 				request: {
 					body: params.body || { id: params.bodyId || "the body id" },
+					project: { _id: params.projectId || "the project id" },
+					user: params.user || { name: "the user name" }
+				},
+				assert: params.assert
+			});
+		}
+	});
+
+	describe("post /milestones/save", function() {
+		var _stubs;
+
+		it("should set post /milestones/order route", function () {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/milestones/save", sinon.match.func));
+		});
+
+		it("should map all incoming milestones", function() {
+			var milestones = "the milestones list";
+			return _run({
+				milestones: milestones,
+				assert: function() {
+					assert(_stubs.map.calledWith("milestone-view-model", "milestone", milestones));
+				}
+			});
+		});
+
+		it("should save each milestone", function() {
+			var milestones = [
+				{ name: "first" },
+				{ name: "second" }
+			];
+			return _run({
+				mapped: milestones,
+				assert: function() {
+					assert(_stubs.save.calledWith(milestones[0]));
+					assert(_stubs.save.calledWith(milestones[1]));
+				}
+			});
+		});
+
+		it("should send 200", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 with error", function() {
+			return _run({
+				map: sinon.stub(mapper, "mapAll").rejects(new Error("oh noes!")),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
+		afterEach(function() {
+			for (var name in _stubs)
+				_stubs[name].restore();
+		});
+
+		function _run(params) {
+			params = params || {};
+
+			_stubs = {};
+			_stubs.map = params.map || sinon.stub(mapper, "mapAll").resolves(params.mapped || []);
+			_stubs.save = sinon.stub(repositories.Milestone, "save").resolves();
+
+			return base.testRoute({
+				sut: sut,
+				verb: "post",
+				route: "/milestones/order",
+				env: params.env,
+				request: {
+					body: { milestones: params.milestones },
 					project: { _id: params.projectId || "the project id" },
 					user: params.user || { name: "the user name" }
 				},
