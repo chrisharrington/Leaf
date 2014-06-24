@@ -29,21 +29,13 @@ module.exports = function(app) {
 	app.post("/milestones/save", authenticate, function(request, response) {
 		return mapper.map("milestone-view-model", "milestone", request.body).then(function(milestone) {
 			milestone.project = request.project._id;
-			if (milestone._id) {
-				return repositories.Issue.get({ milestoneId: milestone._id }).then(function(issues) {
-					return repositories.Milestone.save(milestone).then(function() {
-						return Promise.all(issues.map(function (i) {
-							i.milestoneId = request.body.id;
-							i.milestone = milestone.name;
-							return repositories.Issue.updateIssue(i, request.user);
-						}));
-					});
+			if (milestone._id)
+				return repositories.Milestone.updateIssues(milestone).then(function() {
+					return repositories.Milestone.save(milestone);
 				});
-			}
-
 			milestone._id = request.body.id = mongoose.Types.ObjectId();
 			return repositories.Milestone.create(milestone);
-		}).then(function(created) {
+		}).then(function() {
 			response.send(request.body, 200);
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
