@@ -101,6 +101,36 @@ describe("style", function() {
 			});
 		});
 
+		it("should not render style on the second call", function() {
+			return base.testRoute({
+				sut: sut,
+				verb: "get",
+				route: "/style",
+				stubs: {
+					assets: sinon.stub(assets, "styles").returns(["first", "second"]),
+					bundler: sinon.stub(bundler, "concatenate").rejects(new Error("oh noes!")),
+					less: sinon.stub(less, "renderAsync").resolves("the lessified string"),
+					minifier: sinon.stub(minifier, "compressAsync").resolves("the compressed string")
+				},
+				assert: function(results) {
+					return base.testRoute({
+						sut: sut,
+						verb: "get",
+						route: "/style",
+						stubs: {
+							assets: sinon.stub(assets, "styles").returns(["first", "second"]),
+							bundler: sinon.stub(bundler, "concatenate").rejects(new Error("oh noes!")),
+							less: sinon.stub(less, "renderAsync").resolves("the lessified string"),
+							minifier: sinon.stub(minifier, "compressAsync").resolves("the compressed string")
+						},
+						assert: function(results) {
+							assert(results.stubs.bundler.calledOnce);
+						}
+					});
+				}
+			});
+		});
+
 		function _run(params) {
 			params = params || {};
 			return base.testRoute({

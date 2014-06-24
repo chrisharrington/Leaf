@@ -37,7 +37,7 @@ exports.testRoute = function(params) {
 				params.stubs[name].restore();
 
 		if (params.assert)
-			params.assert({ request: request, response: response, stubs: params.stubs });
+			return params.assert({ request: request, response: response, stubs: params.stubs });
 	}
 };
 
