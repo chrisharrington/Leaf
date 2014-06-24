@@ -115,6 +115,8 @@
 					priority.order(i+1);
 			});
 		});
+
+		IssueTracker.priorities.sort(function(first, second) { return first.order() < second.order() ? -1 : 1; });
 	}
 
 	function _getHighestOrder() {

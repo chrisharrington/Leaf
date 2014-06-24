@@ -122,6 +122,8 @@
 					milestone.order(i+1);
 			});
 		});
+
+		IssueTracker.milestones.sort(function(first, second) { return first.order() < second.order() ? -1 : 1; });
 	}
 
 })(root("IssueTracker.Project.Milestone"));

@@ -23,7 +23,7 @@
 		_filter.init(container, root.sidebar, _resetIssueList);
 		root.Sort.init();
 
-		//$(window).on("focus", _resetIssueList);
+		$(window).on("focus", _resetIssueList);
 
 		root.Sort.selected.subscribe(function() {
 			if (root.Sort.selected().direction)

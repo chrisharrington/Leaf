@@ -311,4 +311,81 @@ describe("statuses", function() {
 			});
 		}
 	});
+
+	describe("post /statuses/save", function() {
+		var _stubs;
+
+		it("should set post /statuses/order route", function () {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/statuses/save", sinon.match.func));
+		});
+
+		it("should map all incoming statuses", function() {
+			var statuses = "the statuses list";
+			return _run({
+				statuses: statuses,
+				assert: function() {
+					assert(_stubs.map.calledWith("status-view-model", "status", statuses));
+				}
+			});
+		});
+
+		it("should save each status", function() {
+			var statuses = [
+				{ name: "first" },
+				{ name: "second" }
+			];
+			return _run({
+				mapped: statuses,
+				assert: function() {
+					assert(_stubs.save.calledWith(statuses[0]));
+					assert(_stubs.save.calledWith(statuses[1]));
+				}
+			});
+		});
+
+		it("should send 200", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 with error", function() {
+			return _run({
+				map: sinon.stub(mapper, "mapAll").rejects(new Error("oh noes!")),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
+		afterEach(function() {
+			for (var name in _stubs)
+				_stubs[name].restore();
+		});
+
+		function _run(params) {
+			params = params || {};
+
+			_stubs = {};
+			_stubs.map = params.map || sinon.stub(mapper, "mapAll").resolves(params.mapped || []);
+			_stubs.save = sinon.stub(repositories.Status, "save").resolves();
+
+			return base.testRoute({
+				sut: sut,
+				verb: "post",
+				route: "/statuses/order",
+				env: params.env,
+				request: {
+					body: { statuses: params.statuses },
+					project: { _id: params.projectId || "the project id" },
+					user: params.user || { name: "the user name" }
+				},
+				assert: params.assert
+			});
+		}
+	});
 });

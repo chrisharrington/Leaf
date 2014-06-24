@@ -18,6 +18,8 @@
 					root.Milestone.order(rows);
 				else if (id == "priorities")
 					root.Priority.order(rows);
+				else if (id == "statuses")
+					root.Status.order(rows);
 			}
 		});
 	};

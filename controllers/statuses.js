@@ -49,4 +49,16 @@ module.exports = function(app) {
 			response.send(e.stack.formatStack(), 500);
 		});
 	});
+
+	app.post("/statuses/order", authenticate, function(request, response) {
+		return mapper.mapAll("status-view-model", "status", request.body.statuses).then(function(statuses) {
+			return statuses.map(function(status) {
+				return repositories.Status.save(status);
+			});
+		}).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
+	});
 };

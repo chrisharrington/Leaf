@@ -128,6 +128,27 @@
 		root.saveModel.isClosedStatus(!root.saveModel.isClosedStatus());
 	};
 
+	root.order = function(rows) {
+		_setStatusesOrder(rows);
+		$.post(IssueTracker.virtualDirectory + "statuses/order", { statuses: IssueTracker.Utilities.extractPropertyObservableValuesFromArray(IssueTracker.statuses()) }).done(function() {
+			IssueTracker.Feedback.success("The new status order has been applied.");
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error occurred while updating the status order. Please try again later.");
+		});
+	};
+
+	function _setStatusesOrder(rows) {
+		$(rows).each(function(i, row) {
+			var id = $(row).attr("data-id");
+			$.each(IssueTracker.statuses(), function(j, status) {
+				if (status.id() == id)
+					status.order(i+1);
+			});
+		});
+
+		IssueTracker.statuses.sort(function(first, second) { return first.order() < second.order() ? -1 : 1; });
+	}
+
 	function _getHighestOrder() {
 		var order = -1;
 		$.each(IssueTracker.statuses(), function(i, status) {
