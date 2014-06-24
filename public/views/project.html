@@ -100,9 +100,7 @@
 	<div class="create-or-update form milestone">
 		<h1 data-bind="text: (create ? 'Create' : 'Edit') + ' Milestone'"></h1>
 		<span data-bind="text: 'Once your milestone has been ' + (create ? 'created' : 'edited') + ', you can drag its location in the table to set its order throughout the application.'"></span>
-		<div class="input-container">
-			<input type="text" placeholder="Milestone name..." data-bind="value: name" />
-		</div>
+		<input type="text" placeholder="Milestone name..." data-bind="value: name" />
 		<div class="button-container">
 			<button class="round" title="Cancel" data-bind="click: IssueTracker.Project.Milestone.cancel">
 				<i class="fa fa-times"></i>
@@ -118,10 +116,8 @@
 	<div class="create-or-update form priority">
 		<h1 data-bind="text: (create ? 'Create' : 'Edit') + ' Priority'"></h1>
 		<span data-bind="text: 'Once your priority has been ' + (create ? 'created' : 'edited') + ', you can drag its location in the table to set its order throughout the application.'"></span>
-		<div class="input-container">
-			<input type="text" placeholder="Priority name..." data-bind="value: name" />
-		</div>
-		<div class="input-container colour">
+		<input type="text" placeholder="Priority name..." data-bind="value: name" />
+		<div class="colour">
 			<input type="text" placeholder="Colour..." data-bind="value: colour, valueUpdate: 'keyup'" />
 			<span data-bind="style: { background: colour }"></span>
 		</div>

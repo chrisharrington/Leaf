@@ -26,10 +26,7 @@ module.exports = function() {
 			caches.init()
 		]);
 	}).then(function () {
-		var first = versiony.from("package.json");
-		var second = first.patch();
-		var third = second.to("package.json");
-		//versiony.from("package.json").patch().to("package.json");
+		versiony.from("package.json").patch().to("package.json");
 		app.listen(config.call(this, "serverPort"));
 		console.log("Server listening on port " + config.call(this, "serverPort") + " in " + app.get("env") + " mode.");
 	}).catch(function (e) {

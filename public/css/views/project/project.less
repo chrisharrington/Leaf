@@ -36,21 +36,18 @@
 	}
 }
 
-div.create-or-update { width:500px; padding:@spacing 0;
-	>* { padding:0 @spacing; .border-box; }
-	div.input-container { float:left; width:100%; margin-top:@dialog-spacing;
-		input { float:left; width:100%; }
-	}
-	div.input-container.colour {
-		input { width:83%; }
-		span { float:right; width:15%; height:34px; .border-radius(2px); .border-box; }
-	}
-	div.options { display:none; }
-	div.button-container { padding:0 @spacing 0 @small-spacing !important; }
-	div.button-container.first { padding:0 @small-spacing 0 @spacing !important; }
+div.priority div.colour { float:left; width:100%; margin-top:@dialog-spacing;
+	@colour-size:34px;
+	>input { float:left; width:90%; .border-box; margin-right:2%; }
+	>span { float:left; width:8%; height:@colour-size; .border-radius; }
 }
 
-div.status {
+div.status { padding:@spacing 0;
+	>* { padding:0 @spacing; .border-box; }
+	>span { padding:0 @spacing !important; }
+	>div.input-container { float:left; width:100%; margin-top:@dialog-spacing;
+		>input { float:left; width:100%; }
+	}
 	div.options { float:left; display:block; width:100%; margin-top:@dialog-spacing; padding:0;
 		>div { float:left; width:100%; cursor:pointer; padding:@small-spacing @spacing; .border-box;
 			>i { float:left; width:14px; margin-right:@small-spacing; margin-top:1px; color:@primary-font-colour-light; }
@@ -66,3 +63,5 @@ div.status {
 div.delete { width:600px;
 	b { color:#D12E2E; }
 }
+
+div.create-or-update { width:500px; }
