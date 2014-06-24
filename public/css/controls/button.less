@@ -16,8 +16,8 @@ button.round.loading { background:#777; cursor:default;
 
 @spinner-spacing:6px;
 @inner-spinner-spacing:12px;
-button.loading::before, button.loading::after { float:left; content:""; display:block; .border-box; .loading-borders; }
-button.loading::before { width:((@button-size)-@spinner-spacing*2); height:((@button-size)-@spinner-spacing*2); margin:@spinner-spacing; .spin-clockwise; }
-button.loading::after { width:((@button-size)-@inner-spinner-spacing*2); height:((@button-size)-@inner-spinner-spacing*2); margin:@inner-spinner-spacing; .spin-counter-clockwise; margin-top:@button-size*-1+@inner-spinner-spacing; }
+button.round.loading::before, button.round.loading::after { float:left; content:""; display:block; .border-box; .loading-borders; }
+button.round.loading::before { width:((@button-size)-@spinner-spacing*2); height:((@button-size)-@spinner-spacing*2); margin:@spinner-spacing; .spin-clockwise; }
+button.round.loading::after { width:((@button-size)-@inner-spinner-spacing*2); height:((@button-size)-@inner-spinner-spacing*2); margin:@inner-spinner-spacing; .spin-clockwise; margin-top:@button-size*-1+@inner-spinner-spacing; }
 
 .loading-borders { border-left:3px solid rgba(255, 255, 255, 0.35); border-right:3px solid rgba(255, 255, 255, 0.35); border-bottom:3px solid rgba(255, 255, 255, 0.35); border-top:3px solid rgba(255, 255, 255, 0.85); border-radius:100%; }
