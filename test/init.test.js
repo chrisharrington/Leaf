@@ -9,6 +9,7 @@ var mapper = require("../data/mapping/mapper");
 var controllers = require("../controllers/controllers");
 var express = require("express");
 var config = require("../config");
+var versiony = require("versiony");
 
 var sut = require("../init.js");
 
@@ -328,6 +329,24 @@ describe("init", function() {
 			});
 		});
 
+		it("should read build number from package.json", function() {
+			return _run().then(function() {
+				assert(_stubs.versiony.calledWith("package.json"));
+			});
+		});
+
+		it("should update patch number", function() {
+			return _run().then(function() {
+				assert(_stubs.patch.patch.calledOnce);
+			});
+		});
+
+		it("should write to package.json", function() {
+			return _run().then(function() {
+				assert(_stubs.to.to.calledWith("package.json"));
+			});
+		});
+
 		afterEach(function() {
 			for (var name in _stubs)
 				if (_stubs[name].restore)
@@ -336,6 +355,9 @@ describe("init", function() {
 
 		function _run(params) {
 			params = params || {};
+			_stubs.to = { to: sinon.stub().returns() };
+			_stubs.patch = { patch: sinon.stub().returns(_stubs.to) };
+			_stubs.versiony = sinon.stub(versiony, "from").returns(_stubs.patch);
 			_stubs.connection = params.connection || sinon.stub(connection, "open").resolves();
 			_stubs.caches = sinon.stub(caches, "init").resolves();
 			_stubs.mapper = sinon.stub(mapper, "init").resolves();

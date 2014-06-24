@@ -15,7 +15,7 @@ module.exports = function(key) {
 		"fromAddress": "no-reply@leafissuetracker.com",
 		"domain": "http://www.leafissuetracker.com",
 		"serverPort": 8080,
-		"buildNumber": process.env.BUILD_NUMBER
+		"buildNumber": require("./package.json").version
 	};
 
 	if (!_initialized) {

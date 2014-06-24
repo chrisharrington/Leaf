@@ -50,18 +50,15 @@ describe("config", function() {
 			assert.equal(sut("serverPort"), "8080");
 		});
 
-		it("should return undefined for 'buildNumber'", function() {
+		it("should not return undefined for 'buildNumber'", function() {
 			var orig = process.env;
 			process.env = { BUILD_NUMBER: undefined };
-			assert.equal(sut("buildNumber"), undefined);
+			assert.notEqual(sut("buildNumber"), undefined);
 			process.env = orig;
 		});
 
-		it("should return build number as read from the env", function() {
-			var orig = process.env;
-			process.env = { BUILD_NUMBER: 11 };
-			assert.equal(sut("buildNumber"), 11);
-			process.env = orig;
+		it("should return build number as read from package.json", function() {
+			assert.equal(sut("buildNumber"), require("../package.json").version);
 		});
 
 		it("should return undefined with no such key", function() {
