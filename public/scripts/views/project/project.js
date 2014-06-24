@@ -1,5 +1,8 @@
-
 (function (root) {
+
+	root.load = function(container) {
+		root.Milestone.sortable(container);
+	};
 
 	$(function() {
 		IssueTracker.Page.build({

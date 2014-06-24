@@ -30,7 +30,7 @@ module.exports = function(app) {
 				repositories.User.get({ project: project._id }, { sort: { name: 1 }}),
 				caches.Transition.all(),
 				repositories.Project.get(),
-				repositories.Milestone.get({ project: project._id, isDeleted: false }, { sort: { name: 1 }}),
+				repositories.Milestone.get({ project: project._id, isDeleted: false }, { sort: { order: 1 }}),
 				caches.IssueType.all(),
 				_getSignedInUser(request),
 				project

@@ -41,4 +41,16 @@ module.exports = function(app) {
 			response.send(e.stack.formatStack(), 500);
 		});
 	});
+
+	app.post("/milestones/order", authenticate, function(request, response) {
+		return mapper.mapAll("milestone-view-model", "milestone", request.body.milestones).then(function(milestones) {
+			return milestones.map(function(milestone) {
+				return repositories.Milestone.save(milestone);
+			});
+		}).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
+	});
 };

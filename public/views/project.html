@@ -18,7 +18,7 @@
 		<div class="data tile">
 			<h1>Milestones</h1>
 			<i class="fa fa-plus" data-bind="click: Milestone.create, tooltip: 'Create Milestone'"></i>
-			<table cellpadding="0" cellspacing="0">
+			<table cellpadding="0" cellspacing="0" id="milestones">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -26,7 +26,7 @@
 					</tr>
 				</thead>
 				<tbody data-bind="foreach: IssueTracker.milestones">
-					<tr>
+					<tr data-bind="attr: { 'data-id': id }">
 						<td data-bind="text: name"></td>
 						<td class="action">
 							<i class="fa fa-pencil" data-bind="click: $root.Milestone.edit, tooltip: 'Edit Milestone'"></i>

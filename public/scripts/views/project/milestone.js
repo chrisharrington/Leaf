@@ -8,6 +8,23 @@
 		name: ko.observable("")
 	};
 
+	root.sortable = function(container) {
+		container.find("#milestones tbody").sortable({
+			axis: "y",
+			helper: function(e, tr) {
+				var originals = tr.children();
+				var helper = tr.clone().addClass("dragging");
+				helper.children().each(function(index) {
+					$(this).width(originals.eq(index).width());
+				});
+				return helper;
+			},
+			update: function() {
+				_updateOrder(container.find("#milestones tbody tr"));
+			}
+		});
+	};
+
 	root.removeModel = {
 		id: null,
 		newMilestones: null,
@@ -87,5 +104,24 @@
 			root.loading(false);
 		});
 	};
+
+	function _updateOrder(rows) {
+		_setMilestonesOrder(rows);
+		$.post(IssueTracker.virtualDirectory + "milestones/order", { milestones: IssueTracker.Utilities.extractPropertyObservableValuesFromArray(IssueTracker.milestones()) }).done(function() {
+			IssueTracker.Feedback.success("The new milestone order has been applied.");
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error occurred while updating the milestone order. Please try again later.");
+		});
+	}
+
+	function _setMilestonesOrder(rows) {
+		$(rows).each(function(i, row) {
+			var id = $(row).attr("data-id");
+			$.each(IssueTracker.milestones(), function(j, milestone) {
+				if (milestone.id() == id)
+					milestone.order(i+1);
+			});
+		});
+	}
 
 })(root("IssueTracker.Project.Milestone"));
