@@ -105,14 +105,14 @@
 		});
 	};
 
-	function _updateOrder(rows) {
+	root.order = function(rows) {
 		_setMilestonesOrder(rows);
 		$.post(IssueTracker.virtualDirectory + "milestones/order", { milestones: IssueTracker.Utilities.extractPropertyObservableValuesFromArray(IssueTracker.milestones()) }).done(function() {
 			IssueTracker.Feedback.success("The new milestone order has been applied.");
 		}).fail(function() {
 			IssueTracker.Feedback.error("An error occurred while updating the milestone order. Please try again later.");
 		});
-	}
+	};
 
 	function _setMilestonesOrder(rows) {
 		$(rows).each(function(i, row) {

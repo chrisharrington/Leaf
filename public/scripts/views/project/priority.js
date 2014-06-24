@@ -98,6 +98,25 @@
 		});
 	};
 
+	root.order = function(rows) {
+		_setPrioritiesOrder(rows);
+		$.post(IssueTracker.virtualDirectory + "priorities/order", { priorities: IssueTracker.Utilities.extractPropertyObservableValuesFromArray(IssueTracker.priorities()) }).done(function() {
+			IssueTracker.Feedback.success("The new priority order has been applied.");
+		}).fail(function() {
+			IssueTracker.Feedback.error("An error occurred while updating the priority order. Please try again later.");
+		});
+	};
+
+	function _setPrioritiesOrder(rows) {
+		$(rows).each(function(i, row) {
+			var id = $(row).attr("data-id");
+			$.each(IssueTracker.priorities(), function(j, priority) {
+				if (priority.id() == id)
+					priority.order(i+1);
+			});
+		});
+	}
+
 	function _getHighestOrder() {
 		var order = -1;
 		$.each(IssueTracker.priorities(), function(i, priority) {

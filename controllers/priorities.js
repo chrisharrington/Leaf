@@ -49,4 +49,16 @@ module.exports = function(app) {
 			response.send(e.stack.formatStack(), 500);
 		});
 	});
+
+	app.post("/priorities/order", authenticate, function(request, response) {
+		return mapper.mapAll("priority-view-model", "priority", request.body.priorities).then(function(priorities) {
+			return priorities.map(function(priority) {
+				return repositories.Priority.save(priority);
+			});
+		}).then(function() {
+			response.send(200);
+		}).catch(function(e) {
+			response.send(e.stack.formatStack(), 500);
+		});
+	});
 };

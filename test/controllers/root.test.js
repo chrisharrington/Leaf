@@ -522,7 +522,7 @@ describe("root", function() {
 				},
 				stubs: _buildStubs(),
 				assert: function(result) {
-					assert(result.stubs.priorities.calledWith(sinon.match.any, { sort: { order: -1 }}));
+					assert(result.stubs.priorities.calledWith(sinon.match.any, { sort: { order: 1 }}));
 				}
 			});
 		});

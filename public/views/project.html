@@ -39,7 +39,7 @@
 		<div class="data tile">
 			<h1>Priorities</h1>
 			<i class="fa fa-plus" data-bind="click: Priority.create, tooltip: 'Create Priority'"></i>
-			<table cellpadding="0" cellspacing="0">
+			<table cellpadding="0" cellspacing="0" id="priorities">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -47,20 +47,20 @@
 					</tr>
 				</thead>
 				<tbody data-bind="foreach: IssueTracker.priorities">
-				<tr>
-					<td data-bind="text: name"></td>
-					<td class="action">
-						<i class="fa fa-pencil" data-bind="click: $root.Priority.edit, tooltip: 'Edit Priority'"></i>
-						<i class="fa fa-trash-o" data-bind="click: $root.Priority.remove, tooltip: 'Remove Priority'"></i>
-					</td>
-				</tr>
+					<tr data-bind="attr: { 'data-id': id }">
+						<td data-bind="text: name"></td>
+						<td class="action">
+							<i class="fa fa-pencil" data-bind="click: $root.Priority.edit, tooltip: 'Edit Priority'"></i>
+							<i class="fa fa-trash-o" data-bind="click: $root.Priority.remove, tooltip: 'Remove Priority'"></i>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="data tile statuses">
 			<h1>Statuses</h1>
 			<i class="fa fa-plus" data-bind="click: Status.create, tooltip: 'Create Status'"></i>
-			<table cellpadding="0" cellspacing="0">
+			<table cellpadding="0" cellspacing="0" id="statuses">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -71,7 +71,7 @@
 					</tr>
 				</thead>
 				<tbody data-bind="foreach: IssueTracker.statuses">
-					<tr>
+					<tr data-bind="attr: { 'data-id': id }">
 						<td data-bind="text: name"></td>
 						<td class="icon">
 							<i class="fa fa-check-square" data-bind="visible: isDeveloperStatus"></i>

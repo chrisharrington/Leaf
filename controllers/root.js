@@ -25,7 +25,7 @@ module.exports = function(app) {
 		return request.getProject().then(function(project) {
 			return Promise.all([
 				repositories.Permission.get(null, { sort: { name: 1 }}),
-				repositories.Priority.get({ project: project._id, isDeleted: false }, { sort: { order: -1 }}),
+				repositories.Priority.get({ project: project._id, isDeleted: false }, { sort: { order: 1 }}),
 				repositories.Status.get({ project: project._id, isDeleted: false }, { sort: { order: 1 }}),
 				repositories.User.get({ project: project._id }, { sort: { name: 1 }}),
 				caches.Transition.all(),

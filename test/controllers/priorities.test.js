@@ -311,4 +311,81 @@ describe("priorities", function() {
 			});
 		}
 	});
+
+	describe("post /priorities/save", function() {
+		var _stubs;
+
+		it("should set post /priorities/order route", function () {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.post.calledWith("/priorities/save", sinon.match.func));
+		});
+
+		it("should map all incoming priorities", function() {
+			var priorities = "the priorities list";
+			return _run({
+				priorities: priorities,
+				assert: function() {
+					assert(_stubs.map.calledWith("priority-view-model", "priority", priorities));
+				}
+			});
+		});
+
+		it("should save each priority", function() {
+			var priorities = [
+				{ name: "first" },
+				{ name: "second" }
+			];
+			return _run({
+				mapped: priorities,
+				assert: function() {
+					assert(_stubs.save.calledWith(priorities[0]));
+					assert(_stubs.save.calledWith(priorities[1]));
+				}
+			});
+		});
+
+		it("should send 200", function() {
+			return _run({
+				assert: function(result) {
+					assert(result.response.send.calledWith(200));
+				}
+			});
+		});
+
+		it("should send 500 with error", function() {
+			return _run({
+				map: sinon.stub(mapper, "mapAll").rejects(new Error("oh noes!")),
+				assert: function(result) {
+					assert(result.response.send.calledWith(sinon.match.any, 500));
+				}
+			});
+		});
+
+		afterEach(function() {
+			for (var name in _stubs)
+				_stubs[name].restore();
+		});
+
+		function _run(params) {
+			params = params || {};
+
+			_stubs = {};
+			_stubs.map = params.map || sinon.stub(mapper, "mapAll").resolves(params.mapped || []);
+			_stubs.save = sinon.stub(repositories.Priority, "save").resolves();
+
+			return base.testRoute({
+				sut: sut,
+				verb: "post",
+				route: "/priorities/order",
+				env: params.env,
+				request: {
+					body: { priorities: params.priorities },
+					project: { _id: params.projectId || "the project id" },
+					user: params.user || { name: "the user name" }
+				},
+				assert: params.assert
+			});
+		}
+	});
 });
