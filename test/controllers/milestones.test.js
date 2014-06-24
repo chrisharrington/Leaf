@@ -154,12 +154,21 @@ describe("milestones", function() {
 			});
 		});
 
-		it("should get issues if mapped milestone has an id, indicating it should be updated and not inserted", function() {
+		it("should call milestoneRepository.updateIssues for pre-existing milestone", function() {
 			var milestone = { _id: "the milestone id" };
 			return _run({
 				milestone: milestone
 			}).then(function() {
-				assert(_stubs.getIssue.calledWith({ milestoneId: milestone._id }));
+				assert(_stubs.updateIssues.calledWith(milestone));
+			});
+		});
+
+		it("should call milestoneRepository.save for a pre-existing milestone", function() {
+			var milestone = { _id: "the milestone id" };
+			return _run({
+				milestone: milestone
+			}).then(function() {
+				assert(_stubs.saveMilestone.calledWith(milestone));
 			});
 		});
 
@@ -180,45 +189,6 @@ describe("milestones", function() {
 				projectId: projectId
 			}).then(function() {
 				assert(_stubs.saveMilestone.calledWith({ _id: "the milestone id", name: "the milestone name", project: projectId }));
-			});
-		});
-
-		it("should set issue milestoneId to given milestone id when updating", function() {
-			var bodyId = "the body id";
-			var milestone = { _id: "the milestone id", name: "the milestone name" };
-			var issues = [{ number: 1 }, { number: 2 }];
-			return _run({
-				bodyId: bodyId,
-				milestone: milestone,
-				issues: issues
-			}).then(function() {
-				assert(_stubs.updateIssue.calledWith({ number: 1, milestoneId: bodyId, milestone: sinon.match.any }, sinon.match.any));
-				assert(_stubs.updateIssue.calledWith({ number: 2, milestoneId: bodyId, milestone: sinon.match.any }, sinon.match.any));
-			});
-		});
-
-		it("should set issue milestoneId to given milestone when updating", function() {
-			var milestone = { _id: "the milestone id", name: "the milestone name" };
-			var issues = [{ number: 1 }, { number: 2 }];
-			return _run({
-				milestone: milestone,
-				issues: issues
-			}).then(function() {
-				assert(_stubs.updateIssue.calledWith({ number: 1, milestoneId: sinon.match.any, milestone: milestone.name }, sinon.match.any));
-				assert(_stubs.updateIssue.calledWith({ number: 2, milestoneId: sinon.match.any, milestone: milestone.name }, sinon.match.any));
-			});
-		});
-
-		it("should update issue with user as given in request", function() {
-			var milestone = { _id: "the milestone id", name: "the milestone name" };
-			var issues = [{ number: 1 }];
-			var user = "the user";
-			return _run({
-				milestone: milestone,
-				issues: issues,
-				user: user
-			}).then(function() {
-				assert(_stubs.updateIssue.calledWith(sinon.match.any, user));
 			});
 		});
 
@@ -291,11 +261,10 @@ describe("milestones", function() {
 
 			_stubs = {};
 			_stubs.map = params.map || sinon.stub(mapper, "map").resolves(params.milestone || {});
-			_stubs.getIssue = sinon.stub(repositories.Issue, "get").resolves(params.issues || []);
 			_stubs.saveMilestone = sinon.stub(repositories.Milestone, "save").resolves();
-			_stubs.updateIssue = sinon.stub(repositories.Issue, "updateIssue").resolves();
 			_stubs.objectId = sinon.stub(mongoose.Types, "ObjectId").returns(params.objectId || "");
 			_stubs.createMilestone = sinon.stub(repositories.Milestone, "create").resolves();
+			_stubs.updateIssues = sinon.stub(repositories.Milestone, "updateIssues").resolves();
 
 			return base.testRoute({
 				sut: sut,
