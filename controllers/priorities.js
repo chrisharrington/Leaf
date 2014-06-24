@@ -29,18 +29,10 @@ module.exports = function(app) {
 	app.post("/priorities/save", authenticate, function(request, response) {
 		return mapper.map("priority-view-model", "priority", request.body).then(function(priority) {
 			priority.project = request.project._id;
-			if (priority._id) {
-				return repositories.Issue.get({ priorityId: priority._id }).then(function(issues) {
-					return repositories.Priority.save(priority).then(function() {
-						return Promise.all(issues.map(function (i) {
-							i.priorityId = request.body.id;
-							i.priority = priority.name;
-							return repositories.Issue.updateIssue(i, request.user);
-						}));
-					});
+			if (priority._id)
+				return repositories.Priority.updateIssues(priority).then(function() {
+					return repositories.Priority.save(priority);
 				});
-			}
-
 			priority._id = request.body.id = mongoose.Types.ObjectId();
 			return repositories.Priority.create(priority);
 		}).then(function(created) {

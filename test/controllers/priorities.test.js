@@ -139,7 +139,7 @@ describe("priorities", function() {
 	describe("post /priorities/save", function() {
 		var _stubs;
 
-		it("should set get /priorities/save route", function () {
+		it("should set post /priorities/save route", function () {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
 			assert(app.post.calledWith("/priorities/save", sinon.match.func));
@@ -154,12 +154,21 @@ describe("priorities", function() {
 			});
 		});
 
-		it("should get issues if mapped priority has an id, indicating it should be updated and not inserted", function() {
+		it("should call priorityRepository.updateIssues for pre-existing priority", function() {
 			var priority = { _id: "the priority id" };
 			return _run({
 				priority: priority
 			}).then(function() {
-				assert(_stubs.getIssue.calledWith({ priorityId: priority._id }));
+				assert(_stubs.updateIssues.calledWith(priority));
+			});
+		});
+
+		it("should call priorityRepository.save for a pre-existing priority", function() {
+			var priority = { _id: "the priority id" };
+			return _run({
+				priority: priority
+			}).then(function() {
+				assert(_stubs.savePriority.calledWith(priority));
 			});
 		});
 
@@ -180,45 +189,6 @@ describe("priorities", function() {
 				projectId: projectId
 			}).then(function() {
 				assert(_stubs.savePriority.calledWith({ _id: "the priority id", name: "the priority name", project: projectId }));
-			});
-		});
-
-		it("should set issue priorityId to given priority id when updating", function() {
-			var bodyId = "the body id";
-			var priority = { _id: "the priority id", name: "the priority name" };
-			var issues = [{ number: 1 }, { number: 2 }];
-			return _run({
-				bodyId: bodyId,
-				priority: priority,
-				issues: issues
-			}).then(function() {
-				assert(_stubs.updateIssue.calledWith({ number: 1, priorityId: bodyId, priority: sinon.match.any }, sinon.match.any));
-				assert(_stubs.updateIssue.calledWith({ number: 2, priorityId: bodyId, priority: sinon.match.any }, sinon.match.any));
-			});
-		});
-
-		it("should set issue priorityId to given priority when updating", function() {
-			var priority = { _id: "the priority id", name: "the priority name" };
-			var issues = [{ number: 1 }, { number: 2 }];
-			return _run({
-				priority: priority,
-				issues: issues
-			}).then(function() {
-				assert(_stubs.updateIssue.calledWith({ number: 1, priorityId: sinon.match.any, priority: priority.name }, sinon.match.any));
-				assert(_stubs.updateIssue.calledWith({ number: 2, priorityId: sinon.match.any, priority: priority.name }, sinon.match.any));
-			});
-		});
-
-		it("should update issue with user as given in request", function() {
-			var priority = { _id: "the priority id", name: "the priority name" };
-			var issues = [{ number: 1 }];
-			var user = "the user";
-			return _run({
-				priority: priority,
-				issues: issues,
-				user: user
-			}).then(function() {
-				assert(_stubs.updateIssue.calledWith(sinon.match.any, user));
 			});
 		});
 
@@ -291,11 +261,10 @@ describe("priorities", function() {
 
 			_stubs = {};
 			_stubs.map = params.map || sinon.stub(mapper, "map").resolves(params.priority || {});
-			_stubs.getIssue = sinon.stub(repositories.Issue, "get").resolves(params.issues || []);
 			_stubs.savePriority = sinon.stub(repositories.Priority, "save").resolves();
-			_stubs.updateIssue = sinon.stub(repositories.Issue, "updateIssue").resolves();
 			_stubs.objectId = sinon.stub(mongoose.Types, "ObjectId").returns(params.objectId || "");
 			_stubs.createPriority = sinon.stub(repositories.Priority, "create").resolves();
+			_stubs.updateIssues = sinon.stub(repositories.Priority, "updateIssues").resolves();
 
 			return base.testRoute({
 				sut: sut,
@@ -312,7 +281,7 @@ describe("priorities", function() {
 		}
 	});
 
-	describe("post /priorities/save", function() {
+	describe("post /priorities/order", function() {
 		var _stubs;
 
 		it("should set post /priorities/order route", function () {

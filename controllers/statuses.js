@@ -29,21 +29,13 @@ module.exports = function(app) {
 	app.post("/statuses/save", authenticate, function(request, response) {
 		return mapper.map("status-view-model", "status", request.body).then(function(status) {
 			status.project = request.project._id;
-			if (status._id) {
-				return repositories.Issue.get({ statusId: status._id }).then(function(issues) {
-					return repositories.Status.save(status).then(function() {
-						return Promise.all(issues.map(function (i) {
-							i.statusId = request.body.id;
-							i.status = status.name;
-							return repositories.Issue.updateIssue(i, request.user);
-						}));
-					});
+			if (status._id)
+				return repositories.Status.updateIssues(status).then(function() {
+					return repositories.Status.save(status);
 				});
-			}
-
 			status._id = request.body.id = mongoose.Types.ObjectId();
 			return repositories.Status.create(status);
-		}).then(function() {
+		}).then(function(created) {
 			response.send(request.body, 200);
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);

@@ -139,7 +139,7 @@ describe("statuses", function() {
 	describe("post /statuses/save", function() {
 		var _stubs;
 
-		it("should set get /statuses/save route", function () {
+		it("should set post /statuses/save route", function () {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
 			assert(app.post.calledWith("/statuses/save", sinon.match.func));
@@ -154,12 +154,21 @@ describe("statuses", function() {
 			});
 		});
 
-		it("should get issues if mapped status has an id, indicating it should be updated and not inserted", function() {
+		it("should call statusRepository.updateIssues for pre-existing status", function() {
 			var status = { _id: "the status id" };
 			return _run({
 				status: status
 			}).then(function() {
-				assert(_stubs.getIssue.calledWith({ statusId: status._id }));
+				assert(_stubs.updateIssues.calledWith(status));
+			});
+		});
+
+		it("should call statusRepository.save for a pre-existing status", function() {
+			var status = { _id: "the status id" };
+			return _run({
+				status: status
+			}).then(function() {
+				assert(_stubs.saveStatus.calledWith(status));
 			});
 		});
 
@@ -180,45 +189,6 @@ describe("statuses", function() {
 				projectId: projectId
 			}).then(function() {
 				assert(_stubs.saveStatus.calledWith({ _id: "the status id", name: "the status name", project: projectId }));
-			});
-		});
-
-		it("should set issue statusId to given status id when updating", function() {
-			var bodyId = "the body id";
-			var status = { _id: "the status id", name: "the status name" };
-			var issues = [{ number: 1 }, { number: 2 }];
-			return _run({
-				bodyId: bodyId,
-				status: status,
-				issues: issues
-			}).then(function() {
-				assert(_stubs.updateIssue.calledWith({ number: 1, statusId: bodyId, status: sinon.match.any }, sinon.match.any));
-				assert(_stubs.updateIssue.calledWith({ number: 2, statusId: bodyId, status: sinon.match.any }, sinon.match.any));
-			});
-		});
-
-		it("should set issue statusId to given status when updating", function() {
-			var status = { _id: "the status id", name: "the status name" };
-			var issues = [{ number: 1 }, { number: 2 }];
-			return _run({
-				status: status,
-				issues: issues
-			}).then(function() {
-				assert(_stubs.updateIssue.calledWith({ number: 1, statusId: sinon.match.any, status: status.name }, sinon.match.any));
-				assert(_stubs.updateIssue.calledWith({ number: 2, statusId: sinon.match.any, status: status.name }, sinon.match.any));
-			});
-		});
-
-		it("should update issue with user as given in request", function() {
-			var status = { _id: "the status id", name: "the status name" };
-			var issues = [{ number: 1 }];
-			var user = "the user";
-			return _run({
-				status: status,
-				issues: issues,
-				user: user
-			}).then(function() {
-				assert(_stubs.updateIssue.calledWith(sinon.match.any, user));
 			});
 		});
 
@@ -291,11 +261,10 @@ describe("statuses", function() {
 
 			_stubs = {};
 			_stubs.map = params.map || sinon.stub(mapper, "map").resolves(params.status || {});
-			_stubs.getIssue = sinon.stub(repositories.Issue, "get").resolves(params.issues || []);
 			_stubs.saveStatus = sinon.stub(repositories.Status, "save").resolves();
-			_stubs.updateIssue = sinon.stub(repositories.Issue, "updateIssue").resolves();
 			_stubs.objectId = sinon.stub(mongoose.Types, "ObjectId").returns(params.objectId || "");
 			_stubs.createStatus = sinon.stub(repositories.Status, "create").resolves();
+			_stubs.updateIssues = sinon.stub(repositories.Status, "updateIssues").resolves();
 
 			return base.testRoute({
 				sut: sut,
@@ -312,7 +281,7 @@ describe("statuses", function() {
 		}
 	});
 
-	describe("post /statuses/save", function() {
+	describe("post /statuses/order", function() {
 		var _stubs;
 
 		it("should set post /statuses/order route", function () {

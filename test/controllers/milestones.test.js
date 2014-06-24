@@ -281,7 +281,7 @@ describe("milestones", function() {
 		}
 	});
 
-	describe("post /milestones/save", function() {
+	describe("post /milestones/order", function() {
 		var _stubs;
 
 		it("should set post /milestones/order route", function () {
