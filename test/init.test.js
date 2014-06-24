@@ -27,6 +27,10 @@ describe("init", function() {
 			});
 		});
 
+		it("should blah", function() {
+
+		});
+
 		it("should initialize controllers", function() {
 			return _run().then(function() {
 				assert(_stubs.controllers.calledWith(_stubs.app));
