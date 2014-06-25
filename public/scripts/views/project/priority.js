@@ -29,6 +29,7 @@
 		model.id("");
 		model.name("");
 		model.colour("");
+
 		IssueTracker.Dialog.load("create-or-update-priority-template", model).find("input:first").focus();
 	};
 

@@ -21,3 +21,7 @@ var config = require("./../config");
 //		});
 //	});
 //});
+
+connection.open().then(function() {
+
+});

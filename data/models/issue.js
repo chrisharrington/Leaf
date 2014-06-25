@@ -9,17 +9,17 @@ var schema = mongoose.Schema({
     opened: { type: Date, default: Date.now },
     closed: Date,
     updated: { type: Date, default: Date.now },
-	priorityId: objectId,
+	priorityId: { type: objectId },
 	priority: String,
-	priorityOrder: { type: Number, index: true },
+	priorityOrder: { type: Number },
 	developerId: objectId,
     developer: String,
 	testerId: objectId,
 	tester: String,
-	statusId: objectId,
+	statusId: { type: objectId },
 	status: String,
 	statusOrder: Number,
-	milestoneId: objectId,
+	milestoneId: { type: objectId },
 	milestone: String,
 	milestoneOrder: Number,
 	typeId: objectId,
@@ -32,8 +32,8 @@ var schema = mongoose.Schema({
 schema.plugin(require("mongoose-text-search"));
 
 schema.index({ priorityOrder: -1, number: 1 });
-schema.index({ opened: -1, number: 1 });
-schema.index({ project: 1, number: 1 });
+schema.index({ developerId: 1 });
+schema.index({ testerId: 1 });
 schema.index({ name: "text", details: "text" });
 
 module.exports = require("bluebird").promisifyAll(mongoose.model("issue", schema));

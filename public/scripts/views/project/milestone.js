@@ -8,7 +8,8 @@
 	root.saveModel = {
 		type: "milestone",
 		id: ko.observable(),
-		name: ko.observable("")
+		name: ko.observable(""),
+		order: ko.observable(0)
 	};
 
 	root.init = function(container) {
@@ -26,6 +27,7 @@
 		model.create = true;
 		model.id("");
 		model.name("");
+		model.order(_getHighestOrder());
 		IssueTracker.Dialog.load("create-or-update-milestone-template", model).find("input:first").focus();
 	};
 
@@ -34,6 +36,7 @@
 		model.create = false;
 		model.id(milestone.id());
 		model.name(milestone.name());
+		model.order(milestone.order());
 		IssueTracker.Dialog.load("create-or-update-milestone-template", model).find("input:first").focus();
 	};
 
@@ -61,7 +64,7 @@
 
 		var create = root.saveModel.create;
 		root.loading(true);
-		$.post(IssueTracker.virtualDirectory + "milestones/save", { id: root.saveModel.id(), name: root.saveModel.name() }).done(function(saved) {
+		$.post(IssueTracker.virtualDirectory + "milestones/save", { id: root.saveModel.id(), name: root.saveModel.name(), order: root.saveModel.order() }).done(function(saved) {
 			if (create)
 				IssueTracker.milestones.push(IssueTracker.Utilities.createPropertyObservables(saved));
 			else {
@@ -126,6 +129,14 @@
 		});
 
 		IssueTracker.milestones.sort(function(first, second) { return first.order() < second.order() ? -1 : 1; });
+	}
+
+	function _getHighestOrder() {
+		var order = -1;
+		$.each(IssueTracker.milestones(), function(i, milestone) {
+			order = Math.max(milestone.order(), order);
+		});
+		return order;
 	}
 
 })(root("IssueTracker.Project.Milestone"));
