@@ -9,7 +9,7 @@ var schema = mongoose.Schema({
 	isDeveloperStatus: { type: Boolean, default: false },
 	isTesterStatus: { type: Boolean, default: false },
     
-    project: { type: objectId, ref: "project" },
+    project: { type: objectId, ref: "project" }
 });
 
 module.exports = require("bluebird").promisifyAll(mongoose.model("status", schema));

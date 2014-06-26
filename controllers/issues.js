@@ -31,17 +31,30 @@ module.exports = function(app) {
 		if (isNaN(end))
 			end = 50;
 
-		return repositories.Issue.search(request.project._id, {
-			priorities: _getIds(request.query.priorities),
-			statuses: _getIds(request.query.statuses),
-			developers: _getIds(request.query.developers),
-			testers: _getIds(request.query.testers),
-			milestones: _getIds(request.query.milestones),
-			types: _getIds(request.query.types)
-		}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
-			return mapper.mapAll("issue", "issue-list-view-model", issues);
-		}).then(function(issues) {
-			response.send(issues, 200);
+		return request.getProject().then(function(project) {
+			return repositories.Issue.search(project._id, {
+				priorities: _getIds(request.query.priorities),
+				statuses: _getIds(request.query.statuses),
+				developers: _getIds(request.query.developers),
+				testers: _getIds(request.query.testers),
+				milestones: _getIds(request.query.milestones),
+				types: _getIds(request.query.types)
+			}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
+				return repositories.User.get({ project: project._id }).then(function(users) {
+					var usersDictionary = {};
+					users.forEach(function(user) {
+						usersDictionary[user._id] = user;
+					});
+					return issues.map(function(issue) {
+						issue.developer = usersDictionary[issue.developerId].name;
+						return issue;
+					});
+				});
+			}).then(function(issues) {
+				return mapper.mapAll("issue", "issue-list-view-model", issues);
+			}).then(function(issues) {
+				response.send(issues, 200);
+			})
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});
