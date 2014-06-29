@@ -18,7 +18,7 @@ describe("notification mapping", function() {
 
 		it("should define notification/notification-view-model map", function () {
 			assert(_define.calledWith("notification", "notification-view-model", {
-				id: "_id",
+				id: "id",
 				type: "type",
 				isViewed: "isViewed",
 				comment: sinon.match.func,

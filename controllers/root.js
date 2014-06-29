@@ -3,7 +3,6 @@ var Promise = require("bluebird");
 var mongoose = require("mongoose");
 var fs = Promise.promisifyAll(require("fs"));
 var mustache = require("mustache");
-var models = require("../data/models");
 var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
 var caches = require("../data/caches");
@@ -12,8 +11,8 @@ var config = require("../config");
 
 module.exports = function(app) {
 	app.get("/", function (request, response) {
-		return _getAllUserData(request).spread(function (permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, currentProject) {
-			return _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, currentProject);
+		return _getAllUserData(request).spread(function (permissions, priorities, statuses, users, projects, milestones, issueTypes, user, currentProject) {
+			return _mapAllUserData(request, permissions, priorities, statuses, users, [], projects, milestones, issueTypes, user, currentProject);
 		}).spread(function (html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts) {
 			return _sendUserData(response, html, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, project, renderedScripts);
 		}).catch(function (e) {
@@ -25,12 +24,11 @@ module.exports = function(app) {
 		return request.getProject().then(function(project) {
 			return Promise.all([
 				repositories.Permission.get(null, { sort: { name: 1 }}),
-				repositories.Priority.get({ project: project._id, isDeleted: false }, { sort: { order: 1 }}),
-				repositories.Status.get({ project: project._id, isDeleted: false }, { sort: { order: 1 }}),
-				repositories.User.get({ project: project._id }, { sort: { name: 1 }}),
-				caches.Transition.all(),
+				repositories.Priority.get({ projectId: project.id, isDeleted: false }, { sort: { order: 1 }}),
+				repositories.Status.get({ projectId: project.id, isDeleted: false }, { sort: { order: 1 }}),
+				repositories.User.get({ projectId: project.id }, { sort: { name: 1 }}),
 				repositories.Project.get(),
-				repositories.Milestone.get({ project: project._id, isDeleted: false }, { sort: { order: 1 }}),
+				repositories.Milestone.get({ projectId: project.id, isDeleted: false }, { sort: { order: 1 }}),
 				caches.IssueType.all(),
 				_getSignedInUser(request),
 				project
@@ -42,7 +40,7 @@ module.exports = function(app) {
 		if (!user)
 			return;
 
-		return repositories.UserPermission.get({ user: user._id }).then(function(permissions) {
+		return repositories.UserPermission.get({ userId: user.id }).then(function(permissions) {
 			user.permissions = permissions;
 			return user;
 		});

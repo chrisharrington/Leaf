@@ -1,5 +1,5 @@
 require("../mapper").define("notification", "notification-view-model", {
-	id: "_id",
+	id: "id",
 	type: "type",
 	isViewed: "isViewed",
 	comment: function(x) { return x.comment ? x.comment : null; },

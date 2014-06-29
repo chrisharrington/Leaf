@@ -18,7 +18,7 @@ describe("milestone mapping", function() {
 
 		it("should define milestone/milestone-view-model map", function () {
 			assert(_define.calledWith("milestone", "milestone-view-model", {
-				"id": "_id",
+				"id": "id",
 				name: "name",
 				order: "order"
 			}));
@@ -40,7 +40,7 @@ describe("milestone mapping", function() {
 
 		it("should define milestone/milestone-view-model map", function () {
 			assert(_define.calledWith("milestone-view-model", "milestone", {
-				"_id": "id",
+				"id": "id",
 				name: "name",
 				order: "order"
 			}));

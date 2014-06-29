@@ -1,7 +1,7 @@
 var Promise = require("bluebird");
 
 var repository = Object.spawn(require("./baseRepository"), {
-	model: require("../models").Comment
+	table: "comments"
 });
 
 repository.issue = function(issueId, populate) {

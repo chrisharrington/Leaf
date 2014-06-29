@@ -1,9 +1,9 @@
 var repository = Object.spawn(require("./baseRepository"), {
-	model: require("../models").Transition
+	table: "transitions"
 });
 
 repository.status = function(statusId) {
-	return repository.get({ "from._id": statusId });
+	return repository.get({ "fromId": statusId });
 };
 
 module.exports = repository;

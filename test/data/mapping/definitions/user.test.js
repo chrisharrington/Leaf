@@ -18,7 +18,7 @@ describe("user mapping", function() {
 
 		it("should define user/user-view-model map", function () {
 			assert(_define.calledWith("user", "user-view-model", {
-				"id": "_id",
+				"id": "id",
 				name: "name",
 				emailAddress: "emailAddress",
 				phone: "phone",
@@ -62,7 +62,7 @@ describe("user mapping", function() {
 
 		it("should define user-view-model/user map", function () {
 			assert(_define.calledWith("user-view-model", "user", {
-				"_id": "id",
+				"id": "id",
 				name: "name",
 				emailAddress: "emailAddress",
 				phone: "phone",
@@ -90,7 +90,7 @@ describe("user mapping", function() {
 
 		it("should define user/user-summary-view-model map", function () {
 			assert(_define.calledWith("user", "user-summary-view-model", {
-				"id": "_id",
+				"id": "id",
 				name: "name",
 				emailAddress: "emailAddress",
 				phone: "phone",
@@ -141,7 +141,7 @@ describe("user mapping", function() {
 
 		it("should define user-summary-view-model/user map", function () {
 			assert(_define.calledWith("user-summary-view-model", "user", {
-				"_id": "id",
+				"id": "id",
 				name: "name",
 				emailAddress: "emailAddress",
 				phone: "phone",

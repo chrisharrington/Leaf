@@ -2,54 +2,45 @@ var Promise = require("bluebird");
 var mongoose = require("mongoose");
 
 module.exports = {
+	connection: function(table) {
+		return require("../../data/connection").connection(table || this.table);
+	},
+
 	get: function(conditions, options) {
 		options = options || {};
 		if (typeof(options) === "string")
 			options = { populate: options };
 
-		var model = this.model;
-		return new Promise(function(resolve, reject) {
-			var query = model.find(conditions);
-			if (options.sort)
-				query = query.sort(options.sort);
-			if (options.limit)
-				query = query.limit(options.limit);
-			if (options.skip)
-				query = query.skip(options.skip);
-			if (options.populate && options.populate != "")
-				query = query.populate(options.populate);
-			query.exec(function(err, data) {
-				if (err) reject(new Error(err));
-				else resolve(data);
-			});
-		});
+		var query = this.connection();
+		if (conditions)
+			query = query.where(conditions);
+		if (options.sort) {
+			var sort = _buildOrderByFromSort(options.sort);
+			query = query.orderBy(sort.column, sort.direction);
+		}
+		if (options.limit)
+			query = query.limit(options.limit);
+		if (options.skip)
+			query = query.offset(options.skip);
+		return query;
 	},
 
 	one: function(conditions, populate) {
-		var model = this.model;
-		return new Promise(function(resolve, reject) {
-			var query = model.findOne(conditions);
-			if (populate)
-				query.populate(populate);
-			query.exec(function(err, data) {
-				if (err) reject(err);
-				else resolve(data || null);
-			});
+		return this.get(conditions, { limit: 1 }).then(function(result) {
+			return result[0];
 		});
 	},
 
 	update: function(model) {
-		return Promise.promisifyAll(model).saveAsync();
+		return this.connection().where({ id: model.id }).update(model);
 	},
 
-	save: function(obj, query) {
-		var id = obj._id;
-		delete obj._id;
-		return Promise.promisifyAll(this.model).updateAsync(query || { _id: id }, obj, query ? { multi: true } : undefined);
-	},
-
-	create: function(model) {
-		return this.model.createAsync(model);
+	create: function(object) {
+		if (!object["created_at"])
+			object["created_at"] = new Date();
+		if (!object["updated_at"])
+			object["updated_at"] = new Date();
+		return this.connection(this.table).returning("id").insert(object);
 	},
 
 	details: function(id, populate) {
@@ -57,20 +48,31 @@ module.exports = {
 	},
 
 	remove: function(id) {
+		var that = this;
 		return this.details(id).then(function(model) {
 			model.isDeleted = true;
-			return Promise.promisifyAll(model).saveAsync();
+			return that.update(model);
 		});
 	},
 
 	restore: function(id) {
+		var that = this;
 		return this.details(id).then(function(model) {
 			model.isDeleted = false;
-			return Promise.promisifyAll(model).saveAsync();
+			return that.update(model);
 		});
 	},
 
 	count: function(conditions) {
-		return this.model.countAsync(conditions);
+		return this.connection().where(conditions).count("*");
 	}
 };
+
+function _buildOrderByFromSort(sort) {
+	var column, direction;
+	for (var name in sort) {
+		column = name;
+		direction = sort[name] == -1 ? "desc" : "asc";
+	}
+	return { column: column, direction: direction };
+}

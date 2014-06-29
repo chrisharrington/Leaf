@@ -1,4 +1,4 @@
 require("../mapper").define("transition", "transition-view-model", {
-	"id": "_id",
+	"id": "id",
 	name: "name"
 });

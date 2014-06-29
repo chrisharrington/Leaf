@@ -2,12 +2,20 @@ var Promise = require("bluebird");
 var mongoose = require("mongoose");
 var config = require("../config");
 
-exports.open = function() {
-	return new Promise(function(resolve, reject) {
-		mongoose.connect("mongodb://" + config.call(this, "databaseUser") + ":" + config.call(this, "databasePassword") + "@" + config.call(this, "databaseLocation"), { server: { socketOptions: { keepAlive: 1 } } });
+exports.connection = {};
 
-		var connection = mongoose.connection;
-		connection.on("error", function(error) { console.log("Error connecting to database: " + error); reject(new Error(error));	});
-		connection.on("open", function() { console.log("Database connection established."); resolve(connection); });
+exports.open = function() {
+	return new Promise(function(resolve) {
+		var connection = require("knex")({
+			client: "pg",
+			connection: {
+				host: "leaf-db-identifier.coeeyohtv3yy.us-west-2.rds.amazonaws.com",
+				user: "LeafApp",
+				password: "boogity1!",
+				database: "leaf"
+			}
+		});
+
+		resolve(exports.connection = connection);
 	});
 };

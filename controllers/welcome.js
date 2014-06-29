@@ -1,5 +1,4 @@
 var fs = require("fs");
-var models = require("../data/models");
 var crypto = require("crypto");
 var config = require("../config");
 var csprng = require("csprng");
@@ -23,7 +22,7 @@ module.exports = function(app) {
 			if (!project)
 				response.send(404);
 			else
-				return repositories.User.one({ emailAddress: email, project: project._id }).then(_setPermissions).then(function(user) {
+				return repositories.User.one({ emailAddress: email, projectId: project.id }).then(_setPermissions).then(function(user) {
 					if (!user)
 						return response.send(401);
 					if (crypto.createHash(config("hashAlgorithm")).update(user.salt + password).digest("hex") === user.password)
@@ -47,6 +46,7 @@ module.exports = function(app) {
 				mapper.map("user", "user-view-model", user),
 				mapper.map("project", "project-view-model", project)
 			]).spread(function (mappedUser, mappedProject) {
+				delete user.permissions;
 				return repositories.User.update(user).then(function () {
 					response.send({ user: mappedUser, project: mappedProject }, 200);
 				});
@@ -57,7 +57,7 @@ module.exports = function(app) {
 			if (!user)
 				return;
 
-			return repositories.UserPermission.get({ user: user._id }).then(function(permissions) {
+			return repositories.UserPermission.get({ userId: user.id }).then(function(permissions) {
 				user.permissions = permissions;
 				return user;
 			});

@@ -14,7 +14,8 @@ module.exports = function(connection) {
 		"priority",
 		"status",
 		"issue",
-		"issueFile"
+		"issueFile",
+		"comment"
 	];
 
 	var drop;

@@ -1,5 +1,4 @@
 var fs = require("fs");
-var models = require("../data/models");
 var config = require("../config");
 var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");

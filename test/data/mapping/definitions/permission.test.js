@@ -18,7 +18,7 @@ describe("permission mapping", function() {
 
 		it("should define permission/permission-view-model map", function () {
 			assert(_define.calledWith("permission", "permission-view-model", {
-				"id": "_id",
+				"id": "id",
 				name: "name",
 				tag: "tag"
 			}));

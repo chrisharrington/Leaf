@@ -18,7 +18,7 @@ describe("project mapping", function() {
 
 		it("should define project/project-view-model map", function () {
 			assert(_define.calledWith("project", "project-view-model", {
-				"id": "_id",
+				"id": "id",
 				name: "name"
 			}));
 		});

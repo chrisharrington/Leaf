@@ -19,12 +19,12 @@ module.exports = function(app) {
 	app.get("/users", authenticate, function (request, response) {
 		return Promise.all([
 			fs.readFileAsync("public/views/users.html"),
-			repositories.Issue.issueCountsPerUser(request.project._id),
+			repositories.Issue.issueCountsPerUser(request.project.id),
 			repositories.User.get(null, { sort: { name: 1 }}).then(function(users) {
-				return repositories.UserPermission.get({ user: { $in: users.map(function(x) { return x._id; }) }}).then(function(permissions) {
+				return repositories.UserPermission.get({ user: { $in: users.map(function(x) { return x.id; }) }}).then(function(permissions) {
 					var dictionary = permissions.toDictionary(function(x) { return x.user; });
 					return users.map(function(user) {
-						user.permissions = dictionary[user._id];
+						user.permissions = dictionary[user.id];
 						return user;
 					});
 				});
@@ -56,7 +56,7 @@ module.exports = function(app) {
 		}
 
 		return mapper.map("user-summary-view-model", "user", user).then(function(mapped) {
-			return repositories.User.one({ _id: mapped._id });
+			return repositories.User.one({ id: mapped.id });
 		}).then(function(retrieved) {
 			var name = retrieved.name;
 			retrieved.name = user.name;
@@ -76,8 +76,8 @@ module.exports = function(app) {
 				return;
 
 			return Promise.all([
-				repositories.Issue.save({ developer: user }, { project: project._id, developer: retrieved }),
-				repositories.Issue.save({ tester: user }, { project: project._id, tester: retrieved })
+				repositories.Issue.save({ developer: user }, { projectId: project.id, developer: retrieved }),
+				repositories.Issue.save({ tester: user }, { projectId: project.id, tester: retrieved })
 			]);
 		}
 	});
@@ -110,15 +110,15 @@ module.exports = function(app) {
 
 		return mapper.map("user-view-model", "user", user).then(function(mapped) {
 			var token = csprng.call(this, 128, 36);
-			mapped.project = request.project._id;
+			mapped.projectId = request.project.id;
 			mapped.activationToken = token;
-			mapped._id = mongoose.Types.ObjectId();
-			return repositories.User.create(mapped).then(function() {
-				    user.activationUrl = config.call(this, "domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
+			return repositories.User.create(mapped).then(function(id) {
+				mapped.id = id;
+				user.activationUrl = config.call(this, "domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
 				user.projectName = request.project.name;
 				return emailer.send(process.cwd() + "/email/templates/newUser.html", { user: user }, user.emailAddress, "Welcome to Leaf!");
 			}).then(function() {
-				response.send(mapped._id, 200);
+				response.send(mapped.id, 200);
 			});
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);

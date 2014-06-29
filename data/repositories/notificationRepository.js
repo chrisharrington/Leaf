@@ -1,11 +1,11 @@
 var Promise = require("bluebird");
 
 var repository = Object.spawn(require("./baseRepository"), {
-	model: require("../models").Notification
+	table: "notifications"
 });
 
 repository.user = function(user) {
-	return repository.get({ user: user._id, isViewed: false }, "issue");
+	return repository.get({ userId: user.id, isViewed: false }, "issue");
 };
 
 repository.markAsRead = function(notificationId) {

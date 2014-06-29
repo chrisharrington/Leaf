@@ -18,7 +18,7 @@ describe("status mapping", function() {
 
 		it("should define status/status-view-model map", function () {
 			assert(_define.calledWith("status", "status-view-model", {
-				"id": "_id",
+				"id": "id",
 				name: "name",
 				order: "order",
 				isClosedStatus: "isClosedStatus",
@@ -45,7 +45,7 @@ describe("status mapping", function() {
 
 		it("should define status/status-view-model map", function () {
 			assert(_define.calledWith("status-view-model", "status", {
-				"_id": "id",
+				"id": "id",
 				name: "name",
 				order: "order",
 				isClosedStatus: "isClosedStatus",

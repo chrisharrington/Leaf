@@ -18,7 +18,7 @@ describe("issue type mapping", function() {
 
 		it("should define issue-type/issue-type-view-model map", function () {
 			assert(_define.calledWith("issue-type", "issue-type-view-model", {
-				"id": "_id",
+				"id": "id",
 				name: "name"
 			}));
 		});

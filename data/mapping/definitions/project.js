@@ -1,4 +1,4 @@
 require("../mapper").define("project", "project-view-model", {
-	"id": "_id",
+	"id": "id",
 	name: "name"
 });

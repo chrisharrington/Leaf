@@ -20,7 +20,7 @@ describe("comment mapping", function() {
 		it("should define comment/issue-history-view-model map", function () {
 			require("../../../../data/mapping/definitions/comment");
 			assert(_define.calledWith("comment", "issue-history-view-model", {
-				id: "_id",
+				id: "id",
 				date: sinon.match.func,
 				text: "text",
 				user: sinon.match.func,

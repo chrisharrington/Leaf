@@ -1,4 +1,4 @@
 require("../mapper").define("issue-type", "issue-type-view-model", {
-	"id": "_id",
+	"id": "id",
 	name: "name"
 });

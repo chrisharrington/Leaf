@@ -2,7 +2,7 @@ var config = require("../../../config");
 var moment = require("moment");
 
 require("../mapper").define("issue", "issue-view-model", {
-	id: "_id",
+	id: "id",
 	description: "name",
 	details: "details",
 	number: "number",
@@ -27,7 +27,7 @@ require("../mapper").define("issue", "issue-view-model", {
 });
 
 require("../mapper").define("issue-view-model", "issue", {
-	"_id": "id",
+	"id": "id",
 	name: "description",
 	details: "details",
 	number: "number",
@@ -48,7 +48,7 @@ require("../mapper").define("issue-view-model", "issue", {
 });
 
 require("../mapper").define("issue", "issue-list-view-model", {
-	id: "_id",
+	id: "id",
 	description: "name",
 	details: "details",
 	number: "number",

@@ -19,7 +19,7 @@ module.exports = function(app) {
 		return base.view("public/views/newPassword.html", response);
 	});
 
-	app.post("/new-password", authenticate, function(request, response) {
+	app.post("/new-password", function(request, response) {
 		return repositories.User.one({ emailAddress: request.body.email, newPasswordToken: request.body.token }).then(function(user) {
 			if (!user) {
 				response.send(401);

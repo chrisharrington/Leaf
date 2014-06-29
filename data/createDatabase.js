@@ -4,38 +4,29 @@ require("../extensions/array");
 require("../inheritance");
 
 var Promise = require("bluebird");
-var repositories;
-var knex = require("knex")({
-	client: "pg",
-	connection: {
-		host: "leaf-db-identifier.coeeyohtv3yy.us-west-2.rds.amazonaws.com",
-		user: "LeafApp",
-		password: "boogity1!",
-		database: "leaf"
-	}
-});
+var repositories = require("./repositories");
 
-require("./tableBuilder")(knex).then(function() {
-	console.log("Tables built.");
+require("./connection").open().then(function(connection) {
+	return require("./tableBuilder")(connection).then(function() {
+		console.log("Tables built.");
 
-	repositories = require("./repositories")(knex);
-	return _createProject().then(function(result) {
-		var projectId = result[0];
-		return Promise.all([
-			_insertDefaultUsers(projectId),
-			_insertDefaultPermissions(),
-			_insertDefaultMilestones(projectId),
-			_insertDefaultPriorities(projectId),
-			_insertDefaultStatuses(projectId),
-			_insertDefaultIssueTypes(projectId)
-		]);
-	}).spread(function(userIds, permissionIds) {
-		return _createUserPermissions(userIds, permissionIds);
-	}).then(function() {
-		console.log("Done.");
-		process.exit(0);
+		return _createProject().then(function (result) {
+			var projectId = result[0];
+			return Promise.all([
+				_insertDefaultUsers(projectId),
+				_insertDefaultPermissions(),
+				_insertDefaultMilestones(projectId),
+				_insertDefaultPriorities(projectId),
+				_insertDefaultStatuses(projectId),
+				_insertDefaultIssueTypes(projectId)
+			]);
+		}).spread(function (userIds, permissionIds) {
+			return _createUserPermissions(userIds, permissionIds);
+		}).then(function () {
+			console.log("Done.");
+			process.exit(0);
+		});
 	});
-
 }).catch(function(e) {
 	console.log(e.stack);
 });
@@ -51,7 +42,7 @@ function _createUserPermissions(userIds, permissionIds) {
 }
 
 function _removeAll(table) {
-	return knex.schema.raw("DELETE FROM \"" + table + "\"");
+	return require("./connection").connection.schema.raw("DELETE FROM \"" + table + "\"");
 }
 
 function _createProject() {

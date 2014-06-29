@@ -1,3 +1,4 @@
-module.exports = Object.spawn(require("./baseRepository"), {
-	model: require("../models").Project
+module.exports =  Object.spawn(require("./baseRepository"), {
+	table: "projects"
 });
+

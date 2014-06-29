@@ -18,7 +18,7 @@ describe("transition mapping", function() {
 
 		it("should define transition/transition-view-model map", function () {
 			assert(_define.calledWith("transition", "transition-view-model", {
-				"id": "_id",
+				"id": "id",
 				name: "name"
 			}));
 		});

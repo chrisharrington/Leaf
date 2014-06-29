@@ -18,7 +18,7 @@ describe("issue file mapping", function() {
 
 		it("should define issue-file/issue-file-view-model map", function () {
 			assert(_define.calledWith("issue-file", "issue-file-view-model", {
-				"id": "_id",
+				"id": "id",
 				name: "name",
 				size: sinon.match.func
 			}));

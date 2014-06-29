@@ -20,7 +20,7 @@ describe("issue mapping", function() {
 		it("should define issue/issue-view-model map", function () {
 			require("../../../../data/mapping/definitions/comment");
 			assert(_define.calledWith("issue", "issue-view-model", {
-				id: "_id",
+				id: "id",
 				description: "name",
 				details: "details",
 				number: "number",
@@ -87,7 +87,7 @@ describe("issue mapping", function() {
 		it("should define issue/issue-view-model map", function () {
 			require("../../../../data/mapping/definitions/comment");
 			assert(_define.calledWith("issue", "issue-list-view-model", {
-				id: "_id",
+				id: "id",
 				description: "name",
 				details: "details",
 				number: "number",
@@ -115,7 +115,7 @@ describe("issue mapping", function() {
 		it("should define issue/issue-view-model map", function () {
 			require("../../../../data/mapping/definitions/comment");
 			assert(_define.calledWith("issue-view-model", "issue", {
-				"_id": "id",
+				"id": "id",
 				name: "description",
 				details: "details",
 				number: "number",

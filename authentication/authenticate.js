@@ -1,5 +1,4 @@
 var repositories = require("../data/repositories");
-var models = require("../data/models");
 var Promise = require("bluebird");
 
 module.exports = function(request, response, next) {

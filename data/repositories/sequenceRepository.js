@@ -1,20 +1,11 @@
 var Promise = require("bluebird");
 
 var repository = Object.spawn(require("./baseRepository"), {
-	model: require("../models").Sequence
+	table: "sequences"
 });
 
 repository.next = function(name) {
-	return this.model.findOneAndUpdateAsync({
-		_id: name
-	}, {
-		$inc: { sequence: 1 }
-	}, {
-		new: true,
-		upsert: true
-	}).then(function(document) {
-		return document.sequence;
-	});
+	return this.conncetion().where({ id: name }).returning("sequence").increment("sequence", 1);
 };
 
 module.exports = repository;

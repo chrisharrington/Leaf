@@ -22,15 +22,14 @@ module.exports = function() {
 	return connection.open().then(function () {
 		return Promise.all([
 			controllers.init(app),
-			mapper.init(),
-			caches.init()
+			mapper.init()
 		]);
 	}).then(function () {
 		versiony.from("package.json").patch().to("package.json");
 		app.listen(config.call(this, "serverPort"));
 		console.log("Server listening on port " + config.call(this, "serverPort") + " in " + app.get("env") + " mode.");
 	}).catch(function (e) {
-		console.log("Server failed to start: " + e);
+		console.log("Server failed to start: " + e.stack);
 	});
 };
 

@@ -18,7 +18,7 @@ describe("priority mapping", function() {
 
 		it("should define priority/priority-view-model map", function () {
 			assert(_define.calledWith("priority", "priority-view-model", {
-				"id": "_id",
+				"id": "id",
 				name: "name",
 				order: "order",
 				colour: "colour"
@@ -41,7 +41,7 @@ describe("priority mapping", function() {
 
 		it("should define priority-view-model/priority map", function () {
 			assert(_define.calledWith("priority-view-model", "priority", {
-				"_id": "id",
+				"id": "id",
 				name: "name",
 				order: "order",
 				colour: "colour"

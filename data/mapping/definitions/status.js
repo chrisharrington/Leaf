@@ -1,5 +1,5 @@
 require("../mapper").define("status", "status-view-model", {
-	"id": "_id",
+	"id": "id",
 	name: "name",
 	order: "order",
 	isClosedStatus: "isClosedStatus",
@@ -8,7 +8,7 @@ require("../mapper").define("status", "status-view-model", {
 });
 
 require("../mapper").define("status-view-model", "status", {
-	"_id": "id",
+	"id": "id",
 	name: "name",
 	order: "order",
 	isClosedStatus: "isClosedStatus",

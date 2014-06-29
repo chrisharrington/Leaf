@@ -1,5 +1,5 @@
 require("../mapper").define("user", "user-view-model", {
-	"id": "_id",
+	"id": "id",
 	name: "name",
 	phone: "phone",
 	emailAddress: "emailAddress",
@@ -12,7 +12,7 @@ require("../mapper").define("user", "user-view-model", {
 });
 
 require("../mapper").define("user-view-model", "user", {
-	"_id": "id",
+	"id": "id",
 	name: "name",
 	emailAddress: "emailAddress",
 	phone: "phone",
@@ -24,7 +24,7 @@ require("../mapper").define("user-view-model", "user", {
 });
 
 require("../mapper").define("user", "user-summary-view-model", {
-	"id": "_id",
+	"id": "id",
 	name: "name",
 	emailAddress: "emailAddress",
 	phone: "phone",
@@ -34,7 +34,7 @@ require("../mapper").define("user", "user-summary-view-model", {
 });
 
 require("../mapper").define("user-summary-view-model", "user", {
-	"_id": "id",
+	"id": "id",
 	name: "name",
 	emailAddress: "emailAddress",
 	phone: "phone",
