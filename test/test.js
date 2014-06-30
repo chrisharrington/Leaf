@@ -10,7 +10,6 @@ var config = require("./../config");
 var _milestones = {}, _priorities = {}, _statuses = {}, _issueTypes = {}, _users = {};
 var _oldMilestones, _oldPrioritites, _oldStatuses, _oldIssueTypes, _oldUsers;
 var project;
-var skip = 0, limit = 1000;
 var count = 1;
 
 connection.open().then(function() {
@@ -21,10 +20,7 @@ connection.open().then(function() {
 			_initializeData(),
 			_getProject()
 		]);
-	}).then(function() {
-		console.log("Inserting issues.");
-		return _insertAllIssues();
-	}).then(function() {
+	}).then(_getIssues).then(_insertIssues).then(function() {
 		console.log("Done!");
 	}).catch(function(e) {
 		console.log(e.stack);
@@ -33,17 +29,24 @@ connection.open().then(function() {
 	});
 });
 
-function _insertAllIssues() {
-	var count = 0, promise;
-	do {
-		if (!promise)
-			promise = _getNextIssues(skip += limit).then(_insertIssues);
-		else
-			promise = promise.then(function() {
-				return _getNextIssues(skip += limit).then(_insertIssues);
-			});
-	} while (count++ < 61);
-	return promise;
+function _getIssues() {
+	return require("../old-data/repositories").Issue.get({ number: { $gt: 0 }}, { populate: "milestone priority status type developer tester" }).then(function(issues) {
+		return issues.map(function(i) {
+			return {
+				isDeleted: i.isDeleted,
+				number: i.number,
+				name: i.name,
+				description: i.details,
+				milestoneId: _milestones[_oldMilestones[i.milestoneId].name].id,
+				priorityId: _priorities[_oldPriorities[i.priorityId].name].id,
+				statusId: _statuses[_oldStatuses[i.statusId].name].id,
+				developerId: _users[_oldUsers[i.developerId].name].id,
+				testerId: _users[_oldUsers[i.testerId].name].id,
+				issueTypeId: _issueTypes[_oldIssueTypes[i.typeId].name].id,
+				projectId: project.id
+			}
+		});
+	});
 }
 
 function _insertIssues(issues) {
@@ -51,9 +54,7 @@ function _insertIssues(issues) {
 	issues.forEach(function(issue) {
 		promises.push(repositories.Issue.create(issue));
 	});
-	return Promise.all(promises).then(function() {
-		console.log("Done " + count++);
-	});
+	return Promise.all(promises);
 }
 
 function _getProject() {
