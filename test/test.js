@@ -10,17 +10,19 @@ var config = require("./../config");
 var _milestones = {}, _priorities = {}, _statuses = {}, _issueTypes = {}, _users = {};
 var _oldMilestones, _oldPrioritites, _oldStatuses, _oldIssueTypes, _oldUsers;
 var project;
-var skip = 0, limit = 100;
+var skip = 0, limit = 1000;
 var count = 1;
 
 connection.open().then(function() {
 	require("../old-data/connection").open().then(function() {
 		return Promise.all([
+			repositories.Issue.removeAll(),
 			_initializeOldData(),
 			_initializeData(),
 			_getProject()
 		]);
 	}).then(function() {
+		console.log("Inserting issues.");
 		return _insertAllIssues();
 	}).then(function() {
 		console.log("Done!");
@@ -32,17 +34,16 @@ connection.open().then(function() {
 });
 
 function _insertAllIssues() {
-	return new Promise(function(resolve, reject) {
-		var count = 0, promise;
-		do {
-			if (!promise)
-				promise = _getNextIssues(skip += limit).then(_insertIssues);
-			else
-				promise = promise.then(function() {
-					return _getNextIssues(skip += limit).then(_insertIssues);
-				});
-		} while (count++ < 610);
-	});
+	var count = 0, promise;
+	do {
+		if (!promise)
+			promise = _getNextIssues(skip += limit).then(_insertIssues);
+		else
+			promise = promise.then(function() {
+				return _getNextIssues(skip += limit).then(_insertIssues);
+			});
+	} while (count++ < 61);
+	return promise;
 }
 
 function _insertIssues(issues) {

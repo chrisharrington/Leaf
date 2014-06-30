@@ -55,6 +55,10 @@ module.exports = {
 		});
 	},
 
+	removeAll: function() {
+		return this.connection().del();
+	},
+
 	restore: function(id) {
 		var that = this;
 		return this.details(id).then(function(model) {
