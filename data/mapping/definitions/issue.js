@@ -3,8 +3,8 @@ var moment = require("moment");
 
 require("../mapper").define("issue", "issue-view-model", {
 	id: "id",
+	details: "description",
 	description: "name",
-	details: "details",
 	number: "number",
 	milestone: "milestone",
 	milestoneId: "milestoneId",
@@ -28,8 +28,8 @@ require("../mapper").define("issue", "issue-view-model", {
 
 require("../mapper").define("issue-view-model", "issue", {
 	"id": "id",
-	name: "description",
-	details: "details",
+	name: "name",
+	description: "details",
 	number: "number",
 	milestone: "milestone",
 	milestoneId: "milestoneId",
@@ -50,7 +50,7 @@ require("../mapper").define("issue-view-model", "issue", {
 require("../mapper").define("issue", "issue-list-view-model", {
 	id: "id",
 	description: "name",
-	details: "details",
+	details: "description",
 	number: "number",
 	priorityId: "priorityId",
 	developer: "developer",

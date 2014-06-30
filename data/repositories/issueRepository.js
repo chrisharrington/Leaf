@@ -7,42 +7,31 @@ var repository = Object.spawn(require("./baseRepository"), {
 });
 
 repository.search = function(projectId, filter, sortDirection, sortComparer, start, end) {
-	return this.connection()
-//		.join("priorities", "issues.priorityId", "priorities.id")
-//		.join("statuses", "issues.statusId", "statuses.id")
-//		.join("milestones", "issues.milestoneId", "milestones.id")
-//		.join("issuetypes", "issues.issueTypeId", "issuetypes.id")
-//		.join("users", "issues.developerId", "users.id")
-//		.join("users", "issues.testerId", "users.id")
-		.where({ projectId: projectId });
+	var query = this.connection()
+		.join("priorities", "issues.priorityId", "priorities.id")
+		.join("statuses", "issues.statusId", "statuses.id")
+		.join("milestones", "issues.milestoneId", "milestones.id")
+		.join("issuetypes", "issues.issueTypeId", "issuetypes.id")
+		.join("users as developers", "issues.developerId", "developers.id")
+		.join("users as testers", "issues.testerId", "testers.id")
+		.where({ "issues.projectId": projectId, "issues.isDeleted": false });
+	if (filter.milestones.length > 0)
+		query = query.whereIn("issues.milestoneId", filter.milestones);
+	if (filter.priorities.length > 0)
+		query = query.whereIn("issues.priorityId", filter.priorities);
+	if (filter.statuses.length > 0)
+		query = query.whereIn("issues.statusId", filter.statuses);
+	if (filter.types.length > 0)
+		query = query.whereIn("issues.issueTypeId", filter.types);
+	if (filter.developers.length > 0)
+		query = query.whereIn("issues.developerId", filter.developers);
+	if (filter.testers.length > 0)
+		query = query.whereIn("issues.testerId", filter.testers);
 
-//	var params = _buildParameters(projectId, filter);
-//	return repository.get(params, {
-//		sort: _buildSort(sortDirection, sortComparer),
-//		skip: start - 1,
-//		limit: end - start + 1
-//	}).then(function(issues) {
-//		return issues;
-//	});
-
-	function _buildParameters(projectId, filter) {
-		var params = {
-			project: projectId,
-			isDeleted: false
-		};
-		_addFilter("priorityId", filter.priorities, params);
-		_addFilter("statusId", filter.statuses, params);
-		_addFilter("developerId", filter.developers, params);
-		_addFilter("testerId", filter.testers, params);
-		_addFilter("milestoneId", filter.milestones, params);
-		_addFilter("typeId", filter.types, params);
-		return params;
-	}
-
-	function _addFilter(idProperty, collection, params) {
-		if (collection.length > 0)
-			params[idProperty] = { $in: collection };
-	}
+	return query
+		.offset(start - 1)
+		.limit(end - start + 1)
+		.orderBy("priorities.order", "descending");
 
 	function _buildSort(direction, comparer) {
 		if (comparer == "priority")
