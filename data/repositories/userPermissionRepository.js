@@ -9,15 +9,14 @@ repository.removeAllForUser = function (userId) {
 };
 
 repository.addPermissionsForUser = function (userId, permissionIds) {
-	var creates = [], model = this.model, connection = this.connection();
-	permissionIds.forEach(function(permissionId) {
-		creates.push(connection.insert({ userId: userId, permission: permissionId }));
-	});
+	var creates = [], model = this.model, that = this;
+	for (var i = 0; i < permissionIds.length; i++)
+		creates.push(that.connection().insert({ created_at: new Date(), updated_at: new Date(), userId: parseInt(userId), permissionId: parseInt(permissionIds[i]) }));
 	return Promise.all(creates);
 };
 
-repository.getForUserIds = function(userIds) {
-	return this.conncetion().whereIn("userId", userIds);
+repository.users = function(userIds) {
+	return this.connection().whereIn("userId", userIds);
 };
 
 module.exports = repository;

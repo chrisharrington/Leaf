@@ -25,8 +25,8 @@ module.exports = {
 		return query;
 	},
 
-	one: function(conditions, populate) {
-		return this.get(conditions, { limit: 1 }).then(function(result) {
+	one: function(conditions) {
+		return this.connection().where(conditions).limit(1).then(function(result) {
 			return result[0];
 		});
 	},
@@ -40,11 +40,13 @@ module.exports = {
 			object["created_at"] = new Date();
 		if (!object["updated_at"])
 			object["updated_at"] = new Date();
-		return this.connection(this.table).returning("id").insert(object);
+		return this.connection(this.table).returning("id").insert(object).then(function(ids) {
+			return ids[0];
+		});
 	},
 
 	details: function(id, populate) {
-		return this.one({ _id: id }, populate);
+		return this.one({ id: id }, populate);
 	},
 
 	remove: function(id) {

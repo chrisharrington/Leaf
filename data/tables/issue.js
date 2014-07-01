@@ -5,9 +5,9 @@ exports.build = function(connection) {
 		table.increments("id");
 		table.timestamps();
 		table.boolean("isDeleted").notNullable().defaultTo(false);
-		table.integer("number").notNullable();
 		table.string("name").notNullable();
 		table.text("description").notNullable();
+		table.date("closed");
 
 		table.integer("priorityId").notNullable().references("priorities.id");
 		table.integer("developerId").notNullable().references("users.id");

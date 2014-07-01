@@ -1,11 +1,11 @@
 var assert = require("assert"),
 	sinon = require("sinon"),
 	Promise = require("bluebird");
-require("./setup");
+require("../test/setup");
 
-var repositories = require("./../data/repositories");
-var connection = require("./../data/connection");
-var config = require("./../config");
+var repositories = require("./repositories");
+var connection = require("./connection");
+var config = require("../config");
 
 var _milestones = {}, _priorities = {}, _statuses = {}, _issueTypes = {}, _users = {};
 var _oldMilestones, _oldPrioritites, _oldStatuses, _oldIssueTypes, _oldUsers;
@@ -34,7 +34,6 @@ function _getIssues() {
 		return issues.map(function(i) {
 			return {
 				isDeleted: i.isDeleted,
-				number: i.number,
 				name: i.name,
 				description: i.details,
 				milestoneId: i.milestoneId ? _milestones[_oldMilestones[i.milestoneId.toString()].name].id : 1,

@@ -13,6 +13,5 @@ module.exports = {
 	Comment: require(directory + "commentRepository"),
 	Issue: require(directory + "issueRepository"),
 	IssueFile: require(directory + "issueFileRepository"),
-    Notification: require(directory + "notificationRepository"),
-	Sequence: require(directory + "sequenceRepository")
+    Notification: require(directory + "notificationRepository")
 };

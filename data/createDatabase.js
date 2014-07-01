@@ -10,8 +10,7 @@ require("./connection").open().then(function(connection) {
 	return require("./tableBuilder")(connection).then(function() {
 		console.log("Tables built.");
 
-		return _createProject().then(function (result) {
-			var projectId = result[0];
+		return _createProject().then(function (projectId) {
 			return Promise.all([
 				_insertDefaultUsers(projectId),
 				_insertDefaultPermissions(),
@@ -35,7 +34,7 @@ function _createUserPermissions(userIds, permissionIds) {
 	var inserts = [];
 	userIds.forEach(function(userId) {
 		permissionIds.forEach(function(permissionId) {
-			inserts.push(repositories.UserPermission.create({ userId: userId[0], permissionId: permissionId[0] }))
+			inserts.push(repositories.UserPermission.create({ userId: userId, permissionId: permissionId }))
 		});
 	});
 	return Promise.all(inserts);

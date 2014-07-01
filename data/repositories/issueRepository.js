@@ -8,6 +8,7 @@ var repository = Object.spawn(require("./baseRepository"), {
 
 repository.search = function(projectId, filter, sortDirection, sortComparer, start, end) {
 	var query = this.connection()
+		.select("issues.id", "issues.name", "issues.description", "issues.priorityId", "issues.developerId", "developers.name as developer", "issues.testerId")
 		.join("priorities", "issues.priorityId", "priorities.id")
 		.join("statuses", "issues.statusId", "statuses.id")
 		.join("milestones", "issues.milestoneId", "milestones.id")
@@ -15,6 +16,7 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 		.join("users as developers", "issues.developerId", "developers.id")
 		.join("users as testers", "issues.testerId", "testers.id")
 		.where({ "issues.projectId": projectId, "issues.isDeleted": false });
+
 	if (filter.milestones.length > 0)
 		query = query.whereIn("issues.milestoneId", filter.milestones);
 	if (filter.priorities.length > 0)
@@ -31,7 +33,7 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 	return query
 		.offset(start - 1)
 		.limit(end - start + 1)
-		.orderBy("priorities.order", "descending");
+		.orderByRaw("priorities.order, issues.id");
 
 	function _buildSort(direction, comparer) {
 		if (comparer == "priority")
@@ -45,57 +47,58 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 	}
 };
 
-repository.number = function(projectId, number) {
-	return this.one({ project: projectId, number: number });
+repository.number = function(projectId, id) {
+	return this.connection()
+		.select("issues.*", "milestones.name as milestone", "priorities.name as priority", "statuses.name as status", "developers.name as developer", "testers.name as tester", "issuetypes.name as issueType")
+		.join("priorities", "issues.priorityId", "priorities.id")
+		.join("statuses", "issues.statusId", "statuses.id")
+		.join("milestones", "issues.milestoneId", "milestones.id")
+		.join("issuetypes", "issues.issueTypeId", "issuetypes.id")
+		.join("users as developers", "issues.developerId", "developers.id")
+		.join("users as testers", "issues.testerId", "testers.id")
+		.where({ "issues.projectId": projectId, "issues.id": id })
+		.limit(1)
+		.then(function(issues) {
+			return issues[0];
+		});
 };
 
 repository.updateIssue = function(model, user) {
-	var repositories = require("../repositories");
+	var repositories = require("../repositories"), that = this;
 	return Promise.all([
-		repository.details(model.id),
+		this.connection().where({ id: model.id }).then(function(issues) { return issues[0]; }),
 		repositories.Milestone.details(model.milestoneId),
 		repositories.Priority.details(model.priorityId),
 		repositories.Status.details(model.statusId),
-		repositories.IssueType.details(model.typeId),
+		repositories.IssueType.details(model.issueTypeId),
 		repositories.User.details(model.developerId),
 		repositories.User.details(model.testerId)
 	]).spread(function(issue, milestone, priority, status, type, developer, tester) {
 		issue.name = model.name;
-		issue.number = model.number;
-		issue.details = model.details;
-		issue.updatedById = user.id;
-		issue.updatedBy = user.name;
+		issue.description = model.description;
 		issue.milestoneId = milestone.id;
-		issue.milestone = milestone.name;
-		issue.milestoneOrder = milestone.order;
 		issue.priorityId = priority.id;
-		issue.priority = priority.name;
-		issue.priorityOrder = priority.order;
 		issue.statusId = status.id;
-		issue.status = status.name;
-		issue.statusOrder = status.order;
-		issue.typeId = type.id;
-		issue.type = type.name;
+		issue.issueTypeId = type.id;
 		issue.developerId = developer.id;
-		issue.developer = developer.name;
 		issue.testerId = tester.id;
-		issue.tester = tester.name;
 		issue.closed = model.closed;
-		Promise.promisifyAll(issue).saveAsync();
+		issue.updated_at = new Date();
+		return that.connection("issues").where({ id: issue.id }).update(issue);
 	});
 };
 
 repository.getNextNumber = function(projectId) {
-	return repository.one({ project: projectId }, { sort: { number: -1 }}).then(function(issue) {
-		return issue.number + 1;
+	return this.connection().select("id").where({ projectId: projectId }).limit(1).then(function(result) {
+		return result[0].id+1;
 	});
 };
 
 repository.issueCountsPerUser = function(projectId) {
-	var result = {};
-	return require("./userRepository").get({ project: projectId }).then(function(users) {
+	var result = {}, connection = this.connection();
+	return require("./userRepository").get({ projectId: projectId }).then(function(users) {
 		return Promise.all(users.map(function(user) {
-			return _getCountsForUser(user).spread(function(developerCount, testerCount) {
+			return _getCountsForUser(user, connection).spread(function(developerCount, testerCount) {
 				result[user.id] = {
 					developer: developerCount,
 					tester: testerCount
@@ -106,11 +109,10 @@ repository.issueCountsPerUser = function(projectId) {
 		return result;
 	});
 
-	function _getCountsForUser(user) {
-		var connection = this.connection();
+	function _getCountsForUser(user, connection) {
 		return Promise.all([
-			connection.where({ developerId: user.id }),
-			connection.where({ testerId: user.id })
+			connection.where({ developerId: user.id }).count().then(function(result) { return parseInt(result[0].count); }),
+			connection.where({ testerId: user.id }).count().then(function(result) { return parseInt(result[0].count); })
 		]);
 	}
 };

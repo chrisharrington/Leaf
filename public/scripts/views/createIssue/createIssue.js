@@ -6,7 +6,6 @@
 	root.loading = ko.observable(false);
 
 	root.createModel = {
-		id: function() { return root.issueId; },
 		description: ko.observable(""),
 		details: ko.observable(""),
 		priorityId: function () { return _getSelectedFromChoiceTile($("div.priority")); },

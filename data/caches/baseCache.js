@@ -5,7 +5,7 @@ module.exports = {
 		var cache = this.cache = {};
 		return this.repository.get(null, { sort: this.sort }).then(function(models) {
 			models.forEach(function(model) {
-				cache[model._id] = model;
+				cache[model.id] = model;
 			});
 		});
 	},

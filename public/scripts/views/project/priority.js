@@ -65,7 +65,7 @@
 			return;
 		}
 
-		var create = root.saveModel.create;
+		var create = root.saveModel.create, id = root.saveModel.id();
 		root.loading(true);
 		$.post(IssueTracker.virtualDirectory + "priorities/save", { id: root.saveModel.id(), name: root.saveModel.name(), colour: root.saveModel.colour(), order: create ? (_getHighestOrder()+1) : root.saveModel.order() }).done(function(saved) {
 			if (create)
@@ -75,9 +75,9 @@
 					var priority = IssueTracker.priorities()[i];
 					var priorityId = priority.id();
 					var savedId = saved.id;
-					if (priorityId == savedId) {
-						priority.name(saved.name);
-						priority.colour(saved.colour);
+					if (priorityId == id) {
+						priority.name(root.saveModel.name());
+						priority.colour(root.saveModel.colour());
 					}
 				}
 			}

@@ -29,7 +29,7 @@ module.exports = function(app) {
 				repositories.User.get({ projectId: project.id }, { sort: { name: 1 }}),
 				repositories.Project.get(),
 				repositories.Milestone.get({ projectId: project.id, isDeleted: false }, { sort: { order: 1 }}),
-				caches.IssueType.all(),
+				repositories.IssueType.get(),
 				_getSignedInUser(request),
 				project
 			]);

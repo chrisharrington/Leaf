@@ -62,15 +62,15 @@
 			return;
 		}
 
-		var create = root.saveModel.create;
+		var create = root.saveModel.create, id = root.saveModel.id();
 		root.loading(true);
 		$.post(IssueTracker.virtualDirectory + "milestones/save", { id: root.saveModel.id(), name: root.saveModel.name(), order: root.saveModel.order() }).done(function(saved) {
 			if (create)
 				IssueTracker.milestones.push(IssueTracker.Utilities.createPropertyObservables(saved));
 			else {
 				$.each(IssueTracker.milestones(), function(i, milestone) {
-					if (milestone.id() == saved.id)
-						milestone.name(saved.name);
+					if (milestone.id() == id)
+						milestone.name(root.saveModel.name());
 				});
 			}
 			IssueTracker.Feedback.success("The milestone has been saved.");

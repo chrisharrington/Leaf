@@ -34,7 +34,7 @@
 	};
 
 	root.refresh = function() {
-		_loadNotifications();
+		//_loadNotifications();
 	};
 
 	root.navigateToIssue = function(issueNumber, notificationId) {

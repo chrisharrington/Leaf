@@ -31,23 +31,24 @@ module.exports = function(app) {
 			end = 50;
 
 		return request.getProject().then(function(project) {
-			return repositories.Issue.search(project.id, {
-				priorities: _getIds(request.query.priorities),
-				statuses: _getIds(request.query.statuses),
-				developers: _getIds(request.query.developers),
-				testers: _getIds(request.query.testers),
-				milestones: _getIds(request.query.milestones),
-				types: _getIds(request.query.types)
-			}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
-				return repositories.User.get({ projectId: project.id }).then(function(users) {
-					var usersDictionary = {};
-					users.forEach(function(user) {
-						usersDictionary[user.id] = user;
-					});
-					return issues.map(function(issue) {
-						issue.developer = usersDictionary[issue.developerId].name;
-						return issue;
-					});
+			return Promise.all([
+				repositories.Issue.search(project.id, {
+					priorities: _getIds(request.query.priorities),
+					statuses: _getIds(request.query.statuses),
+					developers: _getIds(request.query.developers),
+					testers: _getIds(request.query.testers),
+					milestones: _getIds(request.query.milestones),
+					types: _getIds(request.query.types)
+				}, request.query.direction, request.query.comparer, start, end),
+				repositories.User.get({ projectId: project.id })
+			]).spread(function(issues, users) {
+				var usersDictionary = {};
+				users.forEach(function(user) {
+					usersDictionary[user.id] = user;
+				});
+				return issues.map(function(issue) {
+					issue.developer = usersDictionary[issue.developerId].name;
+					return issue;
 				});
 			}).then(function(issues) {
 				return mapper.mapAll("issue", "issue-list-view-model", issues);
@@ -77,19 +78,17 @@ module.exports = function(app) {
 			}
 
 			return Promise.all([
-				repositories.Transition.status(issue.statusId),
-				repositories.Comment.issue(issue.id, { populate: "user", sort: { date: -1 }}),
+				repositories.Comment.issue(issue.id),
 				repositories.IssueFile.issue(issue.id)
-			]).spread(function(transitions, comments, files) {
+			]).spread(function(comments, files) {
 				return Promise.all([
 					mapper.map("issue", "issue-view-model", issue),
-					mapper.mapAll("transition", "transition-view-model", transitions),
 					mapper.mapAll("comment", "issue-history-view-model", comments),
 					mapper.mapAll("issue-file", "issue-file-view-model", files)
 				]);
-			}).spread(function(issue, transitions, comments, files) {
+			}).spread(function(issue, comments, files) {
 				var model = issue;
-				model.transitions = transitions;
+				model.transitions = [];
 				model.history = comments;
 				model.files = files;
 				response.send(mustache.render(html.toString(), { issue: JSON.stringify(model) }));
@@ -101,9 +100,7 @@ module.exports = function(app) {
 
 	app.get("/issues/create", authenticate, function(request, response) {
 		return fs.readFileAsync("public/views/createIssue.html").then(function(html) {
-			response.send(mustache.render(html.toString(), {
-				issueId: mongoose.Types.ObjectId()
-			}));
+			response.send(mustache.render(html.toString()));
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});
@@ -121,23 +118,13 @@ module.exports = function(app) {
 	app.post("/issues/update", authenticate, authorize("edit-issue"), function(request, response) {
 		return Promise.all([
 			mapper.map("issue-view-model", "issue", request.body),
-			caches.Status.all()
+			repositories.Status.get()
 		]).spread(function(issue, statuses) {
 			if (_issueIsClosed(issue.statusId, statuses))
-				issue.closed = Date.now();
+				issue.closed = new Date();
 			else
 				issue.closed = null;
-			return repositories.Issue.updateIssue(issue, request.user).then(function () {
-				if (request.user.id.toString() != issue.developerId.toString()) {
-					return Promise.all([
-						repositories.User.details(issue.developerId),
-						repositories.Notification.create({ type: "issue-updated", issue: issue.id, user: issue.developerId })
-					]).spread(function (user) {
-						if (user.emailNotificationForIssueUpdated)
-							return notificationEmailer.issueUpdated(user, issue);
-					});
-				}
-			});
+			return repositories.Issue.updateIssue(issue, request.user);
 		}).then(function () {
 			response.send(200);
 		}).catch(function (e) {
@@ -156,21 +143,12 @@ module.exports = function(app) {
 
 	app.post("/issues/add-comment", authenticate, authorize("edit-issue"), function(request, response) {
 		return mapper.map("issue-history-view-model", "comment", request.body).then(function(comment) {
-			comment.date = request.body.date = Date.now();
-			comment.user = request.body.userId = request.user.id;
+			comment.created_at = request.body.date = new Date();
+			comment.userId = request.body.userId = request.user.id;
 			request.body.user = request.user.name;
-			return repositories.Issue.details(request.body.issueId).then(function (issue) {
-				comment.issue = issue.id;
-				return repositories.Comment.create(comment).then(function (created) {
-					request.body.id = created.id;
-					if (request.user.id.toString() != issue.developerId.toString())
-						return repositories.User.details(issue.developerId).then(function (user) {
-							if (user.emailNotificationForNewCommentForAssignedIssue)
-								return notificationEmailer.newComment(user, issue, comment.text);
-						}).then(function() {
-							return repositories.Notification.create({ type: "comment-added", comment: comment.text, issue: issue.id, user: issue.developerId });
-						});
-				});
+			comment.issueId = request.body.issueId;
+			return repositories.Comment.create(comment).then(function (createdId) {
+				request.body.id = createdId;
 			});
 		}).then(function () {
 			request.body.date = moment.call(this, request.body.date).format(config.call(this, "dateTimeFormat"));
@@ -189,39 +167,15 @@ module.exports = function(app) {
 	});
 
 	app.post("/issues/create", authenticate, authorize("create-issue"), function(request, response) {
-		return mapper.map("issue-view-model", "issue", request.body).then(function(model) {
-			return Promise.all([
-				repositories.Sequence.next(request.project.id + "issues"),
-				repositories.Milestone.details(model.milestoneId),
-				repositories.Priority.details(model.priorityId),
-				repositories.Status.details(model.statusId),
-				repositories.User.details(model.developerId),
-				repositories.User.details(model.testerId),
-				repositories.IssueType.details(model.typeId)
-			]).spread(function (number, milestone, priority, status, developer, tester, type) {
-				model.number = number;
-				model.milestone = milestone.name;
-				model.priority = priority.name;
-				model.priorityOrder = priority.order;
-				model.status = status.name;
-				model.statusOrder = status.order;
-				model.developer = developer.name;
-				model.tester = tester.name;
-				model.type = type.name;
-				model.opened = Date.now();
-				model.updated = Date.now();
-				model.updatedBy = request.user.id;
-				model.project = request.project.id;
-				return repositories.Issue.create(model);
-			});
-		}).then(function (issue) {
-			return repositories.User.details(issue.developerId).then(function(user) {
-				if (request.user.id.toString() != issue.developerId.toString())
-					return repositories.Notification.create({ type: "issue-assigned", issue: issue.id, user: issue.developerId }).then(function () {
-						if (user.emailNotificationForIssueAssigned)
-							return notificationEmailer.issueAssigned(user, issue);
-					});
-			});
+		return Promise.all([
+			mapper.map("issue-view-model", "issue", request.body),
+			request.getProject()
+		]).spread(function(model, project) {
+			delete model.id;
+			model.created_at = new Date();
+			model.updated_at = new Date();
+			model.projectId = project.id;
+			return repositories.Issue.create(model);
 		}).then(function () {
 			response.send(200);
 		}).catch(function (e) {
@@ -231,21 +185,7 @@ module.exports = function(app) {
 
 	app.post("/issues/delete", authenticate, authorize("delete-issue"), function(request, response) {
 		var issue;
-		return Promise.all([
-			repositories.Issue.details(request.body.id),
-			repositories.Issue.remove(request.body.id),
-			repositories.Notification.removeForIssue(request.body.id)
-		]).spread(function(issue) {
-			if (request.user.id.toString() != issue.developerId.toString()) {
-				return Promise.all([
-					repositories.User.details(issue.developerId),
-					repositories.Notification.create({ type: "issue-deleted", issue: issue.id, user: issue.developerId })
-				]).spread(function (user) {
-					if (user.emailNotificationForIssueDeleted)
-						return notificationEmailer.issueDeleted(user, issue);
-				});
-			}
-		}).then(function () {
+		return repositories.Issue.remove(request.body.id).then(function () {
 			response.send(200);
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);
@@ -272,7 +212,7 @@ module.exports = function(app) {
 			var created = [];
 			for (var i = 0; i < arguments.length; i++) {
 				var curr = arguments[i];
-				created.push(repositories.IssueFile.create({ _id: curr.id, name: request.query.name || curr.name, container: curr.container, size: curr.size, issue: request.query.issueId }));
+				created.push(repositories.IssueFile.create({ id: curr.id, name: request.query.name || curr.name, container: curr.container, size: curr.size, issue: request.query.issueId }));
 			}
 			return created;
 		}).spread(function() {

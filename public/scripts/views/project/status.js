@@ -70,7 +70,7 @@
 			return;
 		}
 
-		var create = root.saveModel.create;
+		var create = root.saveModel.create, id = root.saveModel.id();
 		root.loading(true);
 		$.post(IssueTracker.virtualDirectory + "statuses/save", {
 			id: root.saveModel.id(),
@@ -90,11 +90,11 @@
 					var status = IssueTracker.statuses()[i];
 					var statusId = status.id();
 					var savedId = saved.id;
-					if (statusId == savedId) {
-						status.name(saved.name);
-						status.isClosedStatus(saved.isClosedStatus);
-						status.isDeveloperStatus(saved.isDeveloperStatus);
-						status.isTesterStatus(saved.isTesterStatus);
+					if (statusId == id) {
+						status.name(root.saveModel.name());
+						status.isClosedStatus(root.saveModel.isClosedStatus());
+						status.isDeveloperStatus(root.saveModel.isDeveloperStatus());
+						status.isTesterStatus(root.saveModel.isTesterStatus());
 					}
 				}
 			}

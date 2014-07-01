@@ -17,26 +17,28 @@ var base = Object.spawn(require("./baseController"));
 
 module.exports = function(app) {
 	app.get("/users", authenticate, function (request, response) {
-		return Promise.all([
-			fs.readFileAsync("public/views/users.html"),
-			repositories.Issue.issueCountsPerUser(request.project.id),
-			repositories.User.get(null, { sort: { name: 1 }}).then(function(users) {
-				return repositories.UserPermission.get({ user: { $in: users.map(function(x) { return x.id; }) }}).then(function(permissions) {
-					var dictionary = permissions.toDictionary(function(x) { return x.user; });
-					return users.map(function(user) {
-						user.permissions = dictionary[user.id];
-						return user;
+		return request.getProject().then(function(project) {
+			return Promise.all([
+				fs.readFileAsync("public/views/users.html"),
+				repositories.Issue.issueCountsPerUser(project.id),
+				repositories.User.get(null, { sort: { name: 1 }}).then(function(users) {
+					return repositories.UserPermission.users(users.map(function(x) { return x.id; })).then(function(userPermissions) {
+						var dictionary = userPermissions.toDictionary(function(x) { return x.userId; });
+						return users.map(function(user) {
+							user.permissions = dictionary[user.id];
+							return user;
+						});
 					});
+				})
+			]).spread(function(html, issueCounts, users) {
+				return mapper.mapAll("user", "user-summary-view-model", users).map(function (user) {
+					var counts = issueCounts[user.id] || { developer: 0, tester: 0 };
+					user.developerIssueCount = counts.developer;
+					user.testerIssueCount = counts.tester;
+					return user;
+				}).then(function (mapped) {
+					response.send(mustache.render(html.toString(), { users: JSON.stringify(mapped) }), 200);
 				});
-			})
-		]).spread(function(html, issueCounts, users) {
-			return mapper.mapAll("user", "user-summary-view-model", users).map(function(user) {
-				var counts = issueCounts[user.id] || { developer: 0, tester: 0 };
-				user.developerIssueCount = counts.developer;
-				user.testerIssueCount = counts.tester;
-				return user;
-			}).then(function(mapped) {
-				response.send(mustache.render(html.toString(), { users: JSON.stringify(mapped) }), 200);
 			});
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);
@@ -56,34 +58,20 @@ module.exports = function(app) {
 		}
 
 		return mapper.map("user-summary-view-model", "user", user).then(function(mapped) {
-			return repositories.User.one({ id: mapped.id });
+			return repositories.User.one({ id: parseInt(mapped.id) });
 		}).then(function(retrieved) {
-			var name = retrieved.name;
 			retrieved.name = user.name;
 			retrieved.emailAddress = user.emailAddress;
-			return Promise.all([
-				_updateIssueNames(name, user.name, request.project),
-				repositories.User.update(retrieved)
-			]);
+			return repositories.User.update(retrieved);
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});
-
-		function _updateIssueNames(retrieved, user, project) {
-			if (retrieved == user)
-				return;
-
-			return Promise.all([
-				repositories.Issue.save({ developer: user }, { projectId: project.id, developer: retrieved }),
-				repositories.Issue.save({ tester: user }, { projectId: project.id, tester: retrieved })
-			]);
-		}
 	});
 
 	app.post("/users/reset-password", authenticate, authorize("reset-password"), function(request, response) {
-		return repositories.User.one({ _id: request.body.userId }).then(function(user) {
+		return repositories.User.one({ id: request.body.userId }).then(function(user) {
 			var token = csprng.call(this, 128, 36);
 			user.newPasswordToken = token;
 			return Promise.all([
@@ -108,14 +96,24 @@ module.exports = function(app) {
 			return;
 		}
 
-		return mapper.map("user-view-model", "user", user).then(function(mapped) {
+		return Promise.all([
+			mapper.map("user-view-model", "user", user),
+			request.getProject()
+		]).spread(function(mapped, project) {
+			delete mapped.id;
+
 			var token = csprng.call(this, 128, 36);
-			mapped.projectId = request.project.id;
+			mapped.projectId = project.id;
 			mapped.activationToken = token;
+			mapped.isDeleted = false;
+			mapped.emailNotificationForIssueAssigned = true;
+			mapped.emailNotificationForIssueDeleted = false;
+			mapped.emailNotificationForIssueUpdated = false;
+			mapped.emailNotificationForNewCommentForAssignedIssue = false;
 			return repositories.User.create(mapped).then(function(id) {
 				mapped.id = id;
-				user.activationUrl = config.call(this, "domain").replace("www", request.project.name.formatForUrl()) + "/users/activate/" + token;
-				user.projectName = request.project.name;
+				user.activationUrl = config.call(this, "domain").replace("www", project.name.formatForUrl()) + "/users/activate/" + token;
+				user.projectName = project.name;
 				return emailer.send(process.cwd() + "/email/templates/newUser.html", { user: user }, user.emailAddress, "Welcome to Leaf!");
 			}).then(function() {
 				response.send(mapped.id, 200);
@@ -131,7 +129,7 @@ module.exports = function(app) {
 				user.salt = csprng.call(this, 512, 36);
 				user.password = hash.call(this, user.salt + request.body.password);
 			}
-			return repositories.User.save(user);
+			return repositories.User.update(user);
 		}).then(function() {
 			response.send(200);
 		}).catch(function(e) {
