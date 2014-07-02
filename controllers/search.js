@@ -15,19 +15,23 @@ module.exports = function(app) {
 
 	app.get("/search/query", authenticate, function (request, response) {
 		var text = request.query.text;
-		return _searchForIssues(text).then(function(issues) {
-			response.send({
-				issues: issues
-			}, 200);
+		return request.getProject().then(function(project) {
+			return _searchForIssues(text, project.id).then(function(issues) {
+				response.send({
+					issues: issues
+				}, 200);
+			});
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
 		});
 	});
 
-	function _searchForIssues(text) {
+	function _searchForIssues(text, projectId) {
 		var query;
 		if (text[0] == "#")
-			query = repositories.Issue.get({ number: parseInt(text.substring(1)) });
+			query = repositories.Issue.number(projectId, parseInt(text.substring(1))).then(function(issue) {
+				return [issue];
+			});
 		else
 			query = require("../data/models").Issue.textSearchAsync(text).then(function(result) {
 				var split = text.split(" "), issues = [], objects = result.results;
