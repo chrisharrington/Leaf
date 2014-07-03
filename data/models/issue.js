@@ -31,7 +31,7 @@ var schema = mongoose.Schema({
 
 schema.plugin(require("mongoose-text-search"));
 
-schema.index({ priorityOrder: -1, number: 1 });
+schema.index({ priorityOrder: 1, number: 1 });
 schema.index({ developerId: 1 });
 schema.index({ testerId: 1 });
 schema.index({ name: "text", details: "text" });

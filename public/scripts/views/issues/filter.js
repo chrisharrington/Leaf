@@ -82,12 +82,12 @@
 	}
 
 	function _load() {
-		_restoreCommaSeparatedListTo(root.selectedMilestones, _milestonesStorageKey, true);
-		_restoreCommaSeparatedListTo(root.selectedPriorities, _prioritiesStorageKey, true);
-		_restoreCommaSeparatedListTo(root.selectedStatuses, _statusesStorageKey, true);
+		_restoreCommaSeparatedListTo(root.selectedMilestones, _milestonesStorageKey);
+		_restoreCommaSeparatedListTo(root.selectedPriorities, _prioritiesStorageKey);
+		_restoreCommaSeparatedListTo(root.selectedStatuses, _statusesStorageKey);
 		_restoreCommaSeparatedListTo(root.selectedTypes, _typesStorageKey);
-		_restoreCommaSeparatedListTo(root.selectedDevelopers, _developersStorageKey, true);
-		_restoreCommaSeparatedListTo(root.selectedTesters, _testersStorageKey, true);
+		_restoreCommaSeparatedListTo(root.selectedDevelopers, _developersStorageKey);
+		_restoreCommaSeparatedListTo(root.selectedTesters, _testersStorageKey);
 	}
 
 	function _restoreCommaSeparatedListTo(collection, key, isObservable) {
@@ -106,7 +106,7 @@
 		amplify.store(_milestonesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedMilestones()));
 		amplify.store(_prioritiesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedPriorities()));
 		amplify.store(_statusesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedStatuses()));
-		amplify.store(_typesStorageKey, root.selectedTypes());
+		amplify.store(_typesStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedTypes()));
 		amplify.store(_developersStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedDevelopers()));
 		amplify.store(_testersStorageKey, IssueTracker.Utilities.extractPropertyObservableValuesFromArray(root.selectedTesters()));
 	}

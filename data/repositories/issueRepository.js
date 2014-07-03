@@ -11,9 +11,17 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 	return repository.get(params, {
 		sort: _buildSort(sortDirection, sortComparer),
 		skip: start - 1,
-		limit: end - start + 1
-	}).then(function(issues) {
-		return issues;
+		limit: end - start + 1,
+		projection: {
+			"_id": true,
+			name: true,
+			details: true,
+			number: true,
+			priorityId: true,
+			developer: true,
+			developerId: true,
+			testerId: true
+		}
 	});
 
 	function _buildParameters(projectId, filter) {
