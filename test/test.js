@@ -10,16 +10,33 @@ var config = require("./../config");
 var _milestones = {}, _priorities = {}, _statuses = {}, _issueTypes = {}, _users = {};
 var _oldMilestones, _oldPrioritites, _oldStatuses, _oldIssueTypes, _oldUsers;
 var project;
-var count = 1;
+var count = 90000;
 
 connection.open().then(function() {
-	require("../old-data/connection").open().then(function() {
-		return Promise.all([
-			repositories.Issue.removeAll(),
-			_initializeOldData(),
-			_initializeData(),
-			_getProject()
-		]);
+	require("../data/connection").open().then(function() {
+		var promises = [];
+		for (var i = 0; i < count; i++)
+			promises.push(function(int) {
+				return repositories.Issue.create({
+					created_at: new Date(),
+					updated_at: new Date(),
+					isDeleted: false,
+					name: "load testing name",
+					description: "load testing description",
+					closed: null,
+					priorityId: 4,
+					milestoneId: 1,
+					statusId: 1,
+					developerId: 1,
+					testerId: 1,
+					issueTypeId: 1,
+					projectId: 1
+				}).then(function() {
+					if (int%500 == 0)
+						console.log("Done " + int);
+				});
+			}(i));
+		return Promise.all(promises);
 	}).then(_getIssues).then(_insertIssues).then(function() {
 		console.log("Done!");
 	}).catch(function(e) {

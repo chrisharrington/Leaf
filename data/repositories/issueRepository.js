@@ -30,10 +30,12 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 	if (filter.testers.length > 0)
 		query = query.whereIn("issues.testerId", filter.testers);
 
-	return query
+	query = query
 		.offset(start - 1)
 		.limit(end - start + 1)
 		.orderByRaw("priorities.order, issues.id");
+	console.log(query.toSQL().sql);
+	return query;
 
 	function _buildSort(direction, comparer) {
 		if (comparer == "priority")
