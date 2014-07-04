@@ -1,9 +1,19 @@
 var Promise = require("bluebird");
-var mongoose = require("mongoose");
+var elasticsearch = require("elasticsearch");
+var config = require("../../config");
+var uuid = require("node-uuid");
 
 module.exports = {
-	connection: function(table) {
-		return require("../../data/connection").connection(table || this.table);
+	client: new elasticsearch.Client({
+		host: config.call(this, "databaseLocation")
+	}),
+
+	query: function(body, index) {
+		index = index || this.index;
+		return client.search({
+			index: index,
+			body: body
+		});
 	},
 
 	get: function(conditions, options) {
@@ -11,18 +21,27 @@ module.exports = {
 		if (typeof(options) === "string")
 			options = { populate: options };
 
-		var query = this.connection();
-		if (conditions)
-			query = query.where(conditions);
-		if (options.sort) {
-			var sort = _buildOrderByFromSort(options.sort);
-			query = query.orderBy(sort.column, sort.direction);
+		var matches = [];
+		for (var name in conditions) {
+			var match = {};
+			match[name] = conditions[name];
+			matches.push({ match: match });
 		}
-		if (options.limit)
-			query = query.limit(options.limit);
+
+		var params = { index: this.index, q: "" };
+		if (options.sort)
+			params.sort = _buildSort(options.sort);
 		if (options.skip)
-			query = query.offset(options.skip);
-		return query;
+			params.from = options.skip;
+		if (options.limit)
+			params.size = options.limit;
+
+		function _buildSort(sort) {
+			var sorts = [];
+			for (var name in sort)
+				sorts.push(name + ":" + sort[name] == 1 ? "ascending" : "descending");
+			return sorts;
+		}
 	},
 
 	one: function(conditions) {
@@ -35,14 +54,14 @@ module.exports = {
 		return this.connection().where({ id: model.id }).update(model);
 	},
 
-	create: function(object) {
-		if (!object["created_at"])
-			object["created_at"] = new Date();
-		if (!object["updated_at"])
-			object["updated_at"] = new Date();
-		return this.connection(this.table).returning("id").insert(object).then(function(ids) {
-			return ids[0];
-		});
+	create: function(project, object) {
+		return this.client.create({
+			index: project.formattedName,
+			type: this.type,
+			body: object
+		}).then(function() {
+			return object;
+		})
 	},
 
 	details: function(id, populate) {
@@ -57,8 +76,12 @@ module.exports = {
 		});
 	},
 
-	removeAll: function() {
-		return this.connection().del();
+	removeAll: function(project) {
+		return this.client.deleteByQuery({
+			index: project.formattedName,
+			type: this.type,
+			q: "*"
+		});
 	},
 
 	restore: function(id) {

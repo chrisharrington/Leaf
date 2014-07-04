@@ -1,7 +1,7 @@
 var Promise = require("bluebird");
 
 var repository = Object.spawn(require("./baseRepository"), {
-	table: "notifications"
+	type: "notifications"
 });
 
 repository.user = function(user) {

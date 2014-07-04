@@ -1,5 +1,5 @@
 var repository = Object.spawn(require("./baseRepository"), {
-	table: "transitions"
+	type: "transitions"
 });
 
 repository.status = function(statusId) {

@@ -3,7 +3,7 @@ var config = require("../../config");
 var repositories = require("../repositories");
 
 var repository = Object.spawn(require("./baseRepository"), {
-	table: "issues"
+	type: "issues"
 });
 
 repository.search = function(projectId, filter, sortDirection, sortComparer, start, end) {

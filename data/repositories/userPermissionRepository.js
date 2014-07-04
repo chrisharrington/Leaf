@@ -1,7 +1,7 @@
 var Promise = require("bluebird");
 
 var repository = Object.spawn(require("./baseRepository"), {
-	table: "userpermissions"
+	type: "userpermissions"
 });
 
 repository.removeAllForUser = function (userId) {

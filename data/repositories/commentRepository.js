@@ -1,5 +1,5 @@
 var repository = Object.spawn(require("./baseRepository"), {
-	table: "comments"
+	type: "comments"
 });
 
 repository.issue = function(issueId) {
