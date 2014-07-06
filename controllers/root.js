@@ -23,13 +23,13 @@ module.exports = function(app) {
 	function _getAllUserData(request) {
 		return request.getProject().then(function(project) {
 			return Promise.all([
-				repositories.Permission.get(null, { sort: { name: 1 }}),
-				repositories.Priority.get({ projectId: project.id, isDeleted: false }, { sort: { order: 1 }}),
-				repositories.Status.get({ projectId: project.id, isDeleted: false }, { sort: { order: 1 }}),
-				repositories.User.get({ projectId: project.id }, { sort: { name: 1 }}),
-				repositories.Project.get(),
-				repositories.Milestone.get({ projectId: project.id, isDeleted: false }, { sort: { order: 1 }}),
-				repositories.IssueType.get(),
+				repositories.Permission.get(project, null, { sort: { name: 1 }}),
+				repositories.Priority.get(project, { projectId: project.id, isDeleted: false }, { sort: { order: 1 }}),
+				repositories.Status.get(project, { projectId: project.id, isDeleted: false }, { sort: { order: 1 }}),
+				repositories.User.get(project, { projectId: project.id }, { sort: { name: 1 }}),
+				repositories.Project.get(project),
+				repositories.Milestone.get(project, { projectId: project.id, isDeleted: false }, { sort: { order: 1 }}),
+				repositories.IssueType.get(project),
 				_getSignedInUser(request),
 				project
 			]);

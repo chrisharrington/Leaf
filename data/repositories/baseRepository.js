@@ -8,15 +8,7 @@ module.exports = {
 		host: config.call(this, "databaseLocation")
 	}),
 
-	query: function(body, index) {
-		index = index || this.index;
-		return client.search({
-			index: index,
-			body: body
-		});
-	},
-
-	get: function(conditions, options) {
+	get: function(project, conditions, options) {
 		options = options || {};
 		if (typeof(options) === "string")
 			options = { populate: options };
@@ -28,13 +20,15 @@ module.exports = {
 			matches.push({ match: match });
 		}
 
-		var params = { index: this.index, q: "" };
+		var params = { index: project.id, type: this.type, q: _buildQueryFrom(conditions) };
 		if (options.sort)
 			params.sort = _buildSort(options.sort);
 		if (options.skip)
 			params.from = options.skip;
 		if (options.limit)
 			params.size = options.limit;
+
+		return this.client.search(params);
 
 		function _buildSort(sort) {
 			var sorts = [];
@@ -45,13 +39,20 @@ module.exports = {
 	},
 
 	one: function(conditions) {
-		return this.connection().where(conditions).limit(1).then(function(result) {
+		return this.get(conditions, { size: 1 }).then(function(result) {
 			return result[0];
 		});
 	},
 
 	update: function(model) {
-		return this.connection().where({ id: model.id }).update(model);
+		return this.client.update({
+			index: model.formattedProject,
+			type: this.type,
+			id: model.id,
+			body: {
+				doc: model
+			}
+		});
 	},
 
 	create: function(project, object) {
@@ -64,8 +65,12 @@ module.exports = {
 		})
 	},
 
-	details: function(id, populate) {
-		return this.one({ id: id }, populate);
+	details: function(project, id) {
+		return this.client.get({
+			index: project.id,
+			type: this.type,
+			id: id
+		});
 	},
 
 	remove: function(id) {
@@ -92,10 +97,21 @@ module.exports = {
 		});
 	},
 
-	count: function(conditions) {
-		return this.connection().where(conditions).count("*");
+	count: function(project, conditions) {
+		return this.count({
+			index: project.id,
+			type: this.type,
+			q: _buildQueryFrom(conditions)
+		});
 	}
 };
+
+function _buildQueryFrom(conditions) {
+	var query = "";
+	for (var name in conditions)
+		query += name + ":" + conditions[name] + " AND ";
+	return query.substring(0, query.substring.length - 5);
+}
 
 function _buildOrderByFromSort(sort) {
 	var column, direction;
