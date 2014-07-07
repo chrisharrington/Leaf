@@ -9,7 +9,6 @@ var mapper = require("./data/mapping/mapper");
 var bundler = require("./bundling/bundler");
 var caches = require("./data/caches");
 var controllers = require("./controllers/controllers");
-var connection = require("./data/connection");
 var versiony = require("versiony");
 
 var Promise = require("bluebird");
@@ -19,12 +18,10 @@ var MAX_AGE = 2592000000;
 module.exports = function() {
 	var app = express.call(this);
 	_configureApplication(app);
-	return connection.open().then(function () {
-		return Promise.all([
-			controllers.init(app),
-			mapper.init()
-		]);
-	}).then(function () {
+	return Promise.all([
+		controllers.init(app),
+		mapper.init()
+	]).then(function () {
 		versiony.from("package.json").patch().to("package.json");
 		app.listen(config.call(this, "serverPort"));
 		console.log("Server listening on port " + config.call(this, "serverPort") + " in " + app.get("env") + " mode.");

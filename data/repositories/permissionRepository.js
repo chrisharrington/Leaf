@@ -1,3 +1,4 @@
 module.exports = Object.spawn(require("./baseRepository"), {
-	type: "permissions"
+	type: "permissions",
+	index: "all"
 });

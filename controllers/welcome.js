@@ -22,7 +22,7 @@ module.exports = function(app) {
 			if (!project)
 				response.send(404);
 			else
-				return repositories.User.one({ emailAddress: email, projectId: project.id }).then(_setPermissions).then(function(user) {
+				return repositories.User.one({ emailAddress: email, projectId: project.id }, project).then(function(user) { return _setPermissions(user, project); }).then(function(user) {
 					if (!user)
 						return response.send(401);
 					if (crypto.createHash(config("hashAlgorithm")).update(user.salt + password).digest("hex") === user.password)
@@ -47,17 +47,17 @@ module.exports = function(app) {
 				mapper.map("project", "project-view-model", project)
 			]).spread(function (mappedUser, mappedProject) {
 				delete user.permissions;
-				return repositories.User.update(user).then(function () {
+				return repositories.User.update(user, project).then(function () {
 					response.send({ user: mappedUser, project: mappedProject }, 200);
 				});
 			});
 		}
 
-		function _setPermissions(user) {
+		function _setPermissions(user, project) {
 			if (!user)
 				return;
 
-			return repositories.UserPermission.get({ userId: user.id }).then(function(permissions) {
+			return repositories.UserPermission.get({ userId: user.id }, project).then(function(permissions) {
 				user.permissions = permissions;
 				return user;
 			});

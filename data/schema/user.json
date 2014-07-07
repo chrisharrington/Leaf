@@ -1,0 +1,23 @@
+{
+	"type": "users",
+	"definition": {
+		"id": { "type": "integer" },
+		"updated": { "type": "date" },
+		"created": { "type": "date" },
+		"isDeleted": { "type": "boolean" },
+
+		"name": { "type": "string" },
+		"emailAddress": { "type": "emailAddress", "index": "not_analyzed" },
+		"phone": { "type": "string", "index": "not_analyized" },
+		"activationToken": { "type": "string", "index": "not_analyzed" },
+		"salt": { "type": "string", "index": "not_analyzed" },
+		"password": { "type": "string", "index": "not_analyzed" },
+		"session": { "type": "string", "index": "not_analyzed" },
+		"expiration": { "type": "date" },
+		"emailNotificationForIssueAssigned": { "type": "boolean" },
+		"emailNotificationForIssueDeleted": { "type": "boolean" },
+		"emailNotificationForIssueUpdated": { "type": "boolean" },
+		"emailNotificationForNewCommentForAssignedIssue": { "type": "boolean" },
+		"projectId": { "type": "integer" }
+	}
+}

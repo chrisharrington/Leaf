@@ -4,11 +4,15 @@ var config = require("../../config");
 var uuid = require("node-uuid");
 
 module.exports = {
+	getIndex: function(project) {
+		return this.index || project.id;
+	},
+
 	client: new elasticsearch.Client({
 		host: config.call(this, "databaseLocation")
 	}),
 
-	get: function(project, conditions, options) {
+	get: function(conditions, options, project) {
 		options = options || {};
 		if (typeof(options) === "string")
 			options = { populate: options };
@@ -16,48 +20,59 @@ module.exports = {
 		var matches = [];
 		for (var name in conditions) {
 			var match = {};
-			match[name] = conditions[name];
+			match[this.type + "." + name] = conditions[name];
 			matches.push({ match: match });
 		}
 
-		var params = { index: project.id, type: this.type, q: _buildQueryFrom(conditions) };
+		var params = { index: this.getIndex(project), type: this.type, body: _buildQueryFrom(conditions) };
 		if (options.sort)
-			params.sort = _buildSort(options.sort);
+			params.body.sort = _buildSort(options.sort);
 		if (options.skip)
-			params.from = options.skip;
+			params.body.from = options.skip;
 		if (options.limit)
-			params.size = options.limit;
+			params.body.size = options.limit;
 
-		return this.client.search(params);
+		return this.client.search(params).then(function(result) {
+			return result.hits.hits.map(function(current) {
+				return current._source;
+			});
+		});
 
 		function _buildSort(sort) {
 			var sorts = [];
-			for (var name in sort)
-				sorts.push(name + ":" + sort[name] == 1 ? "ascending" : "descending");
+			for (var name in sort) {
+				var result = {};
+				result[name] = sort[name] == 1 ? "asc" : "desc";
+				sorts.push(result);
+			}
 			return sorts;
 		}
 	},
 
-	one: function(conditions) {
-		return this.get(conditions, { size: 1 }).then(function(result) {
+	one: function(conditions, project) {
+		return this.get(conditions, { size: 1 }, project).then(function(result) {
 			return result[0];
 		});
 	},
 
-	update: function(model) {
+	all: function(project) {
+		return this.get(null, null, project);
+	},
+
+	update: function(object, project) {
 		return this.client.update({
-			index: model.formattedProject,
+			index: this.getIndex(project),
 			type: this.type,
-			id: model.id,
+			id: object.id,
 			body: {
-				doc: model
+				doc: object
 			}
 		});
 	},
 
-	create: function(project, object) {
+	create: function(object, project) {
 		return this.client.create({
-			index: project.formattedName,
+			index: this.getIndex(project),
 			type: this.type,
 			body: object
 		}).then(function() {
@@ -65,59 +80,65 @@ module.exports = {
 		})
 	},
 
-	details: function(project, id) {
+	details: function(id, project) {
 		return this.client.get({
-			index: project.id,
+			index: this.getIndex(project),
 			type: this.type,
 			id: id
 		});
 	},
 
-	remove: function(id) {
+	remove: function(id, project) {
 		var that = this;
-		return this.details(id).then(function(model) {
+		return this.details(id, project).then(function(model) {
 			model.isDeleted = true;
 			return that.update(model);
 		});
 	},
 
 	removeAll: function(project) {
+		var index = this.getIndex(project);
 		return this.client.deleteByQuery({
-			index: project.formattedName,
+			index: index,
 			type: this.type,
 			q: "*"
 		});
 	},
 
-	restore: function(id) {
+	restore: function(id, project) {
 		var that = this;
-		return this.details(id).then(function(model) {
+		return this.details(id, project).then(function(model) {
 			model.isDeleted = false;
 			return that.update(model);
 		});
 	},
 
-	count: function(project, conditions) {
+	count: function(conditions, project) {
 		return this.count({
-			index: project.id,
+			index: this.getIndex(project),
 			type: this.type,
-			q: _buildQueryFrom(conditions)
+			body: _buildQueryFrom(conditions)
 		});
 	}
 };
 
 function _buildQueryFrom(conditions) {
-	var query = "";
-	for (var name in conditions)
-		query += name + ":" + conditions[name] + " AND ";
-	return query.substring(0, query.substring.length - 5);
-}
-
-function _buildOrderByFromSort(sort) {
-	var column, direction;
-	for (var name in sort) {
-		column = name;
-		direction = sort[name] == -1 ? "desc" : "asc";
+	var musts = [];
+	for (var name in conditions) {
+		var must = {}, current = conditions[name];
+		if (current == true)
+			current = 1;
+		else if (current == false)
+			current = 0;
+		must[name] = current;
+		musts.push({ term: must });
 	}
-	return { column: column, direction: direction };
+
+	return {
+		query: {
+			bool: {
+				must: musts
+			}
+		}
+	};
 }

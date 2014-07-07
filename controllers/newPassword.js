@@ -20,19 +20,21 @@ module.exports = function(app) {
 	});
 
 	app.post("/new-password", function(request, response) {
-		return repositories.User.one({ emailAddress: request.body.email, newPasswordToken: request.body.token }).then(function(user) {
-			if (!user) {
-				response.send(401);
-				return;
-			}
+		return request.getProject().then(function(project) {
+			return repositories.User.one({ emailAddress: request.body.email, newPasswordToken: request.body.token }, project).then(function(user) {
+				if (!user) {
+					response.send(401);
+					return;
+				}
 
-			user.salt = csprng.call(this, 128, 36);
-			user.password = crypto.hash(user.salt + request.body.password);
-			user.newPasswordToken = null;
-			return repositories.User.update(user).then(function() {
-				response.send(200);
-			}).catch(function(e) {
-				response.send(e.stack.formatStack(), 500);
+				user.salt = csprng.call(this, 128, 36);
+				user.password = crypto.hash(user.salt + request.body.password);
+				user.newPasswordToken = null;
+				return repositories.User.update(user, project).then(function() {
+					response.send(200);
+				}).catch(function(e) {
+					response.send(e.stack.formatStack(), 500);
+				});
 			});
 		});
 	});

@@ -6,13 +6,14 @@ module.exports = function(request, response, next) {
 	if (!session)
 		response.send(401);
 	else
-		return repositories.User.get({ session: request.cookies.session }).then(function(users) {
+		return request.getProject().then(function(project) {
+			return repositories.User.get(project, { session: request.cookies.session });
+		}).then(function(users) {
 			request.user = users[0];
 			if (!request.user || (request.user.expiration != null && request.user.expiration < Date.now()))
 				response.send(401);
 			else {
 				response.cookie("session", request.user.session, { expires: request.user.expiration });
-				request.project = request.user.project;
 				next();
 			}
 		}).catch(function (e) {
