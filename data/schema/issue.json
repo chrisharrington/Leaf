@@ -1,0 +1,22 @@
+{
+	"type": "issues",
+	"definition": {
+		"id": { "type": "integer" },
+		"updated": { "type": "date" },
+		"opened": { "type": "date" },
+		"isDeleted": { "type": "boolean" },
+		"projectId": { "type": "integer" },
+
+		"number": { "type": "integer" },
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"closed": { "type": "date" },
+		"milestoneId": { "type": "integer" },
+		"priorityId": { "type": "integer" },
+		"priorityOrder": { "type": "integer" },
+		"statusId": { "type": "integer" },
+		"developerId": { "type": "integer" },
+		"testerId": { "type": "integer" },
+		"issueTypeId": { "type": "integer" }
+	}
+}

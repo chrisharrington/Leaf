@@ -32,7 +32,7 @@ module.exports = function(app) {
 
 		return request.getProject().then(function(project) {
 			return Promise.all([
-				repositories.Issue.search(project.id, {
+				repositories.Issue.search(project, {
 					priorities: _getIds(request.query.priorities),
 					statuses: _getIds(request.query.statuses),
 					developers: _getIds(request.query.developers),
@@ -40,7 +40,7 @@ module.exports = function(app) {
 					milestones: _getIds(request.query.milestones),
 					types: _getIds(request.query.types)
 				}, request.query.direction, request.query.comparer, start, end),
-				repositories.User.get({ projectId: project.id })
+				repositories.User.get({ projectId: project.id }, null, project)
 			]).spread(function(issues, users) {
 				var usersDictionary = {};
 				users.forEach(function(user) {

@@ -17,14 +17,7 @@ module.exports = {
 		if (typeof(options) === "string")
 			options = { populate: options };
 
-		var matches = [];
-		for (var name in conditions) {
-			var match = {};
-			match[this.type + "." + name] = conditions[name];
-			matches.push({ match: match });
-		}
-
-		var params = { index: this.getIndex(project), type: this.type, body: _buildQueryFrom(conditions) };
+		var params = { index: this.getIndex(project), type: this.type, body: _buildQueryFrom(conditions, this.type) };
 		if (options.sort)
 			params.body.sort = _buildSort(options.sort);
 		if (options.skip)
@@ -32,9 +25,12 @@ module.exports = {
 		if (options.limit)
 			params.body.size = options.limit;
 
+		var that = this;
 		return this.client.search(params).then(function(result) {
 			return result.hits.hits.map(function(current) {
-				return current._source;
+				var obj = current._source;
+				obj.identifier = current._id;
+				return obj;
 			});
 		});
 
@@ -63,7 +59,7 @@ module.exports = {
 		return this.client.update({
 			index: this.getIndex(project),
 			type: this.type,
-			id: object.id,
+			id: object.identifier,
 			body: {
 				doc: object
 			}
@@ -117,12 +113,12 @@ module.exports = {
 		return this.count({
 			index: this.getIndex(project),
 			type: this.type,
-			body: _buildQueryFrom(conditions)
+			body: _buildQueryFrom(conditions, this.type)
 		});
 	}
 };
 
-function _buildQueryFrom(conditions) {
+function _buildQueryFrom(conditions, type) {
 	var musts = [];
 	for (var name in conditions) {
 		var must = {}, current = conditions[name];
@@ -133,6 +129,9 @@ function _buildQueryFrom(conditions) {
 		must[name] = current;
 		musts.push({ term: must });
 	}
+
+	if (musts.length == 0)
+		musts.push({ term: { "_type": type }});
 
 	return {
 		query: {

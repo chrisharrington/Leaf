@@ -7,7 +7,7 @@ module.exports = function(request, response, next) {
 		response.send(401);
 	else
 		return request.getProject().then(function(project) {
-			return repositories.User.get(project, { session: request.cookies.session });
+			return repositories.User.get({ session: request.cookies.session }, null, project);
 		}).then(function(users) {
 			request.user = users[0];
 			if (!request.user || (request.user.expiration != null && request.user.expiration < Date.now()))

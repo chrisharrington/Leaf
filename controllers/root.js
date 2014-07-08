@@ -30,25 +30,25 @@ module.exports = function(app) {
 				repositories.Project.all(),
 				repositories.Milestone.get({ projectId: project.id, isDeleted: false }, { sort: { order: 1 }}, project),
 				repositories.IssueType.all(project),
-				_getSignedInUser(request),
+				_getSignedInUser(request, project),
 				project
 			]);
 		});
 	}
 
-	function _setPermissions(user) {
+	function _setPermissions(user, project) {
 		if (!user)
 			return;
 
-		return repositories.UserPermission.get({ userId: user.id }).then(function(permissions) {
+		return repositories.UserPermission.get({ userId: user.id }, null, project).then(function(permissions) {
 			user.permissions = permissions;
 			return user;
 		});
 	}
 
-	function _getSignedInUser(request) {
+	function _getSignedInUser(request, project) {
 		var session = request.cookies.session;
-		return session ? repositories.User.one({ session: session }).then(_setPermissions) : null;
+		return session ? repositories.User.one({ session: session }, project).then(function(user) { return _setPermissions(user, project) }) : null;
 	}
 
 	function _mapAllUserData(request, permissions, priorities, statuses, users, transitions, projects, milestones, issueTypes, user, currentProject) {

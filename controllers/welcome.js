@@ -57,7 +57,7 @@ module.exports = function(app) {
 			if (!user)
 				return;
 
-			return repositories.UserPermission.get({ userId: user.id }, project).then(function(permissions) {
+			return repositories.UserPermission.get({ userId: user.id }, null, project).then(function(permissions) {
 				user.permissions = permissions;
 				return user;
 			});
