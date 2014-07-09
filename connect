@@ -1,0 +1,5 @@
+#!/bin/bash
+ 
+ssh \
+-i ./leaf-key-pair.pem \
+ec2-user@ec2-54-200-254-103.us-west-2.compute.amazonaws.com
