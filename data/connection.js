@@ -9,9 +9,9 @@ exports.open = function() {
 		var connection = require("knex")({
 			client: "pg",
 			connection: {
-				host: "leaf-db-identifier.coeeyohtv3yy.us-west-2.rds.amazonaws.com",
-				user: "LeafApp",
-				password: "boogity1!",
+				host: config.call(this, "databaseLocation"),
+				user: config.call(this, "databaseUser"),
+				password: config.call(this, "databasePassword"),
 				database: "leaf"
 			}
 		});

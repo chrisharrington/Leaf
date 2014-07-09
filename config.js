@@ -5,8 +5,8 @@ var _config;
 
 module.exports = function(key) {
 	var config = {
-		"databaseUser": "IssueTrackerApp",
-		"databaseLocation": "ds048487.mongolab.com:48487/leaf-experimental",
+		"databaseUser": "LeafMasterUser",
+		"databaseLocation": "leaf-db-identifier.coeeyohtv3yy.us-west-2.rds.amazonaws.com",
 		"hashAlgorithm": "sha512",
 		"dateFormat": "YYYY-MM-DD",
 		"dateTimeFormat": "YYYY-MM-DD HH:mm:ss",

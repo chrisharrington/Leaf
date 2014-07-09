@@ -5,6 +5,7 @@ require("../inheritance");
 
 var Promise = require("bluebird");
 var repositories = require("./repositories");
+var testIssueCount = 10;
 
 require("./connection").open().then(function(connection) {
 	return require("./tableBuilder")(connection).then(function() {
@@ -20,7 +21,10 @@ require("./connection").open().then(function(connection) {
 				_insertDefaultIssueTypes(projectId)
 			]);
 		}).spread(function (userIds, permissionIds) {
-			return _createUserPermissions(userIds, permissionIds);
+			return Promise.all([
+				_insertUserPermissions(userIds, permissionIds),
+				_insertTestIssues(projectId)
+			]);
 		}).then(function () {
 			console.log("Done.");
 			process.exit(0);
@@ -30,7 +34,28 @@ require("./connection").open().then(function(connection) {
 	console.log(e.stack);
 });
 
-function _createUserPermissions(userIds, permissionIds) {
+function _insertTestIssues(projectId) {
+	for (var i = 0; i < testIssueCount; i++)
+
+}
+
+function _buildIssue(projectId, index) {
+	return {
+		id: index+1,
+		number: index+1,
+		name: "test issue name",
+		description: "test issue description",
+		isDeleted: false,
+		closed: null,
+		priorityId: 1
+	}
+}
+
+function _random(max) {
+	return Math.random()
+}
+
+function _insertUserPermissions(userIds, permissionIds) {
 	var inserts = [];
 	userIds.forEach(function(userId) {
 		permissionIds.forEach(function(permissionId) {
