@@ -1,1 +1,1 @@
-psql -h leaf-db-identifier.coeeyohtv3yy.us-west-2.rds.amazonaws.com -d leaf -U LeafApp
+psql -h leaf-db-identifier.coeeyohtv3yy.us-west-2.rds.amazonaws.com -d leaf -U LeafMasterUser

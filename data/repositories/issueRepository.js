@@ -8,33 +8,32 @@ var repository = Object.spawn(require("./baseRepository"), {
 
 repository.search = function(projectId, filter, sortDirection, sortComparer, start, end) {
 	var query = this.connection()
-		.select("issues.id", "issues.name", "issues.description", "issues.priorityId", "issues.developerId", "developers.name as developer", "issues.testerId")
-		.join("priorities", "issues.priorityId", "priorities.id")
-		.join("statuses", "issues.statusId", "statuses.id")
-		.join("milestones", "issues.milestoneId", "milestones.id")
-		.join("issuetypes", "issues.issueTypeId", "issuetypes.id")
+		.select("issues.id", "issues.number", "issues.name", "issues.description", "issues.priorityId", "issues.developerId", "developers.name as developer", "issues.testerId")
+//		.join("priorities", "issues.priorityId", "priorities.id")
+//		.join("statuses", "issues.statusId", "statuses.id")
+//		.join("milestones", "issues.milestoneId", "milestones.id")
+//		.join("issuetypes", "issues.issueTypeId", "issuetypes.id")
 		.join("users as developers", "issues.developerId", "developers.id")
-		.join("users as testers", "issues.testerId", "testers.id")
+//		.join("users as testers", "issues.testerId", "testers.id")
 		.where({ "issues.projectId": projectId, "issues.isDeleted": false });
 
-	if (filter.milestones.length > 0)
-		query = query.whereIn("issues.milestoneId", filter.milestones);
-	if (filter.priorities.length > 0)
-		query = query.whereIn("issues.priorityId", filter.priorities);
-	if (filter.statuses.length > 0)
-		query = query.whereIn("issues.statusId", filter.statuses);
-	if (filter.types.length > 0)
-		query = query.whereIn("issues.issueTypeId", filter.types);
-	if (filter.developers.length > 0)
-		query = query.whereIn("issues.developerId", filter.developers);
-	if (filter.testers.length > 0)
-		query = query.whereIn("issues.testerId", filter.testers);
+//	if (filter.milestones.length > 0)
+//		query = query.whereIn("issues.milestoneId", filter.milestones);
+//	if (filter.priorities.length > 0)
+//		query = query.whereIn("issues.priorityId", filter.priorities);
+//	if (filter.statuses.length > 0)
+//		query = query.whereIn("issues.statusId", filter.statuses);
+//	if (filter.types.length > 0)
+//		query = query.whereIn("issues.issueTypeId", filter.types);
+//	if (filter.developers.length > 0)
+//		query = query.whereIn("issues.developerId", filter.developers);
+//	if (filter.testers.length > 0)
+//		query = query.whereIn("issues.testerId", filter.testers);
 
 	query = query
 		.offset(start - 1)
-		.limit(end - start + 1)
-		.orderByRaw("priorities.order, issues.id");
-	console.log(query.toSQL().sql);
+		.limit(end - start + 1);
+	console.log(query.toString());
 	return query;
 
 	function _buildSort(direction, comparer) {

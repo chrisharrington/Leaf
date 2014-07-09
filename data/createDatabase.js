@@ -5,7 +5,7 @@ require("../inheritance");
 
 var Promise = require("bluebird");
 var repositories = require("./repositories");
-var testIssueCount = 10;
+var testIssueCount = 100000;
 
 require("./connection").open().then(function(connection) {
 	return require("./tableBuilder")(connection).then(function() {
@@ -19,12 +19,12 @@ require("./connection").open().then(function(connection) {
 				_insertDefaultPriorities(projectId),
 				_insertDefaultStatuses(projectId),
 				_insertDefaultIssueTypes(projectId)
-			]);
-		}).spread(function (userIds, permissionIds) {
-			return Promise.all([
-				_insertUserPermissions(userIds, permissionIds),
-				_insertTestIssues(projectId)
-			]);
+			]).spread(function (userIds, permissionIds) {
+				return Promise.all([
+					_insertUserPermissions(userIds, permissionIds),
+					_insertTestIssues(projectId)
+				]);
+			});
 		}).then(function () {
 			console.log("Done.");
 			process.exit(0);
@@ -35,24 +35,40 @@ require("./connection").open().then(function(connection) {
 });
 
 function _insertTestIssues(projectId) {
-	for (var i = 0; i < testIssueCount; i++)
-
+	var promises = [];
+	for (var i = 0; i < testIssueCount; i++) {
+		(function(index) {
+			promises.push(repositories.Issue.create(_buildIssue(index, projectId)).then(function() {
+				if (index%500 == 0)
+					console.log("Inserted " + index);
+			}));
+		})(i);
+	}
+	return Promise.all(promises);
 }
 
-function _buildIssue(projectId, index) {
+function _buildIssue(index, projectId) {
 	return {
-		id: index+1,
-		number: index+1,
+		id: index + 1,
+		number: index + 1,
 		name: "test issue name",
 		description: "test issue description",
 		isDeleted: false,
-		closed: null,
-		priorityId: 1
-	}
+		created_at: new Date(),
+		updated_at: new Date(),
+		closed: _random(3) % 2 == 0 ? new Date() : null,
+		priorityId: _random(4),
+		statusId: _random(6),
+		milestoneId: _random(3),
+		issueTypeId: _random(3),
+		developerId: 1,
+		testerId: 1,
+		projectId: projectId
+	};
 }
 
 function _random(max) {
-	return Math.random()
+	return Math.floor((Math.random() * 100))%max+1;
 }
 
 function _insertUserPermissions(userIds, permissionIds) {

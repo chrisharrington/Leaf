@@ -8,6 +8,7 @@ exports.build = function(connection) {
 		table.string("name").notNullable();
 		table.text("description").notNullable();
 		table.date("closed");
+		table.integer("number");
 
 		table.integer("priorityId").notNullable().references("priorities.id");
 		table.integer("developerId").notNullable().references("users.id");
