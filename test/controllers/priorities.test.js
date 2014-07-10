@@ -342,6 +342,7 @@ describe("priorities", function() {
 			_stubs = {};
 			_stubs.map = params.map || sinon.stub(mapper, "mapAll").resolves(params.mapped || []);
 			_stubs.save = sinon.stub(repositories.Priority, "save").resolves();
+			_stubs.updateIssues = sinon.stub(repositories.Priority, "updateIssues").resolves();
 
 			return base.testRoute({
 				sut: sut,

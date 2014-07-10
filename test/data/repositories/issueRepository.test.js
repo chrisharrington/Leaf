@@ -6,6 +6,8 @@ var assert = require("assert"),
 	repositories = require("../../../data/repositories"),
 	base = require("../../base");
 
+var priorityCache = require("../../../data/caches/priorityCache");
+
 var sut = require("../../../data/repositories/issueRepository");
 
 describe("issueRepository", function() {
@@ -16,9 +18,7 @@ describe("issueRepository", function() {
 	});
 
 	describe("search", function() {
-		beforeEach(function() {
-			sinon.stub(sut, "get").resolves();
-		});
+		var _stubs;
 
 		it("should call get with given project id", function() {
 			var projectId = "the project id";
@@ -84,7 +84,8 @@ describe("issueRepository", function() {
 				assert(sut.get.calledWith(sinon.match.any, {
 					sort: { priorityOrder: -1, number: 1 },
 					skip: sinon.match.any,
-					limit: sinon.match.any
+					limit: sinon.match.any,
+					projection: sinon.match.any
 				}));
 			});
 		});
@@ -96,7 +97,8 @@ describe("issueRepository", function() {
 				assert(sut.get.calledWith(sinon.match.any, {
 					sort: { statusOrder: -1, number: 1 },
 					skip: sinon.match.any,
-					limit: sinon.match.any
+					limit: sinon.match.any,
+					projection: sinon.match.any
 				}));
 			});
 		});
@@ -109,7 +111,8 @@ describe("issueRepository", function() {
 				assert(sut.get.calledWith(sinon.match.any, {
 					sort: { "the comparer": -1, number: 1 },
 					skip: sinon.match.any,
-					limit: sinon.match.any
+					limit: sinon.match.any,
+					projection: sinon.match.any
 				}));
 			});
 		});
@@ -122,7 +125,8 @@ describe("issueRepository", function() {
 				assert(sut.get.calledWith(sinon.match.any, {
 					sort: { "the comparer": 1, number: 1 },
 					skip: sinon.match.any,
-					limit: sinon.match.any
+					limit: sinon.match.any,
+					projection: sinon.match.any
 				}));
 			});
 		});
@@ -195,12 +199,30 @@ describe("issueRepository", function() {
 			});
 		});
 
+		it("should set issue.priority from retrieved priorities", function() {
+			return _run({
+				issues: [{ id: 1, priorityId: 10, name: "the name" }],
+				cachedPriorities: [{ id: 10, name: "the priority name" }, { id: 11, name: "some other name" }]
+			}).then(function(issues) {
+				assert.equal(issues[0].priority, "the priority name");
+			});
+		});
+
 		afterEach(function() {
 			sut.get.restore();
+
+			for (var name in _stubs)
+				if (_stubs[name].restore)
+					_stubs[name].restore();
 		});
 
 		function _run(params) {
 			params = params || {};
+
+			_stubs = {};
+			_stubs.issues = sinon.stub(sut, "get").resolves(params.issues || []);
+			_stubs.priorities = sinon.stub(priorityCache, "all").resolves(params.cachedPriorities || []);
+
 			return sut.search(params.projectId || "the project id",
 				params.filter || {
 					priorities: params.priorities || ["the priority id"],
@@ -219,9 +241,7 @@ describe("issueRepository", function() {
 	});
 
 	describe("number", function() {
-		beforeEach(function() {
-			sinon.stub(sut, "one").resolves();
-		});
+		var _stubs;
 
 		it("should call one with given number", function() {
 			var number = 123;
@@ -236,6 +256,24 @@ describe("issueRepository", function() {
 				assert(sut.one.calledWith({ project: projectId, number: sinon.match.any }));
 			});
 		});
+
+		it("should set the milestone from cached milestones", function() {
+				
+		});
+
+		function _run(params) {
+			params = params || {};
+
+			_stubs = {};
+			_stubs.number = sinon.stub(sut, "one").resolves(params.issue || {});
+			_stubs.milestones = sinon.stub(caches.Milestone, "dict").resolves(params.milestones || { 1: { name: "the milestone" }});
+			_stubs.statuses = sinon.stub(caches.Status, "dict").resolves(params.statuses || { 1: { name: "the status" }});
+			_stubs.priorities = sinon.stub(caches.Priority, "dict").resolves(params.priorities || { 1: { name: "the priority" }});
+			_stubs.issueTypes = sinon.stub(caches.IssueType, "dict").resolves(params.issueTypes || { 1: { name: "the issue type" }});
+			_stubs.users = sinon.stub(caches.User, "dict").resolves(params.users || { 1: { name: "the user" }});
+
+			return sut.number(params.projectId, params.number);
+		}
 
 		afterEach(function() {
 			sut.one.restore();

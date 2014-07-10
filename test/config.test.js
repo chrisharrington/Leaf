@@ -11,11 +11,11 @@ describe("config", function() {
 		});
 
 		it("should return 'IssueTrackerApp' with 'databaseUser'", function() {
-			assert.equal(sut("databaseUser"), "IssueTrackerApp");
+			assert.equal(sut("databaseUser"), "leaf-app");
 		});
 
-		it("should return 'ds048487.mongolab.com:48487/leaf-experimental' with 'databaseLocation'", function() {
-			assert.equal(sut("databaseLocation"), "ds048487.mongolab.com:48487/leaf-experimental");
+		it("should return '54.200.254.103:27017/leaf' with 'databaseLocation'", function() {
+			assert.equal(sut("databaseLocation"), "54.200.254.103:27017/leaf");
 		});
 
 		it("should return 'sha512' with 'hashAlgorithm'", function() {

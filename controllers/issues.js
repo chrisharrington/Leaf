@@ -53,12 +53,10 @@ module.exports = function(app) {
 
 	app.get("/issues/details", authenticate, function(request, response) {
 		var html, issue;
-		var date = Date.now();
 		return Promise.all([
 			fs.readFileAsync("public/views/issueDetails.html"),
 			repositories.Issue.number(request.query.projectId, parseInt(request.query.number))
 		]).spread(function(html, issue) {
-			date = Date.now();
 			if (!issue) {
 				response.send(404);
 				return;

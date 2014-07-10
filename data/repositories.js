@@ -1,7 +1,7 @@
 var Promise = require("bluebird");
 
 var directory = "./repositories/";
-module.exports = {
+var repositories = {
 	Priority: require(directory + "priorityRepository"),
 	Status: require(directory + "statusRepository"),
 	IssueType: require(directory + "issueTypeRepository"),
@@ -19,3 +19,5 @@ module.exports = {
 	Permission: require(directory + "permissionRepository"),
 	UserPermission: require(directory + "userPermissionRepository")
 };
+
+module.exports = repositories;
