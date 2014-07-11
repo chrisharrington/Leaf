@@ -3,7 +3,7 @@ var assert = require("assert"),
 	Promise = require("bluebird");
 require("../setup");
 
-var sut = require("../../data/caches");
+var sut = require("../../data/newCaches");
 
 describe("caches", function() {
 	describe("init", function() {

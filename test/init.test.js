@@ -4,7 +4,7 @@ var assert = require("assert"),
 require("./setup");
 
 var connection = require("../data/connection");
-var caches = require("../data/caches");
+var caches = require("../data/newCaches");
 var mapper = require("../data/mapping/mapper");
 var controllers = require("../controllers/controllers");
 var express = require("express");

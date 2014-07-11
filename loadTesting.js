@@ -5,7 +5,7 @@ require("./inheritance");
 var config = require("./config");
 var mapper = require("./data/mapping/mapper");
 var bundler = require("./bundling/bundler");
-var caches = require("./data/caches");
+var caches = require("./data/newCaches");
 var controllers = require("./controllers/controllers");
 var connection = require("./data/connection");
 var repositories = require("./data/repositories");

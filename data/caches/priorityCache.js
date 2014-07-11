@@ -1,6 +1,6 @@
 var repositories = require("../repositories");
 
 module.exports = Object.spawn(require("./baseCache"), {
-	repository: require("../repositories/priorityRepository"),
+	repository: repositories.Priority,
 	sort: { order: -1 }
 });

@@ -6,7 +6,7 @@ var mustache = require("mustache");
 var models = require("../data/models");
 var mapper = require("../data/mapping/mapper");
 var repositories = require("../data/repositories");
-var caches = require("../data/caches");
+var caches = require("../data/newCaches");
 var bundler = require("../bundling/bundler");
 var config = require("../config");
 

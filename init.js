@@ -7,7 +7,7 @@ var express = require("express");
 var config = require("./config");
 var mapper = require("./data/mapping/mapper");
 var bundler = require("./bundling/bundler");
-var caches = require("./data/caches");
+var caches = require("./data/newCaches");
 var controllers = require("./controllers/controllers");
 var connection = require("./data/connection");
 var versiony = require("versiony");
@@ -30,7 +30,8 @@ module.exports = function() {
 		app.listen(config.call(this, "serverPort"));
 		console.log("Server listening on port " + config.call(this, "serverPort") + " in " + app.get("env") + " mode.");
 	}).catch(function (e) {
-		console.log("Server failed to start: " + e);
+		console.log("Server failed to start.");
+		console.log(e.stack);
 	});
 };
 

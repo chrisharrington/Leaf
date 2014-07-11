@@ -5,7 +5,7 @@ var repositories = require("../../data/repositories");
 var mapper = require("../../data/mapping/mapper");
 var scriptBundler = require("../../bundling/scriptBundler");
 var mustache = require("mustache");
-var caches = require("../../data/caches");
+var caches = require("../../data/newCaches");
 var config = require("../../config");
 
 var fs = Promise.promisifyAll(require("fs"));

@@ -10,7 +10,7 @@ var notificationEmailer = require("../../email/notificationEmailer");
 var formidable = require("formidable");
 var moment = require("moment");
 var config = require("../../config");
-var caches = require("../../data/caches");
+var caches = require("../../data/newCaches");
 
 var sut = require("../../controllers/issues");
 
