@@ -4,9 +4,12 @@ Array.prototype.toDictionary = function(key) {
 
 	var dictionary = {};
 	this.forEach(function(item) {
-		if (!dictionary[key(item)])
-			dictionary[key(item)] = [];
-		dictionary[key(item)].push(item);
+		var currentKey = key(item);
+		if (!currentKey)
+			return true;
+		if (!dictionary[currentKey])
+			dictionary[currentKey] = [];
+		dictionary[currentKey].push(item);
 	});
 	return dictionary;
 };
@@ -17,9 +20,10 @@ Array.prototype.toUniqueDictionary = function(key) {
 
 	var dictionary = {};
 	this.forEach(function(item) {
-		if (!dictionary[key(item)])
-			dictionary[key(item)] = [];
-		dictionary[key(item)] = item;
+		var currentKey = key(item);
+		if (!currentKey)
+			return true;
+		dictionary[currentKey] = item;
 	});
 	return dictionary;
 };

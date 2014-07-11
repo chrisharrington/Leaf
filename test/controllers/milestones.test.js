@@ -255,7 +255,6 @@ describe("milestones", function() {
 			_stubs.saveMilestone = sinon.stub(repositories.Milestone, "save").resolves();
 			_stubs.objectId = sinon.stub(mongoose.Types, "ObjectId").returns(params.objectId || "");
 			_stubs.createMilestone = sinon.stub(repositories.Milestone, "create").resolves();
-			_stubs.updateIssues = sinon.stub(repositories.Milestone, "updateIssues").resolves();
 
 			return base.testRoute({
 				sut: sut,

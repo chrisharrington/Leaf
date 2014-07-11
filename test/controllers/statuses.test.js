@@ -255,7 +255,6 @@ describe("statuses", function() {
 			_stubs.saveStatus = sinon.stub(repositories.Status, "save").resolves();
 			_stubs.objectId = sinon.stub(mongoose.Types, "ObjectId").returns(params.objectId || "");
 			_stubs.createStatus = sinon.stub(repositories.Status, "create").resolves();
-			_stubs.updateIssues = sinon.stub(repositories.Status, "updateIssues").resolves();
 
 			return base.testRoute({
 				sut: sut,
