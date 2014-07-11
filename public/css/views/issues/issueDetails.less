@@ -33,9 +33,12 @@
 
 	@comments-height:100px;
 	div.content { float:left; width:100%; margin-top:@spacing; .border-box;
-		@detailed-info-width:350px;
-		>div.issue-properties { float:left; width:@detailed-info-width; margin-left:@detailed-info-width*-1; position:relative; }
-		>div.comments { float:left; width:100%; padding-right:@detailed-info-width+@spacing; position:relative; .border-box;
+		@sidebar-width:350px;
+		>div.sidebar { float:left; width:@sidebar-width; margin-left:@sidebar-width*-1; position:relative;
+			>div.issue-properties { float:left; width:100%; }
+			>div.attached-files { float:left; width:100%; margin-top:@spacing; }
+		}
+		>div.comments { float:left; width:100%; padding-right:@sidebar-width+@spacing; position:relative; .border-box;
 			>div { float:left; width:100%; .shadow;
 				>div { float:left; width:100%; border-top:solid 1px @border-colour;
 					>div { float:left; width:100%; .tile; padding:0; box-shadow:none;

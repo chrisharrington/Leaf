@@ -227,9 +227,9 @@ module.exports = function(app) {
 						if (user.emailNotificationForIssueAssigned)
 							return notificationEmailer.issueAssigned(user, issue);
 					});
+			}).then(function () {
+				response.send(issue._id, 200);
 			});
-		}).then(function () {
-			response.send(200);
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);
 		});

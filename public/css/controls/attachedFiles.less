@@ -1,0 +1,18 @@
+div.attached-files { .border-box; .shadow; .tile; padding:0;
+	>a { float:left; width:100%; height:100%; .tile; box-shadow:none; border-top:solid 1px @border-colour; padding:0;
+		>* { .vertical-centre(46px); .border-box; }
+		>span.name { float:left; font-weight:bold; padding-left:@spacing; }
+		>span.size { float:right; margin-left:@small-spacing; font-size:0.75em; color:@primary-font-colour-light; }
+		>i { float:right; cursor:pointer; padding:0 @spacing; color:@primary-font-colour-light; font-size:1.5em; }
+		>i:hover { color:@primary-font-colour-dark; }
+	}
+	>div:first-child { border-top:none; }
+}
+
+div.attached-files.existing {
+	>a { cursor:pointer;
+		span.size { margin-right:@spacing; }
+		i { display:none; }
+	}
+	>a:hover { .hover; }
+}

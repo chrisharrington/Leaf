@@ -9,40 +9,18 @@
 		}
 	}
 
-	@issue-properties-width:350px;
-	div.text-container { float:left; position:relative; width:100%; padding-right:@issue-properties-width+@spacing; position:relative; .border-box;
+	@sidebar-width:350px;
+	div.text-container { float:left; position:relative; width:100%; padding-right:@sidebar-width+@spacing; .border-box;
 		input.tile { float:left; width:100%; font-weight:bold; padding:@spacing !important; border:none !important; margin-top:@spacing; }
 		textarea.tile { float:left; width:100%; height:200px; padding:@spacing !important; border:none !important; margin-top:@spacing; }
 	}
 
-	div.issue-properties { float:left; position:relative; margin-top:@spacing; width:@issue-properties-width; margin-left:@issue-properties-width*-1; }
-
-	div.attached-files { float:left; display:none; width:50%; margin-top:@spacing; height:520+@spacing; padding:@small-spacing 0;
-		>h2 { float:left; padding:0 @spacing; }
-		>span { float:left; width:100%; margin-top:@small-spacing; color:@primary-font-colour; padding:0 @spacing; .border-box; margin-bottom:@spacing; }
-		>button { float:right; margin-right:@spacing; }
-		>input[type='file'] { display:none; }
-		>div { float:left; width:100%;
-			@attached-file-height:36px;
-			>div { float:left; width:100%; height:@attached-file-height; .border-box; border-bottom:solid 1px @border-colour;
-				>div.file-container { float:left; width:100%; position:relative; z-index:10;
-					@status-width:100px;
-					>* { display:inline-block; vertical-align:middle; line-height:@attached-file-height; height:100%; }
-					>div.info { position:relative; float:left; width:100%; padding-right:@status-width; .border-box; .ellipsis;
-						>span.name { float:left; color:@secondary-font-colour; font-weight:bold; padding-left:@spacing; }
-						>span.size { float:left; font-size:0.75em; color:@primary-font-colour-light; margin-left:@spacing; }
-					}
-					>div.status { float:right; width:@status-width; margin-left:@status-width*-1; position:relative; height:@attached-file-height;
-						>i { float:right; font-size:1.125em; color:@primary-font-colour-lightest; cursor:pointer; padding:0 @spacing; line-height:@attached-file-height; height:100%; vertical-align:middle; }
-						>i:hover { color:black; }
-						>img { float:right; width:20px; height:20px; margin-top:7px; }
-					}
-				}
-				>div.file-progress { float:left; height:((@attached-file-height)-2); position:relative; z-index:9; margin-top:@attached-file-height*-1; background:@hover-colour; }
-			}
-			>div:first-child { border-top:solid 1px @border-colour; }
-		}
+	div.sidebar { float:left; width:@sidebar-width; position:relative; margin-top:@spacing; margin-left:@sidebar-width*-1;
+		>div.issue-properties { float:left; width:100%; }
+		>div.attached-files { float:left; width:100%; margin-top:@spacing;  }
 	}
+
+	input[type='file'] { display:none; }
 }
 
 div.issue-created-dialog { width:700px;

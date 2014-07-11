@@ -21,8 +21,9 @@
 		tester: ko.observable()
 	};
 
-	root.init = function () {
+	root.init = function (container) {
 		root.IssueProperties = new IssueTracker.IssueProperties();
+		root.Upload.init(container);
 	};
 
 	root.load = function() {
@@ -31,7 +32,7 @@
 
 		_setDefaultValues();
 
-		root.Upload.load(root.createModel.id());
+		root.Upload.reset();
 		root.IssueProperties.issue = root.createModel;
 	};
 
@@ -69,7 +70,9 @@
 
 	function _submit() {
 		root.loading(true);
-		$.when(root.Upload.upload(), _send()).then(function() {
+		_send().then(function(issueId) {
+			return root.Upload.upload(issueId);
+		}).done(function() {
 			IssueTracker.Feedback.success("Your issue has been created.");
 			IssueTracker.Issues.navigate();
 			IssueTracker.Notifications.refresh();

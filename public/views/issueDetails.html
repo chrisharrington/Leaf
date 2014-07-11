@@ -97,7 +97,10 @@
 		</div>
 	</div>
 
-	<div class="issue-properties" data-bind="template: { name: 'issue-properties-template', data: IssueProperties }"></div>
+	<div class="sidebar">
+		<div class="issue-properties" data-bind="template: { name: 'issue-properties-template', data: IssueProperties }"></div>
+		<div class="attached-files existing" data-bind="template: { name: 'attached-files-template', foreach: Files.files }">
+	</div>
 </div>
 
 <script type="text/html" id="confirm-delete">

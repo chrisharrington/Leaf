@@ -308,5 +308,13 @@
 				</div>
 			</div>
 		</script>
+
+		<script type="text/html" id="attached-files-template">
+			<a data-bind="attr: { href: IssueTracker.virtualDirectory + 'issues/download-attached-file/' + name + '?id=' + id() }">
+				<span class="name" data-bind="text: name"></span>
+				<i class="fa fa-times"></i>
+				<span class="size" data-bind="text: size"></span>
+			</a>
+		</script>
 	</body>
 </html>

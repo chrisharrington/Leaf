@@ -2,6 +2,9 @@
 
 	root.upload = function(files) {
 		var deferred = new $.Deferred();
+		if (files.length == 0)
+			deferred.resolve();
+
 		var pending = 0;
 		$(files).each(function() {
 			var current = this;

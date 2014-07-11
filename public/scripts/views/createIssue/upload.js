@@ -2,7 +2,6 @@
 (function (root) {
 
 	var _container;
-	var _issueId;
 
 	root.attachedFiles = ko.observableArray();
 	root.uploading = ko.observable(false);
@@ -14,13 +13,16 @@
 		_container.on("change", "input[type='file']", _attach);
 	};
 
-	root.load = function(issueId) {
+	root.reset = function() {
 		root.attachedFiles([]);
-		_issueId = issueId;
 	};
 
-	root.upload = function() {
-		_uploadAllFiles();
+	root.browse = function() {
+		_container.find("input[type='file']").click();
+	};
+
+	root.upload = function(issueId) {
+		return _uploadAllFiles(issueId);
 	};
 
 	root.remove = function(file) {
@@ -35,10 +37,10 @@
 		});
 	}
 
-	function _uploadAllFiles() {
+	function _uploadAllFiles(issueId) {
 		var files = [];
 		$(root.attachedFiles()).each(function(i, file) {
-			files.push(new UploaderFile(file.file, file.progress, IssueTracker.virtualDirectory + "issues/attach-file?issueId=" + _issueId));
+			files.push(new UploaderFile(file.file, file.progress, IssueTracker.virtualDirectory + "issues/attach-file?issueId=" + issueId));
 		});
 		return IssueTracker.Uploader.upload(files);
 	}

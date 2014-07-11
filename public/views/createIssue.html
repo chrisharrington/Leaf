@@ -18,6 +18,9 @@
     </div>
 
     <div class="buttons">
+		<button class="round" data-bind="click: Upload.browse, tooltip: 'Attach File'">
+			<i class="fa fa-paperclip"></i>
+		</button>
         <button class="round" id="save" data-bind="click: save, css: { loading: loading }, tooltip: 'Create Issue'">
             <i class="fa fa-check"></i>
         </button>
@@ -32,28 +35,9 @@
 	<textarea class="tile container" placeholder="Details..." data-bind="value: createModel.details"></textarea>
 </div>
 
-<div class="issue-properties" data-bind="template: { name: 'issue-properties-template', data: IssueProperties }"></div>
-
-<div class="attached-files tile container">
-    <h2>Attach Files</h2>
-    <button id="browse" class="round" data-bind="tooltip: 'Browse...'">
-		<i class="fa fa-search"></i>
-    </button>
-    <input type="file" multiple />
-    <span>Attach files by either selecting them using the browse button above or dragging and dropping them into this container.</span>
-    <div data-bind="foreach: Upload.attachedFiles">
-        <div>
-            <div class="file-container">
-                <div class="info">
-                    <span class="name ellipsis" data-bind="text: name"></span>
-                    <span class="size" data-bind="text: size"></span>
-                </div>
-                <div class="status">
-                    <i class="fa fa-times" data-bind="click: function() { $root.Upload.remove($data); }"></i>
-                    <img src="/images/ajax-loader.gif" data-bind="visible: $root.Upload.uploading" />
-                </div>
-            </div>
-            <div class="file-progress" data-bind="style: { width: progress() + '%' }"></div>
-        </div>
-    </div>
+<div class="sidebar">
+	<div class="issue-properties" data-bind="template: { name: 'issue-properties-template', data: IssueProperties }"></div>
+	<div class="attached-files" data-bind="template: { name: 'attached-files-template', foreach: Upload.attachedFiles }">
 </div>
+
+<input type="file" />
