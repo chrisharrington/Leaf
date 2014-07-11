@@ -1,8 +1,6 @@
 var Promise = require("bluebird");
 var config = require("../../config");
 var repositories = require("../repositories");
-var caches = require("../newCaches");
-var priorityCache = require("../caches/priorityCache");
 
 var repository = Object.spawn(require("./baseRepository"), {
 	model: require("../models").Issue
@@ -24,16 +22,6 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 			developerId: true,
 			testerId: true
 		}
-	}).then(function(issues) {
-		return Promise.all([
-			priorityCache.all()
-		]).spread(function(priorities) {
-			priorities = priorities.toUniqueDictionary();
-			return issues.map(function(issue) {
-				issue.priority = priorities[issue.priorityId].name;
-				return issue;
-			});
-		});
 	});
 
 	function _buildParameters(projectId, filter) {
@@ -68,23 +56,7 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 };
 
 repository.number = function(projectId, number) {
-	return this.one({ project: projectId, number: number }).then(function(issue) {
-		return Promise.all([
-			caches.Milestone.dict(),
-			caches.Priority.dict(),
-			caches.Status.dict(),
-			caches.IssueType.dict(),
-			caches.User.dict()
-		]).spread(function(milestones, priorities, statuses, issueTypes, users) {
-			issue.priority = priorities[issue.priorityId].name;
-			issue.milestone = milestones[issue.milestoneId].name;
-			issue.status = statuses[issue.statusId].name;
-			issue.type = issueTypes[issue.typeId].name;
-			issue.developer = users[issue.developerId].name;
-			issue.tester = users[issue.testerId].name;
-			return issue;
-		});
-	});
+	return this.one({ project: projectId, number: number });
 };
 
 repository.updateIssue = function(model, user) {

@@ -1,0 +1,23 @@
+div.issue-properties { .tile; padding:0;
+	>div { float:left; width:100%; .border-box; padding:0; border-top:solid 1px @border-colour;
+		@label-height:16px;
+		>div.label { float:left; width:100%; cursor:pointer; padding:@spacing; .border-box;
+			>* { .vertical-centre(@label-height); .border-box; }
+			>i.label { float:left; margin-right:@spacing; font-size:1.25em; width:22px; text-align:center; }
+			>span { float:left; color:@secondary-font-colour; font-weight:bold; }
+			>i.fa-angle-down { float:right; font-weight:bold; font-size:1.125em; }
+		}
+		>div.label:hover { .hover; }
+		>div.list { float:left; width:100%; overflow:hidden;
+			>div { float:left; width:100%; padding:@small-spacing @spacing; cursor:pointer; .border-box; border-top:solid 1px @border-colour;
+				>span { float:left; }
+				>i { float:right; display:none; }
+			}
+			>div.selected { .hover; color:@secondary-font-colour;
+				>i { display:inline-block; }
+			}
+			>div:hover { .hover; }
+		}
+	}
+	>div:first-child { border-top:none; }
+}

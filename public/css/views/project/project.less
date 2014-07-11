@@ -39,34 +39,36 @@
 	}
 }
 
-div.priority div.colour { float:left; width:100%; margin-top:@dialog-spacing;
-	@colour-size:34px;
-	>input { float:left; width:90%; .border-box; margin-right:2%; }
-	>span { float:left; width:8%; height:@colour-size; .border-radius; }
-}
-
-div.status { padding:@spacing 0;
-	>* { padding:0 @spacing; .border-box; }
-	>span { padding:0 @spacing !important; }
-	>div.input-container { float:left; width:100%; margin-top:@dialog-spacing;
-		>input { float:left; width:100%; }
+.dialog {
+	div.priority div.colour { float:left; width:100%; margin-top:@dialog-spacing;
+		@colour-size:34px;
+		>input { float:left; width:90%; .border-box; margin-right:2%; }
+		>span { float:left; width:8%; height:@colour-size; .border-radius; }
 	}
-	div.options { float:left; display:block; width:100%; margin-top:@dialog-spacing; padding:0;
-		>div { float:left; width:100%; cursor:pointer; padding:@small-spacing @spacing; .border-box;
-			>i { float:left; width:14px; margin-right:@small-spacing; margin-top:1px; color:@primary-font-colour-light; }
-			>i.fa-check-square { color:@secondary-font-colour; }
-			>span { float:left; }
-			>span.name { color:@primary-font-colour-dark-background; }
-			>span.description { width:100%; margin-top:@tiny-spacing; font-size:0.875em; }
+
+	div.status { padding:@spacing 0;
+		>* { padding:0 @spacing; .border-box; }
+		>span { padding:0 @spacing !important; }
+		>div.input-container { float:left; width:100%; margin-top:@dialog-spacing;
+			>input { float:left; width:100%; }
 		}
-		>div:hover { background:lighten(@dialog-background, 8%); }
+		div.options { float:left; display:block; width:100%; margin-top:@dialog-spacing; padding:0;
+			>div { float:left; width:100%; cursor:pointer; padding:@small-spacing @spacing; .border-box;
+				>i { float:left; width:14px; margin-right:@small-spacing; margin-top:1px; color:@primary-font-colour-light; }
+				>i.fa-check-square { color:@secondary-font-colour; }
+				>span { float:left; }
+				>span.name { color:@primary-font-colour-dark-background; }
+				>span.description { width:100%; margin-top:@tiny-spacing; font-size:0.875em; }
+			}
+			>div:hover { background:lighten(@dialog-background, 8%); }
+		}
 	}
-}
 
-div.delete { width:600px;
-	b { color:#D12E2E; }
-}
+	div.delete { width:600px;
+		b { color:#D12E2E; }
+	}
 
-div.create-or-update { width:500px; }
+	div.create-or-update { width:500px; }
+}
 
 .dragging { background:@hover-colour !important; border-bottom:solid 1px @border-colour; }

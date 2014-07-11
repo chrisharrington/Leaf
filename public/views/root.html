@@ -211,5 +211,102 @@
 				IssueTracker.Init.init();
             });
         </script>
+
+		<script type="text/html" id="issue-properties-template">
+			<div class="milestone padded-tile-container">
+				<div class="label" data-bind="click: toggleMilestones">
+					<i class="fa fa-map-marker label"></i>
+					<span data-bind="text: issue.milestone"></span>
+					<i class="fa fa-angle-down"></i>
+				</div>
+				<div class="list" data-bind="animateVisible: { bool: milestonesVisible(), animation: 'slide' }">
+					<!-- ko foreach: IssueTracker.milestones -->
+					<div data-bind="click: function(data) { $parent.selectMilestone(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.milestoneId() == id() }">
+						<span data-bind="text: name"></span>
+						<i class="fa fa-check"></i>
+					</div>
+					<!-- /ko -->
+				</div>
+			</div>
+			<div class="priority padded-tile-container">
+				<div class="label" data-bind="click: togglePriorities">
+					<i class="fa fa-exclamation-circle label"></i>
+					<span data-bind="text: issue.priority"></span>
+					<i class="fa fa-angle-down"></i>
+				</div>
+				<div class="list" data-bind="animateVisible: { bool: prioritiesVisible(), animation: 'slide' }">
+					<!-- ko foreach: IssueTracker.priorities -->
+					<div data-bind="click: function(data) { $parent.selectPriority(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.priorityId() == id() }">
+						<span data-bind="text: name"></span>
+						<i class="fa fa-check"></i>
+					</div>
+					<!-- /ko -->
+				</div>
+			</div>
+			<div class="status padded-tile-container">
+				<div class="label" data-bind="click: toggleStatuses">
+					<i class="fa fa-question-circle label"></i>
+					<span data-bind="text: issue.status"></span>
+					<i class="fa fa-angle-down"></i>
+				</div>
+				<div class="list" data-bind="animateVisible: { bool: statusesVisible(), animation: 'slide' }">
+					<!-- ko foreach: IssueTracker.statuses -->
+					<div data-bind="click: function(data) { $parent.selectStatus(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.statusId() == id() }">
+						<span data-bind="text: name"></span>
+						<i class="fa fa-check"></i>
+					</div>
+					<!-- /ko -->
+				</div>
+			</div>
+			<div class="type padded-tile-container">
+				<div class="label" data-bind="click: toggleIssueTypes">
+					<i class="fa fa-file-text label"></i>
+					<span data-bind="text: issue.type"></span>
+					<i class="fa fa-angle-down"></i>
+				</div>
+				<div class="list" data-bind="animateVisible: { bool: issueTypesVisible(), animation: 'slide' }">
+					<!-- ko foreach: IssueTracker.issueTypes -->
+					<div data-bind="click: function(data) { $parent.selectIssueType(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.typeId() == id() }">
+						<span data-bind="text: name"></span>
+						<i class="fa fa-check"></i>
+					</div>
+					<!-- /ko -->
+				</div>
+			</div>
+			<div class="developer padded-tile-container">
+				<div class="label" data-bind="click: toggleDevelopers">
+					<i class="fa fa-code label"></i>
+					<span data-bind="text: issue.developer"></span>
+					<i class="fa fa-angle-down"></i>
+				</div>
+				<div class="list" data-bind="animateVisible: { bool: developersVisible(), animation: 'slide' }">
+					<!-- ko foreach: IssueTracker.users -->
+					<!-- ko if: !isDeleted() -->
+					<div data-bind="click: function(data) { $parent.selectDeveloper(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.developerId() == id() }">
+						<span data-bind="text: name"></span>
+						<i class="fa fa-check"></i>
+					</div>
+					<!-- /ko -->
+					<!-- /ko -->
+				</div>
+			</div>
+			<div class="tester padded-tile-container">
+				<div class="label" data-bind="click: toggleTesters	">
+					<i class="fa fa-flask label"></i>
+					<span data-bind="text: issue.tester"></span>
+					<i class="fa fa-angle-down"></i>
+				</div>
+				<div class="list" data-bind="animateVisible: { bool: testersVisible(), animation: 'slide' }">
+					<!-- ko foreach: IssueTracker.users -->
+					<!-- ko if: !isDeleted() -->
+					<div data-bind="click: function(data) { $parent.selectTester(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.testerId() == id() }">
+						<span data-bind="text: name"></span>
+						<i class="fa fa-check"></i>
+					</div>
+					<!-- /ko -->
+					<!-- /ko -->
+				</div>
+			</div>
+		</script>
 	</body>
 </html>

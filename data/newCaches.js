@@ -1,3 +1,5 @@
+var Promise = require("bluebird");
+
 var directory = "./caches/";
 module.exports = {
 	Priority: require(directory + "priorityCache"),

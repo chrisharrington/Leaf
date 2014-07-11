@@ -1,29 +1,28 @@
 
 (function(root) {
 
-	var _container;
-
 	root.loading = ko.observable(false);
 
 	root.createModel = {
 		id: function() { return root.issueId; },
 		description: ko.observable(""),
 		details: ko.observable(""),
-		priorityId: function () { return _getSelectedFromChoiceTile($("div.priority")); },
-		statusId: function () { return _getSelectedFromChoiceTile($("div.status")); },
-		typeId: function() { return _getSelectedFromChoiceTile($("div.type")); },
-		developerId: function () { return _getSelectedFromChoiceTile($("div.developer")); },
-		testerId: function () { return _getSelectedFromChoiceTile($("div.tester")); },
-		milestoneId: function () { return _getSelectedFromChoiceTile($("div.milestone")); }
+		milestoneId: ko.observable(),
+		milestone: ko.observable(),
+		priorityId: ko.observable(),
+		priority: ko.observable(),
+		statusId: ko.observable(),
+		status: ko.observable(),
+		typeId: ko.observable(),
+		type: ko.observable(),
+		developerId: ko.observable(),
+		developer: ko.observable(),
+		testerId: ko.observable(),
+		tester: ko.observable()
 	};
 
-	root.init = function (container) {
-		_container = container;
-		_container = container;
-
-		_hookupEvents();
-
-		root.Upload.init(_container);
+	root.init = function () {
+		root.IssueProperties = new IssueTracker.IssueProperties();
 	};
 
 	root.load = function() {
@@ -32,21 +31,15 @@
 
 		_setDefaultValues();
 
-		_container.find("input.tile.container").focus();
 		root.Upload.load(root.createModel.id());
+		root.IssueProperties.issue = root.createModel;
 	};
 
-	function _hookupEvents() {
-		_container.on("click", "div.choice-tile>div", _toggleSelectedChoice);
-		_container.on("click", "#save", _save);
-		_container.on("click", "#discard", _discard);
-	}
-
-	function _discard() {
+	root.discard = function () {
 		IssueTracker.Issues.navigate();
-	}
+	};
 
-	function _save() {
+	root.save = function() {
 		var error = _validate();
 		if (error) {
 			IssueTracker.Feedback.error(error);
@@ -54,7 +47,7 @@
 		}
 
 		_submit();
-	}
+	};
 
 	function _validate() {
 		var model = root.createModel;
@@ -91,24 +84,26 @@
 		return $.post(IssueTracker.virtualDirectory + "issues/create", IssueTracker.Utilities.extractPropertyObservableValues(root.createModel));
 	}
 
-	function _toggleSelectedChoice() {
-		$(this).closest("div.choice-tile").find(">div.selected").removeClass("selected");
-		$(this).addClass("selected");
-	}
-
-	function _getSelectedFromChoiceTile(tile) {
-		return tile.find("div.selected").attr("data-id");
-	}
-
 	function _setDefaultValues() {
-		_container.find("div.detailed-info-container>div.milestone>div>div:first").addClass("selected");
-		_container.find("div.detailed-info-container>div.priority>div>div:first").addClass("selected");
-		_container.find("div.detailed-info-container>div.status>div>div:first").addClass("selected");
-		_container.find("div.detailed-info-container>div.type>div>div:first").addClass("selected");
+		var model = root.createModel;
+		model.milestone(IssueTracker.milestones()[0].name());
+		model.milestoneId(IssueTracker.milestones()[0].id());
+		model.priority(IssueTracker.priorities()[0].name());
+		model.priorityId(IssueTracker.priorities()[0].id());
+		model.status(IssueTracker.statuses()[0].name());
+		model.statusId(IssueTracker.statuses()[0].id());
+		model.type(IssueTracker.issueTypes()[0].name());
+		model.typeId(IssueTracker.issueTypes()[0].id());
 
 		var signedInUserId = IssueTracker.signedInUser().id();
-		_container.find("div.detailed-info-container>div.developer>div>div[data-id='" + signedInUserId + "']").addClass("selected");
-		_container.find("div.detailed-info-container>div.tester>div>div[data-id='" + signedInUserId + "']").addClass("selected");
+		$.each(IssueTracker.users(), function(i, user) {
+			if (user.id() == signedInUserId) {
+				model.developer(user.name());
+				model.developerId(user.id());
+				model.tester(user.name());
+				model.testerId(user.id());
+			}
+		});
 	}
 
 	$(function() {

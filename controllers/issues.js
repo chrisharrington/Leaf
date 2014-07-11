@@ -31,14 +31,22 @@ module.exports = function(app) {
 		if (isNaN(end))
 			end = 50;
 
-		return repositories.Issue.search(request.project._id, {
-			priorities: _getIds(request.query.priorities),
-			statuses: _getIds(request.query.statuses),
-			developers: _getIds(request.query.developers),
-			testers: _getIds(request.query.testers),
-			milestones: _getIds(request.query.milestones),
-			types: _getIds(request.query.types)
-		}, request.query.direction, request.query.comparer, start, end).then(function(issues) {
+		return Promise.all([
+			repositories.Issue.search(request.project._id, {
+				priorities: _getIds(request.query.priorities),
+				statuses: _getIds(request.query.statuses),
+				developers: _getIds(request.query.developers),
+				testers: _getIds(request.query.testers),
+				milestones: _getIds(request.query.milestones),
+				types: _getIds(request.query.types),
+			}, request.query.direction, request.query.comparer, start, end),
+			caches.Priority.dict()
+		]).spread(function(issues, priorities) {
+			return issues.map(function (issue) {
+				issue.priority = priorities[issue.priorityId].name;
+				return issue;
+			});
+		}).then(function(issues) {
 			return mapper.mapAll("issue", "issue-list-view-model", issues);
 		}).then(function(issues) {
 			response.send(issues, 200);
@@ -65,8 +73,20 @@ module.exports = function(app) {
 			return Promise.all([
 				repositories.Transition.status(issue.statusId),
 				repositories.Comment.issue(issue._id, { populate: "user", sort: { date: -1 }}),
-				repositories.IssueFile.issue(issue._id)
-			]).spread(function(transitions, comments, files) {
+				repositories.IssueFile.issue(issue._id),
+				caches.Milestone.dict(),
+				caches.Priority.dict(),
+				caches.Status.dict(),
+				caches.User.dict(),
+				caches.IssueType.dict()
+			]).spread(function(transitions, comments, files, milestones, priorities, statuses, users, issueTypes) {
+				issue.milestone = milestones[issue.milestoneId].name;
+				issue.priority = priorities[issue.priorityId].name;
+				issue.status = statuses[issue.statusId].name;
+				issue.developer = users[issue.developerId].name;
+				issue.tester = users[issue.testerId].name;
+				issue.type = issueTypes[issue.typeId].name;
+
 				return Promise.all([
 					mapper.map("issue", "issue-view-model", issue),
 					mapper.mapAll("transition", "transition-view-model", transitions),

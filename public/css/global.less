@@ -18,8 +18,8 @@
 
 @dark-gradient-top-colour:#222222;
 @dark-gradient-bottom-colour:#444444;
-@dialog-background:#222222;
-@dialog-hover-background:lighten(@dialog-background, 5%);
+@dialog-background:white;
+@dialog-hover-background:darken(@dialog-background, 5%);
 
 @base-background-colour:#E0E0E0;
 @border-colour:@base-background-colour;
@@ -86,7 +86,7 @@
 .tile { padding:@spacing; .shadow; .border-radius; background:@tile-background-colour; .border-box; color:@primary-font-colour; }
 .deleted { opacity:0.6; }
 
-.condensed-font { font-family:'Roboto Condensed' !important; font-weight:normal; letter-spacing:-1px; }
+.condensed-font { font-family:'roboto-condensed' !important; font-weight:normal; letter-spacing:-1px; }
 .regular-font { font-family:'Helvetica', 'Arial', 'sans-serif' !important; }
 
 h1, h2, h3, h4 { .condensed-font; margin:0; padding:0; font-weight:normal; }

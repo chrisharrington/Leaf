@@ -19,6 +19,7 @@
 
 		root.Comments.init(container);
 		root.Files.init(container.find("input[type='file']"));
+		root.IssueProperties = new IssueTracker.IssueProperties();
 	};
 
 	root.load = function (container) {
@@ -26,6 +27,8 @@
 		_oldName = IssueTracker.selectedIssue.description();
 		root.Comments.load(IssueTracker.selectedIssue.history());
 		root.Files.load(IssueTracker.selectedIssue.id(), IssueTracker.selectedIssue.files());
+
+		root.IssueProperties.issue = IssueTracker.selectedIssue;
 
 		_updateNeeded = false;
 		IssueTracker.selectedIssue.statusId.subscribe(_updateRequired);
@@ -42,6 +45,10 @@
 
 		if (!IssueTracker.isAuthorized("edit-issue"))
 			container.addClass("disabled");
+	};
+
+	root.unload = function() {
+		root.IssueProperties.reset();
 	};
 
 	root.selectDescription = function() {
@@ -78,7 +85,7 @@
 
 	function _save() {
 		if (_updateNeeded)
-			return $.post(IssueTracker.virtualDirectory + "issues/update", _buildIssueParameters())
+			return $.post(IssueTracker.virtualDirectory + "issues/update", _buildIssueParameters());
 		else
 			return new ResolvedDeferred();
 	}

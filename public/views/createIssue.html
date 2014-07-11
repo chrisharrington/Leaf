@@ -18,90 +18,21 @@
     </div>
 
     <div class="buttons">
-        <button class="round" id="save" data-bind="css: { loading: loading }, tooltip: 'Create Issue'">
+        <button class="round" id="save" data-bind="click: save, css: { loading: loading }, tooltip: 'Create Issue'">
             <i class="fa fa-check"></i>
         </button>
-        <button class="round" id="discard" data-bind="tooltip: { text: 'Discard Issue', alignment: 'right' }">
+        <button class="round" id="discard" data-bind="click: discard, tooltip: { text: 'Discard Issue', alignment: 'right' }">
             <i class="fa fa-times"></i>
         </button>
     </div>
 </section>
 
-<input class="tile container" type="text" placeholder="Issue description..." data-bind="value: createModel.description" />
-<textarea class="tile container" placeholder="Details..." data-bind="value: createModel.details"></textarea>
-
-<div class="detailed-info-container container">
-    <div class="milestone padded-tile-container">
-        <div class="tile choice-tile">
-            <h2>Milestone</h2>
-            <!-- ko foreach: IssueTracker.milestones -->
-            <div data-bind="attr: { 'data-id': id }">
-                <span data-bind="text: name"></span>
-                <i class="fa fa-check"></i>
-            </div>
-            <!-- /ko -->
-        </div>
-    </div>
-    <div class="priority padded-tile-container">
-        <div class="tile choice-tile">
-            <h2>Priority</h2>
-            <!-- ko foreach: IssueTracker.priorities -->
-            <div data-bind="attr: { 'data-id': id }">
-                <span data-bind="text: name"></span>
-                <i class="fa fa-check"></i>
-            </div>
-            <!-- /ko -->
-        </div>
-    </div>
-    <div class="status padded-tile-container">
-        <div class="tile choice-tile">
-            <h2>Status</h2>
-            <!-- ko foreach: IssueTracker.statuses -->
-            <div data-bind="attr: { 'data-id': id }">
-                <span data-bind="text: name"></span>
-                <i class="fa fa-check"></i>
-            </div>
-            <!-- /ko -->
-        </div>
-    </div>
-    <div class="type padded-tile-container">
-        <div class="tile choice-tile">
-            <h2>Type</h2>
-            <!-- ko foreach: IssueTracker.issueTypes -->
-            <div data-bind="attr: { 'data-id': id }">
-                <span data-bind="text: name"></span>
-                <i class="fa fa-check"></i>
-            </div>
-            <!-- /ko -->
-        </div>
-    </div>
-    <div class="developer padded-tile-container">
-        <div class="tile choice-tile">
-            <h2>Developer</h2>
-            <!-- ko foreach: IssueTracker.users -->
-            <!-- ko if: !isDeleted() -->
-            <div data-bind="attr: { 'data-id': id }">
-                <span data-bind="text: name"></span>
-                <i class="fa fa-check"></i>
-            </div>
-            <!-- /ko -->
-            <!-- /ko -->
-        </div>
-    </div>
-    <div class="tester padded-tile-container">
-        <div class="tile choice-tile">
-            <h2>Tester</h2>
-            <!-- ko foreach: IssueTracker.users -->
-            <!-- ko if: !isDeleted() -->
-            <div data-bind="attr: { 'data-id': id }">
-                <span data-bind="text: name"></span>
-                <i class="fa fa-check"></i>
-            </div>
-            <!-- /ko -->
-            <!-- /ko -->
-        </div>
-    </div>
+<div class="text-container">
+	<input class="tile container" type="text" placeholder="Issue description..." data-bind="value: createModel.description" />
+	<textarea class="tile container" placeholder="Details..." data-bind="value: createModel.details"></textarea>
 </div>
+
+<div class="issue-properties" data-bind="template: { name: 'issue-properties-template', data: IssueProperties }"></div>
 
 <div class="attached-files tile container">
     <h2>Attach Files</h2>

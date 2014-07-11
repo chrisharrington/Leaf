@@ -7,6 +7,7 @@ IssueTracker.Page = function(params) {
 	params.root.route = params.route;
 	params.root.navigate = function(routeParameters) { me.navigate(params.route[0], routeParameters || {}); };
 	this.load = params.root.load;
+	this.unload = params.root.unload;
 	this.init = params.root.init;
 	this.preload = params.root.preload;
 
@@ -22,9 +23,6 @@ IssueTracker.Page = function(params) {
 		}).enter(function() {
 			if (params.root.enter)
 				params.root.enter();
-		}).exit(function () {
-			if (params.unload)
-				params.unload();
 		});
 	});
 
@@ -62,11 +60,14 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 		me.preload(routeArguments);
 
 	$.get(url).then(function(html) {
+		if (IssueTracker.currentPage && IssueTracker.currentPage.unload)
+			IssueTracker.currentPage.unload();
+		IssueTracker.currentPage = me;
+
 		var container = $(".content-container")
 			.attr("class", "content-container " + params.style)
 			.empty()
 			.append($("<div></div>").addClass("binding-container").html(html));
-		ko.applyBindings(params.root, container.find(">div.binding-container")[0]);
 
 		if (me.init && !me._initFired) {
 			me.init(container);
@@ -74,6 +75,9 @@ IssueTracker.Page.prototype._setView = function (params, routeArguments) {
 		}
 		if (me.load)
 			me.load(container, routeArguments);
+
+		ko.applyBindings(params.root, container.find(">div.binding-container")[0]);
+
 		me._setTitle(params.title);
 		$(document).scrollTop();
 	});
