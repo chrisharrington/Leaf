@@ -4,9 +4,8 @@ var assert = require("assert"),
 	Promise = require("bluebird"),
 	models = require("../../../data/models"),
 	repositories = require("../../../data/repositories"),
-	base = require("../../base");
-
-var priorityCache = require("../../../data/caches/priorityCache");
+	base = require("../../base"),
+	caches = require("../../../data/newCaches");
 
 var sut = require("../../../data/repositories/issueRepository");
 
@@ -221,7 +220,7 @@ describe("issueRepository", function() {
 
 			_stubs = {};
 			_stubs.issues = sinon.stub(sut, "get").resolves(params.issues || []);
-			_stubs.priorities = sinon.stub(priorityCache, "all").resolves(params.cachedPriorities || []);
+			_stubs.priorities = sinon.stub(caches.Priority, "all").resolves(params.cachedPriorities || []);
 
 			return sut.search(params.projectId || "the project id",
 				params.filter || {
@@ -245,39 +244,43 @@ describe("issueRepository", function() {
 
 		it("should call one with given number", function() {
 			var number = 123;
-			return sut.number("the project id", number).then(function() {
+			return _run({ projectId: "the project id", number: number }).then(function() {
 				assert(sut.one.calledWith({ project: sinon.match.any, number: number }));
 			});
 		});
 
 		it("should call get with given project id", function() {
 			var projectId = "the project id";
-			return sut.number(projectId, 123).then(function() {
+			return _run({ projectId: projectId, number: 123 }).then(function() {
 				assert(sut.one.calledWith({ project: projectId, number: sinon.match.any }));
 			});
 		});
 
 		it("should set the milestone from cached milestones", function() {
-				
+			return _run().then(function(issue) {
+				assert.equal(issue.milestone, "the milestone");
+			});
+		});
+
+		afterEach(function() {
+			for (var name in _stubs)
+				if (_stubs[name].restore)
+					_stubs[name].restore();
 		});
 
 		function _run(params) {
 			params = params || {};
 
 			_stubs = {};
-			_stubs.number = sinon.stub(sut, "one").resolves(params.issue || {});
+			_stubs.number = sinon.stub(sut, "one").resolves(params.issue || { milestoneId: 1, priorityId: 2, statusId: 3, developerId: 4, testerId: 5, typeId: 6 });
 			_stubs.milestones = sinon.stub(caches.Milestone, "dict").resolves(params.milestones || { 1: { name: "the milestone" }});
-			_stubs.statuses = sinon.stub(caches.Status, "dict").resolves(params.statuses || { 1: { name: "the status" }});
-			_stubs.priorities = sinon.stub(caches.Priority, "dict").resolves(params.priorities || { 1: { name: "the priority" }});
-			_stubs.issueTypes = sinon.stub(caches.IssueType, "dict").resolves(params.issueTypes || { 1: { name: "the issue type" }});
-			_stubs.users = sinon.stub(caches.User, "dict").resolves(params.users || { 1: { name: "the user" }});
+			_stubs.statuses = sinon.stub(caches.Status, "dict").resolves(params.statuses || { 3: { name: "the status" }});
+			_stubs.priorities = sinon.stub(caches.Priority, "dict").resolves(params.priorities || { 2: { name: "the priority" }});
+			_stubs.issueTypes = sinon.stub(caches.IssueType, "dict").resolves(params.issueTypes || { 6: { name: "the issue type" }});
+			_stubs.users = sinon.stub(caches.User, "dict").resolves(params.users || { 4: { name: "the developer" }, 5: { name: "the tester" }});
 
-			return sut.number(params.projectId, params.number);
+			return sut.number(params.projectId || "the project id", params.number || 12345);
 		}
-
-		afterEach(function() {
-			sut.one.restore();
-		})
 	});
 
 	describe("update", function() {

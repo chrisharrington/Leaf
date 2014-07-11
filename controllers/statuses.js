@@ -30,9 +30,7 @@ module.exports = function(app) {
 		return mapper.map("status-view-model", "status", request.body).then(function(status) {
 			status.project = request.project._id;
 			if (status._id)
-				return repositories.Status.updateIssues(status).then(function() {
-					return repositories.Status.save(status);
-				});
+				return repositories.Status.save(status);
 			status._id = request.body.id = mongoose.Types.ObjectId();
 			return repositories.Status.create(status);
 		}).then(function(created) {
@@ -45,9 +43,7 @@ module.exports = function(app) {
 	app.post("/statuses/order", authenticate, function(request, response) {
 		return mapper.mapAll("status-view-model", "status", request.body.statuses).then(function(statuses) {
 			return statuses.map(function(status) {
-				return repositories.Status.updateIssues(status).then(function() {
-					return repositories.Status.save(status);
-				});
+				return repositories.Status.save(status);
 			});
 		}).then(function() {
 			response.send(200);

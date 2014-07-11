@@ -154,15 +154,6 @@ describe("milestones", function() {
 			});
 		});
 
-		it("should call milestoneRepository.updateIssues for pre-existing milestone", function() {
-			var milestone = { _id: "the milestone id" };
-			return _run({
-				milestone: milestone
-			}).then(function() {
-				assert(_stubs.updateIssues.calledWith(milestone));
-			});
-		});
-
 		it("should call milestoneRepository.save for a pre-existing milestone", function() {
 			var milestone = { _id: "the milestone id" };
 			return _run({

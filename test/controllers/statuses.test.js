@@ -154,15 +154,6 @@ describe("statuses", function() {
 			});
 		});
 
-		it("should call statusRepository.updateIssues for pre-existing status", function() {
-			var status = { _id: "the status id" };
-			return _run({
-				status: status
-			}).then(function() {
-				assert(_stubs.updateIssues.calledWith(status));
-			});
-		});
-
 		it("should call statusRepository.save for a pre-existing status", function() {
 			var status = { _id: "the status id" };
 			return _run({

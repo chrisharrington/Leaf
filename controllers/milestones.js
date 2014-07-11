@@ -30,9 +30,7 @@ module.exports = function(app) {
 		return mapper.map("milestone-view-model", "milestone", request.body).then(function(milestone) {
 			milestone.project = request.project._id;
 			if (milestone._id)
-				return repositories.Milestone.updateIssues(milestone).then(function() {
-					return repositories.Milestone.save(milestone);
-				});
+				return repositories.Milestone.save(milestone);
 			milestone._id = request.body.id = mongoose.Types.ObjectId();
 			return repositories.Milestone.create(milestone);
 		}).then(function() {
@@ -45,9 +43,7 @@ module.exports = function(app) {
 	app.post("/milestones/order", authenticate, function(request, response) {
 		return mapper.mapAll("milestone-view-model", "milestone", request.body.milestones).then(function(milestones) {
 			return milestones.map(function(milestone) {
-				return repositories.Milestone.updateIssues(milestone).then(function() {
-					return repositories.Milestone.save(milestone);
-				});
+				return repositories.Milestone.save(milestone);
 			});
 		}).then(function() {
 			response.send(200);
