@@ -198,15 +198,6 @@ describe("issueRepository", function() {
 			});
 		});
 
-		it("should set issue.priority from retrieved priorities", function() {
-			return _run({
-				issues: [{ id: 1, priorityId: 10, name: "the name" }],
-				cachedPriorities: [{ id: 10, name: "the priority name" }, { id: 11, name: "some other name" }]
-			}).then(function(issues) {
-				assert.equal(issues[0].priority, "the priority name");
-			});
-		});
-
 		afterEach(function() {
 			sut.get.restore();
 
@@ -253,12 +244,6 @@ describe("issueRepository", function() {
 			var projectId = "the project id";
 			return _run({ projectId: projectId, number: 123 }).then(function() {
 				assert(sut.one.calledWith({ project: projectId, number: sinon.match.any }));
-			});
-		});
-
-		it("should set the milestone from cached milestones", function() {
-			return _run().then(function(issue) {
-				assert.equal(issue.milestone, "the milestone");
 			});
 		});
 

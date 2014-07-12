@@ -22,8 +22,7 @@ module.exports = function() {
 	return connection.open().then(function () {
 		var inits = [];
 		for (var name in caches)
-			if (name != "blah")
-				inits.push(caches[name].init());
+			inits.push(caches[name].init());
 		inits.push(controllers.init(app));
 		inits.push(mapper.init());
 		return Promise.all(inits);
