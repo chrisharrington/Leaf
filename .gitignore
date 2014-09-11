@@ -118,3 +118,4 @@ coverage
 .DS_Store
 LeafWebServerKeyPair.pem
 leaf-key-pair.pem
+.DS_Store
