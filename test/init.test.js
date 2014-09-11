@@ -27,10 +27,6 @@ describe("init", function() {
 			});
 		});
 
-		it("should blah", function() {
-
-		});
-
 		it("should initialize controllers", function() {
 			return _run().then(function() {
 				assert(_stubs.controllers.calledWith(_stubs.app));
@@ -49,12 +45,6 @@ describe("init", function() {
 			});
 		});
 
-		it("should initialize caches", function() {
-			return _run().then(function() {
-				assert(_stubs.caches.calledOnce);
-			});
-		});
-
 		it("should call app.listen with port read from config", function() {
 			var port = 8888;
 			return _run({
@@ -68,7 +58,7 @@ describe("init", function() {
 			return _run({
 				connection: sinon.stub(connection, "open").rejects("oh noes!")
 			}).then(function() {
-				assert(_stubs.console.calledWith("Server failed to start: Error: oh noes!"));
+				assert(_stubs.console.calledWith("Server failed to start."));
 			});
 		});
 
@@ -363,7 +353,6 @@ describe("init", function() {
 			_stubs.patch = { patch: sinon.stub().returns(_stubs.to) };
 			_stubs.versiony = sinon.stub(versiony, "from").returns(_stubs.patch);
 			_stubs.connection = params.connection || sinon.stub(connection, "open").resolves();
-			_stubs.caches = sinon.stub(caches, "init").resolves();
 			_stubs.mapper = sinon.stub(mapper, "init").resolves();
 			_stubs.controllers = sinon.stub(controllers, "init").returns();
 			_stubs.console = sinon.stub(console, "log").returns();
@@ -376,6 +365,10 @@ describe("init", function() {
 				set: _stubs.set = sinon.stub(),
 				use: sinon.stub()
 			});
+
+			for (var name in caches)
+				_stubs["cache" + name] = sinon.stub(caches[name], "init").resolves();
+
 			return sut();
 		}
 	});
