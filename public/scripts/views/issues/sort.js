@@ -21,7 +21,7 @@
 	};
 
 	function _buildSortOptions() {
-		root.options.push(new Sort("highest priority", "Highest Priority", "priority", "ascending"));
+		root.options.push(new Sort("highest priority", "Highest Priority", "priority", "descending"));
 		root.options.push(new Sort("recently opened", "Recently Opened", "opened", "descending"));
 	}
 
