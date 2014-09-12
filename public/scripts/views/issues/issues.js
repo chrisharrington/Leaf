@@ -16,7 +16,6 @@
 	root.sidebar = ko.observable();
 
 	root.init = function (container) {
-
 		_container = container;
 		_setupLoadingMoreIssues();
 

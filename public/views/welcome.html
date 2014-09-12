@@ -1,21 +1,22 @@
-<div class="logo">
-    <div>
-        <img src="/images/leaf.png" alt="logo"/>
-        <span class="name">Leaf</span>
-    </div>
-</div>
+<div class="welcome-container">
+	<div class="logo">
+		<div>
+			<img src="/images/leaf.png" alt="logo"/>
+			<span class="name">Leaf</span>
+		</div>
+	</div>
 
-<div class="sign-in">
-    <div class="form tile">
-        <h1>Sign In</h1>
-		<img src="images/ajax-loader.gif" alt="" data-bind="visible: SignIn.loading" />
-        <input type="text" placeholder="Email address..." name="email" data-bind="value: SignIn.model.email" tabindex="1" />
-        <input type="password" placeholder="Password..." name="password" data-bind="value: SignIn.model.password" tabindex="2" />
-        <div class="stay-signed-in">
-            <input type="checkbox" id="stay-signed-in" tabindex="3" data-bind="checked: SignIn.model.staySignedIn"/>
-            <label for="stay-signed-in">Stay signed in?</label>
-            <a href="#">Forgotten password?</a>
-        </div>
-        <button data-bind="css: { loading: SignIn.loading }, click: SignIn.signIn" tabindex="4">Sign In</button>
-    </div>
+	<div class="sign-in">
+		<div class="form tile">
+			<h1>Sign In</h1>
+			<img src="images/ajax-loader.gif" alt="" ng-show="loading" />
+			<text tabindex="1" placeholder="Email address..." ng-model="emailAddress" name="email"></text>
+			<text tabindex="2" placeholder="Password..." ng-model="password" type="password" name="password"></text>
+			<div class="stay-signed-in">
+				<checkbox checked="staySignedIn">Stay signed in?</checkbox>
+				<a href="#">Forgotten password?</a>
+			</div>
+			<pressable text="Sign In" ng-class="{ loading: loading }" ng-click="signIn()" tabindex="3"></pressable>
+		</div>
+	</div>
 </div>

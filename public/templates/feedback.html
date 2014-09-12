@@ -1,0 +1,8 @@
+<div class="global-feedback" ng-class="{ visible: feedbackVisible, error: feedbackError }">
+	<i class="fa fa-warning"></i>
+	<i class="fa fa-check"></i>
+	<div>
+		<span>[[feedbackText]]</span>
+		<i class="fa fa-times" ng-click="hideFeedback()"></i>
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<div class="info-input">
+	<div class="info-input-container">
+		<input type="[[type]]" focus="[[focus]]" tabindex="[[tabindex]]" placeholder="[[placeholder]]" name="[[name]]" ng-model="ngModel" />
+	</div>
+	<i class="fa fa-question" ng-click="showModal()"></i>
+	<modal show="showing" close="hide">
+		<span ng-bind-html="info"></span>
+		<button type="button" class="link" ng-click="hideModal()">OK</button>
+	</modal>
+</div>

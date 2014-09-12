@@ -1,0 +1,23 @@
+@feedback-height:44px;
+
+div.global-feedback { height:@feedback-height; position:fixed; width:100%; z-index:@feedback-z-index; bottom:0; .border-box; padding:@small-spacing @spacing; color:white; box-shadow:0 -2px 8px rgba(0, 0, 0, 0.5); .transition(transform ease @animation-speed, -webkit-transform ease @animation-speed); .transform(translate3d(0, @feedback-height+10, 0));
+	@icon-width:28px;
+	@height:28px;
+	>i { float:left; position:relative; font-size:1.5em; width:@icon-width; vertical-align:middle; line-height:@height; }
+	>div { position:relative; margin-left:@icon-width+@spacing; height:@height;
+		>i { float:right; position:relative; margin-left:@icon-width*-1; width:@icon-width; text-align:center; font-size:1.375em; height:@height; line-height:@height; vertical-align:middle; cursor:pointer; color:white; }
+		>span { float:left; width:100%; height:100%; vertical-align:middle; line-height:@height; position:relative; padding-right:20px; .border-box;
+			a { color:inherit; }
+			button { margin-left:@spacing; }
+		}
+	}
+}
+
+div.global-feedback.visible {  .transform(translate3d(0, 0, 0)); }
+
+div.global-feedback.error { .gradient(@error-gradient-light-colour, @error-gradient-dark-colour);
+	i.fa-check { display:none; }
+}
+div.global-feedback.success { .gradient(@positive-colour, @positive-colour-dark);
+	i.fa-warning { display:none; }
+}

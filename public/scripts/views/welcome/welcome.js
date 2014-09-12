@@ -1,34 +1,34 @@
+IssueTracker.app.controller("welcome", function($scope, welcome, once) {
+	once("welcome", function() { welcome.init($scope); });
+	welcome.methods($scope);
+	welcome.load($scope);
+});
 
-(function(root) {
+IssueTracker.app.factory("welcome", function(feedback) {
+	return {
+		init: function(scope) {
+			scope.loading = false;
+			scope.emailAddress = "chrisharrington99@gmail.com";
+			scope.password = "";
+			scope.staySignedIn = false;
+		},
 
-	var _container;
-	var _redirect;
+		load: function(scope) {
+		},
 
-	root.init = function(container) {
-		_container = container;
-
-		root.SignIn.init(container.find("div.sign-in"), function() {
-			return _redirect;
-		});
+		methods: function(scope) {
+			scope.signIn = function() {
+				var error = _validate(scope);
+				if (error)
+					feedback.error(error);
+			};
+		}
 	};
 
-	root.load = function(container, params) {
-		_container.find("div.sign-in input:first").focus();
-	};
-
-	root.redirect = function() {
-		_redirect = window.location.hash.substring(1);
-		window.location.hash = "/welcome";
-	};
-
-	$(function() {
-		IssueTracker.Page.build({
-			root: root,
-			view: "welcome",
-			route: "#/welcome",
-			style: "welcome-container",
-			isAnonymous: true
-		});
-	});
-
-})(root("IssueTracker.Welcome"));
+	function _validate(scope) {
+		if (scope.emailAddress === "")
+			return "The email address is required.";
+		if (scope.password === "")
+			return "The password is required.";
+	}
+});

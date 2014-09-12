@@ -14,6 +14,8 @@ describe("assets", function() {
 				"./public/scripts/notifications.js",
 				"./public/scripts/page.js",
 				"./public/scripts/utilities.js",
+				"./public/scripts/directives",
+				"./public/scripts/services",
 				"./public/scripts/binders",
 				"./public/scripts/controls",
 				"./public/scripts/extensions",

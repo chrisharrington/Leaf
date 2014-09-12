@@ -1,0 +1,22 @@
+@icon-container-width:20px;
+@checkbox-size:18px;
+
+div.checkbox-container { float:left; width:100%; .border-box; cursor:pointer;
+	>div.inner-checkbox-container { float:left; width:@checkbox-size; height:@checkbox-size; position:relative;
+		>div { position:absolute; top:0; left:0; width:@checkbox-size; height:@checkbox-size; .border-box; .border-radius(2px); }
+		>div.square { border:solid 1px @border-colour; background:white; }
+		>div.check { top:1px; left:1px; width:((@checkbox-size)-2); height:((@checkbox-size)-2); background:@secondary-font-colour; .transition(all ease @animation-speed); .transform(scale(0, 0));
+			>i { float:left; width:100%; .vertical-centre((@checkbox-size)-2); text-align:center; font-size:14px; color:white; }
+		}
+	}
+	>div.transclude { float:left; width:100%; position:relative; padding-left:@checkbox-size+@spacing; margin-left:(@checkbox-size+@spacing)*-1; .border-box;
+		>span { float:left; width:100%; color:@placeholder-colour; font-size:1em; .transition(color @animation-speed); .vertical-centre(@checkbox-size); margin-left:@small-spacing; }
+	}
+	>i { float:left; width:@icon-container-width; margin-left:(@icon-container-width+@spacing*2)*-1; color:@primary-font-colour-light; padding:@spacing; text-align:right; }
+
+	modal { cursor:default; }
+}
+
+div.checkbox-container.checked {
+	div.check { .transform(scale(1, 1)) !important; }
+}

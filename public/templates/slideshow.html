@@ -1,0 +1,8 @@
+<div class="slideshow" ng-class="{ loading: loading }">
+	<div class="spinner-container">
+		<spinner></spinner>
+	</div>
+	<img ng-src="[[url]]" ng-repeat="url in urls" alt="" class="hidden" />
+	<div class="image-container first" ng-class="{ sliding: sliding, current: swap, next: !swap }"></div>
+	<div class="image-container" ng-class="{ sliding: sliding, current: !swap, next: swap }"></div>
+</div>

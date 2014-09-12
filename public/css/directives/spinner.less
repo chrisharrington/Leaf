@@ -1,0 +1,76 @@
+@spinner-spacing:6px;
+@inner-spinner-spacing:12px;
+@spinner-size:32px;
+@spinner-colour:transparent;
+@spinner-highlight-colour:@secondary-background-colour-bottom;
+@spinner-width:2px;
+
+@big-spinner-width:3px;
+@big-spinner-size:40px;
+
+.spinner {
+	.spin-clockwise;
+	margin:auto;
+	content:"";
+	display:inline-block;
+	.border-box;
+	width:((@spinner-size)-@spinner-spacing*2);
+	height:((@spinner-size)-@spinner-spacing*2);
+	border-left:@spinner-width solid @spinner-highlight-colour;
+	border-right:@spinner-width solid @spinner-colour;
+	border-bottom:@spinner-width solid @spinner-colour;
+	border-top:@spinner-width solid @spinner-highlight-colour;
+	border-radius:100%;
+}
+
+.spinner.big {
+	width:((@big-spinner-size)-@spinner-spacing*2);
+	height:((@big-spinner-size)-@spinner-spacing*2);
+	border-left:@big-spinner-width solid @spinner-highlight-colour;
+	border-right:@big-spinner-width solid @spinner-colour;
+	border-bottom:@big-spinner-width solid @spinner-colour;
+	border-top:@big-spinner-width solid @spinner-highlight-colour;
+}
+
+.spin-clockwise (@duration: 600ms) { -webkit-animation: spin-clockwise @duration infinite linear; -moz-animation: spin-clockwise @duration infinite linear; -o-animation: spin-clockwise @duration infinite linear; animation: spin-clockwise @duration infinite linear; }
+.spin-counter-clockwise (@duration: 750ms) { -webkit-animation: spin-counter-clockwise @duration infinite linear; -moz-animation: spin-counter-clockwise @duration infinite linear; -o-animation: spin-counter-clockwise @duration infinite linear; animation: spin-counter-clockwise @duration infinite linear; }
+
+@-webkit-keyframes spin-clockwise {
+	from {-webkit-transform: rotate(0deg);}
+	to {-webkit-transform: rotate(359deg);}
+}
+
+@-moz-keyframes spin-clockwise {
+	from {-moz-transform: rotate(0deg);}
+	to {-moz-transform: rotate(359deg);}
+}
+
+@-o-keyframes spin-clockwise {
+	from {-o-transform: rotate(0deg);}
+	to {-o-transform: rotate(359deg);}
+}
+
+@keyframes spin-clockwise {
+	from {transform: rotate(0deg);}
+	to {transform: rotate(359deg);}
+}
+
+@-webkit-keyframes spin-counter-clockwise {
+	from {-webkit-transform: rotate(359deg);}
+	to {-webkit-transform: rotate(0deg);}
+}
+
+@-moz-keyframes spin-counter-clockwise {
+	from {-moz-transform: rotate(359deg);}
+	to {-moz-transform: rotate(0deg);}
+}
+
+@-o-keyframes spin-counter-clockwise {
+	from {-o-transform: rotate(359deg);}
+	to {-o-transform: rotate(0deg);}
+}
+
+@keyframes spin-counter-clockwise {
+	from {transform: rotate(359deg);}
+	to {transform: rotate(0deg);}
+}

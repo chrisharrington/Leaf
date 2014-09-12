@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html ng-app="leaf">
 <head>
     <meta name="viewport" content="width=device-width" />
 	<title data-bind="text: 'Leaf' + (IssueTracker.selectedIssue() ? ' - ' + IssueTracker.selectedIssue().number : '')">Leaf</title>
@@ -64,7 +64,7 @@
 				</div>
 			</div>
 
-			<section class="content-container"></section>
+			<section class="content-container" ng-view></section>
 		</section>
 		
 		<div class="popup">
@@ -79,15 +79,8 @@
 
 		<div class="dialog" data-bind="html: dialog"></div>
 		<div class="overlay"></div>
-		
-		<div class="global-feedback">
-			<i class="fa fa-warning"></i>
-			<i class="fa fa-check"></i>
-			<div>
-				<span></span>
-				<i class="fa fa-times"></i>
-			</div>
-		</div>
+
+		<feedback></feedback>
 
 		<div class="settings slide-menu">
 			<!-- ko if: IssueTracker.signedInUser() -->
@@ -174,6 +167,9 @@
 		</div>
 
 		<script type="text/javascript" src="/scripts/thirdParty/jquery.min.js"></script>
+		<script type="text/javascript" src="/scripts/thirdParty/angular.min.js"></script>
+		<script type="text/javascript" src="/scripts/thirdParty/angular-animate.min.js"></script>
+		<script type="text/javascript" src="/scripts/thirdParty/angular-route.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/knockout-min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/path.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/highcharts.js"></script>
@@ -184,33 +180,33 @@
 		<script type="text/javascript" src="/scripts/thirdParty/nanobar.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/jquery.timeago.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/jquery-ui-1.10.4.custom.min.js"></script>
-        {{{renderedScripts}}}
-
         <script type="text/javascript">
-            $(function () {
-                var root = window.IssueTracker || (window.IssueTracker = {});
-                root.virtualDirectory = "/";
-				root.users = IssueTracker.Utilities.buildObservableArray({{{users}}});
-				root.permissions = IssueTracker.Utilities.buildObservableArray({{{permissions}}});
-				root.priorities = IssueTracker.Utilities.buildObservableArray({{{priorities}}});
-				root.statuses = IssueTracker.Utilities.buildObservableArray({{{statuses}}});
-				root.transitions = ko.observableArray({{{transitions}}});
-				root.projects = ko.observableArray({{{projects}}});
-				root.milestones = IssueTracker.Utilities.buildObservableArray({{{milestones}}});
-				root.issueTypes = IssueTracker.Utilities.buildObservableArray({{{issueTypes}}});
-                root.projectName = ko.observable({{{projectName}}});
-                root.projectId = ko.observable({{{projectId}}});
-				root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables({{{signedInUser}}}));
-				root.selectedIssue = ko.observable();
+			window.IssueTracker = {
+				virtualDirectory: "/",
+				app: angular.module("leaf", ["ngRoute", "ngAnimate"])
+			};
 
-				IssueTracker.error = ko.observable("");
-				IssueTracker.success = ko.observable("");
-				IssueTracker.title = ko.observable();
-				IssueTracker.dialog = ko.observable();
-				IssueTracker.popup = ko.observable();
-				IssueTracker.Init.init();
-            });
+//				root.users = IssueTracker.Utilities.buildObservableArray({{{users}}});
+//				root.permissions = IssueTracker.Utilities.buildObservableArray({{{permissions}}});
+//				root.priorities = IssueTracker.Utilities.buildObservableArray({{{priorities}}});
+//				root.statuses = IssueTracker.Utilities.buildObservableArray({{{statuses}}});
+//				root.transitions = ko.observableArray({{{transitions}}});
+//				root.projects = ko.observableArray({{{projects}}});
+//				root.milestones = IssueTracker.Utilities.buildObservableArray({{{milestones}}});
+//				root.issueTypes = IssueTracker.Utilities.buildObservableArray({{{issueTypes}}});
+//                root.projectName = ko.observable({{{projectName}}});
+//                root.projectId = ko.observable({{{projectId}}});
+//				root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables({{{signedInUser}}}));
+//				root.selectedIssue = ko.observable();
+//
+//				IssueTracker.error = ko.observable("");
+//				IssueTracker.success = ko.observable("");
+//				IssueTracker.title = ko.observable();
+//				IssueTracker.dialog = ko.observable();
+//				IssueTracker.popup = ko.observable();
+//				IssueTracker.Init.init();
         </script>
+		{{{renderedScripts}}}
 
 		<script type="text/html" id="issue-properties-template">
 			<div class="milestone padded-tile-container">
