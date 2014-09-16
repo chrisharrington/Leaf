@@ -8,7 +8,11 @@
         "encrypt": "encrypt secureConfig.json secureConfig.json.cast5",
         "decrypt": "decrypt secureConfig.json.cast5 secureConfig.json"
     },
+<<<<<<< HEAD
     "version": "0.0.136",
+=======
+    "version": "0.0.114",
+>>>>>>> master
     "engines": {
         "node": "0.10.x"
     },

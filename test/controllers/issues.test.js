@@ -341,9 +341,9 @@ describe("issues", function() {
 		it("should send 200", function() {
 			return _runCreate({
 				assert: function(result) {
-					assert(result.response.send.calledWith(200));
+					assert(result.response.send.calledWith(sinon.match.any, 200));
 				}
-			})
+			});
 		});
 
 		it("should send 500 when failing to map", function() {
@@ -594,6 +594,16 @@ describe("issues", function() {
 			});
 		});
 
+		it("should send created issue's id in response.send", function() {
+			var createdIssueId = "the created issue id";
+			return _runCreate({
+				createdIssueId: createdIssueId,
+				assert: function(result) {
+					assert(result.response.send.calledWith(createdIssueId, sinon.match.any));
+				}
+			})
+		});
+
 		function _runCreate(params) {
 			params = params || {};
 			params.stubs = {
@@ -604,7 +614,7 @@ describe("issues", function() {
 				statusDetails: params.statusDetails || sinon.stub(repositories.Status, "details").resolves(params.statusDetailsResult || { name: "the status name", order: 2 }),
 				userDetails: params.userDetails || sinon.stub(repositories.User, "details"),
 				issueTypeDetails: params.issueTypeDetails || sinon.stub(repositories.IssueType, "details").resolves(params.issueTypeDetailsResult || { name: "the issue type name" }),
-				createIssue: params.createIssue || sinon.stub(repositories.Issue, "create").resolves({ developerId: params.developerId || "the developer id" }),
+				createIssue: params.createIssue || sinon.stub(repositories.Issue, "create").resolves({ _id: params.createdIssueId, developerId: params.developerId || "the developer id" }),
 				createNotification: params.createNotification || sinon.stub(repositories.Notification, "create").resolves({}),
 				notificationEmailerIssueAssigned: params.notificationEmailerIssueAssigned || sinon.stub(notificationEmailer, "issueAssigned").resolves({}),
 				dateNow: params.dateNow || sinon.stub(Date, "now").returns(params.date || new Date())
@@ -1351,13 +1361,18 @@ describe("issues", function() {
 			params = params || {};
 			params.stubs = {
 				readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves(params.detailsContent || "details-content"),
-				issueNumber: params.issueNumber || sinon.stub(repositories.Issue, "number").resolves(params.issue || {}),
+				issueNumber: params.issueNumber || sinon.stub(repositories.Issue, "number").resolves(params.issue || { milestoneId: 1, priorityId: 2, statusId: 3, developerId: 4, testerId: 5, typeId: 6 }),
 				transitionStatus: params.transitionStatus || sinon.stub(repositories.Transition, "status").resolves(params.transitions || []),
 				commentIssue: params.commentIssue || sinon.stub(repositories.Comment, "issue").resolves(params.comments || []),
 				fileIssue: params.fileIssue || sinon.stub(repositories.IssueFile, "issue").resolves(params.files || []),
 				mapperMap: params.mapperMap || sinon.stub(mapper, "map").returns(params.mapped || {}),
 				mapperMapAll: params.mapperMapAll || sinon.stub(mapper, "mapAll").returns(params.mapAll || {}),
-				mustacheRender: params.mustacheRender || sinon.stub(mustache, "render").returns(params.rendered || "the rendered html")
+				mustacheRender: params.mustacheRender || sinon.stub(mustache, "render").returns(params.rendered || "the rendered html"),
+				cachedMilestones: sinon.stub(caches.Milestone, "dict").resolves({ 1: { name: "the cached milestone name" }}),
+				cachedPriorities: sinon.stub(caches.Priority, "dict").resolves({ 2: { name: "the cached priority name" }}),
+				cachedStatuses: sinon.stub(caches.Status, "dict").resolves({ 3: { name: "the cached status name" }}),
+				cachedUsers: sinon.stub(caches.User, "dict").resolves({ 4: { name: "the cached developer name" }, 5: { name: "the cached tester name" }}),
+				cachedIssueTypes: sinon.stub(caches.IssueType, "dict").resolves({ 6: { name: "the cached issue type" }})
 			};
 
 			params.verb = "get";
@@ -1384,6 +1399,7 @@ describe("issues", function() {
 
 		it("should send 500 when failing to retrieve issues", function() {
 			sinon.stub(repositories.Issue, "search").rejects(new Error("oh noes!"));
+			sinon.stub(caches.Priority, "dict").resolves({ 1: { name: "the cached priority name" }});
 
 			var request = _buildDefaultRequest();
 			return _run({
@@ -1393,15 +1409,15 @@ describe("issues", function() {
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.any, 500));
 					repositories.Issue.search.restore();
+					caches.Priority.dict.restore();
 				}
-			}).finally(function() {
-
 			});
 		});
 
 		it("should send 500 when failing to map issues", function() {
-			sinon.stub(repositories.Issue, "search").resolves(["blah"]);
+			sinon.stub(repositories.Issue, "search").resolves([{ name: "blah", priorityId: 1 }]);
 			sinon.stub(mapper, "mapAll").throws();
+			sinon.stub(caches.Priority, "dict").resolves({ 1: { name: "the cached priority name" }});
 
 			var request = _buildDefaultRequest();
 			return _run({
@@ -1410,16 +1426,18 @@ describe("issues", function() {
 				route: "/issues/list",
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.any, 500));
+
+					caches.Priority.dict.restore();
+					repositories.Issue.search.restore();
+					mapper.mapAll.restore();
 				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
-				mapper.mapAll.restore();
 			});
 		});
 
 		it("should set start to 1 when invalid start given", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
 			sinon.stub(repositories.Issue, "count").resolves(0);
+			sinon.stub(caches.Priority, "dict").resolves({ 1: { name: "the cached priority name" }});
 
 			var request = _buildDefaultRequest();
 			request.query.start = "not a number";
@@ -1437,16 +1455,18 @@ describe("issues", function() {
 						types: request.query.types.split(",")
 					}, request.query.direction, request.query.comparer, 1, parseInt(request.query.end)));
 					assert(result.response.send.calledWith(sinon.match.any, 200));
+
+					repositories.Issue.search.restore();
+					repositories.Issue.count.restore();
+					caches.Priority.dict.restore();
 				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
-				repositories.Issue.count.restore();
 			});
 		});
 
 		it("should set end to 50 when invalid start given", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
 			sinon.stub(repositories.Issue, "count").resolves(0);
+			sinon.stub(caches.Priority, "dict").resolves({ 1: { name: "the cached priority name" }});
 
 			var request = _buildDefaultRequest();
 			request.query.end = "not a number";
@@ -1464,17 +1484,20 @@ describe("issues", function() {
 						types: request.query.types.split(",")
 					}, request.query.direction, request.query.comparer, parseInt(request.query.start), 50));
 					assert(result.response.send.calledWith(sinon.match.any, 200));
+
+					caches.Priority.dict.restore();
+					repositories.Issue.search.restore();
+					repositories.Issue.count.restore();
 				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
-				repositories.Issue.count.restore();
 			});
 		});
 
 		it("should map issues to view models", function() {
-			sinon.stub(repositories.Issue, "search").resolves(["blah"]);
+			var issues = [{ name: "blah", priorityId: 1 }];
 			sinon.stub(repositories.Issue, "count").resolves(0);
+			sinon.stub(repositories.Issue, "search").resolves(issues);
 			sinon.stub(mapper, "mapAll").returns([]);
+			sinon.stub(caches.Priority, "dict").resolves({ 1: { name: "the cached priority name" }});
 
 			var request = _buildDefaultRequest();
 			return _run({
@@ -1482,19 +1505,21 @@ describe("issues", function() {
 				verb: "get",
 				route: "/issues/list",
 				assert: function(result) {
-					assert(mapper.mapAll.calledWith("issue", "issue-list-view-model", ["blah"]));
+					assert(mapper.mapAll.calledWith("issue", "issue-list-view-model", issues));
 					assert(result.response.send.calledWith(sinon.match.any, 200));
+
+					repositories.Issue.search.restore();
+					repositories.Issue.count.restore();
+					mapper.mapAll.restore();
+					caches.Priority.dict.restore();
 				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
-				repositories.Issue.count.restore();
-				mapper.mapAll.restore();
 			});
 		});
 
 		it("should search for issues", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
 			sinon.stub(repositories.Issue, "count").resolves(0);
+			sinon.stub(caches.Priority, "dict").resolves({ 1: { name: "the cached priority name" }});
 
 			var request = _buildDefaultRequest();
 			return _run({
@@ -1511,15 +1536,16 @@ describe("issues", function() {
 						types: request.query.types.split(",")
 					}, request.query.direction, request.query.comparer, parseInt(request.query.start), parseInt(request.query.end)));
 					assert(result.response.send.calledWith(sinon.match.any, 200));
+					repositories.Issue.search.restore();
+					repositories.Issue.count.restore();
+					caches.Priority.dict.restore();
 				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
-				repositories.Issue.count.restore();
 			});
 		});
 
 		it("should search for issues using given project id", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
+			sinon.stub(caches.Priority, "dict").resolves({ 1: { name: "the cached priority name" }});
 
 			var request = _buildDefaultRequest();
 			return _run({
@@ -1528,14 +1554,15 @@ describe("issues", function() {
 				route: "/issues/list",
 				assert: function(result) {
 					assert(repositories.Issue.search.calledWith("the project id", sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any));
+					repositories.Issue.search.restore();
+					caches.Priority.dict.restore();
 				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
 			});
 		});
 
 		it("should set search criteria filter to empty array when missing", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
+			sinon.stub(caches.Priority, "dict").resolves({ 1: { name: "the cached priority name" }});
 
 			var request = _buildDefaultRequest();
 			request.query.priorities = undefined;
@@ -1552,9 +1579,9 @@ describe("issues", function() {
 						milestones: sinon.match.any,
 						types: sinon.match.any
 					}, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any));
+					repositories.Issue.search.restore();
+					caches.Priority.dict.restore();
 				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
 			});
 		});
 
@@ -1563,6 +1590,7 @@ describe("issues", function() {
 			sinon.stub(repositories.Issue, "search").resolves([]);
 			sinon.stub(repositories.Issue, "count").resolves(0);
 			sinon.stub(mapper, "mapAll").returns(issues);
+			sinon.stub(caches.Priority, "dict").resolves({ 1: { name: "the cached priority name" }});
 
 			var request = _buildDefaultRequest();
 			return _run({
@@ -1571,11 +1599,11 @@ describe("issues", function() {
 				route: "/issues/list",
 				assert: function(result) {
 					assert(result.response.send.calledWith(issues, 200));
+					repositories.Issue.search.restore();
+					repositories.Issue.count.restore();
+					mapper.mapAll.restore();
+					caches.Priority.dict.restore();
 				}
-			}).finally(function() {
-				repositories.Issue.search.restore();
-				repositories.Issue.count.restore();
-				mapper.mapAll.restore();
 			});
 		});
 
