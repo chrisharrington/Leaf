@@ -14,6 +14,7 @@ describe("assets", function() {
 				"./public/scripts/notifications.js",
 				"./public/scripts/page.js",
 				"./public/scripts/utilities.js",
+				"./public/scripts/controllers",
 				"./public/scripts/directives",
 				"./public/scripts/services",
 				"./public/scripts/binders",
@@ -37,10 +38,13 @@ describe("assets", function() {
 	describe("styles", function() {
 		it("should list all required styles", function() {
 			var required = [
+				"./public/css/variables.less",
+				"./public/css/mixins.less",
 				"./public/css/global.less",
 				"./public/css/fonts.css",
 				"./public/css/scroll.less",
 				"./public/css/animation.less",
+				"./public/css/directives",
 				"./public/css/controls",
 				"./public/css/partials",
 				"./public/css/templates",

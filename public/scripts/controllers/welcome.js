@@ -30,6 +30,8 @@ IssueTracker.app.factory("welcome", function(feedback, $http) {
 	function _validate(scope) {
 		if (scope.emailAddress === "")
 			return "The email address is required.";
+		if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(scope.emailAddress))
+			return "The email address is invalid.";
 		if (scope.password === "")
 			return "The password is required.";
 	}

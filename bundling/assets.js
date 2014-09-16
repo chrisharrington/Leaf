@@ -5,6 +5,7 @@ exports.scripts = function() {
 		"./public/scripts/notifications.js",
 		"./public/scripts/page.js",
 		"./public/scripts/utilities.js",
+		"./public/scripts/controllers",
 		"./public/scripts/directives",
 		"./public/scripts/services",
 		"./public/scripts/binders",
