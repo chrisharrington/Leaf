@@ -170,8 +170,6 @@
 		<script type="text/javascript" src="/scripts/thirdParty/angular.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/angular-animate.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/angular-route.min.js"></script>
-		<script type="text/javascript" src="/scripts/thirdParty/knockout-min.js"></script>
-		<script type="text/javascript" src="/scripts/thirdParty/path.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/highcharts.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/json2.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/amplify.min.js"></script>
@@ -183,7 +181,8 @@
         <script type="text/javascript">
 			window.IssueTracker = {
 				virtualDirectory: "/",
-				app: angular.module("leaf", ["ngRoute", "ngAnimate"])
+				app: angular.module("leaf", ["ngRoute", "ngAnimate"]),
+				priorities: {{{priorities}}}
 			};
 
 //				root.users = IssueTracker.Utilities.buildObservableArray({{{users}}});

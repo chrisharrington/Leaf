@@ -2,19 +2,12 @@ exports.scripts = function() {
 	return [
 		"./public/scripts/thirdParty/jquery.autogrow-textarea.js",
 		"./public/scripts/global.js",
-		"./public/scripts/notifications.js",
 		"./public/scripts/page.js",
 		"./public/scripts/utilities.js",
 		"./public/scripts/controllers",
 		"./public/scripts/directives",
 		"./public/scripts/services",
-		"./public/scripts/binders",
-		"./public/scripts/controls",
 		"./public/scripts/extensions",
-		"./public/scripts/helpers",
-		"./public/scripts/settings",
-		"./public/scripts/userSettings",
-		"./public/scripts/views",
 		"./public/scripts/init.js"
 	];
 };

@@ -4,7 +4,7 @@ IssueTracker.app.controller("welcome", function($scope, welcome, once) {
 	welcome.load($scope);
 });
 
-IssueTracker.app.factory("welcome", function(feedback, $http) {
+IssueTracker.app.factory("welcome", function($rootScope, feedback, $http) {
 	return {
 		init: function(scope) {
 			scope.loading = false;
@@ -38,8 +38,8 @@ IssueTracker.app.factory("welcome", function(feedback, $http) {
 
 	function _submit(scope) {
 		scope.loading = true;
-		$http.post("sign-in", { email: scope.emailAddress, password: scope.password }).then(function() {
-			_setSignInValues(data.user, data.project);
+		$http.post("sign-in", { email: scope.emailAddress, password: scope.password }).then(function(data) {
+			_setSignInValues(data.data.user, data.data.project);
 			window.location.hash = "issues";
 		}, function(response) {
 			if (response.status == 401)

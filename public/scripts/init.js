@@ -8,12 +8,15 @@ IssueTracker.app.config(["$interpolateProvider", function($interpolateProvider) 
 IssueTracker.app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
 		.when("/welcome", { templateUrl: "views/welcome.html", controller: "welcome" })
+		.when("/issues", { templateUrl: "views/issues.html", controller: "issues" })
 		.otherwise({ redirectTo: "/welcome" });
 }]);
 
 IssueTracker.app.run(function($rootScope) {
 	$rootScope.feedbackText = "";
 	$rootScope.feedbackError = false;
+
+	$rootScope.priorities = IssueTracker.priorities;
 });
 
 //

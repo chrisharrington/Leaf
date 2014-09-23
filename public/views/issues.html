@@ -1,110 +1,112 @@
-﻿<div class="data-container">
-	<div class="issues-list">
-		<div class="issues-loading hidden" data-bind="css: { hidden: !loading() }">
-            <div class="spinner">
-                <div class="rect1"></div>
-                <div class="rect2"></div>
-                <div class="rect3"></div>
-                <div class="rect4"></div>
-                <div class="rect5"></div>
-            </div>
+﻿<div class="issues-container">
+	<div class="data-container">
+		<div class="issues-list">
+			<div class="issues-loading hidden" ng-show="loading">
+				<div class="spinner">
+					<div class="rect1"></div>
+					<div class="rect2"></div>
+					<div class="rect3"></div>
+					<div class="rect4"></div>
+					<div class="rect5"></div>
+				</div>
+			</div>
+			<div class="no-issues tile hidden" ng-show="!loading && issues.length > 0">
+				<h1>No issues found.</h1>
+				<span>Your current filter settings have excluded all issues. Create an issue or change the filter on the right to see a list of issues.</span>
+			</div>
+			<div class="data">
+				<a ng-repeat="issue in issues" class="tile" href="#/issues/[[issue.number]]">
+					<div ng-style="{ 'border-color': issue.priorityColour }">
+						<div class="info">
+							<span class="number">[[issue.number]]</span>
+							<div class="name">
+								<span class="name">[[issue.description]]</span>
+								<span class="details">[[issue.details]]</span>
+							</div>
+							<div class="details">
+								<img class="user-profile-image" data-bind="profile: { userId: developerId, size: 35 }" alt="" />
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
 		</div>
-		<div class="no-issues tile hidden" data-bind="css: { hidden: loading() || list().length > 0 }">
-			<h1>No issues found.</h1>
-			<span>Your current filter settings have excluded all issues. Create an issue or change the filter on the right to see a list of issues.</span>
-		</div>
-		<div class="data" data-bind="foreach: list">
-			<a class="tile" data-bind="attr: { 'data-issue': JSON.stringify($data), href: '#/issues/' + number }">
-				<div data-bind="style: { 'border-color': IssueTracker.Utilities.getPriorityColour(priorityId) }">
-					<div class="info">
-						<span class="number" data-bind="text: number"></span>
-                        <div class="name">
-                            <span class="name" data-bind="text: description"></span>
-                            <span class="details" data-bind="text: details"></span>
-                        </div>
-                        <div class="details">
-                            <img class="user-profile-image" data-bind="profile: { userId: developerId, size: 35 }" alt="" />
-                        </div>
+		<div class="sidebar" style="display:none;">
+			<div class="counts">
+				<span data-bind="animateVisible: { bool: !loading(), animation: 'fade', speed: 0, height: 150 }"><b data-bind="text: list().length"></b> issues shown</span>
+			</div>
+			<div class="sort" data-bind="click: Sort.toggle">
+				<div class="selector">
+					<span>Sort by <b data-bind="text: Sort.selected().label"></b></span>
+					<i data-bind="attr: { class: 'fa ' + (Sort.visible() ? 'fa-angle-up' : 'fa-angle-down') }"></i>
+				</div>
+				<div class="options choice-tile" data-bind="foreach: Sort.options, animateVisible: { animation: 'slide', bool: Sort.visible }">
+					<div data-bind="css: { selected: $root.Sort.selected().label == label }, click: function() { $root.Sort.select($data); }">
+						<span data-bind="text: display"></span>
+						<i class="fa fa-check"></i>
 					</div>
 				</div>
-			</a>
-		</div>
-	</div>
-    <div class="sidebar">
-		<div class="counts">
-			<span data-bind="animateVisible: { bool: !loading(), animation: 'fade', speed: 0, height: 150 }"><b data-bind="text: list().length"></b> issues shown</span>
-		</div>
-		<div class="sort" data-bind="click: Sort.toggle">
-			<div class="selector">
-				<span>Sort by <b data-bind="text: Sort.selected().label"></b></span>
-				<i data-bind="attr: { class: 'fa ' + (Sort.visible() ? 'fa-angle-up' : 'fa-angle-down') }"></i>
 			</div>
-			<div class="options choice-tile" data-bind="foreach: Sort.options, animateVisible: { animation: 'slide', bool: Sort.visible }">
-				<div data-bind="css: { selected: $root.Sort.selected().label == label }, click: function() { $root.Sort.select($data); }">
-					<span data-bind="text: display"></span>
-					<i class="fa fa-check"></i>
+			<div class="filter">
+				<div>
+					<!-- ko foreach: { data: IssueTracker.milestones } -->
+					<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedMilestones, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedMilestones, $data, $element); }">
+						<span class="value" data-bind="text: name"></span>
+						<i class="fa fa-check-square"></i>
+						<i class="fa fa-square-o"></i>
+					</div>
+					<!-- /ko -->
+				</div>
+				<div>
+					<!-- ko foreach: { data: IssueTracker.priorities } -->
+					<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedPriorities, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedPriorities, $data, $element); }">
+						<span class="value" data-bind="text: name"></span>
+						<i class="fa fa-check-square"></i>
+						<i class="fa fa-square-o"></i>
+					</div>
+					<!-- /ko -->
+				</div>
+				<div>
+					<!-- ko foreach: { data: IssueTracker.statuses } -->
+					<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedStatuses, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedStatuses, $data, $element); }">
+						<span class="value" data-bind="text: name"></span>
+						<i class="fa fa-check-square"></i>
+						<i class="fa fa-square-o"></i>
+					</div>
+					<!-- /ko -->
+				</div>
+				<div>
+					<!-- ko foreach: { data: IssueTracker.issueTypes } -->
+					<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTypes, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedTypes, $data, $element); }">
+						<span class="value" data-bind="text: name"></span>
+						<i class="fa fa-check-square"></i>
+						<i class="fa fa-square-o"></i>
+					</div>
+					<!-- /ko -->
+				</div>
+				<div>
+					<!-- ko foreach: { data: IssueTracker.users } -->
+					<!-- ko if: !isDeleted() -->
+					<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedDevelopers, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedDevelopers, $data, $element); }">
+						<span class="value" data-bind="text: name"></span>
+						<i class="fa fa-check-square"></i>
+						<i class="fa fa-square-o"></i>
+					</div>
+					<!-- /ko -->
+					<!-- /ko -->
+				</div>
+				<div>
+					<!-- ko foreach: { data: IssueTracker.users } -->
+					<!-- ko if: !isDeleted() -->
+					<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTesters, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedTesters, $data, $element); }">
+						<span class="value" data-bind="text: name"></span>
+						<i class="fa fa-check-square"></i>
+						<i class="fa fa-square-o"></i>
+					</div>
+					<!-- /ko -->
+					<!-- /ko -->
 				</div>
 			</div>
 		</div>
-        <div class="filter">
-            <div>
-                <!-- ko foreach: { data: IssueTracker.milestones } -->
-                <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedMilestones, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedMilestones, $data, $element); }">
-                    <span class="value" data-bind="text: name"></span>
-                    <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square-o"></i>
-                </div>
-                <!-- /ko -->
-            </div>
-            <div>
-                <!-- ko foreach: { data: IssueTracker.priorities } -->
-                <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedPriorities, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedPriorities, $data, $element); }">
-                    <span class="value" data-bind="text: name"></span>
-                    <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square-o"></i>
-                </div>
-                <!-- /ko -->
-            </div>
-            <div>
-                <!-- ko foreach: { data: IssueTracker.statuses } -->
-                <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedStatuses, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedStatuses, $data, $element); }">
-                    <span class="value" data-bind="text: name"></span>
-                    <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square-o"></i>
-                </div>
-                <!-- /ko -->
-            </div>
-            <div>
-                <!-- ko foreach: { data: IssueTracker.issueTypes } -->
-                <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTypes, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedTypes, $data, $element); }">
-                    <span class="value" data-bind="text: name"></span>
-                    <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square-o"></i>
-                </div>
-                <!-- /ko -->
-            </div>
-            <div>
-                <!-- ko foreach: { data: IssueTracker.users } -->
-                <!-- ko if: !isDeleted() -->
-                <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedDevelopers, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedDevelopers, $data, $element); }">
-                    <span class="value" data-bind="text: name"></span>
-                    <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square-o"></i>
-                </div>
-                <!-- /ko -->
-                <!-- /ko -->
-            </div>
-            <div>
-                <!-- ko foreach: { data: IssueTracker.users } -->
-                <!-- ko if: !isDeleted() -->
-                <div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedTesters, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedTesters, $data, $element); }">
-                    <span class="value" data-bind="text: name"></span>
-                    <i class="fa fa-check-square"></i>
-                    <i class="fa fa-square-o"></i>
-                </div>
-                <!-- /ko -->
-                <!-- /ko -->
-            </div>
-        </div>
-    </div>
+	</div>
 </div>
