@@ -32,7 +32,11 @@ IssueTracker.app.factory("issues", function(issueRepository, feedback) {
 	function _getIssues(scope) {
 		scope.loading = true;
 		issueRepository.search().then(function(issues) {
-			scope.issues = issues;
+			var priorities = IssueTracker.priorities.dict("id");
+			scope.issues = issues.map(function(issue) {
+				issue.priorityColour = priorities[issue.priorityId].colour;
+				return issue;
+			});
 		}).catch(function() {
 			feedback.error("An error has occurred while retrieving the issues list. Please try again later.");
 		}).finally(function() {

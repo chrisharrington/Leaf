@@ -16,3 +16,10 @@ Array.prototype.where = function(func) {
 Array.prototype.first = function(func) {
 	return this.where(func)[0];
 };
+
+Array.prototype.dict = function(key) {
+	var result = {};
+	for (var i = 0; i < this.length; i++)
+		result[this[i][key]] = this[i];
+	return result;
+}
