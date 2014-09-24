@@ -28,9 +28,7 @@ IssueTracker.app.factory("issueFilter", function($rootScope) {
 
 		this.contains = function (collection, data) {
 			for (var i = 0; i < collection.length; i++) {
-				var id = typeof(data.id) == "function" ? data.id() : data.id;
-				var collectionId = typeof(collection[i].id) == "function" ? collection[i].id() : collection[i].id;
-				if (collectionId === id)
+				if (collection[i].id === data.id)
 					return true;
 			}
 			return false;
@@ -61,17 +59,9 @@ IssueTracker.app.factory("issueFilter", function($rootScope) {
 		scope.selectedMilestones.pushAll($rootScope.milestones);
 		scope.selectedPriorities.pushAll($rootScope.priorities);
 		scope.selectedStatuses.pushAll($rootScope.statuses);
-		scope.selectedDevelopers.pushAll(_getUndeletedObjects($rootScope.users));
-		scope.selectedTesters.pushAll(_getUndeletedObjects($rootScope.users));
+		scope.selectedDevelopers.pushAll($rootScope.users.where(function(u) { return !u.isDeleted; }));
+		scope.selectedTesters.pushAll($rootScope.users.where(function(u) { return !u.isDeleted; }));
 		scope.selectedTypes.pushAll($rootScope.issueTypes);
-	}
-
-	function _getUndeletedObjects(collection) {
-		var undeleted = [];
-		for (var i = 0; i < collection.length; i++)
-			if (collection[i].isDeleted === false)
-				undeleted.push(collection[i]);
-		return undeleted;
 	}
 
 	function _load(scope) {
