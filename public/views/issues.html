@@ -49,14 +49,12 @@
 			</div>
 			<div class="filter">
 				<div>
-					<div ng-repeat="milestone in $root.milestones" ng-class="{ selected: filter.contains(filter.selectedMilestones, milestone) }" ng-click="filter.toggle(filter.selectedMilestones, milestone)">
+					<div ng-repeat="milestone in $root.milestones" ng-click="filter.toggle(filter.selectedMilestones, milestone)">
 						<span class="value">[[milestone.name]]</span>
-						<i class="fa fa-check-square"></i>
-						<i class="fa fa-square-o"></i>
+						<checkbox checked="filter.contains(filter.selectedMilestones, milestone)"></checkbox>
 					</div>
 				</div>
 				<div>
-					<!-- ko foreach: { data: IssueTracker.priorities } -->
 					<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedPriorities, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedPriorities, $data, $element); }">
 						<span class="value" data-bind="text: name"></span>
 						<i class="fa fa-check-square"></i>

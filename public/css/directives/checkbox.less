@@ -1,5 +1,5 @@
 @icon-container-width:20px;
-@checkbox-size:18px;
+@checkbox-size:16px;
 
 div.checkbox-container { float:left; width:100%; .border-box; cursor:pointer;
 	>div.inner-checkbox-container { float:left; width:@checkbox-size; height:@checkbox-size; position:relative;
@@ -13,8 +13,6 @@ div.checkbox-container { float:left; width:100%; .border-box; cursor:pointer;
 		>span { float:left; width:100%; color:@placeholder-colour; font-size:1em; .transition(color @animation-speed); .vertical-centre(@checkbox-size); margin-left:@small-spacing; }
 	}
 	>i { float:left; width:@icon-container-width; margin-left:(@icon-container-width+@spacing*2)*-1; color:@primary-font-colour-light; padding:@spacing; text-align:right; }
-
-	modal { cursor:default; }
 }
 
 div.checkbox-container.checked {
