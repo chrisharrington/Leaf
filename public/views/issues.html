@@ -31,18 +31,18 @@
 				</a>
 			</div>
 		</div>
-		<div class="sidebar" style="display:none;">
+		<div class="sidebar">
 			<div class="counts">
-				<span data-bind="animateVisible: { bool: !loading(), animation: 'fade', speed: 0, height: 150 }"><b data-bind="text: list().length"></b> issues shown</span>
+				<span data-bind="animateVisible: { bool: !loading(), animation: 'fade', speed: 0, height: 150 }"><b>[[issues.length]]</b> issues shown</span>
 			</div>
-			<div class="sort" data-bind="click: Sort.toggle">
+			<div class="sort" ng-click="sort.toggle()">
 				<div class="selector">
-					<span>Sort by <b data-bind="text: Sort.selected().label"></b></span>
-					<i data-bind="attr: { class: 'fa ' + (Sort.visible() ? 'fa-angle-up' : 'fa-angle-down') }"></i>
+					<span>Sort by <b>[[sort.selected.label]]</b></span>
+					<i class="fa [[sort.visible ? 'fa-angle-up' : 'fa-angle-down']]"></i>
 				</div>
-				<div class="options choice-tile" data-bind="foreach: Sort.options, animateVisible: { animation: 'slide', bool: Sort.visible }">
-					<div data-bind="css: { selected: $root.Sort.selected().label == label }, click: function() { $root.Sort.select($data); }">
-						<span data-bind="text: display"></span>
+				<div class="options choice-tile" slide-vertical="sort.visible">
+					<div ng-repeat="option in sort.options" ng-class="{ selected: sort.selected.label === option.label }" ng-click="sort.select(option)">
+						<span>[[option.display]]</span>
 						<i class="fa fa-check"></i>
 					</div>
 				</div>

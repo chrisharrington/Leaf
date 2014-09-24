@@ -19,6 +19,7 @@ var MAX_AGE = 2592000000;
 module.exports = function() {
 	var app = express.call(this);
 	_configureApplication(app);
+	console.log("Starting...");
 	return connection.open().then(function () {
 		var inits = [];
 		for (var name in caches)

@@ -12,19 +12,3 @@ IssueTracker.app.directive("profileImage", function(md5) {
 		}
 	}
 });
-
-//root.getUserProfileImageLocation = function(userId, size) {
-//	if (!userId && !IssueTracker.signedInUser())
-//		return;
-//	if (!userId)
-//		userId = IssueTracker.signedInUser().id();
-//	if (typeof (userId) === "Function")
-//		userId = userId();
-//
-//	var email;
-//	$.each(IssueTracker.users(), function(i, user) {
-//		if (user.id() == userId)
-//			email = user.emailAddress();
-//	});
-//	return "http://gravatar.com/avatar/" + CryptoJS.MD5(email) + "?s=" + (size || 35) +"&d=mm";
-//};

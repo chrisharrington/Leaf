@@ -7,8 +7,7 @@ var repository = Object.spawn(require("./baseRepository"), {
 });
 
 repository.search = function(projectId, filter, sortDirection, sortComparer, start, end) {
-	var params = _buildParameters(projectId, filter);
-	return repository.get(params, {
+	return repository.get(_buildParameters(projectId, filter), {
 		sort: _buildSort(sortDirection, sortComparer),
 		skip: start - 1,
 		limit: end - start + 1,
@@ -27,7 +26,8 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 	function _buildParameters(projectId, filter) {
 		var params = {
 			project: projectId,
-			isDeleted: false
+			isDeleted: false,
+			number: { $gt: 2 }
 		};
 		_addFilter("priorityId", filter.priorities, params);
 		_addFilter("statusId", filter.statuses, params);

@@ -6,7 +6,7 @@ IssueTracker.app.controller("issues", function($scope, issues, once) {
 	issues.load($scope);
 });
 
-IssueTracker.app.factory("issues", function(issueRepository, feedback) {
+IssueTracker.app.factory("issues", function(issueRepository, feedback, issueSort) {
 	var _startCount = 50;
 	var _issueCountToLoad = 15;
 	var _start = 0;
@@ -18,9 +18,11 @@ IssueTracker.app.factory("issues", function(issueRepository, feedback) {
 		},
 
 		load: function(scope) {
+			scope.sort = issueSort;
 			scope.loading = false;
 			scope.issues = _issues;
 
+			scope.sort.init();
 			_getIssues(scope);
 		},
 
