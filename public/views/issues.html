@@ -33,7 +33,7 @@
 		</div>
 		<div class="sidebar">
 			<div class="counts">
-				<span data-bind="animateVisible: { bool: !loading(), animation: 'fade', speed: 0, height: 150 }"><b>[[issues.length]]</b> issues shown</span>
+				<span><b>[[issues.length]]</b> issues shown</span>
 			</div>
 			<div class="sort" ng-click="sort.toggle()">
 				<div class="selector">
@@ -49,13 +49,11 @@
 			</div>
 			<div class="filter">
 				<div>
-					<!-- ko foreach: { data: IssueTracker.milestones } -->
-					<div data-bind="css: { selected: $parent.Filter.contains($parent.Filter.selectedMilestones, $data) }, click: function() { $parent.Filter.toggle($parent.Filter.selectedMilestones, $data, $element); }">
-						<span class="value" data-bind="text: name"></span>
+					<div ng-repeat="milestone in $root.milestones" ng-class="{ selected: filter.contains(filter.selectedMilestones, milestone) }" ng-click="filter.toggle(filter.selectedMilestones, milestone)">
+						<span class="value">[[milestone.name]]</span>
 						<i class="fa fa-check-square"></i>
 						<i class="fa fa-square-o"></i>
 					</div>
-					<!-- /ko -->
 				</div>
 				<div>
 					<!-- ko foreach: { data: IssueTracker.priorities } -->

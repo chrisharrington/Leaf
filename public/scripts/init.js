@@ -12,12 +12,7 @@ IssueTracker.app.config(["$routeProvider", function($routeProvider) {
 		.otherwise({ redirectTo: "/welcome" });
 }]);
 
-IssueTracker.app.run(function($rootScope) {
-	$rootScope.feedbackText = "";
-	$rootScope.feedbackError = false;
 
-	$rootScope.priorities = IssueTracker.priorities;
-});
 
 //
 //(function (root) {

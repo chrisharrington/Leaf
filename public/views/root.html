@@ -182,10 +182,19 @@
         <script type="text/javascript">
 			window.IssueTracker = {
 				virtualDirectory: "/",
-				app: angular.module("leaf", ["ngRoute", "ngAnimate", "angular-md5"]),
-				users: {{{users}}},
-				priorities: {{{priorities}}}
+				app: angular.module("leaf", ["ngRoute", "ngAnimate", "angular-md5"])
 			};
+
+			IssueTracker.app.run(function($rootScope) {
+				$rootScope.feedbackText = "";
+				$rootScope.feedbackError = false;
+
+				$rootScope.users = {{{users}}};
+				$rootScope.milestones = {{{milestones}}};
+				$rootScope.priorities = {{{priorities}}};
+				$rootScope.statuses = {{{statuses}}};
+				$rootScope.issueTypes = {{{issueTypes}}};
+			});
 
 //				root.users = IssueTracker.Utilities.buildObservableArray({{{users}}});
 //				root.permissions = IssueTracker.Utilities.buildObservableArray({{{permissions}}});

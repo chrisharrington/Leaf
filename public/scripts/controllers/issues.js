@@ -6,7 +6,7 @@ IssueTracker.app.controller("issues", function($scope, issues, once) {
 	issues.load($scope);
 });
 
-IssueTracker.app.factory("issues", function(issueRepository, feedback, issueSort) {
+IssueTracker.app.factory("issues", function($rootScope, issueRepository, feedback, issueSort, issueFilter) {
 	var _startCount = 50;
 	var _issueCountToLoad = 15;
 	var _start = 0;
@@ -19,10 +19,12 @@ IssueTracker.app.factory("issues", function(issueRepository, feedback, issueSort
 
 		load: function(scope) {
 			scope.sort = issueSort;
+			scope.filter = issueFilter;
 			scope.loading = false;
 			scope.issues = _issues;
 
 			scope.sort.init();
+			scope.filter.init();
 			_getIssues(scope);
 		},
 
@@ -34,7 +36,7 @@ IssueTracker.app.factory("issues", function(issueRepository, feedback, issueSort
 	function _getIssues(scope) {
 		scope.loading = true;
 		issueRepository.search().then(function(issues) {
-			var priorities = IssueTracker.priorities.dict("id");
+			var priorities = $rootScope.priorities.dict("id");
 			scope.issues = issues.map(function(issue) {
 				issue.priorityColour = priorities[issue.priorityId].colour;
 				return issue;
