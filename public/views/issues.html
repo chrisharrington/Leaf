@@ -38,7 +38,7 @@
 			<div class="sort" ng-click="sort.toggle()">
 				<div class="selector">
 					<span>Sort by <b>[[sort.selected.label]]</b></span>
-					<i class="fa [[sort.visible ? 'fa-angle-up' : 'fa-angle-down']]"></i>
+					<i class="fa fa-angle-down" rotate="sort.visible" rotate-amount="half"></i>
 				</div>
 				<div class="options choice-tile" slide-vertical="sort.visible">
 					<div ng-repeat="option in sort.options" ng-class="{ selected: sort.selected.label === option.label }" ng-click="sort.select(option)">
