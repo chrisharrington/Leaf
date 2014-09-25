@@ -19,7 +19,7 @@ IssueTracker.app.factory("issueFilter", function($rootScope) {
 		this.selectedDevelopers = [];
 		this.selectedTesters = [];
 
-		this.init = function (container, template, onFilterSet) {
+		this.init = function (onFilterSet) {
 			_onFilterSet = onFilterSet;
 
 			_initializeData(this);

@@ -1,12 +1,13 @@
 IssueTracker.app.factory("issueSort", function() {
-	var SORT_STORAGE_KEY = "Sort.SelectedSort";
+	var SORT_STORAGE_KEY = "Sort.SelectedSort", _onSortChanged;
 
 	return new function() {
 		this.selected = undefined;
 		this.visible = false;
 		this.options = [];
 
-		this.init = function() {
+		this.init = function(onSortChanged) {
+			_onSortChanged = onSortChanged;
 			_buildSortOptions(this);
 			_load(this);
 		};
@@ -17,6 +18,8 @@ IssueTracker.app.factory("issueSort", function() {
 
 		this.select = function(sort) {
 			this.selected = sort;
+			_onSortChanged(sort);
+			_save(sort);
 		};
 	};
 
@@ -25,13 +28,12 @@ IssueTracker.app.factory("issueSort", function() {
 		scope.options.push(new Sort("recently opened", "Recently Opened", "opened", "descending"));
 	}
 
-	function _save() {
-		window.localStorage.setItem(SORT_STORAGE_KEY, JSON.stringify(scope.selected));
+	function _save(sort) {
+		window.localStorage.setItem(SORT_STORAGE_KEY, JSON.stringify(sort));
 	}
 
 	function _load(scope) {
-		//JSON.parse(window.localStorage.getItem(SORT_STORAGE_KEY) ||
-		scope.selected = scope.options[0];
+		scope.selected = JSON.parse(window.localStorage.getItem(SORT_STORAGE_KEY)) || scope.options[0];
 	}
 });
 
