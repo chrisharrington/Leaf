@@ -2,7 +2,7 @@
 
 header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour); position:fixed; z-index:@header-z-index;
 	>div.header-wrapper { position:relative; max-width:@application-width; margin:auto; height:@header-height;  color:@primary-font-colour-dark-background; .border-box;
-		>div { float:left; width:100%;
+		>div { float:left; width:100%; height:100%;
 			>div.logo { float:left; margin-right:@spacing; width:85px;
 				>* { line-height:@header-height; height:@header-height; vertical-align:middle; display:inline-block; }
 				>a { float:left; width:100%;
@@ -16,7 +16,7 @@ header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-grad
 			>div.actions { float:right; }
 			>div.search { float:right; height:100%; .border-box; padding:@spacing;
 				>* { float:left; height:100%; }
-				>input { box-shadow:none !important; border:none; border-top-right-radius:0px; border-bottom-right-radius:0px; width:250px; }
+				>input { padding:0 0 0 @small-spacing; font-size:1em; outline:none !important; box-shadow:none !important; border:none; border-top-left-radius:3px; border-bottom-left-radius:3px; width:250px; .regular-font; }
 				>i { line-height:30px; background:white; padding:0 @small-spacing; cursor:pointer; border-top-right-radius:3px; border-bottom-right-radius:3px; color:black; }
 			}
 
