@@ -5,13 +5,26 @@ IssueTracker.app.config(["$interpolateProvider", function($interpolateProvider) 
 	$interpolateProvider.endSymbol("]]");
 }]);
 
-IssueTracker.app.config(["$routeProvider", function($routeProvider) {
+IssueTracker.app.config(function($routeProvider) {
 	$routeProvider
 		.when("/welcome", { templateUrl: "views/welcome.html", controller: "welcome" })
 		.when("/issues", { templateUrl: "views/issues.html", controller: "issues" })
 		.otherwise({ redirectTo: "/welcome" });
-}]);
+});
 
+IssueTracker.app.run(function($rootScope) {
+	var session = _tryGetSession(window.sessionStorage);
+	if (!session)
+		session = _tryGetSession(window.localStorage);
+	if (session) {
+		$rootScope.project = session.project;
+		$rootScope.user = session.user;
+	}
+
+	function _tryGetSession(storage) {
+		return JSON.parse(storage.getItem("session"));
+	}
+});
 
 
 //

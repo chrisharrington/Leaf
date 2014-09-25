@@ -1,4 +1,5 @@
-IssueTracker.app.controller("issues", function($scope, issues, once) {
+IssueTracker.app.controller("issues", function($scope, authentication, issues, once) {
+	authentication.check();
 	once("issues", function() { issues.init($scope); });
 	issues.load($scope);
 });
