@@ -1,6 +1,8 @@
 var Promise = require("bluebird");
 var mongoose = require("mongoose");
 
+mongoose.set("debug", true);
+
 module.exports = {
 	get: function(conditions, options) {
 		options = options || {};
