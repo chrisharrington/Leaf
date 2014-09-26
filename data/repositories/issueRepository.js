@@ -27,8 +27,7 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 	function _buildParameters(projectId, filter) {
 		var params = {
 			project: projectId,
-			isDeleted: false,
-			number: { $gt: 2 }
+			isDeleted: false
 		};
 		_addFilter("priorityId", filter.priorities, params);
 		_addFilter("statusId", filter.statuses, params);
