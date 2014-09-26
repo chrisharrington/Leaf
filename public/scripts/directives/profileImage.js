@@ -7,8 +7,9 @@ IssueTracker.app.directive("profileImage", function($rootScope, md5) {
 			id: "="
 		},
 		link: function(scope) {
-			var users = $rootScope.users.dict("id");
-			scope.location = "http://gravatar.com/avatar/" + md5.createHash(users[scope.id].emailAddress) + "?s=" + (scope.size || 35);
+			var user = $rootScope.users.dict("id")[scope.id];
+			scope.location = "http://gravatar.com/avatar/" + md5.createHash(user.emailAddress) + "?s=" + (scope.size || 35);
+			scope.name = user.name;
 		}
 	}
 });

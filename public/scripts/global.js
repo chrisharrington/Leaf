@@ -34,3 +34,7 @@ function ResolvedDeferred(data) {
 	deferred.resolve(data);
 	return deferred.promise();
 }
+
+function scope(node) {
+	console.log(angular.element(node).scope());
+}

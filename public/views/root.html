@@ -3,48 +3,42 @@
 <html ng-app="leaf">
 <head>
     <meta name="viewport" content="width=device-width" />
-	<title data-bind="text: 'Leaf' + (IssueTracker.selectedIssue() ? ' - ' + IssueTracker.selectedIssue().number : '')">Leaf</title>
+	<title text="">Leaf</title>
     <link rel="stylesheet" href="{{{styleLocation}}}" type="text/css" />
 </head>
 	<body>
         <header>
             <div class="header-wrapper">
-                <!-- ko if: IssueTracker.projectId() -->
-                <div class="logo">
-					<a href="#/issues">
-						<div>
-							<img src="images/leaf.png" alt="logo" />
-						</div>
-						<span>Leaf</span>
-					</a>
-                </div>
-                <div class="menu">
-                    <a href="#/issues">
-                        <span>Issues</span>
-                    </a>
-                    <a href="#/users">
-                        <span>Users</span>
-                    </a>
-                </div>
-                <div class="actions">
-					<a data-bind="click: Settings.show, tooltip: 'Settings'">
-						<i class="fa fa-gears"></i>
-					</a>
-					<a data-bind="click: Notifications.show" style="display:none;">
-						<i data-bind="attr: { class: 'fa ' + (Notifications.unviewedNotifications() == 0 ? 'fa-bell-o' : 'fa-bell') }"></i>
-						<div>
-							<span data-bind="visible: Notifications.unviewedNotifications() > 0, text: Notifications.unviewedNotifications()"></span>
-						</div>
-					</a>
-                    <a href="#/new-issue" data-bind="visible: IssueTracker.isAuthorized('create-issue'), tooltip: { text: 'Create Issue', alignment: 'right' }">
-                        <i class="fa fa-plus"></i>
-                    </a>
+				<div ng-if="$root.project">
+					<div class="logo">
+						<a href="#/issues">
+							<div>
+								<img src="images/leaf.png" alt="logo" />
+							</div>
+							<span>Leaf</span>
+						</a>
+					</div>
+					<div class="menu">
+						<a href="#/issues">
+							<span>Issues</span>
+						</a>
+						<a href="#/users">
+							<span>Users</span>
+						</a>
+					</div>
+					<div class="actions">
+						<a tooltip="Settings" data-bind="click: Settings.show, tooltip: 'Settings'">
+							<i class="fa fa-gears"></i>
+						</a>
+						<a tooltip="Create Issue" tooltip-alignment="right" href="#/new-issue" data-bind="visible: IssueTracker.isAuthorized('create-issue')">
+							<i class="fa fa-plus"></i>
+						</a>
+					</div>
+					<div class="search">
+						<input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
+						<i class="fa fa-search" data-bind="click: Search.go"></i>
+					</div>
 				</div>
-				<div class="search">
-					<input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
-					<i class="fa fa-search" data-bind="click: Search.go"></i>
-				</div>
-                <!-- /ko -->
             </div>
         </header>
 
@@ -173,7 +167,6 @@
 		<script type="text/javascript" src="/scripts/thirdParty/angular-md5.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/highcharts.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/json2.min.js"></script>
-		<script type="text/javascript" src="/scripts/thirdParty/amplify.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/jquery.transit.min.js"></script> <!-- forked for height: auto animation support from here: https://github.com/NV/jquery.transit -->
 		<script type="text/javascript" src="/scripts/thirdParty/md5.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/nanobar.js"></script>
