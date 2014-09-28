@@ -17,8 +17,11 @@ var base = Object.spawn(require("./baseController"));
 
 module.exports = function(app) {
 	app.get("/users", authenticate, function (request, response) {
+		return base.view("public/views/users.html");
+	});
+
+	app.get("/users/list", authenticate, function(request, response) {
 		return Promise.all([
-			fs.readFileAsync("public/views/users.html"),
 			repositories.Issue.issueCountsPerUser(request.project._id),
 			repositories.User.get(null, { sort: { name: 1 }}).then(function(users) {
 				return repositories.UserPermission.get({ user: { $in: users.map(function(x) { return x._id; }) }}).then(function(permissions) {
@@ -29,14 +32,14 @@ module.exports = function(app) {
 					});
 				});
 			})
-		]).spread(function(html, issueCounts, users) {
+		]).spread(function(issueCounts, users) {
 			return mapper.mapAll("user", "user-summary-view-model", users).map(function(user) {
 				var counts = issueCounts[user.id] || { developer: 0, tester: 0 };
 				user.developerIssueCount = counts.developer;
 				user.testerIssueCount = counts.tester;
 				return user;
 			}).then(function(mapped) {
-				response.send(mustache.render(html.toString(), { users: JSON.stringify(mapped) }), 200);
+				response.send(mapped);
 			});
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);

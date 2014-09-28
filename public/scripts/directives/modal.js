@@ -1,22 +1,46 @@
-IssueTracker.app.directive("modal", function() {
+IssueTracker.app.directive("modal", function($timeout) {
 	return {
 		restrict: "E",
 		templateUrl: "templates/modal.html",
 		transclude: true,
 		scope: {
-			title: "@header",
-			className: "@class",
-			close: "=",
 			show: "="
 		},
-		link: function(scope, element, attributes) {
-			scope.titleVisible = scope.title !== undefined && scope.title !== "";
-
-			scope.$watch("show", function() {
-				var overlay = $(element).find(".modal-overlay");
-				overlay.width($(window).width());
-				overlay.height($(window).height());
+		link: function(scope, element) {
+			scope.$watch("show", function(value) {
+				_toggle(value);
 			});
+
+			$(window).on("keyup", function(e) {
+				if (e.keyCode === 27)
+					scope.$apply(function() {
+						scope.show = false;
+					});
+			});
+
+			function _toggle(value) {
+				$(element).toggleClass("show", value);
+
+				var overlay = $(element).find(">div.overlay"), content = $(element).find(">div.content");
+				if (!value) {
+					$timeout(function () {
+						overlay.css("visibility", "hidden");
+					}, IssueTracker.ANIMATION_SPEED)
+					content.css({
+						"transform": ""
+					})
+				} else {
+					overlay.css("visibility", "visible");
+					_setPosition(content);
+					content.css({
+						"transform": "translate3d(0, " + (content.outerHeight()+100) + "px, 0)"
+					});
+				}
+			}
+
+			function _setPosition(content) {
+				content.css({ top: ((content.outerHeight()+10)*-1) + "px", left: ($(window).width()/2 - content.outerWidth()/2) + "px" })
+			}
 		}
-	}
+	};
 });

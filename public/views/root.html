@@ -27,10 +27,10 @@
 						</a>
 					</div>
 					<div class="actions">
-						<a tooltip="Settings" data-bind="click: Settings.show, tooltip: 'Settings'">
+						<a tooltip="Settings">
 							<i class="fa fa-gears"></i>
 						</a>
-						<a tooltip="Create Issue" tooltip-alignment="right" href="#/new-issue" data-bind="visible: IssueTracker.isAuthorized('create-issue')">
+						<a tooltip="Create Issue" tooltip-alignment="right" href="#/new-issue" authorized="create-issue">
 							<i class="fa fa-plus"></i>
 						</a>
 					</div>
@@ -187,6 +187,7 @@
 				$rootScope.priorities = {{{priorities}}};
 				$rootScope.statuses = {{{statuses}}};
 				$rootScope.issueTypes = {{{issueTypes}}};
+				$rootScope.permissions = {{{permissions}}};
 			});
 
 //				root.users = IssueTracker.Utilities.buildObservableArray({{{users}}});
