@@ -27,6 +27,24 @@ describe("string extensions", function() {
 		});
 	});
 
+	describe("startsWith", function() {
+		it("should return false when given no value", function() {
+			assert("boogity".startsWith() === false);
+		});
+
+		it("should return false when given a value with length greater than string", function() {
+			assert("boogity".startsWith("a really, really long string") === false);
+		});
+
+		it("should return false when given a value that the string doesn't start with", function() {
+			assert("boogity".startsWith("blah") === false);
+		});
+
+		it("should return true when given a value that the string starts with", function() {
+			assert("boogity".startsWith("boo") === true);
+		});
+	});
+
 	describe("endsWith", function() {
 		it("should return true for 'boogity'.endsWith('ity')", function() {
 			assert("boogity".endsWith("ity"));

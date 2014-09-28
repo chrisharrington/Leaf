@@ -20,19 +20,32 @@ var baseController = require("../../controllers/baseController");
 var sut = require("../../controllers/users");
 
 describe("users", function() {
-	describe("get /users", function() {
-		it("should set get /users route", function() {
+	describe("get /users", function () {
+		it("should set get /users route", function () {
 			var app = { get: sinon.stub(), post: sinon.stub() };
 			sut(app);
 			assert(app.get.calledWith("/users", sinon.match.func));
 		});
 
-		it("should read html from public/views/users.html", function() {
-			return _run({
-				assert: function(result) {
-					assert(result.stubs.readFile.calledWith("public/views/users.html"));
+		it("should call base.view with 'public/views/users.html'", function () {
+			var view = sinon.stub(baseController, "view");
+			return base.testRoute({
+				verb: "get",
+				route: "/users",
+				sut: sut,
+				assert: function () {
+					assert(view.calledWith("public/views/users.html", sinon.match.any));
+					view.restore();
 				}
 			});
+		});
+	});
+
+	describe("get /users/list", function() {
+		it("should set get /users/list route", function() {
+			var app = { get: sinon.stub(), post: sinon.stub() };
+			sut(app);
+			assert(app.get.calledWith("/users/list", sinon.match.func));
 		});
 
 		it("should get issues filtered by project id", function() {
@@ -62,18 +75,6 @@ describe("users", function() {
 			})
 		});
 
-		it("should render using html and mapped users", function() {
-			var html = "the html";
-			var mapped = ["the first mapped user", "the second mapper user"];
-			return _run({
-				html: html,
-				mapped: mapped,
-				assert: function(result) {
-					assert(result.stubs.mustache.calledWith(html.toString(), { users: JSON.stringify(mapped) }));
-				}
-			});
-		});
-
 		it("should send 200", function() {
 			return _run({
 				assert: function(result) {
@@ -82,19 +83,19 @@ describe("users", function() {
 			});
 		});
 
-		it("should send rendered html", function() {
-			var rendered = "the rendered html";
+		it("should send mapped users", function() {
+			var users = ["a mapped user"];
 			return _run({
-				rendered: rendered,
+				mapped: users,
 				assert: function(result) {
-					assert(result.response.send.calledWith(rendered, sinon.match.any));
+					assert(result.response.send.calledWith(users, sinon.match.any));
 				}
 			});
 		});
 
 		it("should send 500 when an error occurs", function() {
 			return _run({
-				readFile: sinon.stub(fs, "readFileAsync").rejects(new Error("oh noes!")),
+				mapAll: sinon.stub(mapper, "mapAll").rejects(new Error("oh noes!")),
 				assert: function(result) {
 					assert(result.response.send.calledWith(sinon.match.any, 500));
 				}
@@ -111,7 +112,7 @@ describe("users", function() {
 				mapped: [{ name: "blah", id: userId }],
 				issueCounts: issueCounts,
 				assert: function(result) {
-					assert(result.stubs.mustache.calledWith(sinon.match.any, { users: JSON.stringify([{ name: "blah", id: userId, developerIssueCount: 10, testerIssueCount: 20 }]) }));
+					assert(result.response.send.calledWith([{ name: "blah", id: userId, developerIssueCount: 10, testerIssueCount: 20 }], 200));
 				}
 			});
 		});
@@ -151,16 +152,15 @@ describe("users", function() {
 			return base.testRoute({
 				sut: sut,
 				verb: "get",
-				route: "/users",
+				route: "/users/list",
 				env: params.env,
 				request: {
 					project: { _id: params.projectId || "the project id" }
 				},
 				stubs: {
-					readFile: params.readFile || sinon.stub(fs, "readFileAsync").resolves(params.html || "the html"),
 					getIssues: sinon.stub(repositories.Issue, "issueCountsPerUser").resolves(params.issueCounts || []),
 					getUsers: sinon.stub(repositories.User, "get").resolves(params.users || []),
-					mapAll: sinon.stub(mapper, "mapAll").resolves(params.mapped || []),
+					mapAll: params.mapAll || sinon.stub(mapper, "mapAll").resolves(params.mapped || []),
 					mustache: sinon.stub(mustache, "render").returns(params.rendered || "the rendered html"),
 					getUserPermissions: sinon.stub(repositories.UserPermission, "get").resolves(params.userPermissions || [])
 				},

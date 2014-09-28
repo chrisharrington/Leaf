@@ -17,7 +17,7 @@ var base = Object.spawn(require("./baseController"));
 
 module.exports = function(app) {
 	app.get("/users", authenticate, function (request, response) {
-		return base.view("public/views/users.html");
+		return base.view("public/views/users.html", response);
 	});
 
 	app.get("/users/list", authenticate, function(request, response) {
@@ -39,7 +39,7 @@ module.exports = function(app) {
 				user.testerIssueCount = counts.tester;
 				return user;
 			}).then(function(mapped) {
-				response.send(mapped);
+				response.send(mapped, 200);
 			});
 		}).catch(function (e) {
 			response.send(e.stack.formatStack(), 500);

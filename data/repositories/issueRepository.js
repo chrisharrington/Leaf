@@ -7,7 +7,6 @@ var repository = Object.spawn(require("./baseRepository"), {
 });
 
 repository.search = function(projectId, filter, sortDirection, sortComparer, start, end) {
-	console.time("search");
 	return repository.get(_buildParameters(projectId, filter), {
 		sort: _buildSort(sortDirection, sortComparer),
 		skip: start - 1,
@@ -19,9 +18,6 @@ repository.search = function(projectId, filter, sortDirection, sortComparer, sta
 			priorityId: true,
 			developerId: true
 		}
-	}).then(function(issues) {
-		console.timeEnd("search");
-		return issues;
 	});
 
 	function _buildParameters(projectId, filter) {
