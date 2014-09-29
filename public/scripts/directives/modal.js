@@ -45,7 +45,6 @@ IssueTracker.app.directive("modal", function($timeout) {
 			}
 
 			function _setPosition(content) {
-				console.log(content.outerHeight()+10);
 				content.css({ top: ((content.outerHeight()+10)*-1) + "px", left: ($(window).width()/2 - content.outerWidth()/2) + "px" })
 			}
 		}

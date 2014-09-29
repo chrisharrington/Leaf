@@ -1,6 +1,6 @@
 modal { position:absolute; display:block; top:0;
-	>div.overlay { background:black; position:fixed; top:0; right:0; bottom:0; left:0; opacity:0; .transition(opacity ease @animation-speed-slow); z-index:((@dialog-z-index)-1); }
-  	>div.content-container { width:100%; position:absolute; z-index:@dialog-z-index; display:none; .tile; padding:0; .transition(transform ease @animation-speed-slow, -webkit-transform ease @animation-speed-slow);
+	>div.overlay { background:black; position:fixed; top:0; right:0; bottom:0; left:0; opacity:0; .transition(opacity ease @animation-speed); z-index:((@dialog-z-index)-1); }
+  	>div.content-container { width:100%; position:absolute; z-index:@dialog-z-index; display:none; .tile; padding:0; .transition(transform ease @animation-speed, -webkit-transform ease @animation-speed);
 	  	@loader-size:70px;
 		>* { float:left; width:100%; padding:@small-spacing @spacing; .border-box; }
 		>h1 { position:relative; padding:0 @loader-size 0 @spacing; .vertical-centre(50px); background:white; color:@secondary-font-colour; font-size:1.75em; text-transform:uppercase; border-bottom:solid 1px @border-colour; }

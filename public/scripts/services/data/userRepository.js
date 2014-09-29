@@ -8,6 +8,10 @@ IssueTracker.app.factory("userRepository", function($rootScope, baseRepository) 
 
 		resetPassword: function(userId) {
 			return baseRepository.post("users/reset-password", { userId: userId });
+		},
+
+		remove: function(user) {
+			return baseRepository.post("users/delete", user);
 		}
 	}
 });
