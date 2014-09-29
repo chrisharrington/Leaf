@@ -19,6 +19,8 @@ IssueTracker.app.directive("modal", function($timeout) {
 				if (e.keyCode === 27)
 					scope.$apply(function() {
 						scope.show = false;
+						if (scope.cancel !== undefined)
+							scope.cancel();
 					});
 			});
 

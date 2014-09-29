@@ -8,7 +8,15 @@ IssueTracker.app.factory("feedback", function($rootScope) {
 	return that = {
 		error: function(message) {
 			$rootScope.feedbackVisible = true;
+			$rootScope.feedbackSuccess = false;
 			$rootScope.feedbackError = true;
+			$rootScope.feedbackText = message;
+		},
+
+		success: function(message) {
+			$rootScope.feedbackVisible = true;
+			$rootScope.feedbackSuccess = true;
+			$rootScope.feedbackError = false;
 			$rootScope.feedbackText = message;
 		},
 
