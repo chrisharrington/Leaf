@@ -8,10 +8,6 @@ IssueTracker.app.factory("users", function(userRepository, feedback, usersResetP
 		load: function(scope) {
 			scope.resetPassword = usersResetPassword.init();
 
-			scope.blah = function() {
-				debugger;
-			};
-
 			_getUsers(scope);
 		}
 	};

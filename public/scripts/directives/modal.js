@@ -4,7 +4,11 @@ IssueTracker.app.directive("modal", function($timeout) {
 		templateUrl: "templates/modal.html",
 		transclude: true,
 		scope: {
-			show: "="
+			show: "=",
+			title: "@",
+			loading: "=",
+			ok: "=",
+			cancel: "="
 		},
 		link: function(scope, element) {
 			scope.$watch("show", function(value) {
@@ -21,11 +25,11 @@ IssueTracker.app.directive("modal", function($timeout) {
 			function _toggle(value) {
 				$(element).toggleClass("show", value);
 
-				var overlay = $(element).find(">div.overlay"), content = $(element).find(">div.content");
+				var overlay = $(element).find(">div.overlay"), content = $(element).find(">div.content-container");
 				if (!value) {
 					$timeout(function () {
 						overlay.css("visibility", "hidden");
-					}, IssueTracker.ANIMATION_SPEED)
+					}, IssueTracker.ANIMATION_SPEED);
 					content.css({
 						"transform": ""
 					})
@@ -33,7 +37,7 @@ IssueTracker.app.directive("modal", function($timeout) {
 					overlay.css("visibility", "visible");
 					_setPosition(content);
 					content.css({
-						"transform": "translate3d(0, " + (content.outerHeight()+100) + "px, 0)"
+						"transform": "translate3d(0, " + (content.outerHeight()) + "px, 0)"
 					});
 				}
 			}

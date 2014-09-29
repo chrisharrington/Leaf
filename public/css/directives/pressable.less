@@ -5,3 +5,6 @@ pressable:active { .shadow; }
 pressable.disabled { box-shadow:none;
 	>button { background:#AAA; cursor:default; }
 }
+pressable[negative] { box-shadow:none;
+  	>button { border:none; background:transparent; color:@primary-font-colour; text-decoration:underline; box-shadow:none; }
+}

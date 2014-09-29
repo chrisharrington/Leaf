@@ -4,9 +4,12 @@ IssueTracker.app.directive("pressable", function($timeout) {
 		templateUrl: "templates/pressable.html",
 		transclude: true,
 		scope: {
-			text: "@"
+			text: "@",
+			disabled: "="
 		},
-		link: function(scope, element) {
+		link: function(scope, element, attributes) {
+			if (attributes.negative !== undefined)
+				$(element).find("button").addClass("negative-gradient");
 			$(element).on("click", "button", function() {
 				if ($(element).hasClass("disabled"))
 					return false;

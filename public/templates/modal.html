@@ -1,2 +1,10 @@
 <div class="overlay"></div>
-<div class="content" ng-transclude></div>
+<div class="content-container">
+	<h1>[[title]]</h1>
+	<loader ng-class="{ show: loading }"></loader>
+	<div class="content" ng-transclude></div>
+	<div class="button-container">
+		<pressable text="OK" ng-click="ok()" disabled="loading"></pressable>
+		<pressable text="Cancel" negative ng-click="cancel()" disabled="loading"></pressable>
+	</div>
+</div>

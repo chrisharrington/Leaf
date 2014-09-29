@@ -51,19 +51,8 @@
 		</div>
 	</section>
 
-	<modal show="resetPassword.show">
-		<div class="confirm-reset-password form">
-			<h1>Reset Password</h1>
-			<span>Are you sure you want to reset <b>[[resetPassword.user.name]]</b>'s password? An email will be sent to the user with instructions on how to reset their password.</span>
-			<div class="button-container">
-				<button class="round" data-bind="click: cancel">
-					<i class="fa fa-times"></i>
-				</button>
-				<button class="round" data-bind="css: { loading: loading }, click: confirm">
-					<i class="fa fa-check"></i>
-				</button>
-			</div>
-		</div>
+	<modal class="confirm-reset-password" show="resetPassword.show" title="Reset Password" ok="resetPassword.ok" cancel="resetPassword.cancel" loading="resetPassword.loading">
+		<span>Are you sure you want to reset <b>[[resetPassword.user.name]]</b>'s password? An email will be sent to the user with instructions on how to reset their password.</span>
 	</modal>
 
 	<script type="text/html" id="confirm-delete-user-template">
