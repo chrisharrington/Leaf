@@ -32,7 +32,7 @@
 		</div>
 
 		<div class="users-container deleted">
-			<div class="tile" ng-repeat="user in users | filter: { isDeleted: true }" data-bind="click: $root.Undelete.restore">
+			<div class="tile" ng-repeat="user in users | filter: { isDeleted: true }" ng-click="restoreUser.load(user)">
 				<profile-image id="user.id"></profile-image>
 				<span class="name">[[user.name]]</span>
 				<a class="email" href="[[user.emailAddress]]" target="_blank">[[user.emailAddress]]</a>
@@ -51,7 +51,7 @@
 		</div>
 	</section>
 
-	<modal class="confirm-reset-password" show="resetPassword.show" title="Reset Password" ok="resetPassword.ok" ok-text="Reset Password" cancel="resetPassword.cancel" loading="resetPassword.loading">
+	<modal class="confirm-reset-password" show="resetPassword.show" title="Reset Password" ok="resetPassword.ok" cancel="resetPassword.cancel" loading="resetPassword.loading">
 		<span>Are you sure you want to reset <b>[[resetPassword.user.name]]</b>'s password? An email will be sent to the user with instructions on how to reset their password.</span>
 	</modal>
 
@@ -59,21 +59,9 @@
 		<span>Once deleted, <b>[[deleteUser.user.name]]</b> will still be assigned to any issues he or she is currently assigned to, but won't be assignable to any new or existing issues. Are you sure you want to continue?</span>
 	</modal>
 
-	<script type="text/html" id="confirm-undelete-user-template">
-		<div class="confirm-undelete form">
-			<h1>Restore User?</h1>
-			<span>Once restored, <b data-bind="text: user.name"></b> will be able to be assigned to new issues. Are you sure you want to continue?</span>
-			<div class="button-container">
-				<button class="round" data-bind="click: cancel">
-					<i class="fa fa-times"></i>
-				</button>
-				<button class="round" data-bind="css: { loading: loading }, click: confirm">
-					<i class="fa fa-check"></i>
-					<img src="../images/light-spinner.png" alt="" />
-				</button>
-			</div>
-		</div>
-	</script>
+	<modal class="confirm-undelete" title="Restore User?" show="restoreUser.show" ok="restoreUser.ok" cancel="restoreUser.cancel" loading="restoreUser.loading">
+		<span>Once restored, <b>[[user.name]]</b> will be able to be assigned to new issues. Are you sure you want to continue?</span>
+	</modal>
 
 	<script type="text/html" id="edit-user-template">
 		<div class="edit-user form">
