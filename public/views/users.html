@@ -25,7 +25,7 @@
 				<div class="actions">
 					<i class="fa fa-lock" title="Reset Password" tooltip="Reset Password" tooltip-alignment="right" authorized="reset-password" ng-click="resetPassword.load(user)"></i>
 					<i class="fa fa-trash-o" title="Delete User" tooltip="Delete User" authorized="delete-user" ng-click="deleteUser.load(user)"></i>
-					<i class="fa fa-pencil" title="Edit User" tooltip="Edit User" authorized="edit-user"></i>
+					<i class="fa fa-pencil" title="Edit User" tooltip="Edit User" authorized="edit-user" ng-click="editUser.load(user)"></i>
 					<i class="fa fa-key" title="User Permissions" tooltip="Change Permissions" authorized="modify-user-permissions"></i>
 				</div>
 			</div>
@@ -63,21 +63,12 @@
 		<span>Once restored, <b>[[user.name]]</b> will be able to be assigned to new issues. Are you sure you want to continue?</span>
 	</modal>
 
-	<script type="text/html" id="edit-user-template">
-		<div class="edit-user form">
-			<h1>Edit User</h1>
-			<input type="text" placeholder="Name..." data-bind="value: user().name" />
-			<input type="text" placeholder="Email address..." data-bind="value: user().emailAddress" />
-			<div class="button-container">
-				<button class="round" data-bind="click: cancel">
-					<i class="fa fa-times"></i>
-				</button>
-				<button class="round" data-bind="click: save, css: { loading: loading }">
-					<i class="fa fa-check"></i>
-				</button>
-			</div>
+	<modal class="edit-user" title="Edit User" show="editUser.show" ok="editUser.ok" cancel="editUser.cancel" loading="editUser.loading">
+		<div class="form">
+			<text type="text" placeholder="Name..." ng-model="editUser.user.name"></text>
+			<text type="text" placeholder="Email address..." ng-model="editUser.user.emailAddress"></text>
 		</div>
-	</script>
+	</modal>
 
 	<script type="text/html" id="create-user-template">
 		<div class="create-user form">
