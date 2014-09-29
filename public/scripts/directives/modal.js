@@ -39,12 +39,13 @@ IssueTracker.app.directive("modal", function($timeout) {
 					overlay.css("visibility", "visible");
 					_setPosition(content);
 					content.css({
-						"transform": "translate3d(0, " + (content.outerHeight()) + "px, 0)"
+						"transform": "translate3d(0, " + (content.outerHeight()+100) + "px, 0)"
 					});
 				}
 			}
 
 			function _setPosition(content) {
+				console.log(content.outerHeight()+10);
 				content.css({ top: ((content.outerHeight()+10)*-1) + "px", left: ($(window).width()/2 - content.outerWidth()/2) + "px" })
 			}
 		}
