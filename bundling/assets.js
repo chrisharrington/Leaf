@@ -3,7 +3,6 @@ exports.scripts = function() {
 		"./public/scripts/thirdParty/jquery.autogrow-textarea.js",
 		"./public/scripts/global.js",
 		"./public/scripts/page.js",
-		"./public/scripts/utilities.js",
 		"./public/scripts/controllers",
 		"./public/scripts/directives",
 		"./public/scripts/services",

@@ -21,9 +21,13 @@ IssueTracker.app.directive("authorized", function($rootScope) {
 		if (!_permissions)
 			_buildPermissionsDictionary();
 
-		return $rootScope.user.permissions.exists(function (x) {
-			return _permissions[tag] && x.permissionId === _permissions[tag].id;
-		});
+		for (var i = 0; i < $rootScope.user.permissions.length; i++)
+			if ($rootScope.user.permissions[i].permissionId === _permissions[tag].id)
+				return true;
+		return false;
+//		return $rootScope.user.permissions.exists(function (x) {
+//			return _permissions[tag] && x.permissionId === _permissions[tag].id;
+//		});
 	}
 
 	function _buildPermissionsDictionary() {

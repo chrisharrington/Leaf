@@ -94,9 +94,3 @@ IssueTracker.app.factory("issueFilter", function($rootScope) {
 		window.localStorage.setItem(key, JSON.stringify(data));
 	}
 });
-
-(function(root) {
-
-
-
-})(root("IssueTracker.Issues.Filter"));

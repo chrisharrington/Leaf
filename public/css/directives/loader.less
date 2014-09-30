@@ -4,59 +4,39 @@
 loader { display:block; text-align:center; height:@loader-size;
   	>div { width:52px; height:52px; margin:auto; padding:@small-spacing; .border-radius;
 		>img { width:30px; height:30px; position:relative; top:-45px; }
-		>div { .element-animation; .shadow; display:inline-block; position:relative; width:30px; height:30px; padding:8px; .border-radius(100%); border:solid 3px rgba(105, 207, 85, 0.8); border-bottom-color:darken(@logo-colour, 12%); }
+		>div { .rotate; .shadow; display:inline-block; position:relative; width:30px; height:30px; padding:8px; .border-radius(100%); border:solid 3px rgba(105, 207, 85, 0.8); border-bottom-color:darken(@logo-colour, 12%); }
 	}
 }
 
-.element-animation{
-  animation: animationFrames linear @spin-duration infinte;
-  -webkit-animation: animationFrames linear @spin-duration infinite;
-  -moz-animation: animationFrames linear @spin-duration infinte;
-  -o-animation: animationFrames linear @spin-duration infinte;
-  -ms-animation: animationFrames linear @spin-duration infinite;
+.rotate{
+  animation: rotationFrames linear @spin-duration infinte;
+  -webkit-animation: rotationFrames linear @spin-duration infinite;
+  -moz-animation: rotationFrames linear @spin-duration infinte;
+  -o-animation: rotationFrames linear @spin-duration infinte;
+  -ms-animation: rotationFrames linear @spin-duration infinite;
 }
 
-@keyframes animationFrames{
-  0% {
-	transform:  rotate(-360deg) ;
-  }
-  100% {
-	transform:  rotate(0deg) ;
-  }
+@keyframes rotationFrames{
+  0% { transform:rotate(-360deg); }
+  100% { transform:rotate(0deg); }
 }
 
-@-moz-keyframes animationFrames{
-  0% {
-	-moz-transform:  rotate(-360deg) ;
-  }
-  100% {
-	-moz-transform:  rotate(0deg) ;
-  }
+@-moz-keyframes rotationFrames{
+  0% { -moz-transform:rotate(-360deg); }
+  100% { -moz-transform:rotate(0deg); }
 }
 
-@-webkit-keyframes animationFrames {
-  0% {
-	-webkit-transform:  rotate(-360deg) ;
-  }
-  100% {
-	-webkit-transform:  rotate(0deg) ;
-  }
+@-webkit-keyframes rotationFrames {
+  0% { -webkit-transform:rotate(-360deg); }
+  100% { -webkit-transform:rotate(0deg); }
 }
 
-@-o-keyframes animationFrames {
-  0% {
-	-o-transform:  rotate(-360deg) ;
-  }
-  100% {
-	-o-transform:  rotate(0deg) ;
-  }
+@-o-keyframes rotationFrames {
+  0% { -o-transform:rotate(-360deg); }
+  100% { -o-transform:rotate(0deg); }
 }
 
-@-ms-keyframes animationFrames {
-  0% {
-	-ms-transform:  rotate(-360deg) ;
-  }
-  100% {
-	-ms-transform:  rotate(0deg) ;
-  }
+@-ms-keyframes rotationFrames {
+  0% { -ms-transform:rotate(-360deg); }
+  100% { -ms-transform:rotate(0deg); }
 }
