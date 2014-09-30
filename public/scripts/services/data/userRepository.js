@@ -16,6 +16,10 @@ IssueTracker.app.factory("userRepository", function($rootScope, baseRepository) 
 
 		restore: function(user) {
 			return baseRepository.post("users/undelete", user);
+		},
+
+		update: function(user) {
+			return baseRepository.post("users/edit", user);
 		}
 	}
 });

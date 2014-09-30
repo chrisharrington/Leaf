@@ -12,6 +12,10 @@ IssueTracker.app.factory("usersEditUser", function($rootScope, userRepository, f
 					_scope.show = true;
 				},
 
+				users: function(users) {
+					_scope.users = users;
+				},
+
 				ok: function() {
 					_scope.loading = true;
 					userRepository.update(_scope.user).then(function() {
@@ -32,19 +36,19 @@ IssueTracker.app.factory("usersEditUser", function($rootScope, userRepository, f
 			};
 
 			function _updateUser(user) {
-//				$.each(IssueTracker.Users.users(), function(i, user) {
-//					if (user.id() == root.user().id()) {
-//						user.name(root.user().name());
-//						user.emailAddress(root.user().emailAddress());
-//					}
-//				});
-//
-//				$.each(IssueTracker.users(), function(i, user) {
-//					if (user.id() == root.user().id()) {
-//						user.name(root.user().name());
-//						user.emailAddress(root.user().emailAddress());
-//					}
-//				});
+				$.each(_scope.users, function(i, inner) {
+					if (inner.id === user.id) {
+						inner.name = user.name;
+						inner.emailAddress = user.emailAddress;
+					}
+				});
+
+				$.each($rootScope.users, function(i, inner) {
+					if (inner.id === user.id) {
+						inner.name = user.name;
+						inner.emailAddress = user.emailAddress;
+					}
+				});
 			}
 		}
 	};

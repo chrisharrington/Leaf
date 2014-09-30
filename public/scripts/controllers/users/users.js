@@ -21,6 +21,7 @@ IssueTracker.app.factory("users", function(userRepository, feedback, usersResetP
 			scope.users = users;
 			scope.deleteUser.users(users);
 			scope.restoreUser.users(users);
+			scope.editUser.users(users);
 		}).catch(function() {
 			feedback.error("An error has occurred while retrieving the user list. Please try again later.");
 		}).finally(function() {

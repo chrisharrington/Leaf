@@ -13,6 +13,7 @@ IssueTracker.app.directive("modal", function($timeout) {
 		link: function(scope, element) {
 			scope.$watch("show", function(value) {
 				_toggle(value);
+				$(element).find("input:first").focus();
 			});
 
 			$(window).on("keyup", function(e) {
