@@ -1,1 +1,2 @@
-<img ng-src="[[location]]" alt="" tooltip="[[name]]" />
+<img ng-src="[[location]]" alt="" ng-if="hasTooltip" tooltip="[[name]]" />
+<img ng-src="[[location]]" alt="" ng-if="!hasTooltip" />
