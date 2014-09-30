@@ -9,7 +9,7 @@ IssueTracker.app.directive("profileImage", function($rootScope, md5) {
 		link: function(scope, element, attributes) {
 			scope.hasTooltip = attributes.showTooltip !== undefined;
 			var user = $rootScope.users.dict("id")[scope.id];
-			scope.location = "http://gravatar.com/avatar/" + md5.createHash(user.emailAddress) + "?s=" + (scope.size || 35);
+			scope.location = "http://gravatar.com/avatar/" + md5.createHash(user.emailAddress) + "?s=" + (scope.size || 35) + "&d=mm";
 			scope.name = user.name;
 		}
 	}
