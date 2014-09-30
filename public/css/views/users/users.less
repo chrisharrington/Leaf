@@ -34,22 +34,10 @@
 	}
 }
 
-div.user-permissions { float:left; width:600px; padding:0;
-	b { color:@primary-font-colour-dark-background; }
-	h1 { padding:@spacing @spacing 0 @spacing; .border-box; }
-	span { padding:0 @spacing; .border-box; }
-	div.permissions { float:left; width:100%; margin-top:@dialog-spacing;
-		>div { float:left; width:100%; .border-box; padding:@small-spacing @spacing; border-bottom:solid 1px @border-colour-darkest; cursor:pointer;
-			>i { float:left; width:11px; }
-			>i.fa-check-square { color:@secondary-font-colour; }
-			>span { float:left; margin-left:@tiny-spacing; }
-		}
-		>div:first-child { border-top:solid 1px @border-colour-darkest; }
-		>div:hover { background:@dialog-hover-background; }
-	}
-	div.button-container { .border-box; padding-right:@spacing !important; padding-bottom:@spacing; }
-}
-
 modal { width:500px;
   	>* { float:left; width:100%; }
+}
+
+modal.user-permissions {
+	checkbox { float:left; width:100%; margin-top:@small-spacing; }
 }

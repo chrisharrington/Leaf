@@ -4,16 +4,14 @@ IssueTracker.app.directive("checkbox", function($sce) {
 		templateUrl: "templates/checkbox.html",
 		transclude: true,
 		scope: {
-			checked: "="
+			checked: "=",
+			readonly: "@"
 		},
-		link: function(scope, element, attributes) {
-			scope.info = $sce.trustAsHtml(attributes.info);
+		link: function(scope) {
 			scope.showing = false;
-			scope.infoVisible = attributes.info && attributes.info != "";
 
-			scope.toggle = function(event) {
-				var target = $(event.target);
-				if (target.hasClass("fa-question") || target.parents("modal").length > 0)
+			scope.toggle = function() {
+				if (scope.readonly !== undefined)
 					return;
 
 				scope.checked = !scope.checked;

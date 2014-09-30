@@ -3,13 +3,14 @@ IssueTracker.app.controller("users", function($scope, authentication, users) {
 	users.load($scope);
 });
 
-IssueTracker.app.factory("users", function(userRepository, feedback, usersResetPassword, usersDeleteUser, usersRestoreUser, usersEditUser) {
+IssueTracker.app.factory("users", function(userRepository, feedback, usersResetPassword, usersDeleteUser, usersRestoreUser, usersEditUser, usersUserPermissions) {
 	return {
 		load: function(scope) {
 			scope.resetPassword = usersResetPassword.init();
 			scope.deleteUser = usersDeleteUser.init();
 			scope.restoreUser = usersRestoreUser.init();
 			scope.editUser = usersEditUser.init();
+			scope.userPermissions = usersUserPermissions.init();
 
 			_getUsers(scope);
 		}

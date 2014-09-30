@@ -2,7 +2,7 @@
 	<loader ng-show="loading"></loader>
 	<section class="users-content" ng-hide="loading">
 		<div class="page-actions" authorized="create-user">
-			<button class="round create-user-trigger" tooltip="Create User" tooltip-alignment="left">
+			<button class="round create-user-trigger" tooltip="Create User" tooltip-alignment="left" authorized="create-user">
 				<i class="fa fa-plus"></i>
 			</button>
 		</div>
@@ -26,7 +26,7 @@
 					<i class="fa fa-lock" title="Reset Password" tooltip="Reset Password" tooltip-alignment="right" authorized="reset-password" ng-click="resetPassword.load(user)"></i>
 					<i class="fa fa-trash-o" title="Delete User" tooltip="Delete User" authorized="delete-user" ng-click="deleteUser.load(user)"></i>
 					<i class="fa fa-pencil" title="Edit User" tooltip="Edit User" authorized="edit-user" ng-click="editUser.load(user)"></i>
-					<i class="fa fa-key" title="User Permissions" tooltip="Change Permissions" authorized="modify-user-permissions"></i>
+					<i class="fa fa-key" title="User Permissions" tooltip="Change Permissions" authorized="modify-user-permissions" ng-click="userPermissions.load(user)"></i>
 				</div>
 			</div>
 		</div>
@@ -67,6 +67,16 @@
 		<div class="form">
 			<text type="text" placeholder="Name..." ng-model="editUser.user.name"></text>
 			<text type="text" placeholder="Email address..." ng-model="editUser.user.emailAddress"></text>
+		</div>
+	</modal>
+
+	<modal class="user-permissions" title="User Permissions" show="userPermissions.show" ok="userPermissions.ok" cancel="userPermissions.cancel" loading="userPermissions.loading">
+		<span>Toggle permissions for <b>[[userPermissions.user.name]]</b> by clicking the entries below. Note that some permissions are read-only, even for administrators. This is to prevent administrators from removing key permissions from users, such as the ability to remove the ability to set permissions...</span>
+		<div class="permissions">
+			<div ng-repeat="permission in $root.permissions">
+				<checkbox ng-if="permission.tag !== 'modify-user-permissions'" checked="userPermissions.permissions[permission.id]">[[permission.name]]</checkbox>
+				<checkbox ng-if="permission.tag === 'modify-user-permissions'" readonly checked="userPermissions.permissions[permission.id]">[[permission.name]]</checkbox>
+			</div>
 		</div>
 	</modal>
 

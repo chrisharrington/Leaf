@@ -17,4 +17,9 @@ div.checkbox-container { float:left; width:100%; .border-box; cursor:pointer;
 
 div.checkbox-container.checked {
 	div.check { .transform(scale(1, 1)) !important; }
+  	>div.transclude>span { color:black; }
+}
+
+div.checkbox-container.readonly {
+	div.check { background:@border-colour-dark !important; }
 }

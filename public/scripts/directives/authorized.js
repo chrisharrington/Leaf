@@ -5,10 +5,17 @@ IssueTracker.app.directive("authorized", function($rootScope) {
 	return {
 		restrict: "A",
 		link: function(scope, element, attributes) {
-			$(element).toggle(_isAuthorized(attributes.authorized));
+			_toggle(element, attributes.authorized);
+
+			scope.$watch("user.permissions", function() {
+				_toggle(element, attributes.authorized);
+			});
 		}
 	};
 
+	function _toggle(element, key) {
+		element.toggle(_isAuthorized(key));
+	}
 
 	function _isAuthorized(tag) {
 		if (!_permissions)
