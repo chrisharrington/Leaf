@@ -24,6 +24,10 @@ IssueTracker.app.run(function($rootScope, settings) {
 
 	settings.init();
 
+	$(document).on("click", function(e) {
+		$rootScope.$broadcast("documentClicked", $(e.target));
+	});
+
 	function _tryGetSession(storage) {
 		return JSON.parse(storage.getItem("session"));
 	}

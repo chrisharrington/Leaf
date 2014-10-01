@@ -27,7 +27,7 @@
 						</a>
 					</div>
 					<div class="actions">
-						<a tooltip="Settings" ng-click="settings.show()">
+						<a class="settings-trigger" tooltip="Settings" ng-click="settings.show()">
 							<i class="fa fa-gears"></i>
 						</a>
 						<a tooltip="Create Issue" tooltip-alignment="right" href="#/new-issue" authorized="create-issue">
@@ -77,7 +77,7 @@
 
 		<feedback></feedback>
 
-		<slide-menu class="settings" show="settings.visible">
+		<slide-menu class="settings" show="settings.visible" trigger="settings-trigger">
 			<a class="account" href="#/profile" ng-if="user !== undefined">
 				<div class="image">
 					<profile-image id="user.id" size="32"></profile-image>
