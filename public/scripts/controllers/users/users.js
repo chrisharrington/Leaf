@@ -3,14 +3,16 @@ IssueTracker.app.controller("users", function($scope, authentication, users) {
 	users.load($scope);
 });
 
-IssueTracker.app.factory("users", function(userRepository, feedback, usersResetPassword, usersDeleteUser, usersRestoreUser, usersEditUser, usersUserPermissions) {
+IssueTracker.app.factory("users", function(userRepository, feedback, usersResetPassword, usersDeleteUser, usersRestoreUser, usersEditUser, usersUserPermissions, usersCreateUser) {
 	return {
 		load: function(scope) {
 			scope.resetPassword = usersResetPassword.init();
 			scope.deleteUser = usersDeleteUser.init();
 			scope.restoreUser = usersRestoreUser.init();
 			scope.editUser = usersEditUser.init();
+			scope.createUser = usersCreateUser.init();
 			scope.userPermissions = usersUserPermissions.init();
+			scope.showDeleted = false;
 
 			_getUsers(scope);
 		}
@@ -23,6 +25,7 @@ IssueTracker.app.factory("users", function(userRepository, feedback, usersResetP
 			scope.deleteUser.users(users);
 			scope.restoreUser.users(users);
 			scope.editUser.users(users);
+			scope.createUser.users(users);
 		}).catch(function() {
 			feedback.error("An error has occurred while retrieving the user list. Please try again later.");
 		}).finally(function() {

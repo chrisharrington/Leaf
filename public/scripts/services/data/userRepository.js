@@ -22,6 +22,10 @@ IssueTracker.app.factory("userRepository", function($rootScope, baseRepository) 
 			return baseRepository.post("users/edit", user);
 		},
 
+		create: function(user) {
+			return baseRepository.post("users/create", user);
+		},
+
 		permissions: function(userId, permissionIds) {
 			return baseRepository.post("permissions", { userId: userId, permissionIds: permissionIds });
 		}

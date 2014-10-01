@@ -10,14 +10,13 @@ div.checkbox-container { float:left; width:100%; .border-box; cursor:pointer;
 		}
 	}
 	>div.transclude { float:left; width:100%; position:relative; padding-left:@checkbox-size+@spacing; margin-left:(@checkbox-size+@spacing)*-1; .border-box;
-		>span { float:left; width:100%; color:@placeholder-colour; font-size:1em; .transition(color @animation-speed); .vertical-centre(@checkbox-size); margin-left:@small-spacing; }
+		>span { float:left; width:100%; color:@primary-font-colour; font-size:1em; .transition(color @animation-speed); .vertical-centre(@checkbox-size); margin-left:@small-spacing; }
 	}
 	>i { float:left; width:@icon-container-width; margin-left:(@icon-container-width+@spacing*2)*-1; color:@primary-font-colour-light; padding:@spacing; text-align:right; }
 }
 
 div.checkbox-container.checked {
 	div.check { .transform(scale(1, 1)) !important; }
-  	>div.transclude>span { color:black; }
 }
 
 div.checkbox-container.readonly {

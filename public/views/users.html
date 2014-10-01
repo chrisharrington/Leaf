@@ -2,9 +2,8 @@
 	<loader ng-show="loading"></loader>
 	<section class="users-content" ng-hide="loading">
 		<div class="page-actions" authorized="create-user">
-			<button class="round create-user-trigger" tooltip="Create User" tooltip-alignment="left">
-				<i class="fa fa-plus"></i>
-			</button>
+			<pressable text="Create User" ng-click="createUser.load()"></pressable>
+			<checkbox checked="showDeleted">Show deleted users</checkbox>
 		</div>
 
 	<div class="users-container">
@@ -31,7 +30,7 @@
 			</div>
 		</div>
 
-		<div class="users-container deleted">
+		<div class="users-container deleted" ng-class="{ show: showDeleted }">
 			<div class="tile" ng-repeat="user in users | filter: { isDeleted: true }" ng-click="restoreUser.load(user)">
 				<profile-image id="user.id"></profile-image>
 				<span class="name">[[user.name]]</span>
@@ -80,42 +79,11 @@
 		</div>
 	</modal>
 
-	<script type="text/html" id="create-user-template">
-		<div class="create-user form">
-			<h1>Create User</h1>
+	<modal class="create-user" title="Create User" show="createUser.show" ok="createUser.ok" cancel="createUser.cancel" loading="createUser.loading">
+		<div class="form">
 			<span>Once created, the new user will receive an email with instructions on how to activate his or her account.</span>
-			<input type="text" placeholder="Name..." data-bind="value: user().name" />
-			<input type="text" placeholder="Email address..." data-bind="value: user().emailAddress" />
-			<div class="button-container">
-				<button class="round" data-bind="click: cancel">
-					<i class="fa fa-times"></i>
-				</button>
-				<button class="round" data-bind="click: save, css: { loading: loading }">
-					<i class="fa fa-check"></i>
-				</button>
-			</div>
+			<text type="text" placeholder="Name..." ng-model="createUser.user.name" />
+			<text type="text" placeholder="Email address..." ng-model="createUser.user.emailAddress" />
 		</div>
-	</script>
-
-	<script type="text/html" id="user-permissions">
-		<div class="user-permissions form">
-			<h1>User Permissions</h1>
-			<span>Toggle permissions for <b data-bind="text: name"></b> by clicking the entries below. Note that some permissions are read-only, even for administrators; this is to prevent administrators from removing key permissions from users, such as the ability to remove the ability to set permissions...</span>
-			<div class="permissions" data-bind="foreach: IssueTracker.permissions">
-				<div data-bind="click: $root.togglePermission">
-					<i class="fa fa-square" data-bind="visible: !$root.userPermissions()[$data.id()]()"></i>
-					<i class="fa fa-check-square" data-bind="visible: $root.userPermissions()[$data.id()]"></i>
-					<span data-bind="text: name"></span>
-				</div>
-			</div>
-			<div class="button-container">
-				<button class="round" data-bind="click: cancel">
-					<i class="fa fa-times"></i>
-				</button>
-				<button class="round" data-bind="click: save, css: { loading: loading }">
-					<i class="fa fa-check"></i>
-				</button>
-			</div>
-		</div>
-	</script>
+	</modal>
 </div>
