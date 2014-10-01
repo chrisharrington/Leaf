@@ -28,8 +28,8 @@
 			>a:first-child { margin-top:0; }
 		}
 
-		div.users-container.deleted { display:none;
-		  	&.show { display:block; }
+		div.users-container.deleted { .transform(translate3d(0, -50%, 0) scale(1, 0)); .transition(-webkit-transform ease @animation-speed-slow, transform ease @animation-speed-slow);
+		  	&.show { .transform(translate3d(0, 0, 0) scale(1, 1)); }
 			>div { cursor:pointer; }
 			div.actions { display:none; }
 			a { cursor:pointer; }
