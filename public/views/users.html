@@ -74,8 +74,8 @@
 		<span>Toggle permissions for <b>[[userPermissions.user.name]]</b> by clicking the entries below. Note that some permissions are read-only, even for administrators. This is to prevent administrators from removing key permissions from users, such as the ability to remove the ability to set permissions...</span>
 		<div class="permissions">
 			<div ng-repeat="permission in $root.permissions">
-				<checkbox ng-if="permission.tag !== 'modify-user-permissions'" checked="userPermissions.permissions[permission.id]">[[permission.name]]</checkbox>
-				<checkbox ng-if="permission.tag === 'modify-user-permissions'" readonly checked="userPermissions.permissions[permission.id]">[[permission.name]]</checkbox>
+				<checkbox ng-if="$root.user.id !== userPermissions.user.id || permission.tag !== 'modify-user-permissions'" checked="userPermissions.permissions[permission.id]">[[permission.name]]</checkbox>
+				<checkbox ng-if="$root.user.id === userPermissions.user.id && permission.tag === 'modify-user-permissions'" readonly checked="userPermissions.permissions[permission.id]">[[permission.name]]</checkbox>
 			</div>
 		</div>
 	</modal>

@@ -1,3 +1,3 @@
 function scope(node) {
-	return angular.element(node).scope();
+	return angular.element(node || document).scope();
 }
