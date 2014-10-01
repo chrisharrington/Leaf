@@ -1,17 +1,17 @@
-IssueTracker.app.directive("checkbox", function($sce) {
+IssueTracker.app.directive("checkbox", function() {
 	return {
 		restrict: "E",
 		templateUrl: "templates/checkbox.html",
 		transclude: true,
 		scope: {
 			checked: "=",
-			readonly: "@"
+			readonly: "="
 		},
 		link: function(scope) {
 			scope.showing = false;
 
 			scope.toggle = function() {
-				if (scope.readonly !== undefined)
+				if (scope.readonly)
 					return;
 
 				scope.checked = !scope.checked;

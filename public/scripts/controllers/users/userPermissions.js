@@ -40,6 +40,10 @@ IssueTracker.app.factory("usersUserPermissions", function($rootScope, userReposi
 				cancel: function() {
 					_scope.show = false;
 					_scope.loading = false;
+				},
+
+				isReadOnly: function(permission) {
+					return _scope.user && $rootScope.user.id === _scope.user.id && permission.tag === "modify-user-permissions";
 				}
 			};
 
