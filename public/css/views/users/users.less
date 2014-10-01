@@ -6,31 +6,35 @@
 			checkbox { height:16px; width:200px; padding:@small-spacing; }
 		}
 
-		div.users-container { float:left; width:100%; .border-box; position:relative;
+		div.users-container { float:left; width:100%; overflow:hidden;
 			@height:46px;
-			>div { float:left; width:100%; margin-top:@small-spacing; padding:0; height:@height;
-				>* { float:left; padding:@spacing; border-left:solid 1px @border-colour; color:@primary-font-colour-light; }
-				>*:first-child { border-left:none; }
-				>profile-image { padding:0; height:100%; width:@height; .border-radius(0); }
-				>span.name { width:200px; color:black; border-left:none; }
-				>a.email { width:300px; color:@secondary-font-colour; }
-				>div.counts { float:left; padding:0; border-left:none;
-					>div { float:left; padding:0 @spacing; border-left:solid 1px @border-colour; width:65px; text-align:center;
-						>* { padding:0; vertical-align:middle; display:inline-block; line-height:@height; height:@height; }
-						>span { margin-left:2px; }
-					}
-				}
-				>div.actions { float:right; padding:0; .vertical-centre(46px); border-left:none;
-					>i { float:right; vertical-align:middle; line-height:@height; height:@height; padding:0 @spacing; cursor:pointer; color:@primary-font-colour-lightest; font-size:1.125em; }
-					>i:hover { color:@primary-font-colour; }
-				}
+		  	>div { float:left; width:100%; padding-bottom:@spacing;
+			  >div { float:left; width:100%; margin-top:@small-spacing; padding:0; height:@height;
+				  >* { float:left; padding:@spacing; border-left:solid 1px @border-colour; color:@primary-font-colour-light; }
+				  >*:first-child { border-left:none; }
+				  >profile-image { padding:0; height:100%; width:@height; .border-radius(0); }
+				  >span.name { width:200px; color:black; border-left:none; }
+				  >a.email { width:300px; color:@secondary-font-colour; }
+				  >div.counts { float:left; padding:0; border-left:none;
+					  >div { float:left; padding:0 @spacing; border-left:solid 1px @border-colour; width:65px; text-align:center;
+						  >* { padding:0; vertical-align:middle; display:inline-block; line-height:@height; height:@height; }
+						  >span { margin-left:2px; }
+					  }
+				  }
+				  >div.actions { float:right; padding:0; .vertical-centre(46px); border-left:none;
+					  >i { float:right; vertical-align:middle; line-height:@height; height:@height; padding:0 @spacing; cursor:pointer; color:@primary-font-colour-lightest; font-size:1.125em; }
+					  >i:hover { color:@primary-font-colour; }
+				  }
+			  }
 			}
-			>a:first-child { margin-top:0; }
 		}
 
-		div.users-container.deleted { .transform(translate3d(0, -50%, 0) scale(1, 0)); .transition(-webkit-transform ease @animation-speed-slow, transform ease @animation-speed-slow);
-		  	&.show { .transform(translate3d(0, 0, 0) scale(1, 1)); }
-			>div { cursor:pointer; }
+		div.users-container.deleted {
+		  	>div { .transform(translate3d(0, -100%, 0)); .transition(-webkit-transform ease @animation-speed-slow, transform ease @animation-speed-slow*2);
+			  	>div { box-shadow:none; }
+			}
+		  	&.show>div { .transform(translate3d(0, 0, 0)); }
+			>div>div { cursor:pointer; }
 			div.actions { display:none; }
 			a { cursor:pointer; }
 		}

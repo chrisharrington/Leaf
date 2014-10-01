@@ -6,47 +6,50 @@
 			<checkbox checked="showDeleted">Show deleted users</checkbox>
 		</div>
 
-	<div class="users-container">
-			<div ng-repeat="user in users | filter: { isDeleted: false }" class="tile">
-				<profile-image id="user.id"></profile-image>
-				<span class="name">[[user.name]]</span>
-				<a class="email" href="mailto:[[user.emailAddress]]" target="_blank">[[user.emailAddress]]</a>
-				<div class="counts">
-					<div tooltip="Developer Issue Count">
-						<i class="fa fa-code"></i>
-						<span>[[user.developerIssueCount]]</span>
+		<div class="users-container">
+			<div>
+				<div ng-repeat="user in users | filter: { isDeleted: false }" class="tile">
+					<profile-image id="user.id"></profile-image>
+					<span class="name">[[user.name]]</span>
+					<a class="email" href="mailto:[[user.emailAddress]]" target="_blank">[[user.emailAddress]]</a>
+					<div class="counts">
+						<div tooltip="Developer Issue Count">
+							<i class="fa fa-code"></i>
+							<span>[[user.developerIssueCount]]</span>
+						</div>
+						<div tooltip="Tester Issue Count">
+							<i class="fa fa-flask"></i>
+							<span>[[user.testerIssueCount]]</span>
+						</div>
 					</div>
-					<div tooltip="Tester Issue Count">
-						<i class="fa fa-flask"></i>
-						<span>[[user.testerIssueCount]]</span>
+					<div class="actions">
+						<i class="fa fa-lock" title="Reset Password" tooltip="Reset Password" tooltip-alignment="right" authorized="reset-password" ng-click="resetPassword.load(user)"></i>
+						<i class="fa fa-trash-o" title="Delete User" tooltip="Delete User" authorized="delete-user" ng-click="deleteUser.load(user)"></i>
+						<i class="fa fa-pencil" title="Edit User" tooltip="Edit User" authorized="edit-user" ng-click="editUser.load(user)"></i>
+						<i class="fa fa-key" title="User Permissions" tooltip="Change Permissions" authorized="modify-user-permissions" ng-click="userPermissions.load(user)"></i>
 					</div>
-				</div>
-				<div class="actions">
-					<i class="fa fa-lock" title="Reset Password" tooltip="Reset Password" tooltip-alignment="right" authorized="reset-password" ng-click="resetPassword.load(user)"></i>
-					<i class="fa fa-trash-o" title="Delete User" tooltip="Delete User" authorized="delete-user" ng-click="deleteUser.load(user)"></i>
-					<i class="fa fa-pencil" title="Edit User" tooltip="Edit User" authorized="edit-user" ng-click="editUser.load(user)"></i>
-					<i class="fa fa-key" title="User Permissions" tooltip="Change Permissions" authorized="modify-user-permissions" ng-click="userPermissions.load(user)"></i>
 				</div>
 			</div>
 		</div>
 
 		<div class="users-container deleted" ng-class="{ show: showDeleted }">
-			<div class="tile" ng-repeat="user in users | filter: { isDeleted: true }" ng-click="restoreUser.load(user)">
-				<profile-image id="user.id"></profile-image>
-				<span class="name">[[user.name]]</span>
-				<a class="email" href="mailto:[[user.emailAddress]]" target="_blank">[[user.emailAddress]]</a>
-				<div class="counts">
-					<div tooltip="Developer Issue Count">
-						<i class="fa fa-code"></i>
-						<span>[[user.developerIssueCount]]</span>
-					</div>
-					<div tooltip="Tester Issue Count">
-						<i class="fa fa-flask"></i>
-						<span>[[user.testerIssueCount]]</span>
+			<div>
+				<div class="tile" ng-repeat="user in users | filter: { isDeleted: true }" ng-click="restoreUser.load(user)">
+					<profile-image id="user.id"></profile-image>
+					<span class="name">[[user.name]]</span>
+					<a class="email" href="mailto:[[user.emailAddress]]" target="_blank">[[user.emailAddress]]</a>
+					<div class="counts">
+						<div tooltip="Developer Issue Count">
+							<i class="fa fa-code"></i>
+							<span>[[user.developerIssueCount]]</span>
+						</div>
+						<div tooltip="Tester Issue Count">
+							<i class="fa fa-flask"></i>
+							<span>[[user.testerIssueCount]]</span>
+						</div>
 					</div>
 				</div>
 			</div>
-			<!-- /ko -->
 		</div>
 	</section>
 
