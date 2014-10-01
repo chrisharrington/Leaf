@@ -1,0 +1,11 @@
+slide-menu {
+	>div { display:none; position:fixed; top:@header-height; z-index:@slide-menu-z-index; background-color:@dark-gradient-bottom-colour; .shadow;
+		&.show { display:block; }
+		>a, >div { float:left; width:100%; padding:@small-spacing @spacing; .border-box; border-top:solid 1px @border-colour-dark; cursor:pointer; }
+		>a { color:@primary-font-colour-dark-background; text-decoration:none; }
+		>* {
+			>i { margin-right:@tiny-spacing; }
+		}
+		>a:hover, >div:hover { background:lighten(@dark-gradient-bottom-colour, 5%); }
+	}
+}

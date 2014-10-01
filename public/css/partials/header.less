@@ -13,7 +13,9 @@ header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-grad
 				}
 			}
 			>div.menu { float:left; margin-left:@spacing; }
-			>div.actions { float:right; }
+			>div.actions { float:right;
+				>span.anchor { float:left; width:0; height:0; }
+			}
 			>div.search { float:right; height:100%; .border-box; padding:@spacing;
 				>* { float:left; height:100%; }
 				>input { padding:0 0 0 @small-spacing; font-size:1em; outline:none !important; box-shadow:none !important; border:none; border-top-left-radius:3px; border-bottom-left-radius:3px; width:250px; .regular-font; }

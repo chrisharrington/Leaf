@@ -7,6 +7,7 @@ exports.scripts = function() {
 		"./public/scripts/directives",
 		"./public/scripts/services",
 		"./public/scripts/extensions",
+		"./public/scripts/settings.js",
 		"./public/scripts/init.js"
 	];
 };

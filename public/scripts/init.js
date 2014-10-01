@@ -13,7 +13,7 @@ IssueTracker.app.config(function($routeProvider) {
 		.otherwise({ redirectTo: "/welcome" });
 });
 
-IssueTracker.app.run(function($rootScope) {
+IssueTracker.app.run(function($rootScope, settings) {
 	var session = _tryGetSession(window.sessionStorage);
 	if (!session)
 		session = _tryGetSession(window.localStorage);
@@ -21,6 +21,8 @@ IssueTracker.app.run(function($rootScope) {
 		$rootScope.project = session.project;
 		$rootScope.user = session.user;
 	}
+
+	settings.init();
 
 	function _tryGetSession(storage) {
 		return JSON.parse(storage.getItem("session"));

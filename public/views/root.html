@@ -27,12 +27,13 @@
 						</a>
 					</div>
 					<div class="actions">
-						<a tooltip="Settings">
+						<a tooltip="Settings" ng-click="settings.show()">
 							<i class="fa fa-gears"></i>
 						</a>
 						<a tooltip="Create Issue" tooltip-alignment="right" href="#/new-issue" authorized="create-issue">
 							<i class="fa fa-plus"></i>
 						</a>
+						<span class="anchor"></span>
 					</div>
 					<div class="search">
 						<input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
@@ -76,20 +77,18 @@
 
 		<feedback></feedback>
 
-		<div class="settings slide-menu">
-			<!-- ko if: IssueTracker.signedInUser() -->
-			<a class="account" href="#/profile">
+		<slide-menu class="settings" show="settings.visible">
+			<a class="account" href="#/profile" ng-if="user !== undefined">
 				<div class="image">
-					<img data-bind="attr: { src: IssueTracker.Utilities.getUserProfileImageLocation(null, 32) }" alt="user-profile" />
+					<profile-image id="user.id" size="32"></profile-image>
 				</div>
 				<div class="labels">
-					<span class="name" data-bind="text: IssueTracker.signedInUser() ? IssueTracker.signedInUser().name : ''"></span>
+					<span class="name">[[user.name]]</span>
 					<br />
-					<span class="email sub" data-bind="text: IssueTracker.signedInUser() ? IssueTracker.signedInUser().emailAddress : ''"></span>
+					<span class="email sub">[[user.emailAddress]]</span>
 				</div>
 				<i class="fa fa-angle-right"></i>
 			</a>
-			<!-- /ko -->
 			<a href="#/project/settings">
 				<div>
 					<span class="title">Project Settings</span>
@@ -105,59 +104,13 @@
 				<i class="fa fa-angle-right"></i>
 			</a>
 			<a class="sign-out">
-				<span class="title" data-bind="click: UserSettings.signOut">Sign Out</span>
+				<span class="title" ng-click="settings.signOut()">Sign Out</span>
 			</a>
-		</div>
-
-        <div class="notifications slide-menu">
-            <div class="mark-as-viewed">
-                <i class="fa fa-check"></i>
-                <span>Mark all notifications as read</span>
-            </div>
-            <!-- ko foreach: Notifications.notifications -->
-            <!-- ko if: type() === 'issue-assigned' -->
-            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { Notifications.navigateToIssue(issue().number, id()); }">
-                <div>
-                    <h3>Issue Assigned</h3>
-                    <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
-                </div>
-                <i class="fa fa-angle-right"></i>
-            </div>
-            <!-- /ko -->
-            <!-- ko if: type() === 'issue-updated' -->
-            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { Notifications.navigateToIssue(issue().number, id()); }">
-                <div>
-                    <h3>Issue Updated</h3>
-                    <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
-                </div>
-                <i class="fa fa-angle-right"></i>
-            </div>
-            <!-- /ko -->
-            <!-- ko if: type() === 'comment-added' -->
-            <div class="notification" data-bind="css: { viewed: isViewed }, click: function() { Notifications.navigateToIssue(issue().number, id()); }">
-                <div>
-                    <h3>Comment Added</h3>
-                    <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
-                    <span class="comment" data-bind="text: $data.comment().substring(0, Math.max($data.comment().length, 200))"></span>
-                </div>
-                <i class="fa fa-angle-right"></i>
-            </div>
-            <!-- /ko -->
-            <!-- ko if: type() === 'issue-deleted' -->
-            <div class="notification" data-bind="css: { viewed: isViewed }">
-                <div>
-                    <h3>Issue Deleted</h3>
-                    <span class="details" data-bind="text: '#' + $data.issue().number + ': ' + $data.issue().name"></span>
-                </div>
-                <i class="fa fa-angle-right"></i>
-            </div>
-            <!-- /ko -->
-            <!-- /ko -->
-        </div>
+		</slide-menu>
 
 		<div id="tooltip-container" class="">
 			<div class="arrow"></div>
-			<span>Tooltip!</span>
+			<span></span>
 		</div>
 
 		<script type="text/javascript" src="/scripts/thirdParty/jquery.min.js"></script>
@@ -211,103 +164,6 @@
 //				IssueTracker.Init.init();
         </script>
 		{{{renderedScripts}}}
-
-		<script type="text/html" id="issue-properties-template">
-			<div class="milestone padded-tile-container">
-				<div class="label" data-bind="click: toggleMilestones">
-					<i class="fa fa-map-marker label"></i>
-					<span data-bind="text: issue.milestone"></span>
-					<i class="fa fa-angle-down"></i>
-				</div>
-				<div class="list" data-bind="animateVisible: { bool: milestonesVisible(), animation: 'slide' }">
-					<!-- ko foreach: IssueTracker.milestones -->
-					<div data-bind="click: function(data) { $parent.selectMilestone(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.milestoneId() == id() }">
-						<span data-bind="text: name"></span>
-						<i class="fa fa-check"></i>
-					</div>
-					<!-- /ko -->
-				</div>
-			</div>
-			<div class="priority padded-tile-container">
-				<div class="label" data-bind="click: togglePriorities">
-					<i class="fa fa-exclamation-circle label"></i>
-					<span data-bind="text: issue.priority"></span>
-					<i class="fa fa-angle-down"></i>
-				</div>
-				<div class="list" data-bind="animateVisible: { bool: prioritiesVisible(), animation: 'slide' }">
-					<!-- ko foreach: IssueTracker.priorities -->
-					<div data-bind="click: function(data) { $parent.selectPriority(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.priorityId() == id() }">
-						<span data-bind="text: name"></span>
-						<i class="fa fa-check"></i>
-					</div>
-					<!-- /ko -->
-				</div>
-			</div>
-			<div class="status padded-tile-container">
-				<div class="label" data-bind="click: toggleStatuses">
-					<i class="fa fa-question-circle label"></i>
-					<span data-bind="text: issue.status"></span>
-					<i class="fa fa-angle-down"></i>
-				</div>
-				<div class="list" data-bind="animateVisible: { bool: statusesVisible(), animation: 'slide' }">
-					<!-- ko foreach: IssueTracker.statuses -->
-					<div data-bind="click: function(data) { $parent.selectStatus(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.statusId() == id() }">
-						<span data-bind="text: name"></span>
-						<i class="fa fa-check"></i>
-					</div>
-					<!-- /ko -->
-				</div>
-			</div>
-			<div class="type padded-tile-container">
-				<div class="label" data-bind="click: toggleIssueTypes">
-					<i class="fa fa-file-text label"></i>
-					<span data-bind="text: issue.type"></span>
-					<i class="fa fa-angle-down"></i>
-				</div>
-				<div class="list" data-bind="animateVisible: { bool: issueTypesVisible(), animation: 'slide' }">
-					<!-- ko foreach: IssueTracker.issueTypes -->
-					<div data-bind="click: function(data) { $parent.selectIssueType(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.typeId() == id() }">
-						<span data-bind="text: name"></span>
-						<i class="fa fa-check"></i>
-					</div>
-					<!-- /ko -->
-				</div>
-			</div>
-			<div class="developer padded-tile-container">
-				<div class="label" data-bind="click: toggleDevelopers">
-					<i class="fa fa-code label"></i>
-					<span data-bind="text: issue.developer"></span>
-					<i class="fa fa-angle-down"></i>
-				</div>
-				<div class="list" data-bind="animateVisible: { bool: developersVisible(), animation: 'slide' }">
-					<!-- ko foreach: IssueTracker.users -->
-					<!-- ko if: !isDeleted() -->
-					<div data-bind="click: function(data) { $parent.selectDeveloper(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.developerId() == id() }">
-						<span data-bind="text: name"></span>
-						<i class="fa fa-check"></i>
-					</div>
-					<!-- /ko -->
-					<!-- /ko -->
-				</div>
-			</div>
-			<div class="tester padded-tile-container">
-				<div class="label" data-bind="click: toggleTesters	">
-					<i class="fa fa-flask label"></i>
-					<span data-bind="text: issue.tester"></span>
-					<i class="fa fa-angle-down"></i>
-				</div>
-				<div class="list" data-bind="animateVisible: { bool: testersVisible(), animation: 'slide' }">
-					<!-- ko foreach: IssueTracker.users -->
-					<!-- ko if: !isDeleted() -->
-					<div data-bind="click: function(data) { $parent.selectTester(data); }, attr: { 'data-id': id }, css: { selected: $parent.issue.testerId() == id() }">
-						<span data-bind="text: name"></span>
-						<i class="fa fa-check"></i>
-					</div>
-					<!-- /ko -->
-					<!-- /ko -->
-				</div>
-			</div>
-		</script>
 
 		<script type="text/html" id="attached-files-template">
 			<a data-bind="attr: { href: IssueTracker.virtualDirectory + 'issues/download-attached-file/' + name + '?id=' + id() }">
