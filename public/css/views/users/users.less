@@ -30,13 +30,17 @@
 		}
 
 		div.users-container.deleted {
-		  	>div { .transform(translate3d(0, -100%, 0)); .transition(-webkit-transform ease @animation-speed-slow, transform ease @animation-speed-slow*2);
-			  	>div { box-shadow:none; }
+			>div>div { cursor:pointer; transition-delay:500ms !important; .transform(rotateX(90deg)); .transition(-webkit-transform ease @animation-speed-slow, transform ease @animation-speed-slow); }
+
+			.loop(@counter) when (@counter < 20) {
+				.loop((@counter + 1));
+				>div>div:nth-child(@{counter}) { transition-delay: @counter*40ms !important; }
 			}
-		  	&.show>div { .transform(translate3d(0, 0, 0)); }
-			>div>div { cursor:pointer; }
+
+			.loop(0);
+
+		  	&.show>div>div { .transform(rotateX(0deg)); }
 			div.actions { display:none; }
-			a { cursor:pointer; }
 		}
 	}
 }
