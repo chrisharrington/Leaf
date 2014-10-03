@@ -32,9 +32,9 @@
 			</div>
 		</div>
 
-		<div class="users-container deleted" ng-class="{ show: showDeleted }">
+		<div class="users-container deleted">
 			<div>
-				<div class="tile" ng-repeat="user in users | filter: { isDeleted: true }" ng-click="restoreUser.load(user)">
+				<div class="tile rotate-vanish" ng-class="{ collapsed: !showDeleted }" ng-repeat="user in users | filter: { isDeleted: true }" ng-click="restoreUser.load(user)">
 					<profile-image id="user.id"></profile-image>
 					<span class="name">[[user.name]]</span>
 					<a class="email" href="mailto:[[user.emailAddress]]" target="_blank">[[user.emailAddress]]</a>

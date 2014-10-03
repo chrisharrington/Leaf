@@ -30,7 +30,7 @@
 		}
 
 		div.users-container.deleted {
-			>div>div { cursor:pointer; transition-delay:500ms !important; .transform(rotateX(90deg)); .transition(-webkit-transform ease @animation-speed-slow, transform ease @animation-speed-slow); }
+			>div>div { cursor:pointer; transition-delay:500ms !important; }
 
 			.loop(@counter) when (@counter < 20) {
 				.loop((@counter + 1));
@@ -39,7 +39,6 @@
 
 			.loop(0);
 
-		  	&.show>div>div { .transform(rotateX(0deg)); }
 			div.actions { display:none; }
 		}
 	}
