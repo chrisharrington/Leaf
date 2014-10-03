@@ -1,25 +1,16 @@
-.profile-container {
-	.inner-profile-container { float:left; width:100%; padding:0; margin-top:@spacing;
-	  	>div { float:left; width:50%; height:100%; padding:@spacing; .border-box; }
-	  	>div.user-information { border-right:solid 1px @border-colour;
-		  	>div.password {
-				>input { width:49%; }
-			 	>input.right { float:right; }
+modal.profile {
+	div.content {
+		>div { float:left; width:100%; margin-top:@spacing;
+			&:first-child { margin-top:0; }
+		  	>label, >span, >text { float:left; width:100%; margin-top:@small-spacing;
+				&:first-child { margin-top:0; }
 			}
+		  	>label { font-weight:bold; }
+		  	>span { color:@primary-font-colour-light; font-size:0.875em; }
 		}
-	  	>div.email-notifications { padding:@spacing 0;
-		  	>h1 { padding:0 @spacing; margin-bottom:@spacing; }
-		  	>div.setting { float:left; width:100%; .border-box; margin-top:@tiny-spacing; cursor:pointer; padding:@small-spacing @spacing;
-			  	>* { float:left; }
-			  	>i { margin-right:@small-spacing; font-size:1.125em; color:@primary-font-colour-lightest; }
-			  	>i.fa-check-square { color:@secondary-font-colour; }
-			  	>span.title { font-weight:bold; }
-			  	>span.more-info { width:100%; margin-top:@small-spacing; color:@primary-font-colour-light; font-size:0.875em; }
-			}
-		  	>div.setting:first-child { margin-top:0; }
-		  	>div.setting:hover { .hover; }
+	  	>div.password {
+		  	>text { float:left; width:49%; }
+		  	>text.right { float:right; }
 		}
 	}
-
-  	div.buttons { float:right; }
 }

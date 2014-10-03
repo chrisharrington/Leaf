@@ -1,67 +1,67 @@
-<!-- ko if: IssueTracker.signedInUser() -->
-<div class="breadcrumbs">
-	<a class="clickable" data-bind="attr: { href: '#/issues' }">
-		<i class="fa fa-home"></i>
-		<span data-bind="text: IssueTracker.projectName"></span>
-	</a>
-	<i class="fa fa-angle-right"></i>
-	<a>
-		<span>Profile</span>
-	</a>
-</div>
+<div class="profile-container">
+	<div class="breadcrumbs">
+		<a class="clickable" data-bind="attr: { href: '#/issues' }">
+			<i class="fa fa-home"></i>
+			<span data-bind="text: IssueTracker.projectName"></span>
+		</a>
+		<i class="fa fa-angle-right"></i>
+		<a>
+			<span>Profile</span>
+		</a>
+	</div>
 
-<div class="buttons">
-	<button class="round" data-bind="tooltip: { text: 'Save Changes', alignment: 'right' }, click: save, css: { loading: loading }">
-		<i class="fa fa-check"></i>
-	</button>
-</div>
+	<div class="buttons">
+		<button class="round" data-bind="tooltip: { text: 'Save Changes', alignment: 'right' }, click: save, css: { loading: loading }">
+			<i class="fa fa-check"></i>
+		</button>
+	</div>
 
-<div class="inner-profile-container tile">
-	<div class="user-information description-form">
-		<h1>Your User Information</h1>
-		<div>
-			<label>Email Address</label>
-			<span>This also serves as your sign in username.</span>
-			<input type="text" placeholder="Email address..." data-bind="value: IssueTracker.signedInUser() ? IssueTracker.signedInUser().emailAddress : ''" />
+	<div class="inner-profile-container tile">
+		<div class="user-information description-form">
+			<h1>Your User Information</h1>
+			<div>
+				<label>Email Address</label>
+				<span>This also serves as your sign in username.</span>
+				<input type="text" placeholder="Email address..." data-bind="value: IssueTracker.signedInUser() ? IssueTracker.signedInUser().emailAddress : ''" />
+			</div>
+			<div>
+				<label>Full Name</label>
+				<input type="text" placeholder="Full name..." data-bind="value: IssueTracker.signedInUser() ? IssueTracker.signedInUser().name : ''" />
+			</div>
+			<div class="password">
+				<label>Password:</label>
+				<span>There are no restrictions on the password you can enter. Your password can be as secure as you want it to be. If you leave this blank, your password will remain unchanged when you save your changes.</span>
+				<input type="password" placeholder="Password..." data-bind="value: password" />
+				<input class="right" type="password" placeholder="Confirmed password..." data-bind="value: confirmed" />
+			</div>
+			<div>
+				<label>Phone:</label>
+				<span>This field is entirely optional. We only ask for it in the rare event we'll have to contact you for support issues in the future.</span>
+				<input type="text" placeholder="Phone..." data-bind="value: IssueTracker.signedInUser().phone" />
+			</div>
 		</div>
-		<div>
-			<label>Full Name</label>
-			<input type="text" placeholder="Full name..." data-bind="value: IssueTracker.signedInUser() ? IssueTracker.signedInUser().name : ''" />
-		</div>
-		<div class="password">
-			<label>Password:</label>
-			<span>There are no restrictions on the password you can enter. Your password can be as secure as you want it to be. If you leave this blank, your password will remain unchanged when you save your changes.</span>
-			<input type="password" placeholder="Password..." data-bind="value: password" />
-			<input class="right" type="password" placeholder="Confirmed password..." data-bind="value: confirmed" />
-		</div>
-		<div>
-			<label>Phone:</label>
-			<span>This field is entirely optional. We only ask for it in the rare event we'll have to contact you for support issues in the future.</span>
-			<input type="text" placeholder="Phone..." data-bind="value: IssueTracker.signedInUser().phone" />
+		<div class="email-notifications">
+			<h1>Your Email Notification Settings</h1>
+			<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueAssigned'); }">
+				<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueAssigned() ? 'fa-check-square' : 'fa-square') }"></i>
+				<span class="title">Issue Assigned</span>
+				<span class="more-info">If you have this notification enabled, you'll receive an email when an issue is assigned to you as either developer or tester.</span>
+			</div>
+			<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueUpdated'); }">
+				<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueUpdated() ? 'fa-check-square' : 'fa-square') }"></i>
+				<span class="title">Issue Updated</span>
+				<span class="more-info">You'll be notified by email if you have this option checked when an issue you're assigned to is changed in any way.</span>
+			</div>
+			<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueDeleted'); }">
+				<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueDeleted() ? 'fa-check-square' : 'fa-square') }"></i>
+				<span class="title">Issue Deleted</span>
+				<span class="more-info">If an issue you're assigned to as either developer or tester is deleted and you have this option checked, you'll get an email.</span>
+			</div>
+			<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForNewCommentForAssignedIssue'); }">
+				<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForNewCommentForAssignedIssue() ? 'fa-check-square' : 'fa-square') }"></i>
+				<span class="title">New Comment on Assigned Issue</span>
+				<span class="more-info">When a comment is added to an issue you're assigned to and you have this option checked, you'll receive an email.</span>
+			</div>
 		</div>
 	</div>
-	<div class="email-notifications">
-		<h1>Your Email Notification Settings</h1>
-		<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueAssigned'); }">
-			<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueAssigned() ? 'fa-check-square' : 'fa-square') }"></i>
-			<span class="title">Issue Assigned</span>
-			<span class="more-info">If you have this notification enabled, you'll receive an email when an issue is assigned to you as either developer or tester.</span>
-		</div>
-		<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueUpdated'); }">
-			<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueUpdated() ? 'fa-check-square' : 'fa-square') }"></i>
-			<span class="title">Issue Updated</span>
-			<span class="more-info">You'll be notified by email if you have this option checked when an issue you're assigned to is changed in any way.</span>
-		</div>
-		<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForIssueDeleted'); }">
-			<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForIssueDeleted() ? 'fa-check-square' : 'fa-square') }"></i>
-			<span class="title">Issue Deleted</span>
-			<span class="more-info">If an issue you're assigned to as either developer or tester is deleted and you have this option checked, you'll get an email.</span>
-		</div>
-		<div class="setting" data-bind="click: function() { IssueTracker.UserSettings.EmailNotifications.toggle('emailNotificationForNewCommentForAssignedIssue'); }">
-			<i class="fa fa-square" data-bind="attr: { class: 'fa ' + (IssueTracker.signedInUser().emailNotificationForNewCommentForAssignedIssue() ? 'fa-check-square' : 'fa-square') }"></i>
-			<span class="title">New Comment on Assigned Issue</span>
-			<span class="more-info">When a comment is added to an issue you're assigned to and you have this option checked, you'll receive an email.</span>
-		</div>
-	</div>
 </div>
-<!-- /ko -->

@@ -1,22 +1,16 @@
-IssueTracker.app.factory("settings", function($rootScope) {
-	return {
-		init: function() {
-			$rootScope.settings = {
-				visible: false,
+IssueTracker.app.service("settings", function($rootScope) {
+	this.visible = false;
 
-				show: function() {
-					$rootScope.settings.visible = true;
-				},
+	this.show = function() {
+		this.visible = true;
+	};
 
-				signOut: function() {
-					$rootScope.settings.visible = false;
-					$rootScope.user = null;
-					$rootScope.project = null;
-					window.localStorage.removeItem("session");
-					window.sessionStorage.removeItem("session");
-					window.location.hash = "welcome";
-				}
-			};
-		}
+	this.signOut = function() {
+		this.visible = false;
+		$rootScope.user = null;
+		$rootScope.project = null;
+		window.localStorage.removeItem("session");
+		window.sessionStorage.removeItem("session");
+		window.location.hash = "welcome";
 	};
 });
