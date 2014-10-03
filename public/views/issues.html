@@ -15,7 +15,7 @@
 				<span>Your current filter settings have excluded all issues. Create an issue or change the filter on the right to see a list of issues.</span>
 			</div>
 			<div class="data">
-				<a ng-repeat="issue in issues" class="tile" href="#/issues/[[issue.number]]">
+				<a ng-repeat="issue in issues" class="tile issue-[[issue.localIndex]]" ng-class="{ collapsed: loading && first }" href="#/issues/[[issue.number]]">
 					<div ng-style="{ 'border-color': issue.priorityColour }">
 						<div class="info">
 							<span class="number">[[issue.number]]</span>

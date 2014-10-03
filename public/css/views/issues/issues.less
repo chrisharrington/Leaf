@@ -10,6 +10,17 @@
 			@priority-width:@small-spacing;
 			>div.data { float:left; width:100%;
 				@info-height:35px;
+
+				>a { opacity:1; .transition(opacity ease @animation-speed); }
+			  	>a.collapsed { opacity:0; }
+
+				.loop(@counter) when (@counter < 20) {
+				  .loop((@counter + 1));
+				  >a.issue-@{counter} { transition-delay: @counter*25ms !important; }
+				}
+
+			  	.loop(0);
+
 				>a { float:left; font-size:1em; width:100%; cursor:pointer; padding:@small-spacing; display:block; color:black; .shadow; margin-top:@small-spacing;
 					>div { float:left; width:100%; height:100%; overflow:hidden; border-left:solid @priority-width; .border-box; line-height:@info-height; display:inline-block; vertical-align:middle;
 						>div.info { float:left; width:100%; .border-box; height:@info-height;
