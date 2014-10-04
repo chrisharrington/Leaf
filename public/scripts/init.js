@@ -26,9 +26,14 @@ IssueTracker.app.run(function($rootScope, settings, profile) {
 	$rootScope.settings = settings;
 	$rootScope.profile = profile;
 
-	$(document).on("click", function(e) {
-		$rootScope.$broadcast("documentClicked", $(e.target));
-	});
+//	$(document).on("click", function(e) {
+//		$rootScope.$broadcast("documentClicked", $(e.target));
+//	});
+//
+//	$(window).on("keyup", function(e) {
+//		if (e.keyCode === 27)
+//			$rootScope.$broadCast("escapePressed", e);
+//	});
 
 	function _tryGetSession(storage) {
 		return JSON.parse(storage.getItem("session"));

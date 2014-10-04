@@ -1,8 +1,12 @@
 IssueTracker.app.service("profile", function($rootScope, feedback) {
+	var _old;
+
 	this.visible = false;
 	this.loading = false;
 
 	this.show = function() {
+		//_old = $rootScope.user.clone();
+
 		this.visible = true;
 	};
 
@@ -12,23 +16,23 @@ IssueTracker.app.service("profile", function($rootScope, feedback) {
 	};
 
 	this.cancel = function() {
-
+		this.visible = false;
 	};
 
 	function _validate() {
-		if ($rootScope.user.name === "") {
-			feedback.error("Your name is required.");
+		var error;
+		if ($rootScope.user.emailAddress === "")
+			error = "Your email address is required.";
+		else if ($rootScope.user.name === "")
+			error = "Your name is required.";
+		else if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test($rootScope.user.emailAddress))
+			error = "The email address is invalid.";
+
+		if (error) {
+			feedback.error(error);
 			return false;
 		}
 
-		if ($rootScope.user.emailAddress === "") {
-			feedback.error("Your email address is required.");
-			return false;
-		}
-
-		if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test($rootScope.user.emailAddress)) {
-			feedback.error("The email address is invalid.");
-			return false;
-		}
+		return true;
 	}
 });

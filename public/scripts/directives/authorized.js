@@ -16,7 +16,7 @@ IssueTracker.app.directive("authorized", function($rootScope) {
 	};
 
 	function _toggle(element, key) {
-		element.toggle(_isAuthorized(key));
+		element.toggleClass("hidden", !_isAuthorized(key));
 	}
 
 	function _isAuthorized(tag) {
@@ -31,7 +31,7 @@ IssueTracker.app.directive("authorized", function($rootScope) {
 
 	function _buildPermissionsDictionary() {
 		_permissions = {};
-		$.each($rootScope.permissions, function (i, permission) {
+		$rootScope.permissions.forEach(function (permission) {
 			_permissions[permission.tag] = permission;
 		});
 	}

@@ -4,22 +4,15 @@ IssueTracker.app.directive("slideMenu", function($rootScope) {
 		templateUrl: "templates/slideMenu.html",
 		transclude: true,
 		scope: {
-			visible: "=show",
+			visible: "=",
 			trigger: "@"
 		},
 		link: function(scope, element) {
-			$rootScope.$on("documentClicked", function(inner, target) {
-				if (!target.hasClass(scope.trigger) && target.parents("." + scope.trigger).length === 0)
+			$rootScope.$on("documentClicked", function(context, target, parents) {
+				if (target.className.indexOf(scope.trigger) === -1 && !parents.exists(function(x) { return x.className.indexOf(scope.trigger) > 1; }))
 					scope.$apply(function() {
 						scope.visible = false;
 					});
-			});
-
-			scope.$watch("visible", function(value) {
-				if (!value)
-					return;
-
-				$(element).find(">div").css({ left: ($("div.actions>span.anchor").offset().left - parseInt($(element).find(">div").css("width").replace("px", ""))) + "px" });
 			});
 		}
 	};

@@ -8,12 +8,12 @@ IssueTracker.app.directive("pressable", function($timeout) {
 			disabled: "="
 		},
 		link: function(scope, element, attributes) {
-			if (attributes.negative !== undefined)
-				$(element).find("button").addClass("negative-gradient");
-			$(element).on("click", "button", function() {
+			scope.negative = attributes.negative !== undefined;
+
+			scope.click = function() {
 				if ($(element).hasClass("disabled"))
 					return false;
-			});
+			};
 		}
 	}
 });

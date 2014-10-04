@@ -1,7 +1,7 @@
-﻿@user-information-background:@positive-colour-dark;
+@user-information-background:@positive-colour-dark;
 
-header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour); position:fixed; z-index:@header-z-index;
-	>div.header-wrapper { position:relative; max-width:@application-width; margin:auto; height:@header-height;  color:@primary-font-colour-dark-background; .border-box;
+header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour); position:fixed;
+	>div.header-wrapper { .gradient(@dark-gradient-top-colour, @dark-gradient-bottom-colour); z-index:@header-z-index; position:relative; max-width:@application-width; margin:auto; height:@header-height;  color:@primary-font-colour-dark-background; .border-box;
 		>div { float:left; width:100%; height:100%;
 			>div.logo { float:left; margin-right:@spacing; width:85px;
 				>* { line-height:@header-height; height:@header-height; vertical-align:middle; display:inline-block; }
@@ -14,20 +14,21 @@ header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-grad
 			}
 			>div.menu { float:left; margin-left:@spacing; }
 			>div.actions { float:right;
-				>span.anchor { float:left; width:0; height:0; }
+                
 			}
 			>div.search { float:right; height:100%; .border-box; padding:@spacing;
 				>* { float:left; height:100%; }
 				>input { padding:0 0 0 @small-spacing; font-size:1em; outline:none !important; box-shadow:none !important; border:none; border-top-left-radius:3px; border-bottom-left-radius:3px; width:250px; .regular-font; }
 				>i { line-height:30px; background:white; padding:0 @small-spacing; cursor:pointer; border-top-right-radius:3px; border-bottom-right-radius:3px; color:black; }
 			}
-
+            
 			>div { height:100%;
 				>a { float:left; height:100%; color:inherit; padding:0 @spacing; cursor:pointer; .condensed-font;
 					>* { line-height:@header-height !important; height:100%; vertical-align:middle; display:inline-block; }
 					>i { float:left; font-size:1.375em; }
 					>span { float:left; font-size:1.5em; font-weight:bold; text-transform:uppercase; color:inherit; }
 				}
+                >a.fa { font-family:FontAwesome !important; .vertical-centre(@header-height); font-size:1.375em; }
 				>a:hover { .gradient(lighten(@dark-gradient-top-colour, 5%), lighten(@dark-gradient-bottom-colour, 5%)); color:white; }
 				>a#notifications {
 					>div { float:left; position:relative;
@@ -38,6 +39,11 @@ header { float:left; width:100%; .gradient(@dark-gradient-top-colour, @dark-grad
 			}
 		}
 	}
+    >slide-menu { float:left; position:relative; z-index:((@header-z-index)-1); left:100%;
+        >div { position:absolute; .transform(translate3d(-100%, -100%, 0));
+            &.show { .transform(translate3d(-100%, 0, 0)); }
+        }
+    }
 }
 
 div.bar-container { float:left; width:100%; position:relative; height:0; }

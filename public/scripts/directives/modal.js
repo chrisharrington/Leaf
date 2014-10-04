@@ -1,4 +1,6 @@
-IssueTracker.app.directive("modal", function($timeout) {
+IssueTracker.app.directive("modal", function($timeout, $rootScope) {
+	var _first = true;
+
 	return {
 		restrict: "E",
 		templateUrl: "templates/modal.html",
@@ -12,23 +14,25 @@ IssueTracker.app.directive("modal", function($timeout) {
 		},
 		link: function(scope, element) {
 			scope.$watch("show", function(value) {
-				_toggle(value);
+				if (_first) {
+					_first = false;
+					return;
+				}
+
+				_toggle(value, $(element));
 				$(element).find("input:first").focus();
 			});
 
-			$(window).on("keyup", function(e) {
-				if (e.keyCode === 27)
-					scope.$apply(function() {
-						scope.show = false;
-						if (scope.cancel !== undefined)
-							scope.cancel();
-					});
+			$rootScope.$on("escapePressed", function() {
+				scope.show = false;
+				if (scope.cancel !== undefined)
+					scope.cancel();
 			});
 
-			function _toggle(value) {
-				$(element).toggleClass("show", value);
+			function _toggle(value, panel) {
+				panel.toggleClass("show", value);
 
-				var overlay = $(element).find(">div.overlay"), content = $(element).find(">div.content-container");
+				var overlay = panel.find(">div.overlay"), content = panel.find(">div.content-container");
 				if (!value) {
 					$timeout(function () {
 						overlay.css("visibility", "hidden");

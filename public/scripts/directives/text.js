@@ -7,18 +7,17 @@ IssueTracker.app.directive("text", function() {
 			placeholder: "@",
 			name: "@",
 			tabindex: "@tabindex",
-			focus: "@",
 			value: "&",
 			ngModel: "="
 		},
 		link: function(scope, element) {
-			$(element).on("focus", "input", function() {
-				$(element).addClass("focus");
-			});
+			scope.focus = function() {
+				element.addClass("focus");
+			};
 
-			$(element).on("blur", "input", function() {
-				$(element).removeClass("focus");
-			});
+			scope.blur = function() {
+				element.removeClass("focus");
+			};
 		}
 	}
 });

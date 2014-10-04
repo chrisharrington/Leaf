@@ -8,8 +8,8 @@ IssueTracker.app.directive("tooltip", function() {
 			alignment: "@tooltipAlignment"
 		},
 		link: function(scope, element) {
-			$(element).on("mouseenter", function() {
-				_show($(element), {
+			element.on("mouseenter", function() {
+				_show(element, {
 					text: scope.text,
 					alignment: scope.alignment || "centre",
 					vbuffer: 0
@@ -22,7 +22,7 @@ IssueTracker.app.directive("tooltip", function() {
 
 	function _show(element, params) {
 		if (!_view)
-			_view = $("#tooltip-container");
+			_view = document.getElementById("tooltip-container");
 
 		_setArrowLocation(params.alignment);
 		_view.find("span").text(params.text);

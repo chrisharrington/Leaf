@@ -6,7 +6,7 @@
 	<title text="">Leaf</title>
     <link rel="stylesheet" href="{{{styleLocation}}}" type="text/css" />
 </head>
-	<body>
+	<body watch-for-click="documentClicked" watch-for-escape="escapePressed">
         <header>
             <div class="header-wrapper">
 				<div ng-if="$root.project">
@@ -27,13 +27,10 @@
 						</a>
 					</div>
 					<div class="actions">
-						<a class="settings-trigger" tooltip="Settings" ng-click="settings.show()">
-							<i class="fa fa-gears"></i>
-						</a>
-						<a tooltip="Create Issue" tooltip-alignment="right" href="#/new-issue" authorized="create-issue">
+						<a class="fa fa-gears settings-trigger" tooltip="Settings" ng-click="settings.show()"></a>
+                        <a tooltip="Create Issue" tooltip-alignment="right" href="#/new-issue" authorized="create-issue">
 							<i class="fa fa-plus"></i>
 						</a>
-						<span class="anchor"></span>
 					</div>
 					<div class="search">
 						<input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
@@ -41,6 +38,36 @@
 					</div>
 				</div>
             </div>
+            <slide-menu class="settings" visible="settings.visible" trigger="settings-trigger">
+                <a class="account" ng-click="profile.show()" ng-if="user !== undefined">
+                    <div class="image">
+                        <profile-image id="user.id" size="32"></profile-image>
+                    </div>
+                    <div class="labels">
+                        <span class="name">[[user.name]]</span>
+                        <br />
+                        <span class="email sub">[[user.emailAddress]]</span>
+                    </div>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                <a href="#/project/settings">
+                    <div>
+                        <span class="title">Project Settings</span>
+                        <span class="description sub">Name, milestones, priorities, statuses and integrations.</span>
+                    </div>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                <a>
+                    <div>
+                        <span class="title">Account Settings</span>
+                        <span class="description sub">Plan settings, billing information, and payment history.</span>
+                    </div>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                <a class="sign-out">
+                    <span class="title" ng-click="settings.signOut()">Sign Out</span>
+                </a>
+            </slide-menu>
         </header>
 
         <div class="bar-container"></div>
@@ -77,54 +104,17 @@
 
 		<feedback></feedback>
 
-		<slide-menu class="settings" show="settings.visible" trigger="settings-trigger">
-			<a class="account" ng-click="profile.show()" ng-if="user !== undefined">
-				<div class="image">
-					<profile-image id="user.id" size="32"></profile-image>
-				</div>
-				<div class="labels">
-					<span class="name">[[user.name]]</span>
-					<br />
-					<span class="email sub">[[user.emailAddress]]</span>
-				</div>
-				<i class="fa fa-angle-right"></i>
-			</a>
-			<a href="#/project/settings">
-				<div>
-					<span class="title">Project Settings</span>
-					<span class="description sub">Name, milestones, priorities, statuses and integrations.</span>
-				</div>
-				<i class="fa fa-angle-right"></i>
-			</a>
-			<a>
-				<div>
-					<span class="title">Account Settings</span>
-					<span class="description sub">Plan settings, billing information, and payment history.</span>
-				</div>
-				<i class="fa fa-angle-right"></i>
-			</a>
-			<a class="sign-out">
-				<span class="title" ng-click="settings.signOut()">Sign Out</span>
-			</a>
-		</slide-menu>
-
 		<div id="tooltip-container" class="">
 			<div class="arrow"></div>
 			<span></span>
 		</div>
 
-		<script type="text/javascript" src="/scripts/thirdParty/jquery.min.js"></script>
+		<!--<script type="text/javascript" src="/tools/jquery/dist/jquery.js"></script>-->
 		<script type="text/javascript" src="/scripts/thirdParty/angular.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/angular-animate.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/angular-route.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/angular-md5.min.js"></script>
-		<script type="text/javascript" src="/scripts/thirdParty/highcharts.js"></script>
-		<script type="text/javascript" src="/scripts/thirdParty/json2.min.js"></script>
-		<script type="text/javascript" src="/scripts/thirdParty/jquery.transit.min.js"></script> <!-- forked for height: auto animation support from here: https://github.com/NV/jquery.transit -->
-		<script type="text/javascript" src="/scripts/thirdParty/md5.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/nanobar.js"></script>
-		<script type="text/javascript" src="/scripts/thirdParty/jquery.timeago.min.js"></script>
-		<script type="text/javascript" src="/scripts/thirdParty/jquery-ui-1.10.4.custom.min.js"></script>
         <script type="text/javascript">
 			window.IssueTracker = {
 				virtualDirectory: "/",
@@ -142,26 +132,6 @@
 				$rootScope.issueTypes = {{{issueTypes}}};
 				$rootScope.permissions = {{{permissions}}};
 			});
-
-//				root.users = IssueTracker.Utilities.buildObservableArray({{{users}}});
-//				root.permissions = IssueTracker.Utilities.buildObservableArray({{{permissions}}});
-//				root.priorities = IssueTracker.Utilities.buildObservableArray({{{priorities}}});
-//				root.statuses = IssueTracker.Utilities.buildObservableArray({{{statuses}}});
-//				root.transitions = ko.observableArray({{{transitions}}});
-//				root.projects = ko.observableArray({{{projects}}});
-//				root.milestones = IssueTracker.Utilities.buildObservableArray({{{milestones}}});
-//				root.issueTypes = IssueTracker.Utilities.buildObservableArray({{{issueTypes}}});
-//                root.projectName = ko.observable({{{projectName}}});
-//                root.projectId = ko.observable({{{projectId}}});
-//				root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables({{{signedInUser}}}));
-//				root.selectedIssue = ko.observable();
-//
-//				IssueTracker.error = ko.observable("");
-//				IssueTracker.success = ko.observable("");
-//				IssueTracker.title = ko.observable();
-//				IssueTracker.dialog = ko.observable();
-//				IssueTracker.popup = ko.observable();
-//				IssueTracker.Init.init();
         </script>
 		{{{renderedScripts}}}
 
@@ -173,7 +143,7 @@
 			</a>
 		</script>
 
-		<modal class="profile" title="Profile" ok="profile.ok" cancel="profile.cancel" loading="profile.loading" show="profile.visible">
+		<modal class="profile" title="Profile" ok="profile.ok" cancel="profile.cancel" loading="profile.loading" show="profile.show" ng-show="profile.visible">
 			<div>
 				<label>Email Address</label>
 				<span>This also serves as your sign in username.</span>
