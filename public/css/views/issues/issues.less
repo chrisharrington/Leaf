@@ -11,6 +11,9 @@
 			>div.data { float:left; width:100%;
 				@info-height:35px;
 
+				>a { opacity:1; .transition(opacity ease @animation-speed); }
+			  	>a.collapsed { opacity:0; }
+
 				.loop(@counter) when (@counter < 20) {
 				  .loop((@counter + 1));
 				  >a.issue-@{counter} { transition-delay: @counter*25ms !important; }

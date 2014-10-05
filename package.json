@@ -8,7 +8,7 @@
         "encrypt": "encrypt secureConfig.json secureConfig.json.cast5",
         "decrypt": "decrypt secureConfig.json.cast5 secureConfig.json"
     },
-    "version": "0.0.185",
+    "version": "0.0.177",
     "engines": {
         "node": "0.10.x"
     },
