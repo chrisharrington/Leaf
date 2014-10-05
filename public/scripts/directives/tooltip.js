@@ -22,7 +22,7 @@ IssueTracker.app.directive("tooltip", function() {
 
 	function _show(element, params) {
 		if (!_view)
-			_view = document.getElementById("tooltip-container");
+			_view = $("#tooltip-container");
 
 		_setArrowLocation(params.alignment);
 		_view.find("span").text(params.text);

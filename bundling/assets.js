@@ -1,12 +1,10 @@
 exports.scripts = function() {
 	return [
 		"./public/scripts/global.js",
-		"./public/scripts/page.js",
 		"./public/scripts/controllers",
 		"./public/scripts/directives",
 		"./public/scripts/services",
 		"./public/scripts/extensions",
-		"./public/scripts/settings.js",
 		"./public/scripts/init.js"
 	];
 };

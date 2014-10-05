@@ -15,26 +15,21 @@ IssueTracker.app.config(function($routeProvider) {
 });
 
 IssueTracker.app.run(function($rootScope, settings, profile) {
-	var session = _tryGetSession(window.sessionStorage);
-	if (!session)
-		session = _tryGetSession(window.localStorage);
-	if (session) {
-		$rootScope.project = session.project;
-		$rootScope.user = session.user;
-	}
-
-	$rootScope.settings = settings;
+    $rootScope.settings = settings;
 	$rootScope.profile = profile;
+    
+	_setSessionData();
 
-//	$(document).on("click", function(e) {
-//		$rootScope.$broadcast("documentClicked", $(e.target));
-//	});
-//
-//	$(window).on("keyup", function(e) {
-//		if (e.keyCode === 27)
-//			$rootScope.$broadCast("escapePressed", e);
-//	});
-
+    function _setSessionData() {
+        var session = _tryGetSession(window.sessionStorage);
+        if (!session)
+            session = _tryGetSession(window.localStorage);
+        if (session) {
+            $rootScope.project = session.project;
+            $rootScope.user = session.user;
+        }  
+    }
+    
 	function _tryGetSession(storage) {
 		return JSON.parse(storage.getItem("session"));
 	}

@@ -5,8 +5,6 @@ IssueTracker.app.service("profile", function($rootScope, feedback) {
 	this.loading = false;
 
 	this.show = function() {
-		//_old = $rootScope.user.clone();
-
 		this.visible = true;
 	};
 

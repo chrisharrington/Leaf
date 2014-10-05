@@ -10,25 +10,29 @@ IssueTracker.app.directive("modal", function($timeout, $rootScope) {
 			title: "@",
 			loading: "=",
 			ok: "=",
-			cancel: "="
+			cancelCallback: "=cancel"
 		},
 		link: function(scope, element) {
+            scope.cancel = function() {
+                _cancel();   
+            }
+            
 			scope.$watch("show", function(value) {
-				if (_first) {
-					_first = false;
-					return;
-				}
-
 				_toggle(value, $(element));
 				$(element).find("input:first").focus();
 			});
 
 			$rootScope.$on("escapePressed", function() {
-				scope.show = false;
-				if (scope.cancel !== undefined)
-					scope.cancel();
+                console.log("escape pressed");
+				_cancel();
 			});
 
+            function _cancel() {
+                if (scope.cancelCallback !== undefined)
+                    scope.cancelCallback();
+                _toggle(false, $(element));
+            }
+            
 			function _toggle(value, panel) {
 				panel.toggleClass("show", value);
 

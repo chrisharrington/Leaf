@@ -1,5 +1,5 @@
-<div class="overlay"></div>
-<div class="content-container">
+<div class="overlay" ng-class="{ show: visible }"></div>
+<div class="content-container" ng-class="{ show: visible }">
 	<h1>[[title]]</h1>
 	<loader ng-class="{ show: loading }"></loader>
 	<div class="content" ng-transclude></div>
