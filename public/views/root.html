@@ -38,36 +38,6 @@
 					</div>
 				</div>
             </div>
-            <slide-menu class="settings" visible="settings.visible" trigger="settings-trigger">
-                <a class="account" ng-click="profile.show()" ng-if="user !== undefined">
-                    <div class="image">
-                        <profile-image id="user.id" size="32"></profile-image>
-                    </div>
-                    <div class="labels">
-                        <span class="name">[[user.name]]</span>
-                        <br />
-                        <span class="email sub">[[user.emailAddress]]</span>
-                    </div>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-                <a href="#/project/settings">
-                    <div>
-                        <span class="title">Project Settings</span>
-                        <span class="description sub">Name, milestones, priorities, statuses and integrations.</span>
-                    </div>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-                <a>
-                    <div>
-                        <span class="title">Account Settings</span>
-                        <span class="description sub">Plan settings, billing information, and payment history.</span>
-                    </div>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-                <a class="sign-out">
-                    <span class="title" ng-click="settings.signOut()">Sign Out</span>
-                </a>
-            </slide-menu>
         </header>
 
         <div class="bar-container"></div>
@@ -103,6 +73,37 @@
 		<div class="overlay"></div>
 
 		<feedback></feedback>
+
+		<slide-menu class="settings" show="settings.visible" trigger="settings-trigger">
+			<a class="account" href="#/profile" ng-if="user !== undefined">
+				<div class="image">
+					<profile-image id="user.id" size="32"></profile-image>
+				</div>
+				<div class="labels">
+					<span class="name">[[user.name]]</span>
+					<br />
+					<span class="email sub">[[user.emailAddress]]</span>
+				</div>
+				<i class="fa fa-angle-right"></i>
+			</a>
+			<a href="#/project/settings">
+				<div>
+					<span class="title">Project Settings</span>
+					<span class="description sub">Name, milestones, priorities, statuses and integrations.</span>
+				</div>
+				<i class="fa fa-angle-right"></i>
+			</a>
+			<a>
+				<div>
+					<span class="title">Account Settings</span>
+					<span class="description sub">Plan settings, billing information, and payment history.</span>
+				</div>
+				<i class="fa fa-angle-right"></i>
+			</a>
+			<a class="sign-out">
+				<span class="title" ng-click="settings.signOut()">Sign Out</span>
+			</a>
+		</slide-menu>
 
 		<div id="tooltip-container" class="">
 			<div class="arrow"></div>
@@ -142,28 +143,5 @@
 				<span class="size" data-bind="text: size"></span>
 			</a>
 		</script>
-
-		<modal class="profile" title="Profile" ok="profile.ok" cancel="profile.cancel" loading="profile.loading" show="profile.visible">
-			<div>
-				<label>Email Address</label>
-				<span>This also serves as your sign in username.</span>
-				<text type="text" placeholder="Email address..." ng-model="$root.user.emailAddress"></text>
-			</div>
-			<div>
-				<label>Full Name</label>
-				<text type="text" placeholder="Full name..." ng-model="$root.user.name"></text>
-			</div>
-			<div class="password">
-				<label>Password</label>
-				<span>There are no restrictions on the password you can enter. Your password can be as secure as you want it to be. If you leave this blank, your password will remain unchanged when you save your changes.</span>
-				<text type="password" placeholder="Password..." ng-model="profile.password"></text>
-				<text class="right" type="password" placeholder="Confirmed password..." ng-model="profile.confirmed"></text>
-			</div>
-			<div>
-				<label>Phone</label>
-				<span>This field is entirely optional. We only ask for it in the rare event we'll have to contact you for support issues in the future.</span>
-				<text type="text" placeholder="Phone..." ng-model="$root.user.phone"></text>
-			</div>
-		</modal>
 	</body>
 </html>

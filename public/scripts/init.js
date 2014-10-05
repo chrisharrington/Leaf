@@ -10,7 +10,6 @@ IssueTracker.app.config(function($routeProvider) {
 		.when("/welcome", { templateUrl: "views/welcome.html", controller: "welcome" })
 		.when("/issues", { templateUrl: "views/issues.html", controller: "issues" })
 		.when("/users", { templateUrl: "views/users.html", controller: "users" })
-		.when("/profile", { templateUrl: "views/profile.html", controller: "profile" })
 		.otherwise({ redirectTo: "/welcome" });
 });
 

@@ -8,8 +8,8 @@ IssueTracker.app.directive("slideMenu", function($rootScope) {
 			trigger: "@"
 		},
 		link: function(scope, element) {
-			$rootScope.$on("documentClicked", function(context, target, parents) {
-				if (target.className.indexOf(scope.trigger) === -1 && !parents.exists(function(x) { return x.className.indexOf(scope.trigger) > 1; }))
+			$rootScope.$on("documentClicked", function(inner, target) {
+				if (!target.hasClass(scope.trigger) && target.parents("." + scope.trigger).length === 0 && target.parents("slide-menu").length === 0)
 					scope.$apply(function() {
 						scope.visible = false;
 					});
