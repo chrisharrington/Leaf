@@ -18,12 +18,12 @@ IssueTracker.app.directive("modal", function($timeout, $rootScope) {
             }
             
 			scope.$watch("show", function(value) {
-				_toggle(value, $(element));
+				
+                _toggle(value, $(element));
 				$(element).find("input:first").focus();
 			});
 
 			$rootScope.$on("escapePressed", function() {
-                console.log("escape pressed");
 				_cancel();
 			});
 
