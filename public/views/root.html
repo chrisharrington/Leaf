@@ -142,26 +142,6 @@
 				$rootScope.issueTypes = {{{issueTypes}}};
 				$rootScope.permissions = {{{permissions}}};
 			});
-
-//				root.users = IssueTracker.Utilities.buildObservableArray({{{users}}});
-//				root.permissions = IssueTracker.Utilities.buildObservableArray({{{permissions}}});
-//				root.priorities = IssueTracker.Utilities.buildObservableArray({{{priorities}}});
-//				root.statuses = IssueTracker.Utilities.buildObservableArray({{{statuses}}});
-//				root.transitions = ko.observableArray({{{transitions}}});
-//				root.projects = ko.observableArray({{{projects}}});
-//				root.milestones = IssueTracker.Utilities.buildObservableArray({{{milestones}}});
-//				root.issueTypes = IssueTracker.Utilities.buildObservableArray({{{issueTypes}}});
-//                root.projectName = ko.observable({{{projectName}}});
-//                root.projectId = ko.observable({{{projectId}}});
-//				root.signedInUser = ko.observable(IssueTracker.Utilities.createPropertyObservables({{{signedInUser}}}));
-//				root.selectedIssue = ko.observable();
-//
-//				IssueTracker.error = ko.observable("");
-//				IssueTracker.success = ko.observable("");
-//				IssueTracker.title = ko.observable();
-//				IssueTracker.dialog = ko.observable();
-//				IssueTracker.popup = ko.observable();
-//				IssueTracker.Init.init();
         </script>
 		{{{renderedScripts}}}
 
@@ -173,7 +153,7 @@
 			</a>
 		</script>
 
-		<modal class="profile" title="Profile" ok="profile.ok" cancel="profile.cancel" loading="profile.loading" show="profile.visible">
+		<modal class="profile" title="Profile" ok="profile.ok" cancel="profile.cancel" loading="profile.loading" visible="profile.visible">
 			<div>
 				<label>Email Address</label>
 				<span>This also serves as your sign in username.</span>

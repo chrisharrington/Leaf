@@ -1,4 +1,4 @@
-IssueTracker.app.service("profile", function($rootScope, feedback) {
+IssueTracker.app.service("profile", function($rootScope, feedback, userRepository) {
 	this.visible = false;
 	this.loading = false;
 
@@ -9,10 +9,21 @@ IssueTracker.app.service("profile", function($rootScope, feedback) {
 	this.ok = function() {
 		if (!_validate())
 			return;
+		
+		var me = this;
+		this.loading = true;
+		userRepository.profile($rootScope.user).then(function() {
+			feedback.success("Your profile has been updated.");
+			me.cancel();
+		}).catch(function() {
+			feedback.error("An error has occurred while updating your profile. Please try again later.");
+		}).finally(function() {
+			me.loading = false;
+		});
 	};
 
 	this.cancel = function() {
-
+		this.visible = false;
 	};
 
 	function _validate() {
@@ -30,5 +41,23 @@ IssueTracker.app.service("profile", function($rootScope, feedback) {
 			feedback.error("The email address is invalid.");
 			return false;
 		}
+		
+		return true;
+	}
+	
+	function _updateUserInSession() {
+		var session = window.sessionStorage.getItem("session");
+		var isSession = true;
+		if (!session) {
+			session = window.localStorage.getItem("session");
+			isSession = false;
+		}
+		if (!session)
+			return;
+		
+		session = JSON.parse(session);
+		session.user = $rootScope.user;
+		
+		(isSession ? window.sessionStorage : window.localStorage).setItem("session", JSON.stringify(session));
 	}
 });

@@ -4,14 +4,14 @@ IssueTracker.app.directive("modal", function($timeout) {
 		templateUrl: "templates/modal.html",
 		transclude: true,
 		scope: {
-			show: "=",
+			visible: "=",
 			title: "@",
 			loading: "=",
 			ok: "=",
 			cancel: "="
 		},
 		link: function(scope, element) {
-			scope.$watch("show", function(value) {
+			scope.$watch("visible", function(value) {
 				_toggle(value);
 				$(element).find("input:first").focus();
 			});
@@ -19,7 +19,7 @@ IssueTracker.app.directive("modal", function($timeout) {
 			$(window).on("keyup", function(e) {
 				if (e.keyCode === 27)
 					scope.$apply(function() {
-						scope.show = false;
+						scope.visible = false;
 						if (scope.cancel !== undefined)
 							scope.cancel();
 					});

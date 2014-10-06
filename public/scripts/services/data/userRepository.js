@@ -30,6 +30,10 @@ IssueTracker.app.factory("userRepository", function($rootScope, baseRepository) 
 
 		permissions: function(userId, permissionIds) {
 			return baseRepository.post("permissions", { userId: userId, permissionIds: permissionIds });
+		},
+		
+		profile: function(profile) {
+			return baseRepository.post("users/profile", profile);
 		}
 	}
 });
