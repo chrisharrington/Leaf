@@ -15,6 +15,8 @@ IssueTracker.app.service("profile", function($rootScope, feedback, userRepositor
 		userRepository.profile($rootScope.user).then(function() {
 			feedback.success("Your profile has been updated.");
 			me.cancel();
+            _updateUserInArray();
+            _updateUserInSession();
 		}).catch(function() {
 			feedback.error("An error has occurred while updating your profile. Please try again later.");
 		}).finally(function() {
@@ -44,6 +46,14 @@ IssueTracker.app.service("profile", function($rootScope, feedback, userRepositor
 		
 		return true;
 	}
+    
+    function _updateUserInArray() {
+        var user = $rootScope.users.dict("id")[$rootScope.user.id];
+        for (var name in $rootScope.user)
+            if (name !== "id")
+                user[name] = $rootScope.user[name];
+        $rootScope.$broadcast("userChanged", user);
+    }
 	
 	function _updateUserInSession() {
 		var session = window.sessionStorage.getItem("session");
