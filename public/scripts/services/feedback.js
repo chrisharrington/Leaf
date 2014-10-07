@@ -27,6 +27,8 @@ IssueTracker.app.factory("feedback", function($rootScope) {
 });
 
 IssueTracker.app.directive("feedback", function($rootScope, $timeout) {
+	var _timeout;
+	
 	$rootScope.feedbackText = "";
 
 	return {
@@ -44,8 +46,11 @@ IssueTracker.app.directive("feedback", function($rootScope, $timeout) {
 					scope.text = value;
 				scope.visible = value && value != "";
 				
+				if (_timeout)
+					clearTimeout(_timeout);
+				
 				if ($rootScope.feedbackSuccess === true)
-					$timeout(function() {
+					_timeout = $timeout(function() {
 						$rootScope.feedbackVisible = false;
 					}, 5000);
 			});
