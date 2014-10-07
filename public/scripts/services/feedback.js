@@ -26,7 +26,7 @@ IssueTracker.app.factory("feedback", function($rootScope) {
 	}
 });
 
-IssueTracker.app.directive("feedback", function($rootScope) {
+IssueTracker.app.directive("feedback", function($rootScope, $timeout) {
 	$rootScope.feedbackText = "";
 
 	return {
@@ -43,6 +43,11 @@ IssueTracker.app.directive("feedback", function($rootScope) {
 				if (value != "")
 					scope.text = value;
 				scope.visible = value && value != "";
+				
+				if ($rootScope.feedbackSuccess === true)
+					$timeout(function() {
+						$rootScope.feedbackVisible = false;
+					}, 5000);
 			});
 		}
 	};
