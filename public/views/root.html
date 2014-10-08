@@ -154,26 +154,35 @@
 		</script>
 
 		<modal class="profile" title="Profile" ok="profile.ok" cancel="profile.cancel" loading="profile.loading" visible="profile.visible">
-			<div>
-				<label>Email Address</label>
-				<span>This also serves as your sign in username.</span>
-				<text type="text" placeholder="Email address..." ng-model="$root.user.emailAddress"></text>
-			</div>
-			<div>
-				<label>Full Name</label>
-				<text type="text" placeholder="Full name..." ng-model="$root.user.name"></text>
-			</div>
-			<div class="password">
-				<label>Password</label>
-				<span>There are no restrictions on the password you can enter. Your password can be as secure as you want it to be. If you leave this blank, your password will remain unchanged when you save your changes.</span>
-				<text type="password" placeholder="Password..." ng-model="profile.password"></text>
-				<text class="right" type="password" placeholder="Confirmed password..." ng-model="profile.confirmed"></text>
-			</div>
-			<div>
-				<label>Phone</label>
-				<span>This field is entirely optional. We only ask for it in the rare event we'll have to contact you for support issues in the future.</span>
-				<text type="text" placeholder="Phone..." ng-model="$root.user.phone"></text>
-			</div>
+            <div class="container">
+                <div>
+                    <label>Email Address</label>
+                    <span>This also serves as your sign in username.</span>
+                    <text type="text" placeholder="Email address..." ng-model="$root.user.emailAddress"></text>
+                </div>
+                <div>
+                    <label>Full Name</label>
+                    <text type="text" placeholder="Full name..." ng-model="$root.user.name"></text>
+                </div>
+                <div class="password">
+                    <label>Password</label>
+                    <span>There are no restrictions on the password you can enter. Your password can be as secure as you want it to be. If you leave this blank, your password will remain unchanged when you save your changes.</span>
+                    <text type="password" placeholder="Password..." ng-model="profile.password"></text>
+                    <text class="right" type="password" placeholder="Confirmed password..." ng-model="profile.confirmed"></text>
+                </div>
+                <div>
+                    <label>Phone</label>
+                    <span>This field is entirely optional. We only ask for it in the rare event we'll have to contact you for support issues in the future.</span>
+                    <text type="text" placeholder="Phone..." ng-model="$root.user.phone"></text>
+                </div>
+            </div>
 		</modal>
+        
+        <modal class="details" title="Issue Details" custom-header custom-buttons loading="details.loading" visible="details.visible">
+            <h1></h1>
+            <div class="button-container">
+                <pressable text="Close" negative ng-click="details.close()" disabled="details.loading"></pressable>
+            </div>
+        </modal>
 	</body>
 </html>

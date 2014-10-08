@@ -10,7 +10,12 @@ IssueTracker.app.directive("modal", function($timeout) {
 			ok: "=",
 			cancel: "="
 		},
-		link: function(scope, element) {
+		link: function(scope, element, attributes, control, transclude) {
+            $(element).find("div.to-be-transcluded").replaceWith(transclude());
+            
+            scope.customButtons = attributes.customButtons !== undefined;
+            scope.customHeader = attributes.customHeader !== undefined;
+            
 			scope.$watch("visible", function(value) {
 				_toggle(value);
 				$(element).find("input:first").focus();
@@ -28,7 +33,7 @@ IssueTracker.app.directive("modal", function($timeout) {
 			function _toggle(value) {
 				$(element).toggleClass("show", value);
 
-				var overlay = $(element).find(">div.overlay"), content = $(element).find(">div.content-container");
+				var overlay = $(element).find(">div.overlay"), content = $(element).find(">div.content");
 				if (!value) {
 					$timeout(function () {
 						overlay.css("visibility", "hidden");
