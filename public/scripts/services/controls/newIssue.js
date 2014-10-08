@@ -1,9 +1,10 @@
 IssueTracker.app.service("newIssue", function() {
-	this.visible = false;
+	this.blah = false;
 	this.loading = false;
 	
 	this.show = function() {
-		this.visible = true;
+		console.log("show");
+		this.blah = true;
 	};
 	
 	this.ok = function() {
@@ -11,6 +12,7 @@ IssueTracker.app.service("newIssue", function() {
 	};
 	
 	this.cancel = function() {
+		console.log("cancel");
 		this.visible = false;
 	};
 });

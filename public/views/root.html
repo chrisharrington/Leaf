@@ -2,13 +2,13 @@
 
 <html ng-app="leaf">
 <head>
-    <meta name="viewport" content="width=device-width" />
+	<meta name="viewport" content="width=device-width" />
 	<title text="">Leaf</title>
-    <link rel="stylesheet" href="{{{styleLocation}}}" type="text/css" />
+	<link rel="stylesheet" href="{{{styleLocation}}}" type="text/css" />
 </head>
 	<body>
-        <header>
-            <div class="header-wrapper">
+		<header>
+			<div class="header-wrapper">
 				<div ng-if="$root.project">
 					<div class="logo">
 						<a href="#/issues">
@@ -40,10 +40,10 @@
 						<i class="fa fa-search" data-bind="click: Search.go"></i>
 					</div>
 				</div>
-            </div>
-        </header>
+			</div>
+		</header>
 
-        <div class="bar-container"></div>
+		<div class="bar-container"></div>
 
 		<section class="content-wrapper">
 			<div class="error404 error-code">
@@ -125,7 +125,7 @@
 		<script type="text/javascript" src="/scripts/thirdParty/nanobar.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/jquery.timeago.min.js"></script>
 		<script type="text/javascript" src="/scripts/thirdParty/jquery-ui-1.10.4.custom.min.js"></script>
-        <script type="text/javascript">
+		<script type="text/javascript">
 			window.IssueTracker = {
 				virtualDirectory: "/",
 				app: angular.module("leaf", ["ngRoute", "ngAnimate", "angular-md5"])
@@ -142,7 +142,7 @@
 				$rootScope.issueTypes = {{{issueTypes}}};
 				$rootScope.permissions = {{{permissions}}};
 			});
-        </script>
+		</script>
 		{{{renderedScripts}}}
 
 		<script type="text/html" id="attached-files-template">
@@ -154,29 +154,31 @@
 		</script>
 
 		<modal class="profile" title="Profile" ok="profile.ok" cancel="profile.cancel" loading="profile.loading" visible="profile.visible">
-			<div>
-				<label>Email Address</label>
-				<span>This also serves as your sign in username.</span>
-				<text type="text" placeholder="Email address..." ng-model="$root.user.emailAddress"></text>
-			</div>
-			<div>
-				<label>Full Name</label>
-				<text type="text" placeholder="Full name..." ng-model="$root.user.name"></text>
-			</div>
-			<div class="password">
-				<label>Password</label>
-				<span>There are no restrictions on the password you can enter. Your password can be as secure as you want it to be. If you leave this blank, your password will remain unchanged when you save your changes.</span>
-				<text type="password" placeholder="Password..." ng-model="profile.password"></text>
-				<text class="right" type="password" placeholder="Confirmed password..." ng-model="profile.confirmed"></text>
-			</div>
-			<div>
-				<label>Phone</label>
-				<span>This field is entirely optional. We only ask for it in the rare event we'll have to contact you for support issues in the future.</span>
-				<text type="text" placeholder="Phone..." ng-model="$root.user.phone"></text>
+			<div class="container">
+				<div>
+					<label>Email Address</label>
+					<span>This also serves as your sign in username.</span>
+					<text type="text" placeholder="Email address..." ng-model="$root.user.emailAddress"></text>
+				</div>
+				<div>
+					<label>Full Name</label>
+					<text type="text" placeholder="Full name..." ng-model="$root.user.name"></text>
+				</div>
+				<div class="password">
+					<label>Password</label>
+					<span>There are no restrictions on the password you can enter. Your password can be as secure as you want it to be. If you leave this blank, your password will remain unchanged when you save your changes.</span>
+					<text type="password" placeholder="Password..." ng-model="profile.password"></text>
+					<text class="right" type="password" placeholder="Confirmed password..." ng-model="profile.confirmed"></text>
+				</div>
+				<div>
+					<label>Phone</label>
+					<span>This field is entirely optional. We only ask for it in the rare event we'll have to contact you for support issues in the future.</span>
+					<text type="text" placeholder="Phone..." ng-model="$root.user.phone"></text>
+				</div>
 			</div>
 		</modal>
 		
-		<modal class="new-issue" title="New Issue" ok="newIssue.ok" cancel="newIssue.cancel" loading="newIssue.loading" visible="newIssue.visible">
+		<modal class="new-issue" title="New Issue" ok="newIssue.ok" cancel="newIssue.cancel" loading="newIssue.loading" visible="newIssue.blah">
 			<text type="text" ng-model="newIssue.description" placeholder="Description..."></text>
 			<text type="textarea" ng-model="newIssue.details" placeholder="Details..."></text>
 			<div class="sidebar">
@@ -204,6 +206,16 @@
 					<span>Issue Type</span>
 					<dropdown items="$root.issueTypes" selected="$root.issueTypes[0]" ng-model="newIssue.issueType"></dropdown>
 				</div>
+			</div>
+		</modal>
+		
+		<modal class="details" custom-header custom-buttons loading="details.loading" visible="details.visible">
+			<div class="header">
+				<h1>[[details.issue.number]]</h1>
+				<span>[[details.issue.description]]</span>
+			</div>
+			<div class="button-container">
+				<pressable text="Close" negative ng-click="details.close()" disabled="details.loading"></pressable>
 			</div>
 		</modal>
 	</body>

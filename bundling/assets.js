@@ -21,6 +21,7 @@ exports.styles = function() {
 		"./public/css/scroll.less",
 		"./public/css/animation.less",
 		"./public/css/directives",
+        "./public/css/services",
 		"./public/css/controls",
 		"./public/css/services",
 		"./public/css/partials",
