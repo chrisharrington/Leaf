@@ -1,4 +1,4 @@
-IssueTracker.app.directive("modal", function($timeout) {
+IssueTracker.app.directive("modal", function($rootScope, $timeout) {
 	return {
 		restrict: "E",
 		templateUrl: "templates/modal.html",
@@ -16,13 +16,14 @@ IssueTracker.app.directive("modal", function($timeout) {
 				$(element).find("input:first").focus();
 			});
 
-			$(window).on("keyup", function(e) {
-				if (e.keyCode === 27)
-					scope.$apply(function() {
+			$rootScope.$on("escapePressed", function() {
+				scope.$apply(function() {
+					if (scope.visible === true) {
 						scope.visible = false;
 						if (scope.cancel !== undefined)
 							scope.cancel();
-					});
+					}
+				});
 			});
 
 			function _toggle(value) {

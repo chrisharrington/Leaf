@@ -1,5 +1,6 @@
 <div class="text-container">
-	<input type="[[type]]" value="[[value]]" name="[[name]]" placeholder="[[placeholder]]" focus="[[focus]]" tabindex="[[tabindex]]" ng-model="ngModel" />
+	<input ng-if="type !== 'textarea'" type="[[type]]" value="[[value]]" name="[[name]]" placeholder="[[placeholder]]" focus="[[focus]]" tabindex="[[tabindex]]" ng-model="ngModel" />
+	<textarea ng-if="type === 'textarea'" value="[[value]]" name="[[name]]" placeholder="[[placeholder]]" tabindex="[[tabindex]]" ng-model="ngModel"></textarea>
 	<div class="focus">
 		<div></div>
 	</div>

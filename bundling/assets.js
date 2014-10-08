@@ -22,6 +22,7 @@ exports.styles = function() {
 		"./public/css/animation.less",
 		"./public/css/directives",
 		"./public/css/controls",
+		"./public/css/services",
 		"./public/css/partials",
 		"./public/css/templates",
 		"./public/css/views",

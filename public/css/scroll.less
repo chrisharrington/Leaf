@@ -1,4 +1,5 @@
-.scroll { overflow-y:auto; }
-.scroll::-webkit-scrollbar { width:6px; }
-.scroll::-webkit-scrollbar-track { background:@scrollbar-background; position:relative; }
-.scroll::-webkit-scrollbar-thumb { background:@scrollbar-foreground; }
+@scrollbar-width:6px;
+
+::-webkit-scrollbar { width:@scrollbar-width; }
+::-webkit-scrollbar-track { background:@scrollbar-background; position:relative; width:@scrollbar-width; }
+::-webkit-scrollbar-thumb { background:@scrollbar-foreground; width:@scrollbar-width; }

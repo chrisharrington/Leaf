@@ -14,7 +14,7 @@ IssueTracker.app.config(function($routeProvider) {
 		.otherwise({ redirectTo: "/welcome" });
 });
 
-IssueTracker.app.run(function($rootScope, settings, profile) {
+IssueTracker.app.run(function($rootScope, settings, profile, newIssue) {
 	var session = _tryGetSession(window.sessionStorage);
 	if (!session)
 		session = _tryGetSession(window.localStorage);
@@ -25,9 +25,15 @@ IssueTracker.app.run(function($rootScope, settings, profile) {
 
 	$rootScope.settings = settings;
 	$rootScope.profile = profile;
+	$rootScope.newIssue = newIssue;
 
 	$(document).on("click", function(e) {
 		$rootScope.$broadcast("documentClicked", $(e.target));
+	});
+	
+	$(document).on("keyup", function(e) {
+		if (e.keyCode === 27)
+			$rootScope.$broadcast("escapePressed");
 	});
 
 	function _tryGetSession(storage) {

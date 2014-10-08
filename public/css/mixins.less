@@ -1,5 +1,5 @@
 .gradient (@top, @bottom) { background:linear-gradient(to bottom, @top, @bottom); }
-.vertical-centre (@height) { height:@height; line-height:@height; display:inline-block; vertical-align:middle; }
+.vertical-centre (@height) { height:@height; line-height:@height !important; display:inline-block; vertical-align:middle; }
 .secondary-gradient, .positive-gradient { .gradient(@secondary-background-colour-top, @secondary-background-colour-bottom); }
 .negative-gradient { .gradient(@negative-colour, darken(@negative-colour, 15%)); }
 .shadow { box-shadow:0 2px 8px rgba(100, 100, 100, 0.4); }

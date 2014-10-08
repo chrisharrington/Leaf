@@ -30,7 +30,7 @@
 						<a class="settings-trigger" tooltip="Settings" ng-click="settings.show()">
 							<i class="fa fa-gears"></i>
 						</a>
-						<a tooltip="Create Issue" tooltip-alignment="right" href="#/new-issue" authorized="create-issue">
+						<a tooltip="Create Issue" tooltip-alignment="right" authorized="create-issue" ng-click="newIssue.show()">
 							<i class="fa fa-plus"></i>
 						</a>
 						<span class="anchor"></span>
@@ -173,6 +173,37 @@
 				<label>Phone</label>
 				<span>This field is entirely optional. We only ask for it in the rare event we'll have to contact you for support issues in the future.</span>
 				<text type="text" placeholder="Phone..." ng-model="$root.user.phone"></text>
+			</div>
+		</modal>
+		
+		<modal class="new-issue" title="New Issue" ok="newIssue.ok" cancel="newIssue.cancel" loading="newIssue.loading" visible="newIssue.visible">
+			<text type="text" ng-model="newIssue.description" placeholder="Description..."></text>
+			<text type="textarea" ng-model="newIssue.details" placeholder="Details..."></text>
+			<div class="sidebar">
+				<div>
+					<span>Milestone</span>
+					<dropdown items="$root.milestones" selected="$root.milestones[0]" ng-model="newIssue.milestone"></dropdown>
+				</div>
+				<div>
+					<span>Priority</span>
+					<dropdown items="$root.priorities" selected="$root.priorities[0]" ng-model="newIssue.priority"></dropdown>
+				</div>
+				<div>
+					<span>Status</span>
+					<dropdown items="$root.statuses" selected="$root.statuses[0]" ng-model="newIssue.status"></dropdown>
+				</div>
+				<div>
+					<span>Developer</span>
+					<dropdown items="$root.users" selected="$root.users[0]" ng-model="newIssue.developer"></dropdown>
+				</div>
+				<div>
+					<span>Tester</span>
+					<dropdown items="$root.users" selected="$root.users[0]" ng-model="newIssue.tester"></dropdown>
+				</div>
+				<div>
+					<span>Issue Type</span>
+					<dropdown items="$root.issueTypes" selected="$root.issueTypes[0]" ng-model="newIssue.issueType"></dropdown>
+				</div>
 			</div>
 		</modal>
 	</body>

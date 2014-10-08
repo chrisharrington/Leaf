@@ -12,11 +12,11 @@ IssueTracker.app.directive("text", function() {
 			ngModel: "="
 		},
 		link: function(scope, element) {
-			$(element).on("focus", "input", function() {
+			$(element).on("focus", "input, textarea", function() {
 				$(element).addClass("focus");
 			});
 
-			$(element).on("blur", "input", function() {
+			$(element).on("blur", "input, textarea", function() {
 				$(element).removeClass("focus");
 			});
 		}
