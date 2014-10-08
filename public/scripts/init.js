@@ -14,7 +14,7 @@ IssueTracker.app.config(function($routeProvider) {
 		.otherwise({ redirectTo: "/welcome" });
 });
 
-IssueTracker.app.run(function($rootScope, settings, profile, newIssue, details) {
+IssueTracker.app.run(function($rootScope, settings, profile, issue) {
 	var session = _tryGetSession(window.sessionStorage);
 	if (!session)
 		session = _tryGetSession(window.localStorage);
@@ -23,10 +23,9 @@ IssueTracker.app.run(function($rootScope, settings, profile, newIssue, details) 
 		$rootScope.user = session.user;
 	}
 
-    $rootScope.details = details;
 	$rootScope.settings = settings;
 	$rootScope.profile = profile;
-	$rootScope.newIssue = newIssue;
+	$rootScope.issue = issue;
 
 	$(document).on("click", function(e) {
 		$rootScope.$broadcast("documentClicked", $(e.target));

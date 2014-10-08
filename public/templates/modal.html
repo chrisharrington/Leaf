@@ -1,10 +1,10 @@
-<div class="overlay"></div>
-<div class="content">
+<div class="overlay" ng-class="{ show: visible, hide: !visible }"></div>
+<div class="content" ng-class="{ show: visible }">
     <h1 ng-if="!customHeader">[[title]]</h1>
     <loader ng-if="!customHeader" ng-class="{ show: loading }"></loader>
-    <div class="to-be-transcluded"></div>
+    <div class="to-be-transcluded" ng-transclude></div>
     <div class="button-container" ng-if="!customButtons">
         <pressable text="OK" ng-click="ok()" disabled="loading"></pressable>
-        <pressable text="Cancel" negative ng-click="cancel()" disabled="loading"></pressable>
+        <pressable text="Cancel" negative ng-click="close()" disabled="loading"></pressable>
     </div>
 </div>

@@ -30,7 +30,7 @@
 						<a class="settings-trigger" tooltip="Settings" ng-click="settings.show()">
 							<i class="fa fa-gears"></i>
 						</a>
-						<a tooltip="Create Issue" tooltip-alignment="right" authorized="create-issue" ng-click="newIssue.show()">
+						<a tooltip="Create Issue" tooltip-alignment="right" authorized="create-issue" ng-click="issue.show()">
 							<i class="fa fa-plus"></i>
 						</a>
 						<span class="anchor"></span>
@@ -128,7 +128,7 @@
 		<script type="text/javascript">
 			window.IssueTracker = {
 				virtualDirectory: "/",
-				app: angular.module("leaf", ["ngRoute", "ngAnimate", "angular-md5"])
+				app: angular.module("leaf", ["ngRoute", "angular-md5"])
 			};
 
 			IssueTracker.app.run(function($rootScope) {
@@ -178,44 +178,19 @@
 			</div>
 		</modal>
 		
-		<modal class="new-issue" title="New Issue" ok="newIssue.ok" cancel="newIssue.cancel" loading="newIssue.loading" visible="newIssue.blah">
-			<text type="text" ng-model="newIssue.description" placeholder="Description..."></text>
-			<text type="textarea" ng-model="newIssue.details" placeholder="Details..."></text>
-			<div class="sidebar">
-				<div>
-					<span>Milestone</span>
-					<dropdown items="$root.milestones" selected="$root.milestones[0]" ng-model="newIssue.milestone"></dropdown>
+		<modal class="issue" ok="issue.ok" cancel="issue.cancel" loading="issue.loading" visible="issue.visible" custom-header custom-buttons>
+			<h1>Issue</h1>
+			<div>
+				<text type="text" ng-model="newIssue.description" placeholder="Description..."></text>
+				<text type="textarea" ng-model="newIssue.details" placeholder="Details..."></text>
+				<div class="dropdowns">
+					<dropdown items="$root.milestones" placeholder="Milestone..." ng-model="newIssue.milestone"></dropdown>
+					<dropdown items="$root.priorities" placeholder="Priority..." ng-model="newIssue.priority"></dropdown>
+					<dropdown items="$root.statuses" placeholder="Status..." ng-model="newIssue.status"></dropdown>
+					<dropdown items="$root.users" placeholder="Developer..." ng-model="newIssue.developer"></dropdown>
+					<dropdown items="$root.users" placeholder="Tester..." ng-model="newIssue.tester"></dropdown>
+					<dropdown items="$root.issueTypes" placeholder="Issue Type..." ng-model="newIssue.issueType"></dropdown>
 				</div>
-				<div>
-					<span>Priority</span>
-					<dropdown items="$root.priorities" selected="$root.priorities[0]" ng-model="newIssue.priority"></dropdown>
-				</div>
-				<div>
-					<span>Status</span>
-					<dropdown items="$root.statuses" selected="$root.statuses[0]" ng-model="newIssue.status"></dropdown>
-				</div>
-				<div>
-					<span>Developer</span>
-					<dropdown items="$root.users" selected="$root.users[0]" ng-model="newIssue.developer"></dropdown>
-				</div>
-				<div>
-					<span>Tester</span>
-					<dropdown items="$root.users" selected="$root.users[0]" ng-model="newIssue.tester"></dropdown>
-				</div>
-				<div>
-					<span>Issue Type</span>
-					<dropdown items="$root.issueTypes" selected="$root.issueTypes[0]" ng-model="newIssue.issueType"></dropdown>
-				</div>
-			</div>
-		</modal>
-		
-		<modal class="details" custom-header custom-buttons loading="details.loading" visible="details.visible">
-			<div class="header">
-				<h1>[[details.issue.number]]</h1>
-				<span>[[details.issue.description]]</span>
-			</div>
-			<div class="button-container">
-				<pressable text="Close" negative ng-click="details.close()" disabled="details.loading"></pressable>
 			</div>
 		</modal>
 	</body>

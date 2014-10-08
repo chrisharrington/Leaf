@@ -1,0 +1,13 @@
+modal.issue { width:1200px; font-size:0.875em;
+	div.content {
+		>div { float:left; width:100%; padding:@spacing; .border-box;
+			>text { float:left; width:100%; margin-top:@small-spacing; }
+			>text[type='textarea'] { height:100px; }
+			>text:first-child { margin-top:0; }
+			>div.dropdowns { float:left; width:100%; margin-top:@small-spacing;
+				>dropdown { float:left; width:(100%-5)/6; margin-left:1%; font-size:inherit; .border-box; }
+				>dropdown:first-child { margin-left:0; }
+			}
+		}
+	}
+}
