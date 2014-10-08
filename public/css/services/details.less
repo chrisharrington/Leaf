@@ -1,5 +1,11 @@
-modal.details {
+modal.details { width:1000px;
     div.content {
+        @header-height:50px;
+        @number-width:56px+@spacing*2;
+        >div.header { float:left; width:100%; background:white; border-bottom:solid 1px @border-colour;
+            >h1 { float:left; .vertical-centre(@header-height); width:@number-width; .border-box; color:@secondary-font-colour; padding:0 @spacing; }
+            >span { float:left; .vertical-centre(@header-height); font-size:1.125em; }
+        }
         >div.button-container { float:left; width:100%;
             >pressable { float:right; margin-left:@spacing; }
         }

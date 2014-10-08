@@ -178,8 +178,11 @@
             </div>
 		</modal>
         
-        <modal class="details" title="Issue Details" custom-header custom-buttons loading="details.loading" visible="details.visible">
-            <h1></h1>
+        <modal class="details" custom-header custom-buttons loading="details.loading" visible="details.visible">
+            <div class="header">
+                <h1>[[details.issue.number]]</h1>
+                <span>[[details.issue.description]]</span>
+            </div>
             <div class="button-container">
                 <pressable text="Close" negative ng-click="details.close()" disabled="details.loading"></pressable>
             </div>
