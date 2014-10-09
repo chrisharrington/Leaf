@@ -1,7 +1,7 @@
-<input class="dropdown-label" placeholder="[[placeholder]]" ng-class="{ clicked: clicked }" ng-click="click()" readonly value="[[selected.name]]" />
+<input class="dropdown-label" placeholder="[[placeholder]]" ng-click="showList()" readonly value="[[selected.name]]" />
 <i class="fa fa-angle-down"></i>
 <div class="items-container" ng-class="{ show: listVisible }">
 	<div>
-		<span ng-repeat="item in items" ng-click="select(item)">[[item.name]]</span>
+		<span ng-repeat="item in items" ng-click="select(item)" ng-hide="item.isDeleted">[[item.name]]</span>
 	</div>
 </div>

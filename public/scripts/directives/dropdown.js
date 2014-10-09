@@ -1,15 +1,13 @@
-IssueTracker.app.directive("dropdown", function($rootScope) {
+IssueTracker.app.directive("dropdown", function($rootScope, $timeout) {
 	return {
 		restrict: "E",
 		templateUrl: "templates/dropdown.html",
 		scope: {
             items: "=",
 			placeholder: "@",
-			ngModel: "="
+			selected: "="
 		},
 		link: function(scope, element, attributes) {
-            if (attributes.selected !== undefined)
-                scope.selected = scope.$eval(attributes.selected);
 			scope.listVisible = false;
 			scope.showDeleted = attributes.showDeleted !== undefined;
             scope.clicked = false;
@@ -18,17 +16,17 @@ IssueTracker.app.directive("dropdown", function($rootScope) {
 				scope.listVisible = false;
 				scope.selected = item;
 			};
+			
+			scope.showList = function() {
+				$timeout(function() {
+					scope.listVisible = true;	
+				});
+			};
             
-            scope.click = function() {
-                scope.listVisible = true;
-                scope.clicked = true;
-            };
-            
-            $rootScope.$on("documentClicked", function(context, target) {
-                if (!$(target).hasClass("clicked"))
+            $rootScope.$onMany(["documentClicked", "escapePressed"], function(context, target) {
+                if (scope.listVisible)
                     scope.$apply(function() {
                         scope.listVisible = false;
-                        scope.clicked = false;
                     });
             });
 		}

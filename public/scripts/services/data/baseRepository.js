@@ -1,6 +1,8 @@
 IssueTracker.app.service("baseRepository", function($http) {
 	this.get = function(url, parameters) {
-		return $http.get(_buildUrl(url, parameters));
+		return $http.get(_buildUrl(url, parameters)).then(function(result) {
+			return result.data;
+		});
 	};
 
 	this.post = function(url, parameters) {

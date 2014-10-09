@@ -180,16 +180,18 @@
 		
 		<modal class="issue" ok="issue.ok" cancel="issue.cancel" loading="issue.loading" visible="issue.visible" custom-header custom-buttons>
 			<h1>Issue</h1>
-			<div>
+			<div class="overlay"></div>
+<!--			<loader ng-show="issue.loading"></loader>-->
+			<div class="data" ng-class="{ show: !issue.loading }">
 				<text type="text" ng-model="newIssue.description" placeholder="Description..."></text>
 				<text type="textarea" ng-model="newIssue.details" placeholder="Details..."></text>
 				<div class="dropdowns">
-					<dropdown items="$root.milestones" placeholder="Milestone..." ng-model="issue.milestone"></dropdown>
-					<dropdown items="$root.priorities" placeholder="Priority..." ng-model="issue.priority"></dropdown>
-					<dropdown items="$root.statuses" placeholder="Status..." ng-model="issue.status"></dropdown>
-					<dropdown items="$root.users" placeholder="Developer..." ng-model="issue.developer"></dropdown>
-					<dropdown items="$root.users" placeholder="Tester..." ng-model="issue.tester"></dropdown>
-					<dropdown items="$root.issueTypes" placeholder="Issue Type..." ng-model="issue.issueType"></dropdown>
+					<dropdown items="$root.milestones" placeholder="Milestone..." selected="issue.milestone"></dropdown>
+					<dropdown items="$root.priorities" placeholder="Priority..." selected="issue.priority"></dropdown>
+					<dropdown items="$root.statuses" placeholder="Status..." selected="issue.status"></dropdown>
+					<dropdown items="$root.users" placeholder="Developer..." selected="issue.developer"></dropdown>
+					<dropdown items="$root.users" placeholder="Tester..." selected="issue.tester"></dropdown>
+					<dropdown items="$root.issueTypes" placeholder="Issue Type..." selected="issue.issueType"></dropdown>
 				</div>
 			</div>
 		</modal>

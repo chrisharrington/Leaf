@@ -60,11 +60,10 @@ module.exports = function(app) {
 	});
 
 	app.get("/issues/details", authenticate, function(request, response) {
-		var html, issue;
+		var issue;
 		return Promise.all([
-			fs.readFileAsync("public/views/issueDetails.html"),
-			repositories.Issue.number(request.query.projectId, parseInt(request.query.number))
-		]).spread(function(html, issue) {
+			repositories.Issue.one({ _id: request.query.id })
+		]).spread(function(issue) {
 			if (!issue) {
 				response.send(404);
 				return;
@@ -98,7 +97,7 @@ module.exports = function(app) {
 				model.transitions = transitions;
 				model.history = comments;
 				model.files = files;
-				response.send(mustache.render(html.toString(), { issue: JSON.stringify(model) }));
+				response.send(model);
 			});
 		}).catch(function(e) {
 			response.send(e.stack.formatStack(), 500);
