@@ -184,12 +184,12 @@
 				<text type="text" ng-model="newIssue.description" placeholder="Description..."></text>
 				<text type="textarea" ng-model="newIssue.details" placeholder="Details..."></text>
 				<div class="dropdowns">
-					<dropdown items="$root.milestones" placeholder="Milestone..." ng-model="newIssue.milestone"></dropdown>
-					<dropdown items="$root.priorities" placeholder="Priority..." ng-model="newIssue.priority"></dropdown>
-					<dropdown items="$root.statuses" placeholder="Status..." ng-model="newIssue.status"></dropdown>
-					<dropdown items="$root.users" placeholder="Developer..." ng-model="newIssue.developer"></dropdown>
-					<dropdown items="$root.users" placeholder="Tester..." ng-model="newIssue.tester"></dropdown>
-					<dropdown items="$root.issueTypes" placeholder="Issue Type..." ng-model="newIssue.issueType"></dropdown>
+					<dropdown items="$root.milestones" placeholder="Milestone..." ng-model="issue.milestone"></dropdown>
+					<dropdown items="$root.priorities" placeholder="Priority..." ng-model="issue.priority"></dropdown>
+					<dropdown items="$root.statuses" placeholder="Status..." ng-model="issue.status"></dropdown>
+					<dropdown items="$root.users" placeholder="Developer..." ng-model="issue.developer"></dropdown>
+					<dropdown items="$root.users" placeholder="Tester..." ng-model="issue.tester"></dropdown>
+					<dropdown items="$root.issueTypes" placeholder="Issue Type..." ng-model="issue.issueType"></dropdown>
 				</div>
 			</div>
 		</modal>

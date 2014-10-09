@@ -5,8 +5,8 @@ dropdown { border:solid 1px @border-colour; cursor:pointer; display:block;
 		&.placeholder { color:@placeholder-colour; }
 	}
 	>i { float:left; width:@icon-width; margin-left:@icon-width*-1; position:relative; text-align:center; font-size:1.25em; font-weight:bold !important; color:@secondary-font-colour; .vertical-centre(@height); }
-	>div.items-container { float:left; width:100%; position:relative; display:none;
-		&.show { display:block; }
+	>div.items-container { float:left; width:100%; position:relative; .transition(transform ease @animation-speed, -webkit-transform ease @animation-speed); transform:scale(1, 0);
+		&.show { transform:scale(1, 1); }
 		>div { position:absolute; width:100%; z-index:@dialog-z-index+1; max-height:200px; overflow-y:scroll; background:white;
 			>span { float:left; width:100%; background:white; border:solid 1px @border-colour; .border-box; padding:@small-spacing; border-top:none; cursor:pointer; }
 			>span:hover { background:#F0F0F0; }

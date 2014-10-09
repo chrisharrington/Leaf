@@ -1,7 +1,7 @@
-<span ng-class="{ placeholder: selected === undefined }" ng-click="listVisible = true">[[selected.name || placeholder]]</span>
+<span class="dropdown-label" ng-class="{ placeholder: selected === undefined }" ng-click="listVisible = true">[[selected.name || placeholder]]</span>
 <i class="fa fa-angle-down"></i>
 <div class="items-container" ng-class="{ show: listVisible }">
 	<div>
-		<span ng-repeat="item in items | filter: { isDeleted: false }" ng-click="select(item)">[[item.name]]</span>
+		<span ng-repeat="item in items" ng-click="select(item)">[[item.name]]</span>
 	</div>
 </div>
