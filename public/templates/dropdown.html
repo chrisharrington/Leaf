@@ -1,4 +1,4 @@
-<span class="dropdown-label" ng-class="{ placeholder: selected === undefined }" ng-click="listVisible = true">[[selected.name || placeholder]]</span>
+<input class="dropdown-label" placeholder="[[placeholder]]" ng-class="{ clicked: clicked }" ng-click="click()" readonly value="[[selected.name]]" />
 <i class="fa fa-angle-down"></i>
 <div class="items-container" ng-class="{ show: listVisible }">
 	<div>

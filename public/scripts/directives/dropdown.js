@@ -12,16 +12,23 @@ IssueTracker.app.directive("dropdown", function($rootScope) {
                 scope.selected = scope.$eval(attributes.selected);
 			scope.listVisible = false;
 			scope.showDeleted = attributes.showDeleted !== undefined;
+            scope.clicked = false;
 			
 			scope.select = function(item) {
 				scope.listVisible = false;
 				scope.selected = item;
 			};
             
+            scope.click = function() {
+                scope.listVisible = true;
+                scope.clicked = true;
+            };
+            
             $rootScope.$on("documentClicked", function(context, target) {
-                if (!$(target).hasClass("dropdown-label"))
+                if (!$(target).hasClass("clicked"))
                     scope.$apply(function() {
                         scope.listVisible = false;
+                        scope.clicked = false;
                     });
             });
 		}

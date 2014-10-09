@@ -1,7 +1,7 @@
 dropdown { border:solid 1px @border-colour; cursor:pointer; display:block;
 	@height:32px;
 	@icon-width:26px;
-	>span { float:left; width:100%; .vertical-centre(@height); position:relative; background:white; padding:0 @icon-width 0 @small-spacing; .border-box;
+	>input { float:left; width:100%; cursor:pointer; border:none; .vertical-centre(@height); position:relative; background:white; padding:0 @icon-width 0 @small-spacing; .border-box;
 		&.placeholder { color:@placeholder-colour; }
 	}
 	>i { float:left; width:@icon-width; margin-left:@icon-width*-1; position:relative; text-align:center; font-size:1.25em; font-weight:bold !important; color:@secondary-font-colour; .vertical-centre(@height); }
