@@ -1,10 +1,13 @@
 <div class="overlay" ng-class="{ show: visible, hide: !visible }"></div>
-<div class="content" ng-class="{ show: visible }">
-    <h1 ng-if="!customHeader">[[title]]</h1>
-    <loader ng-if="!customHeader" ng-class="{ show: loading }"></loader>
-    <div class="to-be-transcluded" ng-transclude></div>
-    <div class="button-container" ng-if="!customButtons">
-        <pressable text="OK" ng-click="ok()" disabled="loading"></pressable>
-        <pressable text="Cancel" negative ng-click="close()" disabled="loading"></pressable>
+<div class="content-container" ng-class="{ show: visible }">
+    <div class="loading-overlay" ng-show="loading"></div>
+    <loader ng-show="loading"></loader>
+    <div class="content">
+        <h1 ng-if="!customHeader">[[title]]</h1>
+        <div class="to-be-transcluded" ng-transclude></div>
+        <div class="button-container" ng-if="!customButtons">
+            <pressable text="OK" ng-click="ok()" disabled="loading"></pressable>
+            <pressable text="Cancel" negative ng-click="close()" disabled="loading"></pressable>
+        </div>
     </div>
 </div>

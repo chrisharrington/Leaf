@@ -1,7 +1,8 @@
 modal.issue { width:1200px;
 	div.content {
 		@loading-height:150px;
-		>div.overlay { position:absolute; top:0; right:0; bottom:0; left:0; background:white; opacity:0.6; }
+		>div.overlay { position:absolute; z-index:2; top:0; right:0; bottom:0; left:0; background:white; opacity:0.6; }
+        >loader { position:absolute; z-index:3; right:0; left:0; opacity:1; .transform(scale(1,1)); margin:auto; top:106px; }
 		>div.data { float:left; width:100%; padding:@spacing; .border-box;
 			>text { float:left; width:100%; margin-top:@small-spacing; }
 			>text[type='textarea'] { height:100px; }

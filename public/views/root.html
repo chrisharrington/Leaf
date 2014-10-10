@@ -178,10 +178,10 @@
 			</div>
 		</modal>
 		
-		<modal class="issue" ok="issue.ok" cancel="issue.cancel" loading="issue.loading" visible="issue.visible" custom-header custom-buttons>
+		<modal class="issue" loading="issue.loading" visible="issue.visible" custom-header custom-buttons>
 			<h1>Issue</h1>
 			<div class="overlay"></div>
-<!--			<loader ng-show="issue.loading"></loader>-->
+			<loader ng-show="issue.loading"></loader>
 			<div class="data" ng-class="{ show: !issue.loading }">
 				<text type="text" ng-model="newIssue.description" placeholder="Description..."></text>
 				<text type="textarea" ng-model="newIssue.details" placeholder="Details..."></text>

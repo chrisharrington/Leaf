@@ -20,7 +20,7 @@ IssueTracker.app.service("profile", function($rootScope, feedback, userRepositor
 		}).catch(function() {
 			feedback.error("An error has occurred while updating your profile. Please try again later.");
 		}).finally(function() {
-			me.loading = false;
+			//me.loading = false;
 		});
 	};
 
