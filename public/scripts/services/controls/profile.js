@@ -1,34 +1,36 @@
-IssueTracker.app.service("profile", function($rootScope, feedback, userRepository) {
-	this.visible = false;
-	this.loading = false;
+IssueTracker.app.factory("profile", function($rootScope, feedback, userRepository) {
+    var scope;
+    return scope = {
+        visible: false,
+        loading: false,
+        
+        show: function() {
+            scope.visible = true;
+        },
+        
+        ok: function() {
+            if (!_validate())
+                return;
 
-	this.show = function() {
-		this.visible = true;
-	};
-
-	this.ok = function() {
-		if (!_validate())
-			return;
-		
-		var me = this;
-		this.loading = true;
-		userRepository.profile($rootScope.user).then(function() {
-			feedback.success("Your profile has been updated.");
-			me.cancel();
-            _updateUserInArray();
-            _updateUserInSession();
-		}).catch(function() {
-			feedback.error("An error has occurred while updating your profile. Please try again later.");
-		}).finally(function() {
-			//me.loading = false;
-		});
-	};
-
-	this.cancel = function() {
-		this.visible = false;
-	};
-
-	function _validate() {
+            scope.loading = true;
+            userRepository.profile($rootScope.user).then(function() {
+                feedback.success("Your profile has been updated.");
+                scope.cancel();
+                _updateUserInArray();
+                _updateUserInSession();
+            }).catch(function() {
+                feedback.error("An error has occurred while updating your profile. Please try again later.");
+            }).finally(function() {
+                scope.loading = false;
+            });
+        },
+        
+        cancel: function() {
+            scope.visible = false;
+        }
+    };
+    
+    function _validate() {
 		if ($rootScope.user.name === "") {
 			feedback.error("Your name is required.");
 			return false;

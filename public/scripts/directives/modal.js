@@ -11,6 +11,10 @@ IssueTracker.app.directive("modal", function($rootScope, $timeout) {
 			cancel: "="
 		},
 		link: function(scope, element, attributes, control, transclude) {
+            scope.$watch("loading", function(value) {
+                console.log(value);
+            });
+            
 			$(element).find("div.to-be-transcluded").replaceWith(transclude());
 		            
 			scope.customButtons = attributes.customButtons !== undefined;

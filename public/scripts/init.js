@@ -25,8 +25,8 @@ IssueTracker.app.run(function($rootScope, settings, profile, issue, scopeExtensi
 
 	scopeExtensions.init();
 	
+    $rootScope.profile = profile;
 	$rootScope.settings = settings;
-	$rootScope.profile = profile;
 	$rootScope.issue = issue;
 
 	$(document).on("click", function(e) {
