@@ -27,6 +27,7 @@ exports.styles = function() {
 		"./public/css/partials",
 		"./public/css/templates",
 		"./public/css/views",
+        "./public/css/headers",
 		"./public/css/thirdParty"
 	];
 };

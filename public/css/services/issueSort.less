@@ -1,0 +1,11 @@
+div.issue-sort-menu { float:left; width:100%; color:@primary-font-colour-dark-background; width:215px;
+    @height:46px;
+    >div { float:left; width:100%; padding:0 @spacing; .border-box; height:@height;
+        &.selected { color:@secondary-font-colour-dark-background; }
+        
+        @icon-width:20px;
+        >* { .vertical-centre(@height); }
+        >span { float:left; width:100%; .border-box; padding-right:@icon-width+@small-spacing; position:relative; display:block; }
+        >i { float:left; width:@icon-width; margin-left:@icon-width*-1; text-align:right; }
+    }
+}

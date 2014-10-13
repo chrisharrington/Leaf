@@ -31,7 +31,7 @@ img.user-profile-image { .border-radius(3px); }
 
 body { margin:0; padding:0; overflow-x:hidden; font-size:14px; .regular-font; background:url(../images/retina_wood.png); }
 section.content-wrapper { max-width:@application-width; margin:auto;
-	section.content-container { float:left; width:100%; margin-top:@header-height;
+	section.content-container { float:left; width:100%;
 		>div { padding:@spacing; }
 	}
 }
@@ -79,3 +79,8 @@ div.error-code { float:left; width:100%; display:none; padding:@spacing; .border
 
 i.icon-button { font-size:1.375em; cursor:pointer; padding:@spacing; color:@primary-font-colour; }
 i.icon-button:hover { color:@primary-font-colour-dark; }
+
+.changeable { cursor:pointer;
+    >span { float:left; }
+    >i { float:left; font-size:1.125em;  margin-left:@small-spacing; font-weight:bold; margin-top:1px; }
+}

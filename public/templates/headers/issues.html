@@ -1,0 +1,10 @@
+<div class="issues-header" ng-show="visible">
+    <span>Issues</span>
+    <div ng-class="{ show: loaded }">
+        <span class="issue-count"><b>[[issueCount]]</b> issues shown</span>
+        <div class="sort changeable issue-sort-trigger" ng-click="$root.issueSortVisible = true">
+            <span>Sorted by <b>highest priority</b></span>
+            <i class="fa fa-angle-down"></i>
+        </div>
+    </div>
+</div>

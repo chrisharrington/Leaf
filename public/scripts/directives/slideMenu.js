@@ -1,26 +1,45 @@
-IssueTracker.app.directive("slideMenu", function($rootScope) {
+IssueTracker.app.directive("slideMenu", function($rootScope, $timeout) {
 	return {
 		restrict: "E",
 		templateUrl: "templates/slideMenu.html",
 		transclude: true,
 		scope: {
-			visible: "=show",
-			trigger: "@"
+			show: "=",
+			trigger: "@",
+            anchor: "@"
 		},
 		link: function(scope, element) {
+            scope.offset = 0;
+            
+            scope.$watch("show", function(value) {
+                $timeout(function() {
+                    scope.visible = value;
+                    if (value === true) {
+                        _setPosition(scope);
+                        
+                    }
+                });
+            });
+            
 			$rootScope.$on("documentClicked", function(inner, target) {
-				if (!target.hasClass(scope.trigger) && target.parents("." + scope.trigger).length === 0)
+                if (scope.visible)
 					scope.$apply(function() {
 						scope.visible = false;
 					});
 			});
-
-			scope.$watch("visible", function(value) {
-				if (!value)
-					return;
-
-				$(element).find(">div").css({ left: ($("div.actions>span.anchor").offset().left - parseInt($(element).find(">div").css("width").replace("px", ""))) + "px" });
-			});
+            
+            function _setPosition(scope) {
+                $timeout(function() {
+                    if (scope.trigger !== undefined)
+                        scope.offset = $("." + scope.trigger).offset().left;
+                    else if (scope.anchor !== undefined) {
+                        if (scope.anchor === "right")
+                            scope.offset = $("div.header-wrapper").offset().left + $("div.header-wrapper").outerWidth() - $(element).find(">div").outerWidth();
+                        else if (scope.anchor === "left")
+                            scope.offset = $("div.header-wrapper").offset().left;
+                    }
+                });
+            }
 		}
 	};
 });

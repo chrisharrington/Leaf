@@ -3,7 +3,9 @@ slide-menu.settings {
 
 	>div { width:400px;
 		@link-height:34px;
-		>a {
+		>a { float:left; width:100%; padding:@small-spacing @spacing; .border-box; border-top:solid 1px @border-colour-dark; cursor:pointer; color:@primary-font-colour-dark-background; text-decoration:none;
+            &:hover { background:lighten(@dark-gradient-bottom-colour, 5%); }
+            
 			@icon-width:20px;
 			>div { float:left; width:100%; position:relative; padding-right:@icon-width; .border-box;
 				>span { float:left; width:100%; }

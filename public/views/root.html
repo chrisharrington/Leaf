@@ -18,27 +18,20 @@
 							<span>Leaf</span>
 						</a>
 					</div>
-					<div class="menu">
-						<a href="#/issues">
-							<span>Issues</span>
-						</a>
-						<a href="#/users">
-							<span>Users</span>
-						</a>
-					</div>
+                    <issues-header></issues-header>
 					<div class="actions">
+                        <div class="search">
+                            <input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
+                            <i class="fa fa-search" data-bind="click: Search.go"></i>
+                        </div>
 						<a class="settings-trigger" tooltip="Settings" ng-click="settings.show()">
 							<i class="fa fa-gears"></i>
 						</a>
 						<a tooltip="Create Issue" tooltip-alignment="right" authorized="create-issue" ng-click="issue.show()">
 							<i class="fa fa-plus"></i>
 						</a>
-						<span class="anchor"></span>
 					</div>
-					<div class="search">
-						<input type="text" placeholder="Search..." data-bind="value: Search.text, enter: Search.go" />
-						<i class="fa fa-search" data-bind="click: Search.go"></i>
-					</div>
+					
 				</div>
 			</div>
 		</header>
@@ -76,8 +69,17 @@
 		<div class="overlay"></div>
 
 		<feedback></feedback>
+        
+        <slide-menu class="issues-sort" show="issueSortVisible" trigger="issue-sort-trigger">
+            <div class="issue-sort-menu">
+                <div ng-repeat="sort in sorts">
+                    <span>[[sort.name]]</span>
+                    <i class="fa fa-check"></i>
+                </div>
+            </div>
+        </slide-menu>
 
-		<slide-menu class="settings" show="settings.visible" trigger="settings-trigger">
+		<slide-menu class="settings" show="settings.visible" anchor="right">
 			<a class="account" ng-click="profile.show()" ng-if="user !== undefined">
 				<div class="image">
 					<profile-image id="user.id" size="32"></profile-image>

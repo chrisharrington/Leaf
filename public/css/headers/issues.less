@@ -1,0 +1,11 @@
+issues-header { width:100%;
+    div.issues-header { float:left; height:100%; width:100%;
+        @title-width:60px;
+        >span { float:left; .vertical-centre(@header-height); position:relative; width:@title-width; font-size:1.5em; text-transform:uppercase; .condensed-font; font-weight:bold; }
+        >div { float:left; width:100%; opacity:0; .transition(opacity ease @animation-speed); .border-box; position:relative; padding-left:@title-width; .border-box; top:@header-height*-1;
+            &.show { opacity:1; }
+            >* { float:right; .vertical-centre(@header-height); padding:0 @spacing; }
+            >div.changeable>i { .vertical-centre(@header-height); }
+        }
+    }
+}

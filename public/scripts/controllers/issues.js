@@ -58,6 +58,9 @@ IssueTracker.app.factory("issues", function($rootScope, issueRepository, feedbac
 			_onDone().then(function() {
 				scope.loading = false;
 				scope.first = false;
+                $rootScope.$broadcast("issuesLoaded", {
+                    count: _issues.length
+                });
 			});
 		}).catch(function() {
 			feedback.error("An error has occurred while retrieving the issues list. Please try again later.");

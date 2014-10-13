@@ -1,11 +1,5 @@
 slide-menu {
-	>div { .transform(translate3d(0, -100%, 0)); .transition(-webkit-transform ease @animation-speed, transform ease @animation-speed); position:fixed; top:@header-height; z-index:@slide-menu-z-index; background-color:@dark-gradient-bottom-colour;
+	>div { .transform(translate3d(0, -100%, 0)); .transition(-webkit-transform ease @animation-speed, transform ease @animation-speed); position:absolute; top:@header-height; z-index:@slide-menu-z-index; background-color:@dark-gradient-bottom-colour;
 		&.show { .transform(translate3d(0, 0, 0)); .shadow; }
-		>a, >div { float:left; width:100%; padding:@small-spacing @spacing; .border-box; border-top:solid 1px @border-colour-dark; cursor:pointer; }
-		>a { color:@primary-font-colour-dark-background; text-decoration:none; }
-		>* {
-			>i { margin-right:@tiny-spacing; }
-		}
-		>a:hover, >div:hover { background:lighten(@dark-gradient-bottom-colour, 5%); }
 	}
 }

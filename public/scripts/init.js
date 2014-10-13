@@ -15,29 +15,37 @@ IssueTracker.app.config(function($routeProvider) {
 });
 
 IssueTracker.app.run(function($rootScope, settings, profile, issue, scopeExtensions) {
-	var session = _tryGetSession(window.sessionStorage);
-	if (!session)
-		session = _tryGetSession(window.localStorage);
-	if (session) {
-		$rootScope.project = session.project;
-		$rootScope.user = session.user;
-	}
-
+    _setSession();
+    _setEvents();
+	
 	scopeExtensions.init();
 	
     $rootScope.profile = profile;
 	$rootScope.settings = settings;
 	$rootScope.issue = issue;
+    $rootScope.sorts = [{ name: "Highest Priority" }, { name: "Recently Opened" }];
 
-	$(document).on("click", function(e) {
-		$rootScope.$broadcast("documentClicked", $(e.target));
-	});
-	
-	$(document).on("keyup", function(e) {
-		if (e.keyCode === 27)
-			$rootScope.$broadcast("escapePressed");
-	});
+    function _setEvents() {
+        $(document).on("click", function(e) {
+            $rootScope.$broadcast("documentClicked", $(e.target));
+        });
 
+        $(document).on("keyup", function(e) {
+            if (e.keyCode === 27)
+                $rootScope.$broadcast("escapePressed");
+        });
+    }
+    
+    function _setSession() {
+        var session = _tryGetSession(window.sessionStorage);
+        if (!session)
+            session = _tryGetSession(window.localStorage);
+        if (session) {
+            $rootScope.project = session.project;
+            $rootScope.user = session.user;
+        }
+    }
+    
 	function _tryGetSession(storage) {
 		return JSON.parse(storage.getItem("session"));
 	}
